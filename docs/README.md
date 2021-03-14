@@ -51,4 +51,4 @@ This project is licensed under an unmodified MIT license, which is an OSI-certif
 # About Bat Cat Studios
 Bat Cat Studios is a game development team based in Barcelona which team members are students of the UPC/CITM Videogame Design and development bachelor degree. Wasabi Warriors RPG is the first game developed by Bat Cat triggered by Project II subject. Our objective is to create games that feel different to the player but maintaining the common mechanics.
 
-![Bat Cat Studios](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/Wiki/Scenarios/logo_scene.png)
+![Bat Cat Studios](Wiki/Scenarios/logo_scene.png)
