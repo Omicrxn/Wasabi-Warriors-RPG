@@ -48,8 +48,6 @@ Wasabi Warriors is a Role-Playing Game with a theme-based on an urban Japanese e
 
 This project is licensed under an unmodified MIT license, which is an OSI-certified license that allows static linking with closed source software. Check [LICENSE](LICENSE) for further details.
 
-{AdditionalLicenses}
-
 # About Bat Cat Studios
 Bat Cat Studios is a game development team based in Barcelona which team members are students of the UPC/CITM Videogame Design and development bachelor degree. Wasabi Warriors RPG is the first game developed by Bat Cat triggered by Project II subject. Our objective is to create games that feel different to the player but maintaining the common mechanics.
 
