@@ -25,13 +25,15 @@ Wasabi Warriors is a Role-Playing Game with a theme-based on an urban Japanese e
 
 | Action | Key | Button |
 | :---: | :---: | :---: |
-| **Move up** | ![](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/Wiki/Controls/W_Key_Dark.png) | ![](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/Wiki/Controls/XboxSeriesX_Dpad_Up.png) |
-| **Move down** | ![](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/Wiki/Controls/S_Key_Dark.png) | ![](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/Wiki/Controls/XboxSeriesX_Dpad_Down.png) |
-| **Move left** | ![](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/Wiki/Controls/A_Key_Dark.png) | ![](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/Wiki/Controls/XboxSeriesX_Dpad_Left.png) |
-| **Move right** | ![](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/Wiki/Controls/D_Key_Dark.png) | ![](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/Wiki/Controls/XboxSeriesX_Dpad_Right.png) |
-| **Select / Interact** | ![](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/Wiki/Controls/E_Key_Dark.png) | ![](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/Wiki/Controls/XboxSeriesX_A.png) |
-| **Return / Cancel** | ![](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/Wiki/Controls/Esc_Key_Dark.png) | ![](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/Wiki/Controls/XboxSeriesX_B.png) |
-| **Change between party members** | ![](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/Wiki/Controls/Z_Key_Dark.png) ![](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/Wiki/Controls/X_Key_Dark.png) | ![](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/Wiki/Controls/XboxSeriesX_LB.png) ![](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/Wiki/Controls/XboxSeriesX_RB.png) |
+| **Move Up** | ![](Wiki/Controls/key_W.png) | ![](Wiki/Controls/button_up.png) |
+| **Move Down** | ![](Wiki/Controls/key_S.png) | ![](Wiki/Controls/button_down.png) |
+| **Move Left** | ![](Wiki/Controls/key_A.png) | ![](Wiki/Controls/button_left.png) |
+| **Move Right** | ![](Wiki/Controls/key_D.png) | ![](Wiki/Controls/button_right.png) |
+| **Select / Interact** | ![](Wiki/Controls/key_E.png) | ![](Wiki/Controls/button_A.png) |
+| **Open Map** | ![](Wiki/Controls/key_M.png) | ![](Wiki/Controls/button_X.png) |
+| **Return / Cancel** | ![](Wiki/Controls/key_C.png) | ![](Wiki/Controls/button_B.png) |
+| **Change between party members** | ![](Wiki/Controls/key_Z.png) ![](Wiki/Controls/key_X.png) | ![](Wiki/Controls/button_LB.png) ![](Wiki/Controls/button_RB.png) |
+| **Pause Menu** | ![](Wiki/Controls/key_ESC.png) | ![](Wiki/Controls/button_menu.png) |
 
 ## Developers
 
