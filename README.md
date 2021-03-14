@@ -38,7 +38,7 @@ Wasabi Warriors is a Role-Playing Game with a theme-based on an urban Japanese e
  - [Alejandro Ávila](https://github.com/Omicrxn) - Programmer and Project Manager
  - [Ali Hassan](https://github.com/FeroXx07) - Programmer and UI Designer
  - [Bosco Barber](https://github.com/boscobarberesbert) - Programmer and UI Designer
- - [Carles López](https://github.com/carlesli) - Art Manager and Game Designer
+ - [Carles López](https://github.com/carlesli) - Art Director and Game Designer
  - [Maria Calle](https://github.com/mav006) - Narrative Director and Game Designer
  - [Yeray Tarifa](https://github.com/yeraytm) - Programmer and Game Designer
 
