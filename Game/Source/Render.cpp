@@ -16,6 +16,7 @@ Render::Render(Window* win) : Module()
 	background.a = 0;
 
 	this->win = win;
+	scale = 1;
 }
 
 // Destructor

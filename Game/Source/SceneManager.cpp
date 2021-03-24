@@ -48,7 +48,7 @@ bool SceneManager::Awake()
 // Called before the first frame
 bool SceneManager::Start()
 {
-	current = new SceneTitle();
+	current = new SceneLogo();
 	current->Load(tex);
 
 	next = nullptr;
