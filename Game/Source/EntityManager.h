@@ -28,7 +28,7 @@ public:
 	void DestroyEntity(Entity* entity);
 	void DestroyEntityChecker(float dt);
 
-	void AddEntity(Entity* entity);
+	/*void AddEntity(Entity* entity);*/
 
 	bool UpdateAll(float dt, bool doLogic);
 

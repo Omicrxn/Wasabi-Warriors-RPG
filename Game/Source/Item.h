@@ -1,12 +1,12 @@
 #ifndef __ITEM_H__
 #define __ITEM_H__
 
-#include "Entity.h"
+#include "Interactive.h"
 
 #include "Point.h"
 #include "SString.h"
 
-class Item : public Entity
+class Item : public Interactive
 {
 public:
 
