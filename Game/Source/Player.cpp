@@ -34,10 +34,6 @@ bool Player::Update(Input* input, float dt)
 
 bool Player::Draw(Render* render)
 {
-    // TODO: Calculate the corresponding rectangle depending on the
-    // animation state and animation frame
-    //SDL_Rect rec = { 0 };
-    //render->DrawTexture(texture, position.x, position.y, rec);
 
     render->DrawRectangle(GetBounds(), { 255, 0, 0, 255 });
 

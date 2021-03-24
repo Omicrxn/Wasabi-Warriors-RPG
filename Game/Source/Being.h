@@ -38,6 +38,9 @@ class Being : public Entity
 public:
 	Being() : Entity(EntityType::UNKNOWN) {};
 private:
+	void Walk();
+private:
+	int hp;
 	fPoint velocity;
 	Direction direction;
 	Stats stats;
