@@ -26,11 +26,6 @@ public:
         return true;
     }
 
-    virtual bool Cleanup(float dt)
-    {
-        return true;
-    }
-
 public:
 
     EntityType type;

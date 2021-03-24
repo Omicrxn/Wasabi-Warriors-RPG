@@ -7,9 +7,8 @@
 class Being : public Entity
 {
 public:
-	Being();
-	~Being();
+	Being() : Entity(EntityType::UNKNOWN) {};
 private:
-	fPoint velocity = fPoint(0.0f, 0.0f);
+	fPoint velocity;
 };
 #endif //__BEING_H__
