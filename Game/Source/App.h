@@ -20,6 +20,7 @@ class Textures;
 class AudioManager;
 class EntityManager;
 class SceneManager;
+class GuiManager;
 
 class App
 {
@@ -91,6 +92,7 @@ public:
 	AudioManager* audio;
 	EntityManager* entityManager;
 	SceneManager* sceneManager;
+	GuiManager* guiManager;
 
 private:
 

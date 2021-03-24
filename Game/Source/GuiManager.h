@@ -6,11 +6,14 @@
 
 #include "List.h"
 
+class Input;
+class Render;
+
 class GuiManager : public Module
 {
 public:
 
-	GuiManager();
+	GuiManager(Input* input, Render* render);
 
 	// Destructor
 	virtual ~GuiManager();
@@ -27,18 +30,29 @@ public:
 	bool CleanUp();
 
 	// Additional methods
-	GuiControl* CreateGuiControl(GuiControlType type);
+	GuiControl* CreateGuiControl(GuiControlType type, int id, SDL_Rect bounds);
 	void DestroyGuiControl(GuiControl* entity);
 
 	void AddGuiControl(GuiControl* entity);
+	
+	void UpdateAll(float dt, bool doLogic);
+
+	void DrawAll();
 
 public:
 
 	List<GuiControl*> controls;
 
+public:
+
 	float accumulatedTime = 0.0f;
 	float updateMsCycle = 0.0f;
 	bool doLogic = false;
+
+public:
+	Input* input;
+	Render* render;
+
 };
 
 #endif // __GUIMANAGER_H__

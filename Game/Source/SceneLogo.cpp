@@ -10,7 +10,8 @@
 
 SceneLogo::SceneLogo()
 {
-    logo = { 640 - 150, 180, 300, 300 };
+    logo = { 0, 0, 1280, 720 };
+    logoTex = nullptr;
 
     state = 0;
     timeCounter = 0.0f;
@@ -23,6 +24,8 @@ SceneLogo::~SceneLogo()
 
 bool SceneLogo::Load(Textures* tex)
 {
+    logoTex = tex->Load("Assets/Textures/Scenes/logo_scene.png");
+
     return false;
 }
 
@@ -68,10 +71,16 @@ bool SceneLogo::Draw(Render* render)
 
     render->DrawRectangle(logo, { 255, 0, 0, (uchar)(255.0f * logoAlpha) });
 
+    // Set texture alpha with the updated logoAlpha to accomplish fade in / fade out
+    SDL_SetTextureAlphaMod(logoTex, logoAlpha);
+    render->DrawTexture(logoTex, 0, 0, &logo);
+
     return false;
 }
 
 bool SceneLogo::Unload()
 {
+    logoTex = nullptr;
+
     return false;
 }

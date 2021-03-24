@@ -7,6 +7,7 @@
 #include "Audio.h"
 #include "EntityManager.h"
 #include "SceneManager.h"
+//#include "GuiManager"
 
 #include "Defs.h"
 #include "Log.h"
@@ -30,6 +31,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	audio = new AudioManager();
 	entityManager = new EntityManager();
 	sceneManager = new SceneManager(input, render, tex);
+	//guiManager = new GuiManager(input, render);
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -39,6 +41,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(audio);
 	AddModule(entityManager);
 	AddModule(sceneManager);
+	//AddModule(guiManager);
 
 	// Render last to swap buffer
 	AddModule(render);

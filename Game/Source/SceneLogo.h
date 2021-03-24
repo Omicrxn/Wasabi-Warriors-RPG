@@ -23,6 +23,7 @@ public:
 private:
 
     SDL_Rect logo;
+    SDL_Texture* logoTex;
 
     int state;
     float timeCounter;
