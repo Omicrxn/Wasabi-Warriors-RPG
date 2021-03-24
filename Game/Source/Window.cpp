@@ -49,7 +49,7 @@ bool Window::Awake(pugi::xml_node& config)
 		if(resizable == true) flags |= SDL_WINDOW_RESIZABLE;
 		if(fullscreen_window == true) flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 
-		window = SDL_CreateWindow(app->GetTitle(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
+		window = SDL_CreateWindow("", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
 
 		if(window == NULL)
 		{
@@ -95,6 +95,15 @@ void Window::GetWindowSize(uint& width, uint& height) const
 	height = this->height;
 }
 
+uint Window::GetWidth() const
+{
+	return this->width;
+}
+
+uint Window::GetHeight() const
+{
+	return this->width;
+}
 uint Window::GetScale() const
 {
 	return scale;

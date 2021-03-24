@@ -2,17 +2,24 @@
 #define __APP_H__
 
 #include "Module.h"
+#include "PerfTimer.h"
+#include "Timer.h"
+
 #include "List.h"
 
 #include "PugiXml/src/pugixml.hpp"
+
+#define CONFIG_FILENAME		"config.xml"
+#define SAVE_STATE_FILENAME "save_game.xml"
 
 // Modules
 class Window;
 class Input;
 class Render;
 class Textures;
-class Audio;
-class Scene;
+class AudioManager;
+class EntityManager;
+class SceneManager;
 
 class App
 {
@@ -45,10 +52,15 @@ public:
 	const char* GetTitle() const;
 	const char* GetOrganization() const;
 
-private:
+    // L02: DONE 1: Create methods to request Load / Save
+	void LoadGameRequest();
+	void SaveGameRequest() const;
 
 	// Load config file
-	bool LoadConfig();
+	// NOTE: It receives config document
+	pugi::xml_node LoadConfig(pugi::xml_document&) const;
+
+private:
 
 	// Call modules before each loop iteration
 	void PrepareUpdate();
@@ -65,6 +77,10 @@ private:
 	// Call modules after each loop iteration
 	bool PostUpdate();
 
+	// Load / Save
+	bool LoadGame();
+	bool SaveGame() const;
+
 public:
 
 	// Modules
@@ -72,8 +88,9 @@ public:
 	Input* input;
 	Render* render;
 	Textures* tex;
-	Audio* audio;
-	Scene* scene;
+	AudioManager* audio;
+	EntityManager* entityManager;
+	SceneManager* sceneManager;
 
 private:
 
@@ -84,17 +101,28 @@ private:
 
 	List<Module *> modules;
 
-	// TODO 2: Create new variables from pugui namespace:
-	// a xml_document to store the config file and
-	// two xml_node to read specific branches of the xml
-	pugi::xml_document configFile;
-	pugi::xml_node config;
-	pugi::xml_node configApp;
+	// L01: DONE 2: Create new variables from pugui namespace
+	// NOTE: Redesigned LoadConfig() to avoid storing this variables
+	//pugi::xml_document configFile;
+	//pugi::xml_node config;
+	//pugi::xml_node configApp;
 
-	uint frames;
-	float dt;
+	mutable bool saveGameRequested;
+	bool loadGameRequested;
+
+	// L07: DONE 4: Calculate some timing measures
+	// required variables are provided:
+	PerfTimer ptimer;
+	uint64 frameCount = 0;
+
+	Timer startupTime;
+	Timer frameTime;
+	Timer lastSecFrameTime;
+	uint32 lastSecFrameCount = 0;
+	uint32 prevLastSecFrameCount = 0;
+	float dt = 0.0f;
+
+	int	cappedMs = -1;
 };
-
-extern App* app;
 
 #endif	// __APP_H__

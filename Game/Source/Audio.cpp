@@ -12,18 +12,18 @@
 // NOTE: Library linkage is configured in Linker Options
 //#pragma comment(lib, "../Game/Source/External/SDL_mixer/libx86/SDL2_mixer.lib")
 
-Audio::Audio() : Module()
+AudioManager::AudioManager() : Module()
 {
 	music = NULL;
 	name.Create("audio");
 }
 
 // Destructor
-Audio::~Audio()
+AudioManager::~AudioManager()
 {}
 
 // Called before render is available
-bool Audio::Awake(pugi::xml_node& config)
+bool AudioManager::Awake(pugi::xml_node& config)
 {
 	LOG("Loading Audio Mixer");
 	bool ret = true;
@@ -59,7 +59,7 @@ bool Audio::Awake(pugi::xml_node& config)
 }
 
 // Called before quitting
-bool Audio::CleanUp()
+bool AudioManager::CleanUp()
 {
 	if(!active)
 		return true;
@@ -85,7 +85,7 @@ bool Audio::CleanUp()
 }
 
 // Play a music file
-bool Audio::PlayMusic(const char* path, float fadeTime)
+bool AudioManager::PlayMusic(const char* path, float fadeTime)
 {
 	bool ret = true;
 
@@ -139,7 +139,7 @@ bool Audio::PlayMusic(const char* path, float fadeTime)
 }
 
 // Load WAV
-unsigned int Audio::LoadFx(const char* path)
+unsigned int AudioManager::LoadFx(const char* path)
 {
 	unsigned int ret = 0;
 
@@ -162,7 +162,7 @@ unsigned int Audio::LoadFx(const char* path)
 }
 
 // Play WAV
-bool Audio::PlayFx(unsigned int id, int repeat)
+bool AudioManager::PlayFx(unsigned int id, int repeat)
 {
 	bool ret = false;
 

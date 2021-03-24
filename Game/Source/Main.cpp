@@ -23,10 +23,10 @@ enum MainState
 	EXIT
 };
 
-App* app = NULL;
-
 int main(int argc, char* args[])
 {
+	App* app = NULL;
+
 	LOG("Engine starting ...");
 
 	MainState state = CREATE;

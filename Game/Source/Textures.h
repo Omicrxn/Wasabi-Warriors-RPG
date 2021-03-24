@@ -5,6 +5,8 @@
 
 #include "List.h"
 
+class Render;
+
 struct SDL_Texture;
 struct SDL_Surface;
 
@@ -12,7 +14,7 @@ class Textures : public Module
 {
 public:
 
-	Textures();
+	Textures(Render* render);
 
 	// Destructor
 	virtual ~Textures();
@@ -33,6 +35,8 @@ public:
 	void GetSize(const SDL_Texture* texture, uint& width, uint& height) const;
 
 public:
+
+	Render* render;
 
 	List<SDL_Texture*> textures;
 };
