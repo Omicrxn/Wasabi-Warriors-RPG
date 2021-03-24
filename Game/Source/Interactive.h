@@ -8,8 +8,7 @@ class Interactive : public Entity
 {
 public:
 
-	Interactive();
-	~Interactive();
+	Interactive() : Entity(EntityType::UNKNOWN) {}
 
 protected:
 
