@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player() : Entity(EntityType::PLAYER)
+Player::Player() : Being()
 {
     texture = NULL;
     position = iPoint(12 * 16, 27 * 16);
