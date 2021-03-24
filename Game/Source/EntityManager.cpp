@@ -28,7 +28,7 @@ bool EntityManager::Awake(pugi::xml_node& config)
 // Called before quitting
 bool EntityManager::CleanUp()
 {
-	for (int i=0; i<entities.Count(); i++)
+	for (int i = 0; i < entities.Count(); i++)
 	{
 		if(!entities.At(i)->data->active)
 		entities.Del(entities.At(i));
@@ -56,6 +56,25 @@ Entity* EntityManager::CreateEntity(EntityType type)
 	return ret;
 }
 
+void EntityManager::DestroyEntity(Entity* entity)
+{
+	for (int i = 0; i < entities.Count(); i++)
+	{
+		if (entities.At(i)->data->id == entity->id)
+		{
+			entities.Del(entities.At(i));
+		}
+	}
+}
+
+void EntityManager::DestroyEntityChecker(float dt)
+{
+	for (int i = 0; i < entities.Count(); i++)
+	{
+		if (entities.At(i)->data->active == false) entities.Del(entities.At(i));
+	}
+}
+
 bool EntityManager::Update(float dt)
 {
 	accumulatedTime += dt;
@@ -79,7 +98,7 @@ bool EntityManager::UpdateAll(float dt, bool doLogic)
 	if (doLogic)
 	{
 		// TODO: Update all entities
-		for (int i=0; i<entities.Count(); i++)
+		for (int i = 0; i < entities.Count(); i++)
 		{
 			entities.At(i)->data->Update(dt);
 		}
@@ -90,19 +109,11 @@ bool EntityManager::UpdateAll(float dt, bool doLogic)
 
 Entity* EntityManager::SearchEntity(uint32 id, SString name)
 {
-	for (int i=0; i<entities.Count(); i++)
+	for (int i = 0; i < entities.Count(); i++)
 	{
 		if(entities.At(i)->data->name == name)
 		{
 			return entities.At(i)->data;
 		}
-	}
-}
-
-void EntityManager::DestroyEntityChecker(float dt)
-{
-	for (int i=0; i<entities.Count(); i++)
-	{
-		if (entities.At(i)->data->active == false) entities.At(i)->data->Cleanup(dt);
 	}
 }
