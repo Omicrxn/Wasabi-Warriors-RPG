@@ -4,6 +4,8 @@
 #include "Point.h"
 #include "SString.h"
 
+struct SDL_Texture;
+
 enum class EntityType
 {
     PLAYER,
@@ -20,6 +22,11 @@ public:
     Entity(EntityType type) : type(type), active(true) {}
 
     virtual bool Update(float dt)
+    {
+        return true;
+    }
+
+    virtual bool Cleanup(float dt)
     {
         return true;
     }

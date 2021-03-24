@@ -10,7 +10,6 @@
 EntityManager::EntityManager() : Module()
 {
 	name.Create("entitymanager");
-	
 }
 
 // Destructor
@@ -70,7 +69,7 @@ bool EntityManager::Update(float dt)
 		doLogic = false;
 	}
 
-	DestroyEntity();
+	DestroyEntityChecker(dt);
 
 	return true;
 }
@@ -100,10 +99,10 @@ Entity* EntityManager::SearchEntity(uint32 id, SString name)
 	}
 }
 
-void EntityManager::DestroyEntityChecker()
+void EntityManager::DestroyEntityChecker(float dt)
 {
 	for (int i=0; i<entities.Count(); i++)
 	{
-		if (entities.At(i)->data->active == false) entities.At(i)->data->CleanUp();
+		if (entities.At(i)->data->active == false) entities.At(i)->data->Cleanup(dt);
 	}
 }

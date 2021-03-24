@@ -26,7 +26,7 @@ public:
 	// Additional methods
 	Entity* CreateEntity(EntityType type);
 	void DestroyEntity(Entity* entity);
-	void DestroyEntityChecker();
+	void DestroyEntityChecker(float dt);
 
 	void AddEntity(Entity* entity);
 
