@@ -3,12 +3,20 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Item.h"
+#include "Map.h"
+
+#include "Render.h"
+#include "Textures.h"
+#include "Input.h"
 
 #include "Defs.h"
 #include "Log.h"
 
-EntityManager::EntityManager() : Module()
+EntityManager::EntityManager(Input* input,Render* render, Textures* tex) : Module()
 {
+	this->ren = render;
+	this->tex = tex;
+	this->input = input;
 	name.Create("entitymanager");
 }
 
@@ -44,9 +52,10 @@ Entity* EntityManager::CreateEntity(EntityType type)
 	switch (type)
 	{
 		// L13: Create the corresponding type entity
-		case EntityType::PLAYER: ret = new Player();  break;
+		case EntityType::PLAYER: ret = new Player(tex);  break;
 		//case EntityType::ENEMY: ret = new Enemy();  break;
 		//case EntityType::ITEM: ret = new Item();  break;
+		case EntityType::MAP: ret = new Map(tex);  break;
 		default: break;
 	}
 
@@ -101,7 +110,10 @@ bool EntityManager::UpdateAll(float dt, bool doLogic)
 		for (int i = 0; i < entities.Count(); i++)
 		{
 			entities.At(i)->data->Update(dt);
+			entities.At(i)->data->Update(input,dt);
+			entities.At(i)->data->Draw(ren);
 		}
+
 	}
 
 	return true;

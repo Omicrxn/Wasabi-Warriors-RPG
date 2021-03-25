@@ -8,6 +8,7 @@
 #include "Input.h"
 #include "Render.h"
 #include "Textures.h"
+#include "EntityManager.h"
 
 #include "GuiButton.h"
 
@@ -19,7 +20,7 @@
 #define FADEOUT_TRANSITION_SPEED	2.0f
 #define FADEIN_TRANSITION_SPEED		2.0f
 
-SceneManager::SceneManager(Input* input, Render* render, Textures* tex) : Module()
+SceneManager::SceneManager(Input* input, Render* render, Textures* tex, EntityManager* entityman) : Module()
 {
 	name.Create("scenemanager");
 
@@ -30,6 +31,7 @@ SceneManager::SceneManager(Input* input, Render* render, Textures* tex) : Module
 	this->input = input;
 	this->render = render;
 	this->tex = tex;
+	this->entityman = entityman;
 }
 
 // Destructor
@@ -49,7 +51,15 @@ bool SceneManager::Awake()
 bool SceneManager::Start()
 {
 	current = new SceneLogo();
-	current->Load(tex);
+	if (current->type == SceneType::GAMEPLAY)
+	{
+		current->Load(tex, entityman);
+	}
+	else 
+	{
+		current->Load(tex);
+	}
+
 
 	next = nullptr;
 
@@ -85,7 +95,14 @@ bool SceneManager::Update(float dt)
 				transitionAlpha = 1.0f;
 
 				current->Unload();	// Unload current screen
-				next->Load(tex);	// Load next screen
+				if (next->type == SceneType::GAMEPLAY)
+				{
+					next->Load(tex,entityman);	// Load next screen
+				}
+				else
+				{
+					next->Load(tex);	// Load next screen
+				}
 
 				RELEASE(current);	// Free current pointer
 				current = next;		// Assign next pointer

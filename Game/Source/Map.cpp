@@ -46,9 +46,9 @@ bool Map::Awake(pugi::xml_node& config)
 
 
 // Draw the map (all requried layers)
-void Map::Draw(Render* render)
+bool Map::Draw(Render* render)
 {
-	if (mapLoaded == false) return;
+	if (mapLoaded == false) return mapLoaded;
 
 	//camOffset.x = render->camera.x;
 	//camOffset.y = render->camera.y;
@@ -58,6 +58,7 @@ void Map::Draw(Render* render)
 	{
 		if ((data.layers[i]->properties.GetProperty("drawable", 1) != 0) || drawColliders) DrawLayer(render, i);
 	}
+	return mapLoaded;
 }
 
 void Map::DrawLayer(Render* render, int num)

@@ -3,13 +3,6 @@
 #define __BEING_H__
 
 #include "Entity.h"
-enum class Direction 
-{
-	UP,
-	DOWN,
-	LEFT,
-	RIGHT
-};
 class Stats
 {
 public:
@@ -37,12 +30,12 @@ class Being : public Entity
 {
 public:
 	Being() : Entity(EntityType::UNKNOWN) {};
-private:
-	void Walk();
-private:
+public:
+	virtual void Walk(iPoint direction, float dt) = 0;
+protected:
 	int hp;
 	fPoint velocity;
-	Direction direction;
+	iPoint direction;
 	Stats stats;
 };
 #endif //__BEING_H__

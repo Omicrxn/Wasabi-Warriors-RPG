@@ -6,6 +6,7 @@
 class Input;
 class Render;
 class Textures;
+class EntityManager;
 
 class GuiControl;
 
@@ -24,6 +25,10 @@ public:
     Scene() : active(true), loaded(false), transitionRequired(false) {}
 
     virtual bool Load(Textures* tex)
+    {
+        return true;
+    }
+    virtual bool Load(Textures* tex, EntityManager* entityman)
     {
         return true;
     }
@@ -63,7 +68,7 @@ public:
     // Possible properties
     bool loaded = false;
     // TODO: Transition animation properties
-
+    SceneType type;
     bool transitionRequired;
     SceneType nextScene;
 };

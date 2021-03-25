@@ -122,7 +122,7 @@ class Map : public Entity
 {
 public:
 
-    Map(Textures* render);
+    Map(Textures* textures);
 
     // Destructor
     virtual ~Map();
@@ -131,7 +131,7 @@ public:
     bool Awake(pugi::xml_node& conf);
 
     // Called each loop iteration
-    void Draw(Render* render);
+    bool Draw(Render* render);
 
 	void DrawLayer(Render* render, int num);
 

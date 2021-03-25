@@ -140,8 +140,8 @@ iPoint Render::ScreenToWorld(int x, int y) const
 void Render::CameraFollow(iPoint objectPosition)
 {
 
-	camera.x = objectPosition.x - win->GetWidth() / 2;
-	camera.y = objectPosition.y - win->GetHeight() / 2;
+	camera.x = objectPosition.x - win->GetWidth()/2;
+	camera.y = objectPosition.y - win->GetHeight()/4;
 }
 // Draw to screen
 bool Render::DrawTexture(SDL_Texture* texture, int x, int y, const SDL_Rect* section, float speed, double angle, int pivotX, int pivotY, SDL_RendererFlip flip) const

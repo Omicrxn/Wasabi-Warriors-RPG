@@ -4,14 +4,15 @@
 
 SceneGameplay::SceneGameplay()
 {
+	type = SceneType::GAMEPLAY;
 }
 
 SceneGameplay::~SceneGameplay()
 {}
 
-bool SceneGameplay::Load(Textures* tex) /*EntityManager entityManager)*/
+bool SceneGameplay::Load(Textures* tex, EntityManager* entityManager)
 {
-	map = new Map(tex);
+	map = (Map*)entityManager->CreateEntity(EntityType::MAP);
 
 	// L03: DONE: Load map
 	// L12b: Create walkability map on map loading
@@ -28,18 +29,9 @@ bool SceneGameplay::Load(Textures* tex) /*EntityManager entityManager)*/
 	// Load music
 	//AudioManager::PlayMusic("Assets/Audio/Music/music_spy.ogg");
 
-	// Load game entities
-	//Player* player = (Player*)entityManager->CreateEntity(EntityType::PLAYER);
-	//player->SetTexture(tex->Load("Assets/Textures/player.png"));
-	//entityManager->CreateEntity(EntityType::ENEMY);
-	//entityManager->CreateEntity(EntityType::ENEMY);
-	//entityManager->CreateEntity(EntityType::ITEM);
-	//entityManager->CreateEntity(EntityType::ITEM);
-	//entityManager->CreateEntity(EntityType::ITEM);
-
 	// Initialize player
-	player = new Player();
-	player->position = iPoint(200, 400);
+	player = (Player*)entityManager->CreateEntity(EntityType::PLAYER);
+	player->position = iPoint(64*3, 64*5);
 
     return false;
 }
@@ -53,29 +45,6 @@ inline bool CheckCollision(SDL_Rect rec1, SDL_Rect rec2)
 
 bool SceneGameplay::Update(Input *input, float dt)
 {
-	// Collision detection: map vs player
-	iPoint tempPlayerPosition = player->position;
-
-	player->Update(input, dt);
-
-	// Check if updated player position collides with next tile
-	// IMPROVEMENT: Just check adyacent tiles to player
-	for (int y = 0; y < map->data.height; y++)
-	{
-		for (int x = 0; x < map->data.width; x++)
-		{
-			if ((map->data.layers[2]->Get(x, y) >= 484) && 
-				CheckCollision(map->GetTilemapRec(x, y), player->GetBounds()))
-			{
-				player->position = tempPlayerPosition;
-				player->jumpSpeed = 0.0f;
-				break;
-			}
-		}
-	}
-
-	if (input->GetKey(SDL_SCANCODE_D) == KeyState::KEY_UP) map->drawColliders = !map->drawColliders;
-
 	// L02: DONE 3: Request Load / Save when pressing L/S
 	//if (input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) app->LoadGameRequest();
 	//if (input->GetKey(SDL_SCANCODE_S) == KEY_DOWN) app->SaveGameRequest();
@@ -85,10 +54,6 @@ bool SceneGameplay::Update(Input *input, float dt)
 
 bool SceneGameplay::Draw(Render* render)
 {
-	// Draw map
-	map->Draw(render);
-
-	player->Draw(render);
 
     return false;
 }

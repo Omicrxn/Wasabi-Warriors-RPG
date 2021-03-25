@@ -29,8 +29,8 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	render = new Render(win);
 	tex = new Textures(render);
 	audio = new AudioManager();
-	entityManager = new EntityManager();
-	sceneManager = new SceneManager(input, render, tex);
+	entityManager = new EntityManager(input, render,tex);
+	sceneManager = new SceneManager(input, render, tex, entityManager);
 	//guiManager = new GuiManager(input, render);
 
 	// Ordered for awake / Start / Update

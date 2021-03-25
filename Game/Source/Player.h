@@ -4,6 +4,7 @@
 #include "Being.h"
 #include "Input.h"
 #include "Render.h"
+#include "Textures.h"
 
 #include "Point.h"
 #include "SString.h"
@@ -22,7 +23,7 @@ class Player: public Being
 {
 public:
 
-    Player();
+    Player(Textures* tex);
 
     bool Update(Input* input, float dt);
 
@@ -31,7 +32,8 @@ public:
     void SetTexture(SDL_Texture *tex);
 
     SDL_Rect GetBounds();
-
+private:
+    void Walk(iPoint direction, float dt);
 public:
 
     SDL_Texture* texture;   // Player spritesheet

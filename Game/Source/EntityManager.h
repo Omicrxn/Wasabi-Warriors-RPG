@@ -5,12 +5,14 @@
 #include "Entity.h"
 
 #include "List.h"
-
+class Render;
+class Textures;
+class Input;
 class EntityManager : public Module
 {
 public:
 
-	EntityManager();
+	EntityManager(Input* input, Render* ren, Textures* tex);
 
 	// Destructor
 	virtual ~EntityManager();
@@ -35,7 +37,9 @@ public:
 	Entity* SearchEntity(uint32 id, SString name);
 
 public:
-
+	Render* ren;
+	Textures* tex;
+	Input* input;
 	List<Entity*> entities;
 
 	float accumulatedTime = 0.0f;
