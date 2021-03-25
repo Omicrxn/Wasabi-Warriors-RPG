@@ -35,8 +35,10 @@ bool Player::Update(Input* input, float dt)
 bool Player::Draw(Render* render)
 {
     SDL_Rect rect = { 0,0,width,height };
+    render->scale = 3;
     render->DrawTexture(texture, position.x, position.y, &rect);
     render->CameraFollow(position);
+    render->scale = 1;
     return false;
 }
 

@@ -11,7 +11,7 @@ Map::Map(Textures* texture) : Entity(EntityType::MAP)
 	folder.Create("Assets/Maps/");
 
 	tex = texture;
-	scale = 2;
+	scale = 3;
 }
 
 // Destructor
