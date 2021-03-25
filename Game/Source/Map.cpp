@@ -226,10 +226,11 @@ bool Map::CleanUp()
 }
 
 // Load new map
-bool Map::Load(const char* filename)
+bool Map::Load(const char* subfolder,const char* filename)
 {
     bool ret = true;
-    SString tmp("%s%s", folder.GetString(), filename);
+	folder += subfolder;
+    SString tmp("%s/%s",folder.GetString(),filename);
 
     pugi::xml_parse_result result = mapFile.load_file(tmp.GetString());
 

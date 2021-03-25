@@ -15,7 +15,7 @@ bool SceneGameplay::Load(Textures* tex) /*EntityManager entityManager)*/
 
 	// L03: DONE: Load map
 	// L12b: Create walkability map on map loading
-	if (map->Load("platformer.tmx") == true)
+	if (map->Load("Cemetery","Cemetery.tmx") == true)
 	{
 		int w, h;
 		uchar* data = NULL;

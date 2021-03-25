@@ -14,20 +14,20 @@ Player::Player() : Being()
 
 bool Player::Update(Input* input, float dt)
 {
-    #define GRAVITY 400.0f
-    #define PLAYER_MOVE_SPEED 200.0f
-    #define PLAYER_JUMP_SPEED 350.0f
+    //#define GRAVITY 400.0f
+    //#define PLAYER_MOVE_SPEED 200.0f
+    //#define PLAYER_JUMP_SPEED 350.0f
 
-    //if (input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT) position.y += (PLAYER_MOVE_SPEED * dt);
-    //if (input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT) position.y -= (PLAYER_MOVE_SPEED * dt);
-    if (input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT) position.x -= (PLAYER_MOVE_SPEED * dt);
-    if (input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) position.x += (PLAYER_MOVE_SPEED * dt);
+    ////if (input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT) position.y += (PLAYER_MOVE_SPEED * dt);
+    ////if (input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT) position.y -= (PLAYER_MOVE_SPEED * dt);
+    //if (input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT) position.x -= (PLAYER_MOVE_SPEED * dt);
+    //if (input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) position.x += (PLAYER_MOVE_SPEED * dt);
 
-    if (input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT) position.y -= (PLAYER_JUMP_SPEED * dt);
+    //if (input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT) position.y -= (PLAYER_JUMP_SPEED * dt);
 
-    // Calculate gravity acceleration
-    jumpSpeed += GRAVITY * dt;
-    position.y += (jumpSpeed * dt);
+    //// Calculate gravity acceleration
+    //jumpSpeed += GRAVITY * dt;
+    //position.y += (jumpSpeed * dt);
 
     return true;
 }
