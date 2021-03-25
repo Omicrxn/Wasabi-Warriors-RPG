@@ -31,7 +31,7 @@ bool SceneGameplay::Load(Textures* tex, EntityManager* entityManager)
 
 	// Initialize player
 	player = (Player*)entityManager->CreateEntity(EntityType::PLAYER);
-	player->position = iPoint(64*3, 64*5);
+	player->position = iPoint(12*32, 6*32);
 
     return false;
 }
