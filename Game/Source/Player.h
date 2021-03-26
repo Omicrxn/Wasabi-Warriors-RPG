@@ -42,10 +42,6 @@ public:
     PlayerAnim currentAnim;
 
     int width, height;
-
-    float jumpSpeed = 0.0f;
-    bool readyToJump = true;
-    bool hitObstacle = false;
 };
 
 #endif // __PLAYER_H__

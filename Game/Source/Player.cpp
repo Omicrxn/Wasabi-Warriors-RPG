@@ -4,11 +4,11 @@ Player::Player(Textures* tex) : Being()
 {
     texture = NULL;
     position = iPoint(12 * 16, 27 * 16);
-    jumpSpeed = 200.0f;
-    velocity = fPoint(200.0f, 200.0f);
+
+    velocity = { 200.0f, 200.0f };
     width = 32;
     height = 32;
-    direction = iPoint(0, 0);
+    direction = { 0,0 };
     texture = tex->Load("Assets/Textures/Characters/Main/player.png");
     // Define Player animations
 }
@@ -23,7 +23,7 @@ bool Player::Update(Input* input, float dt)
     if (input->GetKey(SDL_SCANCODE_W) == KEY_IDLE && input->GetKey(SDL_SCANCODE_S) == KEY_IDLE
         && input->GetKey(SDL_SCANCODE_A) == KEY_IDLE && input->GetKey(SDL_SCANCODE_D) == KEY_IDLE)
     {
-        direction = iPoint(0, 0);
+        direction = { 0,0 };
     }
 
 
@@ -47,9 +47,8 @@ void Player::SetTexture(SDL_Texture *tex)
 }
 void Player::Walk(iPoint direction, float dt)
 {
-    if(direction.x==1)
-    position.x = position.x + direction.x * velocity.x*dt;
-    position.y = position.y + direction.y * velocity.y*dt;
+    position.x = position.x + direction.x * (velocity.x*dt);
+    position.y = position.y + direction.y * (velocity.y*dt);
 }
 SDL_Rect Player::GetBounds()
 {
