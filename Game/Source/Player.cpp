@@ -5,7 +5,7 @@ Player::Player(Textures* tex) : Being()
     texture = NULL;
     position = iPoint(12 * 16, 27 * 16);
     jumpSpeed = 200.0f;
-    velocity = fPoint(1, 1);
+    velocity = fPoint(200.0f, 200.0f);
     width = 32;
     height = 32;
     direction = iPoint(0, 0);
@@ -15,19 +15,18 @@ Player::Player(Textures* tex) : Being()
 
 bool Player::Update(Input* input, float dt)
 {
-
-
-    if (input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) direction.y = -1;
+    Walk(direction, dt);
+    if (input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) direction.y = -1; 
     if (input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) direction.y = 1;
     if (input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) direction.x = -1;
     if (input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) direction.x = 1;
-    if (input->GetKey(SDL_SCANCODE_W) == KEY_UP || input->GetKey(SDL_SCANCODE_S) == KEY_UP
-        || input->GetKey(SDL_SCANCODE_A) == KEY_UP || input->GetKey(SDL_SCANCODE_D) == KEY_UP)
+    if (input->GetKey(SDL_SCANCODE_W) == KEY_IDLE && input->GetKey(SDL_SCANCODE_S) == KEY_IDLE
+        && input->GetKey(SDL_SCANCODE_A) == KEY_IDLE && input->GetKey(SDL_SCANCODE_D) == KEY_IDLE)
     {
         direction = iPoint(0, 0);
     }
 
-    Walk(direction, dt);
+
 
     return true;
 }
@@ -37,7 +36,7 @@ bool Player::Draw(Render* render)
     SDL_Rect rect = { 0,0,width,height };
     render->scale = 3;
     render->DrawTexture(texture, position.x, position.y, &rect);
-    render->CameraFollow(position);
+    render->CameraFollow(position.x,position.y);
     render->scale = 1;
     return false;
 }
@@ -48,10 +47,11 @@ void Player::SetTexture(SDL_Texture *tex)
 }
 void Player::Walk(iPoint direction, float dt)
 {
-    position.x += direction.x * velocity.x;
-    position.y += direction.y * velocity.y;
+    if(direction.x==1)
+    position.x = position.x + direction.x * velocity.x*dt;
+    position.y = position.y + direction.y * velocity.y*dt;
 }
 SDL_Rect Player::GetBounds()
 {
-    return { position.x, position.y, width, height };
+    return { (int)position.x, (int)position.y, width, height };
 }
