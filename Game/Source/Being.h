@@ -33,7 +33,7 @@ public:
 	Being() : Entity(EntityType::UNKNOWN) {};
 public:
 	virtual void Walk(iPoint direction, float dt) = 0;
-protected:
+
 	int hp;
 	fPoint velocity;
 	iPoint direction;
