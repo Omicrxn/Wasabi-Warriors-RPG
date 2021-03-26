@@ -24,9 +24,12 @@ public:
 private:
 
     Map* map;
-    Player* player;
+    Player* currentPlayer;
 
     SDL_Rect camera;
+
+    SDL_Texture* texture;
+    List<Player*> players;
 };
 
 #endif // __SCENEGAMEPLAY_H__

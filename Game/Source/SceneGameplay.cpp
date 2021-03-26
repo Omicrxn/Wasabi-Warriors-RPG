@@ -29,9 +29,14 @@ bool SceneGameplay::Load(Textures* tex, EntityManager* entityManager)
 	// Load music
 	//AudioManager::PlayMusic("Assets/Audio/Music/music_spy.ogg");
 
+	// Load textures
+	texture = tex->Load("Assets/Textures/Characters/characters_spritesheet.png");
+
 	// Initialize player
-	player = (Player*)entityManager->CreateEntity(EntityType::PLAYER);
-	player->position = iPoint(12*32, 6*32);
+	players.Add((Player*)entityManager->CreateEntity(EntityType::PLAYER));
+	players.At(0)->data->position = iPoint(12 * 32, 6 * 32);
+	players.At(0)->data->SetTexture(texture);
+	currentPlayer = players.At(0)->data;
 
     return false;
 }

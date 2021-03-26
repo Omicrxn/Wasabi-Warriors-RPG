@@ -5,6 +5,8 @@
 #include "Player.h"
 #include "Enemy.h"
 
+#include "List.h"
+
 enum class BattleState
 {
 	START,
@@ -22,16 +24,23 @@ public:
 	BattleSystem();
 	~BattleSystem();
 
-	bool Start();
 	bool Update();
 
-	void SetupBattle(Player* player, Enemy* enemy);
+	// To get the player and the enemy information
+	void SetupBattle(List<Player*> players, Enemy* enemy);
+
+	// Functions for the different battle states
+	void Start();
+	void PlayerTurn();
+	void EnemyTurn();
+	void Won();
+	void Lost();
 
 	BattleState battleState = BattleState::NONE;
 
 private:
 
-	Player* player;
+	List<Player*> players;
 	Enemy* enemy;
 };
 
