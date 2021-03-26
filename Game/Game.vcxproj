@@ -113,6 +113,7 @@
     <ClCompile Include="Source\SceneTitle.cpp" />
     <ClCompile Include="Source\Textures.cpp" />
     <ClCompile Include="Source\Window.cpp" />
+    <ClInclude Include="Source\Animation.h" />
     <ClInclude Include="Source\Being.h" />
     <ClInclude Include="Source\BattleSystem.h" />
     <ClInclude Include="Source\Enemy.h" />

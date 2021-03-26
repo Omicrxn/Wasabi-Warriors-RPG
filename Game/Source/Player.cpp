@@ -4,12 +4,11 @@ Player::Player(Textures* tex) : Being()
 {
     texture = NULL;
     position = iPoint(12 * 16, 27 * 16);
-
+    currentAnim = PlayerAnim::IDLE;
     velocity = { 200.0f, 200.0f };
     width = 32;
     height = 32;
     direction = { 0,0 };
-    texture = tex->Load("Assets/Textures/Characters/Main/player.png");
     // Define Player animations
 }
 
@@ -33,17 +32,35 @@ bool Player::Update(Input* input, float dt)
 
 bool Player::Draw(Render* render)
 {
-    SDL_Rect rect = { 0,0,width,height };
+    SDL_Rect animRec;
+    switch (currentAnim)
+    {
+    case PlayerAnim::IDLE:
+        animRec = walkingAnim.GetCurrentFrame();
+        break;
+    case PlayerAnim::WALK:
+        animRec = walkingAnim.GetCurrentFrame();
+        break;
+    default:
+        break;
+    }
     render->scale = 3;
-    render->DrawTexture(texture, position.x, position.y, &rect);
+    render->DrawTexture(texture, position.x, position.y, &animRec);
     render->CameraFollow(position.x,position.y);
     render->scale = 1;
     return false;
 }
 
-void Player::SetTexture(SDL_Texture *tex)
+void Player::SetTexture(SDL_Texture *tex, int textureStartYPos)
 {
     texture = tex;
+    for (int y = textureStartYPos; y < 160; y+=32)
+    {
+        for (int x = 0; x < 8*32; x+=32)
+        {
+            walkingAnim.PushBack({ x,y,32,32 });
+        }
+    }
 }
 void Player::Walk(iPoint direction, float dt)
 {

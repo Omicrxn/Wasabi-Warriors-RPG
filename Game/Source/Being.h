@@ -3,6 +3,7 @@
 #define __BEING_H__
 
 #include "Entity.h"
+#include "Animation.h"
 class Stats
 {
 public:
@@ -37,5 +38,7 @@ protected:
 	fPoint velocity;
 	iPoint direction;
 	Stats stats;
+	Animation idleAnim;
+	Animation walkingAnim;
 };
 #endif //__BEING_H__

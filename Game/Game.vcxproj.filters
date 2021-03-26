@@ -198,6 +198,9 @@
     <ClInclude Include="Source\BattleSystem.h">
       <Filter>Modules</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Animation.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">

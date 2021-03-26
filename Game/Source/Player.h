@@ -29,7 +29,7 @@ public:
 
     bool Draw(Render* render);
 
-    void SetTexture(SDL_Texture *tex);
+    void SetTexture(SDL_Texture *tex, int textureStartYPos);
 
     SDL_Rect GetBounds();
 private:
@@ -38,7 +38,8 @@ public:
 
     SDL_Texture* texture;   // Player spritesheet
 
-    // TODO: Define all animation properties
+
+
     PlayerAnim currentAnim;
 
     int width, height;
