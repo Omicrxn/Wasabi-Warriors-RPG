@@ -11,10 +11,18 @@ class Enemy : public Entity
 {
 public:
 
-    Enemy();
+    Enemy(SString name, int level, int damage, int maxHP, int currentHP);
     virtual ~Enemy();
 
-private:
+    SString name;
+    int level = 0;
+
+    int damage = 0;
+
+    int maxHP = 0;
+    int currentHP = 0;
+
+protected:
 
     DynArray<iPoint>* path;
 };

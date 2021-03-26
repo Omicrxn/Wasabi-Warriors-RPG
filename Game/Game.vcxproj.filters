@@ -72,6 +72,9 @@
     <ClCompile Include="Source\Player.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Source\BattleSystem.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\App.h" />
@@ -191,6 +194,9 @@
     </ClInclude>
     <ClInclude Include="Source\Interactive.h">
       <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BattleSystem.h">
+      <Filter>Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

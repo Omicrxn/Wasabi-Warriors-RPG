@@ -7,6 +7,7 @@
 struct SDL_Texture;
 struct Render;
 struct Input;
+
 enum class EntityType
 {
     PLAYER,
@@ -26,14 +27,17 @@ public:
     {
         return true;
     }
-    virtual bool Update(Input* input,float dt)
+
+    virtual bool Update(Input* input, float dt)
     {
         return true;
     }
+
     virtual bool Draw(Render* render)
     {
         return true;
     }
+
 public:
 
     EntityType type;
