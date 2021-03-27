@@ -4,6 +4,7 @@
 #include "SceneTitle.h"
 #include "SceneGameplay.h"
 #include "SceneEnding.h"
+#include "SceneBattle.h"
 
 #include "Input.h"
 #include "Render.h"
@@ -60,7 +61,6 @@ bool SceneManager::Start()
 		current->Load(tex);
 	}
 
-
 	next = nullptr;
 
 	return true;
@@ -69,8 +69,6 @@ bool SceneManager::Start()
 // Called each loop iteration
 bool SceneManager::PreUpdate()
 {
-
-
 	return true;
 }
 
@@ -79,7 +77,6 @@ bool SceneManager::Update(float dt)
 {
 	if (!onTransition)
 	{
-
 		current->Update(input, dt);
 	}
 	else
@@ -131,7 +128,7 @@ bool SceneManager::Update(float dt)
 	// Draw full screen rectangle in front of everything
 	if (onTransition)
 	{
-		render->DrawRectangle({ 0, 0, 1280, 720 }, { 0, 0, 0, (unsigned char)(255.0f * transitionAlpha) });
+		render->DrawRectangle({ 0, 0, 1280, 720 }, { 0, 0, 0, (unsigned char)(255.0f * transitionAlpha) }, true, false);
 	}
 
 	if (current->transitionRequired)
@@ -146,6 +143,7 @@ bool SceneManager::Update(float dt)
 			case SceneType::TITLE: next = new SceneTitle(); break;
 			case SceneType::GAMEPLAY: next = new SceneGameplay(); break;
 			case SceneType::ENDING: next = new SceneEnding(); break;
+			case SceneType::BATTLE: next = new SceneBattle(); break;
 			default: break;
 		}
 

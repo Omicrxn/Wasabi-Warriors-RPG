@@ -15,7 +15,8 @@ enum class SceneType
     LOGO,
     TITLE,
     GAMEPLAY,
-    ENDING
+    ENDING,
+    BATTLE
 };
 
 class Scene

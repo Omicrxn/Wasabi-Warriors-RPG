@@ -8,7 +8,8 @@ SceneGameplay::SceneGameplay()
 }
 
 SceneGameplay::~SceneGameplay()
-{}
+{
+}
 
 bool SceneGameplay::Load(Textures* tex, EntityManager* entityManager)
 {
@@ -53,18 +54,24 @@ bool SceneGameplay::Update(Input *input, float dt)
 	// L02: DONE 3: Request Load / Save when pressing L/S
 	//if (input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) app->LoadGameRequest();
 	//if (input->GetKey(SDL_SCANCODE_S) == KEY_DOWN) app->SaveGameRequest();
+
+	// Press B to enter the battle scene, just for debug purposes [remove later]
+	if (input->GetKey(SDL_SCANCODE_B) == KEY_DOWN)
+		TransitionToScene(SceneType::BATTLE);
+
 	return true;
 }
 
 bool SceneGameplay::Draw(Render* render)
 {
-
     return false;
 }
 
-bool SceneGameplay::Unload()
+bool SceneGameplay::Unload(Textures* tex)
 {
 	// TODO: Unload all resources
+	map->CleanUp();
+	tex->UnLoad(texture);
 
     return false;
 }

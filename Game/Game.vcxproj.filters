@@ -75,6 +75,9 @@
     <ClCompile Include="Source\BattleSystem.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
+    <ClCompile Include="Source\SceneBattle.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\App.h" />
@@ -200,6 +203,9 @@
     </ClInclude>
     <ClInclude Include="Source\Animation.h">
       <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SceneBattle.h">
+      <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
