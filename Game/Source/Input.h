@@ -9,6 +9,7 @@
 
 class Window;
 
+
 struct SDL_Rect;
 
 enum EventWindow
@@ -25,6 +26,11 @@ enum KeyState
 	KEY_DOWN,
 	KEY_REPEAT,
 	KEY_UP
+};
+enum AxisName
+{
+	VERTICAL,
+	HORIZONTAL
 };
 
 class Input : public Module
@@ -54,7 +60,7 @@ public:
 	{
 		return keyboard[id];
 	}
-
+	int GetAxisRaw(AxisName axisName);
 	KeyState GetMouseButtonDown(int id) const
 	{
 		return mouseButtons[id - 1];

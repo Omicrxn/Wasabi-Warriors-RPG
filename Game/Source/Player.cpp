@@ -1,5 +1,6 @@
 #include "Player.h"
 
+
 Player::Player(Textures* tex) : Being()
 {
     texture = NULL;
@@ -15,29 +16,28 @@ Player::Player(Textures* tex) : Being()
 bool Player::Update(Input* input, float dt)
 {
     Walk(direction, dt);
-    if (input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+    direction.x = input->GetAxisRaw(AxisName::HORIZONTAL);
+    direction.y = input->GetAxisRaw(AxisName::VERTICAL);
+   
+    if (direction.x > 0)
     {
-        direction.y = -1;
-        currentAnim = PlayerAnim::UP;
-    }else if (input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
-    {
-        direction.y = 1;
-        currentAnim = PlayerAnim::DOWN;
-    }else if (input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
-    {
-        direction.x = -1;
-        currentAnim = PlayerAnim::LEFT;
-    }else if (input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-    {
-        direction.x = 1;
         currentAnim = PlayerAnim::RIGHT;
-    }else if (input->GetKey(SDL_SCANCODE_W) == KEY_IDLE && input->GetKey(SDL_SCANCODE_S) == KEY_IDLE
-        && input->GetKey(SDL_SCANCODE_A) == KEY_IDLE && input->GetKey(SDL_SCANCODE_D) == KEY_IDLE)
+    }else if(direction.x < 0)
     {
-        direction = { 0,0 };
+        currentAnim = PlayerAnim::LEFT;
+    }
+    if (direction.y > 0)
+    {
+        currentAnim = PlayerAnim::DOWN;
+    }else if (direction.y < 0)
+    {
+        currentAnim = PlayerAnim::UP;
+    }
+    if ((direction.x == 0 && direction.y == 0) || (direction.x != 0 && direction.y != 0))
+    {
         currentAnim = PlayerAnim::IDLE;
     }
-
+    
     return true;
 }
 
@@ -114,8 +114,21 @@ void Player::SetTexture(SDL_Texture *tex, int spritePos)
 }
 void Player::Walk(iPoint direction, float dt)
 {
-    position.x = position.x + direction.x * (velocity.x*dt);
-    position.y = position.y + direction.y * (velocity.y*dt);
+    if (direction.x != 0 && direction.y != 0)
+    {
+        // limit movement speed diagonally, so you move at 70% speed
+        //velocity.x *= 0.7;
+        //velocity.y *= 0.7;
+     
+        velocity = { 0,0 };
+    }
+    else
+    {
+        velocity = { 150.0f, 150.0f };
+    }
+
+    position.x = position.x + direction.x * (velocity.x * dt);
+    position.y = position.y + direction.y * (velocity.y * dt);
 }
 SDL_Rect Player::GetBounds()
 {

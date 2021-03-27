@@ -3,7 +3,6 @@
 
 #include "Defs.h"
 #include "Log.h"
-
 #include "SDL/include/SDL.h"
 
 #define MAX_KEYS 300
@@ -146,7 +145,29 @@ bool Input::GetWindowEvent(EventWindow ev)
 {
 	return windowEvents[ev];
 }
-
+int Input::GetAxisRaw(AxisName axisName)
+{
+	int axis = 0;
+	switch (axisName)
+	{
+	case VERTICAL:
+		if (keyboard[SDL_SCANCODE_W] == KEY_REPEAT || keyboard[SDL_SCANCODE_UP] == KEY_REPEAT)
+			axis = -1;
+		else if (keyboard[SDL_SCANCODE_S] == KEY_REPEAT || keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT)
+			axis = 1;
+		break;
+	case HORIZONTAL:
+		if (keyboard[SDL_SCANCODE_A] == KEY_REPEAT || keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT)
+			axis = -1;
+		else if (keyboard[SDL_SCANCODE_D] == KEY_REPEAT || keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT)
+			axis = 1;
+		break;
+	default:
+		axis = 0;
+		break;
+	}
+	return axis;
+}
 void Input::GetMousePosition(int& x, int& y)
 {
 	x = mouseX;

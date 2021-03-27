@@ -52,7 +52,7 @@ bool SceneManager::Awake()
 // Called before the first frame
 bool SceneManager::Start()
 {
-	current = new SceneLogo();
+	current = new SceneGameplay();
 	if (current->type == SceneType::GAMEPLAY)
 	{
 		current->Load(tex, entityman, guiman);
