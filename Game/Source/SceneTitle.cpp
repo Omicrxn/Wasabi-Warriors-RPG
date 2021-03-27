@@ -12,14 +12,7 @@
 
 SceneTitle::SceneTitle()
 {
-    // GUI: Initialize required controls for the screen
-    //btnStart = new GuiButton(1, { 1280/2 - 300/2, 300, 300, 80 }, "START");
-    //btnStart->SetObserver(this);
 
-    //btnExit = new GuiButton(2, { 1280/2 - 300/2, 400, 300, 80 }, "EXIT");
-    //btnExit->SetObserver(this);
-
-    
 }
 
 SceneTitle::~SceneTitle()
@@ -29,9 +22,13 @@ SceneTitle::~SceneTitle()
 bool SceneTitle::Load(Textures* tex, GuiManager* guiman)
 {
     font = new Font("Assets/Fonts/londrina.xml", tex);
+
     backgroundTex = tex->Load("Assets/Textures/UI/Menu Background/mainmenu.png");
 
-    btnStart = (GuiButton*)guiman->CreateGuiControl(GuiControlType::BUTTON, 1, { 1280 / 2 - 300 / 2, 300, 300, 80 });
+    //btnStart = (GuiButton*)guiman->CreateGuiControl(GuiControlType::BUTTON, 1, { 1280 / 2 - 300 / 2, 300, 300, 80 });
+    //btnStart->SetObserver(this);
+
+    btnStart = (GuiButton*)guiman->CreateGuiControl(GuiControlType::BUTTON, 1, { 1280 / 2 - 300 / 2, 400, 190, 49 });
     btnStart->SetObserver(this);
 
     return true;
@@ -70,6 +67,7 @@ bool SceneTitle::Draw(Render* render)
 bool SceneTitle::Unload(Textures* tex)
 {
     tex->UnLoad(backgroundTex);
+
     return true;
 }
 

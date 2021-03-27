@@ -3,7 +3,6 @@
 GuiSlider::GuiSlider(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(GuiControlType::SLIDER, id)
 {
     this->bounds = bounds;
-    this->text = text;
 }
 
 GuiSlider::~GuiSlider()
@@ -43,8 +42,6 @@ bool GuiSlider::Draw(Render* render)
     case GuiControlState::FOCUSED: render->DrawRectangle(bounds, { 255, 255, 0, 255 });
         break;
     case GuiControlState::PRESSED: render->DrawRectangle(bounds, { 0, 255, 255, 255 });
-        break;
-    case GuiControlState::SELECTED: render->DrawRectangle(bounds, { 0, 255, 0, 255 });
         break;
     default:
         break;

@@ -16,12 +16,6 @@ enum class GuiControlType
     TOGGLE,
     CHECKBOX,
     SLIDER,
-    SLIDERBAR,
-    COMBOBOX,
-    DROPDOWNBOX,
-    INPUTBOX,
-    VALUEBOX,
-    SPINNER
 };
 
 enum class GuiControlState
@@ -30,7 +24,6 @@ enum class GuiControlState
     NORMAL,
     FOCUSED,
     PRESSED,
-    SELECTED
 };
 
 class GuiControl
@@ -39,13 +32,11 @@ public:
 
     GuiControl(GuiControlType type, uint32 id) : type(type), id(id), state(GuiControlState::NORMAL) {}
 
-    GuiControl(GuiControlType type, SDL_Rect bounds, const char* text) :
+    GuiControl(GuiControlType type, SDL_Rect bounds) :
         type(type),
         state(GuiControlState::NORMAL),
-        bounds(bounds),
-        text(text) 
+        bounds(bounds)
     {
-        color.r = 255; color.g = 255; color.b = 255;
         texture = NULL;
     }
 
@@ -62,7 +53,6 @@ public:
     void SetTexture(SDL_Texture* tex)
     {
         texture = tex;
-        section = { 0, 0, 0, 0 };
     }
 
     void SetObserver(Scene* module)
@@ -81,14 +71,9 @@ public:
     GuiControlType type;
     GuiControlState state;
 
-    SString text;           // Control text (if required)
     SDL_Rect bounds;        // Position and size
-    SDL_Color color;        // Tint color
 
     SDL_Texture* texture;   // Texture atlas reference
-    SDL_Rect section;       // Texture atlas base section
-
-    //Font font;              // Text font
 
     Scene* observer;        // Observer module (it should probably be an array/list)
 };

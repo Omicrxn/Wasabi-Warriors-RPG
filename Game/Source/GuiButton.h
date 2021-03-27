@@ -10,7 +10,7 @@ class GuiButton : public GuiControl
 {
 public:
 
-    GuiButton(uint32 id, SDL_Rect bounds, const char *text);
+    GuiButton(uint32 id, SDL_Rect bounds);
     virtual ~GuiButton();
 
     bool Update(Input* input, float dt);
@@ -20,6 +20,11 @@ private:
 
     // Gui Button specific properties
     // Maybe some animation properties for state change?
+
+    SDL_Rect whiteButton;
+    SDL_Rect brownButton;
+    SDL_Rect greyButton;
+    SDL_Rect yellowButton;
 };
 
 #endif // __GUIBUTTON_H__

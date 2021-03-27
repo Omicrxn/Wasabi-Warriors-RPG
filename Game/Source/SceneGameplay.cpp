@@ -1,6 +1,7 @@
 #include "SceneGameplay.h"
 
 #include "EntityManager.h"
+#include "GuiManager.h"
 
 SceneGameplay::SceneGameplay()
 {
@@ -11,7 +12,7 @@ SceneGameplay::~SceneGameplay()
 {
 }
 
-bool SceneGameplay::Load(Textures* tex, EntityManager* entityManager)
+bool SceneGameplay::Load(Textures* tex, EntityManager* entityManager, GuiManager* guiManager)
 {
 	map = (Map*)entityManager->CreateEntity(EntityType::MAP);
 

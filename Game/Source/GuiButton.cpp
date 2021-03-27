@@ -1,9 +1,13 @@
 #include "GuiButton.h"
 
-GuiButton::GuiButton(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(GuiControlType::BUTTON, id)
+GuiButton::GuiButton(uint32 id, SDL_Rect bounds) : GuiControl(GuiControlType::BUTTON, id)
 {
     this->bounds = bounds;
-    this->text = text;
+
+    whiteButton = { 0,0,190,49 };
+    brownButton = { 0,49,190,49 };
+    greyButton = { 0,188,190,49 };
+    yellowButton = { 0,282,190,49 };
 }
 
 GuiButton::~GuiButton()
@@ -26,6 +30,12 @@ bool GuiButton::Update(Input* input, float dt)
             if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT)
             {
                 state = GuiControlState::PRESSED;
+            }
+
+            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_DOWN)
+            {
+                state = GuiControlState::PRESSED;
+                // Audio Fx when clicked
             }
 
             // If mouse button pressed -> Generate event!
@@ -52,8 +62,6 @@ bool GuiButton::Draw(Render* render)
     case GuiControlState::FOCUSED: render->DrawRectangle(bounds, { 255, 255, 0, 255 });
         break;
     case GuiControlState::PRESSED: render->DrawRectangle(bounds, { 0, 255, 255, 255 });
-        break;
-    case GuiControlState::SELECTED: render->DrawRectangle(bounds, { 0, 255, 0, 255 });
         break;
     default:
         break;

@@ -21,7 +21,7 @@ bool GuiManager::Awake(pugi::xml_node&)
 	return true;
 }
 
-GuiControl* GuiManager::CreateGuiControl(GuiControlType type, int id, SDL_Rect bounds)
+GuiControl* GuiManager::CreateGuiControl(GuiControlType type, uint32 id, SDL_Rect bounds)
 {
 	GuiControl* control = nullptr;
 
@@ -30,14 +30,14 @@ GuiControl* GuiManager::CreateGuiControl(GuiControlType type, int id, SDL_Rect b
 		// Create the corresponding GuiControl type
 		//case GuiControlType::BUTTON: control = new GuiButton(1234);  break;
 		case GuiControlType::BUTTON:
-			control = new GuiButton(id, bounds, "NOTEXT");
+			control = new GuiButton(id, bounds);
 			break;
-		case GuiControlType::CHECKBOX:
-			control = new GuiCheckBox(id, bounds, "NOTEXT");
-			break;
-		case GuiControlType::SLIDER:
-			control = new GuiSlider(id, bounds, "NOTEXT");
-			break;
+		//case GuiControlType::CHECKBOX:
+		//	control = new GuiCheckBox(id, bounds);
+		//	break;
+		//case GuiControlType::SLIDER:
+		//	control = new GuiSlider(id, bounds);
+		//	break;
 		default: break;
 	}
 
@@ -110,4 +110,3 @@ bool GuiManager::CleanUp()
 
 	return true;
 }
-

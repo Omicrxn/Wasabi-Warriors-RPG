@@ -11,6 +11,7 @@ class Render;
 class Textures;
 class EntityManager;
 class GuiManager;
+
 class SceneManager : public Module
 {
 public:

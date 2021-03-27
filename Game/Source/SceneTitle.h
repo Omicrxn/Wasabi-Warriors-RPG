@@ -29,6 +29,7 @@ public:
 private:
 
     GuiButton* btnStart;
+    GuiButton* btnCredits;
     GuiButton* btnExit;
 
 private:

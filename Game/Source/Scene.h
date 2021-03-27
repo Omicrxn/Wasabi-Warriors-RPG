@@ -35,7 +35,6 @@ public:
         return true;
     }
 
-
     virtual bool Update(Input* input, float dt)
     {
         return true;
