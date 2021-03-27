@@ -28,7 +28,7 @@ bool GuiSlider::Update(Input* input, float dt)
         else state = GuiControlState::NORMAL;
     }
 
-    return false;
+    return true;
 }
 
 bool GuiSlider::Draw(Render* render)
@@ -50,5 +50,5 @@ bool GuiSlider::Draw(Render* render)
         break;
     }
 
-    return false;
+    return true;
 }

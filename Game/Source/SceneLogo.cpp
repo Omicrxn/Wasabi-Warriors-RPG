@@ -4,7 +4,7 @@
 #include "Render.h"
 #include "Textures.h"
 
-#include "EntityManager.h"
+#include "GuiManager.h"
 
 #define LOGO_FADE_SPEED 1.0f
 
@@ -22,11 +22,11 @@ SceneLogo::~SceneLogo()
 {
 }
 
-bool SceneLogo::Load(Textures* tex)
+bool SceneLogo::Load(Textures* tex, GuiManager* guiman)
 {
     logoTex = tex->Load("Assets/Textures/Scenes/logo_scene.png");
 
-    return false;
+    return true;
 }
 
 bool SceneLogo::Update(Input* input, float dt)
@@ -62,7 +62,10 @@ bool SceneLogo::Update(Input* input, float dt)
         }
     }
 
-    return false;
+    // For debugging purposes
+    if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN) TransitionToScene(SceneType::TITLE);
+
+    return true;
 }
 
 bool SceneLogo::Draw(Render* render)
@@ -74,12 +77,12 @@ bool SceneLogo::Draw(Render* render)
     SDL_SetTextureAlphaMod(logoTex, logoAlpha);
     render->DrawTexture(logoTex, 0, 0, &logo);
 
-    return false;
+    return true;
 }
 
 bool SceneLogo::Unload()
 {
     logoTex = nullptr;
 
-    return false;
+    return true;
 }

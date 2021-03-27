@@ -33,7 +33,7 @@ public:
 	GuiControl* CreateGuiControl(GuiControlType type, int id, SDL_Rect bounds);
 	void DestroyGuiControl(GuiControl* entity);
 
-	void AddGuiControl(GuiControl* entity);
+	//void AddGuiControl(GuiControl* entity);
 	
 	void UpdateAll(float dt, bool doLogic);
 

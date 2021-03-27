@@ -12,7 +12,7 @@ public:
     SceneLogo();
     virtual ~SceneLogo();
 
-    bool Load(Textures* tex);
+    bool Load(Textures* tex, GuiManager* guiman);
 
     bool Update(Input* input, float dt);
 

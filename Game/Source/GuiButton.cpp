@@ -37,7 +37,7 @@ bool GuiButton::Update(Input* input, float dt)
         else state = GuiControlState::NORMAL;
     }
 
-    return false;
+    return true;
 }
 
 bool GuiButton::Draw(Render* render)
@@ -59,5 +59,5 @@ bool GuiButton::Draw(Render* render)
         break;
     }
 
-    return false;
+    return true;
 }

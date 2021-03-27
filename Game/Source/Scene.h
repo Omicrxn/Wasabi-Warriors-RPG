@@ -7,6 +7,7 @@ class Input;
 class Render;
 class Textures;
 class EntityManager;
+class GuiManager;
 
 class GuiControl;
 
@@ -25,14 +26,15 @@ public:
 
     Scene() : active(true), loaded(false), transitionRequired(false) {}
 
-    virtual bool Load(Textures* tex)
+    virtual bool Load(Textures* tex, GuiManager* guiman)
     {
         return true;
     }
-    virtual bool Load(Textures* tex, EntityManager* entityman)
+    virtual bool Load(Textures* tex, EntityManager* entityman, GuiManager* guiman)
     {
         return true;
     }
+
 
     virtual bool Update(Input* input, float dt)
     {
@@ -44,7 +46,7 @@ public:
         return true;
     }
 
-    virtual bool Unload()
+    virtual bool Unload(Textures* tex)
     {
         return true;
     }
