@@ -35,7 +35,7 @@ bool SceneGameplay::Load(Textures* tex, EntityManager* entityManager)
 	// Initialize player
 	players.Add((Player*)entityManager->CreateEntity(EntityType::PLAYER));
 	players.At(0)->data->position = iPoint(12 * 32, 6 * 32);
-	players.At(0)->data->SetTexture(texture, 32);
+	players.At(0)->data->SetTexture(texture, 3);
 	currentPlayer = players.At(0)->data;
 
     return false;

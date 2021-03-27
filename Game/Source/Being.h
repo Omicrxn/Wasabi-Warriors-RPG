@@ -39,6 +39,9 @@ public:
 	iPoint direction;
 	Stats stats;
 	Animation idleAnim;
-	Animation walkingAnim;
+	Animation walkRightAnim;
+	Animation walkLeftAnim;
+	Animation walkUpAnim;
+	Animation walkDownAnim;
 };
 #endif //__BEING_H__

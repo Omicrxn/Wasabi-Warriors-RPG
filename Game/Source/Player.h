@@ -14,9 +14,10 @@
 enum class PlayerAnim
 {
     IDLE,
-    WALK,
-    JUMP,
-    CLIMB
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT
 };
 
 class Player: public Being
