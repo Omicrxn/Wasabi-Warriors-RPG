@@ -17,6 +17,15 @@ enum class BattleState
 	NONE
 };
 
+enum class BattleGUIState
+{
+	ATTACK,
+	DEFEND,
+	ITEM,
+	RUN,
+	NONE
+};
+
 class BattleSystem
 {
 public:
@@ -24,7 +33,7 @@ public:
 	BattleSystem();
 	~BattleSystem();
 
-	bool Update();
+	bool Update(Input* input);
 
 	// To get the player and the enemy information
 	void SetupBattle(List<Player*> players, Enemy* enemy);
@@ -36,11 +45,17 @@ public:
 	void Won();
 	void Lost();
 
-	BattleState battleState = BattleState::NONE;
+	BattleState battleState;
+	BattleGUIState battleGUIState;
+	BattleGUIState battleGUIStateRegister[4];
+	int battleGUIPosition;
 
 private:
 
+	// Total numbers of party members implemented
+	uint numPlayers;
 	List<Player*> players;
+	Player* currentPlayer;
 	Enemy* enemy;
 };
 

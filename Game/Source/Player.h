@@ -33,13 +33,14 @@ public:
     void SetTexture(SDL_Texture *tex, int textureStartYPos);
 
     SDL_Rect GetBounds();
+
 private:
+
     void Walk(iPoint direction, float dt);
+
 public:
 
     SDL_Texture* texture;   // Player spritesheet
-
-
 
     PlayerAnim currentAnim;
 

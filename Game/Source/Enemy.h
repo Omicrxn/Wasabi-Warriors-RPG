@@ -1,26 +1,20 @@
 #ifndef __ENEMY_H__
 #define __ENEMY_H__
 
-#include "Entity.h"
+#include "Being.h"
 
 #include "DynArray.h"
 #include "Point.h"
 #include "SString.h"
 
-class Enemy : public Entity
+class Enemy : public Being
 {
 public:
 
-    Enemy(SString name, int level, int damage, int maxHP, int currentHP);
+    Enemy();
     virtual ~Enemy();
 
-    SString name;
-    int level = 0;
-
-    int damage = 0;
-
-    int maxHP = 0;
-    int currentHP = 0;
+    void SetParameters(SDL_Texture* tex, SString name, int level, int damage, int maxHP, int currentHP, int strength, int defense, int attackSpeed, float criticalRate);
 
 protected:
 
