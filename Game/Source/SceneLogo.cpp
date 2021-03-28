@@ -10,8 +10,6 @@
 
 SceneLogo::SceneLogo()
 {
-    type = SceneType::LOGO;
-
     logo = { 0, 0, 1280, 720 };
     logoTex = nullptr;
 
@@ -24,7 +22,7 @@ SceneLogo::~SceneLogo()
 {
 }
 
-bool SceneLogo::Load(Textures* tex, GuiManager* guiManager)
+bool SceneLogo::Load(Textures* tex, GuiManager* guiman)
 {
     logoTex = tex->Load("Assets/Textures/Scenes/logo_scene.png");
 

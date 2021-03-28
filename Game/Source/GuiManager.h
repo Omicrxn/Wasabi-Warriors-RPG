@@ -30,8 +30,8 @@ public:
 	bool CleanUp();
 
 	// Additional methods
-	GuiControl* CreateGuiControl(GuiControlType type, uint32 id, SDL_Rect bounds, const char* text);
-	void DestroyGuiControl(GuiControl* control);
+	GuiControl* CreateGuiControl(GuiControlType type, uint32 id, SDL_Rect bounds);
+	void DestroyGuiControl(GuiControl* entity);
 
 	//void AddGuiControl(GuiControl* entity);
 	
@@ -43,14 +43,16 @@ public:
 
 	List<GuiControl*> controls;
 
+public:
+
 	float accumulatedTime = 0.0f;
 	float updateMsCycle = 0.0f;
 	bool doLogic = false;
 
-	bool debugDraw = false;
-
+public:
 	Input* input;
 	Render* render;
+
 };
 
 #endif // __GUIMANAGER_H__

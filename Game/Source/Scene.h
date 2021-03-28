@@ -26,11 +26,11 @@ public:
 
     Scene() : active(true), loaded(false), transitionRequired(false) {}
 
-    virtual bool Load(Textures* tex, GuiManager* guiManager)
+    virtual bool Load(Textures* tex, GuiManager* guiman)
     {
         return true;
     }
-    virtual bool Load(Textures* tex, EntityManager* entityman, GuiManager* guiManager)
+    virtual bool Load(Textures* tex, EntityManager* entityman, GuiManager* guiman)
     {
         return true;
     }
@@ -45,7 +45,7 @@ public:
         return true;
     }
 
-    virtual bool Unload(Textures* tex, GuiManager* guiManager)
+    virtual bool Unload(Textures* tex)
     {
         return true;
     }

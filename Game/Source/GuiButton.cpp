@@ -1,15 +1,13 @@
 #include "GuiButton.h"
 
-GuiButton::GuiButton(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(GuiControlType::BUTTON, id)
+GuiButton::GuiButton(uint32 id, SDL_Rect bounds) : GuiControl(GuiControlType::BUTTON, id)
 {
     this->bounds = bounds;
-    this->text = text;
 
     whiteButton = { 0,0,190,49 };
     brownButton = { 0,49,190,49 };
     greyButton = { 0,188,190,49 };
     yellowButton = { 0,282,190,49 };
-    yellowButtonPressed = { 0, 237, 190, 45 };
 }
 
 GuiButton::~GuiButton()
@@ -52,46 +50,21 @@ bool GuiButton::Update(Input* input, float dt)
     return true;
 }
 
-bool GuiButton::Draw(Render* render, bool debugDraw)
+bool GuiButton::Draw(Render* render)
 {
     // Draw the right button depending on state
-   
     switch (state)
     {
-    case GuiControlState::DISABLED: 
-        render->DrawTexture(texture, bounds.x, bounds.y, &greyButton, 0.0f);
+    case GuiControlState::DISABLED: render->DrawRectangle(bounds, { 100, 100, 100, 255 });
         break;
-    case GuiControlState::NORMAL: 
-        render->DrawTexture(texture, bounds.x, bounds.y, &yellowButton, 0.0f);
-        render->DrawText(font, text.GetString(), bounds.x + bounds.w/4 - bounds.w/8, bounds.y + bounds.h/2 - bounds.h/4, 20, 8, { 89,73,34,255 });
+    case GuiControlState::NORMAL: render->DrawRectangle(bounds, { 0, 255, 0, 255 });
         break;
-    case GuiControlState::FOCUSED:
-        render->DrawTexture(texture, bounds.x, bounds.y, &yellowButton, 0.0f);
-        render->DrawText(font, text.GetString(), bounds.x + bounds.w/4 - bounds.w/8, bounds.y + bounds.h/2 - bounds.h/4, 20, 8, { 0,0,0,255 });
+    case GuiControlState::FOCUSED: render->DrawRectangle(bounds, { 255, 255, 0, 255 });
         break;
-    case GuiControlState::PRESSED: 
-        render->DrawTexture(texture, bounds.x, bounds.y + 4, &yellowButtonPressed, 0.0f);
-        render->DrawText(font, text.GetString(), bounds.x + bounds.w/4 - bounds.w/8, bounds.y + bounds.h/2 - bounds.h/4 + 4, 20, 8, { 0,0,0,255 });
+    case GuiControlState::PRESSED: render->DrawRectangle(bounds, { 0, 255, 255, 255 });
         break;
     default:
         break;
-    }
-     
-    if (debugDraw)
-    {
-        switch (state)
-        {
-        case GuiControlState::DISABLED: render->DrawRectangle(bounds, { 100, 100, 100, 255 });
-            break;
-        case GuiControlState::NORMAL: render->DrawRectangle(bounds, { 0, 255, 0, 255 });
-            break;
-        case GuiControlState::FOCUSED: render->DrawRectangle(bounds, { 255, 255, 0, 255 });
-            break;
-        case GuiControlState::PRESSED: render->DrawRectangle(bounds, { 0, 255, 255, 255 });
-            break;
-        default:
-            break;
-        }
     }
 
     return true;

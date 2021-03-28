@@ -40,7 +40,7 @@ bool GuiCheckBox::Update(Input* input, float dt)
     return true;
 }
 
-bool GuiCheckBox::Draw(Render* render, bool debugDraw)
+bool GuiCheckBox::Draw(Render* render)
 {
     // Draw the right button depending on state
     switch (state)
