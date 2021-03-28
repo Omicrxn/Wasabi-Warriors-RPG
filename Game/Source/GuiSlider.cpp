@@ -30,7 +30,7 @@ bool GuiSlider::Update(Input* input, float dt)
     return true;
 }
 
-bool GuiSlider::Draw(Render* render)
+bool GuiSlider::Draw(Render* render, bool debugDraw)
 {
     // Draw the right button depending on state
     switch (state)

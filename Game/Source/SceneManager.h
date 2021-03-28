@@ -16,7 +16,7 @@ class SceneManager : public Module
 {
 public:
 
-	SceneManager(Input* input, Render* render, Textures* tex, EntityManager* entityman, GuiManager* guiman);
+	SceneManager(Input* input, Render* render, Textures* tex, EntityManager* entityman, GuiManager* guiManager);
 
 	// Destructor
 	virtual ~SceneManager();
@@ -45,7 +45,7 @@ private:
 	Render* render;
 	Textures* tex;
 	EntityManager* entityman;
-	GuiManager* guiman;
+	GuiManager* guiManager;
 
 	Scene* current;
 	Scene* next;

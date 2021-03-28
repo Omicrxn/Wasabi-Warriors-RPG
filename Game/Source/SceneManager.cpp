@@ -21,7 +21,7 @@
 #define FADEOUT_TRANSITION_SPEED	2.0f
 #define FADEIN_TRANSITION_SPEED		2.0f
 
-SceneManager::SceneManager(Input* input, Render* render, Textures* tex, EntityManager* entityman, GuiManager* guiman) : Module()
+SceneManager::SceneManager(Input* input, Render* render, Textures* tex, EntityManager* entityman, GuiManager* guiManager) : Module()
 {
 	name.Create("scenemanager");
 
@@ -33,7 +33,7 @@ SceneManager::SceneManager(Input* input, Render* render, Textures* tex, EntityMa
 	this->render = render;
 	this->tex = tex;
 	this->entityman = entityman;
-	this->guiman = guiman;
+	this->guiManager = guiManager;
 }
 
 // Destructor
@@ -52,14 +52,14 @@ bool SceneManager::Awake()
 // Called before the first frame
 bool SceneManager::Start()
 {
-	current = new SceneGameplay();
+	current = new SceneLogo();
 	if (current->type == SceneType::GAMEPLAY)
 	{
-		current->Load(tex, entityman, guiman);
+		current->Load(tex, entityman, guiManager);
 	}
 	else 
 	{
-		current->Load(tex, guiman);
+		current->Load(tex, guiManager);
 	}
 
 	next = nullptr;
@@ -92,14 +92,14 @@ bool SceneManager::Update(float dt)
 			{
 				transitionAlpha = 1.0f;
 
-				current->Unload(tex);	// Unload current screen
+				current->Unload(tex, guiManager);	// Unload current screen
 				if (next->type == SceneType::GAMEPLAY)
 				{
-					next->Load(tex, entityman, guiman);	// Load next screen
+					next->Load(tex, entityman, guiManager);	// Load next screen
 				}
 				else
 				{
-					next->Load(tex, guiman);	// Load next screen
+					next->Load(tex, guiManager);	// Load next screen
 				}
 
 				RELEASE(current);	// Free current pointer
@@ -168,7 +168,7 @@ bool SceneManager::CleanUp()
 {
 	LOG("Freeing scene");
 
-	if (current != nullptr) current->Unload(tex);
+	if (current != nullptr) current->Unload(tex, guiManager);
 
 	return true;
 }
