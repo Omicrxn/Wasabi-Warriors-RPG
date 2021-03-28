@@ -11,12 +11,13 @@ class Render;
 class Textures;
 class EntityManager;
 class GuiManager;
+class Window;
 
 class SceneManager : public Module
 {
 public:
 
-	SceneManager(Input* input, Render* render, Textures* tex, EntityManager* entityman, GuiManager* guiManager);
+	SceneManager(Input* input, Render* render, Textures* tex, Window* win, EntityManager* entityman, GuiManager* guiManager);
 
 	// Destructor
 	virtual ~SceneManager();
@@ -46,6 +47,7 @@ private:
 	Textures* tex;
 	EntityManager* entityman;
 	GuiManager* guiManager;
+	Window* win;
 
 	Scene* current;
 	Scene* next;

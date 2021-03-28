@@ -63,15 +63,15 @@ bool GuiButton::Draw(Render* render, bool debugDraw)
         break;
     case GuiControlState::NORMAL: 
         render->DrawTexture(texture, bounds.x, bounds.y, &yellowButton, 0.0f);
-        render->DrawText(font, text.GetString(), bounds.x + bounds.w/4 - bounds.w/8, bounds.y + bounds.h/2 - bounds.h/4, 20, 8, { 89,73,34,255 });
+        render->DrawText(font, text.GetString(), bounds.x + bounds.w/5 - bounds.w/6, bounds.y + bounds.h/2 - bounds.h/4, 22, 8, { 89,73,34,255 });
         break;
     case GuiControlState::FOCUSED:
         render->DrawTexture(texture, bounds.x, bounds.y, &yellowButton, 0.0f);
-        render->DrawText(font, text.GetString(), bounds.x + bounds.w/4 - bounds.w/8, bounds.y + bounds.h/2 - bounds.h/4, 20, 8, { 0,0,0,255 });
+        render->DrawText(font, text.GetString(), bounds.x + bounds.w/5 - bounds.w/6, bounds.y + bounds.h/2 - bounds.h/4, 22, 8, { 0,0,0,255 });
         break;
     case GuiControlState::PRESSED: 
         render->DrawTexture(texture, bounds.x, bounds.y + 4, &yellowButtonPressed, 0.0f);
-        render->DrawText(font, text.GetString(), bounds.x + bounds.w/4 - bounds.w/8, bounds.y + bounds.h/2 - bounds.h/4 + 4, 20, 8, { 0,0,0,255 });
+        render->DrawText(font, text.GetString(), bounds.x + bounds.w/5 - bounds.w/6, bounds.y + bounds.h/2 - bounds.h/4 + 4, 22, 8, { 0,0,0,255 });
         break;
     default:
         break;

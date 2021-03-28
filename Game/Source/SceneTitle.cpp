@@ -4,6 +4,7 @@
 #include "Render.h"
 #include "Textures.h"
 #include "GuiManager.h"
+#include "Window.h"
 
 #include "GuiButton.h"
 #include "Font.h"
@@ -23,47 +24,56 @@ SceneTitle::SceneTitle()
     btnCredits = nullptr;
     btnExit = nullptr;
 
-    font = nullptr;
+    titleFont = nullptr;
+    buttonFont = nullptr;
 
     mousePos = { 0,0 };
     clicking = false;
+
+    win = nullptr;
 }
 
 SceneTitle::~SceneTitle()
 {
 }
 
-bool SceneTitle::Load(Textures* tex, GuiManager* guiManager)
+bool SceneTitle::Load(Textures* tex, Window* win, GuiManager* guiManager)
 {
-    font = new Font("Assets/Fonts/SHOWG.xml", tex);
+    this->win = win;
+
+    titleFont = new Font("Assets/Fonts/shojumaru.xml", tex);
+    buttonFont = new Font("Assets/Fonts/showg.xml", tex);
 
     backgroundTex = tex->Load("Assets/Textures/Scenes/main_menu.png");
     backgroundRect = { 0, 0, 1280, 720 };
 
     guiAtlasTex = tex->Load("Assets/Textures/UI/Elements/ui_spritesheet.png");
 
-    mouseRect[0] = { 30,482,30,30 };
-    mouseRect[1] = { 60,482,30,30 };
+    //mouseRect[0] = { 30,482,30,30 };
+    //mouseRect[1] = { 60,482,30,30 };
 
-    btnStart = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, { 1280 / 2 - 300 / 2, 200, 190, 49 }, "START");
+    uint width, height;
+    win->GetWindowSize(width, height);
+    
+    btnStart = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, { (int)width / 2 - (int)((float)width / 12), 200, 190, 49 }, "START");
     btnStart->SetObserver(this);
     btnStart->SetTexture(guiAtlasTex);
-    btnStart->SetFont(font);
+    btnStart->SetFont(buttonFont);
 
-    btnContinue = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, { 1280 / 2 - 300 / 2, 300, 190, 49 }, "CONTINUE");
+    btnContinue = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 2, { (int)width / 2 - (int)((float)width / 12), 300, 190, 49 }, "CONTINUE");
     btnContinue->SetObserver(this);
     btnContinue->SetTexture(guiAtlasTex);
-    btnContinue->SetFont(font);
+    btnContinue->SetFont(buttonFont);
 
-    btnOptions = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, { 1280 / 2 - 300 / 2, 400, 190, 49 }, "OPTIONS");
+    btnOptions = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 3, { (int)width / 2 - (int)((float)width / 12), 400, 190, 49 }, "OPTIONS");
     btnOptions->SetObserver(this);
     btnOptions->SetTexture(guiAtlasTex);
-    btnOptions->SetFont(font);
+    btnOptions->SetFont(buttonFont);
 
-    btnExit = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, { 1280 / 2 - 300 / 2, 500, 190, 49 }, "EXIT");
+    btnExit = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 4, { (int)width / 2 - (int)((float)width / 12), 500, 190, 49 }, "EXIT");
     btnExit->SetObserver(this);
     btnExit->SetTexture(guiAtlasTex);
-    btnExit->SetFont(font);
+    btnExit->SetFont(buttonFont);
 
     return true;
 }
@@ -74,12 +84,12 @@ bool SceneTitle::Update(Input* input, float dt)
 
     backgroundAnim.Update();
 
-    input->GetMousePosition(mousePos.x, mousePos.y);
+    //input->GetMousePosition(mousePos.x, mousePos.y);
 
-    if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT)
-        clicking = true;
-    else
-        clicking = false;
+    //if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT)
+    //    clicking = true;
+    //else
+    //    clicking = false;
 
     return true;
 }
@@ -88,16 +98,17 @@ bool SceneTitle::Draw(Render* render)
 {
     render->DrawTexture(backgroundTex, 0, 0, &backgroundRect);
 
-    if (clicking)
-        render->DrawTexture(guiAtlasTex, mousePos.x, mousePos.y, &mouseRect[0], 0.0f);
-    else
-        render->DrawTexture(guiAtlasTex, mousePos.x, mousePos.y, &mouseRect[1], 0.0f);
+    //if (clicking)
+    //    render->DrawTexture(guiAtlasTex, mousePos.x, mousePos.y, &mouseRect[0], 0.0f);
+    //else
+    //    render->DrawTexture(guiAtlasTex, mousePos.x, mousePos.y, &mouseRect[1], 0.0f);
 
     /*char score[64] = { 0 };
-    sprintf_s(score, 64, "SCORE: %03i", 56);
+    sprintf_s(score, 64, "SCORE: %03i", 56);*/
 
-    render->DrawText(font, score, 10, 10, 200, 0, { 255, 0, 255, 255 });*/
-
+    uint width, height;
+    win->GetWindowSize(width, height);
+    render->DrawText(titleFont, "Wasabi Warriors", width / 2 - width / 2.5f, height / 2 - height / 2.5f, 125, 0, { 255, 255, 255, 255 });
     return true;
 }
 
@@ -111,6 +122,8 @@ bool SceneTitle::Unload(Textures* tex, GuiManager* guiManager)
     guiManager->DestroyGuiControl(btnOptions);
     guiManager->DestroyGuiControl(btnExit);
 
+    RELEASE(titleFont);
+    RELEASE(buttonFont);
     return true;
 }
 

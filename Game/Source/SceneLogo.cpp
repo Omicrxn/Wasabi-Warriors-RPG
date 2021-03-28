@@ -3,6 +3,7 @@
 #include "Input.h"
 #include "Render.h"
 #include "Textures.h"
+#include "Window.h"
 
 #include "GuiManager.h"
 
@@ -24,7 +25,7 @@ SceneLogo::~SceneLogo()
 {
 }
 
-bool SceneLogo::Load(Textures* tex, GuiManager* guiManager)
+bool SceneLogo::Load(Textures* tex, Window* win, GuiManager* guiManager)
 {
     logoTex = tex->Load("Assets/Textures/Scenes/logo_scene.png");
 

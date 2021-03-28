@@ -7,6 +7,7 @@
 
 class GuiButton;
 class Font;
+class Window;
 
 #include "SDL/include/SDL.h"
 
@@ -17,7 +18,7 @@ public:
     SceneTitle();
     virtual ~SceneTitle();
 
-    bool Load(Textures* tex, GuiManager* guiManager);
+    bool Load(Textures* tex, Window* win, GuiManager* guiManager);
 
     bool Update(Input* input, float dt);
 
@@ -48,7 +49,10 @@ private:
 
     Animation backgroundAnim;
 
-    Font* font;
+    Font* titleFont;
+    Font* buttonFont;
+
+    Window* win;
 };
 
 #endif // __SCENETITLE_H__

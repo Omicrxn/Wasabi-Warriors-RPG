@@ -8,12 +8,13 @@
 
 class Input;
 class Render;
+class Textures;
 
 class GuiManager : public Module
 {
 public:
 
-	GuiManager(Input* input, Render* render);
+	GuiManager(Input* input, Render* render, Textures* tex);
 
 	// Destructor
 	virtual ~GuiManager();
@@ -51,6 +52,14 @@ public:
 
 	Input* input;
 	Render* render;
+	Textures* tex;
+
+	SDL_Texture* guiAtlasTex;
+
+	// Mouse Cursor attributes
+	SDL_Rect mouseRect[2];
+	iPoint mousePos;
+	bool clicking;
 };
 
 #endif // __GUIMANAGER_H__

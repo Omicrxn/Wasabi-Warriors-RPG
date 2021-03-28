@@ -9,6 +9,7 @@
 #include "Input.h"
 #include "Render.h"
 #include "Textures.h"
+#include "Window.h"
 #include "EntityManager.h"
 
 #include "GuiButton.h"
@@ -21,7 +22,7 @@
 #define FADEOUT_TRANSITION_SPEED	2.0f
 #define FADEIN_TRANSITION_SPEED		2.0f
 
-SceneManager::SceneManager(Input* input, Render* render, Textures* tex, EntityManager* entityman, GuiManager* guiManager) : Module()
+SceneManager::SceneManager(Input* input, Render* render, Textures* tex, Window* win, EntityManager* entityman, GuiManager* guiManager) : Module()
 {
 	name.Create("scenemanager");
 
@@ -32,6 +33,7 @@ SceneManager::SceneManager(Input* input, Render* render, Textures* tex, EntityMa
 	this->input = input;
 	this->render = render;
 	this->tex = tex;
+	this->win = win;
 	this->entityman = entityman;
 	this->guiManager = guiManager;
 }
@@ -55,11 +57,11 @@ bool SceneManager::Start()
 	current = new SceneLogo();
 	if (current->type == SceneType::GAMEPLAY)
 	{
-		current->Load(tex, entityman, guiManager);
+		current->Load(tex, win, guiManager, entityman);
 	}
 	else 
 	{
-		current->Load(tex, guiManager);
+		current->Load(tex, win, guiManager);
 	}
 
 	next = nullptr;
@@ -95,11 +97,11 @@ bool SceneManager::Update(float dt)
 				current->Unload(tex, guiManager);	// Unload current screen
 				if (next->type == SceneType::GAMEPLAY)
 				{
-					next->Load(tex, entityman, guiManager);	// Load next screen
+					next->Load(tex, win, guiManager, entityman);	// Load next screen
 				}
 				else
 				{
-					next->Load(tex, guiManager);	// Load next screen
+					next->Load(tex, win, guiManager);	// Load next screen
 				}
 
 				RELEASE(current);	// Free current pointer

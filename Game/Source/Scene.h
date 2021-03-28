@@ -8,6 +8,7 @@ class Render;
 class Textures;
 class EntityManager;
 class GuiManager;
+class Window;
 
 class GuiControl;
 
@@ -26,11 +27,11 @@ public:
 
     Scene() : active(true), loaded(false), transitionRequired(false) {}
 
-    virtual bool Load(Textures* tex, GuiManager* guiManager)
+    virtual bool Load(Textures* tex, Window* win, GuiManager* guiManager)
     {
         return true;
     }
-    virtual bool Load(Textures* tex, EntityManager* entityman, GuiManager* guiManager)
+    virtual bool Load(Textures* tex, Window* win, GuiManager* guiManager, EntityManager* entityman)
     {
         return true;
     }

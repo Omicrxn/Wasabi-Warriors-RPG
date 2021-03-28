@@ -143,6 +143,11 @@ void Render::CameraFollow(int objectX, int objectY)
 	camera.x = objectX * scale - win->GetWidth()/2;
 	camera.y = objectY * scale - win->GetHeight()/4;
 }
+Window* Render::GetWindowPtr()
+{
+	return this->win;
+}
+
 // Draw to screen
 bool Render::DrawTexture(SDL_Texture* texture, int x, int y, const SDL_Rect* section, float speed, double angle, int pivotX, int pivotY, SDL_RendererFlip flip) const
 {

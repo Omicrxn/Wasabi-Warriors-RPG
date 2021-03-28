@@ -13,7 +13,7 @@ public:
     SceneGameplay();
     virtual ~SceneGameplay();
 
-    bool Load(Textures* tex, EntityManager* entityManager, GuiManager* guiManager);
+    bool Load(Textures* tex, Window* win, GuiManager* guiManager, EntityManager* entityManager);
 
     bool Update(Input* input, float dt);
 

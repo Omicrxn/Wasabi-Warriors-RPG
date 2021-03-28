@@ -2,6 +2,7 @@
 
 #include "EntityManager.h"
 #include "GuiManager.h"
+#include "Window.h"
 
 SceneGameplay::SceneGameplay()
 {
@@ -12,10 +13,10 @@ SceneGameplay::~SceneGameplay()
 {
 }
 
-bool SceneGameplay::Load(Textures* tex, EntityManager* entityManager, GuiManager* guiManager)
+bool SceneGameplay::Load(Textures* tex, Window*win, GuiManager* guiManager, EntityManager* entityManager)
 {
 	map = (Map*)entityManager->CreateEntity(EntityType::MAP);
-
+	
 	// L03: DONE: Load map
 	// L12b: Create walkability map on map loading
 	if (map->Load("Cemetery","Cemetery.tmx") == true)

@@ -4,12 +4,19 @@
 #include "GuiCheckBox.h"
 #include "GuiSlider.h"
 
-GuiManager::GuiManager(Input* input, Render* render)
+#include "Textures.h"
+
+GuiManager::GuiManager(Input* input, Render* render, Textures* tex)
 {
 	name.Create("guimanager");
 
 	this->input = input;
 	this->render = render;
+	this->tex = tex;
+
+	guiAtlasTex = nullptr;
+	mousePos = { 0,0 };
+	clicking = false;
 }
 
 GuiManager::~GuiManager()
@@ -56,6 +63,11 @@ void GuiManager::DestroyGuiControl(GuiControl* control)
 
 bool GuiManager::Start()
 {
+	guiAtlasTex = tex->Load("Assets/Textures/UI/Elements/ui_spritesheet.png");
+
+	mouseRect[0] = { 30,482,30,30 };
+	mouseRect[1] = { 60,482,30,30 };
+
 	return true;
 }
 
@@ -67,6 +79,15 @@ bool GuiManager::Update(float dt)
 	if (input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 		debugDraw = !debugDraw;
 
+	// Mouse Cursor Update
+	input->GetMousePosition(mousePos.x, mousePos.y);
+
+	if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT)
+		clicking = true;
+	else
+		clicking = false;
+	// ----------------------------
+
 	UpdateAll(dt, doLogic);
 
 	DrawAll();
@@ -76,6 +97,13 @@ bool GuiManager::Update(float dt)
 		accumulatedTime = 0.0f;
 		doLogic = false;
 	}
+
+	// Mouse Cursor Draw
+	if (clicking)
+		render->DrawTexture(guiAtlasTex, mousePos.x, mousePos.y, &mouseRect[0], 0.0f);
+	else
+		render->DrawTexture(guiAtlasTex, mousePos.x, mousePos.y, &mouseRect[1], 0.0f);
+	// ----------------------------
 
 	return true;
 }
@@ -110,6 +138,8 @@ bool GuiManager::CleanUp()
 	}
 
 	controls.Clear();
+
+	tex->UnLoad(guiAtlasTex);
 
 	return true;
 }
