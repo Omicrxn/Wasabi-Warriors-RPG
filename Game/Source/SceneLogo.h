@@ -18,12 +18,12 @@ public:
 
     bool Draw(Render* render);
 
-    bool Unload();
+    bool Unload(Textures* tex, GuiManager* guiManager);
 
 private:
 
-    SDL_Rect logo;
     SDL_Texture* logoTex;
+    SDL_Rect logo;
 
     int state;
     float timeCounter;

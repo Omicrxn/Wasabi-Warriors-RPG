@@ -21,16 +21,18 @@ SceneTitle::SceneTitle()
     guiAtlasTex = nullptr;
 
     btnStart = nullptr;
+    btnContinue = nullptr;
+    btnOptions = nullptr;
     btnCredits = nullptr;
     btnExit = nullptr;
 
     titleFont = nullptr;
     buttonFont = nullptr;
 
-    mousePos = { 0,0 };
-    clicking = false;
-
     win = nullptr;
+
+    menuCurrentSelection = MenuSelection::NONE;
+    //settingsCurrentSelection = SettingsSelection::NONE;
 }
 
 SceneTitle::~SceneTitle()
@@ -48,9 +50,6 @@ bool SceneTitle::Load(Textures* tex, Window* win, GuiManager* guiManager)
     backgroundRect = { 0, 0, 1280, 720 };
 
     guiAtlasTex = tex->Load("Assets/Textures/UI/Elements/ui_spritesheet.png");
-
-    //mouseRect[0] = { 30,482,30,30 };
-    //mouseRect[1] = { 60,482,30,30 };
 
     uint width, height;
     win->GetWindowSize(width, height);
@@ -70,7 +69,12 @@ bool SceneTitle::Load(Textures* tex, Window* win, GuiManager* guiManager)
     btnOptions->SetTexture(guiAtlasTex);
     btnOptions->SetFont(buttonFont);
 
-    btnExit = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 4, { (int)width / 2 - (int)((float)width / 12), 500, 190, 49 }, "EXIT");
+    btnCredits = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 4, { (int)width / 2 - (int)((float)width / 12), 500, 190, 49 }, "CREDITS");
+    btnCredits->SetObserver(this);
+    btnCredits->SetTexture(guiAtlasTex);
+    btnCredits->SetFont(buttonFont);
+
+    btnExit = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 5, { (int)width / 2 - (int)((float)width / 12), 600, 190, 49 }, "EXIT");
     btnExit->SetObserver(this);
     btnExit->SetTexture(guiAtlasTex);
     btnExit->SetFont(buttonFont);
@@ -80,16 +84,16 @@ bool SceneTitle::Load(Textures* tex, Window* win, GuiManager* guiManager)
 
 bool SceneTitle::Update(Input* input, float dt)
 {
-    //if (input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) TransitionToScene(SceneType::GAMEPLAY);
+    if (input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) TransitionToScene(SceneType::GAMEPLAY);
 
     backgroundAnim.Update();
 
-    //input->GetMousePosition(mousePos.x, mousePos.y);
-
-    //if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT)
-    //    clicking = true;
-    //else
-    //    clicking = false;
+    if (menuCurrentSelection == MenuSelection::START)
+        TransitionToScene(SceneType::GAMEPLAY);
+    else if (menuCurrentSelection == MenuSelection::CONTINUE)
+        TransitionToScene(SceneType::GAMEPLAY);
+    else if (menuCurrentSelection == MenuSelection::EXIT)
+        //return false;
 
     return true;
 }
@@ -98,17 +102,10 @@ bool SceneTitle::Draw(Render* render)
 {
     render->DrawTexture(backgroundTex, 0, 0, &backgroundRect);
 
-    //if (clicking)
-    //    render->DrawTexture(guiAtlasTex, mousePos.x, mousePos.y, &mouseRect[0], 0.0f);
-    //else
-    //    render->DrawTexture(guiAtlasTex, mousePos.x, mousePos.y, &mouseRect[1], 0.0f);
-
-    /*char score[64] = { 0 };
-    sprintf_s(score, 64, "SCORE: %03i", 56);*/
-
     uint width, height;
     win->GetWindowSize(width, height);
     render->DrawText(titleFont, "Wasabi Warriors", width / 2 - width / 2.5f, height / 2 - height / 2.5f, 125, 0, { 255, 255, 255, 255 });
+    
     return true;
 }
 
@@ -120,10 +117,12 @@ bool SceneTitle::Unload(Textures* tex, GuiManager* guiManager)
     guiManager->DestroyGuiControl(btnStart);
     guiManager->DestroyGuiControl(btnContinue);
     guiManager->DestroyGuiControl(btnOptions);
+    guiManager->DestroyGuiControl(btnCredits);
     guiManager->DestroyGuiControl(btnExit);
 
     RELEASE(titleFont);
     RELEASE(buttonFont);
+
     return true;
 }
 
@@ -136,8 +135,11 @@ bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
     {
     case GuiControlType::BUTTON:
     {
-        if (control->id == 1) TransitionToScene(SceneType::GAMEPLAY);
-        else if (control->id == 2) return false; // TODO: Exit request
+        if (control->id == 1) menuCurrentSelection = MenuSelection::START;
+        else if (control->id == 2) menuCurrentSelection = MenuSelection::CONTINUE;
+        else if(control->id == 3) menuCurrentSelection = MenuSelection::SETTINGS;
+        else if (control->id == 4) menuCurrentSelection = MenuSelection::CREDITS;
+        else if (control->id == 5) menuCurrentSelection = MenuSelection::EXIT;
     }
     default: break;
     }

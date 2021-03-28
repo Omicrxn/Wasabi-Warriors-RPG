@@ -13,8 +13,8 @@ SceneLogo::SceneLogo()
 {
     type = SceneType::LOGO;
 
-    logo = { 0, 0, 1280, 720 };
     logoTex = nullptr;
+    logo = { 0, 0, 1280, 720 };
 
     state = 0;
     timeCounter = 0.0f;
@@ -73,7 +73,6 @@ bool SceneLogo::Update(Input* input, float dt)
 
 bool SceneLogo::Draw(Render* render)
 {
-
     render->DrawRectangle(logo, { 255, 0, 0, (uchar)(255.0f * logoAlpha) });
 
     // Set texture alpha with the updated logoAlpha to accomplish fade in / fade out
@@ -83,9 +82,9 @@ bool SceneLogo::Draw(Render* render)
     return true;
 }
 
-bool SceneLogo::Unload()
+bool SceneLogo::Unload(Textures* tex, GuiManager* guiManager)
 {
-    logoTex = nullptr;
+    tex->UnLoad(logoTex);
 
     return true;
 }

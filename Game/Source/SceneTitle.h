@@ -3,13 +3,31 @@
 
 #include "Scene.h"
 #include "Animation.h"
-#include "Point.h"
 
 class GuiButton;
 class Font;
 class Window;
 
 #include "SDL/include/SDL.h"
+
+enum class MenuSelection
+{
+    NONE,
+    START,
+    CONTINUE,
+    SETTINGS,
+    CREDITS,
+    EXIT
+};
+
+//enum class SettingsSelection
+//{
+//    NONE,
+//    MUSICVOLUME,
+//    FXVOLUME,
+//    FULLSCREEN,
+//    VSYNC
+//};
 
 class SceneTitle : public Scene
 {
@@ -33,8 +51,8 @@ private:
 
     GuiButton* btnStart;
     GuiButton* btnContinue;
-    GuiButton* btnCredits;
     GuiButton* btnOptions;
+    GuiButton* btnCredits;
     GuiButton* btnExit;
 
     SDL_Texture* backgroundTex;
@@ -42,17 +60,15 @@ private:
 
     SDL_Texture* guiAtlasTex;
 
-    // Mouse Cursor attributes
-    SDL_Rect mouseRect[2];
-    iPoint mousePos;
-    bool clicking;
-
     Animation backgroundAnim;
 
     Font* titleFont;
     Font* buttonFont;
 
     Window* win;
+
+    MenuSelection menuCurrentSelection = MenuSelection::NONE;
+    //SettingsSelection settingsCurrentSelection = SettingsSelection::NONE;
 };
 
 #endif // __SCENETITLE_H__

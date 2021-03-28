@@ -5,8 +5,6 @@ GuiButton::GuiButton(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(
     this->bounds = bounds;
     this->text = text;
 
-    whiteButton = { 0,0,190,49 };
-    brownButton = { 0,49,190,49 };
     greyButton = { 0,188,190,49 };
     yellowButton = { 0,282,190,49 };
     yellowButtonPressed = { 0, 237, 190, 45 };
@@ -38,6 +36,7 @@ bool GuiButton::Update(Input* input, float dt)
             {
                 state = GuiControlState::PRESSED;
                 // Audio Fx when clicked
+                //audio->PlayFx(clickFx);
             }
 
             // If mouse button pressed -> Generate event!
@@ -46,7 +45,11 @@ bool GuiButton::Update(Input* input, float dt)
                 NotifyObserver();
             }
         }
-        else state = GuiControlState::NORMAL;
+        else
+        {
+            state = GuiControlState::NORMAL;
+            //isFocusing = false;
+        }
     }
 
     return true;

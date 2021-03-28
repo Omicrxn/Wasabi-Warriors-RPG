@@ -21,8 +21,6 @@ private:
     // Gui Button specific properties
     // Maybe some animation properties for state change?
 
-    SDL_Rect whiteButton;
-    SDL_Rect brownButton;
     SDL_Rect greyButton;
     SDL_Rect yellowButton;
     SDL_Rect yellowButtonPressed;
