@@ -3,10 +3,12 @@
 
 #include "Scene.h"
 #include "Animation.h"
+#include "Point.h"
 
-#include "GuiButton.h"
-
+class GuiButton;
 class Font;
+
+#include "SDL/include/SDL.h"
 
 class SceneTitle : public Scene
 {
@@ -15,13 +17,13 @@ public:
     SceneTitle();
     virtual ~SceneTitle();
 
-    bool Load(Textures* tex, GuiManager* guiman);
+    bool Load(Textures* tex, GuiManager* guiManager);
 
     bool Update(Input* input, float dt);
 
     bool Draw(Render* render);
 
-    bool Unload(Textures* tex);
+    bool Unload(Textures* tex, GuiManager* guiManager);
 
     // Declare on mouse click event
     bool OnGuiMouseClickEvent(GuiControl* control);
@@ -29,16 +31,23 @@ public:
 private:
 
     GuiButton* btnStart;
+    GuiButton* btnContinue;
     GuiButton* btnCredits;
+    GuiButton* btnOptions;
     GuiButton* btnExit;
 
-private:
     SDL_Texture* backgroundTex;
+    SDL_Rect backgroundRect;
 
-private:
+    SDL_Texture* guiAtlasTex;
+
+    // Mouse Cursor attributes
+    SDL_Rect mouseRect[2];
+    iPoint mousePos;
+    bool clicking;
+
     Animation backgroundAnim;
 
-private:
     Font* font;
 };
 

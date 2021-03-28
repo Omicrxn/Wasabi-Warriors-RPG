@@ -21,7 +21,7 @@ bool GuiManager::Awake(pugi::xml_node&)
 	return true;
 }
 
-GuiControl* GuiManager::CreateGuiControl(GuiControlType type, uint32 id, SDL_Rect bounds)
+GuiControl* GuiManager::CreateGuiControl(GuiControlType type, uint32 id, SDL_Rect bounds, const char* text)
 {
 	GuiControl* control = nullptr;
 
@@ -30,7 +30,7 @@ GuiControl* GuiManager::CreateGuiControl(GuiControlType type, uint32 id, SDL_Rec
 		// Create the corresponding GuiControl type
 		//case GuiControlType::BUTTON: control = new GuiButton(1234);  break;
 		case GuiControlType::BUTTON:
-			control = new GuiButton(id, bounds);
+			control = new GuiButton(id, bounds, text);
 			break;
 		//case GuiControlType::CHECKBOX:
 		//	control = new GuiCheckBox(id, bounds);
@@ -64,6 +64,9 @@ bool GuiManager::Update(float dt)
 	accumulatedTime += dt;
 	if (accumulatedTime >= updateMsCycle) doLogic = true;
 
+	if (input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+		debugDraw = !debugDraw;
+
 	UpdateAll(dt, doLogic);
 
 	DrawAll();
@@ -92,7 +95,7 @@ void GuiManager::DrawAll()
 {
 	for (int i = 0; i < controls.Count(); i++)
 	{
-		controls[i]->Draw(this->render);
+		controls[i]->Draw(this->render, debugDraw);
 	}
 }
 

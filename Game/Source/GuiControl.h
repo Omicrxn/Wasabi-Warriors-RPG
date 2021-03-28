@@ -32,10 +32,11 @@ public:
 
     GuiControl(GuiControlType type, uint32 id) : type(type), id(id), state(GuiControlState::NORMAL) {}
 
-    GuiControl(GuiControlType type, SDL_Rect bounds) :
+    GuiControl(GuiControlType type, SDL_Rect bounds, const char* text) :
         type(type),
         state(GuiControlState::NORMAL),
-        bounds(bounds)
+        bounds(bounds),
+        text(text)
     {
         texture = NULL;
     }
@@ -45,7 +46,7 @@ public:
         return true;
     }
 
-    virtual bool Draw(Render* render) const
+    virtual bool Draw(Render* render, bool debugDraw)
     {
         return true;
     }
@@ -53,6 +54,11 @@ public:
     void SetTexture(SDL_Texture* tex)
     {
         texture = tex;
+    }
+
+    void SetFont(Font* font)
+    {
+        this->font = font;
     }
 
     void SetObserver(Scene* module)
@@ -71,9 +77,12 @@ public:
     GuiControlType type;
     GuiControlState state;
 
+    SString text;
     SDL_Rect bounds;        // Position and size
 
     SDL_Texture* texture;   // Texture atlas reference
+
+    Font* font;
 
     Scene* observer;        // Observer module (it should probably be an array/list)
 };
