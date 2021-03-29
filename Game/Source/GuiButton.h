@@ -13,6 +13,8 @@ public:
     bool Update(Input* input, AudioManager* audio, float dt);
     bool Draw(Render* render, bool debugDraw);
 
+    void SetButtonAudioFx(int hoverFx, int clickFx);
+
 private:
 
     // Gui Button specific properties
@@ -21,6 +23,13 @@ private:
     SDL_Rect greyButton;
     SDL_Rect yellowButton;
     SDL_Rect yellowButtonPressed;
+
+    SDL_Rect arrowLeft;
+    SDL_Rect arrowRight;
+
+    bool isFocusing;
+
+    int hoverFx, clickFx;
 };
 
 #endif // __GUIBUTTON_H__

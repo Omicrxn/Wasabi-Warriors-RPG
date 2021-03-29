@@ -11,6 +11,8 @@
 
 #include "SDL/include/SDL.h"
 
+#define TITLE_FADE_SPEED 0.05f
+
 SceneTitle::SceneTitle()
 {
     type = SceneType::TITLE;
@@ -33,6 +35,9 @@ SceneTitle::SceneTitle()
 
     menuCurrentSelection = MenuSelection::NONE;
     //settingsCurrentSelection = SettingsSelection::NONE;
+
+    hoverFx = -1;
+    clickFx = -1;
 }
 
 SceneTitle::~SceneTitle()
@@ -51,6 +56,9 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
 
     guiAtlasTex = tex->Load("Assets/Textures/UI/Elements/ui_spritesheet.png");
 
+    hoverFx = audio->LoadFx("Assets/Audio/Fx/bong.ogg");
+    clickFx = audio->LoadFx("Assets/Audio/Fx/click.ogg");
+
     uint width, height;
     win->GetWindowSize(width, height);
     
@@ -58,26 +66,31 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
     btnStart->SetObserver(this);
     btnStart->SetTexture(guiAtlasTex);
     btnStart->SetFont(buttonFont);
+    btnStart->SetButtonAudioFx(hoverFx, clickFx);
 
     btnContinue = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 2, { (int)width / 2 - (int)((float)width / 12), 300, 190, 49 }, "CONTINUE");
     btnContinue->SetObserver(this);
     btnContinue->SetTexture(guiAtlasTex);
     btnContinue->SetFont(buttonFont);
+    btnContinue->SetButtonAudioFx(hoverFx, clickFx);
 
     btnOptions = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 3, { (int)width / 2 - (int)((float)width / 12), 400, 190, 49 }, "OPTIONS");
     btnOptions->SetObserver(this);
     btnOptions->SetTexture(guiAtlasTex);
     btnOptions->SetFont(buttonFont);
+    btnOptions->SetButtonAudioFx(hoverFx, clickFx);
 
     btnCredits = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 4, { (int)width / 2 - (int)((float)width / 12), 500, 190, 49 }, "CREDITS");
     btnCredits->SetObserver(this);
     btnCredits->SetTexture(guiAtlasTex);
     btnCredits->SetFont(buttonFont);
+    btnCredits->SetButtonAudioFx(hoverFx, clickFx);
 
     btnExit = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 5, { (int)width / 2 - (int)((float)width / 12), 600, 190, 49 }, "EXIT");
     btnExit->SetObserver(this);
     btnExit->SetTexture(guiAtlasTex);
     btnExit->SetFont(buttonFont);
+    btnExit->SetButtonAudioFx(hoverFx, clickFx);
 
     return true;
 }
@@ -86,7 +99,7 @@ bool SceneTitle::Update(Input* input, float dt)
 {
     if (input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) TransitionToScene(SceneType::GAMEPLAY);
 
-    backgroundAnim.Update();
+    //backgroundAnim.Update();
 
     if (menuCurrentSelection == MenuSelection::START)
         TransitionToScene(SceneType::GAMEPLAY);
@@ -103,6 +116,8 @@ bool SceneTitle::Draw(Render* render)
 
     uint width, height;
     win->GetWindowSize(width, height);
+
+    render->DrawText(titleFont, "Wasabi Warriors", width / 2 - width / 2.5f + 3, height / 2 - height / 2.5f + 3, 125, 0, { 105, 105, 105, 255 });
     render->DrawText(titleFont, "Wasabi Warriors", width / 2 - width / 2.5f, height / 2 - height / 2.5f, 125, 0, { 255, 255, 255, 255 });
     
     return true;

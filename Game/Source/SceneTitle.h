@@ -60,7 +60,7 @@ private:
 
     SDL_Texture* guiAtlasTex;
 
-    Animation backgroundAnim;
+    //Animation backgroundAnim;
 
     Font* titleFont;
     Font* buttonFont;
@@ -69,6 +69,9 @@ private:
 
     MenuSelection menuCurrentSelection = MenuSelection::NONE;
     //SettingsSelection settingsCurrentSelection = SettingsSelection::NONE;
+
+    // Audio Fx for buttons
+    int hoverFx, clickFx;
 };
 
 #endif // __SCENETITLE_H__
