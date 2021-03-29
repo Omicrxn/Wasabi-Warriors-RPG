@@ -38,6 +38,8 @@ SceneTitle::SceneTitle()
 
     hoverFx = -1;
     clickFx = -1;
+
+    controllerFocus = 0;
 }
 
 SceneTitle::~SceneTitle()
@@ -101,6 +103,48 @@ bool SceneTitle::Update(Input* input, float dt)
 
     //backgroundAnim.Update();
 
+    if (input->pads[0].enabled)
+    {
+        if (input->pads[0].up && controllerFocus >= 1 || input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
+            --controllerFocus;
+        else if (input->pads[0].down && controllerFocus <= 3 || input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
+            ++controllerFocus;
+
+        switch (controllerFocus)
+        {
+        case 0:
+            btnContinue->gamepadFocus = false;
+
+            btnStart->gamepadFocus = true;
+            break;
+        case 1:
+            btnStart->gamepadFocus = false;
+            btnOptions->gamepadFocus = false;
+
+            btnContinue->gamepadFocus = true;
+            break;
+        case 2:
+            btnContinue->gamepadFocus = false;
+            btnCredits->gamepadFocus = false;
+
+            btnOptions->gamepadFocus = true;
+            break;
+        case 3:
+            btnOptions->gamepadFocus = false;
+            btnExit->gamepadFocus = false;
+
+            btnCredits->gamepadFocus = true;
+            break;
+        case 4:
+            btnCredits->gamepadFocus = false;
+
+            btnExit->gamepadFocus = true;
+            break;
+        default:
+            break;
+        }
+    }
+
     if (menuCurrentSelection == MenuSelection::START)
         TransitionToScene(SceneType::GAMEPLAY);
     else if (menuCurrentSelection == MenuSelection::CONTINUE)
@@ -151,9 +195,10 @@ bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
     {
         if (control->id == 1) menuCurrentSelection = MenuSelection::START;
         else if (control->id == 2) menuCurrentSelection = MenuSelection::CONTINUE;
-        else if(control->id == 3) menuCurrentSelection = MenuSelection::SETTINGS;
+        else if (control->id == 3) menuCurrentSelection = MenuSelection::SETTINGS;
         else if (control->id == 4) menuCurrentSelection = MenuSelection::CREDITS;
         else if (control->id == 5) menuCurrentSelection = MenuSelection::EXIT;
+        break;
     }
     default: break;
     }

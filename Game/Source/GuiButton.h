@@ -15,6 +15,10 @@ public:
 
     void SetButtonAudioFx(int hoverFx, int clickFx);
 
+public:
+
+    bool gamepadFocus;
+
 private:
 
     // Gui Button specific properties

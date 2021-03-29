@@ -72,6 +72,9 @@ private:
 
     // Audio Fx for buttons
     int hoverFx, clickFx;
+
+    // Gamepad's menu focused button
+    uint controllerFocus;
 };
 
 #endif // __SCENETITLE_H__

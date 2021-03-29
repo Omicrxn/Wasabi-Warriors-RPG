@@ -13,6 +13,7 @@ GuiButton::GuiButton(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(
     arrowRight = { 171,486,22,21 };
 
     isFocusing = false;
+    gamepadFocus = false;
 
     hoverFx = -1;
     clickFx = -1;
@@ -36,8 +37,11 @@ bool GuiButton::Update(Input* input, AudioManager* audio, float dt)
         input->GetMousePosition(mouseX, mouseY);
 
         // Check collision between mouse and button bounds
-        if ((mouseX > bounds.x) && (mouseX < (bounds.x + bounds.w)) && 
-            (mouseY > bounds.y) && (mouseY < (bounds.y + bounds.h)))
+        if (
+            (mouseX > bounds.x) && (mouseX < (bounds.x + bounds.w)) && 
+            (mouseY > bounds.y) && (mouseY < (bounds.y + bounds.h)) 
+            || (gamepadFocus == true)
+            )
         {
             state = GuiControlState::FOCUSED;
             
@@ -47,7 +51,7 @@ bool GuiButton::Update(Input* input, AudioManager* audio, float dt)
                 audio->PlayFx(hoverFx);
             }
 
-            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT) // && gamepad.A
+            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT || input->pads[0].a)
             {
                 state = GuiControlState::PRESSED;
             }
@@ -58,7 +62,7 @@ bool GuiButton::Update(Input* input, AudioManager* audio, float dt)
             //}
 
             // If mouse button pressed -> Generate event!
-            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_UP)
+            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_UP || input->pads[0].a)
             {
                 NotifyObserver();
                 // Audio Fx when clicked
