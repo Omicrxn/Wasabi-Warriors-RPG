@@ -6,13 +6,14 @@
 
 #include "Textures.h"
 
-GuiManager::GuiManager(Input* input, Render* render, Textures* tex)
+GuiManager::GuiManager(Input* input, Render* render, Textures* tex, AudioManager* audio)
 {
 	name.Create("guimanager");
 
 	this->input = input;
 	this->render = render;
 	this->tex = tex;
+	this->audio = audio;
 
 	guiAtlasTex = nullptr;
 	mousePos = { 0,0 };
@@ -114,7 +115,7 @@ void GuiManager::UpdateAll(float dt, bool doLogic)
 	{
 		for (int i = 0; i < controls.Count(); i++)
 		{
-			controls[i]->Update(this->input, dt);
+			controls[i]->Update(this->input, this->audio, dt);
 		}
 	}
 }

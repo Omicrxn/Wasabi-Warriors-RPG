@@ -9,6 +9,7 @@ class GuiButton;
 class Input;
 class Render;
 class Textures;
+class AudioManager;
 class EntityManager;
 class GuiManager;
 class Window;
@@ -17,7 +18,7 @@ class SceneManager : public Module
 {
 public:
 
-	SceneManager(Input* input, Render* render, Textures* tex, Window* win, EntityManager* entityman, GuiManager* guiManager);
+	SceneManager(Input* input, Render* render, Textures* tex, Window* win, AudioManager* audio, EntityManager* entityman, GuiManager* guiManager);
 
 	// Destructor
 	virtual ~SceneManager();
@@ -45,6 +46,7 @@ private:
 	Input* input;
 	Render* render;
 	Textures* tex;
+	AudioManager* audio;
 	EntityManager* entityman;
 	GuiManager* guiManager;
 	Window* win;

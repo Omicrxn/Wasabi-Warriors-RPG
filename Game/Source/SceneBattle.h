@@ -13,13 +13,13 @@ public:
     SceneBattle();
     virtual ~SceneBattle();
 
-    bool Load(Textures* tex);
+    bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityman);
 
     bool Update(Input* input, float dt);
 
     bool Draw(Render* render);
 
-    bool Unload();
+    bool Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager);
 
 private:
 

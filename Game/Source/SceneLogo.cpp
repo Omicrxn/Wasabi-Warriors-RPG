@@ -25,7 +25,7 @@ SceneLogo::~SceneLogo()
 {
 }
 
-bool SceneLogo::Load(Textures* tex, Window* win, GuiManager* guiManager)
+bool SceneLogo::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager)
 {
     logoTex = tex->Load("Assets/Textures/Scenes/logo_scene.png");
 
@@ -82,7 +82,7 @@ bool SceneLogo::Draw(Render* render)
     return true;
 }
 
-bool SceneLogo::Unload(Textures* tex, GuiManager* guiManager)
+bool SceneLogo::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager)
 {
     tex->UnLoad(logoTex);
 

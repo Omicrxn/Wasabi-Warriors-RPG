@@ -6,6 +6,7 @@
 class Input;
 class Render;
 class Textures;
+class AudioManager;
 class EntityManager;
 class GuiManager;
 class Window;
@@ -27,11 +28,11 @@ public:
 
     Scene() : active(true), loaded(false), transitionRequired(false) {}
 
-    virtual bool Load(Textures* tex, Window* win, GuiManager* guiManager)
+    virtual bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager)
     {
         return true;
     }
-    virtual bool Load(Textures* tex, Window* win, GuiManager* guiManager, EntityManager* entityman)
+    virtual bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityman)
     {
         return true;
     }
@@ -46,7 +47,7 @@ public:
         return true;
     }
 
-    virtual bool Unload(Textures* tex, GuiManager* guiManager)
+    virtual bool Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager)
     {
         return true;
     }

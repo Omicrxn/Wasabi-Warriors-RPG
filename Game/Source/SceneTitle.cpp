@@ -39,7 +39,7 @@ SceneTitle::~SceneTitle()
 {
 }
 
-bool SceneTitle::Load(Textures* tex, Window* win, GuiManager* guiManager)
+bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager)
 {
     this->win = win;
 
@@ -92,8 +92,7 @@ bool SceneTitle::Update(Input* input, float dt)
         TransitionToScene(SceneType::GAMEPLAY);
     else if (menuCurrentSelection == MenuSelection::CONTINUE)
         TransitionToScene(SceneType::GAMEPLAY);
-    else if (menuCurrentSelection == MenuSelection::EXIT)
-        //return false;
+    //else if (menuCurrentSelection == MenuSelection::EXIT)
 
     return true;
 }
@@ -109,7 +108,7 @@ bool SceneTitle::Draw(Render* render)
     return true;
 }
 
-bool SceneTitle::Unload(Textures* tex, GuiManager* guiManager)
+bool SceneTitle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager)
 {
     tex->UnLoad(backgroundTex);
     tex->UnLoad(guiAtlasTex);

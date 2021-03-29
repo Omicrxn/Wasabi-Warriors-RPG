@@ -14,7 +14,7 @@ GuiButton::~GuiButton()
 {
 }
 
-bool GuiButton::Update(Input* input, float dt)
+bool GuiButton::Update(Input* input, AudioManager* audio, float dt)
 {
     if (state != GuiControlState::DISABLED)
     {

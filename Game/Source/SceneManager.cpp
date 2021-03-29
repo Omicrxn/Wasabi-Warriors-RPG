@@ -10,9 +10,9 @@
 #include "Render.h"
 #include "Textures.h"
 #include "Window.h"
+#include "Audio.h"
 #include "EntityManager.h"
-
-#include "GuiButton.h"
+#include "GuiManager.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -22,7 +22,7 @@
 #define FADEOUT_TRANSITION_SPEED	2.0f
 #define FADEIN_TRANSITION_SPEED		2.0f
 
-SceneManager::SceneManager(Input* input, Render* render, Textures* tex, Window* win, EntityManager* entityman, GuiManager* guiManager) : Module()
+SceneManager::SceneManager(Input* input, Render* render, Textures* tex, Window* win, AudioManager* audio, EntityManager* entityman, GuiManager* guiManager) : Module()
 {
 	name.Create("scenemanager");
 
@@ -34,6 +34,7 @@ SceneManager::SceneManager(Input* input, Render* render, Textures* tex, Window* 
 	this->render = render;
 	this->tex = tex;
 	this->win = win;
+	this->audio = audio;
 	this->entityman = entityman;
 	this->guiManager = guiManager;
 }
@@ -57,11 +58,11 @@ bool SceneManager::Start()
 	current = new SceneLogo();
 	if (current->type == SceneType::GAMEPLAY)
 	{
-		current->Load(tex, win, guiManager, entityman);
+		current->Load(tex, win, audio, guiManager, entityman);
 	}
 	else 
 	{
-		current->Load(tex, win, guiManager);
+		current->Load(tex, win, audio, guiManager);
 	}
 
 	next = nullptr;
@@ -94,14 +95,14 @@ bool SceneManager::Update(float dt)
 			{
 				transitionAlpha = 1.0f;
 
-				current->Unload(tex, guiManager);	// Unload current screen
+				current->Unload(tex, audio, guiManager);	// Unload current screen
 				if (next->type == SceneType::GAMEPLAY)
 				{
-					next->Load(tex, win, guiManager, entityman);	// Load next screen
+					next->Load(tex, win, audio, guiManager, entityman);	// Load next screen
 				}
 				else
 				{
-					next->Load(tex, win, guiManager);	// Load next screen
+					next->Load(tex, win, audio, guiManager);	// Load next screen
 				}
 
 				RELEASE(current);	// Free current pointer
@@ -170,7 +171,7 @@ bool SceneManager::CleanUp()
 {
 	LOG("Freeing scene");
 
-	if (current != nullptr) current->Unload(tex, guiManager);
+	if (current != nullptr) current->Unload(tex, audio, guiManager);
 
 	return true;
 }

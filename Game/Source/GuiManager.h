@@ -14,7 +14,7 @@ class GuiManager : public Module
 {
 public:
 
-	GuiManager(Input* input, Render* render, Textures* tex);
+	GuiManager(Input* input, Render* render, Textures* tex, AudioManager* audio);
 
 	// Destructor
 	virtual ~GuiManager();
@@ -53,6 +53,7 @@ public:
 	Input* input;
 	Render* render;
 	Textures* tex;
+	AudioManager* audio;
 
 	SDL_Texture* guiAtlasTex;
 

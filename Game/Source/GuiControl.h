@@ -4,6 +4,7 @@
 #include "Input.h"
 #include "Render.h"
 #include "Scene.h"
+#include "Audio.h"
 
 #include "Point.h"
 #include "SString.h"
@@ -41,7 +42,7 @@ public:
         texture = NULL;
     }
 
-    virtual bool Update(Input* input, float dt)
+    virtual bool Update(Input* input, AudioManager* audio, float dt)
     {
         return true;
     }

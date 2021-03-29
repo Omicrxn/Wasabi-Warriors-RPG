@@ -12,7 +12,7 @@ SceneEnding::~SceneEnding()
 {
 }
 
-bool SceneEnding::Load(Textures* tex)
+bool SceneEnding::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager)
 {
     return false;
 }
@@ -31,7 +31,7 @@ bool SceneEnding::Draw(Render* render)
     return false;
 }
 
-bool SceneEnding::Unload()
+bool SceneEnding::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager)
 {
     return false;
 }

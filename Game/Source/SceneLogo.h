@@ -12,13 +12,13 @@ public:
     SceneLogo();
     virtual ~SceneLogo();
 
-    bool Load(Textures* tex, Window* win, GuiManager* guiman);
+    bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiman);
 
     bool Update(Input* input, float dt);
 
     bool Draw(Render* render);
 
-    bool Unload(Textures* tex, GuiManager* guiManager);
+    bool Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager);
 
 private:
 

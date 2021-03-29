@@ -30,8 +30,8 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	tex = new Textures(render);
 	audio = new AudioManager();
 	entityManager = new EntityManager(input, render,tex);
-	guiManager = new GuiManager(input, render, tex);
-	sceneManager = new SceneManager(input, render, tex, win, entityManager, guiManager);
+	guiManager = new GuiManager(input, render, tex, audio);
+	sceneManager = new SceneManager(input, render, tex, win, audio, entityManager, guiManager);
 	
 
 	// Ordered for awake / Start / Update

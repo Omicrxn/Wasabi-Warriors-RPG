@@ -12,7 +12,7 @@ SceneBattle::~SceneBattle()
 {
 }
 
-bool SceneBattle::Load(Textures* tex)
+bool SceneBattle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityman)
 {
 	return true;
 }
@@ -28,7 +28,7 @@ bool SceneBattle::Draw(Render* render)
 	return true;
 }
 
-bool SceneBattle::Unload()
+bool SceneBattle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager)
 {
 	return false;
 }

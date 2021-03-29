@@ -36,13 +36,13 @@ public:
     SceneTitle();
     virtual ~SceneTitle();
 
-    bool Load(Textures* tex, Window* win, GuiManager* guiManager);
+    bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager);
 
     bool Update(Input* input, float dt);
 
     bool Draw(Render* render);
 
-    bool Unload(Textures* tex, GuiManager* guiManager);
+    bool Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager);
 
     // Declare on mouse click event
     bool OnGuiMouseClickEvent(GuiControl* control);

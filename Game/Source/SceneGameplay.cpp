@@ -13,13 +13,13 @@ SceneGameplay::~SceneGameplay()
 {
 }
 
-bool SceneGameplay::Load(Textures* tex, Window*win, GuiManager* guiManager, EntityManager* entityManager)
+bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager)
 {
 	map = (Map*)entityManager->CreateEntity(EntityType::MAP);
-	
+
 	// L03: DONE: Load map
 	// L12b: Create walkability map on map loading
-	if (map->Load("Cemetery","Cemetery.tmx") == true)
+	if (map->Load("Cemetery", "Cemetery.tmx") == true)
 	{
 		int w, h;
 		uchar* data = NULL;
@@ -41,7 +41,7 @@ bool SceneGameplay::Load(Textures* tex, Window*win, GuiManager* guiManager, Enti
 	players.At(0)->data->SetTexture(texture, 3);
 	currentPlayer = players.At(0)->data;
 
-    return false;
+	return false;
 }
 
 inline bool CheckCollision(SDL_Rect rec1, SDL_Rect rec2)
@@ -69,11 +69,11 @@ bool SceneGameplay::Draw(Render* render)
     return false;
 }
 
-bool SceneGameplay::Unload(Textures* tex)
+bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager)
 {
 	// TODO: Unload all resources
 	map->CleanUp();
 	tex->UnLoad(texture);
 
-    return false;
+	return false;
 }

@@ -3,9 +3,6 @@
 
 #include "GuiControl.h"
 
-#include "Point.h"
-#include "SString.h"
-
 class GuiButton : public GuiControl
 {
 public:
@@ -13,7 +10,7 @@ public:
     GuiButton(uint32 id, SDL_Rect bounds, const char* text);
     virtual ~GuiButton();
 
-    bool Update(Input* input, float dt);
+    bool Update(Input* input, AudioManager* audio, float dt);
     bool Draw(Render* render, bool debugDraw);
 
 private:
