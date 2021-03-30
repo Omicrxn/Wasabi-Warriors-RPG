@@ -103,45 +103,46 @@ bool SceneTitle::Update(Input* input, float dt)
 
     //backgroundAnim.Update();
 
-    if (((input->pads[0].enabled && input->pads[0].up) || input->GetKey(SDL_SCANCODE_W) == KEY_DOWN) &&
-        controllerFocus >= 1)
-        --controllerFocus;
-    else if (((input->pads[0].enabled && input->pads[0].down) || input->GetKey(SDL_SCANCODE_S) == KEY_DOWN) &&
-        controllerFocus <= 3)
-        ++controllerFocus;
-
-    switch (controllerFocus)
+    if (input->pads[0].enabled)
     {
-    case 0:
-        btnContinue->gamepadFocus = false;
+        if (input->pads[0].up && controllerFocus >= 1 || input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
+            --controllerFocus;
+        else if (input->pads[0].down && controllerFocus <= 3 || input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
+            ++controllerFocus;
 
-        btnStart->gamepadFocus = true;
-        break;
-    case 1:
-        btnStart->gamepadFocus = false;
-        btnOptions->gamepadFocus = false;
+        switch (controllerFocus)
+        {
+        case 0:
+            btnContinue->gamepadFocus = false;
 
-        btnContinue->gamepadFocus = true;
-        break;
-    case 2:
-        btnContinue->gamepadFocus = false;
-        btnCredits->gamepadFocus = false;
+            btnStart->gamepadFocus = true;
+            break;
+        case 1:
+            btnStart->gamepadFocus = false;
+            btnOptions->gamepadFocus = false;
 
-        btnOptions->gamepadFocus = true;
-        break;
-    case 3:
-        btnOptions->gamepadFocus = false;
-        btnExit->gamepadFocus = false;
+            btnContinue->gamepadFocus = true;
+            break;
+        case 2:
+            btnContinue->gamepadFocus = false;
+            btnCredits->gamepadFocus = false;
 
-        btnCredits->gamepadFocus = true;
-        break;
-    case 4:
-        btnCredits->gamepadFocus = false;
+            btnOptions->gamepadFocus = true;
+            break;
+        case 3:
+            btnOptions->gamepadFocus = false;
+            btnExit->gamepadFocus = false;
 
-        btnExit->gamepadFocus = true;
-        break;
-    default:
-        break;
+            btnCredits->gamepadFocus = true;
+            break;
+        case 4:
+            btnCredits->gamepadFocus = false;
+
+            btnExit->gamepadFocus = true;
+            break;
+        default:
+            break;
+        }
     }
 
     if (menuCurrentSelection == MenuSelection::START)
