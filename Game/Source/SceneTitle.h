@@ -49,6 +49,8 @@ public:
 
 private:
 
+    GuiManager* guiManager;
+
     GuiButton* btnStart;
     GuiButton* btnContinue;
     GuiButton* btnOptions;

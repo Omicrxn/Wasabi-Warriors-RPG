@@ -48,6 +48,8 @@ SceneTitle::~SceneTitle()
 
 bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager)
 {
+    audio->PlayMusic("Assets/Audio/Music/menu.ogg");
+
     this->win = win;
 
     titleFont = new Font("Assets/Fonts/shojumaru.xml", tex);
@@ -63,6 +65,8 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
 
     uint width, height;
     win->GetWindowSize(width, height);
+
+    this->guiManager = guiManager;
     
     btnStart = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, { (int)width / 2 - (int)((float)width / 12), 200, 190, 49 }, "START");
     btnStart->SetObserver(this);
@@ -105,12 +109,32 @@ bool SceneTitle::Update(Input* input, float dt)
 
     if (input->pads[0].enabled)
     {
-        if (input->pads[0].up && controllerFocus >= 1 || input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
+        /*if (input->pads[0].up && controllerFocus >= 1 || input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
             --controllerFocus;
         else if (input->pads[0].down && controllerFocus <= 3 || input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
+            ++controllerFocus;*/
+
+        /* Input */ 
+        if ( ((input->pads[0].up || input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)) && controllerFocus >= 1)
+            --controllerFocus;
+        else if ( ((input->pads[0].down|| input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)) && controllerFocus <= 3)
             ++controllerFocus;
 
-        switch (controllerFocus)
+        for (int i = 0; i < 5; ++i)
+        {
+            if (i != controllerFocus)
+            {
+                // SET GAMEPAD FOCUS TO FALSE
+                guiManager->controls.At(i)->data->gamepadFocus = false;
+            }
+            else
+            {
+                // SET GAMEPAD FOCUS TO TRUE
+                guiManager->controls.At(i)->data->gamepadFocus = true;
+            }
+        }
+
+        /*switch (controllerFocus)
         {
         case 0:
             btnContinue->gamepadFocus = false;
@@ -142,7 +166,7 @@ bool SceneTitle::Update(Input* input, float dt)
             break;
         default:
             break;
-        }
+        }*/
     }
 
     if (menuCurrentSelection == MenuSelection::START)

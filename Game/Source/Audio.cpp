@@ -55,6 +55,8 @@ bool AudioManager::Awake(pugi::xml_node& config)
 		ret = true;
 	}
 
+	Mix_VolumeMusic(MIX_MAX_VOLUME/4);
+
 	return ret;
 }
 
@@ -175,4 +177,28 @@ bool AudioManager::PlayFx(unsigned int id, int repeat)
 	}
 
 	return ret;
+}
+
+bool AudioManager::ChangeMusicVolume(int volume)
+{
+	Mix_VolumeMusic(volume);
+	return true;
+}
+
+bool AudioManager::ChangeFxVolume(int volume)
+{
+	ListItem<Mix_Chunk*>* item;
+	for (item = fx.start; item != NULL; item = item->next)
+		Mix_VolumeChunk(item->data, volume);
+	return false;
+}
+
+int AudioManager::GetMusicVolume()
+{
+	return Mix_VolumeMusic(-1);
+}
+
+int AudioManager::GetFxVolume()
+{
+	return Mix_VolumeChunk(fx.start->data, -1);
 }

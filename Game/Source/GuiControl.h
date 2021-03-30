@@ -75,6 +75,10 @@ public:
 
 public:
 
+    bool gamepadFocus;
+
+public:
+
     uint32 id;
     GuiControlType type;
     GuiControlState state;

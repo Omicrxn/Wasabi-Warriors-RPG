@@ -36,10 +36,33 @@ bool GuiButton::Update(Input* input, AudioManager* audio, float dt)
         int mouseX, mouseY;
         input->GetMousePosition(mouseX, mouseY);
 
+        // Check if gamepad is focusing the button
+        if (gamepadFocus && input->pads[0].enabled)
+        {
+            state = GuiControlState::FOCUSED;
+
+            if (!isFocusing)
+            {
+                isFocusing = true;
+                audio->PlayFx(hoverFx);
+            }
+
+            if (input->pads[0].a)
+            {
+                state = GuiControlState::PRESSED;
+            }
+
+            // If gamepad button pressed -> Generate event!
+            if (input->pads[0].a)
+            {
+                NotifyObserver();
+                // Audio Fx when clicked
+                audio->PlayFx(clickFx);
+            }
+        }
         // Check collision between mouse and button bounds
-        if ((mouseX > bounds.x) && (mouseX < (bounds.x + bounds.w)) && 
-            (mouseY > bounds.y) && (mouseY < (bounds.y + bounds.h)) 
-            || (gamepadFocus == true))
+        else if ((mouseX > bounds.x) && (mouseX < (bounds.x + bounds.w)) && 
+            (mouseY > bounds.y) && (mouseY < (bounds.y + bounds.h)) && !input->pads[0].enabled)
         {
             state = GuiControlState::FOCUSED;
             
@@ -49,18 +72,13 @@ bool GuiButton::Update(Input* input, AudioManager* audio, float dt)
                 audio->PlayFx(hoverFx);
             }
 
-            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT || input->pads[0].a)
+            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT)
             {
                 state = GuiControlState::PRESSED;
             }
 
-            //if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_DOWN) // && gamepad.A (?)
-            //{
-            //    state = GuiControlState::PRESSED;
-            //}
-
             // If mouse button pressed -> Generate event!
-            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_UP || input->pads[0].a)
+            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_UP)
             {
                 NotifyObserver();
                 // Audio Fx when clicked
@@ -71,6 +89,7 @@ bool GuiButton::Update(Input* input, AudioManager* audio, float dt)
         {
             state = GuiControlState::NORMAL;
             isFocusing = false;
+            gamepadFocus = false;
         }
     }
 
