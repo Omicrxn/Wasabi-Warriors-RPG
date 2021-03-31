@@ -191,15 +191,15 @@ int Input::GetAxisRaw(AxisName axisName)
 	switch (axisName)
 	{
 	case VERTICAL:
-		if (keyboard[SDL_SCANCODE_W] == KEY_REPEAT || keyboard[SDL_SCANCODE_UP] == KEY_REPEAT)
+		if (keyboard[SDL_SCANCODE_W] == KEY_REPEAT || keyboard[SDL_SCANCODE_UP] == KEY_REPEAT || pads[0].up)
 			axis = -1;
-		else if (keyboard[SDL_SCANCODE_S] == KEY_REPEAT || keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT)
+		else if (keyboard[SDL_SCANCODE_S] == KEY_REPEAT || keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT || pads[0].down)
 			axis = 1;
 		break;
 	case HORIZONTAL:
-		if (keyboard[SDL_SCANCODE_A] == KEY_REPEAT || keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT)
+		if (keyboard[SDL_SCANCODE_A] == KEY_REPEAT || keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT || pads[0].left)
 			axis = -1;
-		else if (keyboard[SDL_SCANCODE_D] == KEY_REPEAT || keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT)
+		else if (keyboard[SDL_SCANCODE_D] == KEY_REPEAT || keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT || pads[0].right)
 			axis = 1;
 		break;
 	default:

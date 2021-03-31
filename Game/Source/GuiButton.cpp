@@ -56,7 +56,7 @@ bool GuiButton::Update(Input* input, AudioManager* audio, float dt)
             if (input->pads[0].a)
             {
                 NotifyObserver();
-                // Audio Fx when clicked
+                // Audio Fx when pressed
                 audio->PlayFx(clickFx);
             }
         }

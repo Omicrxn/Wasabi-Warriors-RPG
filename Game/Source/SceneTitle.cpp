@@ -48,9 +48,9 @@ SceneTitle::~SceneTitle()
 
 bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager)
 {
-    audio->PlayMusic("Assets/Audio/Music/menu.ogg");
-
     this->win = win;
+
+    audio->PlayMusic("Assets/Audio/Music/menu.ogg");
 
     titleFont = new Font("Assets/Fonts/shojumaru.xml", tex);
     buttonFont = new Font("Assets/Fonts/showg.xml", tex);
@@ -103,7 +103,7 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
 
 bool SceneTitle::Update(Input* input, float dt)
 {
-    if (input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) TransitionToScene(SceneType::GAMEPLAY);
+    if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN) TransitionToScene(SceneType::GAMEPLAY);
 
     //backgroundAnim.Update();
 
