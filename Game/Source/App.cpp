@@ -32,7 +32,6 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	entityManager = new EntityManager(input, render,tex);
 	guiManager = new GuiManager(input, render, tex, audio);
 	sceneManager = new SceneManager(input, render, tex, win, audio, entityManager, guiManager);
-	
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp

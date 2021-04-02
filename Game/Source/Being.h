@@ -8,6 +8,7 @@
 class Stats
 {
 public:
+
 	Stats() 
 	{
 		name = {};

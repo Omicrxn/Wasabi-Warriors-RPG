@@ -1,14 +1,21 @@
 #include "BattleSystem.h"
 
+BattleSystem* BattleSystem::instance = nullptr;
+
+BattleSystem* BattleSystem::GetInstance()
+{
+	if (instance == nullptr)
+	{
+		instance = new BattleSystem();
+	}
+
+	return instance;
+}
+
 BattleSystem::BattleSystem()
 {
-	battleState = BattleState::START;
+	battleState = BattleState::PLAYER_TURN;
 	battleGUIState = BattleGUIState::NONE;
-	battleGUIStateRegister[0] = BattleGUIState::ATTACK;
-	battleGUIStateRegister[1] = BattleGUIState::DEFEND;
-	battleGUIStateRegister[2] = BattleGUIState::ITEM;
-	battleGUIStateRegister[3] = BattleGUIState::RUN;
-	battleGUIPosition = 1;
 
 	// Right now we only have one party member implemented
 	numPlayers = 1;
@@ -27,20 +34,7 @@ bool BattleSystem::Update(Input* input)
 		Start();
 		break;
 	case BattleState::PLAYER_TURN:
-		if (input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN)
-			battleGUIPosition -= 1;
-		if (input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
-			battleGUIPosition += 1;
-
-		if (battleGUIPosition > 3)
-			battleGUIPosition = 0;
-		else if (battleGUIPosition < 0)
-			battleGUIPosition = 3;
-
-		battleGUIState = battleGUIStateRegister[battleGUIPosition];
-
-		if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
-			PlayerTurn();
+		PlayerTurn();
 		break;
 	case BattleState::ENEMY_TURN:
 		EnemyTurn();
@@ -63,13 +57,11 @@ bool BattleSystem::Update(Input* input)
 
 void BattleSystem::SetupBattle(List<Player*> players, Enemy* enemy)
 {
+	// Register fighters in the battle system
 	this->players = players;
 	currentPlayer = players.At(0)->data;
 	this->enemy = enemy;
-}
 
-void BattleSystem::Start()
-{
 	// Play animations of the fighters (not necessary for the vertical slice)
 	// Display introductory text
 	// Change state to the fighter with most speed
@@ -86,6 +78,11 @@ void BattleSystem::Start()
 		battleState = BattleState::PLAYER_TURN;
 	else
 		battleState = BattleState::ENEMY_TURN;
+}
+
+bool BattleSystem::Start()
+{
+	return true;
 }
 
 void BattleSystem::PlayerTurn()
@@ -127,11 +124,14 @@ void BattleSystem::PlayerTurn()
 	}
 
 	// Set as the current player the next party member (if it's available)
-	for (int i = 0; i < 4; i++)
+	/*for (int i = 0; i < 4; i++)
 	{
 		if (players.At(i)->data->stats.name == currentPlayer->stats.name)
-			currentPlayer = players.At(i)->next->data;
-	}
+		{
+			if (players.At(i)->next->data != nullptr)
+				currentPlayer = players.At(i)->next->data;
+		}
+	}*/
 }
 
 void BattleSystem::EnemyTurn()
@@ -176,4 +176,14 @@ void BattleSystem::Lost()
 {
 	// Display loser text
 	// Get out of the battle screen and return to the gameplay screen
+}
+
+Player* BattleSystem::GetPlayer()
+{
+	return currentPlayer;
+}
+
+Enemy* BattleSystem::GetEnemy()
+{
+	return enemy;
 }

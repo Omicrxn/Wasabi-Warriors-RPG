@@ -11,6 +11,17 @@ Player::Player(Textures* tex) : Being()
     height = 32;
     direction = { 0,0 };
     // Define Player animations
+
+    // Define player parameters
+    this->stats.name = "Player";
+    this->stats.level = 1;
+    this->stats.damage = 10;
+    this->stats.maxHP = 120;
+    this->stats.currentHP = 100;
+    this->stats.strength = 10;
+    this->stats.defense = 10;
+    this->stats.attackSpeed = 5;
+    this->stats.criticalRate = 10;
 }
 
 bool Player::Update(Input* input, float dt)
@@ -112,6 +123,7 @@ void Player::SetTexture(SDL_Texture *tex, int spritePos)
         }
     }
 }
+
 void Player::Walk(iPoint direction, float dt)
 {
     if (direction.x != 0 && direction.y != 0)
@@ -130,6 +142,7 @@ void Player::Walk(iPoint direction, float dt)
     position.x = position.x + direction.x * (velocity.x * dt);
     position.y = position.y + direction.y * (velocity.y * dt);
 }
+
 SDL_Rect Player::GetBounds()
 {
     return { (int)position.x, (int)position.y, width, height };

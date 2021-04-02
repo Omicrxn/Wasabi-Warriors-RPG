@@ -5,6 +5,7 @@
 
 #include "Map.h"
 #include "Player.h"
+#include "Enemy.h"
 
 class SceneGameplay : public Scene
 {
@@ -30,6 +31,8 @@ private:
 
     SDL_Texture* texture;
     List<Player*> players;
+    
+    Enemy* enemy1;
 };
 
 #endif // __SCENEGAMEPLAY_H__

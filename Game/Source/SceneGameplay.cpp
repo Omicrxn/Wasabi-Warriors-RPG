@@ -3,6 +3,7 @@
 #include "EntityManager.h"
 #include "GuiManager.h"
 #include "Window.h"
+#include "BattleSystem.h"
 
 SceneGameplay::SceneGameplay()
 {
@@ -30,7 +31,7 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	}
 
 	// Load music
-	//AudioManager::PlayMusic("Assets/Audio/Music/music_spy.ogg");
+	// AudioManager::PlayMusic("Assets/Audio/Music/music_spy.ogg");
 
 	// Load textures
 	texture = tex->Load("Assets/Textures/Characters/characters_spritesheet.png");
@@ -41,7 +42,10 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	players.At(0)->data->SetTexture(texture, 3);
 	currentPlayer = players.At(0)->data;
 
-	return false;
+	// Create entities
+	enemy1 = (Enemy*)entityManager->CreateEntity(EntityType::ENEMY);
+
+	return true;
 }
 
 inline bool CheckCollision(SDL_Rect rec1, SDL_Rect rec2)
@@ -51,7 +55,7 @@ inline bool CheckCollision(SDL_Rect rec1, SDL_Rect rec2)
 	else return false;
 }
 
-bool SceneGameplay::Update(Input *input, float dt)
+bool SceneGameplay::Update(Input* input, float dt)
 {
 	// L02: DONE 3: Request Load / Save when pressing L/S
 	//if (input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) app->LoadGameRequest();
@@ -59,14 +63,19 @@ bool SceneGameplay::Update(Input *input, float dt)
 
 	// Press B to enter the battle scene, just for debug purposes [remove later]
 	if (input->GetKey(SDL_SCANCODE_B) == KEY_DOWN)
+	{
+		// Set the players and the enemy(ies) data in the battle system
+		BattleSystem::GetInstance()->SetupBattle(players, enemy1);
+
 		TransitionToScene(SceneType::BATTLE);
+	}
 
 	return true;
 }
 
 bool SceneGameplay::Draw(Render* render)
 {
-    return false;
+    return true;
 }
 
 bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager)
@@ -75,5 +84,5 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 	map->CleanUp();
 	tex->UnLoad(texture);
 
-	return false;
+	return true;
 }

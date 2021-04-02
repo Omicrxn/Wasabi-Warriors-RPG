@@ -13,6 +13,7 @@
 #include "Audio.h"
 #include "EntityManager.h"
 #include "GuiManager.h"
+#include "BattleSystem.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -56,7 +57,7 @@ bool SceneManager::Awake()
 bool SceneManager::Start()
 {
 	current = new SceneLogo();
-	if (current->type == SceneType::GAMEPLAY)
+	if (current->type == SceneType::GAMEPLAY || current->type == SceneType::BATTLE)
 	{
 		current->Load(tex, win, audio, guiManager, entityman);
 	}
@@ -96,7 +97,7 @@ bool SceneManager::Update(float dt)
 				transitionAlpha = 1.0f;
 
 				current->Unload(tex, audio, guiManager);	// Unload current screen
-				if (next->type == SceneType::GAMEPLAY)
+				if (next->type == SceneType::GAMEPLAY || next->type == SceneType::BATTLE)
 				{
 					next->Load(tex, win, audio, guiManager, entityman);	// Load next screen
 				}

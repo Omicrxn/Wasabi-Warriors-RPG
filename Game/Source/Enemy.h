@@ -14,7 +14,9 @@ public:
     Enemy();
     virtual ~Enemy();
 
-    void SetParameters(SDL_Texture* tex, SString name, int level, int damage, int maxHP, int currentHP, int strength, int defense, int attackSpeed, float criticalRate);
+private:
+
+    void Walk(iPoint direction, float dt);
 
 protected:
 

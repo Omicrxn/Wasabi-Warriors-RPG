@@ -34,7 +34,7 @@ public:
 
 	bool UpdateAll(float dt, bool doLogic);
 
-	Entity* SearchEntity(uint32 id, SString name);
+	Entity* SearchEntity(SString name, uint32 id = 0);
 
 public:
 	Render* ren;

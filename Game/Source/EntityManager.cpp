@@ -53,7 +53,7 @@ Entity* EntityManager::CreateEntity(EntityType type)
 	{
 		// L13: Create the corresponding type entity
 		case EntityType::PLAYER: ret = new Player(tex);  break;
-		//case EntityType::ENEMY: ret = new Enemy();  break;
+		case EntityType::ENEMY: ret = new Enemy();  break;
 		//case EntityType::ITEM: ret = new Item();  break;
 		case EntityType::MAP: ret = new Map(tex);  break;
 		default: break;
@@ -119,7 +119,7 @@ bool EntityManager::UpdateAll(float dt, bool doLogic)
 	return true;
 }
 
-Entity* EntityManager::SearchEntity(uint32 id, SString name)
+Entity* EntityManager::SearchEntity(SString name, uint32 id)
 {
 	for (int i = 0; i < entities.Count(); i++)
 	{
