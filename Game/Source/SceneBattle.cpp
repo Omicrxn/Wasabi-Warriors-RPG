@@ -23,11 +23,11 @@ SceneBattle::SceneBattle()
 
     guiAtlasTex = nullptr;
 
-    btnStart = nullptr;
-    btnContinue = nullptr;
-    btnOptions = nullptr;
-    btnCredits = nullptr;
-    btnExit = nullptr;
+    btnAttack = nullptr;
+    btnDefend = nullptr;
+    btnItem = nullptr;
+    btnRun = nullptr;
+    btnNone = nullptr;
 
     titleFont = nullptr;
     buttonFont = nullptr;
@@ -68,35 +68,35 @@ bool SceneBattle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManag
 
     this->guiManager = guiManager;
 
-    btnStart = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, { (int)width / 2 - (int)((float)width / 12), 200, 190, 49 }, "ATTACK");
-    btnStart->SetObserver(this);
-    btnStart->SetTexture(guiAtlasTex);
-    btnStart->SetFont(buttonFont);
-    btnStart->SetButtonAudioFx(hoverFx, clickFx);
+    btnAttack = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, { 100, 500, 190, 49 }, "ATTACK");
+    btnAttack->SetObserver(this);
+    btnAttack->SetTexture(guiAtlasTex);
+    btnAttack->SetFont(buttonFont);
+    btnAttack->SetButtonAudioFx(hoverFx, clickFx);
 
-    btnContinue = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 2, { (int)width / 2 - (int)((float)width / 12), 300, 190, 49 }, "DEFEND");
-    btnContinue->SetObserver(this);
-    btnContinue->SetTexture(guiAtlasTex);
-    btnContinue->SetFont(buttonFont);
-    btnContinue->SetButtonAudioFx(hoverFx, clickFx);
+    btnDefend = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 2, { 100, 600, 190, 49 }, "DEFEND");
+    btnDefend->SetObserver(this);
+    btnDefend->SetTexture(guiAtlasTex);
+    btnDefend->SetFont(buttonFont);
+    btnDefend->SetButtonAudioFx(hoverFx, clickFx);
 
-    btnOptions = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 3, { (int)width / 2 - (int)((float)width / 12), 400, 190, 49 }, "ITEM");
-    btnOptions->SetObserver(this);
-    btnOptions->SetTexture(guiAtlasTex);
-    btnOptions->SetFont(buttonFont);
-    btnOptions->SetButtonAudioFx(hoverFx, clickFx);
+    btnItem = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 3, { 400, 500, 190, 49 }, "ITEM");
+    btnItem->SetObserver(this);
+    btnItem->SetTexture(guiAtlasTex);
+    btnItem->SetFont(buttonFont);
+    btnItem->SetButtonAudioFx(hoverFx, clickFx);
 
-    btnCredits = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 4, { (int)width / 2 - (int)((float)width / 12), 500, 190, 49 }, "RUN");
-    btnCredits->SetObserver(this);
-    btnCredits->SetTexture(guiAtlasTex);
-    btnCredits->SetFont(buttonFont);
-    btnCredits->SetButtonAudioFx(hoverFx, clickFx);
+    btnRun = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 4, { 400, 600, 190, 49 }, "RUN");
+    btnRun->SetObserver(this);
+    btnRun->SetTexture(guiAtlasTex);
+    btnRun->SetFont(buttonFont);
+    btnRun->SetButtonAudioFx(hoverFx, clickFx);
 
-    btnExit = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 5, { (int)width / 2 - (int)((float)width / 12), 600, 190, 49 }, "NONE");
-    btnExit->SetObserver(this);
-    btnExit->SetTexture(guiAtlasTex);
-    btnExit->SetFont(buttonFont);
-    btnExit->SetButtonAudioFx(hoverFx, clickFx);
+    btnNone = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 5, { 700, 500, 190, 49 }, "NONE");
+    btnNone->SetObserver(this);
+    btnNone->SetTexture(guiAtlasTex);
+    btnNone->SetFont(buttonFont);
+    btnNone->SetButtonAudioFx(hoverFx, clickFx);
 
 	return true;
 }
@@ -128,10 +128,18 @@ bool SceneBattle::Update(Input* input, float dt)
         }
     }
 
-    if (menuCurrentSelection == ActionSelection::ATTACK)
+    if (menuCurrentSelection == ActionSelection::NONE)
+        BattleSystem::GetInstance()->battleGUIState = BattleGUIState::NONE;
+    else if (menuCurrentSelection == ActionSelection::ATTACK)
+    {
         BattleSystem::GetInstance()->battleGUIState = BattleGUIState::ATTACK;
+        menuCurrentSelection = ActionSelection::NONE;
+    } 
     else if (menuCurrentSelection == ActionSelection::DEFEND)
+    {
         BattleSystem::GetInstance()->battleGUIState = BattleGUIState::DEFEND;
+        menuCurrentSelection = ActionSelection::NONE;
+    }
     
     BattleSystem::GetInstance()->Update(input);
 
@@ -147,8 +155,27 @@ bool SceneBattle::Draw(Render* render)
     uint width, height;
     win->GetWindowSize(width, height);
 
-    render->DrawText(titleFont, "Fight!", width / 2 - width / 2.5f + 3, height / 2 - height / 2.5f + 3, 125, 0, { 105, 105, 105, 255 });
-    render->DrawText(titleFont, "Fight!", width / 2 - width / 2.5f, height / 2 - height / 2.5f, 125, 0, { 255, 255, 255, 255 });
+    if (BattleSystem::GetInstance()->battleState == BattleState::PLAYER_TURN)
+    {
+        render->DrawText(titleFont, "Your turn", 100 + 3, 100 + 3, 125, 0, { 105, 105, 105, 255 });
+        render->DrawText(titleFont, "Your turn", 100, 100, 125, 0, { 255, 255, 255, 255 });
+    }
+    else if (BattleSystem::GetInstance()->battleState == BattleState::ENEMY_TURN)
+    {
+        render->DrawText(titleFont, "Enemy turn", 100 + 3, 100 + 3, 125, 0, { 105, 105, 105, 255 });
+        render->DrawText(titleFont, "Enemy turn", 100, 100, 125, 0, { 255, 255, 255, 255 });
+
+        if (BattleSystem::GetInstance()->IsEnemyAttacking())
+        {
+            render->DrawText(titleFont, "Enemy is attacking!", 100 + 3, 200 + 3, 75, 0, { 105, 105, 105, 255 });
+            render->DrawText(titleFont, "Enemy is attacking!", 100, 200, 75, 0, { 255, 255, 255, 255 });
+        }
+        else if (BattleSystem::GetInstance()->IsEnemyDefending())
+        {
+            render->DrawText(titleFont, "Enemy is defending!", 100 + 3, 200 + 3, 75, 0, { 105, 105, 105, 255 });
+            render->DrawText(titleFont, "Enemy is defending!", 100, 200, 75, 0, { 255, 255, 255, 255 });
+        }
+    }
 
     // Player name
     render->DrawText(titleFont, BattleSystem::GetInstance()->GetPlayer()->stats.name.GetString(), 100 + 3, 300 + 3, 75, 0, { 105, 105, 105, 255 });
@@ -176,11 +203,11 @@ bool SceneBattle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMana
     tex->UnLoad(backgroundTex);
     tex->UnLoad(guiAtlasTex);
 
-    guiManager->DestroyGuiControl(btnStart);
-    guiManager->DestroyGuiControl(btnContinue);
-    guiManager->DestroyGuiControl(btnOptions);
-    guiManager->DestroyGuiControl(btnCredits);
-    guiManager->DestroyGuiControl(btnExit);
+    guiManager->DestroyGuiControl(btnAttack);
+    guiManager->DestroyGuiControl(btnDefend);
+    guiManager->DestroyGuiControl(btnItem);
+    guiManager->DestroyGuiControl(btnRun);
+    guiManager->DestroyGuiControl(btnNone);
 
     RELEASE(titleFont);
     RELEASE(buttonFont);

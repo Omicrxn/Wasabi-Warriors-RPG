@@ -19,6 +19,10 @@ BattleSystem::BattleSystem()
 
 	// Right now we only have one party member implemented
 	numPlayers = 1;
+
+	enemyTurnCounter = 0;
+	enemyAttack = false;
+	enemyDefend = false;
 }
 
 BattleSystem::~BattleSystem()
@@ -74,10 +78,10 @@ void BattleSystem::SetupBattle(List<Player*> players, Enemy* enemy)
 		}
 	}
 
-	if (currentPlayer->stats.attackSpeed > enemy->stats.attackSpeed)
+	/*if (currentPlayer->stats.attackSpeed >= enemy->stats.attackSpeed)
 		battleState = BattleState::PLAYER_TURN;
 	else
-		battleState = BattleState::ENEMY_TURN;
+		battleState = BattleState::ENEMY_TURN;*/
 }
 
 bool BattleSystem::Start()
@@ -100,6 +104,8 @@ void BattleSystem::PlayerTurn()
 		// Check if the enemy has died
 		if (enemy->stats.currentHP <= 0)
 			battleState = BattleState::WON;
+
+		battleState = BattleState::ENEMY_TURN;
 		break;
 	case BattleGUIState::DEFEND:
 		// Add life points to the player
@@ -107,10 +113,14 @@ void BattleSystem::PlayerTurn()
 		// Check if the player life has gone over their maximum HP
 		if (currentPlayer->stats.currentHP > currentPlayer->stats.maxHP)
 			currentPlayer->stats.currentHP = currentPlayer->stats.maxHP;
+
+		battleState = BattleState::ENEMY_TURN;
 		break;
 	case BattleGUIState::ITEM:
 		// Get into the items menu
 		// Items logic
+
+		battleState = BattleState::ENEMY_TURN;
 		break;
 	case BattleGUIState::RUN:
 		// Return to the gameplay screen
@@ -136,33 +146,50 @@ void BattleSystem::PlayerTurn()
 
 void BattleSystem::EnemyTurn()
 {
-	// Define randomly an action for the enemy
-	int num = rand() % 100;
-	if (num < 50)
+	// Define randomly an action for the enemy (only the first time)
+	if (enemyTurnCounter == 0)
 	{
-		// Player attack logic
-		// Display enemy attack text
-		// Play animation
-		// Substract life points to the player
-		currentPlayer->stats.currentHP -= enemy->stats.damage;
+		int num = rand() % 100;
+		if (num < 50)
+		{
+			// Player attack logic
+			enemyAttack = true;
+
+			// Substract life points to the player
+			if (enemyTurnCounter == 0)
+				currentPlayer->stats.currentHP -= enemy->stats.damage;
+		}
+		else
+		{
+			// Player defense logic
+			enemyDefend = true;
+
+			// Add life points to the enemy (only the first time)
+			if (enemyTurnCounter == 0)
+			{
+				enemy->stats.currentHP += enemy->stats.defense;
+
+				// Check if the enemy life has gone over their maximum
+				if (enemy->stats.currentHP > enemy->stats.maxHP)
+					enemy->stats.currentHP = enemy->stats.maxHP;
+			}
+		}
+	}
+
+	enemyTurnCounter++;
+
+	if (enemyTurnCounter > 300)
+	{
+		// Reset variables for the next time
+		enemyTurnCounter = 0;
+		enemyAttack = false;
+		enemyDefend = false;
+
 		// Check if the player has died
 		if (currentPlayer->stats.currentHP <= 0)
 			battleState = BattleState::LOST;
 		else
 			battleState = BattleState::PLAYER_TURN;
-	}
-	else
-	{
-		// Player defense logic
-		// Display enemy defense text
-		// Play animation
-		// Add life points to the enemy
-		enemy->stats.currentHP += enemy->stats.defense;
-		// Check if the enemy life has gone over their maximum
-		if (enemy->stats.currentHP > enemy->stats.maxHP)
-			enemy->stats.currentHP = enemy->stats.maxHP;
-
-		BattleState::PLAYER_TURN;
 	}
 }
 
@@ -186,4 +213,14 @@ Player* BattleSystem::GetPlayer()
 Enemy* BattleSystem::GetEnemy()
 {
 	return enemy;
+}
+
+bool BattleSystem::IsEnemyAttacking()
+{
+	return enemyAttack;
+}
+
+bool BattleSystem::IsEnemyDefending()
+{
+	return enemyDefend;
 }

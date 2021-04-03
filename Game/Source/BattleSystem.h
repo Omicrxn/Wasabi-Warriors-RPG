@@ -52,6 +52,9 @@ public:
 	BattleState battleState;
 	BattleGUIState battleGUIState;
 
+	bool IsEnemyAttacking();
+	bool IsEnemyDefending();
+
 private:
 
 	static BattleSystem* instance;
@@ -66,6 +69,12 @@ private:
 	List<Player*> players;
 	Player* currentPlayer;
 	Enemy* enemy;
+
+	uint enemyTurnCounter;
+
+	// Bools to keep track of the battle
+	bool enemyAttack;
+	bool enemyDefend;
 };
 
 #endif // __BATTLESYSTEM_H__

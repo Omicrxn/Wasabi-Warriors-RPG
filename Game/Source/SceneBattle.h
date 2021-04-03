@@ -45,11 +45,11 @@ private:
 
     GuiManager* guiManager;
 
-    GuiButton* btnStart;
-    GuiButton* btnContinue;
-    GuiButton* btnOptions;
-    GuiButton* btnCredits;
-    GuiButton* btnExit;
+    GuiButton* btnAttack;
+    GuiButton* btnDefend;
+    GuiButton* btnItem;
+    GuiButton* btnRun;
+    GuiButton* btnNone;
 
     SDL_Texture* backgroundTex;
     SDL_Rect backgroundRect;
