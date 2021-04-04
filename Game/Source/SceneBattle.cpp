@@ -22,6 +22,7 @@ SceneBattle::SceneBattle()
     backgroundRect = { 0, 0, 0, 0 };
 
     guiAtlasTex = nullptr;
+    spritesheet = nullptr;
 
     btnAttack = nullptr;
     btnDefend = nullptr;
@@ -55,7 +56,7 @@ bool SceneBattle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManag
     titleFont = new Font("Assets/Fonts/shojumaru.xml", tex);
     buttonFont = new Font("Assets/Fonts/showg.xml", tex);
 
-    //backgroundTex = tex->Load("Assets/Textures/Scenes/main_menu.png");
+    backgroundTex = tex->Load("Assets/Textures/Scenes/battle_scene.jpg");
     backgroundRect = { 0, 0, 1280, 720 };
 
     guiAtlasTex = tex->Load("Assets/Textures/UI/Elements/ui_spritesheet.png");
@@ -63,40 +64,43 @@ bool SceneBattle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManag
     hoverFx = audio->LoadFx("Assets/Audio/Fx/bong.ogg");
     clickFx = audio->LoadFx("Assets/Audio/Fx/click.ogg");
 
+    // Load textures
+    spritesheet = tex->Load("Assets/Textures/Characters/characters_spritesheet.png");
+
     uint width, height;
     win->GetWindowSize(width, height);
 
     this->guiManager = guiManager;
 
-    btnAttack = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, { 100, 500, 190, 49 }, "ATTACK");
+    btnAttack = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, { 730, 500, 190, 49 }, "ATTACK");
     btnAttack->SetObserver(this);
     btnAttack->SetTexture(guiAtlasTex);
     btnAttack->SetFont(buttonFont);
     btnAttack->SetButtonAudioFx(hoverFx, clickFx);
 
-    btnDefend = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 2, { 100, 600, 190, 49 }, "DEFEND");
+    btnDefend = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 2, { 730, 600, 190, 49 }, "DEFEND");
     btnDefend->SetObserver(this);
     btnDefend->SetTexture(guiAtlasTex);
     btnDefend->SetFont(buttonFont);
     btnDefend->SetButtonAudioFx(hoverFx, clickFx);
 
-    btnItem = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 3, { 400, 500, 190, 49 }, "ITEM");
+    btnItem = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 3, { 1030, 500, 190, 49 }, "ITEM");
     btnItem->SetObserver(this);
     btnItem->SetTexture(guiAtlasTex);
     btnItem->SetFont(buttonFont);
     btnItem->SetButtonAudioFx(hoverFx, clickFx);
 
-    btnRun = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 4, { 400, 600, 190, 49 }, "RUN");
+    btnRun = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 4, { 1030, 600, 190, 49 }, "RUN");
     btnRun->SetObserver(this);
     btnRun->SetTexture(guiAtlasTex);
     btnRun->SetFont(buttonFont);
     btnRun->SetButtonAudioFx(hoverFx, clickFx);
 
-    btnNone = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 5, { 700, 500, 190, 49 }, "NONE");
-    btnNone->SetObserver(this);
-    btnNone->SetTexture(guiAtlasTex);
-    btnNone->SetFont(buttonFont);
-    btnNone->SetButtonAudioFx(hoverFx, clickFx);
+    //btnNone = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 5, { 700, 500, 190, 49 }, "NONE");
+    //btnNone->SetObserver(this);
+    //btnNone->SetTexture(guiAtlasTex);
+    //btnNone->SetFont(buttonFont);
+    //btnNone->SetButtonAudioFx(hoverFx, clickFx);
 
 	return true;
 }
@@ -150,50 +154,65 @@ bool SceneBattle::Draw(Render* render)
 {
 	render->DrawRectangle({ 0, 0, 1280, 720 }, { 255, 255, 255, (unsigned char)255.0f }, true, false);
 
-    /*render->DrawTexture(backgroundTex, 0, 0, &backgroundRect);*/
+    render->DrawTexture(backgroundTex, 0, 0, &backgroundRect, 0);
 
     uint width, height;
     win->GetWindowSize(width, height);
 
     if (BattleSystem::GetInstance()->battleState == BattleState::PLAYER_TURN)
     {
-        render->DrawText(titleFont, "Your turn", 100 + 3, 100 + 3, 125, 0, { 105, 105, 105, 255 });
-        render->DrawText(titleFont, "Your turn", 100, 100, 125, 0, { 255, 255, 255, 255 });
+        render->DrawText(titleFont, "Your turn", 50 + 3, 50 + 3, 125, 0, { 105, 105, 105, 255 });
+        render->DrawText(titleFont, "Your turn", 50, 50, 125, 0, { 255, 255, 255, 255 });
     }
     else if (BattleSystem::GetInstance()->battleState == BattleState::ENEMY_TURN)
     {
-        render->DrawText(titleFont, "Enemy turn", 100 + 3, 100 + 3, 125, 0, { 105, 105, 105, 255 });
-        render->DrawText(titleFont, "Enemy turn", 100, 100, 125, 0, { 255, 255, 255, 255 });
+        render->DrawText(titleFont, "Enemy turn", 50 + 3, 50 + 3, 125, 0, { 105, 105, 105, 255 });
+        render->DrawText(titleFont, "Enemy turn", 50, 50, 125, 0, { 255, 255, 255, 255 });
 
         if (BattleSystem::GetInstance()->IsEnemyAttacking())
         {
-            render->DrawText(titleFont, "Enemy is attacking!", 100 + 3, 200 + 3, 75, 0, { 105, 105, 105, 255 });
-            render->DrawText(titleFont, "Enemy is attacking!", 100, 200, 75, 0, { 255, 255, 255, 255 });
+            render->DrawText(titleFont, "Enemy is attacking!", 50 + 3, 150 + 3, 75, 0, { 105, 105, 105, 255 });
+            render->DrawText(titleFont, "Enemy is attacking!", 50, 150, 75, 0, { 255, 255, 255, 255 });
         }
         else if (BattleSystem::GetInstance()->IsEnemyDefending())
         {
-            render->DrawText(titleFont, "Enemy is defending!", 100 + 3, 200 + 3, 75, 0, { 105, 105, 105, 255 });
-            render->DrawText(titleFont, "Enemy is defending!", 100, 200, 75, 0, { 255, 255, 255, 255 });
+            render->DrawText(titleFont, "Enemy is defending!", 50 + 3, 150 + 3, 75, 0, { 105, 105, 105, 255 });
+            render->DrawText(titleFont, "Enemy is defending!", 50, 150, 75, 0, { 255, 255, 255, 255 });
         }
     }
 
     // Player name
-    render->DrawText(titleFont, BattleSystem::GetInstance()->GetPlayer()->stats.name.GetString(), 100 + 3, 300 + 3, 75, 0, { 105, 105, 105, 255 });
-    render->DrawText(titleFont, BattleSystem::GetInstance()->GetPlayer()->stats.name.GetString(), 100, 300, 75, 0, { 255, 255, 255, 255 });
+    render->DrawText(buttonFont, BattleSystem::GetInstance()->GetPlayer()->stats.name.GetString(), 100 + 3, 200 + 3, 50, 0, { 105, 105, 105, 255 });
+    render->DrawText(buttonFont, BattleSystem::GetInstance()->GetPlayer()->stats.name.GetString(), 100, 200, 50, 0, { 255, 255, 255, 255 });
 
     // Player life
     char HP[8] = { 0 };
     sprintf_s(HP, 8, "HP: %03i", BattleSystem::GetInstance()->GetPlayer()->stats.currentHP);
-    render->DrawText(titleFont, HP, 100 + 3, 375 + 3, 75, 0, { 105, 105, 105, 255 });
-    render->DrawText(titleFont, HP, 100, 375, 75, 0, { 255, 255, 255, 255 });
+    render->DrawText(buttonFont, HP, 100 + 3, 275 + 3, 50, 0, { 105, 105, 105, 255 });
+    render->DrawText(buttonFont, HP, 100, 275, 50, 0, { 255, 255, 255, 255 });
 
     // Enemy name
-    render->DrawText(titleFont, BattleSystem::GetInstance()->GetEnemy()->stats.name.GetString(), 800 + 3, 100 + 3, 75, 0, { 105, 105, 105, 255 });
-    render->DrawText(titleFont, BattleSystem::GetInstance()->GetEnemy()->stats.name.GetString(), 800, 100, 75, 0, { 255, 255, 255, 255 });
+    render->DrawText(buttonFont, BattleSystem::GetInstance()->GetEnemy()->stats.name.GetString(), 900 + 3, 50 + 3, 50, 0, { 105, 105, 105, 255 });
+    render->DrawText(buttonFont, BattleSystem::GetInstance()->GetEnemy()->stats.name.GetString(), 900, 50, 50, 0, { 255, 255, 255, 255 });
 
     sprintf_s(HP, 8, "HP: %03i", BattleSystem::GetInstance()->GetEnemy()->stats.currentHP);
-    render->DrawText(titleFont, HP, 800 + 3, 175 + 3, 75, 0, { 105, 105, 105, 255 });
-    render->DrawText(titleFont, HP, 800, 175, 75, 0, { 255, 255, 255, 255 });
+    render->DrawText(buttonFont, HP, 900 + 3, 125 + 3, 50, 0, { 105, 105, 105, 255 });
+    render->DrawText(buttonFont, HP, 900, 125, 50, 0, { 255, 255, 255, 255 });
+
+    // Draw party members textures
+    SDL_Rect rect = { 0,481,32,32 };
+    render->scale = 5;
+    render->DrawTexture(spritesheet, 22.5, 75, &rect, 0);
+    rect = { 0,0,32,32 };
+    render->DrawTexture(spritesheet, 42.5, 75, &rect, 0);
+    rect = { 0,160,32,32 };
+    render->DrawTexture(spritesheet, 62.5, 75, &rect, 0);
+    rect = { 0,321,32,32 };
+    render->DrawTexture(spritesheet, 82.5, 75, &rect, 0);
+    render->scale = 1;
+
+    rect = { 171,486,22,21 };
+    render->DrawTexture(guiAtlasTex, 175, 350, &rect, 0, 90.0);
 
 	return true;
 }
@@ -207,7 +226,7 @@ bool SceneBattle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMana
     guiManager->DestroyGuiControl(btnDefend);
     guiManager->DestroyGuiControl(btnItem);
     guiManager->DestroyGuiControl(btnRun);
-    guiManager->DestroyGuiControl(btnNone);
+    /*guiManager->DestroyGuiControl(btnNone);*/
 
     RELEASE(titleFont);
     RELEASE(buttonFont);

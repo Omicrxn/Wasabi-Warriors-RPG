@@ -36,11 +36,22 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	// Load textures
 	texture = tex->Load("Assets/Textures/Characters/characters_spritesheet.png");
 
-	// Initialize player
+	// Initialize players (party members)
+	// Party member 1
 	players.Add((Player*)entityManager->CreateEntity(EntityType::PLAYER));
 	players.At(0)->data->position = iPoint(12 * 32, 6 * 32);
 	players.At(0)->data->SetTexture(texture, 3);
+	players.At(0)->data->SetName("Max");
+
+	// Set this party member as the current one
 	currentPlayer = players.At(0)->data;
+	players.At(0)->data->SetState(true);
+
+	// Party member 2
+	players.Add((Player*)entityManager->CreateEntity(EntityType::PLAYER));
+	players.At(1)->data->position = iPoint(12 * 32, 6 * 32);
+	players.At(1)->data->SetTexture(texture, 4);
+	players.At(1)->data->SetName("John");
 
 	// Create entities
 	enemy1 = (Enemy*)entityManager->CreateEntity(EntityType::ENEMY);
@@ -85,4 +96,9 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 	tex->UnLoad(texture);
 
 	return true;
+}
+
+Player* SceneGameplay::GetCurrentPlayer()
+{
+	return currentPlayer;
 }

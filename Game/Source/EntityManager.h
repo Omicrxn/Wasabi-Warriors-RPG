@@ -5,9 +5,11 @@
 #include "Entity.h"
 
 #include "List.h"
+
 class Render;
 class Textures;
 class Input;
+
 class EntityManager : public Module
 {
 public:
@@ -34,9 +36,11 @@ public:
 
 	bool UpdateAll(float dt, bool doLogic);
 
+	// To search an specific entity in the list
 	Entity* SearchEntity(SString name, uint32 id = 0);
 
 public:
+
 	Render* ren;
 	Textures* tex;
 	Input* input;

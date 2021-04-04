@@ -11,6 +11,8 @@
 
 #include "SDL/include/SDL.h"
 
+class SceneManager;
+
 enum class PlayerAnim
 {
     IDLE,
@@ -34,6 +36,9 @@ public:
 
     SDL_Rect GetBounds();
 
+    // To set the player name
+    void SetName(SString name);
+
 private:
 
     void Walk(iPoint direction, float dt);
@@ -45,6 +50,10 @@ public:
     PlayerAnim currentAnim;
 
     int width, height;
+
+private:
+
+    SceneManager* sceneManager;
 };
 
 #endif // __PLAYER_H__

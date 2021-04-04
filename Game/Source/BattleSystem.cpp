@@ -106,6 +106,16 @@ void BattleSystem::PlayerTurn()
 			battleState = BattleState::WON;
 
 		battleState = BattleState::ENEMY_TURN;
+
+		// Set as the current player the next party member (if it's available)
+		for (int i = 0; i < 4; i++)
+		{
+			if (players.At(i)->data->stats.name == currentPlayer->stats.name)
+			{
+				if (players.At(i)->next->data != nullptr)
+					currentPlayer = players.At(i)->next->data;
+			}
+		}
 		break;
 	case BattleGUIState::DEFEND:
 		// Add life points to the player
@@ -132,16 +142,6 @@ void BattleSystem::PlayerTurn()
 	default:
 		break;
 	}
-
-	// Set as the current player the next party member (if it's available)
-	/*for (int i = 0; i < 4; i++)
-	{
-		if (players.At(i)->data->stats.name == currentPlayer->stats.name)
-		{
-			if (players.At(i)->next->data != nullptr)
-				currentPlayer = players.At(i)->next->data;
-		}
-	}*/
 }
 
 void BattleSystem::EnemyTurn()
@@ -208,6 +208,11 @@ void BattleSystem::Lost()
 Player* BattleSystem::GetPlayer()
 {
 	return currentPlayer;
+}
+
+List<Player*> BattleSystem::GetPlayersList()
+{
+	return players;
 }
 
 Enemy* BattleSystem::GetEnemy()

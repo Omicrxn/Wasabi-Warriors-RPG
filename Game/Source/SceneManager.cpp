@@ -56,7 +56,7 @@ bool SceneManager::Awake()
 // Called before the first frame
 bool SceneManager::Start()
 {
-	current = new SceneLogo();
+	current = new SceneGameplay();
 	if (current->type == SceneType::GAMEPLAY || current->type == SceneType::BATTLE)
 	{
 		current->Load(tex, win, audio, guiManager, entityman);
@@ -175,4 +175,10 @@ bool SceneManager::CleanUp()
 	if (current != nullptr) current->Unload(tex, audio, guiManager);
 
 	return true;
+}
+
+// Returns the current scene
+Scene* SceneManager::PickScene()
+{
+	return current;
 }

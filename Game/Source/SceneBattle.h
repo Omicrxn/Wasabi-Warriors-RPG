@@ -41,8 +41,6 @@ public:
 
 private:
 
-    SDL_Texture* texture;
-
     GuiManager* guiManager;
 
     GuiButton* btnAttack;
@@ -55,6 +53,8 @@ private:
     SDL_Rect backgroundRect;
 
     SDL_Texture* guiAtlasTex;
+
+    SDL_Texture* spritesheet;
 
     //Animation backgroundAnim;
 

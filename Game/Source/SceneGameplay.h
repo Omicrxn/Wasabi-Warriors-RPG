@@ -22,6 +22,8 @@ public:
 
     bool Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager);
 
+    Player* GetCurrentPlayer();
+
 private:
 
     Map* map;

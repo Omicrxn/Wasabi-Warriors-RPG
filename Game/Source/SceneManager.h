@@ -41,6 +41,9 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	// To take the current scene
+	Scene* PickScene();
+
 private:
 
 	Input* input;

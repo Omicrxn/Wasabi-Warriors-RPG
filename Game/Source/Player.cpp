@@ -1,8 +1,13 @@
 #include "Player.h"
 
+#include "BattleSystem.h"
+#include "SceneManager.h"
+#include "SceneGameplay.h"
 
 Player::Player(Textures* tex) : Being()
 {
+    this->sceneManager = sceneManager;
+
     texture = NULL;
     position = iPoint(12 * 16, 27 * 16);
     currentAnim = PlayerAnim::IDLE;
@@ -10,7 +15,6 @@ Player::Player(Textures* tex) : Being()
     width = 32;
     height = 32;
     direction = { 0,0 };
-    // Define Player animations
 
     // Define player parameters
     this->stats.name = "Player";
@@ -22,6 +26,7 @@ Player::Player(Textures* tex) : Being()
     this->stats.defense = 10;
     this->stats.attackSpeed = 5;
     this->stats.criticalRate = 10;
+    active = false;
 }
 
 bool Player::Update(Input* input, float dt)
@@ -77,7 +82,8 @@ bool Player::Draw(Render* render)
     }
     render->scale = 3;
     render->CameraFollow(position.x, position.y);
-    render->DrawTexture(texture, position.x, position.y, &animRec);
+    
+    if (active) render->DrawTexture(texture, position.x, position.y, &animRec);
 
     render->scale = 1;
     return false;
@@ -85,11 +91,11 @@ bool Player::Draw(Render* render)
 
 void Player::SetTexture(SDL_Texture *tex, int spritePos)
 {
+    // Define player textures / animations
     int textureStartYPos = spritePos * 32 * 5;
     texture = tex;
     for (int y = textureStartYPos; y < y+160; y+=32)
     {
-        
         for (int x = 0; x < 8*32; x+=32)
         {
             if (y == textureStartYPos && x == 128)
@@ -119,7 +125,6 @@ void Player::SetTexture(SDL_Texture *tex, int spritePos)
                 walkLeftAnim.PushBack({ x,y,32,32 });
                 walkLeftAnim.speed = 0.2;
             }
-            
         }
     }
 }
@@ -146,4 +151,9 @@ void Player::Walk(iPoint direction, float dt)
 SDL_Rect Player::GetBounds()
 {
     return { (int)position.x, (int)position.y, width, height };
+}
+
+void Player::SetName(SString name)
+{
+    this->stats.name = name;
 }

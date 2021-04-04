@@ -12,12 +12,12 @@
 #include "Defs.h"
 #include "Log.h"
 
-EntityManager::EntityManager(Input* input,Render* render, Textures* tex) : Module()
+EntityManager::EntityManager(Input* input, Render* render, Textures* tex) : Module()
 {
+	name.Create("entitymanager");
 	this->ren = render;
 	this->tex = tex;
 	this->input = input;
-	name.Create("entitymanager");
 }
 
 // Destructor
@@ -38,7 +38,7 @@ bool EntityManager::CleanUp()
 {
 	for (int i = 0; i < entities.Count(); i++)
 	{
-		if(!entities.At(i)->data->active)
+		if(entities.At(i)->data->destroy)
 		entities.Del(entities.At(i));
 	}
 
@@ -80,7 +80,7 @@ void EntityManager::DestroyEntityChecker(float dt)
 {
 	for (int i = 0; i < entities.Count(); i++)
 	{
-		if (entities.At(i)->data->active == false) entities.Del(entities.At(i));
+		if (entities.At(i)->data->destroy == true) entities.Del(entities.At(i));
 	}
 }
 

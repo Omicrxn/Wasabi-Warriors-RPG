@@ -38,10 +38,19 @@ public:
         return true;
     }
 
+    bool IsActive()
+    {
+        return active;
+    }
+
+    void SetState(bool state)
+    {
+        active = state;
+    }
+
 public:
 
     EntityType type;
-    bool active = true;
     SString name;         // Entity name identifier?
     uint32 id;            // Entity identifier?
 
@@ -50,6 +59,12 @@ public:
     iPoint position;        // Use a float instead?
     bool renderable = false;
     SDL_Texture* texture;
+
+    bool destroy = false;
+
+protected:
+
+    bool active = true;
 };
 
 #endif // __ENTITY_H__
