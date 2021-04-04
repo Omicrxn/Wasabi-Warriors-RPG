@@ -71,7 +71,7 @@ void BattleSystem::SetupBattle(List<Player*> players, Enemy* enemy)
 	// Change state to the fighter with most speed
 	for (int i = 0; i < numPlayers; i++)
 	{
-		if (players.At(i)->data != nullptr)
+		if (players.At(i) != nullptr)
 		{
 			if (players.At(i)->data->stats.attackSpeed > currentPlayer->stats.attackSpeed)
 				currentPlayer = players.At(i)->data;
@@ -108,12 +108,15 @@ void BattleSystem::PlayerTurn()
 		battleState = BattleState::ENEMY_TURN;
 
 		// Set as the current player the next party member (if it's available)
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < players.Count(); i++)
 		{
-			if (players.At(i)->data->stats.name == currentPlayer->stats.name)
+			if (players.At(i) != nullptr)
 			{
-				if (players.At(i)->next->data != nullptr)
-					currentPlayer = players.At(i)->next->data;
+				if (players.At(i)->data->stats.name == currentPlayer->stats.name)
+				{
+					if (players.At(i)->next != nullptr)
+						currentPlayer = players.At(i)->next->data;
+				}
 			}
 		}
 		break;
