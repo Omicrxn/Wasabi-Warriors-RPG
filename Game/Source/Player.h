@@ -13,14 +13,7 @@
 
 class SceneManager;
 
-enum class PlayerAnim
-{
-    IDLE,
-    UP,
-    DOWN,
-    LEFT,
-    RIGHT
-};
+
 
 class Player: public Being
 {
@@ -47,13 +40,9 @@ public:
 
     SDL_Texture* texture;   // Player spritesheet
 
-    PlayerAnim currentAnim;
+    Animations currentAnim;
 
     int width, height;
-
-private:
-
-    SceneManager* sceneManager;
 };
 
 #endif // __PLAYER_H__

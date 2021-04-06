@@ -123,9 +123,10 @@ Entity* EntityManager::SearchEntity(SString name, uint32 id)
 {
 	for (int i = 0; i < entities.Count(); i++)
 	{
-		if(entities.At(i)->data->name == name)
+		if (entities.At(i)->data->name == name)
 		{
 			return entities.At(i)->data;
 		}
 	}
+	return nullptr;
 }

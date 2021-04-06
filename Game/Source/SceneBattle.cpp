@@ -5,7 +5,7 @@
 #include "Font.h"
 #include "Window.h"
 
-#include "BattleSystem.h"
+
 
 #include "GuiManager.h"
 #include "GuiButton.h"
@@ -41,6 +41,7 @@ SceneBattle::SceneBattle()
     clickFx = -1;
 
     controllerFocus = 0;
+    battleSystem = BattleSystem::GetInstance();
 }
 
 SceneBattle::~SceneBattle()
@@ -133,19 +134,23 @@ bool SceneBattle::Update(Input* input, float dt)
     }
 
     if (menuCurrentSelection == ActionSelection::NONE)
-        BattleSystem::GetInstance()->battleGUIState = BattleGUIState::NONE;
+        battleSystem->battleGUIState = BattleGUIState::NONE;
     else if (menuCurrentSelection == ActionSelection::ATTACK)
     {
-        BattleSystem::GetInstance()->battleGUIState = BattleGUIState::ATTACK;
+        battleSystem->battleGUIState = BattleGUIState::ATTACK;
         menuCurrentSelection = ActionSelection::NONE;
     } 
     else if (menuCurrentSelection == ActionSelection::DEFEND)
     {
-        BattleSystem::GetInstance()->battleGUIState = BattleGUIState::DEFEND;
+        battleSystem->battleGUIState = BattleGUIState::DEFEND;
         menuCurrentSelection = ActionSelection::NONE;
     }
+    else if (menuCurrentSelection == ActionSelection::RUN)
+    {
+        TransitionToScene(SceneType::GAMEPLAY);
+    }
     
-    BattleSystem::GetInstance()->Update(input);
+    battleSystem->Update(input);
 
 	return true;
 }
@@ -159,17 +164,17 @@ bool SceneBattle::Draw(Render* render)
     uint width, height;
     win->GetWindowSize(width, height);
 
-    if (BattleSystem::GetInstance()->battleState == BattleState::PLAYER_TURN)
+    if (battleSystem->battleState == BattleState::PLAYER_TURN)
     {
         render->DrawText(titleFont, "Your turn", 50 + 3, 50 + 3, 125, 0, { 105, 105, 105, 255 });
         render->DrawText(titleFont, "Your turn", 50, 50, 125, 0, { 255, 255, 255, 255 });
     }
-    else if (BattleSystem::GetInstance()->battleState == BattleState::ENEMY_TURN)
+    else if (battleSystem->battleState == BattleState::ENEMY_TURN)
     {
         render->DrawText(titleFont, "Enemy turn", 50 + 3, 50 + 3, 125, 0, { 105, 105, 105, 255 });
         render->DrawText(titleFont, "Enemy turn", 50, 50, 125, 0, { 255, 255, 255, 255 });
 
-        if (BattleSystem::GetInstance()->IsEnemyAttacking())
+        if (battleSystem->IsEnemyAttacking())
         {
             render->DrawText(titleFont, "Enemy is attacking!", 50 + 3, 150 + 3, 75, 0, { 105, 105, 105, 255 });
             render->DrawText(titleFont, "Enemy is attacking!", 50, 150, 75, 0, { 255, 255, 255, 255 });
@@ -202,13 +207,21 @@ bool SceneBattle::Draw(Render* render)
     // Draw party members textures
     SDL_Rect rect = { 0,481,32,32 };
     render->scale = 5;
-    render->DrawTexture(spritesheet, 22.5, 75, &rect, 0);
-    rect = { 0,0,32,32 };
-    render->DrawTexture(spritesheet, 42.5, 75, &rect, 0);
-    rect = { 0,160,32,32 };
-    render->DrawTexture(spritesheet, 62.5, 75, &rect, 0);
-    rect = { 0,321,32,32 };
-    render->DrawTexture(spritesheet, 82.5, 75, &rect, 0);
+    List<Player*>* players = battleSystem->GetPlayersList();
+    for (int i = 0; i < players->Count(); i++)
+    {
+        
+        rect = players->At(i)->data->animRec;
+        render->DrawTexture(spritesheet, 22.5+20*i, 75, &rect, 0);
+    }
+    render->scale = 1;
+
+    // Draw Enemy textures
+    
+    rect = battleSystem->GetEnemy()->animRec;
+    render->scale = 5;
+    render->DrawTexture(spritesheet, 175, 25, &rect, 0);
+
     render->scale = 1;
 
     rect = { 171,486,22,21 };

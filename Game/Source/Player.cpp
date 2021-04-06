@@ -1,16 +1,11 @@
 #include "Player.h"
 
-#include "BattleSystem.h"
-#include "SceneManager.h"
-#include "SceneGameplay.h"
-
 Player::Player(Textures* tex) : Being()
 {
-    this->sceneManager = sceneManager;
 
     texture = NULL;
     position = iPoint(12 * 16, 27 * 16);
-    currentAnim = PlayerAnim::IDLE;
+    currentAnim = Animations::IDLE;
     velocity = { 150.0f, 150.0f };
     width = 32;
     height = 32;
@@ -37,21 +32,21 @@ bool Player::Update(Input* input, float dt)
    
     if (direction.x > 0)
     {
-        currentAnim = PlayerAnim::RIGHT;
+        currentAnim = Animations::RIGHT;
     }else if(direction.x < 0)
     {
-        currentAnim = PlayerAnim::LEFT;
+        currentAnim = Animations::LEFT;
     }
     if (direction.y > 0)
     {
-        currentAnim = PlayerAnim::DOWN;
+        currentAnim = Animations::DOWN;
     }else if (direction.y < 0)
     {
-        currentAnim = PlayerAnim::UP;
+        currentAnim = Animations::UP;
     }
     if ((direction.x == 0 && direction.y == 0) || (direction.x != 0 && direction.y != 0))
     {
-        currentAnim = PlayerAnim::IDLE;
+        currentAnim = Animations::IDLE;
     }
     
     return true;
@@ -59,22 +54,22 @@ bool Player::Update(Input* input, float dt)
 
 bool Player::Draw(Render* render)
 {
-    SDL_Rect animRec;
+    animRec;
     switch (currentAnim)
     {
-    case PlayerAnim::IDLE:
+    case Animations::IDLE:
         animRec = idleAnim.GetFrame(0);
         break;
-    case PlayerAnim::UP:
+    case Animations::UP:
         animRec = walkUpAnim.GetCurrentFrame();
         break;
-    case PlayerAnim::DOWN:
+    case Animations::DOWN:
         animRec = walkDownAnim.GetCurrentFrame();
         break;
-    case PlayerAnim::RIGHT:
+    case Animations::RIGHT:
         animRec = walkRightAnim.GetCurrentFrame();
         break;
-    case PlayerAnim::LEFT:
+    case Animations::LEFT:
         animRec = walkLeftAnim.GetCurrentFrame();
         break;
     default:
@@ -86,7 +81,7 @@ bool Player::Draw(Render* render)
     if (active) render->DrawTexture(texture, position.x, position.y, &animRec);
 
     render->scale = 1;
-    return false;
+    return true;
 }
 
 void Player::SetTexture(SDL_Texture *tex, int spritePos)
@@ -155,5 +150,6 @@ SDL_Rect Player::GetBounds()
 
 void Player::SetName(SString name)
 {
+    this->name = name;
     this->stats.name = name;
 }

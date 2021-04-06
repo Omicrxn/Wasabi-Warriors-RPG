@@ -9,7 +9,7 @@ Map::Map(Textures* texture) : Entity(EntityType::MAP)
 {
 	mapLoaded = false;
 	folder.Create("Assets/Maps/");
-
+	name = "Map";
 	tex = texture;
 	scale = 3;
 }

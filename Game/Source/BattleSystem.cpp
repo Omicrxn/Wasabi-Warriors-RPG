@@ -69,14 +69,14 @@ void BattleSystem::SetupBattle(List<Player*> players, Enemy* enemy)
 	// Play animations of the fighters (not necessary for the vertical slice)
 	// Display introductory text
 	// Change state to the fighter with most speed
-	for (int i = 0; i < numPlayers; i++)
+	/*for (int i = 0; i < numPlayers; i++)
 	{
-		if (players.At(i) != nullptr)
+		if (this->players.At(i) != nullptr)
 		{
-			if (players.At(i)->data->stats.attackSpeed > currentPlayer->stats.attackSpeed)
-				currentPlayer = players.At(i)->data;
+			if (this->players.At(i)->data->stats.attackSpeed > currentPlayer->stats.attackSpeed)
+				currentPlayer = this->players.At(i)->data;
 		}
-	}
+	}*/
 
 	/*if (currentPlayer->stats.attackSpeed >= enemy->stats.attackSpeed)
 		battleState = BattleState::PLAYER_TURN;
@@ -116,6 +116,7 @@ void BattleSystem::PlayerTurn()
 				{
 					if (players.At(i)->next != nullptr)
 						currentPlayer = players.At(i)->next->data;
+					break;
 				}
 			}
 		}
@@ -213,9 +214,9 @@ Player* BattleSystem::GetPlayer()
 	return currentPlayer;
 }
 
-List<Player*> BattleSystem::GetPlayersList()
+List<Player*>* BattleSystem::GetPlayersList()
 {
-	return players;
+	return &players;
 }
 
 Enemy* BattleSystem::GetEnemy()

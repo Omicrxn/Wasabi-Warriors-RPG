@@ -3,7 +3,7 @@
 #define __SCENEBATTLE_H__
 
 #include "Scene.h"
-
+#include "BattleSystem.h"
 struct SDL_Texture;
 
 class GuiButton;
@@ -71,6 +71,7 @@ private:
 
     // Gamepad's menu focused button
     uint controllerFocus;
+    BattleSystem* battleSystem;
 };
 
 #endif // __SCENEBATTLE_H__

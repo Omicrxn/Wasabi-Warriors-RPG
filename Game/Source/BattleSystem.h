@@ -47,7 +47,7 @@ public:
 	void Lost();
 
 	Player* GetPlayer();
-	List<Player*> GetPlayersList();
+	List<Player*>* GetPlayersList();
 	Enemy* GetEnemy();
 
 	BattleState battleState;

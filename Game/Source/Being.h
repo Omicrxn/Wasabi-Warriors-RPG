@@ -4,7 +4,14 @@
 
 #include "Entity.h"
 #include "Animation.h"
-
+enum class Animations
+{
+	IDLE,
+	UP,
+	DOWN,
+	LEFT,
+	RIGHT
+};
 class Stats
 {
 public:
@@ -59,6 +66,7 @@ public:
 	Animation walkLeftAnim;
 	Animation walkUpAnim;
 	Animation walkDownAnim;
+	SDL_Rect animRec;
 };
 
 #endif //__BEING_H__
