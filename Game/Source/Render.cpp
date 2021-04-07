@@ -105,10 +105,25 @@ bool Render::LoadState(pugi::xml_node& data)
 // Save Game State
 bool Render::SaveState(pugi::xml_node& data) const
 {
-	pugi::xml_node cam = data.append_child("camera");
+	// Check if camera node exists
+	if (SString(data.first_child().name()) == "camera")
+	{
+		// Camera node exists
+		pugi::xml_node cam = data.first_child();
 
-	cam.append_attribute("x") = camera.x;
-	cam.append_attribute("y") = camera.y;
+		cam.attribute("x") = camera.x;
+		cam.attribute("y") = camera.y;
+		
+	}
+	else
+	{
+		// Camera node does not exist
+		pugi::xml_node cam = data.append_child("camera");
+
+		cam.append_attribute("x") = camera.x;
+		cam.append_attribute("y") = camera.y;
+	}
+	
 
 	return true;
 }

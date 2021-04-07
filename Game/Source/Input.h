@@ -58,9 +58,8 @@ enum AxisName
 
 class Input : public Module
 {
-
 public:
-
+	
 	Input(Window* win);
 
 	// Destructor
@@ -130,6 +129,69 @@ private:
 	int mouseMotionY;
 	int mouseX;
 	int mouseY;
+	
 };
+
+class GameControl
+{
+public:
+	bool toChange = false;
+	KeyState currentState = KeyState::KEY_IDLE;
+
+public:
+	void Update()
+	{
+		// if (CheckAssignedKey() || CheckAssignedButton())
+		// change state
+	}
+	void ChangeAssignation();
+	KeyState CheckAssignedKey();
+	KeyState CheckAssignedButton()
+	{
+		// input->pads[0].up?
+	}
+};
+
+//enum state {
+//	UP, DOWN, REPEAT
+//};
+//enum assignedKey {
+//	A,B,C,D,E,F,G
+//};
+//enum assignedButton {
+//	RB,LB,A,X,Y,B
+//};
+//class GameControl
+//{
+//public:
+//	bool toChange = false;
+//	state currentState = UP;
+//
+//public:
+//	void Update()
+//	{
+//		// if (CheckAssignedKey() || CheckAssignedButton())
+//		// change state
+//	}
+//	void ChangeAssignation();
+//	bool CheckAssignedKey()
+//	{
+//		// input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN
+//	}
+//	bool CheckAssignedButton()
+//	{
+//		// input->pads[0].up?
+//	}
+//};
+//
+//int main()
+//{
+//	GameControl* interact;
+//
+//	interact->Update();
+//	//if (input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN || ) return false;
+//	if (interact->currentState == state::DOWN)
+//		return false;
+//}
 
 #endif // __INPUT_H__

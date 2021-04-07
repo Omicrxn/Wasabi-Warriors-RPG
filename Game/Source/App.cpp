@@ -160,6 +160,10 @@ bool App::Update()
 	if(ret == true)
 		ret = PostUpdate();
 
+	// Temporarly save & load input will be displayed here for debugging purposes
+	if (input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) LoadGameRequest();
+	if (input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) SaveGameRequest();
+
 	FinishUpdate();
 	return ret;
 }
@@ -359,9 +363,36 @@ void App::SaveGameRequest() const
 // then call all the modules to load themselves
 bool App::LoadGame()
 {
-	bool ret = false;
+	bool ret = true;
 
 	//...
+	SString newName("save_game");
+	newName += ".xml";
+	pugi::xml_document docData;
+	pugi::xml_node docNode;
+	pugi::xml_parse_result result = docData.load_file(newName.GetString());
+
+	// Check result for loading errors
+	if (result == NULL)
+	{
+		LOG("Could not load map xml file savegame.xml. pugi error: %s", result.description());
+		ret = false;
+	}
+	else
+	{
+		LOG("Starting to LoadState of each Module");
+		docNode = docData.child("game_state");
+
+		ListItem<Module*>* item;
+		item = modules.start;
+
+		while (item != NULL && ret == true)
+		{
+			// Create a node for each module and send it to their Load function
+			ret = item->data->LoadState(docNode.child(item->data->name.GetString()));
+			item = item->next;
+		}
+	}
 
 	loadGameRequested = false;
 
@@ -373,9 +404,37 @@ bool App::SaveGame() const
 {
 	bool ret = true;
 
-	//...
+	SString newName("save_game");
+	newName += ".xml";
+	pugi::xml_document docData;
+	pugi::xml_node docNode;
+
+	pugi::xml_parse_result result = docData.load_file(newName.GetString());
+
+	// Check result for loading errors
+	if (result == NULL)
+	{
+		LOG("Could not load map xml file savegame.xml. pugi error: %s", result.description());
+		ret = false;
+	}
+	else
+	{
+		LOG("Starting to SaveState of each Module");
+		docNode = docData.child("game_state");
+
+		ListItem<Module*>* item;
+		item = modules.start;
+
+		while (item != NULL && ret == true)
+		{
+			// Create a node for each module and send it to their Save function
+			ret = item->data->SaveState(docNode.child(item->data->name.GetString()));
+			item = item->next;
+		}
+	}
+	LOG("Saving file %s", newName.GetString());
+	docData.save_file(newName.GetString());
 
 	saveGameRequested = false;
-
 	return ret;
 }
