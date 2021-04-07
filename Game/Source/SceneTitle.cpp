@@ -16,7 +16,7 @@
 SceneTitle::SceneTitle()
 {
     type = SceneType::TITLE;
-
+    
     backgroundTex = nullptr;
     backgroundRect = { 0, 0, 0, 0 };
 
@@ -38,7 +38,7 @@ SceneTitle::SceneTitle()
 
     hoverFx = -1;
     clickFx = -1;
-
+    
     controllerFocus = 0;
 }
 

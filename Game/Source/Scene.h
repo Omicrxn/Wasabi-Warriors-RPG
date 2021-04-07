@@ -2,6 +2,7 @@
 #define __SCENE_H__
 
 #include "SString.h"
+#include "PugiXml/src/pugixml.hpp"
 
 class Input;
 class Render;
@@ -60,6 +61,16 @@ public:
 
     // Define multiple Gui Event methods
     virtual bool OnGuiMouseClickEvent(GuiControl* control)
+    {
+        return true;
+    }
+
+    virtual bool LoadState(pugi::xml_node&)
+    {
+        return true;
+    }
+
+    virtual bool SaveState(pugi::xml_node&) const
     {
         return true;
     }

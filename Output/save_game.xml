@@ -6,6 +6,14 @@
 	<audio />
 	<scene />
 	<renderer>
-		<camera x="770" y="256" />
+		<camera x="584" y="304" />
 	</renderer>
+	<scenemanager>
+		<sceneoptions fxVolume="110" musicVolume="50" vsync="true" />
+		<scenegameplay>
+			<progress achievment1="unlocked" achievment2="unlocked" achievment3="locked" />
+			<inventory apple="" />
+			<ITWORKS A="12" B="12" />
+		</scenegameplay>
+	</scenemanager>
 </game_state>

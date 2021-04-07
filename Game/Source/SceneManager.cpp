@@ -182,3 +182,32 @@ Scene* SceneManager::PickScene()
 {
 	return current;
 }
+
+bool SceneManager::LoadState(pugi::xml_node& data)
+{
+	pugi::xml_node docNode;
+	docNode = data.child(current->name.GetString());
+	LOG("Saving to the current scene:", current->name.GetString());
+	current->LoadState(docNode);
+
+	return true;
+}
+
+bool SceneManager::SaveState(pugi::xml_node& data) const
+{
+	pugi::xml_node docNode;
+	docNode = data.child(current->name.GetString());
+	LOG("Saving to the current scene: %s", current->name.GetString());
+	current->SaveState(docNode);
+
+	//ListItem<Module*>* item;
+	//item = modules.start;
+
+	//while (item != NULL && ret == true)
+	//{
+	//	// Create a node for each module and send it to their Save function
+	//	ret = item->data->SaveState(docNode.child(item->data->name.GetString()));
+	//	item = item->next;
+	//}
+	return true;
+}

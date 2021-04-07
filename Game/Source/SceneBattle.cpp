@@ -18,6 +18,8 @@ SceneBattle::SceneBattle()
 {
 	type = SceneType::BATTLE;
 
+    this->name = "scenebattle";
+
     backgroundTex = nullptr;
     backgroundRect = { 0, 0, 0, 0 };
 

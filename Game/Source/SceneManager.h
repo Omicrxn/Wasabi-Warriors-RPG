@@ -44,6 +44,10 @@ public:
 	// To take the current scene
 	Scene* PickScene();
 
+	// Load / Save
+	bool LoadState(pugi::xml_node&);
+	bool SaveState(pugi::xml_node&) const;
+
 private:
 
 	Input* input;

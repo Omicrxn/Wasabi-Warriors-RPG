@@ -9,6 +9,8 @@ SceneGameplay::SceneGameplay()
 {
 	type = SceneType::GAMEPLAY;
 
+	this->name = "scenegameplay";
+
 	map = nullptr;
 	currentPlayer = nullptr;
 
@@ -188,6 +190,37 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 	/*map->CleanUp();*/
 	tex->UnLoad(texture);
 
+	return true;
+}
+
+bool SceneGameplay::LoadState(pugi::xml_node& scenegameplay)
+{
+	return true;
+}
+
+bool SceneGameplay::SaveState(pugi::xml_node& scenegameplay) const
+{
+	/* THE BELOW CODE IS FOR TESTING PURPOSES*/
+
+	// Check if ITWORKS node exists
+	SString testName(scenegameplay.child("ITWORKS").name());
+	if (testName == "ITWORKS")
+	{
+		// Node ITWORKS exists
+		pugi::xml_node testNode = scenegameplay.child("ITWORKS");
+
+		testNode.attribute("A").set_value(12);
+		testNode.attribute("B").set_value(12);
+
+	}
+	else
+	{
+		// Node ITWORKS does not exist
+		pugi::xml_node testNode = scenegameplay.append_child("ITWORKS");
+
+		testNode.append_attribute("A").set_value(100);
+		testNode.append_attribute("B").set_value(100);
+	}
 	return true;
 }
 

@@ -23,6 +23,10 @@ public:
 
     bool Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager);
 
+    // Load / Save
+    bool LoadState(pugi::xml_node&);
+    bool SaveState(pugi::xml_node&) const;
+
     Player* GetCurrentPlayer();
 
 private:

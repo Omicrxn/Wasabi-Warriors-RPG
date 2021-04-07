@@ -6,6 +6,7 @@
 
 SceneEnding::SceneEnding()
 {
+    this->name = "sceneending";
 }
 
 SceneEnding::~SceneEnding()

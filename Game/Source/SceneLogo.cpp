@@ -13,6 +13,8 @@ SceneLogo::SceneLogo()
 {
     type = SceneType::LOGO;
 
+    this->name = "scenelogo";
+
     logoTex = nullptr;
     logo = { 0, 0, 1280, 720 };
 
