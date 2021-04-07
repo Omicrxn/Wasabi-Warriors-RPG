@@ -21,6 +21,7 @@ class AudioManager;
 class EntityManager;
 class SceneManager;
 class GuiManager;
+class Collisions;
 
 class App
 {
@@ -93,6 +94,7 @@ public:
 	EntityManager* entityManager;
 	SceneManager* sceneManager;
 	GuiManager* guiManager;
+	Collisions* collisions;
 
 private:
 

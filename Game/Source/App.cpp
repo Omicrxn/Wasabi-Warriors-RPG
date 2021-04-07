@@ -8,6 +8,7 @@
 #include "EntityManager.h"
 #include "SceneManager.h"
 #include "GuiManager.h"
+#include "Collisions.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -32,6 +33,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	entityManager = new EntityManager(input, render,tex);
 	guiManager = new GuiManager(input, render, tex, audio);
 	sceneManager = new SceneManager(input, render, tex, win, audio, entityManager, guiManager);
+	collisions = new Collisions(input, render);
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -42,6 +44,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(entityManager);
 	AddModule(sceneManager);
 	AddModule(guiManager);
+	AddModule(collisions);
 
 	// Render last to swap buffer
 	AddModule(render);

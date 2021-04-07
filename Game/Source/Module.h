@@ -7,6 +7,7 @@
 
 class GuiControl;
 enum class GuiControlState;
+class Collider;
 
 class Module
 {
@@ -66,6 +67,11 @@ public:
 	virtual bool SaveState(pugi::xml_node&) const
 	{
 		return true;
+	}
+
+	virtual void OnCollision(Collider* c1, Collider* c2)
+	{
+
 	}
 
 public:
