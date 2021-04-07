@@ -6,6 +6,7 @@
 #include "Map.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "NPC.h"
 
 class SceneGameplay : public Scene
 {
@@ -35,6 +36,9 @@ private:
     List<Player*> players;
     
     Enemy* enemy1;
+    NPC* npc1;
+    NPC* npc2;
+    NPC* npc3;
 };
 
 #endif // __SCENEGAMEPLAY_H__

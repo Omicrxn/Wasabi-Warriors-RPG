@@ -2,7 +2,6 @@
 
 Player::Player(Textures* tex) : Being()
 {
-
     texture = NULL;
     position = iPoint(12 * 16, 27 * 16);
     currentAnim = Animations::IDLE;

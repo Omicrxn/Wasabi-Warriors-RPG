@@ -8,6 +8,16 @@
 SceneGameplay::SceneGameplay()
 {
 	type = SceneType::GAMEPLAY;
+
+	map = nullptr;
+	currentPlayer = nullptr;
+
+	camera = { 0,0,1280,720 };
+
+	texture = nullptr;
+
+	enemy1 = nullptr;
+	npc1 = nullptr;
 }
 
 SceneGameplay::~SceneGameplay()
@@ -17,7 +27,8 @@ SceneGameplay::~SceneGameplay()
 bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager)
 {
 	
-	if (entityManager->SearchEntity("Map") == nullptr) {
+	if (entityManager->SearchEntity("Map") == nullptr)
+	{
 		map = (Map*)entityManager->CreateEntity(EntityType::MAP);
 		// L03: DONE: Load map
 		// L12b: Create walkability map on map loading
@@ -31,7 +42,8 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 			RELEASE_ARRAY(data);
 		}
 	}
-	else {
+	else
+	{
 		map = (Map*)entityManager->SearchEntity("Map");
 	}
 
@@ -45,7 +57,8 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	// Initialize players (party members)
 	// Party member 1
 
-		if (entityManager->SearchEntity("DaBaby") == nullptr) {
+		if (entityManager->SearchEntity("DaBaby") == nullptr)
+		{
 			players.Add((Player*)entityManager->CreateEntity(EntityType::PLAYER));
 			players.At(0)->data->position = iPoint(12 * 32, 6 * 32);
 			players.At(0)->data->SetTexture(texture, 3);
@@ -55,14 +68,16 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 			players.At(0)->data->SetState(true);
 			
 		}
-		else {
+		else
+		{
 			players.Add((Player*)entityManager->SearchEntity("DaBaby"));
 			players.At(0)->data->SetTexture(texture, 3);
 			currentPlayer = players.At(0)->data;
 		}
 		
 
-		if (entityManager->SearchEntity("John") == nullptr) {
+		if (entityManager->SearchEntity("John") == nullptr)
+		{
 			// Party member 2
 			players.Add((Player*)entityManager->CreateEntity(EntityType::PLAYER));
 			players.At(1)->data->position = iPoint(12 * 32, 6 * 32);
@@ -73,10 +88,11 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 		else 
 		{
 			players.Add((Player*)entityManager->SearchEntity("John"));
-		players.At(0)->data->SetTexture(texture, 3);
+			players.At(0)->data->SetTexture(texture, 3);
 		}
 		
-		if (entityManager->SearchEntity("DaBoss") == nullptr) {
+		if (entityManager->SearchEntity("DaBoss") == nullptr)
+		{
 			// Create enemy
 			enemy1 = (Enemy*)entityManager->CreateEntity(EntityType::ENEMY);
 			enemy1->position = iPoint(10 * 32, 6 * 32);
@@ -85,16 +101,60 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 		}
 		else
 		{
-
 			enemy1 = (Enemy*)entityManager->SearchEntity("DaBoss");
 			enemy1->SetTexture(texture, 7);
 		}
 
+		// Creating NPC 1
+		if (entityManager->SearchEntity("DaBull") == nullptr)
+		{
+			// Create enemy
+			npc1 = (NPC*)entityManager->CreateEntity(EntityType::NPC);
+			npc1->position = iPoint(14 * 32, 6 * 32);
+			npc1->SetTexture(texture, 8);
+			npc1->SetName("DaBull");
+		}
+		else
+		{
+			npc1 = (NPC*)entityManager->SearchEntity("DaBull");
+			npc1->SetTexture(texture, 8);
+		}
+
+		// Creating NPC 1
+		if (entityManager->SearchEntity("DaCow") == nullptr)
+		{
+			// Create enemy
+			npc2 = (NPC*)entityManager->CreateEntity(EntityType::NPC);
+			npc2->position = iPoint(10 * 32, 8 * 32);
+			npc2->SetTexture(texture, 2);
+			npc2->SetName("DaCow");
+		}
+		else
+		{
+			npc2 = (NPC*)entityManager->SearchEntity("DaCow");
+			npc2->SetTexture(texture, 2);
+		}
+
+		// Creating NPC 1
+		if (entityManager->SearchEntity("DaChicken") == nullptr)
+		{
+			// Create enemy
+			npc3 = (NPC*)entityManager->CreateEntity(EntityType::NPC);
+			npc3->position = iPoint(12 * 32, 8 * 32);
+			npc3->SetTexture(texture, 6);
+			npc3->SetName("DaChicken");
+		}
+		else
+		{
+			npc3 = (NPC*)entityManager->SearchEntity("DaChicken");
+			npc3->SetTexture(texture, 6);
+		}
+
 	return true;
 }
+
 inline bool CheckCollision(SDL_Rect rec1, SDL_Rect rec2)
 {
-	
 	if ((rec1.x < (rec2.x + rec2.w) && (rec1.x + rec1.w) > rec2.x) &&
 		(rec1.y < (rec2.y + rec2.h) && (rec1.y + rec1.h) > rec2.y)) return true;
 	else return false;

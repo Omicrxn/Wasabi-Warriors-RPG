@@ -13,8 +13,6 @@
 
 class SceneManager;
 
-
-
 class Player: public Being
 {
 public:

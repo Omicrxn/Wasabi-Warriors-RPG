@@ -14,6 +14,7 @@ enum class EntityType
     ENEMY,
     ITEM,
     MAP,
+    NPC,
     UNKNOWN
 };
 

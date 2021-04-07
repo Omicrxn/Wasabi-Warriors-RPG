@@ -4,6 +4,7 @@
 
 #include "Entity.h"
 #include "Animation.h"
+
 enum class Animations
 {
 	IDLE,
@@ -12,6 +13,7 @@ enum class Animations
 	LEFT,
 	RIGHT
 };
+
 class Stats
 {
 public:
@@ -53,8 +55,6 @@ class Being : public Entity
 public:
 
 	Being() : Entity(EntityType::UNKNOWN) {};
-
-public:
 
 	virtual void Walk(iPoint direction, float dt) = 0;
 
