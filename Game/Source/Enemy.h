@@ -21,7 +21,7 @@ public:
 
     bool Draw(Render* render);
 
-    void SetTexture(SDL_Texture* tex, int spritePos);
+    void SetUpTexture();
 
     void Walk(iPoint direction, float dt);
 
@@ -29,7 +29,6 @@ public:
 
 
 public:
-    SDL_Texture* texture;   // Player spritesheet
 
     Animations currentAnim;
 

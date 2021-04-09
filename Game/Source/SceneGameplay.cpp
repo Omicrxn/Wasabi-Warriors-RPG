@@ -17,9 +17,6 @@ SceneGameplay::SceneGameplay()
 	camera = { 0,0,1280,720 };
 
 	texture = nullptr;
-
-	enemy1 = nullptr;
-	npc1 = nullptr;
 }
 
 SceneGameplay::~SceneGameplay()
@@ -29,9 +26,7 @@ SceneGameplay::~SceneGameplay()
 bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager)
 {
 	
-	if (entityManager->SearchEntity("Map") == nullptr)
-	{
-		map = (Map*)entityManager->CreateEntity(EntityType::MAP);
+		map = (Map*)entityManager->CreateEntity(EntityType::MAP,"Map");
 		// L03: DONE: Load map
 		// L12b: Create walkability map on map loading
 		if (map->Load("Cemetery", "Cemetery.tmx") == true)
@@ -43,11 +38,6 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 
 			RELEASE_ARRAY(data);
 		}
-	}
-	else
-	{
-		map = (Map*)entityManager->SearchEntity("Map");
-	}
 
 
 	// Load music
@@ -55,103 +45,21 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 
 	// Load textures
 	texture = tex->Load("Assets/Textures/Characters/characters_spritesheet.png");
+	Entity* entity;
+	entity = entityManager->CreateEntity(EntityType::PLAYER,"DaBaby");
+	entity->position = iPoint(12 * 32, 6 * 32);
+	entity->SetTexture(texture,3);
+	entity->SetState(true);
+	entity = nullptr;
+	entity = entityManager->CreateEntity(EntityType::ENEMY, "DaBoss");
+	entity->position = iPoint(10 * 32, 6 * 32);
+	entity->SetTexture(texture, 5);
+	entity = nullptr;
 
-	// Initialize players (party members)
-	// Party member 1
-
-		if (entityManager->SearchEntity("DaBaby") == nullptr)
-		{
-			players.Add((Player*)entityManager->CreateEntity(EntityType::PLAYER));
-			players.At(0)->data->position = iPoint(12 * 32, 6 * 32);
-			players.At(0)->data->SetTexture(texture, 3);
-			players.At(0)->data->SetName("DaBaby");
-			// Set this party member as the current one
-			currentPlayer = players.At(0)->data;
-			players.At(0)->data->SetState(true);
-			
-		}
-		else
-		{
-			players.Add((Player*)entityManager->SearchEntity("DaBaby"));
-			players.At(0)->data->SetTexture(texture, 3);
-			currentPlayer = players.At(0)->data;
-		}
-		
-
-		if (entityManager->SearchEntity("John") == nullptr)
-		{
-			// Party member 2
-			players.Add((Player*)entityManager->CreateEntity(EntityType::PLAYER));
-			players.At(1)->data->position = iPoint(12 * 32, 6 * 32);
-			players.At(1)->data->SetTexture(texture, 4);
-			players.At(1)->data->SetName("John");
-
-		}
-		else 
-		{
-			players.Add((Player*)entityManager->SearchEntity("John"));
-			players.At(0)->data->SetTexture(texture, 3);
-		}
-		
-		if (entityManager->SearchEntity("DaBoss") == nullptr)
-		{
-			// Create enemy
-			enemy1 = (Enemy*)entityManager->CreateEntity(EntityType::ENEMY);
-			enemy1->position = iPoint(10 * 32, 6 * 32);
-			enemy1->SetTexture(texture, 7);
-			enemy1->SetName("DaBoss");
-		}
-		else
-		{
-			enemy1 = (Enemy*)entityManager->SearchEntity("DaBoss");
-			enemy1->SetTexture(texture, 7);
-		}
-
-		// Creating NPC 1
-		if (entityManager->SearchEntity("DaBull") == nullptr)
-		{
-			// Create enemy
-			npc1 = (NPC*)entityManager->CreateEntity(EntityType::NPC);
-			npc1->position = iPoint(14 * 32, 6 * 32);
-			npc1->SetTexture(texture, 8);
-			npc1->SetName("DaBull");
-		}
-		else
-		{
-			npc1 = (NPC*)entityManager->SearchEntity("DaBull");
-			npc1->SetTexture(texture, 8);
-		}
-
-		// Creating NPC 1
-		if (entityManager->SearchEntity("DaCow") == nullptr)
-		{
-			// Create enemy
-			npc2 = (NPC*)entityManager->CreateEntity(EntityType::NPC);
-			npc2->position = iPoint(10 * 32, 8 * 32);
-			npc2->SetTexture(texture, 2);
-			npc2->SetName("DaCow");
-		}
-		else
-		{
-			npc2 = (NPC*)entityManager->SearchEntity("DaCow");
-			npc2->SetTexture(texture, 2);
-		}
-
-		// Creating NPC 1
-		if (entityManager->SearchEntity("DaChicken") == nullptr)
-		{
-			// Create enemy
-			npc3 = (NPC*)entityManager->CreateEntity(EntityType::NPC);
-			npc3->position = iPoint(12 * 32, 8 * 32);
-			npc3->SetTexture(texture, 6);
-			npc3->SetName("DaChicken");
-		}
-		else
-		{
-			npc3 = (NPC*)entityManager->SearchEntity("DaChicken");
-			npc3->SetTexture(texture, 6);
-		}
-
+	entity = entityManager->CreateEntity(EntityType::NPC, "DaBot");
+	entity->position = iPoint(10 * 32, 6 * 32);
+	entity->SetTexture(texture, 4);
+	entity = nullptr;
 	return true;
 }
 
@@ -168,14 +76,6 @@ bool SceneGameplay::Update(Input* input, float dt)
 	//if (input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) app->LoadGameRequest();
 	//if (input->GetKey(SDL_SCANCODE_S) == KEY_DOWN) app->SaveGameRequest();
 
-	// Press B to enter the battle scene, just for debug purposes [remove later]
-	if (input->GetKey(SDL_SCANCODE_B) == KEY_DOWN)
-	{
-		// Set the players and the enemy(ies) data in the battle system
-		BattleSystem::GetInstance()->SetupBattle(players, enemy1);
-
-		TransitionToScene(SceneType::BATTLE);
-	}
 	return true;
 }
 
@@ -187,7 +87,7 @@ bool SceneGameplay::Draw(Render* render)
 bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager)
 {
 	// TODO: Unload all resources
-	/*map->CleanUp();*/
+	map->CleanUp();
 	tex->UnLoad(texture);
 
 	return true;

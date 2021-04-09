@@ -37,52 +37,69 @@ bool EntityManager::Awake(pugi::xml_node& config)
 // Called before quitting
 bool EntityManager::CleanUp()
 {
-	for (int i = 0; i < entities.Count(); i++)
+	for (int i = 0; i < entityList.Count(); i++)
 	{
-		if(entities.At(i)->data->destroy)
-		entities.Del(entities.At(i));
+		if(entityList.At(i)->data->destroy)
+			entityList.Del(entityList.At(i));
 	}
 
 	return true;
 }
 
-Entity* EntityManager::CreateEntity(EntityType type)
+Entity* EntityManager::CreateEntity(EntityType type, SString name)
 {
 	Entity* ret = nullptr;
 
 	switch (type)
 	{
 		// L13: Create the corresponding type entity
-		case EntityType::PLAYER: ret = new Player(tex); break;
-		case EntityType::ENEMY: ret = new Enemy(); break;
+		case EntityType::PLAYER:
+			ret = new Player(tex); 
+			ret->type = EntityType::PLAYER;
+			ret->name = name;
+			playerList.Add((Player*)ret);
+			break;
+		case EntityType::ENEMY: 
+			ret = new Enemy();
+			ret->type = EntityType::ENEMY;
+			ret->name = name;
+			enemyList.Add((Enemy*)ret);
+			break;
 		//case EntityType::ITEM: ret = new Item(); break;
-		case EntityType::MAP: ret = new Map(tex); break;
-		case EntityType::NPC: ret = new NPC(); break;
+		case EntityType::MAP: 
+			ret = new Map(tex); 
+			break;
+		case EntityType::NPC: 
+			ret = new NPC();
+			ret->type = EntityType::NPC;
+			ret->name = name;
+			npcList.Add((NPC*)ret);
+			break;
 		default: break;
 	}
 
 	// Created entities are added to the list
-	if (ret != nullptr) entities.Add(ret);
+	if (ret != nullptr) entityList.Add(ret);
 
 	return ret;
 }
 
 void EntityManager::DestroyEntity(Entity* entity)
 {
-	for (int i = 0; i < entities.Count(); i++)
+	for (int i = 0; i < entityList.Count(); i++)
 	{
-		if (entities.At(i)->data->id == entity->id)
+		if (entityList.At(i)->data->id == entity->id)
 		{
-			entities.Del(entities.At(i));
+			entityList.Del(entityList.At(i));
 		}
 	}
 }
 
 void EntityManager::DestroyEntityChecker(float dt)
 {
-	for (int i = 0; i < entities.Count(); i++)
+	for (int i = 0; i < entityList.Count(); i++)
 	{
-		if (entities.At(i)->data->destroy == true) entities.Del(entities.At(i));
+		if (entityList.At(i)->data->destroy == true) entityList.Del(entityList.At(i));
 	}
 }
 
@@ -109,11 +126,11 @@ bool EntityManager::UpdateAll(float dt, bool doLogic)
 	if (doLogic)
 	{
 		// TODO: Update all entities
-		for (int i = 0; i < entities.Count(); i++)
+		for (int i = 0; i < entityList.Count(); i++)
 		{
-			entities.At(i)->data->Update(dt);
-			entities.At(i)->data->Update(input,dt);
-			entities.At(i)->data->Draw(ren);
+			entityList.At(i)->data->Update(dt);
+			entityList.At(i)->data->Update(input,dt);
+			entityList.At(i)->data->Draw(ren);
 		}
 
 	}
@@ -123,11 +140,11 @@ bool EntityManager::UpdateAll(float dt, bool doLogic)
 
 Entity* EntityManager::SearchEntity(SString name, uint32 id)
 {
-	for (int i = 0; i < entities.Count(); i++)
+	for (int i = 0; i < entityList.Count(); i++)
 	{
-		if (entities.At(i)->data->name == name)
+		if (entityList.At(i)->data->name == name)
 		{
-			return entities.At(i)->data;
+			return entityList.At(i)->data;
 		}
 	}
 	return nullptr;

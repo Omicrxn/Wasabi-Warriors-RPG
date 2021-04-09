@@ -21,6 +21,7 @@ Player::Player(Textures* tex) : Being()
     this->stats.attackSpeed = 5;
     this->stats.criticalRate = 10;
     active = false;
+    SetUpTexture();
 }
 
 bool Player::Update(Input* input, float dt)
@@ -83,14 +84,13 @@ bool Player::Draw(Render* render)
     return true;
 }
 
-void Player::SetTexture(SDL_Texture *tex, int spritePos)
+void Player::SetUpTexture()
 {
     // Define player textures / animations
     int textureStartYPos = spritePos * 32 * 5;
-    texture = tex;
-    for (int y = textureStartYPos; y < y+160; y+=32)
+    for (int y = textureStartYPos; y < y + 160; y += 32)
     {
-        for (int x = 0; x < 8*32; x+=32)
+        for (int x = 0; x < 8 * 32; x += 32)
         {
             if (y == textureStartYPos && x == 128)
                 break;
@@ -104,12 +104,12 @@ void Player::SetTexture(SDL_Texture *tex, int spritePos)
                 walkRightAnim.PushBack({ x,y,32,32 });
                 walkRightAnim.speed = 0.2;
             }
-            else if (y == textureStartYPos + 32*2)
+            else if (y == textureStartYPos + 32 * 2)
             {
                 walkUpAnim.PushBack({ x,y,32,32 });
                 walkUpAnim.speed = 0.2;
             }
-            else if (y == textureStartYPos + 32*3)
+            else if (y == textureStartYPos + 32 * 3)
             {
                 walkDownAnim.PushBack({ x,y,32,32 });
                 walkDownAnim.speed = 0.2;

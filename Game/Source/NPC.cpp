@@ -12,6 +12,7 @@ NPC::NPC() : Entity(EntityType::NPC)
     direction = { 0,0 };
     active = true;
     stepsCounter = 0;
+    SetUpTexture();
 }
 
 NPC::~NPC()
@@ -118,11 +119,10 @@ void NPC::Walk(iPoint direction, float dt)
     position.y = position.y + direction.y * (velocity.y * dt);
 }
 
-void NPC::SetTexture(SDL_Texture* tex, int spritePos)
+void NPC::SetUpTexture()
 {
-    // Define NPC textures / animations
+    // Define player textures / animations
     int textureStartYPos = spritePos * 32 * 5;
-    texture = tex;
     for (int y = textureStartYPos; y < y + 160; y += 32)
     {
         for (int x = 0; x < 8 * 32; x += 32)

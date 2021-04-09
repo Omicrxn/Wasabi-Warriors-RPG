@@ -9,6 +9,9 @@
 class Render;
 class Textures;
 class Input;
+class Player;
+class Enemy;
+class NPC;
 
 class EntityManager : public Module
 {
@@ -28,7 +31,7 @@ public:
 	bool CleanUp();
 
 	// Additional methods
-	Entity* CreateEntity(EntityType type);
+	Entity* CreateEntity(EntityType type, SString name);
 	void DestroyEntity(Entity* entity);
 	void DestroyEntityChecker(float dt);
 
@@ -44,7 +47,10 @@ public:
 	Render* ren;
 	Textures* tex;
 	Input* input;
-	List<Entity*> entities;
+	List<Entity*> entityList;
+	List<Player*> playerList;
+	List<Enemy*> enemyList;
+	List<NPC*> npcList;
 
 	float accumulatedTime = 0.0f;
 	float updateMsCycle = 0.0f;

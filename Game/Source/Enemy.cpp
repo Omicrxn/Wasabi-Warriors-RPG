@@ -45,11 +45,10 @@ bool Enemy::Draw(Render* render)
 	return true;
 }
 
-void Enemy::SetTexture(SDL_Texture* tex, int spritePos)
+void Enemy::SetUpTexture()
 {
     // Define player textures / animations
     int textureStartYPos = spritePos * 32 * 5;
-    texture = tex;
     for (int y = textureStartYPos; y < y + 160; y += 32)
     {
         for (int x = 0; x < 8 * 32; x += 32)

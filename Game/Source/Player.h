@@ -23,7 +23,7 @@ public:
 
     bool Draw(Render* render);
 
-    void SetTexture(SDL_Texture *tex, int textureStartYPos);
+    void SetUpTexture();
 
     SDL_Rect GetBounds();
 
@@ -35,8 +35,6 @@ private:
     void Walk(iPoint direction, float dt);
 
 public:
-
-    SDL_Texture* texture;   // Player spritesheet
 
     Animations currentAnim;
 

@@ -24,7 +24,7 @@ public:
 	bool NPC::Update(Input* input, float dt);
 	bool Draw(Render* render);
 
-	void NPC::SetTexture(SDL_Texture* tex, int spritePos);
+	void NPC::SetUpTexture();
 	void NPC::SetName(SString name);
 
 private:

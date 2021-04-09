@@ -48,6 +48,13 @@ public:
     {
         active = state;
     }
+    void SetTexture(SDL_Texture* texture, int spritePos = -1) {
+        this->texture = texture;
+        this->spritePos = spritePos;
+        if (spritePos > -1)
+            SetUpTexture();
+    }
+    virtual void SetUpTexture() {}
 
 public:
 
@@ -66,6 +73,7 @@ public:
 protected:
 
     bool active = true;
+    int spritePos;
 };
 
 #endif // __ENTITY_H__
