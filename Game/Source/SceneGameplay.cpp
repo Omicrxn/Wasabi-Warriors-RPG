@@ -105,6 +105,11 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	entity->SetState(true);
 	entity = nullptr;
 	currentPlayer = entityManager->playerList.At(0)->data;
+	// Create party member 2
+	entity = entityManager->CreateEntity(EntityType::PLAYER, "DaCrack");
+	entity->position = iPoint(12 * 32, 6 * 32);
+	entity->SetTexture(spritesheet, 6);
+	entity = nullptr;
 	// Create enemy
 	entity = entityManager->CreateEntity(EntityType::ENEMY, "DaBoss");
 	entity->position = iPoint(10 * 32, 6 * 32);
@@ -224,64 +229,96 @@ bool SceneGameplay::Draw(Render* render)
 
 		if (battleSystem->battleState == BattleState::PLAYER_TURN)
 		{
-			render->DrawText(titleFont, "Your turn", 50 + 3, 50 + 3, 125, 0, { 105, 105, 105, 255 });
-			render->DrawText(titleFont, "Your turn", 50, 50, 125, 0, { 255, 255, 255, 255 });
+			render->DrawText(titleFont, "Your turn", 50 + 3, 30 + 3, 125, 0, { 105, 105, 105, 255 });
+			render->DrawText(titleFont, "Your turn", 50, 30, 125, 0, { 255, 255, 255, 255 });
+
+			if (battleSystem->playerState == PlayerState::ATTACK)
+			{
+				render->DrawText(titleFont, "You're attacking!", 50 + 3, 130 + 3, 75, 0, { 105, 105, 105, 255 });
+				render->DrawText(titleFont, "You're attacking!", 50, 130, 75, 0, { 255, 255, 255, 255 });
+			}
+			else if (battleSystem->playerState == PlayerState::DEFEND)
+			{
+				render->DrawText(titleFont, "You're defending!", 50 + 3, 130 + 3, 75, 0, { 105, 105, 105, 255 });
+				render->DrawText(titleFont, "You're defending!", 50, 130, 75, 0, { 255, 255, 255, 255 });
+			}
 		}
 		else if (battleSystem->battleState == BattleState::ENEMY_TURN)
 		{
-			render->DrawText(titleFont, "Enemy turn", 50 + 3, 50 + 3, 125, 0, { 105, 105, 105, 255 });
-			render->DrawText(titleFont, "Enemy turn", 50, 50, 125, 0, { 255, 255, 255, 255 });
+			render->DrawText(titleFont, "Enemy turn", 50 + 3, 30 + 3, 125, 0, { 105, 105, 105, 255 });
+			render->DrawText(titleFont, "Enemy turn", 50, 30, 125, 0, { 255, 255, 255, 255 });
 
 			if (battleSystem->enemyState == EnemyState::ATTACK)
 			{
-				render->DrawText(titleFont, "Enemy is attacking!", 50 + 3, 150 + 3, 75, 0, { 105, 105, 105, 255 });
-				render->DrawText(titleFont, "Enemy is attacking!", 50, 150, 75, 0, { 255, 255, 255, 255 });
+				render->DrawText(titleFont, "Enemy is attacking!", 50 + 3, 130 + 3, 75, 0, { 105, 105, 105, 255 });
+				render->DrawText(titleFont, "Enemy is attacking!", 50, 130, 75, 0, { 255, 255, 255, 255 });
 			}
 			else if (battleSystem->enemyState == EnemyState::DEFEND)
 			{
-				render->DrawText(titleFont, "Enemy is defending!", 50 + 3, 150 + 3, 75, 0, { 105, 105, 105, 255 });
-				render->DrawText(titleFont, "Enemy is defending!", 50, 150, 75, 0, { 255, 255, 255, 255 });
+				render->DrawText(titleFont, "Enemy is defending!", 50 + 3, 130 + 3, 75, 0, { 105, 105, 105, 255 });
+				render->DrawText(titleFont, "Enemy is defending!", 50, 130, 75, 0, { 255, 255, 255, 255 });
 			}
 		}
 
-		// Player name
-		render->DrawText(buttonFont, currentPlayer->stats.name.GetString(), 100 + 3, 200 + 3, 50, 0, { 105, 105, 105, 255 });
-		render->DrawText(buttonFont, currentPlayer->stats.name.GetString(), 100, 200, 50, 0, { 255, 255, 255, 255 });
-
-		// Player life
-		char HP[8] = { 0 };
-		sprintf_s(HP, 8, "HP: %03i", currentPlayer->stats.currentHP);
-		render->DrawText(buttonFont, HP, 100 + 3, 275 + 3, 50, 0, { 105, 105, 105, 255 });
-		render->DrawText(buttonFont, HP, 100, 275, 50, 0, { 255, 255, 255, 255 });
-
-		// Enemy name
-		render->DrawText(buttonFont, battleSystem->GetEnemy()->stats.name.GetString(), 900 + 3, 50 + 3, 50, 0, { 105, 105, 105, 255 });
-		render->DrawText(buttonFont, battleSystem->GetEnemy()->stats.name.GetString(), 900, 50, 50, 0, { 255, 255, 255, 255 });
-
-		// Enemy life
-		sprintf_s(HP, 8, "HP: %03i", battleSystem->GetEnemy()->stats.currentHP);
-		render->DrawText(buttonFont, HP, 900 + 3, 125 + 3, 50, 0, { 105, 105, 105, 255 });
-		render->DrawText(buttonFont, HP, 900, 125, 50, 0, { 255, 255, 255, 255 });
-
-		// Draw party members textures
-		SDL_Rect rect = { 0,481,32,32 };
-		render->scale = 5;
-		for (int i = 0; i < battleSystem->GetPlayersList()->Count(); i++)
+		if (battleSystem->battleState != BattleState::WON &&
+			battleSystem->battleState != BattleState::LOST &&
+			battleSystem->battleState != BattleState::EXIT)
 		{
-			rect = battleSystem->GetPlayersList()->At(i)->data->animRec;
-			render->DrawTexture(spritesheet, 22.5 + 20 * i, 75, &rect, 0);
+			// Player name
+			render->DrawText(buttonFont, currentPlayer->name.GetString(), 100 + 3, 200 + 3, 50, 0, { 105, 105, 105, 255 });
+			render->DrawText(buttonFont, currentPlayer->name.GetString(), 100, 200, 50, 0, { 255, 255, 255, 255 });
+
+			// Player life
+			char HP[8] = { 0 };
+			sprintf_s(HP, 8, "HP: %03i", currentPlayer->stats.currentHP);
+			render->DrawText(buttonFont, HP, 100 + 3, 275 + 3, 50, 0, { 105, 105, 105, 255 });
+			render->DrawText(buttonFont, HP, 100, 275, 50, 0, { 255, 255, 255, 255 });
+
+			// Enemy name
+			render->DrawText(buttonFont, battleSystem->GetEnemy()->name.GetString(), 900 + 3, 50 + 3, 50, 0, { 105, 105, 105, 255 });
+			render->DrawText(buttonFont, battleSystem->GetEnemy()->name.GetString(), 900, 50, 50, 0, { 255, 255, 255, 255 });
+
+			// Enemy life
+			sprintf_s(HP, 8, "HP: %03i", battleSystem->GetEnemy()->stats.currentHP);
+			render->DrawText(buttonFont, HP, 900 + 3, 125 + 3, 50, 0, { 105, 105, 105, 255 });
+			render->DrawText(buttonFont, HP, 900, 125, 50, 0, { 255, 255, 255, 255 });
+
+			// Draw party members textures
+			SDL_Rect rect = { 0,481,32,32 };
+			render->scale = 5;
+			for (int i = 0; i < battleSystem->GetPlayersList()->Count(); i++)
+			{
+				rect = battleSystem->GetPlayersList()->At(i)->data->idleAnim.GetFrame(0);
+				render->DrawTexture(spritesheet, 22.5 + 20 * i, 75, &rect, 0);
+			}
+			render->scale = 1;
+
+			// Draw Enemy textures
+			rect = battleSystem->GetEnemy()->animRec;
+			render->scale = 5;
+			render->DrawTexture(spritesheet, 175, 25, &rect, 0);
+			render->scale = 1;
+
+			rect = { 171,486,22,21 };
+			render->DrawTexture(guiAtlasTex, 175, 350, &rect, 0, 90.0);
 		}
-		render->scale = 1;
-
-		// Draw Enemy textures
-		rect = battleSystem->GetEnemy()->animRec;
-		render->scale = 5;
-		render->DrawTexture(spritesheet, 175, 25, &rect, 0);
-
-		render->scale = 1;
-
-		rect = { 171,486,22,21 };
-		render->DrawTexture(guiAtlasTex, 175, 350, &rect, 0, 90.0);
+		else if (battleSystem->battleState == BattleState::WON)
+		{
+			// Display winner text
+			render->DrawText(titleFont, "You win!", 50 + 3, 30 + 3, 125, 0, { 105, 105, 105, 255 });
+			render->DrawText(titleFont, "You win!", 50, 30, 125, 0, { 255, 255, 255, 255 });
+		}
+		else if (battleSystem->battleState == BattleState::LOST)
+		{
+			// Display loser text
+			render->DrawText(titleFont, "You lose!", 50 + 3, 30 + 3, 125, 0, { 105, 105, 105, 255 });
+			render->DrawText(titleFont, "You lose!", 50, 30, 125, 0, { 255, 255, 255, 255 });
+		}
+		else if (battleSystem->battleState == BattleState::EXIT)
+		{
+			// Get out of the battle screen and return to the gameplay screen
+			ExitBattle();
+		}
 	}
 
     return true;
@@ -323,8 +360,6 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 	guiManager->DestroyGuiControl(btnItem);
 	guiManager->DestroyGuiControl(btnRun);
 	guiManager->DestroyGuiControl(btnNone);
-
-	battleSystem->ResetBattle();
 
 	return true;
 }
@@ -373,15 +408,30 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 	{
 	case GuiControlType::BUTTON:
 	{
-		if (control->id == 1) battleSystem->battleGUIState = BattleGUIState::ATTACK;
-		else if (control->id == 2) battleSystem->battleGUIState = BattleGUIState::DEFEND;
-		else if (control->id == 3) battleSystem->battleGUIState = BattleGUIState::ITEM;
-		else if (control->id == 4) battleSystem->battleGUIState = BattleGUIState::RUN;
-		else if (control->id == 5) battleSystem->battleGUIState = BattleGUIState::NONE;
+		if (control->id == 1) battleSystem->playerState = PlayerState::ATTACK;
+		else if (control->id == 2) battleSystem->playerState = PlayerState::DEFEND;
+		else if (control->id == 3) battleSystem->playerState = PlayerState::ITEM;
+		else if (control->id == 4)
+		{
+			battleSystem->playerState = PlayerState::RUN;
+			ExitBattle();
+		}
+		else if (control->id == 5) battleSystem->playerState = PlayerState::NONE;
 		break;
 	}
 	default: break;
 	}
 
 	return true;
+}
+
+void SceneGameplay::ExitBattle()
+{
+	btnAttack->state = GuiControlState::DISABLED;
+	btnDefend->state = GuiControlState::DISABLED;
+	btnItem->state = GuiControlState::DISABLED;
+	btnRun->state = GuiControlState::DISABLED;
+	/*btnNone->state = GuiControlState::DISABLED;*/
+	battle = false;
+	battleSystem->ResetBattle();
 }

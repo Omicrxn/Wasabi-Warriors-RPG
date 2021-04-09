@@ -15,10 +15,11 @@ enum class BattleState
 	ENEMY_TURN,
 	WON,
 	LOST,
+	EXIT,
 	NONE
 };
 
-enum class BattleGUIState
+enum class PlayerState
 {
 	ATTACK,
 	DEFEND,
@@ -47,12 +48,11 @@ public:
 	// Functions for the different battle states
 	bool Update(Input* input, float dt);
 	bool ResetBattle();
+	bool WinAndLose();
 
 	// Functions for the Battle state
 	void PlayerTurn();
 	void EnemyTurn();
-	void Won();
-	void Lost();
 
 	Player* GetPlayer();
 	List<Player*>* BattleSystem::GetPlayersList();
@@ -61,7 +61,7 @@ public:
 	// Battle state (Current attacker and defender)
 	BattleState battleState;
 	// Menu state when the player attacks
-	BattleGUIState battleGUIState;
+	PlayerState playerState;
 	// Enemy state (to keep track of the action)
 	EnemyState enemyState;
 
@@ -76,7 +76,7 @@ private:
 	// Enemy against whom the player is fighting
 	Enemy* enemy;
 	// Time counter for the enemy turn
-	uint enemyTurnCounter;
+	uint turnCounter;
 };
 
 #endif // __BATTLESYSTEM_H__

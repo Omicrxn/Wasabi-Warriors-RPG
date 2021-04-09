@@ -37,6 +37,9 @@ public:
     // Declare on mouse click event
     bool OnGuiMouseClickEvent(GuiControl* control);
 
+    // To return to the gameplay and reset the battle elements and buttons
+    void ExitBattle();
+
 private:
 
     // Needed modules

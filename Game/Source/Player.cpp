@@ -13,11 +13,11 @@ Player::Player(Textures* tex) : Being()
     // Define player parameters
     this->stats.name = "Player";
     this->stats.level = 1;
-    this->stats.damage = 10;
+    this->stats.damage = 20;
     this->stats.maxHP = 120;
     this->stats.currentHP = 100;
     this->stats.strength = 10;
-    this->stats.defense = 10;
+    this->stats.defense = 15;
     this->stats.attackSpeed = 5;
     this->stats.criticalRate = 10;
     active = false;

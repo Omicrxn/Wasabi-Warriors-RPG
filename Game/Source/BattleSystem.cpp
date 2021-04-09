@@ -13,13 +13,13 @@
 BattleSystem::BattleSystem()
 {
 	battleState = BattleState::PLAYER_TURN;
-	battleGUIState = BattleGUIState::NONE;
+	playerState = PlayerState::NONE;
 	enemyState = EnemyState::NONE;
 
 	// Right now we only have one party member implemented
 	numPlayers = 1;
 	// Time for enemy to manage their actions
-	enemyTurnCounter = 300;
+	turnCounter = 0;
 }
 
 BattleSystem::~BattleSystem()
@@ -31,9 +31,6 @@ bool BattleSystem::Update(Input* input, float dt)
 {
 	switch (battleState)
 	{
-	case BattleState::START:
-		/*Start();*/
-		break;
 	case BattleState::PLAYER_TURN:
 		PlayerTurn();
 		break;
@@ -41,13 +38,10 @@ bool BattleSystem::Update(Input* input, float dt)
 		EnemyTurn();
 		break;
 	case BattleState::WON:
-		Won();
+		WinAndLose();
 		break;
 	case BattleState::LOST:
-		Lost();
-		break;
-	case BattleState::NONE:
-		// Warn the battle screen that the combat has finished in order to get out of it and return to the gameplay screen.
+		WinAndLose();
 		break;
 	default:
 		break;
@@ -86,7 +80,7 @@ bool BattleSystem::ResetBattle()
 	// Battle state (Current attacker and defender)
 	battleState = BattleState::PLAYER_TURN;
 	// Menu state when the player attacks
-	battleGUIState = BattleGUIState::NONE;
+	playerState = PlayerState::NONE;
 	// Enemy state (to keep track of the action)
 	enemyState = EnemyState::NONE;
 
@@ -104,69 +98,89 @@ bool BattleSystem::ResetBattle()
 	return true;
 }
 
+bool BattleSystem::WinAndLose()
+{
+	turnCounter++;
+
+	if (turnCounter > 300)
+	{
+		battleState = BattleState::EXIT;
+	}
+
+	return false;
+}
+
 void BattleSystem::PlayerTurn()
 {
-	// Manage player input for the battle system interface
-	switch (battleGUIState)
+	if (turnCounter == 0)
 	{
-	case BattleGUIState::ATTACK:
-		// Enter the attack menu when we have it implemented
-		// At the moment:
-		// Display the player attack text
-		// Play animation
-		// Substract life points to the enemy
-		enemy->stats.currentHP -= currentPlayer->stats.damage;
+		// Manage player input for the battle system interface
+		switch (playerState)
+		{
+		case PlayerState::ATTACK:
+			// Enter the attack menu when we have it implemented
+			// At the moment:
+			// Display the player attack text
+			// Play animation
+			// Substract life points to the enemy
+			enemy->stats.currentHP -= currentPlayer->stats.damage;
+
+			// Set as the current player the next party member (if it's available)
+			/*for (int i = 0; i < players.Count(); i++)
+			{
+				if (players.At(i) != nullptr)
+				{
+					if (players.At(i)->data->stats.name == currentPlayer->stats.name)
+					{
+						if (players.At(i)->next != nullptr)
+							currentPlayer = players.At(i)->next->data;
+						break;
+					}
+				}
+			}*/
+			break;
+		case PlayerState::DEFEND:
+			// Add life points to the player
+			currentPlayer->stats.currentHP += currentPlayer->stats.defense;
+			// Check if the player life has gone over their maximum HP
+			if (currentPlayer->stats.currentHP > currentPlayer->stats.maxHP)
+				currentPlayer->stats.currentHP = currentPlayer->stats.maxHP;
+			break;
+		case PlayerState::ITEM:
+			// Get into the items menu
+			// Items logic
+			break;
+		case PlayerState::RUN:
+			// Return to the gameplay screen
+			break;
+		case PlayerState::NONE:
+			// ...
+			break;
+		default:
+			break;
+		}
+	}
+
+	if (playerState != PlayerState::NONE) turnCounter++;
+
+	if (turnCounter > 300 && playerState != PlayerState::NONE)
+	{
+		// Reset variables for the next time
+		turnCounter = 0;
+		playerState = PlayerState::NONE;
+
 		// Check if the enemy has died
 		if (enemy->stats.currentHP <= 0)
 			battleState = BattleState::WON;
-
-		battleState = BattleState::ENEMY_TURN;
-
-		// Set as the current player the next party member (if it's available)
-		/*for (int i = 0; i < players.Count(); i++)
-		{
-			if (players.At(i) != nullptr)
-			{
-				if (players.At(i)->data->stats.name == currentPlayer->stats.name)
-				{
-					if (players.At(i)->next != nullptr)
-						currentPlayer = players.At(i)->next->data;
-					break;
-				}
-			}
-		}*/
-		break;
-	case BattleGUIState::DEFEND:
-		// Add life points to the player
-		currentPlayer->stats.currentHP += currentPlayer->stats.defense;
-		// Check if the player life has gone over their maximum HP
-		if (currentPlayer->stats.currentHP > currentPlayer->stats.maxHP)
-			currentPlayer->stats.currentHP = currentPlayer->stats.maxHP;
-
-		battleState = BattleState::ENEMY_TURN;
-		break;
-	case BattleGUIState::ITEM:
-		// Get into the items menu
-		// Items logic
-
-		battleState = BattleState::ENEMY_TURN;
-		break;
-	case BattleGUIState::RUN:
-		// Return to the gameplay screen
-		battleState = BattleState::NONE;
-		break;
-	case BattleGUIState::NONE:
-		// ...
-		break;
-	default:
-		break;
+		else
+			battleState = BattleState::ENEMY_TURN;
 	}
 }
 
 void BattleSystem::EnemyTurn()
 {
 	// Define randomly an action for the enemy (only the first time)
-	if (enemyTurnCounter == 0)
+	if (turnCounter == 0)
 	{
 		int num = rand() % 100;
 		if (num < 50)
@@ -175,7 +189,7 @@ void BattleSystem::EnemyTurn()
 			enemyState = EnemyState::ATTACK;
 
 			// Substract life points to the player
-			if (enemyTurnCounter == 0)
+			if (turnCounter == 0)
 				currentPlayer->stats.currentHP -= enemy->stats.damage;
 		}
 		else
@@ -184,7 +198,7 @@ void BattleSystem::EnemyTurn()
 			enemyState = EnemyState::DEFEND;
 
 			// Add life points to the enemy (only the first time)
-			if (enemyTurnCounter == 0)
+			if (turnCounter == 0)
 			{
 				enemy->stats.currentHP += enemy->stats.defense;
 
@@ -195,12 +209,12 @@ void BattleSystem::EnemyTurn()
 		}
 	}
 
-	enemyTurnCounter++;
+	turnCounter++;
 
-	if (enemyTurnCounter > 300)
+	if (turnCounter > 300)
 	{
 		// Reset variables for the next time
-		enemyTurnCounter = 0;
+		turnCounter = 0;
 		enemyState = EnemyState::NONE;
 
 		// Check if the player has died
@@ -209,18 +223,6 @@ void BattleSystem::EnemyTurn()
 		else
 			battleState = BattleState::PLAYER_TURN;
 	}
-}
-
-void BattleSystem::Won()
-{
-	// Display winner text
-	// Get out of the battle screen and return to the gameplay screen
-}
-
-void BattleSystem::Lost()
-{
-	// Display loser text
-	// Get out of the battle screen and return to the gameplay screen
 }
 
 Player* BattleSystem::GetPlayer()
