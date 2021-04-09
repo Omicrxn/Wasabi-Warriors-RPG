@@ -4,7 +4,6 @@
 #include "SceneTitle.h"
 #include "SceneGameplay.h"
 #include "SceneEnding.h"
-#include "SceneBattle.h"
 
 #include "Input.h"
 #include "Render.h"
@@ -13,7 +12,6 @@
 #include "Audio.h"
 #include "EntityManager.h"
 #include "GuiManager.h"
-#include "BattleSystem.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -57,7 +55,7 @@ bool SceneManager::Awake()
 bool SceneManager::Start()
 {
 	current = new SceneGameplay();
-	if (current->type == SceneType::GAMEPLAY || current->type == SceneType::BATTLE)
+	if (current->type == SceneType::GAMEPLAY)
 	{
 		current->Load(tex, win, audio, guiManager, entityman);
 	}
@@ -96,18 +94,18 @@ bool SceneManager::Update(float dt)
 			{
 				transitionAlpha = 1.0f;
 
-				current->Unload(tex, audio, guiManager);	// Unload current screen
-				if (next->type == SceneType::GAMEPLAY || next->type == SceneType::BATTLE)
+				current->Unload(tex, audio, guiManager); // Unload current screen
+				if (next->type == SceneType::GAMEPLAY)
 				{
 					next->Load(tex, win, audio, guiManager, entityman);	// Load next screen
 				}
 				else
 				{
-					next->Load(tex, win, audio, guiManager);	// Load next screen
+					next->Load(tex, win, audio, guiManager); // Load next screen
 				}
 
-				RELEASE(current);	// Free current pointer
-				current = next;		// Assign next pointer
+				RELEASE(current); // Free current pointer
+				current = next;	// Assign next pointer
 				next = nullptr;
 
 				// Activate fade out effect to next loaded screen
@@ -148,7 +146,6 @@ bool SceneManager::Update(float dt)
 			case SceneType::TITLE: next = new SceneTitle(); break;
 			case SceneType::GAMEPLAY: next = new SceneGameplay(); break;
 			case SceneType::ENDING: next = new SceneEnding(); break;
-			case SceneType::BATTLE: next = new SceneBattle(); break;
 			default: break;
 		}
 
@@ -209,5 +206,6 @@ bool SceneManager::SaveState(pugi::xml_node& data) const
 	//	ret = item->data->SaveState(docNode.child(item->data->name.GetString()));
 	//	item = item->next;
 	//}
+
 	return true;
 }

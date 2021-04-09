@@ -103,7 +103,7 @@ bool GuiButton::Draw(Render* render, bool debugDraw)
     switch (state)
     {
     case GuiControlState::DISABLED: 
-        render->DrawTexture(texture, bounds.x, bounds.y, &greyButton, 0.0f);
+        /*render->DrawTexture(texture, bounds.x, bounds.y, &greyButton, 0.0f);*/
         break;
     case GuiControlState::HIDDEN:
         break;

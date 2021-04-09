@@ -1,28 +1,25 @@
 #include "BattleSystem.h"
 
-BattleSystem* BattleSystem::instance = nullptr;
+#include "Textures.h"
+#include "Render.h"
+#include "Font.h"
+#include "Window.h"
 
-BattleSystem* BattleSystem::GetInstance()
-{
-	if (instance == nullptr)
-	{
-		instance = new BattleSystem();
-	}
+#include "GuiManager.h"
+#include "GuiButton.h"
 
-	return instance;
-}
+#define TITLE_FADE_SPEED 0.05f
 
 BattleSystem::BattleSystem()
 {
 	battleState = BattleState::PLAYER_TURN;
 	battleGUIState = BattleGUIState::NONE;
+	enemyState = EnemyState::NONE;
 
 	// Right now we only have one party member implemented
 	numPlayers = 1;
-
-	enemyTurnCounter = 0;
-	enemyAttack = false;
-	enemyDefend = false;
+	// Time for enemy to manage their actions
+	enemyTurnCounter = 300;
 }
 
 BattleSystem::~BattleSystem()
@@ -30,12 +27,12 @@ BattleSystem::~BattleSystem()
 
 }
 
-bool BattleSystem::Update(Input* input)
+bool BattleSystem::Update(Input* input, float dt)
 {
 	switch (battleState)
 	{
 	case BattleState::START:
-		Start();
+		/*Start();*/
 		break;
 	case BattleState::PLAYER_TURN:
 		PlayerTurn();
@@ -59,11 +56,11 @@ bool BattleSystem::Update(Input* input)
 	return true;
 }
 
-void BattleSystem::SetupBattle(List<Player*> players, Enemy* enemy)
+void BattleSystem::SetupBattle(List<Player*>* players, Enemy* enemy)
 {
 	// Register fighters in the battle system
 	this->players = players;
-	currentPlayer = players.At(0)->data;
+	currentPlayer = players->At(0)->data;
 	this->enemy = enemy;
 
 	// Play animations of the fighters (not necessary for the vertical slice)
@@ -84,8 +81,26 @@ void BattleSystem::SetupBattle(List<Player*> players, Enemy* enemy)
 		battleState = BattleState::ENEMY_TURN;*/
 }
 
-bool BattleSystem::Start()
+bool BattleSystem::ResetBattle()
 {
+	// Battle state (Current attacker and defender)
+	battleState = BattleState::PLAYER_TURN;
+	// Menu state when the player attacks
+	battleGUIState = BattleGUIState::NONE;
+	// Enemy state (to keep track of the action)
+	enemyState = EnemyState::NONE;
+
+	// Total numbers of party members implemented
+	numPlayers = 1;
+	// List of players
+	/*List<Player*> players;*/
+	// Current player
+	currentPlayer = nullptr;
+	// Enemy against whom the player is fighting
+	enemy = nullptr;
+	// Time counter for the enemy turn
+	/*uint enemyTurnCounter;*/
+
 	return true;
 }
 
@@ -108,7 +123,7 @@ void BattleSystem::PlayerTurn()
 		battleState = BattleState::ENEMY_TURN;
 
 		// Set as the current player the next party member (if it's available)
-		for (int i = 0; i < players.Count(); i++)
+		/*for (int i = 0; i < players.Count(); i++)
 		{
 			if (players.At(i) != nullptr)
 			{
@@ -119,7 +134,7 @@ void BattleSystem::PlayerTurn()
 					break;
 				}
 			}
-		}
+		}*/
 		break;
 	case BattleGUIState::DEFEND:
 		// Add life points to the player
@@ -157,7 +172,7 @@ void BattleSystem::EnemyTurn()
 		if (num < 50)
 		{
 			// Player attack logic
-			enemyAttack = true;
+			enemyState = EnemyState::ATTACK;
 
 			// Substract life points to the player
 			if (enemyTurnCounter == 0)
@@ -166,7 +181,7 @@ void BattleSystem::EnemyTurn()
 		else
 		{
 			// Player defense logic
-			enemyDefend = true;
+			enemyState = EnemyState::DEFEND;
 
 			// Add life points to the enemy (only the first time)
 			if (enemyTurnCounter == 0)
@@ -186,8 +201,7 @@ void BattleSystem::EnemyTurn()
 	{
 		// Reset variables for the next time
 		enemyTurnCounter = 0;
-		enemyAttack = false;
-		enemyDefend = false;
+		enemyState = EnemyState::NONE;
 
 		// Check if the player has died
 		if (currentPlayer->stats.currentHP <= 0)
@@ -216,20 +230,10 @@ Player* BattleSystem::GetPlayer()
 
 List<Player*>* BattleSystem::GetPlayersList()
 {
-	return &players;
+	return players;
 }
 
 Enemy* BattleSystem::GetEnemy()
 {
 	return enemy;
-}
-
-bool BattleSystem::IsEnemyAttacking()
-{
-	return enemyAttack;
-}
-
-bool BattleSystem::IsEnemyDefending()
-{
-	return enemyDefend;
 }

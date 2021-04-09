@@ -75,9 +75,6 @@
     <ClCompile Include="Source\BattleSystem.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
-    <ClCompile Include="Source\SceneBattle.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="Source\NPC.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
@@ -209,9 +206,6 @@
     </ClInclude>
     <ClInclude Include="Source\Animation.h">
       <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\SceneBattle.h">
-      <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Source\NPC.h">
       <Filter>Entities</Filter>

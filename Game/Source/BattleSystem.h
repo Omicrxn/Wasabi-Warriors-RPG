@@ -27,55 +27,56 @@ enum class BattleGUIState
 	NONE
 };
 
+enum class EnemyState
+{
+	ATTACK,
+	DEFEND,
+	NONE
+};
+
 class BattleSystem
 {
 public:
 
-	static BattleSystem* GetInstance();
-
+	BattleSystem();
 	~BattleSystem();
 
 	// To get the player and the enemy information
-	void SetupBattle(List<Player*> players, Enemy* enemy);
+	void SetupBattle(List<Player*>* players, Enemy* enemy);
 
 	// Functions for the different battle states
-	bool Start();
-	bool Update(Input* input);
+	bool Update(Input* input, float dt);
+	bool ResetBattle();
+
+	// Functions for the Battle state
 	void PlayerTurn();
 	void EnemyTurn();
 	void Won();
 	void Lost();
 
 	Player* GetPlayer();
-	List<Player*>* GetPlayersList();
+	List<Player*>* BattleSystem::GetPlayersList();
 	Enemy* GetEnemy();
 
+	// Battle state (Current attacker and defender)
 	BattleState battleState;
+	// Menu state when the player attacks
 	BattleGUIState battleGUIState;
-
-	bool IsEnemyAttacking();
-	bool IsEnemyDefending();
+	// Enemy state (to keep track of the action)
+	EnemyState enemyState;
 
 private:
 
-	static BattleSystem* instance;
-
-	BattleSystem();
-
-	// Needed modules
-	EntityManager* entityManager;
-
 	// Total numbers of party members implemented
 	uint numPlayers;
-	List<Player*> players;
+	// List of players
+	List<Player*>* players;
+	// Current player
 	Player* currentPlayer;
+	// Enemy against whom the player is fighting
 	Enemy* enemy;
-
+	// Time counter for the enemy turn
 	uint enemyTurnCounter;
-
-	// Bools to keep track of the battle
-	bool enemyAttack;
-	bool enemyDefend;
 };
 
 #endif // __BATTLESYSTEM_H__
