@@ -22,8 +22,8 @@ class EntityManager;
 class SceneManager;
 class GuiManager;
 class Collisions;
-class DialogSystem;
 class Fonts;
+class DialogSystem;
 
 class App
 {
@@ -97,8 +97,8 @@ public:
 	SceneManager* sceneManager;
 	GuiManager* guiManager;
 	Collisions* collisions;
-	DialogSystem* dialogSystem;
 	Fonts* fonts;
+	DialogSystem* dialogSystem;
 
 private:
 

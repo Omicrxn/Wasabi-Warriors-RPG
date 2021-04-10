@@ -9,8 +9,8 @@
 #include "SceneManager.h"
 #include "GuiManager.h"
 #include "Collisions.h"
-#include "DialogSystem.h"
 #include "Fonts.h"
+#include "DialogSystem.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -46,11 +46,11 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(tex);
 	AddModule(audio);
 	AddModule(entityManager);
-	AddModule(fonts);
 	AddModule(sceneManager);
-	AddModule(dialogSystem);
 	AddModule(guiManager);
 	AddModule(collisions);
+	AddModule(fonts);
+	AddModule(dialogSystem);
 
 	// Render last to swap buffer
 	AddModule(render);
