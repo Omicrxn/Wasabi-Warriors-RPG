@@ -5,6 +5,7 @@
 #include "GuiManager.h"
 #include "GuiButton.h"
 #include "Window.h"
+#include "DialogSystem.h"
 
 SceneGameplay::SceneGameplay()
 {
@@ -56,12 +57,13 @@ SceneGameplay::~SceneGameplay()
 {
 }
 
-bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager)
+bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, DialogSystem* dialogSystem)
 {
 	// Needed modules
 	this->entityManager = entityManager;
 	this->guiManager = guiManager;
 	this->win = win;
+	this->dialogSystem = dialogSystem;
 
 	// Create map
 	map = (Map*)entityManager->CreateEntity(EntityType::MAP, "Map");
@@ -183,6 +185,11 @@ bool SceneGameplay::Update(Input* input, float dt)
 		btnItem->state = GuiControlState::NORMAL;
 		btnRun->state = GuiControlState::NORMAL;
 		/*btnNone->state = GuiControlState::NORMAL;*/
+	}
+
+	if (input->GetKey(SDL_SCANCODE_C) == KEY_DOWN)
+	{
+		dialogSystem->NewDialog();
 	}
 
 	if (battle == true)
@@ -338,8 +345,7 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 	this->entityManager = nullptr;
 	this->guiManager = nullptr;
 	this->win = nullptr;
-	delete battleSystem;
-	battleSystem = nullptr;
+	RELEASE(battleSystem);
 
 	// Remove map
 	map->CleanUp();

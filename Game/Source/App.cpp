@@ -34,10 +34,10 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	audio = new AudioManager();
 	entityManager = new EntityManager(input, render,tex);
 	guiManager = new GuiManager(input, render, tex, audio);
-	sceneManager = new SceneManager(input, render, tex, win, audio, entityManager, guiManager);
-	collisions = new Collisions(input, render);
 	fonts = new Fonts(render, tex);
 	dialogSystem = new DialogSystem(input, render, fonts);
+	sceneManager = new SceneManager(input, render, tex, win, audio, entityManager, guiManager, dialogSystem);
+	collisions = new Collisions(input, render);
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -46,11 +46,11 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(tex);
 	AddModule(audio);
 	AddModule(entityManager);
+	AddModule(fonts);
 	AddModule(sceneManager);
+	AddModule(dialogSystem);
 	AddModule(guiManager);
 	AddModule(collisions);
-	AddModule(dialogSystem);
-	AddModule(fonts);
 
 	// Render last to swap buffer
 	AddModule(render);

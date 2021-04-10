@@ -34,8 +34,8 @@ bool DialogSystem::Awake(pugi::xml_node& config)
 
 bool DialogSystem::Start()
 {
-	LoadDialog("1.xml");
-	LoadDialog("2.xml");
+	LoadDialog("Assets/Dialog/1.xml");
+	LoadDialog("Assets/Dialog/2.xml");
 
 	// Register a callback function with the name say_hello. This is just an example.
 	callbacks[std::string("say_hello")] = std::function<void()>(&SayHello);
@@ -51,31 +51,45 @@ bool DialogSystem::PreUpdate()
 bool DialogSystem::Update(float dt)
 {
 	// The key to skip to the next dialog line.
-	if (input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN) {
+	if (input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN)
+	{
 		NextDialog();
 	}
 
 	// Select the next option.
-	if (input->GetKey(SDL_SCANCODE_DOWN) == KeyState::KEY_DOWN) {
+	if (input->GetKey(SDL_SCANCODE_DOWN) == KeyState::KEY_DOWN)
+	{
 		selectedOption += 1;
 		if (selectedOption == currentDialog->children->size())
 			selectedOption = currentDialog->children->size() - 1;
 	}
 
 	// Select the previous option.
-	if (input->GetKey(SDL_SCANCODE_UP) == KeyState::KEY_DOWN) {
+	if (input->GetKey(SDL_SCANCODE_UP) == KeyState::KEY_DOWN)
+	{
 		selectedOption -= 1;
 		if (selectedOption < 0) selectedOption = 0;
 	}
 
 	/* ONLY FOR TESTING */
 
-	if (input->GetKey(SDL_SCANCODE_1) == KeyState::KEY_DOWN) {
-		StartDialog("1");
-	}
+	if (newDialog == true)
+	{
+		uint randNum = rand() % 2 + 1; // randNum in the range 1 to 2
+		char HP[8] = { 0 };
+		sprintf_s(HP, 8, "%03i", randNum);
 
-	if (input->GetKey(SDL_SCANCODE_2) == KeyState::KEY_DOWN) {
-		StartDialog("2");
+		switch (randNum)
+		{
+		case 1:
+			StartDialog("1");
+			break;
+		case 2:
+			StartDialog("2");
+			break;
+		default:
+			break;
+		}
 	}
 
 	/* END ONLY FOR TESTING */
@@ -219,6 +233,11 @@ void DialogSystem::NextDialog()
 	}
 
 	/* End TODO 4 */
+}
+
+void DialogSystem::NewDialog()
+{
+	this->newDialog = true;
 }
 
 DialogNode* DialogSystem::ParseDialogXML(pugi::xml_node currentNode)

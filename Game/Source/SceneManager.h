@@ -13,12 +13,13 @@ class AudioManager;
 class EntityManager;
 class GuiManager;
 class Window;
+class DialogSystem;
 
 class SceneManager : public Module
 {
 public:
 
-	SceneManager(Input* input, Render* render, Textures* tex, Window* win, AudioManager* audio, EntityManager* entityman, GuiManager* guiManager);
+	SceneManager(Input* input, Render* render, Textures* tex, Window* win, AudioManager* audio, EntityManager* entityman, GuiManager* guiManager, DialogSystem* dialogSystem);
 
 	// Destructor
 	virtual ~SceneManager();
@@ -57,6 +58,7 @@ private:
 	EntityManager* entityman;
 	GuiManager* guiManager;
 	Window* win;
+	DialogSystem* dialogSystem;
 
 	Scene* current;
 	Scene* next;

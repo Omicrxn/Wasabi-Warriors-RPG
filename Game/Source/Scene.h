@@ -11,6 +11,7 @@ class AudioManager;
 class EntityManager;
 class GuiManager;
 class Window;
+class DialogSystem;
 
 class GuiControl;
 
@@ -33,7 +34,7 @@ public:
     {
         return true;
     }
-    virtual bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityman)
+    virtual bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityman, DialogSystem* dialogSystem)
     {
         return true;
     }

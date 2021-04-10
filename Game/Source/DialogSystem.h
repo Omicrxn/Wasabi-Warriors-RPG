@@ -44,6 +44,8 @@ public:
 
 	void NextDialog();
 
+	void NewDialog();
+
 private:
 
 	DialogNode* ParseDialogXML(pugi::xml_node dialogRoot);
@@ -65,4 +67,7 @@ private:
 	Input* input;
 	Render* render;
 	Fonts* fonts;
+
+	// Bool to search a random dialog
+	bool newDialog = false;
 };

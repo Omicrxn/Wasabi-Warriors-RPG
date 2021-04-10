@@ -9,8 +9,10 @@
 #include "NPC.h"
 
 class BattleSystem;
+class GuiManager;
 class GuiButton;
 class Window;
+class DialogSystem;
 
 class SceneGameplay : public Scene
 {
@@ -19,7 +21,7 @@ public:
     SceneGameplay();
     virtual ~SceneGameplay();
 
-    bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager);
+    bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, DialogSystem* dialogSystem);
 
     bool Update(Input* input, float dt);
 
@@ -46,6 +48,7 @@ private:
     EntityManager* entityManager;
     GuiManager* guiManager;
     Window* win;
+    DialogSystem* dialogSystem;
 
     // Entitites
     Map* map;
