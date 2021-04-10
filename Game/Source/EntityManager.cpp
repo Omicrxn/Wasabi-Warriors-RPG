@@ -1,5 +1,6 @@
 #include "EntityManager.h"
 
+#include "Entity.h"
 #include "Player.h"
 #include "Enemy.h"
 #include "Item.h"
@@ -13,12 +14,13 @@
 #include "Defs.h"
 #include "Log.h"
 
-EntityManager::EntityManager(Input* input, Render* render, Textures* tex) : Module()
+EntityManager::EntityManager(Input* input, Render* render, Textures* tex, Collisions* collisions) : Module()
 {
 	name.Create("entitymanager");
 	this->ren = render;
 	this->tex = tex;
 	this->input = input;
+	this->collisions = collisions;
 }
 
 // Destructor
@@ -54,13 +56,13 @@ Entity* EntityManager::CreateEntity(EntityType type, SString name)
 	{
 		// L13: Create the corresponding type entity
 		case EntityType::PLAYER:
-			ret = new Player(tex); 
+			ret = new Player(tex, collisions,this); 
 			ret->type = EntityType::PLAYER;
 			ret->name = name;
 			playerList.Add((Player*)ret);
 			break;
 		case EntityType::ENEMY: 
-			ret = new Enemy();
+			ret = new Enemy(collisions, this);
 			ret->type = EntityType::ENEMY;
 			ret->name = name;
 			enemyList.Add((Enemy*)ret);
@@ -148,4 +150,15 @@ Entity* EntityManager::SearchEntity(SString name, uint32 id)
 		}
 	}
 	return nullptr;
+}
+
+void EntityManager::OnCollision(Collider* c1, Collider* c2)
+{
+	for (ListItem<Entity*>* i = entityList.start; i != NULL; i = i->next)
+	{
+		if (i->data->GetCollider() == c1)
+		{
+			i->data->OnCollision(c2);
+		}
+	}
 }

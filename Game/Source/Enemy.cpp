@@ -4,10 +4,10 @@
 
 #define DEFAULT_PATH_LENGTH 50
 
-Enemy::Enemy() : Being()
+Enemy::Enemy(Collisions* collisions, EntityManager* entityManager) : Being()
 {
     texture = NULL;
-    position = iPoint(12 * 16, 27 * 16);
+    position = iPoint(10 * 16, 27 * 16);
     currentAnim = Animations::IDLE;
     width = 32;
     height = 32;
@@ -22,7 +22,11 @@ Enemy::Enemy() : Being()
 	this->stats.defense = 10;
 	this->stats.attackSpeed = 5;
 	this->stats.criticalRate = 5;
+
+    collider = collisions->AddCollider({ position.x + 86,position.y + 43,width,height }, Collider::Type::ENEMY, (Module*)entityManager);
     active = true;
+    inCombat = false;
+    readyForCombat = false;
 }
 
 Enemy::~Enemy()
@@ -32,7 +36,11 @@ Enemy::~Enemy()
 
 bool Enemy::Update(Input* input, float dt)
 {
-
+    // Update collider position
+    if (collider != nullptr)
+    {
+        collider->SetPos(position.x + 86, position.y + 43);
+    }
 	return true;
 }
 
@@ -93,4 +101,13 @@ void Enemy::SetName(SString name)
 {
     this->name = name;
     this->stats.name = name;
+}
+void Enemy::OnCollision(Collider* collider)
+{
+    if (readyForCombat == false)
+    {
+        readyForCombat = true;
+        inCombat = true;
+    }
+
 }

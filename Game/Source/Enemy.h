@@ -4,6 +4,7 @@
 #include "Being.h"
 #include "Render.h"
 #include "Textures.h"
+#include "EntityManager.h"
 
 #include "Point.h"
 #include "SString.h"
@@ -12,7 +13,7 @@ class Enemy : public Being
 {
 public:
 
-    Enemy();
+    Enemy(Collisions* collisions, EntityManager* entityManager);
     virtual ~Enemy();
 
 public:
@@ -27,6 +28,7 @@ public:
 
     void SetName(SString name);
 
+    void OnCollision(Collider* collider) override;
 
 public:
 
@@ -34,6 +36,8 @@ public:
 
     int width, height;
 
+    bool inCombat = false;
+    bool readyForCombat = false;
 };
 
 #endif // __ENEMY_H__

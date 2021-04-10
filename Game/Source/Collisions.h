@@ -15,9 +15,11 @@ struct Collider
 	enum Type
 	{
 		NONE = -1,
-		WALL,
 		PLAYER,
+		NPC,
 		ENEMY,
+		TELEPORT,
+		SIGN,
 		MAX
 	};
 

@@ -32,12 +32,13 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	render = new Render(win);
 	tex = new Textures(render);
 	audio = new AudioManager();
-	entityManager = new EntityManager(input, render,tex);
+	collisions = new Collisions(input, render);
+	entityManager = new EntityManager(input, render, tex, collisions);
 	guiManager = new GuiManager(input, render, tex, audio);
 	fonts = new Fonts(render, tex);
 	dialogSystem = new DialogSystem(input, render, fonts);
 	sceneManager = new SceneManager(input, render, tex, win, audio, entityManager, guiManager, dialogSystem);
-	collisions = new Collisions(input, render);
+
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp

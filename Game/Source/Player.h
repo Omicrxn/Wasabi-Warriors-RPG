@@ -5,6 +5,7 @@
 #include "Input.h"
 #include "Render.h"
 #include "Textures.h"
+#include "EntityManager.h"
 
 #include "Point.h"
 #include "SString.h"
@@ -17,7 +18,7 @@ class Player: public Being
 {
 public:
 
-    Player(Textures* tex);
+    Player(Textures* tex, Collisions* collisions, EntityManager* entityManager);
 
     bool Update(Input* input, float dt);
 

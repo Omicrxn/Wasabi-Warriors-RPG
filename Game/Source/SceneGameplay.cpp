@@ -107,11 +107,11 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	entity->SetState(true);
 	entity = nullptr;
 	currentPlayer = entityManager->playerList.At(0)->data;
-	// Create party member 2
-	entity = entityManager->CreateEntity(EntityType::PLAYER, "DaCrack");
-	entity->position = iPoint(12 * 32, 6 * 32);
-	entity->SetTexture(spritesheet, 6);
-	entity = nullptr;
+	//// Create party member 2
+	//entity = entityManager->CreateEntity(EntityType::PLAYER, "DaCrack");
+	//entity->position = iPoint(10 * 32, 6 * 32);
+	//entity->SetTexture(spritesheet, 6);
+	//entity = nullptr;
 	// Create enemy
 	entity = entityManager->CreateEntity(EntityType::ENEMY, "DaBoss");
 	entity->position = iPoint(10 * 32, 6 * 32);
@@ -185,6 +185,21 @@ bool SceneGameplay::Update(Input* input, float dt)
 		btnItem->state = GuiControlState::NORMAL;
 		btnRun->state = GuiControlState::NORMAL;
 		/*btnNone->state = GuiControlState::NORMAL;*/
+	}
+	for (int i = 0; i < entityManager->enemyList.Count(); i++)
+	{
+		if (entityManager->enemyList.At(i)->data->inCombat)
+		{
+			battle = true;
+			battleSystem->SetupBattle(&entityManager->playerList, entityManager->enemyList.start->data);
+
+			btnAttack->state = GuiControlState::NORMAL;
+			btnDefend->state = GuiControlState::NORMAL;
+			btnItem->state = GuiControlState::NORMAL;
+			btnRun->state = GuiControlState::NORMAL;
+			/*btnNone->state = GuiControlState::NORMAL;*/
+			entityManager->enemyList.At(i)->data->inCombat = false;
+		}
 	}
 
 	if (input->GetKey(SDL_SCANCODE_C) == KEY_DOWN)

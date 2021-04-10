@@ -15,17 +15,35 @@ Collisions::Collisions(Input* input, Render* render) : Module()
 	for (uint i = 0; i < MAX_COLLIDERS; ++i)
 		colliders[i] = nullptr;
 
-	matrix[Collider::Type::WALL][Collider::Type::WALL] = false;
-	matrix[Collider::Type::WALL][Collider::Type::PLAYER] = true;
-	matrix[Collider::Type::WALL][Collider::Type::ENEMY] = true;
-
-	matrix[Collider::Type::PLAYER][Collider::Type::WALL] = true;
 	matrix[Collider::Type::PLAYER][Collider::Type::PLAYER] = false;
-	matrix[Collider::Type::PLAYER][Collider::Type::ENEMY] = true;
+	matrix[Collider::Type::PLAYER][Collider::Type::NPC] = false;
+	matrix[Collider::Type::PLAYER][Collider::Type::ENEMY] = false;
+	matrix[Collider::Type::PLAYER][Collider::Type::TELEPORT] = false;
+	matrix[Collider::Type::PLAYER][Collider::Type::SIGN] = false;
 
-	matrix[Collider::Type::ENEMY][Collider::Type::WALL] = true;
-	matrix[Collider::Type::ENEMY][Collider::Type::PLAYER] = true;
 	matrix[Collider::Type::ENEMY][Collider::Type::ENEMY] = false;
+	matrix[Collider::Type::ENEMY][Collider::Type::PLAYER] = true;
+	matrix[Collider::Type::ENEMY][Collider::Type::NPC] = false;
+	matrix[Collider::Type::ENEMY][Collider::Type::TELEPORT] = false;
+	matrix[Collider::Type::ENEMY][Collider::Type::SIGN] = false;
+
+	matrix[Collider::Type::NPC][Collider::Type::ENEMY] = false;
+	matrix[Collider::Type::NPC][Collider::Type::PLAYER] = true;
+	matrix[Collider::Type::NPC][Collider::Type::NPC] = false;
+	matrix[Collider::Type::NPC][Collider::Type::TELEPORT] = false;
+	matrix[Collider::Type::NPC][Collider::Type::SIGN] = false;
+
+	matrix[Collider::Type::TELEPORT][Collider::Type::ENEMY] = false;
+	matrix[Collider::Type::TELEPORT][Collider::Type::PLAYER] = true;
+	matrix[Collider::Type::TELEPORT][Collider::Type::NPC] = false;
+	matrix[Collider::Type::TELEPORT][Collider::Type::TELEPORT] = false;
+	matrix[Collider::Type::TELEPORT][Collider::Type::SIGN] = false;
+
+	matrix[Collider::Type::SIGN][Collider::Type::ENEMY] = false;
+	matrix[Collider::Type::SIGN][Collider::Type::PLAYER] = true;
+	matrix[Collider::Type::SIGN][Collider::Type::NPC] = false;
+	matrix[Collider::Type::SIGN][Collider::Type::TELEPORT] = false;
+	matrix[Collider::Type::SIGN][Collider::Type::SIGN] = false;
 }
 
 Collisions::~Collisions() {}
@@ -98,7 +116,7 @@ void Collisions::DebugDraw()
 		case Collider::Type::NONE:
 			render->DrawRectangle(colliders[i]->rect, { 255, 255, 255, alpha });
 			break;
-		case Collider::Type::WALL:
+		case Collider::Type::NPC:
 			render->DrawRectangle(colliders[i]->rect, { 0, 0, 255, alpha });
 			break;
 		case Collider::Type::PLAYER:
@@ -106,6 +124,12 @@ void Collisions::DebugDraw()
 			break;
 		case Collider::Type::ENEMY:
 			render->DrawRectangle(colliders[i]->rect, { 255, 0, 0, alpha });
+			break;
+		case Collider::Type::TELEPORT:
+			render->DrawRectangle(colliders[i]->rect, { 255, 255, 0, alpha });
+			break;
+		case Collider::Type::SIGN:
+			render->DrawRectangle(colliders[i]->rect, { 255, 0, 255, alpha });
 			break;
 		}
 	}

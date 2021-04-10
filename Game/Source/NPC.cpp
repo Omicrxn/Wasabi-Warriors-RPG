@@ -12,7 +12,6 @@ NPC::NPC() : Entity(EntityType::NPC)
     direction = { 0,0 };
     active = true;
     stepsCounter = 0;
-    SetUpTexture();
 }
 
 NPC::~NPC()

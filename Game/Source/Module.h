@@ -69,10 +69,9 @@ public:
 		return true;
 	}
 
-	virtual void OnCollision(Collider* c1, Collider* c2)
-	{
-
-	}
+	//Called when two colliders are intersecting
+	//and the module is registered as the listener
+	virtual void OnCollision(Collider* c1, Collider* c2) {}
 
 public:
 

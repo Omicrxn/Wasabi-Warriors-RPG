@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player(Textures* tex) : Being()
+Player::Player(Textures* tex, Collisions* collisions, EntityManager* entityManager) : Being()
 {
     texture = NULL;
     position = iPoint(12 * 16, 27 * 16);
@@ -29,7 +29,7 @@ Player::Player(Textures* tex) : Being()
     width = 32;
     height = 32;
 
-    SetUpTexture();
+    collider = collisions->AddCollider({ position.x + 86,position.y + 43,width,height }, Collider::Type::PLAYER, (Module*)entityManager);
 }
 
 bool Player::Update(Input* input, float dt)
@@ -56,7 +56,11 @@ bool Player::Update(Input* input, float dt)
     {
         currentAnim = Animations::IDLE;
     }
-    
+    // Update collider position
+    if (collider != nullptr)
+    {
+        collider->SetPos(position.x + 86, position.y + 43);
+    }
     return true;
 }
 

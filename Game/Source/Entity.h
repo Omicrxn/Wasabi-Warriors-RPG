@@ -3,7 +3,7 @@
 
 #include "Point.h"
 #include "SString.h"
-
+#include "Collisions.h"
 struct SDL_Texture;
 struct Render;
 struct Input;
@@ -56,12 +56,16 @@ public:
     }
     virtual void SetUpTexture() {}
 
+    const Collider* GetCollider() const { return collider; }
+
+    virtual void OnCollision(Collider* collider) {};
+
 public:
 
     EntityType type;
     SString name;         // Entity name identifier?
     uint32 id;            // Entity identifier?
-
+    Collider* collider = nullptr;
     // Possible properties, it depends on how generic we
     // want our Entity class, maybe it's not renderable...
     iPoint position;        // Use a float instead?
