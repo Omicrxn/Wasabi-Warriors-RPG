@@ -4,13 +4,11 @@ Player::Player(Textures* tex) : Being()
 {
     texture = NULL;
     position = iPoint(12 * 16, 27 * 16);
-    currentAnim = Animations::IDLE;
-    velocity = { 150.0f, 150.0f };
-    width = 32;
-    height = 32;
-    direction = { 0,0 };
+    active = false;
 
-    // Define player parameters
+    // Setting Being parameters
+    velocity = { 150.0f, 150.0f };
+    direction = { 0,0 };
     this->stats.name = "Player";
     this->stats.level = 1;
     this->stats.damage = 20;
@@ -20,7 +18,17 @@ Player::Player(Textures* tex) : Being()
     this->stats.defense = 15;
     this->stats.attackSpeed = 5;
     this->stats.criticalRate = 10;
-    active = false;
+    idleAnim = {};
+    walkRightAnim = {};
+    walkLeftAnim = {};
+    walkUpAnim = {};
+    walkDownAnim = {};
+    animRec = {};
+
+    currentAnim = Animations::IDLE;
+    width = 32;
+    height = 32;
+
     SetUpTexture();
 }
 
@@ -96,7 +104,8 @@ void Player::SetUpTexture()
                 break;
             if (y == textureStartYPos)
             {
-                idleAnim.PushBack({ x,y,32,32 });
+                SDL_Rect rect = { x,y,32,32 };
+                idleAnim.PushBack(rect);
                 idleAnim.speed = 0.2;
             }
             else if (y == textureStartYPos + 32)

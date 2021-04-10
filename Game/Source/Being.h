@@ -58,6 +58,7 @@ public:
 
 	virtual void Walk(iPoint direction, float dt) = 0;
 	virtual void SetUpTexture() {}
+
 	fPoint velocity;
 	iPoint direction;
 	Stats stats;

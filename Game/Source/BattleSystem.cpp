@@ -17,7 +17,7 @@ BattleSystem::BattleSystem()
 	enemyState = EnemyState::NONE;
 
 	// Right now we only have one party member implemented
-	numPlayers = 1;
+	numPlayers = 2;
 	// Time for enemy to manage their actions
 	turnCounter = 0;
 }
@@ -85,7 +85,7 @@ bool BattleSystem::ResetBattle()
 	enemyState = EnemyState::NONE;
 
 	// Total numbers of party members implemented
-	numPlayers = 1;
+	numPlayers = 2;
 	// List of players
 	/*List<Player*> players;*/
 	// Current player
@@ -124,20 +124,6 @@ void BattleSystem::PlayerTurn()
 			// Play animation
 			// Substract life points to the enemy
 			enemy->stats.currentHP -= currentPlayer->stats.damage;
-
-			// Set as the current player the next party member (if it's available)
-			/*for (int i = 0; i < players.Count(); i++)
-			{
-				if (players.At(i) != nullptr)
-				{
-					if (players.At(i)->data->stats.name == currentPlayer->stats.name)
-					{
-						if (players.At(i)->next != nullptr)
-							currentPlayer = players.At(i)->next->data;
-						break;
-					}
-				}
-			}*/
 			break;
 		case PlayerState::DEFEND:
 			// Add life points to the player
@@ -222,6 +208,23 @@ void BattleSystem::EnemyTurn()
 			battleState = BattleState::LOST;
 		else
 			battleState = BattleState::PLAYER_TURN;
+
+		// Set as the current player the next party member (if it's available)
+		for (int i = 0; i < players->Count(); i++)
+		{
+			if (players->At(i)->data != nullptr)
+			{
+				if (players->At(i)->data->name == currentPlayer->name)
+				{
+					if (i == numPlayers - 1)
+						currentPlayer = players->At(0)->data;
+					else if (players->At(i)->next->data != nullptr)
+						currentPlayer = players->At(i)->next->data;
+
+					break;
+				}
+			}
+		}
 	}
 }
 

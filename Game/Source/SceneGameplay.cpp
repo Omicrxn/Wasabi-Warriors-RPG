@@ -229,34 +229,34 @@ bool SceneGameplay::Draw(Render* render)
 
 		if (battleSystem->battleState == BattleState::PLAYER_TURN)
 		{
-			render->DrawText(titleFont, "Your turn", 50 + 3, 30 + 3, 125, 0, { 105, 105, 105, 255 });
-			render->DrawText(titleFont, "Your turn", 50, 30, 125, 0, { 255, 255, 255, 255 });
+			render->DrawText(titleFont, "Your turn", 50 + 3, 30 + 3, 100, 0, { 105, 105, 105, 255 });
+			render->DrawText(titleFont, "Your turn", 50, 30, 100, 0, { 255, 255, 255, 255 });
 
 			if (battleSystem->playerState == PlayerState::ATTACK)
 			{
-				render->DrawText(titleFont, "You're attacking!", 50 + 3, 130 + 3, 75, 0, { 105, 105, 105, 255 });
-				render->DrawText(titleFont, "You're attacking!", 50, 130, 75, 0, { 255, 255, 255, 255 });
+				render->DrawText(titleFont, "You're attacking!", 50 + 3, 130 + 3, 50, 0, { 105, 105, 105, 255 });
+				render->DrawText(titleFont, "You're attacking!", 50, 130, 50, 0, { 255, 255, 255, 255 });
 			}
 			else if (battleSystem->playerState == PlayerState::DEFEND)
 			{
-				render->DrawText(titleFont, "You're defending!", 50 + 3, 130 + 3, 75, 0, { 105, 105, 105, 255 });
-				render->DrawText(titleFont, "You're defending!", 50, 130, 75, 0, { 255, 255, 255, 255 });
+				render->DrawText(titleFont, "You're defending!", 50 + 3, 130 + 3, 50, 0, { 105, 105, 105, 255 });
+				render->DrawText(titleFont, "You're defending!", 50, 130, 50, 0, { 255, 255, 255, 255 });
 			}
 		}
 		else if (battleSystem->battleState == BattleState::ENEMY_TURN)
 		{
-			render->DrawText(titleFont, "Enemy turn", 50 + 3, 30 + 3, 125, 0, { 105, 105, 105, 255 });
-			render->DrawText(titleFont, "Enemy turn", 50, 30, 125, 0, { 255, 255, 255, 255 });
+			render->DrawText(titleFont, "Enemy turn", 50 + 3, 30 + 3, 100, 0, { 105, 105, 105, 255 });
+			render->DrawText(titleFont, "Enemy turn", 50, 30, 100, 0, { 255, 255, 255, 255 });
 
 			if (battleSystem->enemyState == EnemyState::ATTACK)
 			{
-				render->DrawText(titleFont, "Enemy is attacking!", 50 + 3, 130 + 3, 75, 0, { 105, 105, 105, 255 });
-				render->DrawText(titleFont, "Enemy is attacking!", 50, 130, 75, 0, { 255, 255, 255, 255 });
+				render->DrawText(titleFont, "Enemy is attacking!", 50 + 3, 130 + 3, 50, 0, { 105, 105, 105, 255 });
+				render->DrawText(titleFont, "Enemy is attacking!", 50, 130, 50, 0, { 255, 255, 255, 255 });
 			}
 			else if (battleSystem->enemyState == EnemyState::DEFEND)
 			{
-				render->DrawText(titleFont, "Enemy is defending!", 50 + 3, 130 + 3, 75, 0, { 105, 105, 105, 255 });
-				render->DrawText(titleFont, "Enemy is defending!", 50, 130, 75, 0, { 255, 255, 255, 255 });
+				render->DrawText(titleFont, "Enemy is defending!", 50 + 3, 130 + 3, 50, 0, { 105, 105, 105, 255 });
+				render->DrawText(titleFont, "Enemy is defending!", 50, 130, 50, 0, { 255, 255, 255, 255 });
 			}
 		}
 
@@ -265,23 +265,23 @@ bool SceneGameplay::Draw(Render* render)
 			battleSystem->battleState != BattleState::EXIT)
 		{
 			// Player name
-			render->DrawText(buttonFont, currentPlayer->name.GetString(), 100 + 3, 200 + 3, 50, 0, { 105, 105, 105, 255 });
-			render->DrawText(buttonFont, currentPlayer->name.GetString(), 100, 200, 50, 0, { 255, 255, 255, 255 });
+			render->DrawText(buttonFont, battleSystem->GetPlayer()->name.GetString(), 125 + 3, 275 + 3, 40, 0, { 105, 105, 105, 255 });
+			render->DrawText(buttonFont, battleSystem->GetPlayer()->name.GetString(), 125, 275, 40, 0, { 255, 255, 255, 255 });
 
 			// Player life
 			char HP[8] = { 0 };
-			sprintf_s(HP, 8, "HP: %03i", currentPlayer->stats.currentHP);
-			render->DrawText(buttonFont, HP, 100 + 3, 275 + 3, 50, 0, { 105, 105, 105, 255 });
-			render->DrawText(buttonFont, HP, 100, 275, 50, 0, { 255, 255, 255, 255 });
+			sprintf_s(HP, 8, "HP: %03i", battleSystem->GetPlayer()->stats.currentHP);
+			render->DrawText(buttonFont, HP, 325 + 3, 275 + 3, 40, 0, { 105, 105, 105, 255 });
+			render->DrawText(buttonFont, HP, 325, 275, 40, 0, { 255, 255, 255, 255 });
 
 			// Enemy name
-			render->DrawText(buttonFont, battleSystem->GetEnemy()->name.GetString(), 900 + 3, 50 + 3, 50, 0, { 105, 105, 105, 255 });
-			render->DrawText(buttonFont, battleSystem->GetEnemy()->name.GetString(), 900, 50, 50, 0, { 255, 255, 255, 255 });
+			render->DrawText(buttonFont, battleSystem->GetEnemy()->name.GetString(), 750 + 3, 75 + 3, 40, 0, { 105, 105, 105, 255 });
+			render->DrawText(buttonFont, battleSystem->GetEnemy()->name.GetString(), 750, 75, 40, 0, { 255, 255, 255, 255 });
 
 			// Enemy life
 			sprintf_s(HP, 8, "HP: %03i", battleSystem->GetEnemy()->stats.currentHP);
-			render->DrawText(buttonFont, HP, 900 + 3, 125 + 3, 50, 0, { 105, 105, 105, 255 });
-			render->DrawText(buttonFont, HP, 900, 125, 50, 0, { 255, 255, 255, 255 });
+			render->DrawText(buttonFont, HP, 950 + 3, 75 + 3, 40, 0, { 105, 105, 105, 255 });
+			render->DrawText(buttonFont, HP, 950, 75, 40, 0, { 255, 255, 255, 255 });
 
 			// Draw party members textures
 			SDL_Rect rect = { 0,481,32,32 };
@@ -296,11 +296,17 @@ bool SceneGameplay::Draw(Render* render)
 			// Draw Enemy textures
 			rect = battleSystem->GetEnemy()->animRec;
 			render->scale = 5;
-			render->DrawTexture(spritesheet, 175, 25, &rect, 0);
+			render->DrawTexture(spritesheet, 170, 25, &rect, 0);
 			render->scale = 1;
 
 			rect = { 171,486,22,21 };
-			render->DrawTexture(guiAtlasTex, 175, 350, &rect, 0, 90.0);
+			for (int i = 0; i < battleSystem->GetPlayersList()->Count(); i++)
+			{
+				if (battleSystem->GetPlayer()->name == battleSystem->GetPlayersList()->At(i)->data->name)
+				{
+					render->DrawTexture(guiAtlasTex, 175 + 100*i, 350, &rect, 0, 90.0);
+				}
+			}
 		}
 		else if (battleSystem->battleState == BattleState::WON)
 		{
