@@ -9,6 +9,8 @@
 #include "SceneManager.h"
 #include "GuiManager.h"
 #include "Collisions.h"
+#include "DialogSystem.h"
+#include "Fonts.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -34,6 +36,8 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	guiManager = new GuiManager(input, render, tex, audio);
 	sceneManager = new SceneManager(input, render, tex, win, audio, entityManager, guiManager);
 	collisions = new Collisions(input, render);
+	fonts = new Fonts(render, tex);
+	dialogSystem = new DialogSystem(input, render, fonts);
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -45,6 +49,8 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(sceneManager);
 	AddModule(guiManager);
 	AddModule(collisions);
+	AddModule(dialogSystem);
+	AddModule(fonts);
 
 	// Render last to swap buffer
 	AddModule(render);
@@ -94,6 +100,7 @@ bool App::Awake()
 
 		// L01: DONE 4: Read the title from the config file
 		title.Create(configApp.child("title").child_value());
+		/*win->SetTitle(title.GetString());*/
 		organization.Create(configApp.child("organization").child_value());
 
         // L08: DONE 1: Read from config file your framerate cap

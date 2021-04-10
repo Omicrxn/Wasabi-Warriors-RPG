@@ -22,6 +22,8 @@ class EntityManager;
 class SceneManager;
 class GuiManager;
 class Collisions;
+class DialogSystem;
+class Fonts;
 
 class App
 {
@@ -95,6 +97,8 @@ public:
 	SceneManager* sceneManager;
 	GuiManager* guiManager;
 	Collisions* collisions;
+	DialogSystem* dialogSystem;
+	Fonts* fonts;
 
 private:
 
@@ -107,9 +111,9 @@ private:
 
 	// L01: DONE 2: Create new variables from pugui namespace
 	// NOTE: Redesigned LoadConfig() to avoid storing this variables
-	//pugi::xml_document configFile;
-	//pugi::xml_node config;
-	//pugi::xml_node configApp;
+	pugi::xml_document configFile;
+	pugi::xml_node config;
+	pugi::xml_node configApp;
 
 	mutable bool saveGameRequested;
 	bool loadGameRequested;

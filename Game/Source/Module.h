@@ -78,7 +78,6 @@ public:
 
 	SString name;
 	bool active;
-
 };
 
 #endif // __MODULE_H__
