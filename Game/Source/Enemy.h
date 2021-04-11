@@ -36,8 +36,7 @@ public:
 
     int width, height;
 
-    bool inCombat = false;
-    bool readyForCombat = false;
+    bool readyForCombat = true;
 };
 
 #endif // __ENEMY_H__

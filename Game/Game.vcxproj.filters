@@ -87,6 +87,9 @@
     <ClCompile Include="Source\Fonts.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Notifier.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\App.h" />
@@ -232,6 +235,9 @@
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="Source\Callbacks.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Notifier.h">
       <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>

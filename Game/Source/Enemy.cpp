@@ -2,6 +2,8 @@
 
 #include "Pathfinding.h"
 
+#include "Notifier.h"
+
 #define DEFAULT_PATH_LENGTH 50
 
 Enemy::Enemy(Collisions* collisions, EntityManager* entityManager) : Being()
@@ -25,8 +27,8 @@ Enemy::Enemy(Collisions* collisions, EntityManager* entityManager) : Being()
 
     collider = collisions->AddCollider({ position.x + 86,position.y + 43,width,height }, Collider::Type::ENEMY, (Module*)entityManager);
     active = true;
-    inCombat = false;
-    readyForCombat = false;
+
+    readyForCombat = true;
 }
 
 Enemy::~Enemy()
@@ -104,10 +106,10 @@ void Enemy::SetName(SString name)
 }
 void Enemy::OnCollision(Collider* collider)
 {
-    if (readyForCombat == false)
+    if (readyForCombat == true)
     {
-        readyForCombat = true;
-        inCombat = true;
+        readyForCombat = false;
+        Notifier::GetInstance()->NotifyBattle();
     }
 
 }

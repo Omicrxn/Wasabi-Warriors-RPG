@@ -107,6 +107,7 @@
     <ClCompile Include="Source\Input.cpp" />
     <ClCompile Include="Source\Map.cpp" />
     <ClCompile Include="Source\Collisions.cpp" />
+    <ClCompile Include="Source\Notifier.cpp" />
     <ClCompile Include="Source\NPC.cpp" />
     <ClCompile Include="Source\Pathfinding.cpp" />
     <ClCompile Include="Source\Player.cpp" />
@@ -138,6 +139,7 @@
     <ClInclude Include="Source\Item.h" />
     <ClInclude Include="Source\Map.h" />
     <ClInclude Include="Source\Collisions.h" />
+    <ClInclude Include="Source\Notifier.h" />
     <ClInclude Include="Source\NPC.h" />
     <ClInclude Include="Source\Pathfinding.h" />
     <ClInclude Include="Source\PerfTimer.h" />

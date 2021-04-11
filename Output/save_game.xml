@@ -6,7 +6,7 @@
 	<audio />
 	<scene />
 	<renderer>
-		<camera x="584" y="304" />
+		<camera x="404" y="358" />
 	</renderer>
 	<scenemanager>
 		<sceneoptions fxVolume="110" musicVolume="50" vsync="true" />

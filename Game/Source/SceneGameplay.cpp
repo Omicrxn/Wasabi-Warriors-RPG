@@ -6,6 +6,7 @@
 #include "GuiButton.h"
 #include "Window.h"
 #include "DialogSystem.h"
+#include "Notifier.h"
 
 SceneGameplay::SceneGameplay()
 {
@@ -51,6 +52,8 @@ SceneGameplay::SceneGameplay()
 
 	// Gamepad's menu focused button
 	controllerFocus = 0;
+
+
 }
 
 SceneGameplay::~SceneGameplay()
@@ -59,6 +62,7 @@ SceneGameplay::~SceneGameplay()
 
 bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, DialogSystem* dialogSystem)
 {
+	notifier = Notifier::GetInstance();
 	// Needed modules
 	this->entityManager = entityManager;
 	this->guiManager = guiManager;
@@ -108,10 +112,10 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	entity = nullptr;
 	currentPlayer = entityManager->playerList.At(0)->data;
 	//// Create party member 2
-	//entity = entityManager->CreateEntity(EntityType::PLAYER, "DaCrack");
-	//entity->position = iPoint(10 * 32, 6 * 32);
-	//entity->SetTexture(spritesheet, 6);
-	//entity = nullptr;
+	entity = entityManager->CreateEntity(EntityType::PLAYER, "DaCrack");
+	entity->position = iPoint(12 * 32, 6 * 32);
+	entity->SetTexture(spritesheet, 6);
+	entity = nullptr;
 	// Create enemy
 	entity = entityManager->CreateEntity(EntityType::ENEMY, "DaBoss");
 	entity->position = iPoint(10 * 32, 6 * 32);
@@ -175,7 +179,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 	//if (input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) app->LoadGameRequest();
 	//if (input->GetKey(SDL_SCANCODE_S) == KEY_DOWN) app->SaveGameRequest();
 
-	if (input->GetKey(SDL_SCANCODE_B) == KEY_DOWN && battle == false)
+	if (input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN && battle == false)
 	{
 		battle = true;
 		battleSystem->SetupBattle(&entityManager->playerList, entityManager->enemyList.start->data);
@@ -186,20 +190,18 @@ bool SceneGameplay::Update(Input* input, float dt)
 		btnRun->state = GuiControlState::NORMAL;
 		/*btnNone->state = GuiControlState::NORMAL;*/
 	}
-	for (int i = 0; i < entityManager->enemyList.Count(); i++)
-	{
-		if (entityManager->enemyList.At(i)->data->inCombat)
-		{
-			battle = true;
-			battleSystem->SetupBattle(&entityManager->playerList, entityManager->enemyList.start->data);
 
-			btnAttack->state = GuiControlState::NORMAL;
-			btnDefend->state = GuiControlState::NORMAL;
-			btnItem->state = GuiControlState::NORMAL;
-			btnRun->state = GuiControlState::NORMAL;
-			/*btnNone->state = GuiControlState::NORMAL;*/
-			entityManager->enemyList.At(i)->data->inCombat = false;
-		}
+	if (notifier->GetBattle())
+	{
+		battle = true;
+		battleSystem->SetupBattle(&entityManager->playerList, entityManager->enemyList.start->data);
+
+		btnAttack->state = GuiControlState::NORMAL;
+		btnDefend->state = GuiControlState::NORMAL;
+		btnItem->state = GuiControlState::NORMAL;
+		btnRun->state = GuiControlState::NORMAL;
+		/*btnNone->state = GuiControlState::NORMAL;*/
+		notifier->NotifyBattle();
 	}
 
 	if (input->GetKey(SDL_SCANCODE_C) == KEY_DOWN)

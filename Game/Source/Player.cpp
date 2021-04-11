@@ -1,5 +1,6 @@
 #include "Player.h"
 
+
 Player::Player(Textures* tex, Collisions* collisions, EntityManager* entityManager) : Being()
 {
     texture = NULL;

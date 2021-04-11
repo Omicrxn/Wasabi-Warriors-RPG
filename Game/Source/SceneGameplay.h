@@ -13,6 +13,7 @@ class GuiManager;
 class GuiButton;
 class Window;
 class DialogSystem;
+class Notifier;
 
 class SceneGameplay : public Scene
 {
@@ -85,6 +86,8 @@ private:
 
     // Gamepad's menu focused button
     uint controllerFocus;
+
+    Notifier* notifier = nullptr;
 };
 
 #endif // __SCENEGAMEPLAY_H__
