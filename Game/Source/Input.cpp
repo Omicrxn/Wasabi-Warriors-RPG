@@ -258,15 +258,15 @@ int Input::GetAxisRaw(AxisName axisName)
 	switch (axisName)
 	{
 	case VERTICAL:
-		if (keyboard[SDL_SCANCODE_W] == KEY_REPEAT || keyboard[SDL_SCANCODE_UP] == KEY_REPEAT)
+		if (keyboard[SDL_SCANCODE_W] == KEY_REPEAT || keyboard[SDL_SCANCODE_UP] == KEY_REPEAT || controllerButtons[CONTROLLER_BUTTON_UP] == KEY_REPEAT)
 			axis = -1;
-		else if (keyboard[SDL_SCANCODE_S] == KEY_REPEAT || keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT)
+		else if (keyboard[SDL_SCANCODE_S] == KEY_REPEAT || keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT || controllerButtons[CONTROLLER_BUTTON_DOWN] == KEY_REPEAT)
 			axis = 1;
 		break;
 	case HORIZONTAL:
-		if (keyboard[SDL_SCANCODE_A] == KEY_REPEAT || keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT)
+		if (keyboard[SDL_SCANCODE_A] == KEY_REPEAT || keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT || controllerButtons[CONTROLLER_BUTTON_LEFT] == KEY_REPEAT)
 			axis = -1;
-		else if (keyboard[SDL_SCANCODE_D] == KEY_REPEAT || keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT)
+		else if (keyboard[SDL_SCANCODE_D] == KEY_REPEAT || keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT || controllerButtons[CONTROLLER_BUTTON_RIGHT] == KEY_REPEAT)
 			axis = 1;
 		break;
 	default:

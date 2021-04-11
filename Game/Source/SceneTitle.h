@@ -49,6 +49,10 @@ public:
 
 private:
 
+    void DisableButtons();
+
+private:
+
     GuiManager* guiManager;
 
     GuiButton* btnStart;
@@ -62,8 +66,6 @@ private:
 
     SDL_Texture* guiAtlasTex;
 
-    //Animation backgroundAnim;
-
     Font* titleFont;
     Font* buttonFont;
 
@@ -75,8 +77,8 @@ private:
     // Audio Fx for buttons
     int hoverFx, clickFx;
 
-    // Gamepad's menu focused button
-    uint controllerFocus;
+    // Gamepad's menu focused button ID
+    uint focusedButtonId;
 };
 
 #endif // __SCENETITLE_H__

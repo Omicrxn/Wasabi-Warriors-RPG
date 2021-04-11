@@ -28,7 +28,7 @@ private:
     SDL_Rect arrowLeft;
     SDL_Rect arrowRight;
 
-    bool isFocusing;
+    bool isHovering;
 
     int hoverFx, clickFx;
 };

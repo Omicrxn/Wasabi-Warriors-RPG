@@ -39,7 +39,7 @@ SceneTitle::SceneTitle()
     hoverFx = -1;
     clickFx = -1;
     
-    controllerFocus = 0;
+    focusedButtonId = 0;
 }
 
 SceneTitle::~SceneTitle()
@@ -98,7 +98,7 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
     btnExit->SetFont(buttonFont);
     btnExit->SetButtonAudioFx(hoverFx, clickFx);
 
-    controllerFocus = 0;
+    focusedButtonId = 0;
 
     return true;
 }
@@ -107,32 +107,38 @@ bool SceneTitle::Update(Input* input, float dt)
 {
     if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN) TransitionToScene(SceneType::GAMEPLAY);
 
-    //backgroundAnim.Update();
-
-    /* Input */
-    if (((input->GetControllerButton(CONTROLLER_BUTTON_UP) == KEY_DOWN || input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)) && controllerFocus >= 1)
-        --controllerFocus;
-    else if (((input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN || input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)) && controllerFocus <= 3)
-        ++controllerFocus;
-
-    for (int i = 0; i < 5; ++i)
+    if (input->GetControllerState())
     {
-        if (i != controllerFocus)
+        if (((input->GetControllerButton(CONTROLLER_BUTTON_UP) == KEY_DOWN) == KEY_DOWN) && focusedButtonId >= 1)
+            --focusedButtonId;
+        else if (((input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN) == KEY_DOWN) && focusedButtonId <= 3)
+            ++focusedButtonId;
+
+        for (int i = 0; i < 5; ++i)
         {
-            // SET GAMEPAD FOCUS TO FALSE
-            guiManager->controls.At(i)->data->gamepadFocus = false;
-        }
-        else
-        {
-            // SET GAMEPAD FOCUS TO TRUE
-            guiManager->controls.At(i)->data->gamepadFocus = true;
+            if (i != focusedButtonId)
+            {
+                // SET GAMEPAD FOCUS TO FALSE
+                guiManager->controls.At(i)->data->gamepadFocus = false;
+            }
+            else
+            {
+                // SET GAMEPAD FOCUS TO TRUE
+                guiManager->controls.At(i)->data->gamepadFocus = true;
+            }
         }
     }
 
     if (menuCurrentSelection == MenuSelection::START)
+    {
+        DisableButtons();
         TransitionToScene(SceneType::GAMEPLAY);
+    }
     else if (menuCurrentSelection == MenuSelection::CONTINUE)
+    {
+        DisableButtons();
         TransitionToScene(SceneType::GAMEPLAY);
+    }
     //else if (menuCurrentSelection == MenuSelection::EXIT)
 
     return true;
@@ -153,6 +159,8 @@ bool SceneTitle::Draw(Render* render)
 
 bool SceneTitle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager)
 {
+    focusedButtonId = 0;
+
     tex->UnLoad(backgroundTex);
     tex->UnLoad(guiAtlasTex);
 
@@ -188,4 +196,12 @@ bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
     }
 
     return true;
+}
+
+void SceneTitle::DisableButtons()
+{
+    for (int i = 0; i < 5; ++i)
+    {
+        guiManager->controls.At(i)->data->state = GuiControlState::DISABLED;
+    }
 }

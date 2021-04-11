@@ -12,7 +12,7 @@ GuiButton::GuiButton(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(
     arrowLeft = { 303,486,22,21 };
     arrowRight = { 171,486,22,21 };
 
-    isFocusing = false;
+    isHovering = false;
     gamepadFocus = false;
 
     hoverFx = -1;
@@ -36,14 +36,17 @@ bool GuiButton::Update(Input* input, AudioManager* audio, float dt)
         int mouseX, mouseY;
         input->GetMousePosition(mouseX, mouseY);
 
+        if (!input->GetControllerState())
+            gamepadFocus = false;
+
         // Check if gamepad is focusing the button
         if (gamepadFocus && input->GetControllerState())
         {
             state = GuiControlState::FOCUSED;
 
-            if (!isFocusing)
+            if (!isHovering)
             {
-                isFocusing = true;
+                isHovering = true;
                 audio->PlayFx(hoverFx);
             }
 
@@ -66,9 +69,9 @@ bool GuiButton::Update(Input* input, AudioManager* audio, float dt)
         {
             state = GuiControlState::FOCUSED;
 
-            if (!isFocusing)
+            if (!isHovering)
             {
-                isFocusing = true;
+                isHovering = true;
                 audio->PlayFx(hoverFx);
             }
 
@@ -88,7 +91,7 @@ bool GuiButton::Update(Input* input, AudioManager* audio, float dt)
         else
         {
             state = GuiControlState::NORMAL;
-            isFocusing = false;
+            isHovering = false;
             gamepadFocus = false;
         }
     }
