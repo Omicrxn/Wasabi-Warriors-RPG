@@ -209,12 +209,12 @@ bool SceneGameplay::Update(Input* input, float dt)
 
 	if (battle == true)
 	{
-		if (input->pads[0].enabled)
+		if (input->GetControllerState())
 		{
 			/* Input */
-			if (((input->pads[0].up || input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)) && controllerFocus >= 1)
+			if (((input->GetControllerButton(CONTROLLER_BUTTON_UP) == KEY_DOWN || input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)) && controllerFocus >= 1)
 				--controllerFocus;
-			else if (((input->pads[0].down || input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)) && controllerFocus <= 3)
+			else if (((input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN || input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)) && controllerFocus <= 3)
 				++controllerFocus;
 
 			for (int i = 0; i < 5; ++i)

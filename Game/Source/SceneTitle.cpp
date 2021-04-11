@@ -98,6 +98,8 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
     btnExit->SetFont(buttonFont);
     btnExit->SetButtonAudioFx(hoverFx, clickFx);
 
+    controllerFocus = 0;
+
     return true;
 }
 
@@ -107,66 +109,24 @@ bool SceneTitle::Update(Input* input, float dt)
 
     //backgroundAnim.Update();
 
-    if (input->pads[0].enabled)
+    /* Input */
+    if (((input->GetControllerButton(CONTROLLER_BUTTON_UP) == KEY_DOWN || input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)) && controllerFocus >= 1)
+        --controllerFocus;
+    else if (((input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN || input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)) && controllerFocus <= 3)
+        ++controllerFocus;
+
+    for (int i = 0; i < 5; ++i)
     {
-        /*if (input->pads[0].up && controllerFocus >= 1 || input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
-            --controllerFocus;
-        else if (input->pads[0].down && controllerFocus <= 3 || input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
-            ++controllerFocus;*/
-
-        /* Input */ 
-        if ( ((input->pads[0].up || input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)) && controllerFocus >= 1)
-            --controllerFocus;
-        else if ( ((input->pads[0].down|| input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)) && controllerFocus <= 3)
-            ++controllerFocus;
-
-        for (int i = 0; i < 5; ++i)
+        if (i != controllerFocus)
         {
-            if (i != controllerFocus)
-            {
-                // SET GAMEPAD FOCUS TO FALSE
-                guiManager->controls.At(i)->data->gamepadFocus = false;
-            }
-            else
-            {
-                // SET GAMEPAD FOCUS TO TRUE
-                guiManager->controls.At(i)->data->gamepadFocus = true;
-            }
+            // SET GAMEPAD FOCUS TO FALSE
+            guiManager->controls.At(i)->data->gamepadFocus = false;
         }
-
-        /*switch (controllerFocus)
+        else
         {
-        case 0:
-            btnContinue->gamepadFocus = false;
-
-            btnStart->gamepadFocus = true;
-            break;
-        case 1:
-            btnStart->gamepadFocus = false;
-            btnOptions->gamepadFocus = false;
-
-            btnContinue->gamepadFocus = true;
-            break;
-        case 2:
-            btnContinue->gamepadFocus = false;
-            btnCredits->gamepadFocus = false;
-
-            btnOptions->gamepadFocus = true;
-            break;
-        case 3:
-            btnOptions->gamepadFocus = false;
-            btnExit->gamepadFocus = false;
-
-            btnCredits->gamepadFocus = true;
-            break;
-        case 4:
-            btnCredits->gamepadFocus = false;
-
-            btnExit->gamepadFocus = true;
-            break;
-        default:
-            break;
-        }*/
+            // SET GAMEPAD FOCUS TO TRUE
+            guiManager->controls.At(i)->data->gamepadFocus = true;
+        }
     }
 
     if (menuCurrentSelection == MenuSelection::START)

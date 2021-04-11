@@ -37,7 +37,7 @@ bool GuiButton::Update(Input* input, AudioManager* audio, float dt)
         input->GetMousePosition(mouseX, mouseY);
 
         // Check if gamepad is focusing the button
-        if (gamepadFocus && input->pads[0].enabled)
+        if (gamepadFocus && input->GetControllerState())
         {
             state = GuiControlState::FOCUSED;
 
@@ -47,13 +47,13 @@ bool GuiButton::Update(Input* input, AudioManager* audio, float dt)
                 audio->PlayFx(hoverFx);
             }
 
-            if (input->pads[0].a)
+            if (input->GetControllerButton(CONTROLLER_BUTTON_A) == KEY_REPEAT)
             {
                 state = GuiControlState::PRESSED;
             }
 
             // If gamepad button pressed -> Generate event!
-            if (input->pads[0].a)
+            if (input->GetControllerButton(CONTROLLER_BUTTON_A) == KEY_DOWN)
             {
                 NotifyObserver();
                 // Audio Fx when pressed
@@ -61,24 +61,24 @@ bool GuiButton::Update(Input* input, AudioManager* audio, float dt)
             }
         }
         // Check collision between mouse and button bounds
-        else if ((mouseX > bounds.x) && (mouseX < (bounds.x + bounds.w)) && 
-            (mouseY > bounds.y) && (mouseY < (bounds.y + bounds.h)) && !input->pads[0].enabled)
+        else if ((mouseX > bounds.x) && (mouseX < (bounds.x + bounds.w)) &&
+            (mouseY > bounds.y) && (mouseY < (bounds.y + bounds.h)) && !input->GetControllerState())
         {
             state = GuiControlState::FOCUSED;
-            
+
             if (!isFocusing)
             {
                 isFocusing = true;
                 audio->PlayFx(hoverFx);
             }
 
-            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT)
+            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT)
             {
                 state = GuiControlState::PRESSED;
             }
 
             // If mouse button pressed -> Generate event!
-            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_UP)
+            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)
             {
                 NotifyObserver();
                 // Audio Fx when clicked
