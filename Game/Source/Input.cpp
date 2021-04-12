@@ -71,11 +71,11 @@ bool Input::PreUpdate()
 	static SDL_Event event;
 
 	// Keyboard input
-	const Uint8* keys = SDL_GetKeyboardState(NULL);
+	const Uint8* prevFrameKeys = SDL_GetKeyboardState(NULL);
 
 	for (int i = 0; i < MAX_KEYS; ++i)
 	{
-		if (keys[i] == 1)
+		if (prevFrameKeys[i] == 1)
 		{
 			if (keyboard[i] == KEY_IDLE)
 				keyboard[i] = KEY_DOWN;
@@ -92,11 +92,11 @@ bool Input::PreUpdate()
 	}
 
 	// Controller input
-	const bool* buttons = UpdateControllerInput();
+	const bool* prevFrameButtons = UpdateControllerInput();
 
 	for (int i = 0; i < NUM_CONTROLLER_BUTTONS; ++i)
 	{
-		if (buttons[i] == 1)
+		if (prevFrameButtons[i] == 1)
 		{
 			if (controllerButtons[i] == KEY_IDLE)
 				controllerButtons[i] = KEY_DOWN;
