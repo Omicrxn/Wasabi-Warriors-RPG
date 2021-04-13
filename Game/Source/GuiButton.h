@@ -2,12 +2,13 @@
 #define __GUIBUTTON_H__
 
 #include "GuiControl.h"
+enum ButtonColour {NONE, WHITE, YELLOW, GREY};
 
 class GuiButton : public GuiControl
 {
 public:
 
-    GuiButton(uint32 id, SDL_Rect bounds, const char* text);
+    GuiButton(uint32 id, SDL_Rect bounds, const char* text, ButtonColour colour = YELLOW);
     virtual ~GuiButton();
 
     bool Update(Input* input, AudioManager* audio, float dt);
@@ -27,6 +28,8 @@ private:
 
     SDL_Rect arrowLeft;
     SDL_Rect arrowRight;
+
+    ButtonColour colour;
 
     bool isHovering;
 

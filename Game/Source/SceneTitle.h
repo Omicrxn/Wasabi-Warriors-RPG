@@ -49,8 +49,11 @@ public:
 
 private:
 
-    void DisableButtons();
+    void EnableTitleButtons();
+    void EnableSettingsButtons();
 
+    void DisableTitleButtons();
+    void DisableSettingsButtons();
 private:
 
     GuiManager* guiManager;
@@ -61,10 +64,19 @@ private:
     GuiButton* btnCredits;
     GuiButton* btnExit;
 
+    GuiButton* btnFullScreen;
+    GuiButton* btnVsync;
+    GuiButton* btnMusicVolume;
+    GuiButton* btnFXVolume;
+    GuiButton* btnReturnTitle;
+
     SDL_Texture* backgroundTex;
     SDL_Rect backgroundRect;
 
     SDL_Texture* guiAtlasTex;
+
+    SDL_Texture* miscTex;
+    SDL_Rect settingsBackgroundRect;
 
     Font* titleFont;
     Font* buttonFont;
@@ -76,6 +88,8 @@ private:
 
     // Audio Fx for buttons
     int hoverFx, clickFx;
+
+    bool settingsScene = false;
 
     // Gamepad's menu focused button ID
     uint focusedButtonId;
