@@ -5,7 +5,7 @@ GuiButton::GuiButton(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(
     this->bounds = bounds;
     this->text = text;
 
-    buttonStyle = Style::YELLOW;
+    buttonStyle = Style::WHITE;
 
     isHovering = false;
     gamepadFocus = false;
@@ -26,6 +26,10 @@ GuiButton::GuiButton(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(
 
     arrowWhiteLeft = { 281,486,22,21 };
     arrowWhiteRight = { 259,486,22,21 };
+
+    iconReturn = { 1117, 29, 70, 55 };
+    iconDoor = { 1000, 125, 46, 55 };
+    iconSettings = { 870, 125, 58, 55 };
 }
 
 GuiButton::~GuiButton()
@@ -131,10 +135,16 @@ bool GuiButton::Draw(Render* render, bool debugDraw)
         case WHITE:
             render->DrawTexture(texture, bounds.x, bounds.y, &whiteButton, 0.0f);
             break;
-        case YELLOW:
-            render->DrawTexture(texture, bounds.x, bounds.y, &yellowButton, 0.0f);
-            break;
         case GREY:
+            break;
+        case ICON_RETURN:
+            render->DrawTexture(texture, bounds.x, bounds.y, &iconReturn, 0.0f);
+            break;
+        case ICON_DOOR:
+            render->DrawTexture(texture, bounds.x, bounds.y, &iconDoor, 0.0f);
+            break;
+        case ICON_SETTINGS:
+            render->DrawTexture(texture, bounds.x, bounds.y, &iconSettings, 0.0f);
             break;
         default:
             break;
@@ -149,12 +159,16 @@ bool GuiButton::Draw(Render* render, bool debugDraw)
             render->DrawTexture(texture, bounds.x - 30, bounds.y + 14, &arrowWhiteRight, 0.0f);
             render->DrawTexture(texture, bounds.x + bounds.w + 8, bounds.y + 14, &arrowWhiteLeft, 0.0f);
             break;
-        case YELLOW:
-            render->DrawTexture(texture, bounds.x, bounds.y, &yellowButton, 0.0f);
-            render->DrawTexture(texture, bounds.x - 30, bounds.y + 14, &arrowYellowRight, 0.0f);
-            render->DrawTexture(texture, bounds.x + bounds.w + 8, bounds.y + 14, &arrowYellowLeft, 0.0f);
-            break;
         case GREY:
+            break;
+        case ICON_RETURN:
+            render->DrawTexture(texture, bounds.x, bounds.y, &iconReturn, 0.0f);
+            break;
+        case ICON_DOOR:
+            render->DrawTexture(texture, bounds.x, bounds.y, &iconDoor, 0.0f);
+            break;
+        case ICON_SETTINGS:
+            render->DrawTexture(texture, bounds.x, bounds.y, &iconSettings, 0.0f);
             break;
         default:
             break;
@@ -170,12 +184,18 @@ bool GuiButton::Draw(Render* render, bool debugDraw)
             render->DrawTexture(texture, bounds.x - 30, bounds.y + 18, &arrowWhiteRight, 0.0f);
             render->DrawTexture(texture, bounds.x + bounds.w + 8, bounds.y + 18, &arrowWhiteLeft, 0.0f);
             break;
-        case YELLOW:
-            render->DrawTexture(texture, bounds.x, bounds.y + 4, &yellowButtonPressed, 0.0f);
-            render->DrawTexture(texture, bounds.x - 30, bounds.y + 18, &arrowYellowRight, 0.0f);
-            render->DrawTexture(texture, bounds.x + bounds.w + 8, bounds.y + 18, &arrowYellowLeft, 0.0f);
-            break;
         case GREY:
+            break;
+        case ICON_RETURN:
+            render->scale = 2;
+            render->DrawTexture(texture, bounds.x, bounds.y, &iconReturn, 0.0f);
+            render->scale = 1;
+            break;
+        case ICON_DOOR:
+            render->DrawTexture(texture, bounds.x, bounds.y, &iconDoor, 0.0f);
+            break;
+        case ICON_SETTINGS:
+            render->DrawTexture(texture, bounds.x, bounds.y, &iconSettings, 0.0f);
             break;
         default:
             break;

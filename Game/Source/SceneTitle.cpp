@@ -108,8 +108,8 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
     btnFXVolume = (GuiSlider*)guiManager->CreateGuiControl(GuiControlType::SLIDER, 9, { (int)width / 2 - (int)((float)width / 12), 500, 300, 30 }, "FX VOLUME");
     btnFXVolume->SetSliderProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx);
 
-    btnReturnTitle = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 10, { (int)width / 2 - (int)((float)width / 12), 600, 190, 49 }, "RETURN");
-    btnReturnTitle->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::WHITE);
+    btnReturnTitle = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 10, { (int)width / 2 - (int)((float)width / 12), 600, 190, 49 }, "");
+    btnReturnTitle->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::ICON_RETURN);
 
     HideSettingsButtons();
 

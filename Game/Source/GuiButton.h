@@ -5,7 +5,6 @@
 
 enum Style {
     WHITE,
-    YELLOW,
     GREY, 
     ICON_RETURN, 
     ICON_SETTINGS,
@@ -22,7 +21,7 @@ public:
     bool Update(Input* input, AudioManager* audio, float dt);
     bool Draw(Render* render, bool debugDraw);
 
-    void SetButtonProperties(Scene* module, SDL_Texture* texture, Font* font, int hoverFx, int clickFx, Style style = Style::YELLOW);
+    void SetButtonProperties(Scene* module, SDL_Texture* texture, Font* font, int hoverFx, int clickFx, Style style = Style::WHITE);
 
 private:
 
@@ -41,6 +40,10 @@ private:
 
     SDL_Rect arrowWhiteLeft;
     SDL_Rect arrowWhiteRight;
+
+    SDL_Rect iconReturn;
+    SDL_Rect iconSettings;
+    SDL_Rect iconDoor;
 };
 
 #endif // __GUIBUTTON_H__
