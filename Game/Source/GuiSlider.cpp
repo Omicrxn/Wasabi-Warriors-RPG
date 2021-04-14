@@ -7,7 +7,7 @@ GuiSlider::GuiSlider(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(
 
     slider.x = bounds.x;
     slider.y = bounds.y;
-    slider.w = 20;
+    slider.w = 10;
     slider.h = bounds.h;
 
     arrowWhiteLeft = { 281,486,22,21 };
@@ -75,20 +75,20 @@ bool GuiSlider::Draw(Render* render, bool debugDraw)
     case GuiControlState::HIDDEN:
         break;
     case GuiControlState::NORMAL:
-        render->DrawText(font, text.GetString(), bounds.x + bounds.w, bounds.y + bounds.h / 2 - bounds.h / 4, 22, 8, { 89,73,34,255 });
-        render->DrawTexture(this->texture, this->bounds.x, this->bounds.y + 5, &bar, 0.0f);
+        render->DrawText(font, text.GetString(), bounds.x + bounds.w, bounds.y + bounds.h / 2 - bounds.h / 4, 22, 8, { 255,255,255,255 });
+        render->DrawTexture(this->texture, this->bounds.x, this->bounds.y + 15, &bar, 0.0f);
         render->DrawTexture(this->texture, this->slider.x, this->slider.y, &whiteCircle, 0.0f);
         break;
     case GuiControlState::FOCUSED:
-        render->DrawText(font, text.GetString(), bounds.x + bounds.w, bounds.y + bounds.h / 2 - bounds.h / 4, 22, 8, { 89,73,34,255 });
+        render->DrawText(font, text.GetString(), bounds.x + bounds.w, bounds.y + bounds.h / 2 - bounds.h / 4, 22, 8, { 255,255,255,255 });
         render->DrawTexture(texture, bounds.x - 30, bounds.y + 18, &arrowWhiteRight, 0.0f);
-        render->DrawTexture(this->texture, this->bounds.x, this->bounds.y + 5, &bar, 0.0f);
+        render->DrawTexture(this->texture, this->bounds.x, this->bounds.y + 15, &bar, 0.0f);
         render->DrawTexture(this->texture, this->slider.x, this->slider.y, &whiteCircle, 0.0f);
         break;
     case GuiControlState::PRESSED:
-        render->DrawText(font, text.GetString(), bounds.x + bounds.w, bounds.y + bounds.h / 2 - bounds.h / 4, 22, 8, { 89,73,34,255 });
+        render->DrawText(font, text.GetString(), bounds.x + bounds.w, bounds.y + bounds.h / 2 - bounds.h / 4, 22, 8, { 255,255,255,255 });
         render->DrawTexture(texture, bounds.x - 30, bounds.y + 18, &arrowWhiteRight, 0.0f);
-        render->DrawTexture(this->texture, this->bounds.x, this->bounds.y + 5, &bar, 0.0f);
+        render->DrawTexture(this->texture, this->bounds.x, this->bounds.y + 15, &bar, 0.0f);
         render->DrawTexture(this->texture, this->slider.x, this->slider.y, &whiteCircle, 0.0f);
         break;
     default:
@@ -117,7 +117,7 @@ bool GuiSlider::Draw(Render* render, bool debugDraw)
     return true;
 }
 
-void GuiSlider::SetSliderProperties(Scene* module, SDL_Texture* texture, Font* font, int hoverFx, int clickFx, ButtonColour colour)
+void GuiSlider::SetSliderProperties(Scene* module, SDL_Texture* texture, Font* font, int hoverFx, int clickFx)
 {
     SetObserver(module);
     SetTexture(texture);
@@ -125,6 +125,4 @@ void GuiSlider::SetSliderProperties(Scene* module, SDL_Texture* texture, Font* f
 
     this->hoverFx = hoverFx;
     this->clickFx = clickFx;
-
-    this->colour = colour;
 }

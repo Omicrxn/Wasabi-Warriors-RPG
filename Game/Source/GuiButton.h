@@ -3,7 +3,14 @@
 
 #include "GuiControl.h"
 
-
+enum Style {
+    WHITE,
+    YELLOW,
+    GREY, 
+    ICON_RETURN, 
+    ICON_SETTINGS,
+    ICON_DOOR
+};
 
 class GuiButton : public GuiControl
 {
@@ -15,11 +22,11 @@ public:
     bool Update(Input* input, AudioManager* audio, float dt);
     bool Draw(Render* render, bool debugDraw);
 
-    void SetButtonProperties(Scene* module, SDL_Texture* texture, Font* font, int hoverFx, int clickFx, ButtonColour colour = ButtonColour::YELLOW);
+    void SetButtonProperties(Scene* module, SDL_Texture* texture, Font* font, int hoverFx, int clickFx, Style style = Style::YELLOW);
 
 private:
 
-   
+    Style buttonStyle;
 
     SDL_Rect greyButton;
 

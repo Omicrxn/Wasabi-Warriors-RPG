@@ -11,13 +11,6 @@
 
 #include "SDL/include/SDL.h"
 
-enum ButtonColour
-{
-    WHITE,
-    YELLOW,
-    GREY
-};
-
 enum class GuiControlType
 {
     BUTTON,
@@ -101,9 +94,6 @@ public:
     Font* font;
 
     Scene* observer;        // Observer module (it should probably be an array/list)
-
-    // Gui Button specific properties
-    ButtonColour colour;
 };
 
 #endif // __GUICONTROL_H__

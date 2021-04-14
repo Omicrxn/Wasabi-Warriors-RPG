@@ -5,7 +5,7 @@ GuiButton::GuiButton(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(
     this->bounds = bounds;
     this->text = text;
 
-    colour = ButtonColour::YELLOW;
+    buttonStyle = Style::YELLOW;
 
     isHovering = false;
     gamepadFocus = false;
@@ -32,7 +32,7 @@ GuiButton::~GuiButton()
 {
 }
 
-void GuiButton::SetButtonProperties(Scene* module, SDL_Texture* texture, Font* font, int hoverFx, int clickFx, ButtonColour colour)
+void GuiButton::SetButtonProperties(Scene* module, SDL_Texture* texture, Font* font, int hoverFx, int clickFx, Style style)
 {
     SetObserver(module);
     SetTexture(texture);
@@ -41,7 +41,7 @@ void GuiButton::SetButtonProperties(Scene* module, SDL_Texture* texture, Font* f
     this->hoverFx = hoverFx;
     this->clickFx = clickFx;
 
-    this->colour = colour;
+    this->buttonStyle = style;
 }
 
 bool GuiButton::Update(Input* input, AudioManager* audio, float dt)
@@ -126,7 +126,7 @@ bool GuiButton::Draw(Render* render, bool debugDraw)
     case GuiControlState::HIDDEN:
         break;
     case GuiControlState::NORMAL:
-        switch (colour)
+        switch (buttonStyle)
         {
         case WHITE:
             render->DrawTexture(texture, bounds.x, bounds.y, &whiteButton, 0.0f);
@@ -142,7 +142,7 @@ bool GuiButton::Draw(Render* render, bool debugDraw)
         render->DrawText(font, text.GetString(), bounds.x + bounds.w / 5 - bounds.w / 6, bounds.y + bounds.h / 2 - bounds.h / 4, 22, 8, { 89,73,34,255 });
         break;
     case GuiControlState::FOCUSED:
-        switch (colour)
+        switch (buttonStyle)
         {
         case WHITE:
             render->DrawTexture(texture, bounds.x, bounds.y, &whiteButton, 0.0f);
@@ -163,7 +163,7 @@ bool GuiButton::Draw(Render* render, bool debugDraw)
         render->DrawText(font, text.GetString(), bounds.x + bounds.w / 5 - bounds.w / 6, bounds.y + bounds.h / 2 - bounds.h / 4, 22, 8, { 0,0,0,255 });
         break;
     case GuiControlState::PRESSED:
-        switch (colour)
+        switch (buttonStyle)
         {
         case WHITE:
             render->DrawTexture(texture, bounds.x, bounds.y + 4, &whiteButtonPressed, 0.0f);

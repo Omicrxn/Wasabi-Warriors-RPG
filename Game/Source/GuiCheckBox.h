@@ -10,13 +10,13 @@ class GuiCheckBox : public GuiControl
 {
 public:
 
-    GuiCheckBox(uint32 id, SDL_Rect bounds, const char *text);
+    GuiCheckBox(uint32 id, SDL_Rect bounds, const char* text);
     virtual ~GuiCheckBox();
 
     bool Update(Input* input, AudioManager* audio, float dt);
     bool Draw(Render* render, bool debugDraw);
 
-    void SetBoxProperties(Scene* module, SDL_Texture* texture, Font* font, int hoverFx, int clickFx, ButtonColour colour = ButtonColour::YELLOW);
+    void SetBoxProperties(Scene* module, SDL_Texture* texture, Font* font, int hoverFx, int clickFx);
 
 private:
 
@@ -37,7 +37,6 @@ private:
     SDL_Rect greyTick = { 370,30,16,15 };
     SDL_Rect whiteTick = { 370,75,16,15 };
     SDL_Rect yellowTick = { 369,184,16,15 };
-
 };
 
 #endif // __GUICHECKBOX_H__

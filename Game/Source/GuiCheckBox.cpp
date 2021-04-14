@@ -51,73 +51,26 @@ bool GuiCheckBox::Draw(Render* render, bool debugDraw)
     case GuiControlState::HIDDEN:
         break;
     case GuiControlState::NORMAL:
-        switch (colour)
-        {
-        case WHITE:
-            render->DrawTexture(texture, bounds.x, bounds.y, &whiteBox, 0.0f);
-            if (checked) render->DrawTexture(texture, bounds.x, bounds.y, &greyTick, 0.0f);
-            break;
-        case YELLOW:
-            render->DrawTexture(texture, bounds.x, bounds.y, &yellowBox, 0.0f);
-            if (checked) render->DrawTexture(texture, bounds.x, bounds.y, &yellowTick, 0.0f);
-            break;
-        case GREY:
-            render->DrawTexture(texture, bounds.x, bounds.y, &greyBox, 0.0f);
-            if (checked) render->DrawTexture(texture, bounds.x, bounds.y, &whiteTick, 0.0f);
-            break;
-        default:
-            break;
-        }
-        break;
+        render->DrawTexture(texture, bounds.x, bounds.y, &whiteBox, 0.0f);
+        if (checked) render->DrawTexture(texture, bounds.x, bounds.y, &greyTick, 0.0f);
         // Text
     case GuiControlState::FOCUSED:
-        switch (colour)
-        {
-        case WHITE:
-            render->DrawTexture(texture, bounds.x, bounds.y, &whiteBox, 0.0f);
-            if (checked) render->DrawTexture(texture, bounds.x, bounds.y, &greyTick, 0.0f);
-            break;
-        case YELLOW:
-            render->DrawTexture(texture, bounds.x, bounds.y, &yellowBox, 0.0f);
-            if (checked) render->DrawTexture(texture, bounds.x, bounds.y, &yellowTick, 0.0f);
-            break;
-        case GREY:
-            render->DrawTexture(texture, bounds.x, bounds.y, &greyBox, 0.0f);
-            if (checked) render->DrawTexture(texture, bounds.x, bounds.y, &whiteTick, 0.0f);
-            break;
-        default:
-            break;
-        }
+        render->DrawTexture(texture, bounds.x, bounds.y, &whiteBox, 0.0f);
+        if (checked) render->DrawTexture(texture, bounds.x, bounds.y, &greyTick, 0.0f);
         // Arrow
         // Text
     case GuiControlState::PRESSED:
-        switch (colour)
-        {
-        case WHITE:
-            render->DrawTexture(texture, bounds.x, bounds.y, &whiteBox, 0.0f);
-            if (checked) render->DrawTexture(texture, bounds.x, bounds.y, &greyTick, 0.0f);
-            break;
-        case YELLOW:
-            render->DrawTexture(texture, bounds.x, bounds.y, &yellowBox, 0.0f);
-            if (checked) render->DrawTexture(texture, bounds.x, bounds.y, &yellowTick, 0.0f);
-            break;
-        case GREY:
-            render->DrawTexture(texture, bounds.x, bounds.y, &greyBox, 0.0f);
-            if (checked) render->DrawTexture(texture, bounds.x, bounds.y, &whiteTick, 0.0f);
-            break;
-        default:
-            break;
-        }
+        render->DrawTexture(texture, bounds.x, bounds.y, &whiteBox, 0.0f);
+        if (checked) render->DrawTexture(texture, bounds.x, bounds.y, &greyTick, 0.0f);
         // Arrow
         // Text
     default:
         break;
-
-        return true;
     }
+    return true;
 }
 
-void GuiCheckBox::SetBoxProperties(Scene* module, SDL_Texture* texture, Font* font, int hoverFx, int clickFx, ButtonColour colour)
+void GuiCheckBox::SetBoxProperties(Scene* module, SDL_Texture* texture, Font* font, int hoverFx, int clickFx)
 {
     SetObserver(module);
     SetTexture(texture);
@@ -125,6 +78,4 @@ void GuiCheckBox::SetBoxProperties(Scene* module, SDL_Texture* texture, Font* fo
 
     this->hoverFx = hoverFx;
     this->clickFx = clickFx;
-
-    this->colour = colour;
 }

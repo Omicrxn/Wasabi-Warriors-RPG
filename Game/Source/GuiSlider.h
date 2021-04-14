@@ -16,7 +16,7 @@ public:
     bool Update(Input* input, AudioManager* audio, float dt);
     bool Draw(Render* render, bool debugDraw);
 
-    void SetSliderProperties(Scene* module, SDL_Texture* texture, Font* font, int hoverFx, int clickFx, ButtonColour colour = ButtonColour::YELLOW);
+    void SetSliderProperties(Scene* module, SDL_Texture* texture, Font* font, int hoverFx, int clickFx);
 
 private:
 
