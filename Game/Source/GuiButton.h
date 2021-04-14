@@ -22,7 +22,6 @@ public:
     bool Draw(Render* render, bool debugDraw);
 
     void SetButtonProperties(Scene* module, SDL_Texture* texture, Font* font, int hoverFx, int clickFx, ButtonColour colour = ButtonColour::YELLOW);
-    void SetButtonAudioFx(int hoverFx, int clickFx);
 
 private:
 

@@ -176,25 +176,25 @@ bool SceneTitle::Update(Input* input, float dt)
         focusedButtonId = 0;
 
         // Disable settings buttons and sliders and enable main title buttons
-        DisableSettingsButtons();
+        HideSettingsButtons();
         EnableTitleButtons();
     }
 
     if (menuCurrentSelection == MenuSelection::START)
     {
-        DisableTitleButtons();
+        HideTitleButtons();
         TransitionToScene(SceneType::GAMEPLAY);
     }
     else if (menuCurrentSelection == MenuSelection::CONTINUE)
     {
-        DisableTitleButtons();
+        HideTitleButtons();
         TransitionToScene(SceneType::GAMEPLAY);
     }
     else if (menuCurrentSelection == MenuSelection::SETTINGS)
     {
         focusedButtonId = 5;
         // Disable main title buttons and enable the settings buttons and slider
-        DisableTitleButtons();
+        HideTitleButtons();
         EnableSettingsButtons();
         
         // Create splines for settings buttons
@@ -303,7 +303,7 @@ void SceneTitle::EnableSettingsButtons()
     }
 }
 
-void SceneTitle::DisableTitleButtons()
+void SceneTitle::HideTitleButtons()
 {
     for (int i = 0; i < 5; ++i)
     {
@@ -311,7 +311,7 @@ void SceneTitle::DisableTitleButtons()
     }
 }
 
-void SceneTitle::DisableSettingsButtons()
+void SceneTitle::HideSettingsButtons()
 {
     for (int i = 5; i < 10; ++i)
     {

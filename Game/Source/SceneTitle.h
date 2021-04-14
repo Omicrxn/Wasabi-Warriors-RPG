@@ -52,8 +52,8 @@ private:
     void EnableTitleButtons();
     void EnableSettingsButtons();
 
-    void DisableTitleButtons();
-    void DisableSettingsButtons();
+    void HideTitleButtons();
+    void HideSettingsButtons();
 
 private:
 

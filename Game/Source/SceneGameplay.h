@@ -45,21 +45,25 @@ public:
 
 private:
 
+    void EnableBattleButtons();
+
+private:
+
     // Needed modules
     EntityManager* entityManager;
     GuiManager* guiManager;
     Window* win;
     DialogSystem* dialogSystem;
 
-    // Entitites
-    Map* map;
-    Player* currentPlayer;
+    // Scene gameplay textures
+    SDL_Texture* spritesheet;
 
     // Camera
     SDL_Rect camera;
 
-    // Scene gameplay textures
-    SDL_Texture* spritesheet;
+    // Entities
+    Map* map;
+    Player* currentPlayer;
 
     // Battle system module and bool to activate or deactivate it
     BattleSystem* battleSystem;
@@ -70,6 +74,13 @@ private:
     SDL_Rect backgroundRect;
     SDL_Texture* guiAtlasTex;
 
+    // Fonts
+    Font* titleFont;
+    Font* buttonFont;
+
+    // Audio Fx for buttons
+    int hoverFx, clickFx;
+
     // Buttons to manage the battle system
     GuiButton* btnAttack;
     GuiButton* btnDefend;
@@ -77,17 +88,10 @@ private:
     GuiButton* btnRun;
     GuiButton* btnNone;
 
-    // Audio Fx for buttons
-    int hoverFx, clickFx;
-
-    // Fonts
-    Font* titleFont;
-    Font* buttonFont;
-
     // Gamepad's menu focused button
-    uint controllerFocus;
+    uint focusedButtonId;
 
-    Notifier* notifier = nullptr;
+    Notifier* notifier;
 };
 
 #endif // __SCENEGAMEPLAY_H__

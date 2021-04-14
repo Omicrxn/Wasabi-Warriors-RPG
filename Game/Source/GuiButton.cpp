@@ -32,18 +32,15 @@ GuiButton::~GuiButton()
 {
 }
 
-void GuiButton::SetButtonAudioFx(int hoverFx, int clickFx)
-{
-    this->hoverFx = hoverFx;
-    this->clickFx = clickFx;
-}
-
 void GuiButton::SetButtonProperties(Scene* module, SDL_Texture* texture, Font* font, int hoverFx, int clickFx, ButtonColour colour)
 {
     SetObserver(module);
     SetTexture(texture);
     SetFont(font);
-    SetButtonAudioFx(hoverFx, clickFx);
+
+    this->hoverFx = hoverFx;
+    this->clickFx = clickFx;
+
     this->colour = colour;
 }
 

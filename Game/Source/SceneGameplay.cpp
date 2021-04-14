@@ -17,43 +17,43 @@ SceneGameplay::SceneGameplay()
 	entityManager = nullptr;
 	guiManager = nullptr;
 	win = nullptr;
-	battleSystem = new BattleSystem();
+	dialogSystem = nullptr;
+
+	spritesheet = nullptr;
+
+	camera = { 0,0,1280,720 };
 
 	map = nullptr;
 	currentPlayer = nullptr;
 
-	camera = { 0,0,1280,720 };
-
-	spritesheet = nullptr;
-
+	battleSystem = new BattleSystem();
 	// Battle system bool
 	battle = false;
+
+	// Battle system textures
+	backgroundTex = nullptr;
+	backgroundRect = { 0, 0, 0, 0 };
+	guiAtlasTex = nullptr;
+
+	// Fonts
+	titleFont = nullptr;
+	buttonFont = nullptr;
+
+	// Audio Fx for buttons
+	hoverFx = -1;
+	clickFx = -1;
 
 	// Buttons
 	btnAttack = nullptr;
 	btnDefend = nullptr;
 	btnItem = nullptr;
 	btnRun = nullptr;
-	btnNone = nullptr;
-
-	// Fonts
-	titleFont = nullptr;
-	buttonFont = nullptr;
-
-	// Battle system textures
-	backgroundTex = nullptr;
-	backgroundRect = { 0, 0, 0, 0 };
-	guiAtlasTex = nullptr;
-	spritesheet = nullptr;
-
-	// Buttons management
-	hoverFx = -1;
-	clickFx = -1;
+	//btnNone = nullptr;
 
 	// Gamepad's menu focused button
-	controllerFocus = 0;
+	focusedButtonId = 0;
 
-
+	notifier = nullptr;
 }
 
 SceneGameplay::~SceneGameplay()
@@ -63,6 +63,7 @@ SceneGameplay::~SceneGameplay()
 bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, DialogSystem* dialogSystem)
 {
 	notifier = Notifier::GetInstance();
+
 	// Needed modules
 	this->entityManager = entityManager;
 	this->guiManager = guiManager;
@@ -84,34 +85,18 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 		RELEASE_ARRAY(data);
 	}
 
-	// Load textures
+	// Load texture
 	spritesheet = tex->Load("Assets/Textures/Characters/characters_spritesheet.png");
-	backgroundTex = tex->Load("Assets/Textures/Scenes/battle_scene.jpg"); backgroundRect = { 0, 0, 1280, 720 };
-	guiAtlasTex = tex->Load("Assets/Textures/UI/Elements/ui_spritesheet.png");
 
-	// Create fonts
-	titleFont = new Font("Assets/Fonts/shojumaru.xml", tex);
-	buttonFont = new Font("Assets/Fonts/showg.xml", tex);
-
-	// Load music and Fx
-	audio->PlayMusic("Assets/Audio/Music/menu.ogg");
-	// AudioManager::PlayMusic("Assets/Audio/Music/music_spy.ogg");
-	hoverFx = audio->LoadFx("Assets/Audio/Fx/bong.ogg");
-	clickFx = audio->LoadFx("Assets/Audio/Fx/click.ogg");
-
-	// Get window info
-	/*uint width, height;
-	win->GetWindowSize(width, height);*/
-	
 	// Create party member 1
 	Entity* entity;
-	entity = entityManager->CreateEntity(EntityType::PLAYER,"DaBaby");
+	entity = entityManager->CreateEntity(EntityType::PLAYER, "DaBaby");
 	entity->position = iPoint(12 * 32, 6 * 32);
 	entity->SetTexture(spritesheet, 3);
 	entity->SetState(true);
 	entity = nullptr;
 	currentPlayer = entityManager->playerList.At(0)->data;
-	//// Create party member 2
+	// Create party member 2
 	entity = entityManager->CreateEntity(EntityType::PLAYER, "DaCrack");
 	entity->position = iPoint(12 * 32, 6 * 32);
 	entity->SetTexture(spritesheet, 6);
@@ -127,41 +112,45 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	entity->SetTexture(spritesheet, 4);
 	entity = nullptr;
 
+	// Load battle system textures
+	backgroundTex = tex->Load("Assets/Textures/Scenes/battle_scene.jpg");
+	backgroundRect = { 0, 0, 1280, 720 };
+	guiAtlasTex = tex->Load("Assets/Textures/UI/Elements/ui_spritesheet.png");
+
+	// Create fonts
+	titleFont = new Font("Assets/Fonts/shojumaru.xml", tex);
+	buttonFont = new Font("Assets/Fonts/showg.xml", tex);
+
+	// Load buttons Fx
+	hoverFx = audio->LoadFx("Assets/Audio/Fx/bong.ogg");
+	clickFx = audio->LoadFx("Assets/Audio/Fx/click.ogg");
+
+	// Get window info
+	/*uint width, height;
+	win->GetWindowSize(width, height);*/
+
 	// Load buttons for the battle system
 	btnAttack = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, { 730, 500, 190, 49 }, "ATTACK");
-	btnAttack->SetObserver(this);
-	btnAttack->SetTexture(guiAtlasTex);
-	btnAttack->SetFont(buttonFont);
-	btnAttack->SetButtonAudioFx(hoverFx, clickFx);
-	btnAttack->state = GuiControlState::DISABLED;
+	btnAttack->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, ButtonColour::WHITE);
+	btnAttack->state = GuiControlState::HIDDEN;
 
 	btnDefend = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 2, { 730, 600, 190, 49 }, "DEFEND");
-	btnDefend->SetObserver(this);
-	btnDefend->SetTexture(guiAtlasTex);
-	btnDefend->SetFont(buttonFont);
-	btnDefend->SetButtonAudioFx(hoverFx, clickFx);
-	btnDefend->state = GuiControlState::DISABLED;
+	btnDefend->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, ButtonColour::WHITE);
+	btnDefend->state = GuiControlState::HIDDEN;
 
 	btnItem = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 3, { 1030, 500, 190, 49 }, "ITEM");
-	btnItem->SetObserver(this);
-	btnItem->SetTexture(guiAtlasTex);
-	btnItem->SetFont(buttonFont);
-	btnItem->SetButtonAudioFx(hoverFx, clickFx);
-	btnItem->state = GuiControlState::DISABLED;
+	btnItem->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, ButtonColour::WHITE);
+	btnItem->state = GuiControlState::HIDDEN;
 
 	btnRun = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 4, { 1030, 600, 190, 49 }, "RUN");
-	btnRun->SetObserver(this);
-	btnRun->SetTexture(guiAtlasTex);
-	btnRun->SetFont(buttonFont);
-	btnRun->SetButtonAudioFx(hoverFx, clickFx);
-	btnRun->state = GuiControlState::DISABLED;
+	btnRun->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, ButtonColour::WHITE);
+	btnRun->state = GuiControlState::HIDDEN;
 
 	//btnNone = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 5, { 700, 500, 190, 49 }, "NONE");
-	//btnNone->SetObserver(this);
-	//btnNone->SetTexture(guiAtlasTex);
-	//btnNone->SetFont(buttonFont);
-	//btnNone->SetButtonAudioFx(hoverFx, clickFx);
-	//btnNone->state = GuiControlState::DISABLED;
+	//btnNone->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, ButtonColour::WHITE);
+	//btnNone->state = GuiControlState::HIDDEN;
+
+	audio->PlayMusic("Assets/Audio/Music/menu.ogg");
 
 	return true;
 }
@@ -184,11 +173,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 		battle = true;
 		battleSystem->SetupBattle(&entityManager->playerList, entityManager->enemyList.start->data);
 
-		btnAttack->state = GuiControlState::NORMAL;
-		btnDefend->state = GuiControlState::NORMAL;
-		btnItem->state = GuiControlState::NORMAL;
-		btnRun->state = GuiControlState::NORMAL;
-		/*btnNone->state = GuiControlState::NORMAL;*/
+		EnableBattleButtons();
 	}
 
 	if (notifier->GetBattle())
@@ -196,11 +181,8 @@ bool SceneGameplay::Update(Input* input, float dt)
 		battle = true;
 		battleSystem->SetupBattle(&entityManager->playerList, entityManager->enemyList.start->data);
 
-		btnAttack->state = GuiControlState::NORMAL;
-		btnDefend->state = GuiControlState::NORMAL;
-		btnItem->state = GuiControlState::NORMAL;
-		btnRun->state = GuiControlState::NORMAL;
-		/*btnNone->state = GuiControlState::NORMAL;*/
+		EnableBattleButtons();
+
 		notifier->NotifyBattle();
 	}
 
@@ -214,14 +196,14 @@ bool SceneGameplay::Update(Input* input, float dt)
 		if (input->GetControllerState())
 		{
 			/* Input */
-			if (((input->GetControllerButton(CONTROLLER_BUTTON_UP) == KEY_DOWN || input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)) && controllerFocus >= 1)
-				--controllerFocus;
-			else if (((input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN || input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)) && controllerFocus <= 3)
-				++controllerFocus;
+			if (((input->GetControllerButton(CONTROLLER_BUTTON_UP) == KEY_DOWN || input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)) && focusedButtonId >= 1)
+				--focusedButtonId;
+			else if (((input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN || input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)) && focusedButtonId <= 3)
+				++focusedButtonId;
 
-			for (int i = 0; i < 5; ++i)
+			for (int i = 0; i < 4; ++i)
 			{
-				if (i != controllerFocus)
+				if (i != focusedButtonId)
 				{
 					// SET GAMEPAD FOCUS TO FALSE
 					guiManager->controls.At(i)->data->gamepadFocus = false;
@@ -456,11 +438,19 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 
 void SceneGameplay::ExitBattle()
 {
-	btnAttack->state = GuiControlState::DISABLED;
-	btnDefend->state = GuiControlState::DISABLED;
-	btnItem->state = GuiControlState::DISABLED;
-	btnRun->state = GuiControlState::DISABLED;
-	/*btnNone->state = GuiControlState::DISABLED;*/
+	for (int i = 0; i < 4; ++i)
+	{
+		guiManager->controls.At(i)->data->state = GuiControlState::HIDDEN;
+	}
+
 	battle = false;
 	battleSystem->ResetBattle();
+}
+
+void SceneGameplay::EnableBattleButtons()
+{
+	for (int i = 0; i < 4; ++i)
+	{
+		guiManager->controls.At(i)->data->state = GuiControlState::NORMAL;
+	}
 }
