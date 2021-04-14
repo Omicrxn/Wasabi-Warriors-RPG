@@ -8,7 +8,10 @@ enum Style {
     GREY, 
     ICON_RETURN, 
     ICON_SETTINGS,
-    ICON_DOOR
+    ICON_EXIT,
+    ICON_PAUSE,
+    ICON_INVENTORY,
+    ICON_PHONE
 };
 
 class GuiButton : public GuiControl
@@ -43,7 +46,11 @@ private:
 
     SDL_Rect iconReturn;
     SDL_Rect iconSettings;
-    SDL_Rect iconDoor;
+    SDL_Rect iconExit;
+    SDL_Rect iconPause;
+    SDL_Rect iconInventory;
+    SDL_Rect iconPhone;
+
 };
 
 #endif // __GUIBUTTON_H__

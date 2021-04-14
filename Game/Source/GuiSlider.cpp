@@ -75,21 +75,21 @@ bool GuiSlider::Draw(Render* render, bool debugDraw)
     case GuiControlState::HIDDEN:
         break;
     case GuiControlState::NORMAL:
-        render->DrawText(font, text.GetString(), bounds.x + bounds.w, bounds.y + bounds.h / 2 - bounds.h / 4, 22, 3, { 255,255,255,255 });
-        render->DrawTexture(this->texture, this->bounds.x, this->bounds.y + 15, &bar, 0.0f);
-        render->DrawTexture(this->texture, this->slider.x, this->slider.y, &whiteCircle, 0.0f);
+        render->DrawText(font, text.GetString(), bounds.x + bounds.w + 5, bounds.y + bounds.h / 2 - bounds.h / 4, 22, 3, { 255,255,255,255 });
+        render->DrawTexture(texture, bounds.x, bounds.y + 15, &bar, 0.0f);
+        render->DrawTexture(texture, slider.x, slider.y, &whiteCircle, 0.0f);
         break;
     case GuiControlState::FOCUSED:
-        render->DrawText(font, text.GetString(), bounds.x + bounds.w, bounds.y + bounds.h / 2 - bounds.h / 4, 22, 3, { 0,0,0,255 });
-        render->DrawTexture(texture, bounds.x - 30, bounds.y + 18, &arrowWhiteRight, 0.0f);
-        render->DrawTexture(this->texture, this->bounds.x, this->bounds.y + 15, &bar, 0.0f);
-        render->DrawTexture(this->texture, this->slider.x, this->slider.y, &whiteCircle, 0.0f);
+        render->DrawText(font, text.GetString(), bounds.x + bounds.w + 5, bounds.y + bounds.h / 2 - bounds.h / 4, 22, 3, { 0,0,0,255 });
+        render->DrawTexture(texture, bounds.x - 30, bounds.y + 9, &arrowWhiteRight, 0.0f);
+        render->DrawTexture(texture, bounds.x, bounds.y + 15, &bar, 0.0f);
+        render->DrawTexture(texture, slider.x, slider.y, &whiteCircle, 0.0f);
         break;
     case GuiControlState::PRESSED:
-        render->DrawText(font, text.GetString(), bounds.x + bounds.w, bounds.y + bounds.h / 2 - bounds.h / 4, 22, 3, { 0,0,0,255 });
-        render->DrawTexture(texture, bounds.x - 30, bounds.y + 18, &arrowWhiteRight, 0.0f);
-        render->DrawTexture(this->texture, this->bounds.x, this->bounds.y + 15, &bar, 0.0f);
-        render->DrawTexture(this->texture, this->slider.x, this->slider.y, &whiteCircle, 0.0f);
+        render->DrawText(font, text.GetString(), bounds.x + bounds.w + 5, bounds.y + bounds.h / 2 - bounds.h / 4, 22, 3, { 0,0,0,255 });
+        render->DrawTexture(texture, bounds.x - 30, bounds.y + 9, &arrowWhiteRight, 0.0f);
+        render->DrawTexture(texture, bounds.x, bounds.y + 15, &bar, 0.0f);
+        render->DrawTexture(texture, slider.x, slider.y, &whiteCircle, 0.0f);
         break;
     default:
         break;

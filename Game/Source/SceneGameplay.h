@@ -15,6 +15,15 @@ class Window;
 class DialogSystem;
 class Notifier;
 
+enum GameState{
+    ROAMING,
+    PAUSE,
+    SETTINGS,
+    BATTLE,
+    INVENTORY,
+    MAP
+};
+
 class SceneGameplay : public Scene
 {
 public:
@@ -47,6 +56,17 @@ private:
 
     void EnableBattleButtons();
 
+    void EnableHudButtons();
+    void HideHudButtons();
+
+    void EnablePauseButtons();
+    void HidePauseButtons();
+
+    void UpdateHud();
+    void UpdatePause();
+
+    void DrawHud(Render* render);
+    void DrawPause(Render* render);
 private:
 
     // Needed modules
@@ -69,11 +89,14 @@ private:
     BattleSystem* battleSystem;
     bool battle;
 
+    // Enum to know at what state the game encounters ( in order to show HUD, INVENTORY, or MAP)
+    GameState currentState;
+
     // Battle system textures
     SDL_Texture* backgroundTex;
     SDL_Rect backgroundRect;
     SDL_Texture* guiAtlasTex;
-
+    SDL_Rect pauseBackgroundRect;
     // Fonts
     Font* titleFont;
     Font* buttonFont;
@@ -87,6 +110,16 @@ private:
     GuiButton* btnItem;
     GuiButton* btnRun;
     GuiButton* btnNone;
+
+    // Hud buttons
+    GuiButton* btnPause;
+    GuiButton* btnInventory;
+    GuiButton* btnPhone;
+
+    // Pause buttons
+    GuiButton* btnReturn;
+    GuiButton* btnSettings;
+    GuiButton* btnExit;
 
     // Gamepad's menu focused button
     uint focusedButtonId;

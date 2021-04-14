@@ -30,10 +30,13 @@ SceneGameplay::SceneGameplay()
 	// Battle system bool
 	battle = false;
 
+	currentState = ROAMING;
+
 	// Battle system textures
 	backgroundTex = nullptr;
 	backgroundRect = { 0, 0, 0, 0 };
 	guiAtlasTex = nullptr;
+	pauseBackgroundRect = { 1228, 295, 300, 200 };
 
 	// Fonts
 	titleFont = nullptr;
@@ -48,6 +51,14 @@ SceneGameplay::SceneGameplay()
 	btnDefend = nullptr;
 	btnItem = nullptr;
 	btnRun = nullptr;
+
+	btnPause = nullptr;
+	btnInventory = nullptr;
+	btnPhone = nullptr;
+
+	btnReturn = nullptr;
+	btnSettings = nullptr;
+	btnExit = nullptr;
 	//btnNone = nullptr;
 
 	// Gamepad's menu focused button
@@ -146,6 +157,29 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	btnRun->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::WHITE);
 	btnRun->state = GuiControlState::HIDDEN;
 
+	// Load buttons for HUD
+	btnPause = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 5, { 50, 50, 70, 55 }, "");
+	btnPause->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::ICON_PAUSE);
+
+	btnInventory = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 6, { 170, 50, 70, 55 }, "");
+	btnInventory->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::ICON_INVENTORY);
+
+	btnPhone = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 7, { 290, 50, 70, 55 }, "");
+	btnPhone->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::ICON_PHONE);
+
+	// Load buttons for pause
+	btnReturn = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 8, { 50, 400, 70, 55 }, "");
+	btnReturn->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::ICON_RETURN);
+	btnReturn->state = GuiControlState::HIDDEN;
+
+	btnSettings = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 9, { 170, 400, 70, 55 }, "");
+	btnSettings->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::ICON_SETTINGS);
+	btnSettings->state = GuiControlState::HIDDEN;
+
+	btnExit = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 10, { 290, 400, 70, 55 }, "");
+	btnExit->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::ICON_EXIT);
+	btnExit->state = GuiControlState::HIDDEN;
+
 	//btnNone = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 5, { 700, 500, 190, 49 }, "NONE");
 	//btnNone->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, ButtonColour::WHITE);
 	//btnNone->state = GuiControlState::HIDDEN;
@@ -174,6 +208,8 @@ bool SceneGameplay::Update(Input* input, float dt)
 		battleSystem->SetupBattle(&entityManager->playerList, entityManager->enemyList.start->data);
 
 		EnableBattleButtons();
+		
+		currentState = GameState::BATTLE;
 	}
 
 	if (notifier->GetBattle())
@@ -184,6 +220,8 @@ bool SceneGameplay::Update(Input* input, float dt)
 		EnableBattleButtons();
 
 		notifier->NotifyBattle();
+
+		currentState = GameState::BATTLE;
 	}
 
 	if (input->GetKey(SDL_SCANCODE_C) == KEY_DOWN)
@@ -218,6 +256,10 @@ bool SceneGameplay::Update(Input* input, float dt)
 
 		battleSystem->Update(input, dt);
 	}
+
+	UpdateHud();
+
+	UpdatePause();
 
 	return true;
 }
@@ -330,8 +372,15 @@ bool SceneGameplay::Draw(Render* render)
 		{
 			// Get out of the battle screen and return to the gameplay screen
 			ExitBattle();
+
+			// Change game state to roaming
+			currentState = GameState::ROAMING;
 		}
 	}
+
+	DrawHud(render);
+
+	DrawPause(render);
 
     return true;
 }
@@ -371,6 +420,14 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 	guiManager->DestroyGuiControl(btnItem);
 	guiManager->DestroyGuiControl(btnRun);
 	guiManager->DestroyGuiControl(btnNone);
+
+	guiManager->DestroyGuiControl(btnPause);
+	guiManager->DestroyGuiControl(btnInventory);
+	guiManager->DestroyGuiControl(btnPhone);
+
+	guiManager->DestroyGuiControl(btnReturn);
+	guiManager->DestroyGuiControl(btnSettings);
+	guiManager->DestroyGuiControl(btnExit);
 
 	return true;
 }
@@ -427,7 +484,22 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 			battleSystem->playerState = PlayerState::RUN;
 			ExitBattle();
 		}
-		else if (control->id == 5) battleSystem->playerState = PlayerState::NONE;
+		else if (control->id == 5)
+		{
+			currentState = GameState::PAUSE;
+			HideHudButtons();
+			EnablePauseButtons();
+		}
+		else if (control->id == 6) currentState = GameState::INVENTORY;
+		else if (control->id == 7) currentState = GameState::MAP;
+		else if (control->id == 8)
+		{
+			currentState = GameState::ROAMING;
+			HidePauseButtons();
+			EnableHudButtons();
+		}
+		else if (control->id == 9) currentState = GameState::SETTINGS;
+		else if (control->id == 10) {} // RETURN TO MAIN MENU
 		break;
 	}
 	default: break;
@@ -452,5 +524,70 @@ void SceneGameplay::EnableBattleButtons()
 	for (int i = 0; i < 4; ++i)
 	{
 		guiManager->controls.At(i)->data->state = GuiControlState::NORMAL;
+	}
+}
+
+void SceneGameplay::EnableHudButtons()
+{
+	for (int i = 4; i < 7; ++i)
+	{
+		guiManager->controls.At(i)->data->state = GuiControlState::NORMAL;
+	}
+}
+
+void SceneGameplay::HideHudButtons()
+{
+	for (int i = 4; i < 7; ++i)
+	{
+		guiManager->controls.At(i)->data->state = GuiControlState::HIDDEN;
+	}
+}
+
+void SceneGameplay::EnablePauseButtons()
+{
+	for (int i = 7; i < 10; ++i)
+	{
+		guiManager->controls.At(i)->data->state = GuiControlState::NORMAL;
+	}
+}
+
+void SceneGameplay::HidePauseButtons()
+{
+	for (int i = 7; i < 10; ++i)
+	{
+		guiManager->controls.At(i)->data->state = GuiControlState::HIDDEN;
+	}
+}
+
+void SceneGameplay::UpdateHud()
+{
+	if (currentState == GameState::ROAMING)
+	{
+		// Upadate anything extra in the hud like the party member change
+	}
+}
+
+void SceneGameplay::UpdatePause()
+{
+	if (currentState == GameState::PAUSE)
+	{
+		// Lower volume in the pause menu
+	}
+}
+
+void SceneGameplay::DrawHud(Render* render)
+{
+	if (currentState == GameState::ROAMING)
+	{
+		// Draw anything extra needed in the hud
+	}
+}
+
+void SceneGameplay::DrawPause(Render* render)
+{
+	if (currentState == GameState::PAUSE)
+	{
+		// Draw pause background & title
+		render->DrawTexture(guiAtlasTex, 100, 100, &pauseBackgroundRect, 0.0f);
 	}
 }
