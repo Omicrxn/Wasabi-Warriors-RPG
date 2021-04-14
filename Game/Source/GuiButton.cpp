@@ -149,7 +149,7 @@ bool GuiButton::Draw(Render* render, bool debugDraw)
         default:
             break;
         }
-        render->DrawText(font, text.GetString(), bounds.x + bounds.w / 5 - bounds.w / 6, bounds.y + bounds.h / 2 - bounds.h / 4, 22, 8, { 89,73,34,255 });
+        render->DrawText(font, text.GetString(), bounds.x + bounds.w / 5 - bounds.w / 6, bounds.y + bounds.h / 2 - bounds.h / 4, 22, 8, { 105,105,105,255 });
         break;
     case GuiControlState::FOCUSED:
         switch (buttonStyle)
