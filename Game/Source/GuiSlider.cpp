@@ -5,6 +5,12 @@ GuiSlider::GuiSlider(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(
     this->bounds = bounds;
     this->text = text;
 
+    isHovering = false;
+    gamepadFocus = false;
+
+    hoverFx = -1;
+    clickFx = -1;
+
     slider.x = bounds.x;
     slider.y = bounds.y;
     slider.w = 10;
@@ -21,6 +27,16 @@ GuiSlider::~GuiSlider()
 {
 }
 
+void GuiSlider::SetSliderProperties(Scene* module, SDL_Texture* texture, Font* font, int hoverFx, int clickFx)
+{
+    SetObserver(module);
+    SetTexture(texture);
+    SetFont(font);
+
+    this->hoverFx = hoverFx;
+    this->clickFx = clickFx;
+}
+
 bool GuiSlider::Update(Input* input, AudioManager* audio, float dt)
 {
     if (state != GuiControlState::DISABLED && state != GuiControlState::HIDDEN)
@@ -28,11 +44,47 @@ bool GuiSlider::Update(Input* input, AudioManager* audio, float dt)
         int mouseX, mouseY;
         input->GetMousePosition(mouseX, mouseY);
 
+        if (!input->GetControllerState())
+            gamepadFocus = false;
+
+        // Check if gamepad is focusing the button
+        if (gamepadFocus && input->GetControllerState())
+        {
+            state = GuiControlState::FOCUSED;
+
+            if (!isHovering)
+            {
+                isHovering = true;
+                audio->PlayFx(hoverFx);
+            }
+
+            if (input->GetControllerButton(CONTROLLER_BUTTON_A) == KEY_REPEAT)
+            {
+                state = GuiControlState::PRESSED;
+            }
+
+            //if (input->GetControllerButton(CONTROLLER_BUTTON_A) == KEY_REPEAT)
+            //{
+            //    state = GuiControlState::PRESSED;
+            //}
+
+            //// If gamepad button pressed -> Generate event!
+            //if (input->GetControllerButton(CONTROLLER_BUTTON_A) == KEY_DOWN)
+            //{
+            //    NotifyObserver();
+            //    // Audio Fx when pressed
+            //    audio->PlayFx(clickFx);
+            //}
+            if (input->GetControllerButton(CONTROLLER_BUTTON_A) == KEY_UP)
+            {
+                audio->PlayFx(clickFx);
+                NotifyObserver();
+            }
+        }
         // Check collision between mouse and button bounds
-        if ((mouseX > bounds.x) && (mouseX < (bounds.x + bounds.w)) && 
+        else if ((mouseX > bounds.x) && (mouseX < (bounds.x + bounds.w)) && 
             (mouseY > bounds.y) && (mouseY < (bounds.y + bounds.h)))
         {
-         
             state = GuiControlState::FOCUSED;
 
             if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT)
@@ -60,7 +112,12 @@ bool GuiSlider::Update(Input* input, AudioManager* audio, float dt)
                 NotifyObserver();
             }
         }
-        else state = GuiControlState::NORMAL;
+        else
+        {
+            state = GuiControlState::NORMAL;
+            isHovering = false;
+            gamepadFocus = false;
+        }
     }
 
     return true;
@@ -113,14 +170,4 @@ bool GuiSlider::Draw(Render* render, bool debugDraw)
     }
    
     return true;
-}
-
-void GuiSlider::SetSliderProperties(Scene* module, SDL_Texture* texture, Font* font, int hoverFx, int clickFx)
-{
-    SetObserver(module);
-    SetTexture(texture);
-    SetFont(font);
-
-    this->hoverFx = hoverFx;
-    this->clickFx = clickFx;
 }

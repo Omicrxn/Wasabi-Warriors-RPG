@@ -15,7 +15,8 @@ class Window;
 class DialogSystem;
 class Notifier;
 
-enum GameState{
+enum GameState
+{
     ROAMING,
     PAUSE,
     SETTINGS,
@@ -56,17 +57,18 @@ private:
 
     void EnableBattleButtons();
 
-    void EnableHudButtons();
-    void HideHudButtons();
+    void ToggleHUDButtons();
 
-    void EnablePauseButtons();
-    void HidePauseButtons();
+    void TogglePauseButtons();
 
-    void UpdateHud();
-    void UpdatePause();
-
+    // HUD
+    void UpdateHud(Input* input);
     void DrawHud(Render* render);
+
+    // Pause
+    void UpdatePause(Input* input);
     void DrawPause(Render* render);
+
 private:
 
     // Needed modules

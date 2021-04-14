@@ -1,0 +1,31 @@
+--- HUD
+PAUSE 	  0
+INVENTORY 1
+PHONE     2
+
+--- PAUSE
+RETURN    3
+SETTINGS  4
+EXIT      5
+
+--- BATTLE
+ATTACK    6
+DEFEND    7
+ITEM      8
+RUN       9
+
+----------------------------------
+
+--- TITLE
+CONTINUE  0
+START     1
+OPTIONS   2
+CREDITS   3
+EXIT      4
+
+--- OPTIONS
+FULLSC    5
+VSYNC     6
+MUSIC     7
+FX        8
+RETURN    9

@@ -80,35 +80,35 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
     clickFx = audio->LoadFx("Assets/Audio/Fx/click.ogg");
 
     /* MENU BUTTONS */
-    btnStart = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, { (int)width / 2 - (int)((float)width / 12), 200, 190, 49 }, "START");
-    btnStart->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::WHITE);
-
-    btnContinue = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 2, { (int)width / 2 - (int)((float)width / 12), 300, 190, 49 }, "CONTINUE");
+    btnContinue = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 0, { (int)width / 2 - (int)((float)width / 12), 200, 190, 49 }, "CONTINUE");
     btnContinue->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::WHITE);
 
-    btnOptions = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 3, { (int)width / 2 - (int)((float)width / 12), 400, 190, 49 }, "OPTIONS");
+    btnStart = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, { (int)width / 2 - (int)((float)width / 12), 300, 190, 49 }, "START");
+    btnStart->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::WHITE);
+
+    btnOptions = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 2, { (int)width / 2 - (int)((float)width / 12), 400, 190, 49 }, "OPTIONS");
     btnOptions->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::WHITE);
 
-    btnCredits = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 4, { (int)width / 2 - (int)((float)width / 12), 500, 190, 49 }, "CREDITS");
+    btnCredits = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 3, { (int)width / 2 - (int)((float)width / 12), 500, 190, 49 }, "CREDITS");
     btnCredits->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::WHITE);
 
-    btnExit = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 5, { (int)width / 2 - (int)((float)width / 12), 600, 190, 49 }, "EXIT");
+    btnExit = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 4, { (int)width / 2 - (int)((float)width / 12), 600, 190, 49 }, "EXIT");
     btnExit->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::WHITE);
 
     /* SETTINGS BUTTONS */
-    checkFullScreen = (GuiCheckBox*)guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 6, { (int)width / 2 - (int)((float)width / 3.5f), 200, 45, 49 }, "FULLSCREEN");
+    checkFullScreen = (GuiCheckBox*)guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 5, { (int)width / 2 - (int)((float)width / 3.5f), 200, 45, 49 }, "FULLSCREEN");
     checkFullScreen->SetCheckBoxProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx);
 
-    checkVsync = (GuiCheckBox*)guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 7, { (int)width / 2 - (int)((float)width / 3.5f), 300, 45, 49 }, "VSYNC");
+    checkVsync = (GuiCheckBox*)guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 6, { (int)width / 2 - (int)((float)width / 3.5f), 300, 45, 49 }, "VSYNC");
     checkVsync->SetCheckBoxProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx);
 
-    sliderMusicVolume = (GuiSlider*)guiManager->CreateGuiControl(GuiControlType::SLIDER, 8, { (int)width / 2 - (int)((float)width / 12), 200, 300, 30 }, "MUSIC VOLUME");
+    sliderMusicVolume = (GuiSlider*)guiManager->CreateGuiControl(GuiControlType::SLIDER, 7, { (int)width / 2 - (int)((float)width / 12), 200, 300, 30 }, "MUSIC VOLUME");
     sliderMusicVolume->SetSliderProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx);
 
-    sliderFXVolume = (GuiSlider*)guiManager->CreateGuiControl(GuiControlType::SLIDER, 9, { (int)width / 2 - (int)((float)width / 12), 300, 300, 30 }, "FX VOLUME");
+    sliderFXVolume = (GuiSlider*)guiManager->CreateGuiControl(GuiControlType::SLIDER, 8, { (int)width / 2 - (int)((float)width / 12), 300, 300, 30 }, "FX VOLUME");
     sliderFXVolume->SetSliderProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx);
 
-    btnReturnTitle = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 10, { (int)width / 2 + (int)((float)width / 4), 600, 70, 55 }, "");
+    btnReturnTitle = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 9, { (int)width / 2 + (int)((float)width / 4), 600, 70, 55 }, "");
     btnReturnTitle->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::ICON_RETURN);
 
     HideSettingsButtons();
@@ -126,13 +126,13 @@ bool SceneTitle::Update(Input* input, float dt)
 
     if (input->GetControllerState())
     {
-        if (((input->GetControllerButton(CONTROLLER_BUTTON_UP) == KEY_DOWN) == KEY_DOWN) && focusedButtonId >= 1)
-            --focusedButtonId;
-        else if (((input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN) == KEY_DOWN) && focusedButtonId <= 3)
-            ++focusedButtonId;
-
         if (settingsScene == false)
         {
+            if (((input->GetControllerButton(CONTROLLER_BUTTON_UP) == KEY_DOWN) == KEY_DOWN) && focusedButtonId >= 1)
+                --focusedButtonId;
+            else if (((input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN) == KEY_DOWN) && focusedButtonId <= 3)
+                ++focusedButtonId;
+
             for (int i = 0; i < 5; ++i)
             {
                 if (i != focusedButtonId)
@@ -149,6 +149,11 @@ bool SceneTitle::Update(Input* input, float dt)
         }
         else
         {
+            if (((input->GetControllerButton(CONTROLLER_BUTTON_UP) == KEY_DOWN) == KEY_DOWN) && focusedButtonId >= 6)
+                --focusedButtonId;
+            else if (((input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN) == KEY_DOWN) && focusedButtonId <= 8)
+                ++focusedButtonId;
+
             for (int i = 5; i < 10; ++i)
             {
                 if (i != focusedButtonId)
@@ -264,16 +269,16 @@ bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
     {
     case GuiControlType::BUTTON:
     {
-        if (control->id == 1) menuCurrentSelection = MenuSelection::START;
-        else if (control->id == 2) menuCurrentSelection = MenuSelection::CONTINUE;
-        else if (control->id == 3)
+        if (control->id == 0) menuCurrentSelection = MenuSelection::CONTINUE;
+        else if (control->id == 1) menuCurrentSelection = MenuSelection::START;
+        else if (control->id == 2)
         {
             menuCurrentSelection = MenuSelection::SETTINGS;
             settingsScene = true;
         }
-        else if (control->id == 4) menuCurrentSelection = MenuSelection::CREDITS;
-        else if (control->id == 5) menuCurrentSelection = MenuSelection::EXIT;
-        else if (control->id == 10) settingsScene = false;
+        else if (control->id == 3) menuCurrentSelection = MenuSelection::CREDITS;
+        else if (control->id == 4) menuCurrentSelection = MenuSelection::EXIT;
+        else if (control->id == 9) settingsScene = false;
         break;
     }
     default: break;

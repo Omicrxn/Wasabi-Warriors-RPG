@@ -74,7 +74,7 @@ bool GuiCheckBox::Update(Input* input, AudioManager* audio, float dt)
         }
         // Check collision between mouse and button bounds
         else if ((mouseX > bounds.x) && (mouseX < (bounds.x + bounds.w)) &&
-            (mouseY > bounds.y) && (mouseY < (bounds.y + bounds.h)))
+            (mouseY > bounds.y) && (mouseY < (bounds.y + bounds.h)) && !input->GetControllerState())
         {
             state = GuiControlState::FOCUSED;
 
