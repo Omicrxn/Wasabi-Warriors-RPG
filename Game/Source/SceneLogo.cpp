@@ -76,8 +76,6 @@ bool SceneLogo::Update(Input* input, float dt)
 
 bool SceneLogo::Draw(Render* render)
 {
-    //render->DrawRectangle(logo, { 255, 0, 0, (uchar)(255.0f * logoAlpha) });
-
     // Set texture alpha with the updated logoAlpha to accomplish fade in / fade out
     SDL_SetTextureAlphaMod(logoTex, logoAlpha);
     render->DrawTexture(logoTex, 0, 0, &logo);

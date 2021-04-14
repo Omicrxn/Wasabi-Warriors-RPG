@@ -615,25 +615,14 @@ void SceneGameplay::UpdateHud(Input* input)
 	// Upadate anything extra in the hud like the party member change
 	if (input->GetControllerState())
 	{
-		/* Input */
-		if ((input->GetControllerButton(CONTROLLER_BUTTON_UP) == KEY_DOWN) && focusedButtonId >= 1)
-			--focusedButtonId;
-		else if ((input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN) && focusedButtonId <= 1)
-			++focusedButtonId;
-
-		for (int i = 0; i < 3; ++i)
-		{
-			if (i != focusedButtonId)
-			{
-				// SET GAMEPAD FOCUS TO FALSE
-				guiManager->controls.At(i)->data->gamepadFocus = false;
-			}
-			else
-			{
-				// SET GAMEPAD FOCUS TO TRUE
-				guiManager->controls.At(i)->data->gamepadFocus = true;
-			}
-		}
+		/*
+		if (input->GetControllerButton(CONTROLLER_BUTTON_START) == KEY_DOWN)
+			btnPause->gamepadFocus = true;
+		else if (input->GetControllerButton(CONTROLLER_BUTTON_X) == KEY_DOWN)
+			btnInventory->gamepadFocus = true;
+		else if (input->GetControllerButton(CONTROLLER_BUTTON_B) == KEY_DOWN)
+			btnPhone->gamepadFocus = true;
+		*/
 	}
 }
 
@@ -642,13 +631,12 @@ void SceneGameplay::UpdatePause(Input* input)
 	// Lower volume in the pause menu
 	if (input->GetControllerState())
 	{
-		/* Input */
-		if ((input->GetControllerButton(CONTROLLER_BUTTON_UP) == KEY_DOWN) && focusedButtonId >= 4)
+		if ((input->GetControllerButton(CONTROLLER_BUTTON_LEFT) == KEY_DOWN) && focusedButtonId > 3)
 			--focusedButtonId;
-		else if ((input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN) && focusedButtonId <= 4)
+		else if ((input->GetControllerButton(CONTROLLER_BUTTON_RIGHT) == KEY_DOWN) && focusedButtonId < 5)
 			++focusedButtonId;
 
-		for (int i = 3; i < 6; ++i)
+		for (int i = 3; i <= 5; ++i)
 		{
 			if (i != focusedButtonId)
 			{

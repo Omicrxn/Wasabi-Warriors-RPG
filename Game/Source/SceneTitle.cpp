@@ -28,8 +28,6 @@ SceneTitle::SceneTitle()
 
     guiAtlasTex = nullptr;
 
-    mainTitlesRect = { 0, 0, 1073, 73 };
-    settingsTitleRect = { 0, 149, 530, 81 };
     settingsBackgroundRect = { 1228, 295, 300, 200 };
 
     titleFont = nullptr;
@@ -74,7 +72,6 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
     backgroundRect = { 0, 0, 1280, 720 };
 
     guiAtlasTex = tex->Load("Assets/Textures/UI/Elements/ui_spritesheet.png");
-    titlesTex = tex->Load("Assets/Textures/Scenes/titles.png");
 
     titleFont = new Font("Assets/Fonts/shojumaru.xml", tex);
     buttonFont = new Font("Assets/Fonts/showg.xml", tex);
@@ -131,45 +128,56 @@ bool SceneTitle::Update(Input* input, float dt)
     {
         if (settingsScene == false)
         {
-            if (((input->GetControllerButton(CONTROLLER_BUTTON_UP) == KEY_DOWN) == KEY_DOWN) && focusedButtonId >= 1)
+            if ((input->GetControllerButton(CONTROLLER_BUTTON_UP) == KEY_DOWN) && focusedButtonId > 0)
                 --focusedButtonId;
-            else if (((input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN) == KEY_DOWN) && focusedButtonId <= 3)
+            else if ((input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN) && focusedButtonId < 4)
                 ++focusedButtonId;
 
-            for (int i = 0; i < 5; ++i)
-            {
-                if (i != focusedButtonId)
-                {
-                    // SET GAMEPAD FOCUS TO FALSE
-                    guiManager->controls.At(i)->data->gamepadFocus = false;
-                }
-                else
-                {
-                    // SET GAMEPAD FOCUS TO TRUE
-                    guiManager->controls.At(i)->data->gamepadFocus = true;
-                }
-            }
+            UpdateControllerSelection(0, 4);
         }
         else
         {
-            if (((input->GetControllerButton(CONTROLLER_BUTTON_UP) == KEY_DOWN) == KEY_DOWN) && focusedButtonId >= 6)
-                --focusedButtonId;
-            else if (((input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN) == KEY_DOWN) && focusedButtonId <= 8)
-                ++focusedButtonId;
-
-            for (int i = 5; i < 10; ++i)
+            if (focusedButtonId == 5)
             {
-                if (i != focusedButtonId)
-                {
-                    // SET GAMEPAD FOCUS TO FALSE
-                    guiManager->controls.At(i)->data->gamepadFocus = false;
-                }
-                else
-                {
-                    // SET GAMEPAD FOCUS TO TRUE
-                    guiManager->controls.At(i)->data->gamepadFocus = true;
-                }
+                if (input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN)
+                    focusedButtonId = 6;
+                else if (input->GetControllerButton(CONTROLLER_BUTTON_RIGHT) == KEY_DOWN)
+                    focusedButtonId = 7;
             }
+            else if (focusedButtonId == 6)
+            {
+                if (input->GetControllerButton(CONTROLLER_BUTTON_UP) == KEY_DOWN)
+                    focusedButtonId = 5;
+                else if (input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN)
+                    focusedButtonId = 9;
+                else if (input->GetControllerButton(CONTROLLER_BUTTON_RIGHT) == KEY_DOWN)
+                    focusedButtonId = 8;
+            }
+            else if (focusedButtonId == 7)
+            {
+                if (input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN)
+                    focusedButtonId = 8;
+                else if (input->GetControllerButton(CONTROLLER_BUTTON_LEFT) == KEY_DOWN)
+                    focusedButtonId = 5;
+            }
+            else if (focusedButtonId == 8)
+            {
+                if (input->GetControllerButton(CONTROLLER_BUTTON_UP) == KEY_DOWN)
+                    focusedButtonId = 7;
+                else if (input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN)
+                    focusedButtonId = 9;
+                else if (input->GetControllerButton(CONTROLLER_BUTTON_LEFT) == KEY_DOWN)
+                    focusedButtonId = 6;
+            }
+            else if (focusedButtonId == 9)
+            {
+                if (input->GetControllerButton(CONTROLLER_BUTTON_UP) == KEY_DOWN)
+                    focusedButtonId = 8;
+                else if (input->GetControllerButton(CONTROLLER_BUTTON_LEFT) == KEY_DOWN)
+                    focusedButtonId = 6;
+            }
+
+            UpdateControllerSelection(5, 9);
         }
     }
 
@@ -196,11 +204,10 @@ bool SceneTitle::Update(Input* input, float dt)
     }
     else if (menuCurrentSelection == MenuSelection::SETTINGS)
     {
-        focusedButtonId = 5;
         // Disable main title buttons and enable the settings buttons and slider
         HideTitleButtons();
         EnableSettingsButtons();
-        
+
         // Create splines for settings buttons
         // app->easing->CreateSpline(&rect.x, -rect.x + 400, 6000, SplineType::EASE)
     }
@@ -221,16 +228,14 @@ bool SceneTitle::Draw(Render* render)
 
     if (settingsScene == false)
     {
-        /*render->DrawText(titleFont, "Wasabi Warriors", width / 2 - width / 2.5f + 3, height / 2 - height / 2.5f + 3, 125, 0, { 105, 105, 105, 255 });
-        render->DrawText(titleFont, "Wasabi Warriors", width / 2 - width / 2.5f, height / 2 - height / 2.5f, 125, 0, { 255, 255, 255, 255 });*/
-        render->DrawTexture(titlesTex, width / 2 - mainTitlesRect.w / 2, height / 2 - height / 2.5f, &mainTitlesRect, 0.0f);
+        render->DrawText(titleFont, "Wasabi Warriors", width / 2 - width / 2.5f + 3, height / 2 - height / 2.5f + 3, 125, 0, { 105, 105, 105, 255 });
+        render->DrawText(titleFont, "Wasabi Warriors", width / 2 - width / 2.5f, height / 2 - height / 2.5f, 125, 0, { 255, 255, 255, 255 });
     }
     else
     {
         render->scale = 3;
         render->DrawTexture(guiAtlasTex, 60, 25, &settingsBackgroundRect, 0.0f);
         render->scale = 1;
-        render->DrawTexture(titlesTex, width / 2 - settingsTitleRect.w / 2, height / 2 - height / 2.3f, &settingsTitleRect, 0.0f);
     }
     
     return true;
@@ -240,7 +245,6 @@ bool SceneTitle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManag
 {
     tex->UnLoad(backgroundTex);
     tex->UnLoad(guiAtlasTex);
-    tex->UnLoad(titlesTex);
 
     RELEASE(titleFont);
     RELEASE(buttonFont);
@@ -279,6 +283,7 @@ bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
         else if (control->id == 1) menuCurrentSelection = MenuSelection::START;
         else if (control->id == 2)
         {
+            focusedButtonId = 5;
             menuCurrentSelection = MenuSelection::SETTINGS;
             settingsScene = true;
         }
@@ -291,6 +296,23 @@ bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
     }
 
     return true;
+}
+
+void SceneTitle::UpdateControllerSelection(int idStart, int idEnd)
+{
+    for (int i = idStart; i <= idEnd; ++i)
+    {
+        if (i != focusedButtonId)
+        {
+            // SET GAMEPAD FOCUS TO FALSE
+            guiManager->controls.At(i)->data->gamepadFocus = false;
+        }
+        else
+        {
+            // SET GAMEPAD FOCUS TO TRUE
+            guiManager->controls.At(i)->data->gamepadFocus = true;
+        }
+    }
 }
 
 void SceneTitle::EnableTitleButtons()

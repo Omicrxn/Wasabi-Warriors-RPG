@@ -16,8 +16,8 @@ class Window;
 enum class MenuSelection
 {
     NONE,
-    START,
     CONTINUE,
+    START,
     SETTINGS,
     CREDITS,
     EXIT
@@ -52,6 +52,8 @@ public:
 
 private:
 
+    void UpdateControllerSelection(int idStart, int idEnd);
+
     void EnableTitleButtons();
     void EnableSettingsButtons();
 
@@ -67,10 +69,7 @@ private:
     SDL_Rect backgroundRect;
 
     SDL_Texture* guiAtlasTex;
-    SDL_Texture* titlesTex;
 
-    SDL_Rect mainTitlesRect;
-    SDL_Rect settingsTitleRect;
     SDL_Rect settingsBackgroundRect;
 
     Font* titleFont;
