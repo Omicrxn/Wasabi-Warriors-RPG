@@ -54,9 +54,25 @@ private:
 
     void DisableTitleButtons();
     void DisableSettingsButtons();
+
 private:
 
     GuiManager* guiManager;
+    Window* win;
+
+    SDL_Texture* backgroundTex;
+    SDL_Rect backgroundRect;
+
+    SDL_Texture* guiAtlasTex;
+
+    SDL_Texture* miscTex;
+    SDL_Rect settingsBackgroundRect;
+
+    Font* titleFont;
+    Font* buttonFont;
+
+    // Audio Fx for buttons
+    int hoverFx, clickFx;
 
     GuiButton* btnStart;
     GuiButton* btnContinue;
@@ -70,26 +86,10 @@ private:
     GuiButton* btnFXVolume;
     GuiButton* btnReturnTitle;
 
-    SDL_Texture* backgroundTex;
-    SDL_Rect backgroundRect;
-
-    SDL_Texture* guiAtlasTex;
-
-    SDL_Texture* miscTex;
-    SDL_Rect settingsBackgroundRect;
-
-    Font* titleFont;
-    Font* buttonFont;
-
-    Window* win;
-
-    MenuSelection menuCurrentSelection = MenuSelection::NONE;
+    MenuSelection menuCurrentSelection;
     //SettingsSelection settingsCurrentSelection = SettingsSelection::NONE;
 
-    // Audio Fx for buttons
-    int hoverFx, clickFx;
-
-    bool settingsScene = false;
+    bool settingsScene;
 
     // Gamepad's menu focused button ID
     uint focusedButtonId;

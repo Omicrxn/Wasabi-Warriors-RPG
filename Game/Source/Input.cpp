@@ -18,6 +18,11 @@ Input::Input(Window* win) : Module()
 	controllerButtons = new KeyState[NUM_CONTROLLER_BUTTONS];
 	memset(controllerButtons, KEY_IDLE, sizeof(KeyState) * NUM_CONTROLLER_BUTTONS);
 
+	controller.haptic = nullptr;
+	controller.sdlController = nullptr;
+	controller.enabled = false;
+	controller.index = 0;
+
 	this->win = win;
 }
 
@@ -192,7 +197,7 @@ bool Input::CleanUp()
 		SDL_HapticStopAll(controller.haptic);
 		SDL_HapticClose(controller.haptic);
 	}
-	if (controller.sdlController != nullptr)
+	if (controller.sdlController != nullptr && controller.enabled == true)
 		SDL_GameControllerClose(controller.sdlController);
 
 	SDL_QuitSubSystem(SDL_INIT_HAPTIC);
@@ -309,6 +314,7 @@ void Input::HandleDeviceRemoval(int index)
 	// Deactivate all SDL device functionallity
 	if (controller.enabled && controller.index == index)
 	{
+		controller.enabled = false;
 		SDL_HapticClose(controller.haptic);
 		SDL_GameControllerClose(controller.sdlController);
 		memset(&controller, 0, sizeof(Controller));

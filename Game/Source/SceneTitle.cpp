@@ -17,34 +17,39 @@ SceneTitle::SceneTitle()
 {
     type = SceneType::TITLE;
     
+    guiManager = nullptr;
+    win = nullptr;
+
     backgroundTex = nullptr;
     backgroundRect = { 0, 0, 0, 0 };
 
     guiAtlasTex = nullptr;
+
     miscTex = nullptr;
+    settingsBackgroundRect = { 0, 0, 0, 0 };
+
+    titleFont = nullptr;
+    buttonFont = nullptr;
+
+    hoverFx = -1;
+    clickFx = -1;
 
     btnStart = nullptr;
     btnContinue = nullptr;
     btnOptions = nullptr;
     btnCredits = nullptr;
     btnExit = nullptr;
-    
+
     btnFullScreen = nullptr;
     btnVsync = nullptr;
     btnMusicVolume = nullptr;
     btnFXVolume = nullptr;
     btnReturnTitle = nullptr;
 
-    titleFont = nullptr;
-    buttonFont = nullptr;
-
-    win = nullptr;
-
     menuCurrentSelection = MenuSelection::NONE;
     //settingsCurrentSelection = SettingsSelection::NONE;
 
-    hoverFx = -1;
-    clickFx = -1;
+    settingsScene = false;
     
     focusedButtonId = 0;
 }
@@ -55,103 +60,73 @@ SceneTitle::~SceneTitle()
 
 bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager)
 {
+    this->guiManager = guiManager;
     this->win = win;
 
-    audio->PlayMusic("Assets/Audio/Music/menu.ogg");
-
-    titleFont = new Font("Assets/Fonts/shojumaru.xml", tex);
-    buttonFont = new Font("Assets/Fonts/showg.xml", tex);
+    uint width, height;
+    win->GetWindowSize(width, height);
 
     backgroundTex = tex->Load("Assets/Textures/Scenes/main_menu.png");
     backgroundRect = { 0, 0, 1280, 720 };
 
     guiAtlasTex = tex->Load("Assets/Textures/UI/Elements/ui_spritesheet.png");
-    miscTex = tex->Load("Assets/Textures/UI/Custom Sprite/Misc.png");
+
+    miscTex = tex->Load("Assets/Textures/UI/Custom Sprite/custom_spritesheet.png");
+    settingsBackgroundRect = { 0, 0, 0, 0 }; // TODO
+
+    titleFont = new Font("Assets/Fonts/shojumaru.xml", tex);
+    buttonFont = new Font("Assets/Fonts/showg.xml", tex);
 
     hoverFx = audio->LoadFx("Assets/Audio/Fx/bong.ogg");
     clickFx = audio->LoadFx("Assets/Audio/Fx/click.ogg");
 
-    uint width, height;
-    win->GetWindowSize(width, height);
-
-    this->guiManager = guiManager;
-    settingsScene = false;
-
-    /* THE MENU BUTTONS */
+    /* MENU BUTTONS */
     btnStart = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, { (int)width / 2 - (int)((float)width / 12), 200, 190, 49 }, "START");
-    btnStart->SetObserver(this);
-    btnStart->SetTexture(guiAtlasTex);
-    btnStart->SetFont(buttonFont);
-    btnStart->SetButtonAudioFx(hoverFx, clickFx);
+    btnStart->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx);
 
     btnContinue = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 2, { (int)width / 2 - (int)((float)width / 12), 300, 190, 49 }, "CONTINUE");
-    btnContinue->SetObserver(this);
-    btnContinue->SetTexture(guiAtlasTex);
-    btnContinue->SetFont(buttonFont);
-    btnContinue->SetButtonAudioFx(hoverFx, clickFx);
+    btnContinue->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx);
 
     btnOptions = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 3, { (int)width / 2 - (int)((float)width / 12), 400, 190, 49 }, "OPTIONS");
-    btnOptions->SetObserver(this);
-    btnOptions->SetTexture(guiAtlasTex);
-    btnOptions->SetFont(buttonFont);
-    btnOptions->SetButtonAudioFx(hoverFx, clickFx);
+    btnOptions->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx);
 
     btnCredits = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 4, { (int)width / 2 - (int)((float)width / 12), 500, 190, 49 }, "CREDITS");
-    btnCredits->SetObserver(this);
-    btnCredits->SetTexture(guiAtlasTex);
-    btnCredits->SetFont(buttonFont);
-    btnCredits->SetButtonAudioFx(hoverFx, clickFx);
+    btnCredits->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx);
 
     btnExit = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 5, { (int)width / 2 - (int)((float)width / 12), 600, 190, 49 }, "EXIT");
-    btnExit->SetObserver(this);
-    btnExit->SetTexture(guiAtlasTex);
-    btnExit->SetFont(buttonFont);
-    btnExit->SetButtonAudioFx(hoverFx, clickFx);
+    btnExit->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx);
 
-    /* THE SETTINGS BUTTONS */
+    /* SETTINGS BUTTONS */
     btnFullScreen = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 6, { (int)width / 2 - (int)((float)width / 12), 200, 190, 49 }, "FULLSCREEN");
-    btnFullScreen->SetObserver(this);
-    btnFullScreen->SetTexture(guiAtlasTex);
-    btnFullScreen->SetFont(buttonFont);
-    btnFullScreen->SetButtonAudioFx(hoverFx, clickFx);
-    btnFullScreen->state = GuiControlState::DISABLED;
+    btnFullScreen->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx);
+    btnFullScreen->state = GuiControlState::HIDDEN;
 
     btnVsync = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 7, { (int)width / 2 - (int)((float)width / 12), 300, 190, 49 }, "VSYNC");
-    btnVsync->SetObserver(this);
-    btnVsync->SetTexture(guiAtlasTex);
-    btnVsync->SetFont(buttonFont);
-    btnVsync->SetButtonAudioFx(hoverFx, clickFx);
-    btnVsync->state = GuiControlState::DISABLED;
+    btnVsync->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx);
+    btnVsync->state = GuiControlState::HIDDEN;
 
     btnMusicVolume = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 8, { (int)width / 2 - (int)((float)width / 12), 400, 190, 49 }, "MUSIC VOLUME");
-    btnMusicVolume->SetObserver(this);
-    btnMusicVolume->SetTexture(guiAtlasTex);
-    btnMusicVolume->SetFont(buttonFont);
-    btnMusicVolume->SetButtonAudioFx(hoverFx, clickFx);
-    btnMusicVolume->state = GuiControlState::DISABLED;
+    btnMusicVolume->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx);
+    btnMusicVolume->state = GuiControlState::HIDDEN;
 
     btnFXVolume = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 9, { (int)width / 2 - (int)((float)width / 12), 500, 190, 49 }, "FX VOLUME");
-    btnFXVolume->SetObserver(this);
-    btnFXVolume->SetTexture(guiAtlasTex);
-    btnFXVolume->SetFont(buttonFont);
-    btnFXVolume->SetButtonAudioFx(hoverFx, clickFx);
-    btnFXVolume->state = GuiControlState::DISABLED;
+    btnFXVolume->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx);
+    btnFXVolume->state = GuiControlState::HIDDEN;
 
     btnReturnTitle = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 10, { (int)width / 2 - (int)((float)width / 12), 600, 190, 49 }, "RETURN");
-    btnReturnTitle->SetObserver(this);
-    btnReturnTitle->SetTexture(guiAtlasTex);
-    btnReturnTitle->SetFont(buttonFont);
-    btnReturnTitle->SetButtonAudioFx(hoverFx, clickFx);
-    btnReturnTitle->state = GuiControlState::DISABLED;
+    btnReturnTitle->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx);
+    btnReturnTitle->state = GuiControlState::HIDDEN;
 
-    focusedButtonId = 0;
+    audio->PlayMusic("Assets/Audio/Music/menu.ogg");
 
     return true;
 }
 
 bool SceneTitle::Update(Input* input, float dt)
 {
+    // Debug purposes
     if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN) TransitionToScene(SceneType::GAMEPLAY);
+    // ---
 
     if (input->GetControllerState())
     {
@@ -225,7 +200,10 @@ bool SceneTitle::Update(Input* input, float dt)
         // Create splines for settings buttons
         // app->easing->CreateSpline(&rect.x, -rect.x + 400, 6000, SplineType::EASE)
     }
-    //else if (menuCurrentSelection == MenuSelection::EXIT)
+    else if (menuCurrentSelection == MenuSelection::EXIT)
+    {
+        // TODO
+    }
 
     return true;
 }
@@ -244,23 +222,22 @@ bool SceneTitle::Draw(Render* render)
     }
     else
     {
-        settingsBackgroundRect = SDL_Rect({ 12, 292, 300, 200 });
-        render->scale = 3;
-        render->DrawTexture(miscTex, 60, 25, &settingsBackgroundRect);
-        render->scale = 1;
+        //render->scale = 3;
+        //render->DrawTexture(miscTex, 60, 25, &settingsBackgroundRect);
+        //render->scale = 1;
     }
-    
     
     return true;
 }
 
 bool SceneTitle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager)
 {
-    focusedButtonId = 0;
-
     tex->UnLoad(backgroundTex);
     tex->UnLoad(guiAtlasTex);
     tex->UnLoad(miscTex);
+
+    RELEASE(titleFont);
+    RELEASE(buttonFont);
 
     guiManager->DestroyGuiControl(btnStart);
     guiManager->DestroyGuiControl(btnContinue);
@@ -274,8 +251,11 @@ bool SceneTitle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManag
     guiManager->DestroyGuiControl(btnFXVolume);
     guiManager->DestroyGuiControl(btnReturnTitle);
 
-    RELEASE(titleFont);
-    RELEASE(buttonFont);
+    menuCurrentSelection = MenuSelection::NONE;
+
+    settingsScene = false;
+
+    focusedButtonId = 0;
 
     return true;
 }
@@ -327,7 +307,7 @@ void SceneTitle::DisableTitleButtons()
 {
     for (int i = 0; i < 5; ++i)
     {
-        guiManager->controls.At(i)->data->state = GuiControlState::DISABLED;
+        guiManager->controls.At(i)->data->state = GuiControlState::HIDDEN;
     }
 }
 
@@ -335,6 +315,6 @@ void SceneTitle::DisableSettingsButtons()
 {
     for (int i = 5; i < 10; ++i)
     {
-        guiManager->controls.At(i)->data->state = GuiControlState::DISABLED;
+        guiManager->controls.At(i)->data->state = GuiControlState::HIDDEN;
     }
 }
