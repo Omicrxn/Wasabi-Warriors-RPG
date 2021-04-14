@@ -36,7 +36,11 @@ SceneGameplay::SceneGameplay()
 	backgroundTex = nullptr;
 	backgroundRect = { 0, 0, 0, 0 };
 	guiAtlasTex = nullptr;
-	pauseBackgroundRect = { 1228, 295, 300, 200 };
+	pauseBackgroundRect = { 1550, 295, 265, 180 };
+
+	// Rects for titles
+	settingsTitleRect = { 0, 149, 530, 81 };
+	pauseTitleRect = { 0, 73, 440, 75 };
 
 	// Fonts
 	titleFont = nullptr;
@@ -98,6 +102,7 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 
 	// Load texture
 	spritesheet = tex->Load("Assets/Textures/Characters/characters_spritesheet.png");
+	titlesTex = tex->Load("Assets/Textures/Scenes/titles.png");
 
 	// Create party member 1
 	Entity* entity;
@@ -151,15 +156,15 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	btnPhone->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::ICON_PHONE);
 
 	// Load buttons for pause
-	btnReturn = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 3, { 50, 400, 70, 55 }, "");
+	btnReturn = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 3, { 520, 350, 70, 55 }, "");
 	btnReturn->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::ICON_RETURN);
 	btnReturn->state = GuiControlState::HIDDEN;
 
-	btnSettings = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 4, { 170, 400, 70, 55 }, "");
+	btnSettings = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 4, { 620, 350, 70, 55 }, "");
 	btnSettings->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::ICON_SETTINGS);
 	btnSettings->state = GuiControlState::HIDDEN;
 
-	btnExit = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 5, { 290, 400, 70, 55 }, "");
+	btnExit = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 5, { 710, 350, 70, 55 }, "");
 	btnExit->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::ICON_EXIT);
 	btnExit->state = GuiControlState::HIDDEN;
 
@@ -422,6 +427,7 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 	tex->UnLoad(backgroundTex);
 	tex->UnLoad(guiAtlasTex);
 	tex->UnLoad(spritesheet);
+	tex->UnLoad(titlesTex);
 
 	// Unload Fx
 	/*audio.Unload(hoverFx);
@@ -666,5 +672,6 @@ void SceneGameplay::DrawHud(Render* render)
 void SceneGameplay::DrawPause(Render* render)
 {
 	// Draw pause background & title
-	render->DrawTexture(guiAtlasTex, 100, 100, &pauseBackgroundRect, 0.0f);
+	render->DrawTexture(guiAtlasTex, 1280 / 2 - pauseBackgroundRect.w/2, 720 / 2 - pauseBackgroundRect.h / 2, &pauseBackgroundRect, 0.0f);
+	render->DrawTexture(titlesTex, 1280 / 2 - pauseTitleRect.w / 2, 720 / 2 - pauseTitleRect.h - pauseTitleRect.h /2 ,  &pauseTitleRect, 0.0f);
 }

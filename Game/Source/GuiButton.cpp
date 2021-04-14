@@ -27,7 +27,7 @@ GuiButton::GuiButton(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(
     arrowWhiteLeft = { 281,486,22,21 };
     arrowWhiteRight = { 259,486,22,21 };
 
-    iconReturn = { 1117, 29, 70, 55 };
+    iconReturn = { 1117, 29, 65, 55 };
     iconExit = { 1000, 125, 46, 55 };
     iconSettings = { 870, 125, 58, 55 };
     iconPause = { 870, 220, 52, 55 };

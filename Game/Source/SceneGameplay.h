@@ -96,9 +96,15 @@ private:
 
     // Battle system textures
     SDL_Texture* backgroundTex;
-    SDL_Rect backgroundRect;
+    SDL_Texture* titlesTex;
     SDL_Texture* guiAtlasTex;
+
+    SDL_Rect backgroundRect;
     SDL_Rect pauseBackgroundRect;
+   
+    SDL_Rect settingsTitleRect;
+    SDL_Rect pauseTitleRect;
+
     // Fonts
     Font* titleFont;
     Font* buttonFont;

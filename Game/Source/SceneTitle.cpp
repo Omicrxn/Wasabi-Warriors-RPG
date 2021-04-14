@@ -28,6 +28,8 @@ SceneTitle::SceneTitle()
 
     guiAtlasTex = nullptr;
 
+    mainTitlesRect = { 0, 0, 1073, 73 };
+    settingsTitleRect = { 0, 149, 530, 81 };
     settingsBackgroundRect = { 1228, 295, 300, 200 };
 
     titleFont = nullptr;
@@ -72,6 +74,7 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
     backgroundRect = { 0, 0, 1280, 720 };
 
     guiAtlasTex = tex->Load("Assets/Textures/UI/Elements/ui_spritesheet.png");
+    titlesTex = tex->Load("Assets/Textures/Scenes/titles.png");
 
     titleFont = new Font("Assets/Fonts/shojumaru.xml", tex);
     buttonFont = new Font("Assets/Fonts/showg.xml", tex);
@@ -218,14 +221,16 @@ bool SceneTitle::Draw(Render* render)
 
     if (settingsScene == false)
     {
-        render->DrawText(titleFont, "Wasabi Warriors", width / 2 - width / 2.5f + 3, height / 2 - height / 2.5f + 3, 125, 0, { 105, 105, 105, 255 });
-        render->DrawText(titleFont, "Wasabi Warriors", width / 2 - width / 2.5f, height / 2 - height / 2.5f, 125, 0, { 255, 255, 255, 255 });
+        /*render->DrawText(titleFont, "Wasabi Warriors", width / 2 - width / 2.5f + 3, height / 2 - height / 2.5f + 3, 125, 0, { 105, 105, 105, 255 });
+        render->DrawText(titleFont, "Wasabi Warriors", width / 2 - width / 2.5f, height / 2 - height / 2.5f, 125, 0, { 255, 255, 255, 255 });*/
+        render->DrawTexture(titlesTex, width / 2 - mainTitlesRect.w / 2, height / 2 - height / 2.5f, &mainTitlesRect, 0.0f);
     }
     else
     {
         render->scale = 3;
         render->DrawTexture(guiAtlasTex, 60, 25, &settingsBackgroundRect, 0.0f);
         render->scale = 1;
+        render->DrawTexture(titlesTex, width / 2 - settingsTitleRect.w / 2, height / 2 - height / 2.3f, &settingsTitleRect, 0.0f);
     }
     
     return true;
@@ -235,6 +240,7 @@ bool SceneTitle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManag
 {
     tex->UnLoad(backgroundTex);
     tex->UnLoad(guiAtlasTex);
+    tex->UnLoad(titlesTex);
 
     RELEASE(titleFont);
     RELEASE(buttonFont);
