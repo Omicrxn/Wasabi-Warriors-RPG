@@ -40,12 +40,12 @@ GuiControl* GuiManager::CreateGuiControl(GuiControlType type, uint32 id, SDL_Rec
 		case GuiControlType::BUTTON:
 			control = new GuiButton(id, bounds, text);
 			break;
-		//case GuiControlType::CHECKBOX:
-		//	control = new GuiCheckBox(id, bounds);
-		//	break;
-		//case GuiControlType::SLIDER:
-		//	control = new GuiSlider(id, bounds);
-		//	break;
+		case GuiControlType::CHECKBOX:
+			control = new GuiCheckBox(id, bounds, text);
+			break;
+		case GuiControlType::SLIDER:
+			control = new GuiSlider(id, bounds, text);
+			break;
 		default: break;
 	}
 

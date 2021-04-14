@@ -7,6 +7,9 @@
 #include "Window.h"
 
 #include "GuiButton.h"
+#include "GuiSlider.h"
+#include "GuiCheckBox.h"
+
 #include "Font.h"
 
 #include "SDL/include/SDL.h"
@@ -25,8 +28,7 @@ SceneTitle::SceneTitle()
 
     guiAtlasTex = nullptr;
 
-    miscTex = nullptr;
-    settingsBackgroundRect = { 0, 0, 0, 0 };
+    settingsBackgroundRect = { 1228, 295, 300, 200 };
 
     titleFont = nullptr;
     buttonFont = nullptr;
@@ -71,9 +73,6 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
 
     guiAtlasTex = tex->Load("Assets/Textures/UI/Elements/ui_spritesheet.png");
 
-    miscTex = tex->Load("Assets/Textures/UI/Custom Sprite/custom_spritesheet.png");
-    settingsBackgroundRect = { 0, 0, 0, 0 }; // TODO
-
     titleFont = new Font("Assets/Fonts/shojumaru.xml", tex);
     buttonFont = new Font("Assets/Fonts/showg.xml", tex);
 
@@ -82,40 +81,37 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
 
     /* MENU BUTTONS */
     btnStart = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, { (int)width / 2 - (int)((float)width / 12), 200, 190, 49 }, "START");
-    btnStart->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx);
+    btnStart->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, ButtonColour::WHITE);
 
     btnContinue = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 2, { (int)width / 2 - (int)((float)width / 12), 300, 190, 49 }, "CONTINUE");
-    btnContinue->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx);
+    btnContinue->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, ButtonColour::WHITE);
 
     btnOptions = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 3, { (int)width / 2 - (int)((float)width / 12), 400, 190, 49 }, "OPTIONS");
-    btnOptions->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx);
+    btnOptions->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, ButtonColour::WHITE);
 
     btnCredits = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 4, { (int)width / 2 - (int)((float)width / 12), 500, 190, 49 }, "CREDITS");
-    btnCredits->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx);
+    btnCredits->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, ButtonColour::WHITE);
 
     btnExit = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 5, { (int)width / 2 - (int)((float)width / 12), 600, 190, 49 }, "EXIT");
-    btnExit->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx);
+    btnExit->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, ButtonColour::WHITE);
 
     /* SETTINGS BUTTONS */
     btnFullScreen = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 6, { (int)width / 2 - (int)((float)width / 12), 200, 190, 49 }, "FULLSCREEN");
-    btnFullScreen->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx);
-    btnFullScreen->state = GuiControlState::HIDDEN;
+    btnFullScreen->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, ButtonColour::WHITE);
 
     btnVsync = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 7, { (int)width / 2 - (int)((float)width / 12), 300, 190, 49 }, "VSYNC");
-    btnVsync->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx);
-    btnVsync->state = GuiControlState::HIDDEN;
+    btnVsync->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, ButtonColour::WHITE);
 
-    btnMusicVolume = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 8, { (int)width / 2 - (int)((float)width / 12), 400, 190, 49 }, "MUSIC VOLUME");
-    btnMusicVolume->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx);
-    btnMusicVolume->state = GuiControlState::HIDDEN;
+    btnMusicVolume = (GuiSlider*)guiManager->CreateGuiControl(GuiControlType::SLIDER, 8, { (int)width / 2 - (int)((float)width / 12), 400, 190, 49 }, "MUSIC VOLUME");
+    btnMusicVolume->SetSliderProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, ButtonColour::WHITE);
 
-    btnFXVolume = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 9, { (int)width / 2 - (int)((float)width / 12), 500, 190, 49 }, "FX VOLUME");
-    btnFXVolume->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx);
-    btnFXVolume->state = GuiControlState::HIDDEN;
+    btnFXVolume = (GuiSlider*)guiManager->CreateGuiControl(GuiControlType::SLIDER, 9, { (int)width / 2 - (int)((float)width / 12), 500, 190, 49 }, "FX VOLUME");
+    btnFXVolume->SetSliderProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, ButtonColour::WHITE);
 
     btnReturnTitle = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 10, { (int)width / 2 - (int)((float)width / 12), 600, 190, 49 }, "RETURN");
-    btnReturnTitle->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx);
-    btnReturnTitle->state = GuiControlState::HIDDEN;
+    btnReturnTitle->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, ButtonColour::WHITE);
+
+    HideSettingsButtons();
 
     audio->PlayMusic("Assets/Audio/Music/menu.ogg");
 
@@ -222,9 +218,9 @@ bool SceneTitle::Draw(Render* render)
     }
     else
     {
-        //render->scale = 3;
-        //render->DrawTexture(miscTex, 60, 25, &settingsBackgroundRect);
-        //render->scale = 1;
+        render->scale = 3;
+        render->DrawTexture(guiAtlasTex, 60, 25, &settingsBackgroundRect);
+        render->scale = 1;
     }
     
     return true;
@@ -234,7 +230,6 @@ bool SceneTitle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManag
 {
     tex->UnLoad(backgroundTex);
     tex->UnLoad(guiAtlasTex);
-    tex->UnLoad(miscTex);
 
     RELEASE(titleFont);
     RELEASE(buttonFont);

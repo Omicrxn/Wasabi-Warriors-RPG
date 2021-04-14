@@ -123,15 +123,11 @@ bool GuiButton::Draw(Render* render, bool debugDraw)
     case GuiControlState::DISABLED:
         render->DrawTexture(texture, bounds.x, bounds.y, &greyButton, 0.0f);
         break;
-
     case GuiControlState::HIDDEN:
         break;
-
     case GuiControlState::NORMAL:
         switch (colour)
         {
-        case NONE:
-            break;
         case WHITE:
             render->DrawTexture(texture, bounds.x, bounds.y, &whiteButton, 0.0f);
             break;
@@ -145,13 +141,9 @@ bool GuiButton::Draw(Render* render, bool debugDraw)
         }
         render->DrawText(font, text.GetString(), bounds.x + bounds.w / 5 - bounds.w / 6, bounds.y + bounds.h / 2 - bounds.h / 4, 22, 8, { 89,73,34,255 });
         break;
-
     case GuiControlState::FOCUSED:
         switch (colour)
         {
-        case NONE:
-            render->DrawTexture(texture, bounds.x + bounds.w + 8, bounds.y + 14, &arrowYellowLeft, 0.0f);
-            break;
         case WHITE:
             render->DrawTexture(texture, bounds.x, bounds.y, &whiteButton, 0.0f);
             render->DrawTexture(texture, bounds.x - 30, bounds.y + 14, &arrowWhiteRight, 0.0f);
@@ -170,13 +162,9 @@ bool GuiButton::Draw(Render* render, bool debugDraw)
         render->DrawText(font, text.GetString(), bounds.x + bounds.w / 5 - bounds.w / 6 + 2, bounds.y + bounds.h / 2 - bounds.h / 4 + 2, 22, 8, { 105,105,105,255 });
         render->DrawText(font, text.GetString(), bounds.x + bounds.w / 5 - bounds.w / 6, bounds.y + bounds.h / 2 - bounds.h / 4, 22, 8, { 0,0,0,255 });
         break;
-
     case GuiControlState::PRESSED:
         switch (colour)
         {
-        case NONE:
-            render->DrawTexture(texture, bounds.x + bounds.w + 8, bounds.y + 18, &arrowYellowLeft, 0.0f);
-            break;
         case WHITE:
             render->DrawTexture(texture, bounds.x, bounds.y + 4, &whiteButtonPressed, 0.0f);
             render->DrawTexture(texture, bounds.x - 30, bounds.y + 18, &arrowWhiteRight, 0.0f);
@@ -195,7 +183,6 @@ bool GuiButton::Draw(Render* render, bool debugDraw)
         render->DrawText(font, text.GetString(), bounds.x + bounds.w / 5 - bounds.w / 6 + 2, bounds.y + bounds.h / 2 - bounds.h / 4 + 4 + 2, 22, 8, { 105,105,105,255 });
         render->DrawText(font, text.GetString(), bounds.x + bounds.w / 5 - bounds.w / 6, bounds.y + bounds.h / 2 - bounds.h / 4 + 4, 22, 8, { 0,0,0,255 });
         break;
-
     default:
         break;
     }

@@ -3,13 +3,7 @@
 
 #include "GuiControl.h"
 
-enum ButtonColour
-{
-    NONE,
-    WHITE,
-    YELLOW,
-    GREY
-};
+
 
 class GuiButton : public GuiControl
 {
@@ -25,12 +19,7 @@ public:
 
 private:
 
-    // Gui Button specific properties
-    ButtonColour colour;
-
-    bool isHovering;
-
-    int hoverFx, clickFx;
+   
 
     SDL_Rect greyButton;
 

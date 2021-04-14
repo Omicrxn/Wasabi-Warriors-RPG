@@ -3,15 +3,16 @@
 GuiCheckBox::GuiCheckBox(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(GuiControlType::CHECKBOX, id)
 {
     this->bounds = bounds;
+    this->text = text;
 }
 
 GuiCheckBox::~GuiCheckBox()
 {
 }
 
-bool GuiCheckBox::Update(Input* input, float dt)
+bool GuiCheckBox::Update(Input* input, AudioManager* audio, float dt)
 {
-    if (state != GuiControlState::DISABLED)
+    if (state != GuiControlState::DISABLED && state != GuiControlState::HIDDEN)
     {
         int mouseX, mouseY;
         input->GetMousePosition(mouseX, mouseY);
@@ -46,22 +47,84 @@ bool GuiCheckBox::Draw(Render* render, bool debugDraw)
     switch (state)
     {
     case GuiControlState::DISABLED:
-    {
-        if (checked) render->DrawRectangle(bounds, { 100, 100, 100, 255 });
-        else render->DrawRectangle(bounds, { 100, 100, 100, 255 });
-    } break;
-    case GuiControlState::NORMAL: 
-    {
-        if (checked) render->DrawRectangle(bounds, { 0, 255, 0, 255 });
-        else render->DrawRectangle(bounds, { 0, 255, 0, 255 });
-    } break;
-    case GuiControlState::FOCUSED: render->DrawRectangle(bounds, { 255, 255, 0, 255 });
         break;
-    case GuiControlState::PRESSED: render->DrawRectangle(bounds, { 0, 255, 255, 255 });
+    case GuiControlState::HIDDEN:
         break;
+    case GuiControlState::NORMAL:
+        switch (colour)
+        {
+        case WHITE:
+            render->DrawTexture(texture, bounds.x, bounds.y, &whiteBox, 0.0f);
+            if (checked) render->DrawTexture(texture, bounds.x, bounds.y, &greyTick, 0.0f);
+            break;
+        case YELLOW:
+            render->DrawTexture(texture, bounds.x, bounds.y, &yellowBox, 0.0f);
+            if (checked) render->DrawTexture(texture, bounds.x, bounds.y, &yellowTick, 0.0f);
+            break;
+        case GREY:
+            render->DrawTexture(texture, bounds.x, bounds.y, &greyBox, 0.0f);
+            if (checked) render->DrawTexture(texture, bounds.x, bounds.y, &whiteTick, 0.0f);
+            break;
+        default:
+            break;
+        }
+        break;
+        // Text
+    case GuiControlState::FOCUSED:
+        switch (colour)
+        {
+        case WHITE:
+            render->DrawTexture(texture, bounds.x, bounds.y, &whiteBox, 0.0f);
+            if (checked) render->DrawTexture(texture, bounds.x, bounds.y, &greyTick, 0.0f);
+            break;
+        case YELLOW:
+            render->DrawTexture(texture, bounds.x, bounds.y, &yellowBox, 0.0f);
+            if (checked) render->DrawTexture(texture, bounds.x, bounds.y, &yellowTick, 0.0f);
+            break;
+        case GREY:
+            render->DrawTexture(texture, bounds.x, bounds.y, &greyBox, 0.0f);
+            if (checked) render->DrawTexture(texture, bounds.x, bounds.y, &whiteTick, 0.0f);
+            break;
+        default:
+            break;
+        }
+        // Arrow
+        // Text
+    case GuiControlState::PRESSED:
+        switch (colour)
+        {
+        case WHITE:
+            render->DrawTexture(texture, bounds.x, bounds.y, &whiteBox, 0.0f);
+            if (checked) render->DrawTexture(texture, bounds.x, bounds.y, &greyTick, 0.0f);
+            break;
+        case YELLOW:
+            render->DrawTexture(texture, bounds.x, bounds.y, &yellowBox, 0.0f);
+            if (checked) render->DrawTexture(texture, bounds.x, bounds.y, &yellowTick, 0.0f);
+            break;
+        case GREY:
+            render->DrawTexture(texture, bounds.x, bounds.y, &greyBox, 0.0f);
+            if (checked) render->DrawTexture(texture, bounds.x, bounds.y, &whiteTick, 0.0f);
+            break;
+        default:
+            break;
+        }
+        // Arrow
+        // Text
     default:
         break;
-    }
 
-    return true;
+        return true;
+    }
+}
+
+void GuiCheckBox::SetBoxProperties(Scene* module, SDL_Texture* texture, Font* font, int hoverFx, int clickFx, ButtonColour colour)
+{
+    SetObserver(module);
+    SetTexture(texture);
+    SetFont(font);
+
+    this->hoverFx = hoverFx;
+    this->clickFx = clickFx;
+
+    this->colour = colour;
 }

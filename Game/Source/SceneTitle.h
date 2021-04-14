@@ -5,6 +5,9 @@
 #include "Animation.h"
 
 class GuiButton;
+class GuiSlider;
+class GuiCheckBox;
+
 class Font;
 class Window;
 
@@ -65,7 +68,6 @@ private:
 
     SDL_Texture* guiAtlasTex;
 
-    SDL_Texture* miscTex;
     SDL_Rect settingsBackgroundRect;
 
     Font* titleFont;
@@ -79,12 +81,15 @@ private:
     GuiButton* btnOptions;
     GuiButton* btnCredits;
     GuiButton* btnExit;
+    GuiButton* btnReturnTitle;
 
     GuiButton* btnFullScreen;
     GuiButton* btnVsync;
-    GuiButton* btnMusicVolume;
-    GuiButton* btnFXVolume;
-    GuiButton* btnReturnTitle;
+
+    GuiSlider* btnMusicVolume;
+    GuiSlider* btnFXVolume;
+
+    
 
     MenuSelection menuCurrentSelection;
     //SettingsSelection settingsCurrentSelection = SettingsSelection::NONE;
