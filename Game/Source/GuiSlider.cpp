@@ -97,7 +97,6 @@ bool GuiSlider::Draw(Render* render, bool debugDraw)
 
     if (debugDraw)
     {
-        // Draw the right button depending on state
         switch (state)
         {
         case GuiControlState::DISABLED: render->DrawRectangle(bounds, { 100, 100, 100, 255 });
@@ -113,7 +112,6 @@ bool GuiSlider::Draw(Render* render, bool debugDraw)
         }
     }
    
-
     return true;
 }
 

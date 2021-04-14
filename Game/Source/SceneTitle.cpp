@@ -42,10 +42,10 @@ SceneTitle::SceneTitle()
     btnCredits = nullptr;
     btnExit = nullptr;
 
-    btnFullScreen = nullptr;
-    btnVsync = nullptr;
-    btnMusicVolume = nullptr;
-    btnFXVolume = nullptr;
+    checkFullScreen = nullptr;
+    checkVsync = nullptr;
+    sliderMusicVolume = nullptr;
+    sliderFXVolume = nullptr;
     btnReturnTitle = nullptr;
 
     menuCurrentSelection = MenuSelection::NONE;
@@ -96,17 +96,17 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
     btnExit->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::WHITE);
 
     /* SETTINGS BUTTONS */
-    btnFullScreen = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 6, { (int)width / 2 - (int)((float)width / 12), 200, 190, 49 }, "FULLSCREEN");
-    btnFullScreen->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::WHITE);
+    checkFullScreen = (GuiCheckBox*)guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 6, { (int)width / 2 - (int)((float)width / 12), 200, 45, 49 }, "FULLSCREEN");
+    checkFullScreen->SetCheckBoxProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx);
 
-    btnVsync = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 7, { (int)width / 2 - (int)((float)width / 12), 300, 190, 49 }, "VSYNC");
-    btnVsync->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::WHITE);
+    checkVsync = (GuiCheckBox*)guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 7, { (int)width / 2 - (int)((float)width / 12), 300, 45, 49 }, "VSYNC");
+    checkVsync->SetCheckBoxProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx);
 
-    btnMusicVolume = (GuiSlider*)guiManager->CreateGuiControl(GuiControlType::SLIDER, 8, { (int)width / 2 - (int)((float)width / 12), 400, 300, 30 }, "MUSIC VOLUME");
-    btnMusicVolume->SetSliderProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx);
+    sliderMusicVolume = (GuiSlider*)guiManager->CreateGuiControl(GuiControlType::SLIDER, 8, { (int)width / 2 - (int)((float)width / 12), 400, 300, 30 }, "MUSIC VOLUME");
+    sliderMusicVolume->SetSliderProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx);
 
-    btnFXVolume = (GuiSlider*)guiManager->CreateGuiControl(GuiControlType::SLIDER, 9, { (int)width / 2 - (int)((float)width / 12), 500, 300, 30 }, "FX VOLUME");
-    btnFXVolume->SetSliderProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx);
+    sliderFXVolume = (GuiSlider*)guiManager->CreateGuiControl(GuiControlType::SLIDER, 9, { (int)width / 2 - (int)((float)width / 12), 500, 300, 30 }, "FX VOLUME");
+    sliderFXVolume->SetSliderProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx);
 
     btnReturnTitle = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 10, { (int)width / 2 - (int)((float)width / 12), 600, 190, 49 }, "");
     btnReturnTitle->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::ICON_RETURN);
@@ -240,10 +240,10 @@ bool SceneTitle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManag
     guiManager->DestroyGuiControl(btnCredits);
     guiManager->DestroyGuiControl(btnExit);
 
-    guiManager->DestroyGuiControl(btnFullScreen);
-    guiManager->DestroyGuiControl(btnVsync);
-    guiManager->DestroyGuiControl(btnMusicVolume);
-    guiManager->DestroyGuiControl(btnFXVolume);
+    guiManager->DestroyGuiControl(checkFullScreen);
+    guiManager->DestroyGuiControl(checkVsync);
+    guiManager->DestroyGuiControl(sliderMusicVolume);
+    guiManager->DestroyGuiControl(sliderFXVolume);
     guiManager->DestroyGuiControl(btnReturnTitle);
 
     menuCurrentSelection = MenuSelection::NONE;

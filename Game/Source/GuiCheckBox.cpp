@@ -53,24 +53,32 @@ bool GuiCheckBox::Draw(Render* render, bool debugDraw)
     case GuiControlState::NORMAL:
         render->DrawTexture(texture, bounds.x, bounds.y, &whiteBox, 0.0f);
         if (checked) render->DrawTexture(texture, bounds.x, bounds.y, &greyTick, 0.0f);
-        // Text
+        
+        render->DrawText(font, text.GetString(), bounds.x + bounds.h, bounds.y, 22, 3, { 255,255,255,255 });
+        break;
     case GuiControlState::FOCUSED:
         render->DrawTexture(texture, bounds.x, bounds.y, &whiteBox, 0.0f);
         if (checked) render->DrawTexture(texture, bounds.x, bounds.y, &greyTick, 0.0f);
+        
         // Arrow
-        // Text
+
+        render->DrawText(font, text.GetString(), bounds.x + bounds.h, bounds.y, 22, 3, { 0,0,0,255 });
+        break;
     case GuiControlState::PRESSED:
-        render->DrawTexture(texture, bounds.x, bounds.y, &whiteBox, 0.0f);
-        if (checked) render->DrawTexture(texture, bounds.x, bounds.y, &greyTick, 0.0f);
+        render->DrawTexture(texture, bounds.x, bounds.y + 4, &whiteBox, 0.0f);
+        if (checked) render->DrawTexture(texture, bounds.x, bounds.y + 4, &greyTick, 0.0f);
+
         // Arrow
-        // Text
+
+        render->DrawText(font, text.GetString(), bounds.x + bounds.h, bounds.y + 4, 22, 3, { 0,0,0,255 });
+        break;
     default:
         break;
     }
     return true;
 }
 
-void GuiCheckBox::SetBoxProperties(Scene* module, SDL_Texture* texture, Font* font, int hoverFx, int clickFx)
+void GuiCheckBox::SetCheckBoxProperties(Scene* module, SDL_Texture* texture, Font* font, int hoverFx, int clickFx)
 {
     SetObserver(module);
     SetTexture(texture);

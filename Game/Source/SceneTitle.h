@@ -73,7 +73,7 @@ private:
     Font* titleFont;
     Font* buttonFont;
 
-    // Audio Fx for buttons
+    // Audio Fx for gui controls
     int hoverFx, clickFx;
 
     GuiButton* btnStart;
@@ -83,13 +83,11 @@ private:
     GuiButton* btnExit;
     GuiButton* btnReturnTitle;
 
-    GuiButton* btnFullScreen;
-    GuiButton* btnVsync;
+    GuiCheckBox* checkFullScreen;
+    GuiCheckBox* checkVsync;
 
-    GuiSlider* btnMusicVolume;
-    GuiSlider* btnFXVolume;
-
-    
+    GuiSlider* sliderMusicVolume;
+    GuiSlider* sliderFXVolume;
 
     MenuSelection menuCurrentSelection;
     //SettingsSelection settingsCurrentSelection = SettingsSelection::NONE;

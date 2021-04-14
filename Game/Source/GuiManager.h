@@ -48,7 +48,7 @@ public:
 	float updateMsCycle = 0.0f;
 	bool doLogic = false;
 
-	bool debugDraw = false;
+	bool debugDraw;
 
 	Input* input;
 	Render* render;

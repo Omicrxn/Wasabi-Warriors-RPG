@@ -15,6 +15,8 @@ GuiManager::GuiManager(Input* input, Render* render, Textures* tex, AudioManager
 	this->tex = tex;
 	this->audio = audio;
 
+	debugDraw = false;
+
 	guiAtlasTex = nullptr;
 	mousePos = { 0,0 };
 	clicking = false;
