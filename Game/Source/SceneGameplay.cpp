@@ -154,7 +154,7 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 
 	btnPhone = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 2, { 290, 50, 70, 55 }, "");
 	btnPhone->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::ICON_PHONE);
-
+	
 	// Load buttons for pause
 	btnReturn = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 3, { 610, 280, 70, 55 }, "");
 	btnReturn->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::ICON_RETURN);

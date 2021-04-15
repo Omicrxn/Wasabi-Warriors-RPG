@@ -3,7 +3,8 @@
 
 #include "GuiControl.h"
 
-enum Style {
+enum Style 
+{
     WHITE,
     GREY, 
     ICON_RETURN, 

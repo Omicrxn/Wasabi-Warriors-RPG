@@ -58,36 +58,45 @@ bool GuiSlider::Update(Input* input, AudioManager* audio, float dt)
                 audio->PlayFx(hoverFx);
             }
 
-            if (input->GetControllerButton(CONTROLLER_BUTTON_A) == KEY_REPEAT)
+            //// If gamepad button pressed -> Generate event!
+            if (input->GetControllerButton(CONTROLLER_BUTTON_RB) == KEY_DOWN)
             {
                 state = GuiControlState::PRESSED;
-            }
-
-            //if (input->GetControllerButton(CONTROLLER_BUTTON_A) == KEY_REPEAT)
-            //{
-            //    state = GuiControlState::PRESSED;
-            //}
-
-            //// If gamepad button pressed -> Generate event!
-            //if (input->GetControllerButton(CONTROLLER_BUTTON_A) == KEY_DOWN)
-            //{
-            //    NotifyObserver();
-            //    // Audio Fx when pressed
-            //    audio->PlayFx(clickFx);
-            //}
-            if (input->GetControllerButton(CONTROLLER_BUTTON_A) == KEY_UP)
-            {
+                slider.x += 10;
                 audio->PlayFx(clickFx);
-                NotifyObserver();
             }
+            else if (input->GetControllerButton(CONTROLLER_BUTTON_LB) == KEY_DOWN)
+            {
+                state = GuiControlState::PRESSED;
+                slider.x -= 10;
+                audio->PlayFx(clickFx);
+            }
+
+            if (input->GetControllerButton(CONTROLLER_BUTTON_RB) == KEY_UP || input->GetControllerButton(CONTROLLER_BUTTON_LB) == KEY_UP)
+                NotifyObserver();
+
+            if (slider.x < bounds.x)
+                slider.x = bounds.x;
+
+            if (slider.x + slider.w >= bounds.x + bounds.w)
+                slider.x = bounds.x + bounds.w - slider.w;
         }
         // Check collision between mouse and button bounds
         else if ((mouseX > bounds.x) && (mouseX < (bounds.x + bounds.w)) && 
-            (mouseY > bounds.y) && (mouseY < (bounds.y + bounds.h)))
+            (mouseY > bounds.y) && (mouseY < (bounds.y + bounds.h)) && !input->GetControllerState())
         {
             state = GuiControlState::FOCUSED;
 
-            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT)
+            if (!isHovering)
+            {
+                isHovering = true;
+                audio->PlayFx(hoverFx);
+            }
+
+            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
+                audio->PlayFx(clickFx);
+
+            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT)
             {
                 state = GuiControlState::PRESSED;
                 int posX, posY;
@@ -132,19 +141,26 @@ bool GuiSlider::Draw(Render* render, bool debugDraw)
     case GuiControlState::HIDDEN:
         break;
     case GuiControlState::NORMAL:
-        render->DrawText(font, text.GetString(), bounds.x + bounds.w + 5, bounds.y + bounds.h / 2 - bounds.h / 4, 22, 3, { 255,255,255,255 });
+        render->DrawText(font, text.GetString(), bounds.x + bounds.w + 5, bounds.y + bounds.h / 2 - bounds.h / 4, 25, 3, { 255,255,255,255 });
+
         render->DrawTexture(texture, bounds.x, bounds.y + 15, &bar, 0.0f);
         render->DrawTexture(texture, slider.x, slider.y, &whiteCircle, 0.0f);
         break;
     case GuiControlState::FOCUSED:
-        render->DrawText(font, text.GetString(), bounds.x + bounds.w + 5, bounds.y + bounds.h / 2 - bounds.h / 4, 22, 3, { 0,0,0,255 });
+        render->DrawText(font, text.GetString(), bounds.x + bounds.w + 7, bounds.y + bounds.h / 2 - bounds.h / 4, 25, 3, { 105,105,105,255 });
+        render->DrawText(font, text.GetString(), bounds.x + bounds.w + 5, bounds.y + bounds.h / 2 - bounds.h / 4, 25, 3, { 0,0,0,255 });
+
         render->DrawTexture(texture, bounds.x - 30, bounds.y + 9, &arrowWhiteRight, 0.0f);
+
         render->DrawTexture(texture, bounds.x, bounds.y + 15, &bar, 0.0f);
         render->DrawTexture(texture, slider.x, slider.y, &whiteCircle, 0.0f);
         break;
     case GuiControlState::PRESSED:
-        render->DrawText(font, text.GetString(), bounds.x + bounds.w + 5, bounds.y + bounds.h / 2 - bounds.h / 4, 22, 3, { 0,0,0,255 });
+        render->DrawText(font, text.GetString(), bounds.x + bounds.w + 7, bounds.y + bounds.h / 2 - bounds.h / 4, 25, 3, { 105,105,105,255 });
+        render->DrawText(font, text.GetString(), bounds.x + bounds.w + 5, bounds.y + bounds.h / 2 - bounds.h / 4, 25, 3, { 0,0,0,255 });
+
         render->DrawTexture(texture, bounds.x - 30, bounds.y + 9, &arrowWhiteRight, 0.0f);
+
         render->DrawTexture(texture, bounds.x, bounds.y + 15, &bar, 0.0f);
         render->DrawTexture(texture, slider.x, slider.y, &whiteCircle, 0.0f);
         break;

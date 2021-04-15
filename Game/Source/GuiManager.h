@@ -31,7 +31,7 @@ public:
 	bool CleanUp();
 
 	// Additional methods
-	GuiControl* CreateGuiControl(GuiControlType type, uint32 id, SDL_Rect bounds, const char* text);
+	GuiControl* CreateGuiControl(GuiControlType type, uint32 id, SDL_Rect bounds, const char* text = "");
 	void DestroyGuiControl(GuiControl* control);
 
 	//void AddGuiControl(GuiControl* entity);

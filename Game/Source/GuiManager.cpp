@@ -3,6 +3,7 @@
 #include "GuiButton.h"
 #include "GuiCheckBox.h"
 #include "GuiSlider.h"
+#include "GuiIcon.h"
 
 #include "Textures.h"
 
@@ -47,6 +48,9 @@ GuiControl* GuiManager::CreateGuiControl(GuiControlType type, uint32 id, SDL_Rec
 			break;
 		case GuiControlType::SLIDER:
 			control = new GuiSlider(id, bounds, text);
+			break;
+		case GuiControlType::ICON:
+			control = new GuiIcon(id, bounds);
 			break;
 		default: break;
 	}

@@ -64,7 +64,7 @@ bool GuiCheckBox::Update(Input* input, AudioManager* audio, float dt)
             }
 
             // If gamepad button pressed -> Generate event!
-            if (input->GetControllerButton(CONTROLLER_BUTTON_A) == KEY_DOWN)
+            if (input->GetControllerButton(CONTROLLER_BUTTON_A) == KEY_UP)
             {
                 checked = !checked;
                 NotifyObserver();

@@ -90,6 +90,9 @@
     <ClCompile Include="Source\Notifier.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
+    <ClCompile Include="Source\GuiIcon.cpp">
+      <Filter>GuiControls</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\App.h" />
@@ -239,6 +242,9 @@
     </ClInclude>
     <ClInclude Include="Source\Notifier.h">
       <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GuiIcon.h">
+      <Filter>GuiControls</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

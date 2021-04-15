@@ -96,19 +96,19 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
     btnExit->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::WHITE);
 
     /* SETTINGS BUTTONS */
-    checkFullScreen = (GuiCheckBox*)guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 5, { (int)width / 2 - (int)((float)width / 3.5f), 200, 45, 49 }, "FULLSCREEN");
+    checkFullScreen = (GuiCheckBox*)guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 5, { (int)width / 2 - (int)((float)width / 3.5f) - 20, 194, 45, 49 }, "FULLSCREEN");
     checkFullScreen->SetCheckBoxProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx);
 
-    checkVsync = (GuiCheckBox*)guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 6, { (int)width / 2 - (int)((float)width / 3.5f), 300, 45, 49 }, "VSYNC");
+    checkVsync = (GuiCheckBox*)guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 6, { (int)width / 2 - (int)((float)width / 3.5f) - 20, 294, 45, 49 }, "VSYNC");
     checkVsync->SetCheckBoxProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx);
 
-    sliderMusicVolume = (GuiSlider*)guiManager->CreateGuiControl(GuiControlType::SLIDER, 7, { (int)width / 2 - (int)((float)width / 12), 200, 300, 30 }, "MUSIC VOLUME");
+    sliderMusicVolume = (GuiSlider*)guiManager->CreateGuiControl(GuiControlType::SLIDER, 7, { (int)width / 2 - (int)((float)width / 12) + 5, 200, 300, 30 }, "MUSIC VOLUME");
     sliderMusicVolume->SetSliderProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx);
 
-    sliderFXVolume = (GuiSlider*)guiManager->CreateGuiControl(GuiControlType::SLIDER, 8, { (int)width / 2 - (int)((float)width / 12), 300, 300, 30 }, "FX VOLUME");
+    sliderFXVolume = (GuiSlider*)guiManager->CreateGuiControl(GuiControlType::SLIDER, 8, { (int)width / 2 - (int)((float)width / 12) + 5, 300, 300, 30 }, "FX VOLUME");
     sliderFXVolume->SetSliderProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx);
 
-    btnReturnTitle = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 9, { (int)width / 2 + (int)((float)width / 4), 600, 70, 55 }, "");
+    btnReturnTitle = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 9, { (int)width / 2 + (int)((float)width / 4), 570, 70, 55 }, "");
     btnReturnTitle->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::ICON_RETURN);
 
     HideSettingsButtons();

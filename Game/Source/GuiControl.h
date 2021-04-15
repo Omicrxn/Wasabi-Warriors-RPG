@@ -14,9 +14,9 @@
 enum class GuiControlType
 {
     BUTTON,
-    TOGGLE,
     CHECKBOX,
     SLIDER,
+    ICON,
 };
 
 enum class GuiControlState
@@ -93,7 +93,7 @@ public:
 
     Font* font;
 
-    Scene* observer;        // Observer module (it should probably be an array/list)
+    Scene* observer;        // Observer module
 };
 
 #endif // __GUICONTROL_H__
