@@ -36,7 +36,7 @@ SceneGameplay::SceneGameplay()
 	backgroundTex = nullptr;
 	backgroundRect = { 0, 0, 0, 0 };
 	guiAtlasTex = nullptr;
-	pauseBackgroundRect = { 1550, 295, 265, 180 };
+	pauseBackgroundRect = { 1544, 217, 113, 295 };
 
 	// Rects for titles
 	settingsTitleRect = { 0, 149, 530, 81 };
@@ -156,15 +156,15 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	btnPhone->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::ICON_PHONE);
 
 	// Load buttons for pause
-	btnReturn = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 3, { 520, 350, 70, 55 }, "");
+	btnReturn = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 3, { 610, 280, 70, 55 }, "");
 	btnReturn->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::ICON_RETURN);
 	btnReturn->state = GuiControlState::HIDDEN;
 
-	btnSettings = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 4, { 620, 350, 70, 55 }, "");
+	btnSettings = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 4, { 610, 350, 70, 55 }, "");
 	btnSettings->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::ICON_SETTINGS);
 	btnSettings->state = GuiControlState::HIDDEN;
 
-	btnExit = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 5, { 710, 350, 70, 55 }, "");
+	btnExit = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 5, { 615, 430, 70, 55 }, "");
 	btnExit->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::ICON_EXIT);
 	btnExit->state = GuiControlState::HIDDEN;
 
@@ -207,7 +207,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 	//if (input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) app->LoadGameRequest();
 	//if (input->GetKey(SDL_SCANCODE_S) == KEY_DOWN) app->SaveGameRequest();
 
-	if (input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN && battle == false)
+	if (input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN && battle == false)
 	{
 		battle = true;
 		battleSystem->SetupBattle(&entityManager->playerList, entityManager->enemyList.start->data);
@@ -660,6 +660,7 @@ void SceneGameplay::DrawHud(Render* render)
 void SceneGameplay::DrawPause(Render* render)
 {
 	// Draw pause background & title
+	render->DrawRectangle({ 0,0,1280,720 }, { 0, 0, 0, 100 }, true, false);
 	render->DrawTexture(guiAtlasTex, 1280 / 2 - pauseBackgroundRect.w/2, 720 / 2 - pauseBackgroundRect.h / 2, &pauseBackgroundRect, 0.0f);
-	render->DrawTexture(titlesTex, 1280 / 2 - pauseTitleRect.w / 2, 720 / 2 - pauseTitleRect.h - pauseTitleRect.h /2 ,  &pauseTitleRect, 0.0f);
+	render->DrawTexture(titlesTex, 1280 / 2 - pauseTitleRect.w / 2, 720 / 2 - pauseTitleRect.h * 1.5f - pauseTitleRect.h /2 - 10,  &pauseTitleRect, 0.0f);
 }

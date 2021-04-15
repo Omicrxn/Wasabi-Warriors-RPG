@@ -32,19 +32,23 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	// Load / Save
+	bool LoadState(pugi::xml_node&);
+	bool SaveState(pugi::xml_node&) const;
+
 	// Additional methods
 	Entity* CreateEntity(EntityType type, SString name);
 	void DestroyEntity(Entity* entity);
 	void DestroyEntityChecker(float dt);
 
 	/*void AddEntity(Entity* entity);*/
-
 	bool UpdateAll(float dt, bool doLogic);
 
 	// To search an specific entity in the list
 	Entity* SearchEntity(SString name, uint32 id = 0);
 
 	void OnCollision(Collider* c1, Collider* c2);
+
 
 public:
 
