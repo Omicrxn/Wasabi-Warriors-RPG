@@ -6,13 +6,7 @@
 enum Style 
 {
     WHITE,
-    GREY, 
-    ICON_RETURN, 
-    ICON_SETTINGS,
-    ICON_EXIT,
-    ICON_PAUSE,
-    ICON_INVENTORY,
-    ICON_PHONE
+    GREY
 };
 
 class GuiButton : public GuiControl

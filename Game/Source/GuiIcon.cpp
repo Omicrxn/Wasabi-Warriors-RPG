@@ -110,23 +110,25 @@ bool GuiIcon::Draw(Render* render, bool debugDraw)
     case GuiControlState::NORMAL:
         switch (iconType)
         {
-        case RETURN:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconReturn, 0.0f);
+        case NONE:
             break;
-        case EXIT:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconExit, 0.0f);
-            break;
-        case I_SETTINGS:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconSettings, 0.0f);
-            break;
-        case I_PAUSE:
+        case ICON_PAUSE:
             render->DrawTexture(texture, bounds.x, bounds.y, &iconPause, 0.0f);
             break;
-        case I_INVENTORY:
+        case ICON_INVENTORY:
             render->DrawTexture(texture, bounds.x, bounds.y, &iconInventory, 0.0f);
             break;
-        case PHONE:
+        case ICON_PHONE:
             render->DrawTexture(texture, bounds.x, bounds.y, &iconPhone, 0.0f);
+            break;
+        case ICON_RETURN:
+            render->DrawTexture(texture, bounds.x, bounds.y, &iconReturn, 0.0f);
+            break;
+        case ICON_SETTINGS:
+            render->DrawTexture(texture, bounds.x, bounds.y, &iconSettings, 0.0f);
+            break;
+        case ICON_EXIT:
+            render->DrawTexture(texture, bounds.x, bounds.y, &iconExit, 0.0f);
             break;
         default:
             break;
@@ -137,23 +139,25 @@ bool GuiIcon::Draw(Render* render, bool debugDraw)
         render->DrawTexture(texture, bounds.x - 30, bounds.y + 14, &arrowWhiteRight, 0.0f);
         switch (iconType)
         {
-        case RETURN:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconReturn, 0.0f);
+        case NONE:
             break;
-        case EXIT:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconExit, 0.0f);
-            break;
-        case I_SETTINGS:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconSettings, 0.0f);
-            break;
-        case I_PAUSE:
+        case ICON_PAUSE:
             render->DrawTexture(texture, bounds.x, bounds.y, &iconPause, 0.0f);
             break;
-        case I_INVENTORY:
+        case ICON_INVENTORY:
             render->DrawTexture(texture, bounds.x, bounds.y, &iconInventory, 0.0f);
             break;
-        case PHONE:
+        case ICON_PHONE:
             render->DrawTexture(texture, bounds.x, bounds.y, &iconPhone, 0.0f);
+            break;
+        case ICON_RETURN:
+            render->DrawTexture(texture, bounds.x, bounds.y, &iconReturn, 0.0f);
+            break;
+        case ICON_SETTINGS:
+            render->DrawTexture(texture, bounds.x, bounds.y, &iconSettings, 0.0f);
+            break;
+        case ICON_EXIT:
+            render->DrawTexture(texture, bounds.x, bounds.y, &iconExit, 0.0f);
             break;
         default:
             break;
@@ -164,23 +168,25 @@ bool GuiIcon::Draw(Render* render, bool debugDraw)
         render->DrawTexture(texture, bounds.x - 30, bounds.y + 18, &arrowWhiteRight, 0.0f);
         switch (iconType)
         {
-        case RETURN:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconReturn, 0.0f);
+        case NONE:
             break;
-        case EXIT:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconExit, 0.0f);
-            break;
-        case I_SETTINGS:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconSettings, 0.0f);
-            break;
-        case I_PAUSE:
+        case ICON_PAUSE:
             render->DrawTexture(texture, bounds.x, bounds.y, &iconPause, 0.0f);
             break;
-        case I_INVENTORY:
+        case ICON_INVENTORY:
             render->DrawTexture(texture, bounds.x, bounds.y, &iconInventory, 0.0f);
             break;
-        case PHONE:
+        case ICON_PHONE:
             render->DrawTexture(texture, bounds.x, bounds.y, &iconPhone, 0.0f);
+            break;
+        case ICON_RETURN:
+            render->DrawTexture(texture, bounds.x, bounds.y, &iconReturn, 0.0f);
+            break;
+        case ICON_SETTINGS:
+            render->DrawTexture(texture, bounds.x, bounds.y, &iconSettings, 0.0f);
+            break;
+        case ICON_EXIT:
+            render->DrawTexture(texture, bounds.x, bounds.y, &iconExit, 0.0f);
             break;
         default:
             break;

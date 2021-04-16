@@ -26,13 +26,6 @@ GuiButton::GuiButton(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(
 
     arrowWhiteLeft = { 281,486,22,21 };
     arrowWhiteRight = { 259,486,22,21 };
-
-    iconReturn = { 1117, 29, 65, 55 };
-    iconExit = { 1000, 125, 46, 55 };
-    iconSettings = { 870, 125, 58, 55 };
-    iconPause = { 870, 220, 52, 55 };
-    iconInventory = { 1000, 220, 56, 55 };
-    iconPhone = { 1117, 220, 41, 55 };
 }
 
 GuiButton::~GuiButton()
@@ -140,24 +133,6 @@ bool GuiButton::Draw(Render* render, bool debugDraw)
             break;
         case GREY:
             break;
-        case ICON_RETURN:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconReturn, 0.0f);
-            break;
-        case ICON_EXIT:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconExit, 0.0f);
-            break;
-        case ICON_SETTINGS:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconSettings, 0.0f);
-            break;
-        case ICON_PAUSE:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconPause, 0.0f);
-            break;
-        case ICON_INVENTORY:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconInventory, 0.0f);
-            break;
-        case ICON_PHONE:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconPhone, 0.0f);
-            break;
         default:
             break;
         }
@@ -172,24 +147,6 @@ bool GuiButton::Draw(Render* render, bool debugDraw)
             render->DrawTexture(texture, bounds.x + bounds.w + 8, bounds.y + 14, &arrowWhiteLeft, 0.0f);
             break;
         case GREY:
-            break;
-        case ICON_RETURN:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconReturn, 0.0f);
-            break;
-        case ICON_EXIT:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconExit, 0.0f);
-            break;
-        case ICON_SETTINGS:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconSettings, 0.0f);
-            break;
-        case ICON_PAUSE:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconPause, 0.0f);
-            break;
-        case ICON_INVENTORY:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconInventory, 0.0f);
-            break;
-        case ICON_PHONE:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconPhone, 0.0f);
             break;
         default:
             break;
@@ -206,24 +163,6 @@ bool GuiButton::Draw(Render* render, bool debugDraw)
             render->DrawTexture(texture, bounds.x + bounds.w + 8, bounds.y + 18, &arrowWhiteLeft, 0.0f);
             break;
         case GREY:
-            break;
-        case ICON_RETURN:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconReturn, 0.0f);
-            break;
-        case ICON_EXIT:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconExit, 0.0f);
-            break;
-        case ICON_SETTINGS:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconSettings, 0.0f);
-            break;
-        case ICON_PAUSE:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconPause, 0.0f);
-            break;
-        case ICON_INVENTORY:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconInventory, 0.0f);
-            break;
-        case ICON_PHONE:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconPhone, 0.0f);
             break;
         default:
             break;

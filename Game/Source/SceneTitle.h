@@ -7,6 +7,7 @@
 class GuiButton;
 class GuiSlider;
 class GuiCheckBox;
+class GuiIcon;
 
 class Font;
 class Window;
@@ -24,15 +25,6 @@ enum class MenuSelection
     CREDITS,
     EXIT
 };
-
-//enum class SettingsSelection
-//{
-//    NONE,
-//    MUSICVOLUME,
-//    FXVOLUME,
-//    FULLSCREEN,
-//    VSYNC
-//};
 
 class SceneTitle : public Scene
 {
@@ -95,13 +87,14 @@ private:
     GuiButton* btnOptions;
     GuiButton* btnCredits;
     GuiButton* btnExit;
-    GuiButton* btnReturnTitle;
 
     GuiCheckBox* checkFullScreen;
     GuiCheckBox* checkVsync;
 
     GuiSlider* sliderMusicVolume;
     GuiSlider* sliderFXVolume;
+
+    GuiIcon* iconReturnTitle;
 
     MenuSelection menuCurrentSelection;
     //SettingsSelection settingsCurrentSelection = SettingsSelection::NONE;

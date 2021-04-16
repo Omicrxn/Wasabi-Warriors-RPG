@@ -9,6 +9,7 @@
 #include "GuiButton.h"
 #include "GuiSlider.h"
 #include "GuiCheckBox.h"
+#include "GuiIcon.h"
 
 #include "Font.h"
 #include "Easing.h"
@@ -50,7 +51,8 @@ SceneTitle::SceneTitle()
     checkVsync = nullptr;
     sliderMusicVolume = nullptr;
     sliderFXVolume = nullptr;
-    btnReturnTitle = nullptr;
+
+    iconReturnTitle = nullptr;
 
     menuCurrentSelection = MenuSelection::NONE;
     //settingsCurrentSelection = SettingsSelection::NONE;
@@ -121,8 +123,8 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
     sliderFXVolume = (GuiSlider*)guiManager->CreateGuiControl(GuiControlType::SLIDER, 8, { (int)width / 2 - (int)((float)width / 12) + 5, 300, 300, 30 }, "FX VOLUME");
     sliderFXVolume->SetSliderProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx);
 
-    btnReturnTitle = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 9, { (int)width / 2 + (int)((float)width / 4), 570, 70, 55 }, "");
-    btnReturnTitle->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::ICON_RETURN);
+    iconReturnTitle = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, 9, { (int)width / 2 + (int)((float)width / 4), 570, 70, 55 });
+    iconReturnTitle->SetIconProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, CONTROLLER_BUTTON_B, IconType::ICON_RETURN);
 
     HideSettingsButtons();
 
@@ -289,7 +291,8 @@ bool SceneTitle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManag
     guiManager->DestroyGuiControl(checkVsync);
     guiManager->DestroyGuiControl(sliderMusicVolume);
     guiManager->DestroyGuiControl(sliderFXVolume);
-    guiManager->DestroyGuiControl(btnReturnTitle);
+
+    guiManager->DestroyGuiControl(iconReturnTitle);
 
     menuCurrentSelection = MenuSelection::NONE;
 
@@ -319,7 +322,11 @@ bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
         }
         else if (control->id == 3) menuCurrentSelection = MenuSelection::CREDITS;
         else if (control->id == 4) menuCurrentSelection = MenuSelection::EXIT;
-        else if (control->id == 9) settingsScene = false;
+        break;
+    }
+    case GuiControlType::ICON:
+    {
+        if (control->id == 9) settingsScene = false;
         break;
     }
     default: break;

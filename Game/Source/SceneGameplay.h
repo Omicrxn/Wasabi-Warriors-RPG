@@ -12,18 +12,20 @@
 
 class BattleSystem;
 class GuiManager;
-class GuiButton;
 class Window;
 class DialogSystem;
+
+class GuiButton;
+class GuiIcon;
 
 enum GameState
 {
     ROAMING,
     PAUSE,
+    INVENTORY,
+    PHONE,
     SETTINGS,
     BATTLE,
-    INVENTORY,
-    MAP
 };
 
 class SceneGameplay : public Scene
@@ -121,14 +123,14 @@ private:
     GuiButton* btnNone;
 
     // Hud buttons
-    GuiButton* btnPause;
-    GuiButton* btnInventory;
-    GuiButton* btnPhone;
+    GuiIcon* iconPause;
+    GuiIcon* iconInventory;
+    GuiIcon* iconPhone;
 
     // Pause buttons
-    GuiButton* btnReturn;
-    GuiButton* btnSettings;
-    GuiButton* btnExit;
+    GuiIcon* iconReturn;
+    GuiIcon* iconSettings;
+    GuiIcon* iconExit;
 
     // Gamepad's menu focused button
     uint focusedButtonId;

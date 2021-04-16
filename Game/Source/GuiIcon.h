@@ -7,12 +7,12 @@
 enum IconType
 {
     NONE,
-    I_PAUSE,
-    I_INVENTORY,
-    PHONE,
-    RETURN,
-    I_SETTINGS,
-    EXIT
+    ICON_PAUSE,
+    ICON_INVENTORY,
+    ICON_PHONE,
+    ICON_RETURN,
+    ICON_SETTINGS,
+    ICON_EXIT
 };
 
 class GuiIcon : public GuiControl
