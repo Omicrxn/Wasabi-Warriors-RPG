@@ -250,6 +250,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 	if (notifier->OnMapChange())
 	{
 		map->CleanUp();
+
 		currentMap = notifier->ChangeMap();
 		// Create map
 		switch (currentMap)
