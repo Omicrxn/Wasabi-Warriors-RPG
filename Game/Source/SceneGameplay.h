@@ -7,13 +7,13 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "NPC.h"
+#include "Notifier.h"
 
 class BattleSystem;
 class GuiManager;
 class GuiButton;
 class Window;
 class DialogSystem;
-class Notifier;
 
 enum GameState
 {
@@ -133,6 +133,7 @@ private:
     uint focusedButtonId;
 
     Notifier* notifier;
+    MapType currentMap = MapType::CEMETERY;
 };
 
 #endif // __SCENEGAMEPLAY_H__

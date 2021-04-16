@@ -230,6 +230,7 @@ bool Map::CleanUp()
 bool Map::Load(const char* subfolder,const char* filename)
 {
     bool ret = true;
+	folder = "Assets/Maps/";
 	folder += subfolder;
     SString tmp("%s/%s",folder.GetString(),filename);
 
@@ -333,26 +334,6 @@ bool Map::LoadMap()
 		data.backgroundColor.g = 0;
 		data.backgroundColor.b = 0;
 		data.backgroundColor.a = 0;
-		/*
-		if (bg_color.Length() > 0)
-		{
-			SString red, green, blue;
-			bg_color.SubString(1, 2, red);
-			bg_color.SubString(3, 4, green);
-			bg_color.SubString(5, 6, blue);
-
-			int v = 0;
-
-			sscanf_s(red.GetString(), "%x", &v);
-			if (v >= 0 && v <= 255) data.backgroundColor.r = v;
-
-			sscanf_s(green.GetString(), "%x", &v);
-			if (v >= 0 && v <= 255) data.backgroundColor.g = v;
-
-			sscanf_s(blue.GetString(), "%x", &v);
-			if (v >= 0 && v <= 255) data.backgroundColor.b = v;
-		}
-		*/
 
 		SString orientation(map.attribute("orientation").as_string());
 
