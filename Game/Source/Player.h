@@ -31,6 +31,9 @@ public:
     // To set the player name
     void SetName(SString name);
 
+    // To setup the player class type
+    bool SetUpClass(SString name);
+
 private:
 
     void Walk(iPoint direction, float dt);

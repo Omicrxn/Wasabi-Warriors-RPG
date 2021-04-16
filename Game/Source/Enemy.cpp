@@ -141,7 +141,7 @@ bool Enemy::SetUpClass(SString name)
 
         for (docNode = docNode.first_child(); docNode != NULL; docNode = docNode.next_sibling())
         {
-            /*if (docNode.name. == name.GetString())*/
+            if (docNode.name() == name.GetString())
             {
                 this->stats.level = docNode.attribute("level").as_int(0);
                 this->stats.damage = docNode.attribute("damage").as_int(0);
