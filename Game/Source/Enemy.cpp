@@ -43,7 +43,7 @@ bool Enemy::Update(Input* input, float dt)
     // Update collider position
     if (collider != nullptr)
     {
-        collider->SetPos(position.x + 86, position.y + 43);
+        collider->SetPos(position.x, position.y);
     }
 	return true;
 }

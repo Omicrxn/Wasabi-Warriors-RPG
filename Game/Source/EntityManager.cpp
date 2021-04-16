@@ -6,6 +6,7 @@
 #include "Item.h"
 #include "Map.h"
 #include "NPC.h"
+#include "Teleport.h"
 
 #include "Render.h"
 #include "Textures.h"
@@ -46,6 +47,50 @@ bool EntityManager::CleanUp()
 	}
 
 	return true;
+}
+
+Entity* EntityManager::CreateEntity(EntityType type, SString name)
+{
+	Entity* ret = nullptr;
+
+	switch (type)
+	{
+		// L13: Create the corresponding type entity
+	case EntityType::PLAYER:
+		ret = new Player(tex, collisions, this);
+		ret->type = EntityType::PLAYER;
+		ret->name = name;
+		playerList.Add((Player*)ret);
+		break;
+	case EntityType::ENEMY:
+		ret = new Enemy(collisions, this);
+		ret->type = EntityType::ENEMY;
+		ret->name = name;
+		enemyList.Add((Enemy*)ret);
+		break;
+		//case EntityType::ITEM: ret = new Item(); break;
+	case EntityType::MAP:
+		ret = new Map(tex);
+		break;
+	case EntityType::NPC:
+		ret = new NPC();
+		ret->type = EntityType::NPC;
+		ret->name = name;
+		npcList.Add((NPC*)ret);
+		break;
+	case EntityType::TELEPORT:
+		ret = new Teleport(collisions,this);
+		ret->type = EntityType::TELEPORT;
+		ret->name = name;
+		teleportList.Add((Teleport*)ret);
+		break;
+	default: break;
+	}
+
+	// Created entities are added to the list
+	if (ret != nullptr) entityList.Add(ret);
+
+	return ret;
 }
 
 bool EntityManager::LoadState(pugi::xml_node& data)
@@ -367,44 +412,6 @@ bool EntityManager::SaveState(pugi::xml_node& data) const
 	}
 
 	return true;
-}
-
-Entity* EntityManager::CreateEntity(EntityType type, SString name)
-{
-	Entity* ret = nullptr;
-
-	switch (type)
-	{
-		// L13: Create the corresponding type entity
-		case EntityType::PLAYER:
-			ret = new Player(tex, collisions,this); 
-			ret->type = EntityType::PLAYER;
-			ret->name = name;
-			playerList.Add((Player*)ret);
-			break;
-		case EntityType::ENEMY: 
-			ret = new Enemy(collisions, this);
-			ret->type = EntityType::ENEMY;
-			ret->name = name;
-			enemyList.Add((Enemy*)ret);
-			break;
-		//case EntityType::ITEM: ret = new Item(); break;
-		case EntityType::MAP: 
-			ret = new Map(tex); 
-			break;
-		case EntityType::NPC: 
-			ret = new NPC();
-			ret->type = EntityType::NPC;
-			ret->name = name;
-			npcList.Add((NPC*)ret);
-			break;
-		default: break;
-	}
-
-	// Created entities are added to the list
-	if (ret != nullptr) entityList.Add(ret);
-
-	return ret;
 }
 
 void EntityManager::DestroyEntity(Entity* entity)

@@ -2,7 +2,7 @@
 #ifndef __NPC_H__
 #define __NPC_H__
 
-#include "Entity.h"
+#include "Interactive.h"
 #include "Animation.h"
 
 enum class NPCAnimations
@@ -14,7 +14,7 @@ enum class NPCAnimations
 	RIGHT
 };
 
-class NPC : public Entity
+class NPC : public Interactive
 {
 public:
 
@@ -30,6 +30,7 @@ public:
 private:
 
 	void Walk(iPoint direction, float dt);
+	void Interact();
 
 public:
 

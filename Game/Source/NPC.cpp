@@ -1,7 +1,7 @@
 #include "NPC.h"
 #include "Render.h"
-
-NPC::NPC() : Entity(EntityType::NPC)
+#include "Notifier.h"
+NPC::NPC() : Interactive()
 {
     texture = NULL;
     position = iPoint(12 * 16, 27 * 16);
@@ -15,6 +15,11 @@ NPC::NPC() : Entity(EntityType::NPC)
 }
 
 NPC::~NPC()
+{
+
+}
+
+void NPC::Interact()
 {
 
 }

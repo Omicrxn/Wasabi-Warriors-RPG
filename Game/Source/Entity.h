@@ -15,6 +15,7 @@ enum class EntityType
     ITEM,
     MAP,
     NPC,
+    TELEPORT,
     UNKNOWN
 };
 
