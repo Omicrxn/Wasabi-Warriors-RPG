@@ -167,8 +167,6 @@ bool SceneTitle::Update(Input* input, float dt)
             {
                 if (input->GetControllerButton(CONTROLLER_BUTTON_UP) == KEY_DOWN)
                     focusedButtonId = 5;
-                else if (input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN)
-                    focusedButtonId = 9;
                 else if (input->GetControllerButton(CONTROLLER_BUTTON_RIGHT) == KEY_DOWN)
                     focusedButtonId = 8;
             }
@@ -183,20 +181,11 @@ bool SceneTitle::Update(Input* input, float dt)
             {
                 if (input->GetControllerButton(CONTROLLER_BUTTON_UP) == KEY_DOWN)
                     focusedButtonId = 7;
-                else if (input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN)
-                    focusedButtonId = 9;
-                else if (input->GetControllerButton(CONTROLLER_BUTTON_LEFT) == KEY_DOWN)
-                    focusedButtonId = 6;
-            }
-            else if (focusedButtonId == 9)
-            {
-                if (input->GetControllerButton(CONTROLLER_BUTTON_UP) == KEY_DOWN)
-                    focusedButtonId = 8;
                 else if (input->GetControllerButton(CONTROLLER_BUTTON_LEFT) == KEY_DOWN)
                     focusedButtonId = 6;
             }
 
-            UpdateControllerSelection(5, 9);
+            UpdateControllerSelection(5, 8);
         }
     }
 
@@ -226,9 +215,6 @@ bool SceneTitle::Update(Input* input, float dt)
         // Disable main title buttons and enable the settings buttons and slider
         HideTitleButtons();
         EnableSettingsButtons();
-
-        // Create splines for settings buttons
-        // app->easing->CreateSpline(&rect.x, -rect.x + 400, 6000, SplineType::EASE)
     }
     else if (menuCurrentSelection == MenuSelection::EXIT)
     {
@@ -253,7 +239,7 @@ bool SceneTitle::Draw(Render* render)
 
     if (settingsScene == false)
     {
-       /* render->DrawText(titleFont, "Wasabi Warriors", width / 2 - width / 2.5f + 3, height / 2 - height / 2.5f + 3, 125, 0, { 105, 105, 105, 255 });
+        /* render->DrawText(titleFont, "Wasabi Warriors", width / 2 - width / 2.5f + 3, height / 2 - height / 2.5f + 3, 125, 0, { 105, 105, 105, 255 });
         render->DrawText(titleFont, "Wasabi Warriors", width / 2 - width / 2.5f, height / 2 - height / 2.5f, 125, 0, { 255, 255, 255, 255 });*/
         /*render->DrawTexture(titlesTex, width / 2 - mainTitlesRect.w / 2, height / 2 - height / 2.5f, &mainTitlesRect, 0.0f);*/
         render->DrawTexture(titlesTex, titlePosition.x, titlePosition.y, &mainTitlesRect, 0.0f);
@@ -264,7 +250,7 @@ bool SceneTitle::Draw(Render* render)
         render->DrawTexture(guiAtlasTex, 60, 25, &settingsBackgroundRect, 0.0f);
         render->scale = 1;
     }
-    
+
     return true;
 }
 

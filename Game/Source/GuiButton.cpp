@@ -13,6 +13,8 @@ GuiButton::GuiButton(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(
     hoverFx = -1;
     clickFx = -1;
 
+    device = GuiDevice::MOUSE;
+
     greyButton = { 0,188,190,49 };
 
     yellowButton = { 0,282,190,49 };
@@ -51,11 +53,16 @@ bool GuiButton::Update(Input* input, AudioManager* audio, float dt)
         int mouseX, mouseY;
         input->GetMousePosition(mouseX, mouseY);
 
-        if (!input->GetControllerState())
-            gamepadFocus = false;
+        int motionX, motionY;
+        input->GetMouseMotion(motionX, motionY);
+
+        if (input->GetMouseMotion())
+            device = GuiDevice::MOUSE;
+        else if (input->GetControllerState() && !input->GetMouseMotion())
+            device = GuiDevice::CONTROLLER;
 
         // Check if gamepad is focusing the button
-        if (gamepadFocus && input->GetControllerState())
+        if (gamepadFocus && device == GuiDevice::CONTROLLER)
         {
             state = GuiControlState::FOCUSED;
 
@@ -80,7 +87,7 @@ bool GuiButton::Update(Input* input, AudioManager* audio, float dt)
         }
         // Check collision between mouse and button bounds
         else if ((mouseX > bounds.x) && (mouseX < (bounds.x + bounds.w)) &&
-            (mouseY > bounds.y) && (mouseY < (bounds.y + bounds.h)) && !input->GetControllerState())
+            (mouseY > bounds.y) && (mouseY < (bounds.y + bounds.h)) && device == GuiDevice::MOUSE)
         {
             state = GuiControlState::FOCUSED;
 

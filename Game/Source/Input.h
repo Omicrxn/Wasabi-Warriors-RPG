@@ -112,6 +112,11 @@ public:
 		return controller.enabled;
 	}
 
+	bool GetMouseMotion() const
+	{
+		return mouseMotion;
+	}
+
 	bool ShakeController(int id, int duration, float dt, float strength = 0.5f);
 	const char* GetControllerName(int id) const;
 
@@ -155,6 +160,7 @@ private:
 	Controller controller;
 	KeyState* controllerButtons;
 
+	bool mouseMotion;
 	int	mouseMotionX;
 	int mouseMotionY;
 	int mouseX;

@@ -28,6 +28,12 @@ enum class GuiControlState
     PRESSED,
 };
 
+enum class GuiDevice
+{
+    MOUSE,
+    CONTROLLER
+};
+
 class GuiControl
 {
 public:
@@ -85,6 +91,8 @@ public:
     uint32 id;
     GuiControlType type;
     GuiControlState state;
+
+    GuiDevice device;
 
     SString text;
     SDL_Rect bounds;        // Position and size
