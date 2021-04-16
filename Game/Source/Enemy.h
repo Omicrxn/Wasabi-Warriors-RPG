@@ -36,6 +36,8 @@ public:
 
     void OnCollision(Collider* collider) override;
 
+    bool SetUpClass(SString name);
+
 public:
 
     Animations currentAnim;

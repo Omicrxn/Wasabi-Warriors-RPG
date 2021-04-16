@@ -4,6 +4,8 @@
 
 #include "Notifier.h"
 
+#include "Log.h"
+
 #define DEFAULT_PATH_LENGTH 50
 
 Enemy::Enemy(Collisions* collisions, EntityManager* entityManager) : Being()
@@ -112,4 +114,48 @@ void Enemy::OnCollision(Collider* collider)
         Notifier::GetInstance()->NotifyBattle();
     }
 
+}
+
+bool Enemy::SetUpClass(SString name)
+{
+    bool ret = true;
+
+	SString newName("entity_info");
+	newName += ".xml";
+	pugi::xml_document docData;
+	pugi::xml_node docNode;
+
+	pugi::xml_parse_result result = docData.load_file(newName.GetString());
+
+	// Check result for loading errors
+	if (result == NULL)
+	{
+		LOG("Could not load entity info xml file entity_info.xml. pugi error: %s", result.description());
+		ret = false;
+	}
+	else
+	{
+		LOG("Loading entity info");
+
+		docNode = docData.child("enemy");
+
+        for (docNode = docNode.first_child(); docNode != NULL; docNode = docNode.next_sibling())
+        {
+            /*if (docNode.name. == name.GetString())*/
+            {
+                this->stats.level = docNode.attribute("level").as_int(0);
+                this->stats.damage = docNode.attribute("damage").as_int(0);
+                this->stats.maxHP = docNode.attribute("max_hp").as_int(0);
+                this->stats.currentHP = docNode.attribute("current_hp").as_int(0);
+                this->stats.strength = docNode.attribute("strength").as_int(0);
+                this->stats.defense = docNode.attribute("defense").as_int(0);
+                this->stats.attackSpeed = docNode.attribute("attack_speed").as_int(0);
+                this->stats.criticalRate = docNode.attribute("critical_rate").as_int(0);
+            }
+        }
+	}
+
+	LOG("Saving enemy info from %s", newName.GetString());
+
+	return ret;
 }

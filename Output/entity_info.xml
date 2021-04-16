@@ -1,0 +1,12 @@
+<!-- Entity info file for the game -->
+<entity>
+  <player>
+    <player1 level="1" damage="20" max_hp="120" current_hp="100" strength="10" defense="15" attack_speed="5" critical_rate="10"/>
+  </player>
+
+  <enemy>
+    <henchman level="1" damage="10" max_hp="120" current_hp="100" strength="10" defense="10" attack_speed="5" critical_rate="5"/>
+    <bruiser level="1" damage="8" max_hp="150" current_hp="120" strength="5" defense="15" attack_speed="3" critical_rate="8"/>
+    <boss level="2" damage="15" max_hp="200" current_hp="120" strength="12" defense="15" attack_speed="6" critical_rate="8"/>
+  </enemy>
+</entity>
