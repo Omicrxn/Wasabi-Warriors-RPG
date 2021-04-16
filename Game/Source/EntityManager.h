@@ -10,6 +10,7 @@ class Textures;
 class Input;
 class Player;
 class Enemy;
+class Teleport;
 class NPC;
 class Entity;
 enum class EntityType;
@@ -60,6 +61,7 @@ public:
 	List<Player*> playerList;
 	List<Enemy*> enemyList;
 	List<NPC*> npcList;
+	List<Teleport*> teleportList;
 
 	float accumulatedTime = 0.0f;
 	float updateMsCycle = 0.0f;

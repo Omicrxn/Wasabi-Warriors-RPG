@@ -36,6 +36,7 @@ public:
 
     void OnCollision(Collider* collider) override;
 
+    // To setup the enemy class type
     bool SetUpClass(SString name);
 
 public:

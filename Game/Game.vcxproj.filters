@@ -93,6 +93,10 @@
     <ClCompile Include="Source\GuiIcon.cpp">
       <Filter>GuiControls</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Easing.cpp" />
+    <ClCompile Include="Source\Teleport.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\App.h" />
@@ -245,6 +249,10 @@
     </ClInclude>
     <ClInclude Include="Source\GuiIcon.h">
       <Filter>GuiControls</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Easing.h" />
+    <ClInclude Include="Source\Teleport.h">
+      <Filter>Entities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

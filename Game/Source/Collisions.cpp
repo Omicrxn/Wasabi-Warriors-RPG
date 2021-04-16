@@ -11,7 +11,6 @@ Collisions::Collisions(Input* input, Render* render) : Module()
 	name = "collisions";
 	this->input = input;
 	this->render = render;
-
 	for (uint i = 0; i < MAX_COLLIDERS; ++i)
 		colliders[i] = nullptr;
 
@@ -90,8 +89,8 @@ bool Collisions::PreUpdate()
 	return true;
 }
 
-bool Collisions::Update() {
-	if (input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+bool Collisions::Update(float dt) {
+	if (input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
 		debug = !debug;
 
 	return true;
@@ -111,7 +110,7 @@ void Collisions::DebugDraw()
 	for (uint i = 0; i < MAX_COLLIDERS; ++i) {
 		if (colliders[i] == nullptr)
 			continue;
-
+		render->scale = 3;
 		switch (colliders[i]->type) {
 		case Collider::Type::NONE:
 			render->DrawRectangle(colliders[i]->rect, { 255, 255, 255, alpha });
@@ -132,6 +131,7 @@ void Collisions::DebugDraw()
 			render->DrawRectangle(colliders[i]->rect, { 255, 0, 255, alpha });
 			break;
 		}
+		render->scale = 1;
 	}
 }
 

@@ -1,5 +1,6 @@
 #include "Player.h"
 
+#include "Log.h"
 
 Player::Player(Textures* tex, Collisions* collisions, EntityManager* entityManager) : Being()
 {
@@ -60,7 +61,7 @@ bool Player::Update(Input* input, float dt)
     // Update collider position
     if (collider != nullptr)
     {
-        collider->SetPos(position.x + 86, position.y + 43);
+        collider->SetPos(position.x, position.y);
     }
     return true;
 }
@@ -165,4 +166,48 @@ void Player::SetName(SString name)
 {
     this->name = name;
     this->stats.name = name;
+}
+
+bool Player::SetUpClass(SString name)
+{
+    bool ret = true;
+
+    SString newName("entity_info");
+    newName += ".xml";
+    pugi::xml_document docData;
+    pugi::xml_node docNode;
+
+    pugi::xml_parse_result result = docData.load_file(newName.GetString());
+
+    // Check result for loading errors
+    if (result == NULL)
+    {
+        LOG("Could not load entity info xml file entity_info.xml. pugi error: %s", result.description());
+        ret = false;
+    }
+    else
+    {
+        LOG("Loading entity info");
+
+        docNode = docData.child("player");
+
+        for (docNode = docNode.first_child(); docNode != NULL; docNode = docNode.next_sibling())
+        {
+            if (docNode.name() == name.GetString())
+            {
+                this->stats.level = docNode.attribute("level").as_int(0);
+                this->stats.damage = docNode.attribute("damage").as_int(0);
+                this->stats.maxHP = docNode.attribute("max_hp").as_int(0);
+                this->stats.currentHP = docNode.attribute("current_hp").as_int(0);
+                this->stats.strength = docNode.attribute("strength").as_int(0);
+                this->stats.defense = docNode.attribute("defense").as_int(0);
+                this->stats.attackSpeed = docNode.attribute("attack_speed").as_int(0);
+                this->stats.criticalRate = docNode.attribute("critical_rate").as_int(0);
+            }
+        }
+    }
+
+    LOG("Saving enemy info from %s", newName.GetString());
+
+    return ret;
 }

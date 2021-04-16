@@ -43,7 +43,7 @@ bool Enemy::Update(Input* input, float dt)
     // Update collider position
     if (collider != nullptr)
     {
-        collider->SetPos(position.x + 86, position.y + 43);
+        collider->SetPos(position.x, position.y);
     }
 	return true;
 }
@@ -141,7 +141,7 @@ bool Enemy::SetUpClass(SString name)
 
         for (docNode = docNode.first_child(); docNode != NULL; docNode = docNode.next_sibling())
         {
-            /*if (docNode.name. == name.GetString())*/
+            if (docNode.name() == name.GetString())
             {
                 this->stats.level = docNode.attribute("level").as_int(0);
                 this->stats.damage = docNode.attribute("damage").as_int(0);

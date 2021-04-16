@@ -90,56 +90,68 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	this->dialogSystem = dialogSystem;
 
 	map = (Map*)entityManager->CreateEntity(EntityType::MAP, "Map");
-	// Create map
-	switch (currentMap)
-	{
-	case MapType::CEMETERY:
-		// L03: DONE: Load map
-	// L12b: Create walkability map on map loading
-		if (map->Load("Cemetery", "Cemetery.tmx") == true)
+
+		// Create map
+		switch (currentMap)
 		{
-			int w, h;
-			uchar* data = NULL;
+		case MapType::CEMETERY:
+			if (map->Load("Cemetery", "Cemetery.tmx") == true)
+			{
+				int w, h;
+				uchar* data = NULL;
 
-			//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
+				//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
 
-			RELEASE_ARRAY(data);
+				RELEASE_ARRAY(data);
+			}
+			break;
+		case MapType::HOUSE:
+			if (map->Load("House", "house.tmx") == true)
+			{
+				int w, h;
+				uchar* data = NULL;
+
+				//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
+
+				RELEASE_ARRAY(data);
+			}
+			break;
+		case MapType::MEDIUM_CITY:
+			if (map->Load("MediumCity", "mediumcity.tmx") == true)
+			{
+				int w, h;
+				uchar* data = NULL;
+
+				//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
+
+				RELEASE_ARRAY(data);
+			}
+			break;
+		case MapType::RESTAURANT:
+			if (map->Load("Restaurant", "restaurant.tmx") == true)
+			{
+				int w, h;
+				uchar* data = NULL;
+
+				//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
+
+				RELEASE_ARRAY(data);
+			}
+			break;
+		case MapType::TOWN:
+			if (map->Load("Town", "townMap.tmx") == true)
+			{
+				int w, h;
+				uchar* data = NULL;
+
+				//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
+
+				RELEASE_ARRAY(data);
+			}
+			break;
+		default:
+			break;
 		}
-		break;
-	case MapType::HOUSE:
-		// L03: DONE: Load map
-	// L12b: Create walkability map on map loading
-		if (map->Load("Cemetery", "Cemetery.tmx") == true)
-		{
-			int w, h;
-			uchar* data = NULL;
-
-			//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
-
-			RELEASE_ARRAY(data);
-		}
-		break;
-	case MapType::MEDIUM_CITY:
-		break;
-	case MapType::RESTAURANT:
-		break;
-	case MapType::TOWN:
-		// L03: DONE: Load map
-	// L12b: Create walkability map on map loading
-		if (map->Load("Town", "townMap.tmx") == true)
-		{
-			int w, h;
-			uchar* data = NULL;
-
-			//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
-
-			RELEASE_ARRAY(data);
-		}
-		break;
-	default:
-		break;
-	}
-
 
 	
 
@@ -167,8 +179,24 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	entity = nullptr;
 	// Create NPC
 	entity = entityManager->CreateEntity(EntityType::NPC, "DaBot");
-	entity->position = iPoint(10 * 32, 6 * 32);
+	entity->position = iPoint(8 * 32, 8 * 32);
 	entity->SetTexture(spritesheet, 4);
+	entity = nullptr;
+	// Create NPC 2
+	entity = entityManager->CreateEntity(EntityType::NPC, "DaBot2");
+	entity->position = iPoint(10 * 32, 6 * 32);
+	entity->SetTexture(spritesheet, 8);
+	entity = nullptr;
+	// Create NPC 3
+	entity = entityManager->CreateEntity(EntityType::NPC, "DaBot3");
+	entity->position = iPoint(15 * 32, 7 * 32);
+	entity->SetTexture(spritesheet, 7);
+	entity = nullptr;
+
+	// Create Teleport
+	entity = entityManager->CreateEntity(EntityType::TELEPORT, "DaTransfer");
+	entity->position = iPoint(12 * 32, 10 * 32);
+	entityManager->teleportList.At(entityManager->teleportList.Find((Teleport*)entity))->data->SetUpDestination(MapType::TOWN);
 	entity = nullptr;
 
 	// Load battle system textures
@@ -247,7 +275,7 @@ inline bool CheckCollision(SDL_Rect rec1, SDL_Rect rec2)
 bool SceneGameplay::Update(Input* input, float dt)
 {
 
-	if (notifier->OnMapChange())
+	if (notifier->OnMapChange() && notifier->GetNextMap() != currentMap)
 	{
 		map->CleanUp();
 
@@ -256,8 +284,6 @@ bool SceneGameplay::Update(Input* input, float dt)
 		switch (currentMap)
 		{
 		case MapType::CEMETERY:
-			// L03: DONE: Load map
-		// L12b: Create walkability map on map loading
 			if (map->Load("Cemetery", "Cemetery.tmx") == true)
 			{
 				int w, h;
@@ -269,9 +295,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 			}
 			break;
 		case MapType::HOUSE:
-			// L03: DONE: Load map
-		// L12b: Create walkability map on map loading
-			if (map->Load("Cemetery", "Cemetery.tmx") == true)
+			if (map->Load("House", "house.tmx") == true)
 			{
 				int w, h;
 				uchar* data = NULL;
@@ -282,12 +306,28 @@ bool SceneGameplay::Update(Input* input, float dt)
 			}
 			break;
 		case MapType::MEDIUM_CITY:
+			if (map->Load("MediumCity", "mediumcity.tmx") == true)
+			{
+				int w, h;
+				uchar* data = NULL;
+
+				//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
+
+				RELEASE_ARRAY(data);
+			}
 			break;
 		case MapType::RESTAURANT:
+			if (map->Load("Restaurant", "restaurant.tmx") == true)
+			{
+				int w, h;
+				uchar* data = NULL;
+
+				//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
+
+				RELEASE_ARRAY(data);
+			}
 			break;
 		case MapType::TOWN:
-			// L03: DONE: Load map
-		// L12b: Create walkability map on map loading
 			if (map->Load("Town", "townMap.tmx") == true)
 			{
 				int w, h;
@@ -302,9 +342,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 			break;
 		}
 	}
-	// L02: DONE 3: Request Load / Save when pressing L/S
-	//if (input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) app->LoadGameRequest();
-	//if (input->GetKey(SDL_SCANCODE_S) == KEY_DOWN) app->SaveGameRequest();
+
 	if (input->GetKey(SDL_SCANCODE_E) == KEY_DOWN && battle == false)
 	{
 		if (entityManager->playerList.At(entityManager->playerList.Find(currentPlayer))->next != nullptr)
@@ -318,10 +356,6 @@ bool SceneGameplay::Update(Input* input, float dt)
 			currentPlayer = entityManager->playerList.At(0)->data;
 			currentPlayer->SetState(true);
 		}
-	}
-	if (input->GetKey(SDL_SCANCODE_M) == KEY_DOWN && battle == false)
-	{
-		notifier->NotifyMapChange(MapType::TOWN);
 	}
 
 	if (input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN && battle == false)

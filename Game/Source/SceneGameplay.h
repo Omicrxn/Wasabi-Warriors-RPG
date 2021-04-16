@@ -6,6 +6,7 @@
 #include "Map.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "Teleport.h"
 #include "NPC.h"
 #include "Notifier.h"
 

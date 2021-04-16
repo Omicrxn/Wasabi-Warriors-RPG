@@ -30,6 +30,7 @@ public:
         requestMapChange = false;
         return nextMap;
     }
+    MapType GetNextMap() { return nextMap; }
 
 private:
     Notifier() : battle(false) {}
