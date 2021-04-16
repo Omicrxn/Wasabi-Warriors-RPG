@@ -9,6 +9,12 @@
 #include "Point.h"
 #include "SString.h"
 
+enum class EnemyType 
+{
+    HENCHMAN,
+    BRUISER,
+    BOSS
+};
 class Enemy : public Being
 {
 public:

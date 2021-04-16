@@ -206,6 +206,20 @@ bool SceneGameplay::Update(Input* input, float dt)
 	// L02: DONE 3: Request Load / Save when pressing L/S
 	//if (input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) app->LoadGameRequest();
 	//if (input->GetKey(SDL_SCANCODE_S) == KEY_DOWN) app->SaveGameRequest();
+	if (input->GetKey(SDL_SCANCODE_E) == KEY_DOWN && battle == false)
+	{
+		if (entityManager->playerList.At(entityManager->playerList.Find(currentPlayer))->next != nullptr)
+		{
+			currentPlayer->SetState(false);
+			currentPlayer = entityManager->playerList.At(entityManager->playerList.Find(currentPlayer))->next->data;
+			currentPlayer->SetState(true);
+		}
+		else {
+			currentPlayer->SetState(false);
+			currentPlayer = entityManager->playerList.At(0)->data;
+			currentPlayer->SetState(true);
+		}
+	}
 
 	if (input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN && battle == false)
 	{
