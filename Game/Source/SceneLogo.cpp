@@ -19,9 +19,12 @@ SceneLogo::SceneLogo()
     logoTex = nullptr;
     logo = { 0, 0, 1280, 720 };
 
+    logoFx = -1;
     state = 0;
     timeCounter = 0.0f;
     logoAlpha = 0.0f;
+
+    logoFxTimer.Start();
 }
 
 SceneLogo::~SceneLogo()
@@ -30,8 +33,12 @@ SceneLogo::~SceneLogo()
 
 bool SceneLogo::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, Easing* easing)
 {
-    logoTex = tex->Load("Assets/Textures/Scenes/logo_scene.png");
+    this->audio = audio;
 
+    logoTex = tex->Load("Assets/Textures/Scenes/logo_scene.png");
+    logoFx = audio->LoadFx("Assets/Audio/Fx/back.ogg");
+
+    logoFxTimer.Start();
     return true;
 }
 
@@ -72,6 +79,12 @@ bool SceneLogo::Update(Input* input, float dt)
     if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_A) == KEY_DOWN) 
         TransitionToScene(SceneType::TITLE);
 
+    // Main title FX sounds just at title appearing
+    if (logoFxTimer.ReadSec() >= 0.0f && logoFxTimer.ReadSec() < 0.1f)
+    {
+        audio->PlayFx(logoFx);
+    }
+
     return true;
 }
 
@@ -87,6 +100,6 @@ bool SceneLogo::Draw(Render* render)
 bool SceneLogo::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager)
 {
     tex->UnLoad(logoTex);
-
+    audio->UnloadFx(logoFx);
     return true;
 }

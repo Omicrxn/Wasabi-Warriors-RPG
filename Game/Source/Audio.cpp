@@ -202,3 +202,51 @@ int AudioManager::GetFxVolume()
 {
 	return Mix_VolumeChunk(fx.start->data, -1);
 }
+
+bool AudioManager::MuteMusic() 
+{
+	bool ret = true;
+	//If the music is paused
+	if (Mix_PausedMusic() == 1)
+	{
+		//Resume the music
+		Mix_ResumeMusic();
+	}
+	//If the music is playing
+	else
+	{
+		//Pause the music
+		Mix_PauseMusic();
+	}
+
+
+	return ret;
+}
+
+bool AudioManager::StopMusic() 
+{
+	Mix_FreeMusic(music);
+	music = nullptr;
+	Mix_HaltMusic();
+	return true;
+}
+
+bool AudioManager::UnloadFx(uint index)
+{
+	bool ret = false;
+
+	/*Mix_FreeChunk(fx.At(index - 1)->data);
+	fx.Del(fx.At(index - 1));*/
+
+	ListItem<Mix_Chunk*>* item;
+	for (item = fx.start; item != NULL; item = item->next)
+	{
+		if (fx.At(index) == item)
+		{
+			Mix_FreeChunk(item->data);
+			fx.Del(item);
+		}
+	}
+
+	return ret;
+}

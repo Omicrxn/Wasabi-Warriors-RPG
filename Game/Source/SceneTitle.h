@@ -13,6 +13,7 @@ class Window;
 
 #include "SDL/include/SDL.h"
 #include "Point.h"
+#include "Timer.h"
 
 enum class MenuSelection
 {
@@ -66,6 +67,7 @@ private:
     GuiManager* guiManager;
     Window* win;
     Easing* easing;
+    AudioManager* audio;
 
     SDL_Texture* backgroundTex;
     SDL_Rect backgroundRect;
@@ -84,6 +86,9 @@ private:
 
     // Audio Fx for gui controls
     int hoverFx, clickFx;
+
+    Timer titleFxTimer;
+    int titleFx;
 
     GuiButton* btnStart;
     GuiButton* btnContinue;

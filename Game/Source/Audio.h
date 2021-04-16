@@ -30,6 +30,7 @@ public:
 
 	// Load a WAV in memory
 	unsigned int LoadFx(const char* path);
+	bool UnloadFx(uint index);
 
 	// Play a previously loaded WAV
 	bool PlayFx(unsigned int fx, int repeat = 0);
@@ -41,6 +42,11 @@ public:
 	int GetMusicVolume();
 
 	int GetFxVolume();
+
+	bool MuteMusic();
+
+	bool StopMusic();
+
 
 private:
 

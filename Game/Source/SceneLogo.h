@@ -2,8 +2,10 @@
 #define __SCENELOGO_H__
 
 #include "Scene.h"
+#include "Timer.h"
 
 #include "SDL/include/SDL.h"
+class AudioManager;
 
 class SceneLogo : public Scene
 {
@@ -21,11 +23,17 @@ public:
     bool Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager);
 
 private:
+    AudioManager* audio;
 
     SDL_Texture* logoTex;
     SDL_Rect logo;
 
+    Timer logoFxTimer;
+
+    int logoFx;
     int state;
+
+
     float timeCounter;
     float logoAlpha;
 };

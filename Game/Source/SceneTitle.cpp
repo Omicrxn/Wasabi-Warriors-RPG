@@ -11,8 +11,6 @@
 #include "GuiCheckBox.h"
 
 #include "Font.h"
-#include "Point.h"
-
 #include "Easing.h"
 
 #include "SDL/include/SDL.h"
@@ -40,6 +38,7 @@ SceneTitle::SceneTitle()
 
     hoverFx = -1;
     clickFx = -1;
+    titleFx = -1;
 
     btnStart = nullptr;
     btnContinue = nullptr;
@@ -70,6 +69,7 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
     this->guiManager = guiManager;
     this->win = win;
     this->easing = easing;
+    this->audio = audio;
 
     uint width, height;
     win->GetWindowSize(width, height);
@@ -85,6 +85,7 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
 
     hoverFx = audio->LoadFx("Assets/Audio/Fx/bong.ogg");
     clickFx = audio->LoadFx("Assets/Audio/Fx/click.ogg");
+    titleFx = audio->LoadFx("Assets/Audio/Fx/confirmation.ogg");
 
     /* MENU BUTTONS */
     btnContinue = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 0, { 0, 200, 190, 49 }, "CONTINUE");
@@ -125,10 +126,11 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
 
     HideSettingsButtons();
 
-    audio->PlayMusic("Assets/Audio/Music/menu.ogg", 60.0f);
+    audio->PlayMusic("Assets/Audio/Music/menu.ogg", 40.0f);
 
     titlePosition = { (int)width + mainTitlesRect.w * 2, (int)((float)height / 2) - (int)((float)height / 2.5f) };
  
+    titleFxTimer.Start();
     easing->CreateSpline(&titlePosition.x, width / 2 - mainTitlesRect.w / 2, 4000, SplineType::BACK);
     return true;
 }
@@ -241,6 +243,12 @@ bool SceneTitle::Draw(Render* render)
     uint width, height;
     win->GetWindowSize(width, height);
 
+    // Main title FX sounds just at title appearing
+    if (titleFxTimer.ReadSec() >= 3.0f && titleFxTimer.ReadSec() < 3.1f)
+    {
+        audio->PlayFx(titleFx);
+    }
+
     if (settingsScene == false)
     {
        /* render->DrawText(titleFont, "Wasabi Warriors", width / 2 - width / 2.5f + 3, height / 2 - height / 2.5f + 3, 125, 0, { 105, 105, 105, 255 });
@@ -263,6 +271,10 @@ bool SceneTitle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManag
     tex->UnLoad(backgroundTex);
     tex->UnLoad(guiAtlasTex);
     tex->UnLoad(titlesTex);
+
+    audio->UnloadFx(clickFx);
+    audio->UnloadFx(hoverFx);
+    audio->UnloadFx(titleFx);
 
     RELEASE(titleFont);
     RELEASE(buttonFont);
