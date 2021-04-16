@@ -11,6 +11,9 @@
 #include "GuiCheckBox.h"
 
 #include "Font.h"
+#include "Point.h"
+
+#include "Easing.h"
 
 #include "SDL/include/SDL.h"
 
@@ -28,6 +31,8 @@ SceneTitle::SceneTitle()
 
     guiAtlasTex = nullptr;
 
+    mainTitlesRect = { 0, 0, 1073, 73 };
+    settingsTitleRect = { 0, 149, 530, 81 };
     settingsBackgroundRect = { 1228, 295, 300, 200 };
 
     titleFont = nullptr;
@@ -60,10 +65,11 @@ SceneTitle::~SceneTitle()
 {
 }
 
-bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager)
+bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, Easing* easing)
 {
     this->guiManager = guiManager;
     this->win = win;
+    this->easing = easing;
 
     uint width, height;
     win->GetWindowSize(width, height);
@@ -72,6 +78,7 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
     backgroundRect = { 0, 0, 1280, 720 };
 
     guiAtlasTex = tex->Load("Assets/Textures/UI/Elements/ui_spritesheet.png");
+    titlesTex = tex->Load("Assets/Textures/Scenes/titles.png");
 
     titleFont = new Font("Assets/Fonts/shojumaru.xml", tex);
     buttonFont = new Font("Assets/Fonts/showg.xml", tex);
@@ -80,20 +87,25 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
     clickFx = audio->LoadFx("Assets/Audio/Fx/click.ogg");
 
     /* MENU BUTTONS */
-    btnContinue = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 0, { (int)width / 2 - (int)((float)width / 12), 200, 190, 49 }, "CONTINUE");
+    btnContinue = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 0, { 0, 200, 190, 49 }, "CONTINUE");
     btnContinue->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::WHITE);
+    easing->CreateSpline(&btnContinue->bounds.x, (int)width / 2 - (int)((float)width / 12), 4000, SplineType::EXPO);
 
-    btnStart = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, { (int)width / 2 - (int)((float)width / 12), 300, 190, 49 }, "START");
+    btnStart = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, { 0, 300, 190, 49 }, "START");
     btnStart->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::WHITE);
+    easing->CreateSpline(&btnStart->bounds.x, (int)width / 2 - (int)((float)width / 12), 4000, SplineType::EXPO);
 
-    btnOptions = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 2, { (int)width / 2 - (int)((float)width / 12), 400, 190, 49 }, "OPTIONS");
+    btnOptions = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 2, { 0, 400, 190, 49 }, "OPTIONS");
     btnOptions->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::WHITE);
+    easing->CreateSpline(&btnOptions->bounds.x, (int)width / 2 - (int)((float)width / 12), 4000, SplineType::EXPO);
 
-    btnCredits = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 3, { (int)width / 2 - (int)((float)width / 12), 500, 190, 49 }, "CREDITS");
+    btnCredits = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 3, { 0, 500, 190, 49 }, "CREDITS");
     btnCredits->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::WHITE);
+    easing->CreateSpline(&btnCredits->bounds.x, (int)width / 2 - (int)((float)width / 12), 4000, SplineType::EXPO);
 
-    btnExit = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 4, { (int)width / 2 - (int)((float)width / 12), 600, 190, 49 }, "EXIT");
+    btnExit = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 4, { 0, 600, 190, 49 }, "EXIT");
     btnExit->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::WHITE);
+    easing->CreateSpline(&btnExit->bounds.x, (int)width / 2 - (int)((float)width / 12), 4000, SplineType::EXPO);
 
     /* SETTINGS BUTTONS */
     checkFullScreen = (GuiCheckBox*)guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 5, { (int)width / 2 - (int)((float)width / 3.5f) - 20, 194, 45, 49 }, "FULLSCREEN");
@@ -113,8 +125,11 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
 
     HideSettingsButtons();
 
-    audio->PlayMusic("Assets/Audio/Music/menu.ogg");
+    audio->PlayMusic("Assets/Audio/Music/menu.ogg", 60.0f);
 
+    titlePosition = { (int)width + mainTitlesRect.w * 2, (int)((float)height / 2) - (int)((float)height / 2.5f) };
+ 
+    easing->CreateSpline(&titlePosition.x, width / 2 - mainTitlesRect.w / 2, 4000, SplineType::BACK);
     return true;
 }
 
@@ -228,8 +243,10 @@ bool SceneTitle::Draw(Render* render)
 
     if (settingsScene == false)
     {
-        render->DrawText(titleFont, "Wasabi Warriors", width / 2 - width / 2.5f + 3, height / 2 - height / 2.5f + 3, 125, 0, { 105, 105, 105, 255 });
-        render->DrawText(titleFont, "Wasabi Warriors", width / 2 - width / 2.5f, height / 2 - height / 2.5f, 125, 0, { 255, 255, 255, 255 });
+       /* render->DrawText(titleFont, "Wasabi Warriors", width / 2 - width / 2.5f + 3, height / 2 - height / 2.5f + 3, 125, 0, { 105, 105, 105, 255 });
+        render->DrawText(titleFont, "Wasabi Warriors", width / 2 - width / 2.5f, height / 2 - height / 2.5f, 125, 0, { 255, 255, 255, 255 });*/
+        /*render->DrawTexture(titlesTex, width / 2 - mainTitlesRect.w / 2, height / 2 - height / 2.5f, &mainTitlesRect, 0.0f);*/
+        render->DrawTexture(titlesTex, titlePosition.x, titlePosition.y, &mainTitlesRect, 0.0f);
     }
     else
     {
@@ -245,6 +262,7 @@ bool SceneTitle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManag
 {
     tex->UnLoad(backgroundTex);
     tex->UnLoad(guiAtlasTex);
+    tex->UnLoad(titlesTex);
 
     RELEASE(titleFont);
     RELEASE(buttonFont);

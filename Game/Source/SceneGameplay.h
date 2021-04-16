@@ -32,7 +32,7 @@ public:
     SceneGameplay();
     virtual ~SceneGameplay();
 
-    bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, DialogSystem* dialogSystem);
+    bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, DialogSystem* dialogSystem, Easing* easing);
 
     bool Update(Input* input, float dt);
 

@@ -24,6 +24,7 @@ class GuiManager;
 class Collisions;
 class Fonts;
 class DialogSystem;
+class Easing;
 
 class App
 {
@@ -99,6 +100,7 @@ public:
 	Collisions* collisions;
 	Fonts* fonts;
 	DialogSystem* dialogSystem;
+	Easing* easing;
 
 private:
 

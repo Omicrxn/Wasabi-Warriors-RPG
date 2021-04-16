@@ -3,6 +3,7 @@
 #include "Render.h"
 
 #include "SDL/include/SDL.h"
+#include "Easing.h"
 
 SceneEnding::SceneEnding()
 {
@@ -13,7 +14,7 @@ SceneEnding::~SceneEnding()
 {
 }
 
-bool SceneEnding::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager)
+bool SceneEnding::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, Easing* easing)
 {
     return false;
 }

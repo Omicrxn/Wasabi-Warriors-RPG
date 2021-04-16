@@ -6,6 +6,7 @@
 #include "Window.h"
 
 #include "GuiManager.h"
+#include "Easing.h"
 
 #define LOGO_FADE_SPEED 1.0f
 
@@ -27,7 +28,7 @@ SceneLogo::~SceneLogo()
 {
 }
 
-bool SceneLogo::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager)
+bool SceneLogo::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, Easing* easing)
 {
     logoTex = tex->Load("Assets/Textures/Scenes/logo_scene.png");
 

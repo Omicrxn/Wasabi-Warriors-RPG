@@ -10,7 +10,7 @@ public:
     SceneEnding();
     virtual ~SceneEnding();
 
-    bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager);
+    bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, Easing* easing);
 
     bool Update(Input* input, float dt);
 

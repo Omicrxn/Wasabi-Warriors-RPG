@@ -90,6 +90,7 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 		player->position.x = playerNode.attribute("posX").as_int();
 		player->position.y = playerNode.attribute("posY").as_int();
 		player->renderable = playerNode.attribute("renderable").as_bool();
+		player->SetState(playerNode.attribute("isActive").as_bool());
 
 		player->stats.level = playerNode.attribute("level").as_int();
 		player->stats.damage = playerNode.attribute("damage").as_int();

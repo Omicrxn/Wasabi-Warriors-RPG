@@ -7,6 +7,7 @@
 #include "Window.h"
 #include "DialogSystem.h"
 #include "Notifier.h"
+#include "Easing.h"
 
 SceneGameplay::SceneGameplay()
 {
@@ -75,7 +76,7 @@ SceneGameplay::~SceneGameplay()
 {
 }
 
-bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, DialogSystem* dialogSystem)
+bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, DialogSystem* dialogSystem, Easing* easing)
 {
 	notifier = Notifier::GetInstance();
 

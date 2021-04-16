@@ -11,6 +11,7 @@
 #include "Collisions.h"
 #include "Fonts.h"
 #include "DialogSystem.h"
+#include "Easing.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -37,8 +38,9 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	guiManager = new GuiManager(input, render, tex, audio);
 	fonts = new Fonts(render, tex);
 	dialogSystem = new DialogSystem(input, render, fonts);
-	sceneManager = new SceneManager(input, render, tex, win, audio, entityManager, guiManager, dialogSystem);
-
+	easing = new Easing();
+	sceneManager = new SceneManager(input, render, tex, win, audio, entityManager, guiManager, dialogSystem, easing);
+	
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -52,6 +54,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(collisions);
 	AddModule(fonts);
 	AddModule(dialogSystem);
+	AddModule(easing);
 
 	// Render last to swap buffer
 	AddModule(render);

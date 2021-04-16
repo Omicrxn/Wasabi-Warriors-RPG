@@ -12,6 +12,7 @@ class Font;
 class Window;
 
 #include "SDL/include/SDL.h"
+#include "Point.h"
 
 enum class MenuSelection
 {
@@ -39,7 +40,7 @@ public:
     SceneTitle();
     virtual ~SceneTitle();
 
-    bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager);
+    bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, Easing* easing);
 
     bool Update(Input* input, float dt);
 
@@ -64,13 +65,19 @@ private:
 
     GuiManager* guiManager;
     Window* win;
+    Easing* easing;
 
     SDL_Texture* backgroundTex;
     SDL_Rect backgroundRect;
 
     SDL_Texture* guiAtlasTex;
+    SDL_Texture* titlesTex;
 
+    SDL_Rect mainTitlesRect;
+    SDL_Rect settingsTitleRect;
     SDL_Rect settingsBackgroundRect;
+
+    iPoint titlePosition;
 
     Font* titleFont;
     Font* buttonFont;

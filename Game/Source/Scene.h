@@ -12,6 +12,7 @@ class EntityManager;
 class GuiManager;
 class Window;
 class DialogSystem;
+class Easing;
 
 class GuiControl;
 
@@ -30,11 +31,11 @@ public:
 
     Scene() : active(true), loaded(false), transitionRequired(false) {}
 
-    virtual bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager)
+    virtual bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, Easing* easing)
     {
         return true;
     }
-    virtual bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityman, DialogSystem* dialogSystem)
+    virtual bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityman, DialogSystem* dialogSystem, Easing* easing)
     {
         return true;
     }

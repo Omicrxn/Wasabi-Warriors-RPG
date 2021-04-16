@@ -92,6 +92,7 @@
   <ItemGroup>
     <ClCompile Include="Source\BattleSystem.cpp" />
     <ClCompile Include="Source\DialogSystem.cpp" />
+    <ClCompile Include="Source\Easing.cpp" />
     <ClCompile Include="Source\Enemy.cpp" />
     <ClCompile Include="Source\EntityManager.cpp" />
     <ClCompile Include="Source\Font.cpp" />
@@ -126,6 +127,7 @@
     <ClInclude Include="Source\Callbacks.h" />
     <ClInclude Include="Source\DialogNode.h" />
     <ClInclude Include="Source\DialogSystem.h" />
+    <ClInclude Include="Source\Easing.h" />
     <ClInclude Include="Source\Enemy.h" />
     <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\EntityManager.h" />

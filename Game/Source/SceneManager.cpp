@@ -13,6 +13,7 @@
 #include "EntityManager.h"
 #include "GuiManager.h"
 #include "DialogSystem.h"
+#include "Easing.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -22,7 +23,7 @@
 #define FADEOUT_TRANSITION_SPEED	2.0f
 #define FADEIN_TRANSITION_SPEED		2.0f
 
-SceneManager::SceneManager(Input* input, Render* render, Textures* tex, Window* win, AudioManager* audio, EntityManager* entityman, GuiManager* guiManager, DialogSystem* dialogSystem) : Module()
+SceneManager::SceneManager(Input* input, Render* render, Textures* tex, Window* win, AudioManager* audio, EntityManager* entityman, GuiManager* guiManager, DialogSystem* dialogSystem, Easing* easing) : Module()
 {
 	name.Create("scenemanager");
 
@@ -38,6 +39,7 @@ SceneManager::SceneManager(Input* input, Render* render, Textures* tex, Window* 
 	this->entityman = entityman;
 	this->guiManager = guiManager;
 	this->dialogSystem = dialogSystem;
+	this->easing = easing;
 }
 
 // Destructor
@@ -59,11 +61,11 @@ bool SceneManager::Start()
 	current = new SceneLogo();
 	if (current->type == SceneType::GAMEPLAY)
 	{
-		current->Load(tex, win, audio, guiManager, entityman, dialogSystem);
+		current->Load(tex, win, audio, guiManager, entityman, dialogSystem, easing);
 	}
 	else 
 	{
-		current->Load(tex, win, audio, guiManager);
+		current->Load(tex, win, audio, guiManager, easing);
 	}
 
 	next = nullptr;
@@ -99,11 +101,11 @@ bool SceneManager::Update(float dt)
 				current->Unload(tex, audio, guiManager); // Unload current screen
 				if (next->type == SceneType::GAMEPLAY)
 				{
-					next->Load(tex, win, audio, guiManager, entityman, dialogSystem);	// Load next screen
+					next->Load(tex, win, audio, guiManager, entityman, dialogSystem, easing);	// Load next screen
 				}
 				else
 				{
-					next->Load(tex, win, audio, guiManager); // Load next screen
+					next->Load(tex, win, audio, guiManager, easing); // Load next screen
 				}
 
 				RELEASE(current); // Free current pointer
