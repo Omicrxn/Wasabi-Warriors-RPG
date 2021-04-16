@@ -203,6 +203,7 @@ bool Map::CleanUp()
 
 	while (item != NULL)
 	{
+		if (item->data->texture != nullptr) tex->UnLoad(item->data->texture);
 		RELEASE(item->data);
 		item = item->next;
 	}
