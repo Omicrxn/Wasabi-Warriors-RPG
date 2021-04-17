@@ -6,19 +6,21 @@
 	<audio />
 	<scene />
 	<renderer>
-		<camera x="830" y="310" />
+		<camera x="512" y="496" />
 	</renderer>
 	<entitymanager>
-		<entitiesCount Num="5" />
+		<entitiesCount Num="8" />
 		<playerList playerCount="2">
-			<player id="0" name="DaBaby" posX="490" posY="210" isActive="true" isRenderable="false" level="1" damage="20" maxHP="120" currentHP="100" strength="10" defense="15" attackSpeed="5" criticalRate="10" statsName="" />
-			<player id="0" name="DaCrack" posX="490" posY="210" isActive="false" isRenderable="false" level="1" damage="20" maxHP="120" currentHP="100" strength="10" defense="15" attackSpeed="5" criticalRate="10" statsName="" />
+			<player id="0" name="DaBaby" posX="384" posY="272" isActive="true" isRenderable="false" level="1" damage="20" maxHP="120" currentHP="100" strength="10" defense="15" attackSpeed="5" criticalRate="10" statsName="" />
+			<player id="0" name="DaCrack" posX="384" posY="272" isActive="false" isRenderable="false" level="1" damage="15" maxHP="150" currentHP="120" strength="7" defense="10" attackSpeed="15" criticalRate="15" statsName="" />
 		</playerList>
 		<enemyList enemyCount="1">
 			<enemy id="0" name="DaBoss" posX="320" posY="192" isActive="true" isRenderable="false" level="1" damage="10" maxHP="120" currentHP="100" strength="10" defense="10" attackSpeed="5" criticalRate="5" statsName="" />
 		</enemyList>
-		<npcList npcCount="1">
-			<npc id="0" name="" posX="367" posY="172" isActive="true" isRenderable="false" />
+		<npcList npcCount="3">
+			<npc id="0" name="" posX="256" posY="205" isActive="true" isRenderable="false" />
+			<npc id="0" name="" posX="320" posY="294" isActive="true" isRenderable="false" />
+			<npc id="0" name="" posX="531" posY="275" isActive="true" isRenderable="false" />
 		</npcList>
 	</entitymanager>
 </game_state>

@@ -22,6 +22,7 @@ EntityManager::EntityManager(Input* input, Render* render, Textures* tex, Collis
 	this->tex = tex;
 	this->input = input;
 	this->collisions = collisions;
+	texture = nullptr;
 }
 
 // Destructor
@@ -89,6 +90,8 @@ Entity* EntityManager::CreateEntity(EntityType type, SString name)
 
 	// Created entities are added to the list
 	if (ret != nullptr) entityList.Add(ret);
+
+	ret->SetTexture(this->texture);
 
 	return ret;
 }

@@ -15,6 +15,7 @@ class NPC;
 class Entity;
 enum class EntityType;
 class Collisions;
+class SDL_Texture;
 
 class EntityManager : public Module
 {
@@ -62,6 +63,7 @@ public:
 	List<Enemy*> enemyList;
 	List<NPC*> npcList;
 	List<Teleport*> teleportList;
+	SDL_Texture* texture;
 
 	float accumulatedTime = 0.0f;
 	float updateMsCycle = 0.0f;

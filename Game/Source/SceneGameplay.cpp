@@ -157,6 +157,7 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	// Load texture
 	spritesheet = tex->Load("Assets/Textures/Characters/characters_spritesheet.png");
 	titlesTex = tex->Load("Assets/Textures/Scenes/titles.png");
+	entityManager->texture = spritesheet;
 
 	// Create party member 1
 	Player* player;
