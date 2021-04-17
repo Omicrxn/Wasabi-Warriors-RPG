@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "Notifier.h"
 
 #include "Log.h"
 
@@ -31,14 +32,22 @@ Player::Player(Textures* tex, Collisions* collisions, EntityManager* entityManag
     width = 32;
     height = 32;
 
-    collider = collisions->AddCollider({ position.x + 86,position.y + 43,width,height }, Collider::Type::PLAYER, (Module*)entityManager);
+    collider = collisions->AddCollider({ position.x,position.y ,width,height }, Collider::Type::PLAYER, (Module*)entityManager);
 }
 
 bool Player::Update(Input* input, float dt)
 {
     Walk(direction, dt);
-    direction.x = input->GetAxisRaw(AxisName::HORIZONTAL);
-    direction.y = input->GetAxisRaw(AxisName::VERTICAL);
+    if(!Notifier::GetInstance()->OnDialog() && !Notifier::GetInstance()->GetBattle())
+    { 
+        direction.x = input->GetAxisRaw(AxisName::HORIZONTAL);
+        direction.y = input->GetAxisRaw(AxisName::VERTICAL);
+    }
+    else
+    {
+        direction = { 0,0 };
+    }
+
    
     if (direction.x > 0)
     {

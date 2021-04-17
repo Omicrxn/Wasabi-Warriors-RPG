@@ -205,6 +205,11 @@ void DialogSystem::StartDialog(const char* id)
 	NextDialog();
 }
 
+bool DialogSystem::DialogHasFinished()
+{
+	return currentDialog == nullptr ? true : false;
+}
+
 void DialogSystem::NextDialog()
 {
 	/* Start TODO 4 */

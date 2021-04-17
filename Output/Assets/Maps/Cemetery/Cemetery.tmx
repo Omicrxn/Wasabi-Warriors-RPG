@@ -13,6 +13,9 @@
  <tileset firstgid="385" name="Collision" tilewidth="32" tileheight="32" tilecount="1" columns="1">
   <image source="../Collision.png" width="32" height="32"/>
  </tileset>
+ <tileset firstgid="386" name="Collision" tilewidth="32" tileheight="32" tilecount="1" columns="1">
+  <image source="../Collision.png" width="32" height="32"/>
+ </tileset>
  <layer id="1" name="Ground" width="24" height="15">
   <data>
    <tile gid="145"/>

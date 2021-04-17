@@ -44,6 +44,8 @@ public:
 
 	void NextDialog();
 
+	bool DialogHasFinished();
+
 	void NewDialog();
 
 private:

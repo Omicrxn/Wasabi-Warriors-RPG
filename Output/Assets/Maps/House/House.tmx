@@ -7,10 +7,14 @@
  <tileset firstgid="1" name="TilemapDay" tilewidth="32" tileheight="32" tilecount="304" columns="19">
   <image source="TilemapDay.png" width="608" height="512"/>
  </tileset>
- <tileset firstgid="305" source="../Collision.tsx"/>
  <tileset firstgid="305" name="Collision" tilewidth="32" tileheight="32" tilecount="1" columns="1">
   <image source="../Collision.png" width="32" height="32"/>
  </tileset>
+ <tileset firstgid="306" name="Collision" tilewidth="32" tileheight="32" tilecount="0" columns="0"/>
+ <tileset firstgid="306" name="Collision" tilewidth="32" tileheight="32" tilecount="1" columns="1">
+  <image source="../Collision.png" width="32" height="32"/>
+ </tileset>
+
  <layer id="4" name="floor" width="11" height="10">
   <data>
    <tile gid="238"/>

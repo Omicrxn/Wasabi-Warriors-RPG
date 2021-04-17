@@ -73,7 +73,7 @@ Entity* EntityManager::CreateEntity(EntityType type, SString name)
 		ret = new Map(tex);
 		break;
 	case EntityType::NPC:
-		ret = new NPC();
+		ret = new NPC(collisions,this);
 		ret->type = EntityType::NPC;
 		ret->name = name;
 		npcList.Add((NPC*)ret);

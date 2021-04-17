@@ -27,7 +27,7 @@ Enemy::Enemy(Collisions* collisions, EntityManager* entityManager) : Being()
 	this->stats.attackSpeed = 5;
 	this->stats.criticalRate = 5;*/
 
-    collider = collisions->AddCollider({ position.x + 86,position.y + 43,width,height }, Collider::Type::ENEMY, (Module*)entityManager);
+    collider = collisions->AddCollider({ position.x,position.y,width,height }, Collider::Type::ENEMY, (Module*)entityManager);
     active = true;
 
     readyForCombat = true;

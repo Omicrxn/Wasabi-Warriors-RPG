@@ -393,7 +393,11 @@ bool SceneGameplay::Update(Input* input, float dt)
 		focusedButtonId = 6;
 	}
 
-	if (input->GetKey(SDL_SCANCODE_C) == KEY_DOWN)
+	if (dialogSystem->DialogHasFinished())
+	{
+		notifier->SetDialogMode(false);
+	}
+	else if (notifier->OnDialog())
 	{
 		dialogSystem->NewDialog();
 	}

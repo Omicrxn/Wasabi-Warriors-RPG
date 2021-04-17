@@ -5,7 +5,7 @@ Teleport::Teleport(Collisions* collisions, EntityManager* entityManager)
 	position = iPoint(10 * 16, 27 * 16);
 	width = 32;
 	height = 32;
-	collider = collisions->AddCollider({ position.x + 86,position.y + 43,width,height }, Collider::Type::TELEPORT, (Module*)entityManager);
+	collider = collisions->AddCollider({ position.x ,position.y,width,height }, Collider::Type::TELEPORT, (Module*)entityManager);
 	active = true;
 }
 

@@ -10,10 +10,14 @@
  <tileset firstgid="271" name="blackrest" tilewidth="32" tileheight="32" tilecount="192" columns="16">
   <image source="blackRest.png" width="512" height="384"/>
  </tileset>
- <tileset firstgid="463" source="../Collision.tsx"/>
+
  <tileset firstgid="463" name="Collision" tilewidth="32" tileheight="32" tilecount="1" columns="1">
   <image source="../Collision.png" width="32" height="32"/>
  </tileset>
+ <tileset firstgid="464" name="Collision" tilewidth="32" tileheight="32" tilecount="1" columns="1">
+  <image source="../Collision.png" width="32" height="32"/>
+ </tileset>
+
  <layer id="1" name="Capa de patrones 1" width="11" height="15">
   <data>
    <tile gid="1610612747"/>
