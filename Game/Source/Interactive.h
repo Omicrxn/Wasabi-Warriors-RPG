@@ -9,6 +9,7 @@ class Interactive : public Entity
 public:
 
 	Interactive() : Entity(EntityType::UNKNOWN) {}
+	~Interactive(){}
 
 protected:
 

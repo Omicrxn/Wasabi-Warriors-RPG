@@ -102,11 +102,6 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 	ListItem<Entity*>* list1;
 	for (list1 = entityList.start; list1 != NULL; list1 = list1->next)
 	{
-		// Delete all entities except the map
-		if (list1->data->type != EntityType::MAP)
-		{
-			DestroyEntity(list1->data);
-		}
 
 		// Also delete them from their own lists
 		if (list1->data->type == EntityType::PLAYER)
@@ -125,8 +120,14 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 		{
 			teleportList.Del(teleportList.At(teleportList.Find((Teleport*)list1->data)));
 		}
-	}
+		// Delete all entities except the map
+		if (list1->data->type != EntityType::MAP)
+		{
+			DestroyEntity(list1->data);
+		}
 
+	}
+	RELEASE(list1);
 	/* ---------- SECOND LOAD PLAYERS FROM THE SAVE FILE ----------*/
 	pugi::xml_node playerListNode;
 	playerListNode = data.child("playerList");
@@ -530,6 +531,7 @@ bool EntityManager::SaveState(pugi::xml_node& data) const
 void EntityManager::DestroyEntity(Entity* entity)
 {
 	entityList.Del(entityList.At(entityList.Find(entity)));
+	RELEASE(entity);
 
 	/*for (int i = 0; i < entityList.Count(); i++)
 	{
