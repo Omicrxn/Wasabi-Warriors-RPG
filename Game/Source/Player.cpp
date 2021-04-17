@@ -33,6 +33,7 @@ Player::Player(Textures* tex, Collisions* collisions, EntityManager* entityManag
     height = 32;
 
     collider = collisions->AddCollider({ position.x,position.y ,width,height }, Collider::Type::PLAYER, (Module*)entityManager);
+    isGod = false;
 }
 
 Player::~Player()

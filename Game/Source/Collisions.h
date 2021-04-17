@@ -89,6 +89,7 @@ private:
 	// Simple debugging flag to draw all colliders
 	bool debug = false;
 	
+	bool godMode = false;
 	// The amount of colliders loaded into the array
 	uint colliderCount = 0;
 

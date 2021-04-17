@@ -607,3 +607,11 @@ void EntityManager::OnCollision(Collider* c1, Collider* c2)
 		}
 	}
 }
+
+void EntityManager::TooglePlayerGodMode()
+{
+	for (int i = 0; i < playerList.Count(); i++)
+	{
+		playerList.At(i)->data->isGod = !playerList.At(i)->data->isGod;
+	}
+}

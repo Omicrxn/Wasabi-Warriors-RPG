@@ -20,6 +20,7 @@ enum class SceneType
 {
     LOGO,
     TITLE,
+    GAMEPLAY_LOAD,
     GAMEPLAY,
     ENDING,
     BATTLE
@@ -35,7 +36,7 @@ public:
     {
         return true;
     }
-    virtual bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityman, DialogSystem* dialogSystem, Easing* easing)
+    virtual bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityman, DialogSystem* dialogSystem, Easing* easing, bool isContinue = false)
     {
         return true;
     }

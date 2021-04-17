@@ -61,6 +61,9 @@ bool Collisions::PreUpdate()
 	Collider* c1;
 	Collider* c2;
 
+	if (godMode)
+		return true;
+
 	for (uint i = 0; i < MAX_COLLIDERS; ++i) {
 		// Skip empty colliders
 		if (colliders[i] == nullptr)
@@ -92,6 +95,8 @@ bool Collisions::PreUpdate()
 bool Collisions::Update(float dt) {
 	if (input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
 		debug = !debug;
+	if (input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
+		godMode = !godMode;
 
 	return true;
 }

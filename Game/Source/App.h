@@ -26,6 +26,7 @@ class Fonts;
 class DialogSystem;
 class Easing;
 
+
 class App
 {
 public:
@@ -134,5 +135,7 @@ private:
 
 	int	cappedMs = -1;
 };
+
+
 
 #endif	// __APP_H__

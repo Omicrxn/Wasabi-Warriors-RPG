@@ -175,7 +175,7 @@ void BattleSystem::EnemyTurn()
 			enemyState = EnemyState::ATTACK;
 
 			// Substract life points to the player
-			if (turnCounter == 0)
+			if (turnCounter == 0 && currentPlayer->isGod == false) // Player won't lose health if godmode is true
 				currentPlayer->stats.currentHP -= enemy->stats.damage;
 		}
 		else

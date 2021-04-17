@@ -61,7 +61,11 @@ bool SceneManager::Start()
 	current = new SceneLogo();
 	if (current->type == SceneType::GAMEPLAY)
 	{
-		current->Load(tex, win, audio, guiManager, entityman, dialogSystem, easing);
+		current->Load(tex, win, audio, guiManager, entityman, dialogSystem, easing, false);
+	}
+	else if (current->type == SceneType::GAMEPLAY_LOAD)
+	{
+		current->Load(tex, win, audio, guiManager, entityman, dialogSystem, easing, true);
 	}
 	else 
 	{
@@ -101,7 +105,11 @@ bool SceneManager::Update(float dt)
 				current->Unload(tex, audio, guiManager); // Unload current screen
 				if (next->type == SceneType::GAMEPLAY)
 				{
-					next->Load(tex, win, audio, guiManager, entityman, dialogSystem, easing);	// Load next screen
+					next->Load(tex, win, audio, guiManager, entityman, dialogSystem, easing, false);	// Load next screen
+				}
+				else if (current->type == SceneType::GAMEPLAY_LOAD)
+				{
+					current->Load(tex, win, audio, guiManager, entityman, dialogSystem, easing, true);
 				}
 				else
 				{

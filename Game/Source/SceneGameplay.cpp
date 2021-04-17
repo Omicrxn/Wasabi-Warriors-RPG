@@ -12,6 +12,7 @@
 #include "GuiButton.h"
 #include "GuiIcon.h"
 
+
 SceneGameplay::SceneGameplay()
 {
 	type = SceneType::GAMEPLAY;
@@ -80,7 +81,7 @@ SceneGameplay::~SceneGameplay()
 {
 }
 
-bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, DialogSystem* dialogSystem, Easing* easing)
+bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, DialogSystem* dialogSystem, Easing* easing, bool isContinue)
 {
 	audio->StopMusic();
 
@@ -95,128 +96,11 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 
 	map = (Map*)entityManager->CreateEntity(EntityType::MAP, "Map");
 
-	// Create map
-	switch (currentMap)
-	{
-	case MapType::CEMETERY:
-		if (map->Load("Cemetery", "Cemetery.tmx") == true)
-		{
-			int w, h;
-			uchar* data = NULL;
-
-			//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
-
-			RELEASE_ARRAY(data);
-			audio->PlayMusic("Assets/Audio/Music/cemetry.ogg");
-		}
-		break;
-		
-	case MapType::HOUSE:
-		if (map->Load("House", "house.tmx") == true)
-		{
-			int w, h;
-			uchar* data = NULL;
-
-			//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
-
-			RELEASE_ARRAY(data);
-			audio->PlayMusic("Assets/Audio/Music/house.ogg");
-		}
-		break;
-	case MapType::MEDIUM_CITY:
-		if (map->Load("MediumCity", "mediumcity.tmx") == true)
-		{
-			int w, h;
-			uchar* data = NULL;
-
-			//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
-
-			RELEASE_ARRAY(data);
-			audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
-		}
-		break;
-	case MapType::RESTAURANT:
-		if (map->Load("Restaurant", "restaurant.tmx") == true)
-		{
-			int w, h;
-			uchar* data = NULL;
-
-			//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
-
-			RELEASE_ARRAY(data);
-			audio->PlayMusic("Assets/Audio/Music/restaurant.ogg");
-		}
-		break;
-	case MapType::TOWN:
-		if (map->Load("Town", "townMap.tmx") == true)
-		{
-			int w, h;
-			uchar* data = NULL;
-
-			//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
-
-			RELEASE_ARRAY(data);
-			audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
-		}
-		break;
-	default:
-		break;
-	}
-
 	// Load texture
 	spritesheet = tex->Load("Assets/Textures/Characters/characters_spritesheet.png");
 	titlesTex = tex->Load("Assets/Textures/Scenes/titles.png");
 	entityManager->texture = spritesheet;
 
-	// Create party member 1
-	Player* player;
-	player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "DaBaby");
-	player->position = iPoint(12 * 32, 6 * 32);
-	player->SetTexture(spritesheet, 3);
-	player->SetState(true);
-	player->SetUpClass("hunter");
-	player = nullptr;
-	currentPlayer = entityManager->playerList.At(0)->data;
-	// Create party member 2
-	player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "DaCrack");
-	player->position = iPoint(12 * 32, 6 * 32);
-	player->SetTexture(spritesheet, 6);
-	player->SetUpClass("wizard");
-	player = nullptr;
-	RELEASE(player);
-	// Create enemy 1
-	Enemy* enemy;
-	enemy = (Enemy*)entityManager->CreateEntity(EntityType::ENEMY, "DaBoss");
-	enemy->position = iPoint(10 * 32, 6 * 32);
-	enemy->SetTexture(spritesheet, 5);
-	enemy->SetUpClass("henchman");
-	enemy = nullptr;
-	RELEASE(enemy);
-	// Create NPC
-	NPC* npc;
-	npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, "DaBot");
-	npc->position = iPoint(8 * 32, 8 * 32);
-	npc->SetTexture(spritesheet, 4);
-	npc = nullptr;
-	// Create NPC 2
-	npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, "DaBot2");
-	npc->position = iPoint(10 * 32, 6 * 32);
-	npc->SetTexture(spritesheet, 8);
-	npc = nullptr;
-	// Create NPC 3
-	npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, "DaBot3");
-	npc->position = iPoint(15 * 32, 7 * 32);
-	npc->SetTexture(spritesheet, 7);
-	npc = nullptr;
-	RELEASE(npc);
-
-	// Create Teleport
-	Teleport* teleport;
-	teleport = (Teleport*)entityManager->CreateEntity(EntityType::TELEPORT, "DaTransfer");
-	teleport->position = iPoint(12 * 32, 10 * 32);
-	entityManager->teleportList.At(entityManager->teleportList.Find(teleport))->data->SetUpDestination(MapType::TOWN);
-	teleport = nullptr;
-	RELEASE(teleport);
 
 	// Load battle system textures
 	backgroundTex = tex->Load("Assets/Textures/Scenes/battle_scene.jpg");
@@ -278,9 +162,139 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	//btnNone = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 5, { 700, 500, 190, 49 }, "NONE");
 	//btnNone->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, ButtonColour::WHITE);
 	//btnNone->state = GuiControlState::HIDDEN;
-	
-	
 
+	if (isContinue)
+	{
+		// LOAD FROM THE SAVE FILE
+
+		
+	}
+	else
+	{
+		// START A NEW GAME
+		// Create map
+		switch (currentMap)
+		{
+		case MapType::CEMETERY:
+			if (map->Load("Cemetery", "Cemetery.tmx") == true)
+			{
+				int w, h;
+				uchar* data = NULL;
+
+				//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
+
+				RELEASE_ARRAY(data);
+				audio->PlayMusic("Assets/Audio/Music/cemetery.ogg");
+			}
+			break;
+
+		case MapType::HOUSE:
+			if (map->Load("House", "house.tmx") == true)
+			{
+				int w, h;
+				uchar* data = NULL;
+
+				//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
+
+				RELEASE_ARRAY(data);
+				audio->PlayMusic("Assets/Audio/Music/house.ogg");
+			}
+			break;
+		case MapType::MEDIUM_CITY:
+			if (map->Load("MediumCity", "mediumcity.tmx") == true)
+			{
+				int w, h;
+				uchar* data = NULL;
+
+				//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
+
+				RELEASE_ARRAY(data);
+				audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
+			}
+			break;
+		case MapType::RESTAURANT:
+			if (map->Load("Restaurant", "restaurant.tmx") == true)
+			{
+				int w, h;
+				uchar* data = NULL;
+
+				//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
+
+				RELEASE_ARRAY(data);
+				audio->PlayMusic("Assets/Audio/Music/restaurant.ogg");
+			}
+			break;
+		case MapType::TOWN:
+			if (map->Load("Town", "townMap.tmx") == true)
+			{
+				int w, h;
+				uchar* data = NULL;
+
+				//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
+
+				RELEASE_ARRAY(data);
+				audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
+			}
+			break;
+		default:
+			break;
+		}
+
+
+
+		// Create party member 1
+		Player* player;
+		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "DaBaby");
+		player->position = iPoint(12 * 32, 6 * 32);
+		player->SetTexture(spritesheet, 3);
+		player->SetState(true);
+		player->SetUpClass("hunter");
+		player = nullptr;
+		currentPlayer = entityManager->playerList.At(0)->data;
+		// Create party member 2
+		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "DaCrack");
+		player->position = iPoint(12 * 32, 6 * 32);
+		player->SetTexture(spritesheet, 6);
+		player->SetUpClass("wizard");
+		player = nullptr;
+		RELEASE(player);
+		// Create enemy 1
+		Enemy* enemy;
+		enemy = (Enemy*)entityManager->CreateEntity(EntityType::ENEMY, "DaBoss");
+		enemy->position = iPoint(10 * 32, 6 * 32);
+		enemy->SetTexture(spritesheet, 5);
+		enemy->SetUpClass("henchman");
+		enemy = nullptr;
+		RELEASE(enemy);
+		// Create NPC
+		NPC* npc;
+		npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, "DaBot");
+		npc->position = iPoint(8 * 32, 8 * 32);
+		npc->SetTexture(spritesheet, 4);
+		npc = nullptr;
+		// Create NPC 2
+		npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, "DaBot2");
+		npc->position = iPoint(10 * 32, 6 * 32);
+		npc->SetTexture(spritesheet, 8);
+		npc = nullptr;
+		// Create NPC 3
+		npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, "DaBot3");
+		npc->position = iPoint(15 * 32, 7 * 32);
+		npc->SetTexture(spritesheet, 7);
+		npc = nullptr;
+		RELEASE(npc);
+
+		// Create Teleport
+		Teleport* teleport;
+		teleport = (Teleport*)entityManager->CreateEntity(EntityType::TELEPORT, "DaTransfer");
+		teleport->position = iPoint(12 * 32, 10 * 32);
+		entityManager->teleportList.At(entityManager->teleportList.Find(teleport))->data->SetUpDestination(MapType::TOWN);
+		teleport = nullptr;
+		RELEASE(teleport);
+
+	}
+
+	
 	return true;
 }
 
@@ -293,7 +307,11 @@ inline bool CheckCollision(SDL_Rect rec1, SDL_Rect rec2)
 
 bool SceneGameplay::Update(Input* input, float dt)
 {
-
+	// Player god mode
+	if (input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
+	{
+		entityManager->TooglePlayerGodMode();
+	}
 	if (notifier->OnMapChange() && notifier->GetNextMap() != currentMap)
 	{
 		map->CleanUp();
@@ -311,7 +329,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 				//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
 
 				RELEASE_ARRAY(data);
-				audio->PlayMusic("Assets/Audio/Music/cemetry.ogg");
+				audio->PlayMusic("Assets/Audio/Music/cemetery.ogg");
 			}
 			break;
 		case MapType::HOUSE:

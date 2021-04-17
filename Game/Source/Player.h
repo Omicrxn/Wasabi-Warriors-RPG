@@ -45,6 +45,7 @@ public:
 
     int width, height;
     bool stopPlayer = true;
+    bool isGod = false;
 };
 
 #endif // __PLAYER_H__
