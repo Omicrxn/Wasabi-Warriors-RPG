@@ -128,7 +128,7 @@ private:
     GuiIcon* iconPhone;
 
     // Pause buttons
-    GuiIcon* iconReturn;
+    GuiIcon* iconResume;
     GuiIcon* iconSettings;
     GuiIcon* iconExit;
 

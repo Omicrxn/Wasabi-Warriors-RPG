@@ -28,12 +28,6 @@ enum class GuiControlState
     PRESSED,
 };
 
-enum class GuiDevice
-{
-    MOUSE,
-    CONTROLLER
-};
-
 class GuiControl
 {
 public:
@@ -87,12 +81,11 @@ protected:
 public:
 
     bool gamepadFocus;
+    bool mouseFocus;
 
     uint32 id;
     GuiControlType type;
     GuiControlState state;
-
-    GuiDevice device;
 
     SString text;
     SDL_Rect bounds;        // Position and size

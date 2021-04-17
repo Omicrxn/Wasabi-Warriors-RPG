@@ -7,6 +7,7 @@ GuiSlider::GuiSlider(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(
 
     isHovering = false;
     gamepadFocus = false;
+    mouseFocus = false;
 
     hoverFx = -1;
     clickFx = -1;
@@ -44,48 +45,12 @@ bool GuiSlider::Update(Input* input, AudioManager* audio, float dt)
         int mouseX, mouseY;
         input->GetMousePosition(mouseX, mouseY);
 
-        if (!input->GetControllerState())
-            gamepadFocus = false;
-
-        // Check if gamepad is focusing the button
-        if (gamepadFocus && input->GetControllerState())
-        {
-            state = GuiControlState::FOCUSED;
-
-            if (!isHovering)
-            {
-                isHovering = true;
-                audio->PlayFx(hoverFx);
-            }
-
-            //// If gamepad button pressed -> Generate event!
-            if (input->GetControllerButton(CONTROLLER_BUTTON_RB) == KEY_DOWN)
-            {
-                state = GuiControlState::PRESSED;
-                slider.x += 10;
-                audio->PlayFx(clickFx);
-            }
-            else if (input->GetControllerButton(CONTROLLER_BUTTON_LB) == KEY_DOWN)
-            {
-                state = GuiControlState::PRESSED;
-                slider.x -= 10;
-                audio->PlayFx(clickFx);
-            }
-
-            if (input->GetControllerButton(CONTROLLER_BUTTON_RB) == KEY_UP || input->GetControllerButton(CONTROLLER_BUTTON_LB) == KEY_UP)
-                NotifyObserver();
-
-            if (slider.x < bounds.x)
-                slider.x = bounds.x;
-
-            if (slider.x + slider.w >= bounds.x + bounds.w)
-                slider.x = bounds.x + bounds.w - slider.w;
-        }
         // Check collision between mouse and button bounds
-        else if ((mouseX > bounds.x) && (mouseX < (bounds.x + bounds.w)) && 
-            (mouseY > bounds.y) && (mouseY < (bounds.y + bounds.h)) && !input->GetControllerState())
+        if ((mouseX > bounds.x) && (mouseX < (bounds.x + bounds.w)) &&
+            (mouseY > bounds.y) && (mouseY < (bounds.y + bounds.h)))
         {
             state = GuiControlState::FOCUSED;
+            mouseFocus = true;
 
             if (!isHovering)
             {
@@ -121,11 +86,46 @@ bool GuiSlider::Update(Input* input, AudioManager* audio, float dt)
                 NotifyObserver();
             }
         }
+        // Check if gamepad is focusing the button
+        else if (gamepadFocus)
+        {
+            state = GuiControlState::FOCUSED;
+
+            if (!isHovering)
+            {
+                isHovering = true;
+                audio->PlayFx(hoverFx);
+            }
+
+            //// If gamepad button pressed -> Generate event!
+            if (input->GetControllerButton(CONTROLLER_BUTTON_RB) == KEY_DOWN)
+            {
+                state = GuiControlState::PRESSED;
+                slider.x += 10;
+                audio->PlayFx(clickFx);
+            }
+            else if (input->GetControllerButton(CONTROLLER_BUTTON_LB) == KEY_DOWN)
+            {
+                state = GuiControlState::PRESSED;
+                slider.x -= 10;
+                audio->PlayFx(clickFx);
+            }
+
+            if (input->GetControllerButton(CONTROLLER_BUTTON_RB) == KEY_UP || input->GetControllerButton(CONTROLLER_BUTTON_LB) == KEY_UP)
+                NotifyObserver();
+
+            if (slider.x < bounds.x)
+                slider.x = bounds.x;
+
+            if (slider.x + slider.w >= bounds.x + bounds.w)
+                slider.x = bounds.x + bounds.w - slider.w;
+        }
         else
         {
             state = GuiControlState::NORMAL;
             isHovering = false;
             gamepadFocus = false;
+            mouseFocus = false;
         }
     }
 

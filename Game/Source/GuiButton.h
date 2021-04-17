@@ -45,7 +45,6 @@ private:
     SDL_Rect iconPause;
     SDL_Rect iconInventory;
     SDL_Rect iconPhone;
-
 };
 
 #endif // __GUIBUTTON_H__

@@ -129,8 +129,6 @@ bool Input::PreUpdate()
 
 	while (SDL_PollEvent(&event) != 0)
 	{
-		mouseMotion = false;
-
 		switch (event.type)
 		{
 		case SDL_QUIT:
@@ -175,7 +173,6 @@ bool Input::PreUpdate()
 			break;
 
 		case SDL_MOUSEMOTION:
-			mouseMotion = true;
 			int scale = win->GetScale();
 			mouseMotionX = event.motion.xrel / scale;
 			mouseMotionY = event.motion.yrel / scale;

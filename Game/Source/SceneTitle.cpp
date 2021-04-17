@@ -134,6 +134,7 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
  
     titleFxTimer.Start();
     easing->CreateSpline(&titlePosition.x, width / 2 - mainTitlesRect.w / 2, 4000, SplineType::BACK);
+
     return true;
 }
 
@@ -184,7 +185,6 @@ bool SceneTitle::Update(Input* input, float dt)
                 else if (input->GetControllerButton(CONTROLLER_BUTTON_LEFT) == KEY_DOWN)
                     focusedButtonId = 6;
             }
-
             UpdateControllerSelection(5, 8);
         }
     }
@@ -323,9 +323,17 @@ bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
 
 void SceneTitle::UpdateControllerSelection(int idStart, int idEnd)
 {
+    bool isHovering = false;
+
     for (int i = idStart; i <= idEnd; ++i)
     {
-        if (i != focusedButtonId)
+        if (guiManager->controls.At(i)->data->mouseFocus)
+            isHovering = true;
+    }
+
+    for (int i = idStart; i <= idEnd; ++i)
+    {
+        if (i != focusedButtonId || isHovering)
         {
             // SET GAMEPAD FOCUS TO FALSE
             guiManager->controls.At(i)->data->gamepadFocus = false;

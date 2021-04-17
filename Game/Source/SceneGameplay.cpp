@@ -64,7 +64,7 @@ SceneGameplay::SceneGameplay()
 	iconInventory = nullptr;
 	iconPhone = nullptr;
 
-	iconReturn = nullptr;
+	iconResume = nullptr;
 	iconSettings = nullptr;
 	iconExit = nullptr;
 	//btnNone = nullptr;
@@ -154,7 +154,6 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 		break;
 	}
 
-
 	// Load texture
 	spritesheet = tex->Load("Assets/Textures/Characters/characters_spritesheet.png");
 	titlesTex = tex->Load("Assets/Textures/Scenes/titles.png");
@@ -217,25 +216,25 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	win->GetWindowSize(width, height);*/
 
 	// Load buttons for HUD
-	iconPause = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, 0, { 50, 50, 70, 55 });
+	iconPause = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, 0, { 50, 50, 52, 55 });
 	iconPause->SetIconProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, CONTROLLER_BUTTON_START, IconType::ICON_PAUSE);
 
-	iconInventory = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, 1, { 170, 50, 70, 55 });
+	iconInventory = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, 1, { 170, 50, 56, 55 });
 	iconInventory->SetIconProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, CONTROLLER_BUTTON_X, IconType::ICON_INVENTORY);
 
-	iconPhone = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, 2, { 290, 50, 70, 55 });
+	iconPhone = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, 2, { 290, 50, 41, 55 });
 	iconPhone->SetIconProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, CONTROLLER_BUTTON_B, IconType::ICON_PHONE);
 
 	// Load buttons for pause
-	iconReturn = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, 3, { 610, 280, 70, 55 });
-	iconReturn->SetIconProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, CONTROLLER_BUTTON_X, IconType::ICON_RETURN);
-	iconReturn->state = GuiControlState::HIDDEN;
+	iconResume = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, 3, { 610, 280, 65, 55 });
+	iconResume->SetIconProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, CONTROLLER_BUTTON_START, IconType::ICON_RESUME);
+	iconResume->state = GuiControlState::HIDDEN;
 
-	iconSettings = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, 4, { 610, 350, 70, 55 });
-	iconSettings->SetIconProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, CONTROLLER_BUTTON_A, IconType::ICON_SETTINGS);
+	iconSettings = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, 4, { 610, 350, 58, 55 });
+	iconSettings->SetIconProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, CONTROLLER_BUTTON_X, IconType::ICON_SETTINGS);
 	iconSettings->state = GuiControlState::HIDDEN;
 
-	iconExit = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, 5, { 615, 430, 70, 55 });
+	iconExit = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, 5, { 615, 430, 46, 55 });
 	iconExit->SetIconProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, CONTROLLER_BUTTON_B, IconType::ICON_EXIT);
 	iconExit->state = GuiControlState::HIDDEN;
 
@@ -364,7 +363,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 		battleSystem->SetupBattle(&entityManager->playerList, entityManager->enemyList.start->data);
 
 		EnableBattleButtons();
-		
+
 		currentState = GameState::BATTLE;
 
 		focusedButtonId = 6;
@@ -399,9 +398,15 @@ bool SceneGameplay::Update(Input* input, float dt)
 			else if ((input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN) && focusedButtonId <= 8)
 				++focusedButtonId;
 
-			for (int i = 6; i < 10; ++i)
+			bool isHovering = false;
+			for (int i = 6; i <= 9; ++i)
 			{
-				if (i != focusedButtonId)
+				if (guiManager->controls.At(i)->data->mouseFocus)
+					isHovering = true;
+			}
+			for (int i = 6; i <= 9; ++i)
+			{
+				if (i != focusedButtonId || isHovering)
 				{
 					// SET GAMEPAD FOCUS TO FALSE
 					guiManager->controls.At(i)->data->gamepadFocus = false;
@@ -597,7 +602,7 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 	guiManager->DestroyGuiControl(iconInventory);
 	guiManager->DestroyGuiControl(iconPhone);
 
-	guiManager->DestroyGuiControl(iconReturn);
+	guiManager->DestroyGuiControl(iconResume);
 	guiManager->DestroyGuiControl(iconSettings);
 	guiManager->DestroyGuiControl(iconExit);
 
@@ -662,7 +667,7 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 			TogglePauseButtons();
 			ToggleHUDButtons();
 		}
-		else if (control->id == 4) currentState = GameState::SETTINGS;
+		else if (control->id == 4) {} // currentState = GameState::SETTINGS;
 		else if (control->id == 5) {} // RETURN TO MAIN MENU
 
 		break;
@@ -788,6 +793,6 @@ void SceneGameplay::DrawPause(Render* render)
 {
 	// Draw pause background & title
 	render->DrawRectangle({ 0,0,1280,720 }, { 0, 0, 0, 100 }, true, false);
-	render->DrawTexture(guiAtlasTex, 1280 / 2 - pauseBackgroundRect.w/2, 720 / 2 - pauseBackgroundRect.h / 2, &pauseBackgroundRect, 0.0f);
-	render->DrawTexture(titlesTex, 1280 / 2 - pauseTitleRect.w / 2, 720 / 2 - pauseTitleRect.h * 1.5f - pauseTitleRect.h /2 - 10,  &pauseTitleRect, 0.0f);
+	render->DrawTexture(guiAtlasTex, 1280 / 2 - pauseBackgroundRect.w / 2, 720 / 2 - pauseBackgroundRect.h / 2, &pauseBackgroundRect, 0.0f);
+	render->DrawTexture(titlesTex, 1280 / 2 - pauseTitleRect.w / 2, 720 / 2 - pauseTitleRect.h * 1.5f - pauseTitleRect.h / 2 - 10, &pauseTitleRect, 0.0f);
 }

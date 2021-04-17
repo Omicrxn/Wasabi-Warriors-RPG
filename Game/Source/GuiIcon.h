@@ -7,10 +7,11 @@
 enum IconType
 {
     NONE,
+    ICON_RETURN,
     ICON_PAUSE,
     ICON_INVENTORY,
     ICON_PHONE,
-    ICON_RETURN,
+    ICON_RESUME,
     ICON_SETTINGS,
     ICON_EXIT
 };
@@ -41,6 +42,13 @@ private:
     SDL_Rect iconPause;
     SDL_Rect iconInventory;
     SDL_Rect iconPhone;
+
+    SDL_Rect iconA;
+    SDL_Rect iconX;
+    SDL_Rect iconB;
+    SDL_Rect iconSTART;
+
+    bool controller;
 };
 
 #endif // __GUIICON_H__
