@@ -93,7 +93,7 @@ bool Collisions::PreUpdate()
 }
 
 bool Collisions::Update(float dt) {
-	if (input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+	if (input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
 		debug = !debug;
 	if (input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 		godMode = !godMode;

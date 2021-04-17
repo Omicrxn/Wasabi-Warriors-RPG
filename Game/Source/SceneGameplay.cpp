@@ -317,7 +317,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 		return true;
 
 	// Player god mode
-	if (input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
+	if (input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
 	{
 		entityManager->TooglePlayerGodMode();
 	}
