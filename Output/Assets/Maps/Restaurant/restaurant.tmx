@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.5.0" orientation="orthogonal" renderorder="right-down" width="11" height="15" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="1">
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="11" height="15" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="1">
  <properties>
   <property name="Drawable" type="int" value="0"/>
   <property name="Navigation" type="int" value="1"/>
@@ -10,14 +10,12 @@
  <tileset firstgid="271" name="blackrest" tilewidth="32" tileheight="32" tilecount="192" columns="16">
   <image source="blackRest.png" width="512" height="384"/>
  </tileset>
-
  <tileset firstgid="463" name="Collision" tilewidth="32" tileheight="32" tilecount="1" columns="1">
   <image source="../Collision.png" width="32" height="32"/>
  </tileset>
  <tileset firstgid="464" name="Collision" tilewidth="32" tileheight="32" tilecount="1" columns="1">
   <image source="../Collision.png" width="32" height="32"/>
  </tileset>
-
  <layer id="1" name="Capa de patrones 1" width="11" height="15">
   <data>
    <tile gid="1610612747"/>
@@ -695,6 +693,10 @@
   </data>
  </layer>
  <layer id="8" name="Collision" width="11" height="15" opacity="0.65">
+  <properties>
+   <property name="Navigation" type="int" value="1"/>
+   <property name="drawable" type="int" value="0"/>
+  </properties>
   <data>
    <tile gid="463"/>
    <tile gid="463"/>
