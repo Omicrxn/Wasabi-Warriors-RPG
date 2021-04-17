@@ -15,12 +15,13 @@ class GuiManager;
 class Window;
 class DialogSystem;
 class Easing;
+class App;
 
 class SceneManager : public Module
 {
 public:
 
-	SceneManager(Input* input, Render* render, Textures* tex, Window* win, AudioManager* audio, EntityManager* entityman, GuiManager* guiManager, DialogSystem* dialogSystem, Easing* easing);
+	SceneManager(Input* input, Render* render, Textures* tex, Window* win, AudioManager* audio, EntityManager* entityman, GuiManager* guiManager, DialogSystem* dialogSystem, Easing* easing, App* app);
 
 	// Destructor
 	virtual ~SceneManager();
@@ -61,6 +62,7 @@ private:
 	Window* win;
 	DialogSystem* dialogSystem;
 	Easing* easing;
+	App* app;
 
 	Scene* current;
 	Scene* next;

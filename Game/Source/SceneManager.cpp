@@ -14,6 +14,7 @@
 #include "GuiManager.h"
 #include "DialogSystem.h"
 #include "Easing.h"
+#include "App.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -23,7 +24,7 @@
 #define FADEOUT_TRANSITION_SPEED	2.0f
 #define FADEIN_TRANSITION_SPEED		2.0f
 
-SceneManager::SceneManager(Input* input, Render* render, Textures* tex, Window* win, AudioManager* audio, EntityManager* entityman, GuiManager* guiManager, DialogSystem* dialogSystem, Easing* easing) : Module()
+SceneManager::SceneManager(Input* input, Render* render, Textures* tex, Window* win, AudioManager* audio, EntityManager* entityman, GuiManager* guiManager, DialogSystem* dialogSystem, Easing* easing, App* app) : Module()
 {
 	name.Create("scenemanager");
 
@@ -40,6 +41,7 @@ SceneManager::SceneManager(Input* input, Render* render, Textures* tex, Window* 
 	this->guiManager = guiManager;
 	this->dialogSystem = dialogSystem;
 	this->easing = easing;
+	this->app = app;
 }
 
 // Destructor
@@ -59,13 +61,9 @@ bool SceneManager::Awake()
 bool SceneManager::Start()
 {
 	current = new SceneLogo();
-	if (current->type == SceneType::GAMEPLAY)
+	if (current->type == SceneType::GAMEPLAY || current->type == SceneType::GAMEPLAY_LOAD)
 	{
-		current->Load(tex, win, audio, guiManager, entityman, dialogSystem, easing, false);
-	}
-	else if (current->type == SceneType::GAMEPLAY_LOAD)
-	{
-		current->Load(tex, win, audio, guiManager, entityman, dialogSystem, easing, true);
+		current->Load(tex, win, audio, guiManager, entityman, dialogSystem, easing, app);
 	}
 	else 
 	{
@@ -103,13 +101,9 @@ bool SceneManager::Update(float dt)
 				transitionAlpha = 1.0f;
 
 				current->Unload(tex, audio, guiManager); // Unload current screen
-				if (next->type == SceneType::GAMEPLAY)
+				if (next->type == SceneType::GAMEPLAY || next->type == SceneType::GAMEPLAY_LOAD)
 				{
-					next->Load(tex, win, audio, guiManager, entityman, dialogSystem, easing, false);	// Load next screen
-				}
-				else if (current->type == SceneType::GAMEPLAY_LOAD)
-				{
-					current->Load(tex, win, audio, guiManager, entityman, dialogSystem, easing, true);
+					next->Load(tex, win, audio, guiManager, entityman, dialogSystem, easing, app);	// Load next screen
 				}
 				else
 				{
@@ -156,7 +150,8 @@ bool SceneManager::Update(float dt)
 		{
 			case SceneType::LOGO: next = new SceneLogo(); break;
 			case SceneType::TITLE: next = new SceneTitle(); break;
-			case SceneType::GAMEPLAY: next = new SceneGameplay(); break;
+			case SceneType::GAMEPLAY: next = new SceneGameplay(false); break;
+			case SceneType::GAMEPLAY_LOAD: next = new SceneGameplay(true); break;
 			case SceneType::ENDING: next = new SceneEnding(); break;
 			default: break;
 		}

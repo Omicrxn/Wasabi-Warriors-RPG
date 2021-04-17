@@ -208,7 +208,7 @@ bool SceneTitle::Update(Input* input, float dt)
     else if (menuCurrentSelection == MenuSelection::CONTINUE)
     {
         HideTitleButtons();
-        TransitionToScene(SceneType::GAMEPLAY);
+        TransitionToScene(SceneType::GAMEPLAY_LOAD);
     }
     else if (menuCurrentSelection == MenuSelection::SETTINGS)
     {
