@@ -16,7 +16,7 @@ NPC::NPC(Collisions* collisions, EntityManager* entityManager) : Interactive()
 
 NPC::~NPC()
 {
-
+    RELEASE(collider);
 }
 
 void NPC::Interact()
@@ -26,7 +26,7 @@ void NPC::Interact()
 
 bool NPC::Update(Input* input, float dt)
 {
-    if (!Notifier::GetInstance()->OnDialog())
+    if (!stop)
     {
 
 
@@ -178,6 +178,7 @@ void NPC::SetName(SString name)
 
 void NPC::OnCollision(Collider* collider)
 {
+    stop = true;
     direction = { 0,0 };
     currentAnim = NPCAnimations::IDLE;
     Interact();

@@ -35,10 +35,15 @@ Player::Player(Textures* tex, Collisions* collisions, EntityManager* entityManag
     collider = collisions->AddCollider({ position.x,position.y ,width,height }, Collider::Type::PLAYER, (Module*)entityManager);
 }
 
+Player::~Player()
+{
+    RELEASE(collider);
+}
+
 bool Player::Update(Input* input, float dt)
 {
     Walk(direction, dt);
-    if(!Notifier::GetInstance()->OnDialog() && !Notifier::GetInstance()->GetBattle())
+    if(!Notifier::GetInstance()->GetBattle() && !stop)
     { 
         direction.x = input->GetAxisRaw(AxisName::HORIZONTAL);
         direction.y = input->GetAxisRaw(AxisName::VERTICAL);

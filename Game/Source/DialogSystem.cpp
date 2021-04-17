@@ -59,6 +59,7 @@ bool DialogSystem::Update(float dt)
 		if (input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN)
 		{
 			NextDialog();
+
 		}
 
 		// Select the next option.
@@ -82,7 +83,7 @@ bool DialogSystem::Update(float dt)
 	if (newDialog == true)
 	{
 		newDialog = false;
-
+		dialogFinished = false;
 		uint randNum = rand() % 5 + 1; // randNum in the range 1 to 2
 		char HP[8] = { 0 };
 		sprintf_s(HP, 8, "%03i", randNum);
@@ -207,7 +208,7 @@ void DialogSystem::StartDialog(const char* id)
 
 bool DialogSystem::DialogHasFinished()
 {
-	return currentDialog == nullptr ? true : false;
+	return dialogFinished;
 }
 
 void DialogSystem::NextDialog()
@@ -215,7 +216,15 @@ void DialogSystem::NextDialog()
 	/* Start TODO 4 */
 
 	// If we have reached the end, currentDialog will be nullptr.
-	if (currentDialog == nullptr) return;
+	if (currentDialog == nullptr)
+	{
+		dialogFinished = true;
+		return;
+	}
+	else
+	{
+		dialogFinished = false;
+	}
 
 	// If the currentDialog is DIALOG, it means we are at the root of the tree. We can just skip to the first child.
 	if (currentDialog->type == DialogNode::NodeType::DIALOG)
@@ -239,7 +248,12 @@ void DialogSystem::NextDialog()
 	// Again, if we have reached the end of the dialog we return.
 	if (currentDialog == nullptr)
 	{
+		dialogFinished = true;
 		return;
+	}
+	else
+	{
+		dialogFinished = false;
 	}
 
 	// If the current line has a callback, we execute it.

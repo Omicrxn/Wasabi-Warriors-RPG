@@ -16,7 +16,9 @@ Map::Map(Textures* texture) : Entity(EntityType::MAP)
 
 // Destructor
 Map::~Map()
-{}
+{
+	RELEASE(collider);
+}
 
 // L06: DONE 7: Ask for the value of a custom property
 int Properties::GetProperty(const char* value, int defaultValue) const

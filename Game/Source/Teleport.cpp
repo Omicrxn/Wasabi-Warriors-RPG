@@ -11,6 +11,7 @@ Teleport::Teleport(Collisions* collisions, EntityManager* entityManager)
 
 Teleport::~Teleport()
 {
+	RELEASE(collider);
 }
 
 bool Teleport::Update(Input* input, float dt)

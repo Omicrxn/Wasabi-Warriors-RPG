@@ -35,7 +35,7 @@ Enemy::Enemy(Collisions* collisions, EntityManager* entityManager) : Being()
 
 Enemy::~Enemy()
 {
-
+    RELEASE(collider);
 }
 
 bool Enemy::Update(Input* input, float dt)

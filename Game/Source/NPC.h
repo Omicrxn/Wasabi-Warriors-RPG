@@ -50,6 +50,7 @@ public:
 	int width, height;
 
 	uint stepsCounter;
+	bool stop = false;
 };
 
 #endif //__NPC_H__

@@ -72,4 +72,5 @@ private:
 
 	// Bool to search a random dialog
 	bool newDialog = false;
+	bool dialogFinished = false;
 };

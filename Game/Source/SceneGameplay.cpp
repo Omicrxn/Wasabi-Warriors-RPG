@@ -351,6 +351,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 			}
 			break;
 		case MapType::TOWN:
+			
 			if (map->Load("Town", "townMap.tmx") == true)
 			{
 				int w, h;
@@ -410,10 +411,12 @@ bool SceneGameplay::Update(Input* input, float dt)
 
 	if (dialogSystem->DialogHasFinished())
 	{
+		currentPlayer->stop = false;
 		notifier->SetDialogMode(false);
 	}
-	else if (notifier->OnDialog())
+	if (notifier->OnDialog() && input->GetKey(SDL_SCANCODE_F) == KeyState::KEY_DOWN)
 	{
+		currentPlayer->stop = true;
 		dialogSystem->NewDialog();
 	}
 
