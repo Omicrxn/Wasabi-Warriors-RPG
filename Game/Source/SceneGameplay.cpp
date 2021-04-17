@@ -11,11 +11,16 @@
 
 #include "GuiButton.h"
 #include "GuiIcon.h"
+#include "App.h"
 
-
-SceneGameplay::SceneGameplay()
+SceneGameplay::SceneGameplay(bool hasStartedFromContinue)
 {
-	type = SceneType::GAMEPLAY;
+	this->hasStartedFromContinue = hasStartedFromContinue;
+	if (this->hasStartedFromContinue)
+		type = SceneType::GAMEPLAY_LOAD;
+	else
+		type = SceneType::GAMEPLAY;
+
 	this->name = "scenegameplay";
 
 	// Needed modules
@@ -74,14 +79,17 @@ SceneGameplay::SceneGameplay()
 	focusedButtonId = 0;
 
 	notifier = nullptr;
-	currentMap = MapType::CEMETERY;
+	if (hasStartedFromContinue)
+		currentMap = (MapType)-1;
+	else
+		currentMap = MapType::CEMETERY;
 }
 
 SceneGameplay::~SceneGameplay()
 {
 }
 
-bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, DialogSystem* dialogSystem, Easing* easing, bool isContinue)
+bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, DialogSystem* dialogSystem, Easing* easing, App* app)
 {
 	audio->StopMusic();
 
@@ -163,11 +171,10 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	//btnNone->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, ButtonColour::WHITE);
 	//btnNone->state = GuiControlState::HIDDEN;
 
-	if (isContinue)
+	if (hasStartedFromContinue)
 	{
 		// LOAD FROM THE SAVE FILE
-
-		
+		app->LoadGameRequest();
 	}
 	else
 	{
@@ -240,8 +247,6 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 			break;
 		}
 
-
-
 		// Create party member 1
 		Player* player;
 		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "DaBaby");
@@ -307,6 +312,10 @@ inline bool CheckCollision(SDL_Rect rec1, SDL_Rect rec2)
 
 bool SceneGameplay::Update(Input* input, float dt)
 {
+	// DO not update until map and entities are correctly loaded
+	if (hasStartedFromContinue)
+		return true;
+
 	// Player god mode
 	if (input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 	{
@@ -675,11 +684,15 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 
 bool SceneGameplay::LoadState(pugi::xml_node& scenegameplay)
 {
-	if ((int)currentMap != scenegameplay.attribute("currentMap").as_int())
+	if ((int)currentMap != scenegameplay.attribute("currentMap").as_int() || this->hasStartedFromContinue == true)
 	{
 		MapType nextMap = (MapType)scenegameplay.attribute("currentMap").as_int();
 		this->notifier->NotifyMapChange(nextMap);
 	}
+
+	// When the map is loaded either from continue or load it turns this bool to false
+	this->hasStartedFromContinue = false;
+
 	return true;
 }
 

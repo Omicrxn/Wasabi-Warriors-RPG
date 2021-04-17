@@ -32,10 +32,10 @@ class SceneGameplay : public Scene
 {
 public:
 
-    SceneGameplay();
+    SceneGameplay(bool hasStartedFromContinue = false);
     virtual ~SceneGameplay();
 
-    bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, DialogSystem* dialogSystem, Easing* easing, bool isContinue = false);
+    bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, DialogSystem* dialogSystem, Easing* easing, App* app);
 
     bool Update(Input* input, float dt);
 
@@ -138,6 +138,9 @@ private:
 
     Notifier* notifier;
     MapType currentMap = MapType::CEMETERY;
+
+    // To Know if this scene was created through a load
+    bool hasStartedFromContinue;
 };
 
 #endif // __SCENEGAMEPLAY_H__
