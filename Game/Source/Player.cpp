@@ -8,7 +8,7 @@ Player::Player(Textures* tex, Collisions* collisions, EntityManager* entityManag
     texture = NULL;
     position = iPoint(12 * 16, 27 * 16);
     active = false;
-
+    stopPlayer = false;
     // Setting Being parameters
     velocity = { 150.0f, 150.0f };
     direction = { 0,0 };
@@ -42,73 +42,81 @@ Player::~Player()
 
 bool Player::Update(Input* input, float dt)
 {
-    Walk(direction, dt);
-    if(!Notifier::GetInstance()->GetBattle() && !stop)
-    { 
-        direction.x = input->GetAxisRaw(AxisName::HORIZONTAL);
-        direction.y = input->GetAxisRaw(AxisName::VERTICAL);
-    }
-    else
-    {
-        direction = { 0,0 };
-    }
 
-   
-    if (direction.x > 0)
-    {
-        currentAnim = Animations::RIGHT;
-    }else if(direction.x < 0)
-    {
-        currentAnim = Animations::LEFT;
-    }
-    if (direction.y > 0)
-    {
-        currentAnim = Animations::DOWN;
-    }else if (direction.y < 0)
-    {
-        currentAnim = Animations::UP;
-    }
-    if ((direction.x == 0 && direction.y == 0) || (direction.x != 0 && direction.y != 0))
-    {
-        currentAnim = Animations::IDLE;
-    }
-    // Update collider position
-    if (collider != nullptr)
-    {
-        collider->SetPos(position.x, position.y);
+        if (!Notifier::GetInstance()->GetBattle() && !stopPlayer)
+        {
+            Walk(direction, dt);
+            direction.x = input->GetAxisRaw(AxisName::HORIZONTAL);
+            direction.y = input->GetAxisRaw(AxisName::VERTICAL);
+            // Update collider position
+            if (collider != nullptr)
+            {
+                collider->SetPos(position.x, position.y);
+            }
+        }
+        else
+        {
+            direction = { 0,0 };
+        }
+
+        if (active)
+        {
+        if (direction.x > 0)
+        {
+            currentAnim = Animations::RIGHT;
+        }
+        else if (direction.x < 0)
+        {
+            currentAnim = Animations::LEFT;
+        }
+        if (direction.y > 0)
+        {
+            currentAnim = Animations::DOWN;
+        }
+        else if (direction.y < 0)
+        {
+            currentAnim = Animations::UP;
+        }
+        if ((direction.x == 0 && direction.y == 0) || (direction.x != 0 && direction.y != 0))
+        {
+            currentAnim = Animations::IDLE;
+        }
+
     }
     return true;
 }
 
 bool Player::Draw(Render* render)
 {
-    animRec;
-    switch (currentAnim)
-    {
-    case Animations::IDLE:
-        animRec = idleAnim.GetFrame(0);
-        break;
-    case Animations::UP:
-        animRec = walkUpAnim.GetCurrentFrame();
-        break;
-    case Animations::DOWN:
-        animRec = walkDownAnim.GetCurrentFrame();
-        break;
-    case Animations::RIGHT:
-        animRec = walkRightAnim.GetCurrentFrame();
-        break;
-    case Animations::LEFT:
-        animRec = walkLeftAnim.GetCurrentFrame();
-        break;
-    default:
-        break;
-    }
-    render->scale = 3;
-    render->CameraFollow(position.x, position.y);
-    
-    if (active) render->DrawTexture(texture, position.x, position.y, &animRec);
+    if (active) {
+        animRec;
+        switch (currentAnim)
+        {
+        case Animations::IDLE:
+            animRec = idleAnim.GetFrame(0);
+            break;
+        case Animations::UP:
+            animRec = walkUpAnim.GetCurrentFrame();
+            break;
+        case Animations::DOWN:
+            animRec = walkDownAnim.GetCurrentFrame();
+            break;
+        case Animations::RIGHT:
+            animRec = walkRightAnim.GetCurrentFrame();
+            break;
+        case Animations::LEFT:
+            animRec = walkLeftAnim.GetCurrentFrame();
+            break;
+        default:
+            break;
+        }
+        render->scale = 3;
+        render->CameraFollow(position.x, position.y);
 
-    render->scale = 1;
+        if (active) render->DrawTexture(texture, position.x, position.y, &animRec);
+
+        render->scale = 1;
+    }
     return true;
 }
 
@@ -167,8 +175,8 @@ void Player::Walk(iPoint direction, float dt)
         velocity = { 150.0f, 150.0f };
     }
 
-    position.x = position.x + direction.x * (velocity.x * dt);
-    position.y = position.y + direction.y * (velocity.y * dt);
+    position.x = position.x + (direction.x * (velocity.x * dt));
+    position.y = position.y + (direction.y * (velocity.y * dt));
 }
 
 SDL_Rect Player::GetBounds()

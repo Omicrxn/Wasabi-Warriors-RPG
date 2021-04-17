@@ -73,6 +73,7 @@ bool NPC::Update(Input* input, float dt)
     }
 
 
+    stop = false;
     return true;
 }
 
@@ -178,8 +179,12 @@ void NPC::SetName(SString name)
 
 void NPC::OnCollision(Collider* collider)
 {
-    stop = true;
-    direction = { 0,0 };
-    currentAnim = NPCAnimations::IDLE;
-    Interact();
+    if (collider->type == Collider::Type::PLAYER)
+    {
+        stop = true;
+        direction = { 0,0 };
+        currentAnim = NPCAnimations::IDLE;
+        Interact();
+    }
+
 }

@@ -397,6 +397,10 @@ bool SceneGameplay::Update(Input* input, float dt)
 
 	if (notifier->GetBattle())
 	{
+		for (int i = 0; i < entityManager->playerList.Count(); i++)
+		{
+			entityManager->playerList.At(i)->data->stopPlayer = true;
+		}
 		battle = true;
 		battleSystem->SetupBattle(&entityManager->playerList, entityManager->enemyList.start->data);
 
@@ -409,15 +413,24 @@ bool SceneGameplay::Update(Input* input, float dt)
 		focusedButtonId = 6;
 	}
 
-	if (dialogSystem->DialogHasFinished())
-	{
-		currentPlayer->stop = false;
-		notifier->SetDialogMode(false);
-	}
+
 	if (notifier->OnDialog() && input->GetKey(SDL_SCANCODE_F) == KeyState::KEY_DOWN)
 	{
-		currentPlayer->stop = true;
+		
+		for (int i = 0; i < entityManager->playerList.Count(); i++)
+		{
+			entityManager->playerList.At(i)->data->stopPlayer = true;
+		}
 		dialogSystem->NewDialog();
+	}
+	if (dialogSystem->DialogHasFinished())
+	{
+		for (int i = 0; i < entityManager->playerList.Count(); i++)
+		{
+			entityManager->playerList.At(i)->data->stopPlayer = false;
+		}
+		notifier->SetDialogMode(false);
+		dialogSystem->SetDialogFinished(false);
 	}
 
 	if (battle == true)
@@ -575,6 +588,7 @@ bool SceneGameplay::Draw(Render* render)
 		{
 			// Get out of the battle screen and return to the gameplay screen
 			ExitBattle();
+
 		}
 	}
 
@@ -760,6 +774,10 @@ void SceneGameplay::ExitBattle()
 	// Change game state to roaming
 	currentState = GameState::ROAMING;
 	ToggleHUDButtons();
+	for (int i = 0; i < entityManager->playerList.Count(); i++)
+	{
+		entityManager->playerList.At(i)->data->stopPlayer = false;
+	}
 }
 
 void SceneGameplay::EnableBattleButtons()

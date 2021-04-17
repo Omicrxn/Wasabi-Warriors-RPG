@@ -45,6 +45,7 @@ public:
 	void NextDialog();
 
 	bool DialogHasFinished();
+	void SetDialogFinished(bool dialogFinished);
 
 	void NewDialog();
 

@@ -211,6 +211,11 @@ bool DialogSystem::DialogHasFinished()
 	return dialogFinished;
 }
 
+void DialogSystem::SetDialogFinished(bool dialogFinished)
+{
+	this->dialogFinished = dialogFinished;
+}
+
 void DialogSystem::NextDialog()
 {
 	/* Start TODO 4 */

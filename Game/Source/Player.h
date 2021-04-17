@@ -44,7 +44,7 @@ public:
     Animations currentAnim;
 
     int width, height;
-    bool stop = false;
+    bool stopPlayer = true;
 };
 
 #endif // __PLAYER_H__
