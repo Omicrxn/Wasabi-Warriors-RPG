@@ -685,6 +685,7 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 		if (control->id == 0)
 		{
 			currentState = GameState::PAUSE;
+			audio->ChangeMusicVolume(SDL_MIX_MAXVOLUME / 10);
 			ToggleHUDButtons();
 			TogglePauseButtons();
 		}
@@ -693,6 +694,7 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 		else if (control->id == 3)
 		{
 			currentState = GameState::ROAMING;
+			audio->ChangeMusicVolume(SDL_MIX_MAXVOLUME / 2);
 			TogglePauseButtons();
 			ToggleHUDButtons();
 		}
