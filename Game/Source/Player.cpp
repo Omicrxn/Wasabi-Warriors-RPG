@@ -37,7 +37,7 @@ Player::Player(Textures* tex, Collisions* collisions, EntityManager* entityManag
 
 Player::~Player()
 {
-    RELEASE(collider);
+    collider->pendingToDelete = true;
 }
 
 bool Player::Update(Input* input, float dt)

@@ -16,7 +16,7 @@ NPC::NPC(Collisions* collisions, EntityManager* entityManager) : Interactive()
 
 NPC::~NPC()
 {
-    RELEASE(collider);
+    collider->pendingToDelete = true;
 }
 
 void NPC::Interact()

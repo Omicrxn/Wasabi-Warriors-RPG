@@ -11,7 +11,7 @@ Teleport::Teleport(Collisions* collisions, EntityManager* entityManager)
 
 Teleport::~Teleport()
 {
-	RELEASE(collider);
+	collider->pendingToDelete = true;
 }
 
 bool Teleport::Update(Input* input, float dt)
