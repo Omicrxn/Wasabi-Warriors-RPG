@@ -17,12 +17,11 @@ public:
     bool Draw(Render* render, bool debugDraw);
 
     void SetSliderProperties(Scene* module, SDL_Texture* texture, Font* font, int hoverFx, int clickFx);
+    int GetValue() const;
 
 private:
 
     // GuiSlider specific properties
-    // Maybe some animation properties for state change?
-    
     int value;
 
     int minValue;
@@ -31,7 +30,6 @@ private:
     SDL_Rect bar;
     SDL_Rect slider;
 
-    SDL_Rect arrowWhiteLeft;
     SDL_Rect arrowWhiteRight;
 
     SDL_Rect whiteCircle;

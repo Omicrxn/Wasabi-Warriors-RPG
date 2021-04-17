@@ -17,7 +17,6 @@ GuiSlider::GuiSlider(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(
     slider.w = 10;
     slider.h = bounds.h;
 
-    arrowWhiteLeft = { 281,486,22,21 };
     arrowWhiteRight = { 259,486,22,21 };
 
     whiteCircle = { 335, 0, 35, 38 };
@@ -66,7 +65,7 @@ bool GuiSlider::Update(Input* input, AudioManager* audio, float dt)
                 state = GuiControlState::PRESSED;
                 int posX, posY;
                 input->GetMousePosition(posX, posY);
-                slider.x = posX;
+                slider.x = posX - slider.w;
             }
 
             if (slider.x < bounds.x)
@@ -87,7 +86,7 @@ bool GuiSlider::Update(Input* input, AudioManager* audio, float dt)
             }
         }
         // Check if gamepad is focusing the button
-        else if (gamepadFocus)
+        else if (gamepadFocus && input->GetControllerState())
         {
             state = GuiControlState::FOCUSED;
 

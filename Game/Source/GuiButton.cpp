@@ -79,7 +79,7 @@ bool GuiButton::Update(Input* input, AudioManager* audio, float dt)
             }
         }
         // Check if gamepad is focusing the button
-        else if (gamepadFocus)
+        else if (gamepadFocus && input->GetControllerState())
         {
             state = GuiControlState::FOCUSED;
 

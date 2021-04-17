@@ -36,7 +36,7 @@ bool SceneLogo::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager
     this->audio = audio;
 
     logoTex = tex->Load("Assets/Textures/Scenes/logo_scene.png");
-    logoFx = audio->LoadFx("Assets/Audio/Fx/back.ogg");
+    logoFx = audio->LoadFx("Assets/Audio/Fx/logo.wav");
 
     logoFxTimer.Start();
     return true;
