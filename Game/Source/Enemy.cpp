@@ -136,6 +136,7 @@ bool Enemy::SetUpClass(SString name)
     else
     {
         LOG("Loading entity info");
+        this->classType = name;
 
         docNode = docData.child("entity").child("enemy");
         docNode = docNode.child(name.GetString());

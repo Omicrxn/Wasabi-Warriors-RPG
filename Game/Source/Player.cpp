@@ -197,6 +197,7 @@ bool Player::SetUpClass(SString name)
     else
     {
         LOG("Loading entity info");
+        this->classType = name;
 
         docNode = docData.child("entity").child("player");
         docNode = docNode.child(name.GetString());

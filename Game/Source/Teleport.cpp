@@ -23,6 +23,7 @@ bool Teleport::Update(Input* input, float dt)
 	return true;
 }
 
+
 void Teleport::Interact()
 {
 	Notifier::GetInstance()->NotifyMapChange(destination);

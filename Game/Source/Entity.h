@@ -74,11 +74,11 @@ public:
     SDL_Texture* texture;
 
     bool destroy = false;
+    int spritePos;
 
 protected:
-
     bool active = true;
-    int spritePos;
+   
 };
 
 #endif // __ENTITY_H__

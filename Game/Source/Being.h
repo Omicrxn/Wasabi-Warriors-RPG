@@ -69,6 +69,7 @@ public:
 	Animation walkUpAnim;
 	Animation walkDownAnim;
 	SDL_Rect animRec;
+	SString classType;
 };
 
 #endif //__BEING_H__

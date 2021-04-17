@@ -79,6 +79,7 @@ private:
     GuiManager* guiManager;
     Window* win;
     DialogSystem* dialogSystem;
+    AudioManager* audio;
 
     // Scene gameplay textures
     SDL_Texture* spritesheet;
