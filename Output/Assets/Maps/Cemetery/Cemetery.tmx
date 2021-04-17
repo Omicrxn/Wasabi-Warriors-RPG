@@ -6,7 +6,9 @@
  <tileset firstgid="257" name="Cemetery2" tilewidth="32" tileheight="32" tilecount="128" columns="8">
   <image source="GK_FG_A5_2.png" width="256" height="512"/>
  </tileset>
- <tileset firstgid="385" source="../Collision.tsx"/>
+ <tileset firstgid="385" name="Collision" tilewidth="32" tileheight="32" tilecount="1" columns="1">
+  <image source="../Collision.png" width="32" height="32"/>
+ </tileset>
  <layer id="1" name="Ground" width="24" height="15">
   <data>
    <tile gid="145"/>
@@ -1463,7 +1465,11 @@
    <tile/>
   </data>
  </layer>
- <layer id="5" name="Collision" width="24" height="15" opacity="0.46">
+ <layer id="5" name="Collision" width="24" height="15" visible="0" opacity="0.46">
+  <properties>
+   <property name="Navigation" type="int" value="1"/>
+   <property name="drawable" type="int" value="0"/>
+  </properties>
   <data>
    <tile gid="385"/>
    <tile gid="385"/>

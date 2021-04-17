@@ -369,7 +369,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 
 	if (input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN && battle == false)
 	{
-		battle = true;
+		battle = true; 
 		battleSystem->SetupBattle(&entityManager->playerList, entityManager->enemyList.start->data);
 
 		EnableBattleButtons();
