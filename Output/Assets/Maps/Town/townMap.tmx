@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="47" height="21" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="1">
  <properties>
-  <property name="Drawable" type="int" value="0"/>
   <property name="Navigation" type="int" value="1"/>
+  <property name="drawable" type="int" value="0"/>
  </properties>
  <tileset firstgid="1" name="Tilemap" tilewidth="32" tileheight="32" tilecount="1050" columns="42">
   <image source="Tilemap.png" width="1344" height="800"/>
