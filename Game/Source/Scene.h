@@ -87,7 +87,7 @@ public:
     // TODO: Transition animation properties
     SceneType type;
     bool transitionRequired;
-    SceneType nextScene;
+    SceneType nextScene = SceneType::LOGO;
 };
 
 #endif // __SCENE_H__

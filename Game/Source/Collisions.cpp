@@ -135,6 +135,28 @@ void Collisions::DebugDraw()
 	}
 }
 
+bool Collisions::LoadState(pugi::xml_node& collisionsNode)
+{
+	return true;
+}
+
+bool Collisions::SaveState(pugi::xml_node& collisionsNode) const
+{
+	/* ---------- CHECKS IF THE Attribute WE WANT OVERWRITE EXISTS OR NOT  ----------*/
+	SString tempName = collisionsNode.attribute("collisionsCount").name();
+	if (tempName == "collisionsCount")
+	{
+		// Attribute currentMap exists
+		collisionsNode.attribute("collisionsCount").set_value(this->GetColliderCount());
+	}
+	else
+	{
+		// Attribute currentMap does not exist
+		collisionsNode.append_attribute("collisionsCount").set_value(this->GetColliderCount());
+	}
+	return true;
+}
+
 bool Collisions::CleanUp() {
 	LOG("Freeing all colliders");
 

@@ -75,6 +75,9 @@ public:
 
 	inline uint GetColliderCount() const { return colliderCount; };
 
+	// Load / Save
+	bool LoadState(pugi::xml_node&);
+	bool SaveState(pugi::xml_node&) const;
 private:
 	// All existing colliders in the scene
 	Collider* colliders[MAX_COLLIDERS] = { nullptr };

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.5.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="1">
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="1">
  <properties>
-  <property name="Drawable" type="int" value="0"/>
   <property name="Navigation" type="int" value="1"/>
+  <property name="drawable" type="int" value="0"/>
  </properties>
  <tileset firstgid="1" name="GK_KG_A5_2" tilewidth="32" tileheight="32" tilecount="128" columns="8">
   <image source="mediumcity3.png" width="256" height="512"/>
@@ -13,8 +13,10 @@
  <tileset firstgid="321" name="GK_KG_B_2" tilewidth="32" tileheight="32" tilecount="256" columns="16">
   <image source="mediumcity2.png" width="512" height="512"/>
  </tileset>
- <tileset firstgid="577" source="../Collision.tsx"/>
  <tileset firstgid="577" name="Collision" tilewidth="32" tileheight="32" tilecount="1" columns="1">
+  <image source="../Collision.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="578" name="Collision" tilewidth="32" tileheight="32" tilecount="1" columns="1">
   <image source="../Collision.png" width="32" height="32"/>
  </tileset>
  <layer id="1" name="Capa de patrones 1" width="100" height="100" offsetx="19.3333" offsety="11.3333">
@@ -50038,6 +50040,10 @@
   </data>
  </layer>
  <layer id="6" name="Collision" width="100" height="100" opacity="0.72">
+  <properties>
+   <property name="Navigation" type="int" value="1"/>
+   <property name="drawable" type="int" value="0"/>
+  </properties>
   <data>
    <tile gid="577"/>
    <tile gid="577"/>

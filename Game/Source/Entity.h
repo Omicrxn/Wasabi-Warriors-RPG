@@ -24,6 +24,7 @@ class Entity
 public:
 
     Entity(EntityType type) : type(type), active(true) {}
+    virtual ~Entity() {}
 
     virtual bool Update(float dt)
     {
@@ -74,11 +75,11 @@ public:
     SDL_Texture* texture;
 
     bool destroy = false;
+    int spritePos;
 
 protected:
-
     bool active = true;
-    int spritePos;
+   
 };
 
 #endif // __ENTITY_H__

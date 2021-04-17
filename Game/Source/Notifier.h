@@ -25,12 +25,28 @@ public:
         requestMapChange = true;
     }
 
+
     bool OnMapChange() { return requestMapChange; }
     MapType ChangeMap() { 
         requestMapChange = false;
         return nextMap;
     }
     MapType GetNextMap() { return nextMap; }
+
+    void NotifyDialog()
+    {
+            requestDialog = true;
+    }
+
+    bool OnDialog() {
+
+            return requestDialog;
+    }
+
+    void SetDialogMode(bool dialogMode)
+    {
+        this->requestDialog = dialogMode;
+    }
 
 private:
     Notifier() : battle(false) {}
@@ -39,4 +55,5 @@ private:
     bool requestMapChange = false;
     // Singleton instance
     static Notifier* instance;
+    bool requestDialog = false;
 };

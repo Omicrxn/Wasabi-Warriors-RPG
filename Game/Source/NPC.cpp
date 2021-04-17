@@ -1,10 +1,9 @@
 #include "NPC.h"
 #include "Render.h"
-#include "Notifier.h"
-NPC::NPC() : Interactive()
+NPC::NPC(Collisions* collisions, EntityManager* entityManager) : Interactive()
 {
     texture = NULL;
-    position = iPoint(12 * 16, 27 * 16);
+    position = iPoint(15 * 16, 27 * 16);
     currentAnim = NPCAnimations::IDLE;
     velocity = { 150.0f, 150.0f };
     width = 32;
@@ -12,57 +11,67 @@ NPC::NPC() : Interactive()
     direction = { 0,0 };
     active = true;
     stepsCounter = 0;
+    collider = collisions->AddCollider({ position.x,position.y,width,height }, Collider::Type::NPC, (Module*)entityManager);
 }
 
 NPC::~NPC()
 {
-
+    collider->pendingToDelete = true;
 }
 
 void NPC::Interact()
 {
-
+    Notifier::GetInstance()->NotifyDialog();
 }
 
 bool NPC::Update(Input* input, float dt)
 {
-    stepsCounter++;
-
-    // Deciding a random direction if enough time has passed
-    if (stepsCounter > 50)
+    if (!stop)
     {
-        stepsCounter = 0;
 
-        // Assigning direction.x a random number between -1 and 1 (-1,0,1)
-        int randNum = (rand() % 3) - 1; // Between -1 and 1
-        direction.x = randNum;
-        randNum = (rand() % 3) - 1; // Between -1 and 1
-        direction.y = randNum;
 
-        if (direction.x > 0 && direction.y == 0)
+        Walk(direction, dt);
+        stepsCounter++;
+        // Update collider position
+        if (collider != nullptr)
         {
-            currentAnim = NPCAnimations::RIGHT;
+            collider->SetPos(position.x, position.y);
         }
-        else if (direction.x < 0 && direction.y == 0)
+        // Deciding a random direction if enough time has passed
+        if (stepsCounter > 50)
         {
-            currentAnim = NPCAnimations::LEFT;
-        }
-        if (direction.y > 0 &&  direction.x == 0)
-        {
-            currentAnim = NPCAnimations::DOWN;
-        }
-        else if (direction.y < 0 && direction.x == 0)
-        {
-            currentAnim = NPCAnimations::UP;
-        }
+            stepsCounter = 0;
 
-        if ((direction.x == 0 && direction.y == 0) || (direction.x != 0 && direction.y != 0))
-        {
-            currentAnim = NPCAnimations::IDLE;
+            // Assigning direction.x a random number between -1 and 1 (-1,0,1)
+            int randNum = (rand() % 3) - 1; // Between -1 and 1
+            direction.x = randNum;
+            randNum = (rand() % 3) - 1; // Between -1 and 1
+            direction.y = randNum;
+
+            if (direction.x > 0 && direction.y == 0)
+            {
+                currentAnim = NPCAnimations::RIGHT;
+            }
+            else if (direction.x < 0 && direction.y == 0)
+            {
+                currentAnim = NPCAnimations::LEFT;
+            }
+            if (direction.y > 0 && direction.x == 0)
+            {
+                currentAnim = NPCAnimations::DOWN;
+            }
+            else if (direction.y < 0 && direction.x == 0)
+            {
+                currentAnim = NPCAnimations::UP;
+            }
+
+            if ((direction.x == 0 && direction.y == 0) || (direction.x != 0 && direction.y != 0))
+            {
+                currentAnim = NPCAnimations::IDLE;
+            }
         }
     }
 
-    Walk(direction, dt);
 
     return true;
 }
@@ -165,4 +174,12 @@ void NPC::SetUpTexture()
 void NPC::SetName(SString name)
 {
     this->name = name;
+}
+
+void NPC::OnCollision(Collider* collider)
+{
+    stop = true;
+    direction = { 0,0 };
+    currentAnim = NPCAnimations::IDLE;
+    Interact();
 }

@@ -186,20 +186,49 @@ Scene* SceneManager::PickScene()
 
 bool SceneManager::LoadState(pugi::xml_node& data)
 {
-	pugi::xml_node docNode;
-	docNode = data.child(current->name.GetString());
+	pugi::xml_node sceneManagerNode = data;
+	pugi::xml_node currentSceneNode;
+
+	currentSceneNode = sceneManagerNode.child(current->name.GetString());
 	LOG("Saving to the current scene:", current->name.GetString());
-	current->LoadState(docNode);
+	current->LoadState(currentSceneNode);
 
 	return true;
 }
 
 bool SceneManager::SaveState(pugi::xml_node& data) const
 {
-	pugi::xml_node docNode;
-	docNode = data.child(current->name.GetString());
+	pugi::xml_node sceneManagerNode = data;
+	pugi::xml_node currentSceneNode;
+
+	///* ---------- CHECKS IF THE NODE WE WANT OVERWRITE EXISTS OR NOT  ----------*/
+	//SString tempName(sceneManagerNode.child("sceneManager").name());
+	//if (tempName == "sceneManager")
+	//{
+	//	// Node sceneManager exists
+	//	sceneManagerNode = sceneManagerNode.child("sceneManager");
+	//}
+	//else
+	//{
+	//	// Node sceneManager does not exist
+	//	sceneManagerNode = sceneManagerNode.append_child("sceneManager");
+	//}
+
+	/* ---------- CHECKS IF THE NODE WE WANT OVERWRITE EXISTS OR NOT  ----------*/
+	SString tempName = sceneManagerNode.child(current->name.GetString()).name();
+	if (tempName == current->name)
+	{
+		// Node cureentScene exists
+		currentSceneNode = sceneManagerNode.child(current->name.GetString());
+	}
+	else
+	{
+		// Node cureentScene does not exist
+		currentSceneNode = sceneManagerNode.append_child(current->name.GetString());
+	}
+
 	LOG("Saving to the current scene: %s", current->name.GetString());
-	current->SaveState(docNode);
+	current->SaveState(currentSceneNode);
 
 	//ListItem<Module*>* item;
 	//item = modules.start;

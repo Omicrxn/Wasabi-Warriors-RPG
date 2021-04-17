@@ -19,6 +19,7 @@ class Player: public Being
 public:
 
     Player(Textures* tex, Collisions* collisions, EntityManager* entityManager);
+    ~Player();
 
     bool Update(Input* input, float dt);
 
@@ -43,6 +44,7 @@ public:
     Animations currentAnim;
 
     int width, height;
+    bool stop = false;
 };
 
 #endif // __PLAYER_H__

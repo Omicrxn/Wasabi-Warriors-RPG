@@ -82,6 +82,8 @@ SceneGameplay::~SceneGameplay()
 
 bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, DialogSystem* dialogSystem, Easing* easing)
 {
+	audio->StopMusic();
+
 	notifier = Notifier::GetInstance();
 
 	// Needed modules
@@ -89,6 +91,7 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	this->guiManager = guiManager;
 	this->win = win;
 	this->dialogSystem = dialogSystem;
+	this->audio = audio;
 
 	map = (Map*)entityManager->CreateEntity(EntityType::MAP, "Map");
 
@@ -104,8 +107,10 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 			//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
 
 			RELEASE_ARRAY(data);
+			audio->PlayMusic("Assets/Audio/Music/cemetry.ogg");
 		}
 		break;
+		
 	case MapType::HOUSE:
 		if (map->Load("House", "house.tmx") == true)
 		{
@@ -115,6 +120,7 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 			//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
 
 			RELEASE_ARRAY(data);
+			audio->PlayMusic("Assets/Audio/Music/house.ogg");
 		}
 		break;
 	case MapType::MEDIUM_CITY:
@@ -126,6 +132,7 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 			//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
 
 			RELEASE_ARRAY(data);
+			audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
 		}
 		break;
 	case MapType::RESTAURANT:
@@ -137,6 +144,7 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 			//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
 
 			RELEASE_ARRAY(data);
+			audio->PlayMusic("Assets/Audio/Music/restaurant.ogg");
 		}
 		break;
 	case MapType::TOWN:
@@ -148,6 +156,7 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 			//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
 
 			RELEASE_ARRAY(data);
+			audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
 		}
 		break;
 	default:
@@ -157,6 +166,7 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	// Load texture
 	spritesheet = tex->Load("Assets/Textures/Characters/characters_spritesheet.png");
 	titlesTex = tex->Load("Assets/Textures/Scenes/titles.png");
+	entityManager->texture = spritesheet;
 
 	// Create party member 1
 	Player* player;
@@ -268,8 +278,8 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	//btnNone = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 5, { 700, 500, 190, 49 }, "NONE");
 	//btnNone->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, ButtonColour::WHITE);
 	//btnNone->state = GuiControlState::HIDDEN;
-
-	audio->PlayMusic("Assets/Audio/Music/menu.ogg");
+	
+	
 
 	return true;
 }
@@ -301,6 +311,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 				//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
 
 				RELEASE_ARRAY(data);
+				audio->PlayMusic("Assets/Audio/Music/cemetry.ogg");
 			}
 			break;
 		case MapType::HOUSE:
@@ -312,6 +323,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 				//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
 
 				RELEASE_ARRAY(data);
+				audio->PlayMusic("Assets/Audio/Music/house.ogg");
 			}
 			break;
 		case MapType::MEDIUM_CITY:
@@ -323,6 +335,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 				//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
 
 				RELEASE_ARRAY(data);
+				audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
 			}
 			break;
 		case MapType::RESTAURANT:
@@ -334,9 +347,11 @@ bool SceneGameplay::Update(Input* input, float dt)
 				//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
 
 				RELEASE_ARRAY(data);
+				audio->PlayMusic("Assets/Audio/Music/restaurant.ogg");
 			}
 			break;
 		case MapType::TOWN:
+			
 			if (map->Load("Town", "townMap.tmx") == true)
 			{
 				int w, h;
@@ -345,6 +360,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 				//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
 
 				RELEASE_ARRAY(data);
+				audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
 			}
 			break;
 		default:
@@ -393,8 +409,14 @@ bool SceneGameplay::Update(Input* input, float dt)
 		focusedButtonId = 6;
 	}
 
-	if (input->GetKey(SDL_SCANCODE_C) == KEY_DOWN)
+	if (dialogSystem->DialogHasFinished())
 	{
+		currentPlayer->stop = false;
+		notifier->SetDialogMode(false);
+	}
+	if (notifier->OnDialog() && input->GetKey(SDL_SCANCODE_F) == KeyState::KEY_DOWN)
+	{
+		currentPlayer->stop = true;
 		dialogSystem->NewDialog();
 	}
 
@@ -621,30 +643,27 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 
 bool SceneGameplay::LoadState(pugi::xml_node& scenegameplay)
 {
+	if ((int)currentMap != scenegameplay.attribute("currentMap").as_int())
+	{
+		MapType nextMap = (MapType)scenegameplay.attribute("currentMap").as_int();
+		this->notifier->NotifyMapChange(nextMap);
+	}
 	return true;
 }
 
 bool SceneGameplay::SaveState(pugi::xml_node& scenegameplay) const
 {
-	/* THE BELOW CODE IS FOR TESTING PURPOSES*/
-
-	// Check if ITWORKS node exists
-	SString testName(scenegameplay.child("ITWORKS").name());
-	if (testName == "ITWORKS")
+	/* ---------- CHECKS IF THE Attribute WE WANT OVERWRITE EXISTS OR NOT  ----------*/
+	SString tempName = scenegameplay.attribute("currentMap").name();
+	if (tempName == "currentMap")
 	{
-		// Node ITWORKS exists
-		pugi::xml_node testNode = scenegameplay.child("ITWORKS");
-
-		testNode.attribute("A").set_value(12);
-		testNode.attribute("B").set_value(12);
+		// Attribute currentMap exists
+		scenegameplay.attribute("currentMap").set_value((int)this->currentMap);
 	}
 	else
 	{
-		// Node ITWORKS does not exist
-		pugi::xml_node testNode = scenegameplay.append_child("ITWORKS");
-
-		testNode.append_attribute("A").set_value(100);
-		testNode.append_attribute("B").set_value(100);
+		// Attribute currentMap does not exist
+		scenegameplay.append_attribute("currentMap").set_value((int)this->currentMap);
 	}
 	return true;
 }
@@ -666,6 +685,7 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 		if (control->id == 0)
 		{
 			currentState = GameState::PAUSE;
+			audio->ChangeMusicVolume(SDL_MIX_MAXVOLUME / 10);
 			ToggleHUDButtons();
 			TogglePauseButtons();
 		}
@@ -674,6 +694,7 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 		else if (control->id == 3)
 		{
 			currentState = GameState::ROAMING;
+			audio->ChangeMusicVolume(SDL_MIX_MAXVOLUME / 2);
 			TogglePauseButtons();
 			ToggleHUDButtons();
 		}

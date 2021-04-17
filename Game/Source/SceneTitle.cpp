@@ -87,7 +87,7 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
 
     hoverFx = audio->LoadFx("Assets/Audio/Fx/bong.ogg");
     clickFx = audio->LoadFx("Assets/Audio/Fx/click.ogg");
-    titleFx = audio->LoadFx("Assets/Audio/Fx/confirmation.ogg");
+    titleFx = audio->LoadFx("Assets/Audio/Fx/title.ogg");
 
     /* MENU BUTTONS */
     btnContinue = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 0, { 0, 200, 190, 49 }, "CONTINUE");
@@ -232,7 +232,7 @@ bool SceneTitle::Draw(Render* render)
     win->GetWindowSize(width, height);
 
     // Main title FX sounds just at title appearing
-    if (titleFxTimer.ReadSec() >= 3.0f && titleFxTimer.ReadSec() < 3.1f)
+    if (titleFxTimer.ReadSec() >= 2.3f && titleFxTimer.ReadSec() < 2.4f)
     {
         audio->PlayFx(titleFx);
     }

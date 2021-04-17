@@ -55,6 +55,7 @@ class Being : public Entity
 public:
 
 	Being() : Entity(EntityType::UNKNOWN) {};
+	virtual ~Being() {}
 
 	virtual void Walk(iPoint direction, float dt) = 0;
 	virtual void SetUpTexture() {}
@@ -69,6 +70,7 @@ public:
 	Animation walkUpAnim;
 	Animation walkDownAnim;
 	SDL_Rect animRec;
+	SString classType;
 };
 
 #endif //__BEING_H__

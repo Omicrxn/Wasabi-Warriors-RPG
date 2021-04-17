@@ -20,7 +20,7 @@ class Enemy : public Being
 public:
 
     Enemy(Collisions* collisions, EntityManager* entityManager);
-    virtual ~Enemy();
+    ~Enemy();
 
 public:
 

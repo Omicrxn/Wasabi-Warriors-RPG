@@ -4,6 +4,7 @@
 
 #include "Interactive.h"
 #include "Animation.h"
+#include "EntityManager.h"
 
 enum class NPCAnimations
 {
@@ -18,7 +19,7 @@ class NPC : public Interactive
 {
 public:
 
-	NPC();
+	NPC(Collisions* collisions, EntityManager* entityManager);
 	~NPC();
 
 	bool NPC::Update(Input* input, float dt);
@@ -31,6 +32,7 @@ private:
 
 	void Walk(iPoint direction, float dt);
 	void Interact();
+	void OnCollision(Collider* collider) override;
 
 public:
 
@@ -48,6 +50,7 @@ public:
 	int width, height;
 
 	uint stepsCounter;
+	bool stop = false;
 };
 
 #endif //__NPC_H__
