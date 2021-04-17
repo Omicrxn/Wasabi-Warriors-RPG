@@ -2,7 +2,7 @@
 <map version="1.5" tiledversion="1.5.0" orientation="orthogonal" renderorder="right-down" width="24" height="15" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="1">
  <properties>
   <property name="Drawable" type="int" value="0"/>
-  <property name="Navigation" type="int" value="0"/>
+  <property name="Navigation" type="int" value="1"/>
  </properties>
  <tileset firstgid="1" name="Cemetery" tilewidth="32" tileheight="32" tilecount="256" columns="16">
   <image source="GK_FG_B_2.png" width="512" height="512"/>
@@ -1469,7 +1469,7 @@
    <tile/>
   </data>
  </layer>
- <layer id="5" name="Collision" width="24" height="15" visible="0" opacity="0.46">
+ <layer id="5" name="Collision" width="24" height="15" opacity="0.46">
   <properties>
    <property name="Navigation" type="int" value="1"/>
    <property name="drawable" type="int" value="0"/>
