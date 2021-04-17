@@ -159,44 +159,54 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	titlesTex = tex->Load("Assets/Textures/Scenes/titles.png");
 
 	// Create party member 1
-	Entity* entity;
-	entity = entityManager->CreateEntity(EntityType::PLAYER, "DaBaby");
-	entity->position = iPoint(12 * 32, 6 * 32);
-	entity->SetTexture(spritesheet, 3);
-	entity->SetState(true);
-	entity = nullptr;
+	Player* player;
+	player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "DaBaby");
+	player->position = iPoint(12 * 32, 6 * 32);
+	player->SetTexture(spritesheet, 3);
+	player->SetState(true);
+	player->SetUpClass("hunter");
+	player = nullptr;
 	currentPlayer = entityManager->playerList.At(0)->data;
 	// Create party member 2
-	entity = entityManager->CreateEntity(EntityType::PLAYER, "DaCrack");
-	entity->position = iPoint(12 * 32, 6 * 32);
-	entity->SetTexture(spritesheet, 6);
-	entity = nullptr;
-	// Create enemy
-	entity = entityManager->CreateEntity(EntityType::ENEMY, "DaBoss");
-	entity->position = iPoint(10 * 32, 6 * 32);
-	entity->SetTexture(spritesheet, 5);
-	entity = nullptr;
+	player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "DaCrack");
+	player->position = iPoint(12 * 32, 6 * 32);
+	player->SetTexture(spritesheet, 6);
+	player->SetUpClass("wizard");
+	player = nullptr;
+	RELEASE(player);
+	// Create enemy 1
+	Enemy* enemy;
+	enemy = (Enemy*)entityManager->CreateEntity(EntityType::ENEMY, "DaBoss");
+	enemy->position = iPoint(10 * 32, 6 * 32);
+	enemy->SetTexture(spritesheet, 5);
+	enemy->SetUpClass("henchman");
+	enemy = nullptr;
+	RELEASE(enemy);
 	// Create NPC
-	entity = entityManager->CreateEntity(EntityType::NPC, "DaBot");
-	entity->position = iPoint(8 * 32, 8 * 32);
-	entity->SetTexture(spritesheet, 4);
-	entity = nullptr;
+	NPC* npc;
+	npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, "DaBot");
+	npc->position = iPoint(8 * 32, 8 * 32);
+	npc->SetTexture(spritesheet, 4);
+	npc = nullptr;
 	// Create NPC 2
-	entity = entityManager->CreateEntity(EntityType::NPC, "DaBot2");
-	entity->position = iPoint(10 * 32, 6 * 32);
-	entity->SetTexture(spritesheet, 8);
-	entity = nullptr;
+	npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, "DaBot2");
+	npc->position = iPoint(10 * 32, 6 * 32);
+	npc->SetTexture(spritesheet, 8);
+	npc = nullptr;
 	// Create NPC 3
-	entity = entityManager->CreateEntity(EntityType::NPC, "DaBot3");
-	entity->position = iPoint(15 * 32, 7 * 32);
-	entity->SetTexture(spritesheet, 7);
-	entity = nullptr;
+	npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, "DaBot3");
+	npc->position = iPoint(15 * 32, 7 * 32);
+	npc->SetTexture(spritesheet, 7);
+	npc = nullptr;
+	RELEASE(npc);
 
 	// Create Teleport
-	entity = entityManager->CreateEntity(EntityType::TELEPORT, "DaTransfer");
-	entity->position = iPoint(12 * 32, 10 * 32);
-	entityManager->teleportList.At(entityManager->teleportList.Find((Teleport*)entity))->data->SetUpDestination(MapType::TOWN);
-	entity = nullptr;
+	Teleport* teleport;
+	teleport = (Teleport*)entityManager->CreateEntity(EntityType::TELEPORT, "DaTransfer");
+	teleport->position = iPoint(12 * 32, 10 * 32);
+	entityManager->teleportList.At(entityManager->teleportList.Find(teleport))->data->SetUpDestination(MapType::TOWN);
+	teleport = nullptr;
+	RELEASE(teleport);
 
 	// Load battle system textures
 	backgroundTex = tex->Load("Assets/Textures/Scenes/battle_scene.jpg");

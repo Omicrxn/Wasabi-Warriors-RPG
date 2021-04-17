@@ -17,7 +17,7 @@ Enemy::Enemy(Collisions* collisions, EntityManager* entityManager) : Being()
     height = 32;
     direction = { 0,0 };
 	// Define enemy parameters
-	this->stats.name = "Enemy";
+	/*this->stats.name = "Enemy";
 	this->stats.level = 1;
 	this->stats.damage = 10;
 	this->stats.maxHP = 120;
@@ -25,7 +25,7 @@ Enemy::Enemy(Collisions* collisions, EntityManager* entityManager) : Being()
 	this->stats.strength = 10;
 	this->stats.defense = 10;
 	this->stats.attackSpeed = 5;
-	this->stats.criticalRate = 5;
+	this->stats.criticalRate = 5;*/
 
     collider = collisions->AddCollider({ position.x + 86,position.y + 43,width,height }, Collider::Type::ENEMY, (Module*)entityManager);
     active = true;
@@ -120,42 +120,37 @@ bool Enemy::SetUpClass(SString name)
 {
     bool ret = true;
 
-	SString newName("entity_info");
-	newName += ".xml";
-	pugi::xml_document docData;
-	pugi::xml_node docNode;
+    SString newName("entity_info");
+    newName += ".xml";
+    pugi::xml_document docData;
+    pugi::xml_node docNode;
 
-	pugi::xml_parse_result result = docData.load_file(newName.GetString());
+    pugi::xml_parse_result result = docData.load_file(newName.GetString());
 
-	// Check result for loading errors
-	if (result == NULL)
-	{
-		LOG("Could not load entity info xml file entity_info.xml. pugi error: %s", result.description());
-		ret = false;
-	}
-	else
-	{
-		LOG("Loading entity info");
+    // Check result for loading errors
+    if (result == NULL)
+    {
+        LOG("Could not load entity info xml file entity_info.xml. pugi error: %s", result.description());
+        ret = false;
+    }
+    else
+    {
+        LOG("Loading entity info");
 
-		docNode = docData.child("enemy");
+        docNode = docData.child("entity").child("enemy");
+        docNode = docNode.child(name.GetString());
 
-        for (docNode = docNode.first_child(); docNode != NULL; docNode = docNode.next_sibling())
-        {
-            if (docNode.name() == name.GetString())
-            {
-                this->stats.level = docNode.attribute("level").as_int(0);
-                this->stats.damage = docNode.attribute("damage").as_int(0);
-                this->stats.maxHP = docNode.attribute("max_hp").as_int(0);
-                this->stats.currentHP = docNode.attribute("current_hp").as_int(0);
-                this->stats.strength = docNode.attribute("strength").as_int(0);
-                this->stats.defense = docNode.attribute("defense").as_int(0);
-                this->stats.attackSpeed = docNode.attribute("attack_speed").as_int(0);
-                this->stats.criticalRate = docNode.attribute("critical_rate").as_int(0);
-            }
-        }
-	}
+        this->stats.level = docNode.attribute("level").as_int(0);
+        this->stats.damage = docNode.attribute("damage").as_int(0);
+        this->stats.maxHP = docNode.attribute("max_hp").as_int(0);
+        this->stats.currentHP = docNode.attribute("current_hp").as_int(0);
+        this->stats.strength = docNode.attribute("strength").as_int(0);
+        this->stats.defense = docNode.attribute("defense").as_int(0);
+        this->stats.attackSpeed = docNode.attribute("attack_speed").as_int(0);
+        this->stats.criticalRate = docNode.attribute("critical_rate").as_int(0);
+    }
 
-	LOG("Saving enemy info from %s", newName.GetString());
+    LOG("Saving enemy info from %s", newName.GetString());
 
-	return ret;
+    return ret;
 }
