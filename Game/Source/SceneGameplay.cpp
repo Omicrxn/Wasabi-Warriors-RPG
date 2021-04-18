@@ -85,9 +85,9 @@ SceneGameplay::SceneGameplay(bool hasStartedFromContinue)
 	notifier = nullptr;
 
 	if (hasStartedFromContinue)
-		currentMap = (MapType)-1;
+		currentMap = MapType::NONE;
 	else
-		currentMap = MapType::CEMETERY;
+		currentMap = MapType::TOWN;
 }
 
 SceneGameplay::~SceneGameplay()
@@ -315,79 +315,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 		entityManager->TooglePlayerGodMode();
 	}
 
-	if (notifier->OnMapChange() && notifier->GetNextMap() != currentMap)
-	{
-		map->CleanUp();
-
-		currentMap = notifier->ChangeMap();
-		// Create map
-		switch (currentMap)
-		{
-		case MapType::CEMETERY:
-			if (map->Load("Cemetery", "Cemetery.tmx") == true)
-			{
-				int w, h;
-				uchar* data = NULL;
-
-				//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
-
-				RELEASE_ARRAY(data);
-				audio->PlayMusic("Assets/Audio/Music/cemetery.ogg");
-			}
-			break;
-		case MapType::HOUSE:
-			if (map->Load("House", "house.tmx") == true)
-			{
-				int w, h;
-				uchar* data = NULL;
-
-				//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
-
-				RELEASE_ARRAY(data);
-				audio->PlayMusic("Assets/Audio/Music/house.ogg");
-			}
-			break;
-		case MapType::MEDIUM_CITY:
-			if (map->Load("MediumCity", "mediumcity.tmx") == true)
-			{
-				int w, h;
-				uchar* data = NULL;
-
-				//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
-
-				RELEASE_ARRAY(data);
-				audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
-			}
-			break;
-		case MapType::RESTAURANT:
-			if (map->Load("Restaurant", "restaurant.tmx") == true)
-			{
-				int w, h;
-				uchar* data = NULL;
-
-				//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
-
-				RELEASE_ARRAY(data);
-				audio->PlayMusic("Assets/Audio/Music/restaurant.ogg");
-			}
-			break;
-		case MapType::TOWN:
-			
-			if (map->Load("Town", "townMap.tmx") == true)
-			{
-				int w, h;
-				uchar* data = NULL;
-
-				//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
-
-				RELEASE_ARRAY(data);
-				audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
-			}
-			break;
-		default:
-			break;
-		}
-	}
+	
 
 	if (input->GetKey(SDL_SCANCODE_E) == KEY_DOWN && battle == false)
 	{
@@ -847,6 +775,80 @@ void SceneGameplay::ExitBattle()
 
 void SceneGameplay::SetUpTp()
 {
+	if (notifier->OnMapChange() && notifier->GetNextMap() != currentMap)
+	{
+		map->CleanUp();
+
+		currentMap = notifier->ChangeMap();
+		// Create map
+		switch (currentMap)
+		{
+		case MapType::CEMETERY:
+			if (map->Load("Cemetery", "Cemetery.tmx") == true)
+			{
+				int w, h;
+				uchar* data = NULL;
+
+
+				//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
+
+				RELEASE_ARRAY(data);
+				audio->PlayMusic("Assets/Audio/Music/cemetery.ogg");
+			}
+			break;
+		case MapType::HOUSE:
+			if (map->Load("House", "house.tmx") == true)
+			{
+				int w, h;
+				uchar* data = NULL;
+
+				//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
+
+				RELEASE_ARRAY(data);
+				audio->PlayMusic("Assets/Audio/Music/house.ogg");
+			}
+			break;
+		case MapType::MEDIUM_CITY:
+			if (map->Load("MediumCity", "mediumcity.tmx") == true)
+			{
+				int w, h;
+				uchar* data = NULL;
+
+				//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
+
+				RELEASE_ARRAY(data);
+				audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
+			}
+			break;
+		case MapType::RESTAURANT:
+			if (map->Load("Restaurant", "restaurant.tmx") == true)
+			{
+				int w, h;
+				uchar* data = NULL;
+
+				//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
+
+				RELEASE_ARRAY(data);
+				audio->PlayMusic("Assets/Audio/Music/restaurant.ogg");
+			}
+			break;
+		case MapType::TOWN:
+
+			if (map->Load("Town", "townMap.tmx") == true)
+			{
+				int w, h;
+				uchar* data = NULL;
+
+				//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
+
+				RELEASE_ARRAY(data);
+				audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
+			}
+			break;
+		default:
+			break;
+		}
+	}
 }
 
 void SceneGameplay::EnableBattleButtons()

@@ -1,0 +1,32 @@
+<!-- Entity info file for the game -->
+<map>
+  <cemetery>
+    <player posX="352" posY="416"/>
+    <enemy posX="352" posY="192"/>
+    <npc posX="576" posY="128"/>
+    <npc posX="96" posY="160"/>
+    <npc posX="544" posY="320"/>
+    <teleport posX="352" posY="448"/>
+  </cemetery>
+  <mediumcity>
+    <player posX="800" posY="32"/>
+    <enemy posX="224" posY="224"/>
+    <npc posX="576" posY="128"/>
+    <npc posX="96" posY="160"/>
+    <npc posX="544" posY="320"/>
+    <teleport posX="800" posY="0"/>
+  </mediumcity>
+  <town>
+    <prevCemetery>
+      <player posX="608" posY="32"/>
+    </prevCemetery>
+    <prevMediumcity>
+      <player posX="1376" posY="288"/>
+    </prevMediumcity>
+    <enemy posX="224" posY="224"/>
+    <npc posX="576" posY="128"/>
+    <npc posX="96" posY="160"/>
+    <npc posX="544" posY="320"/>
+    <teleport posX="800" posY="0"/>
+  </town>
+</map>
