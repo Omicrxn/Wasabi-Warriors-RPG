@@ -660,12 +660,7 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 {
 	// TODO: Unload all resources
 	
-	// Removing used modules
-	this->entityManager = nullptr;
-	this->guiManager = nullptr;
-	this->win = nullptr;
-	this->dialogSystem = nullptr;
-	this->audio = nullptr;
+	
 
 	RELEASE(battleSystem);
 	battleSystem = nullptr;
@@ -721,6 +716,15 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 	iconExit = nullptr;
 
 	notifier = nullptr;
+
+	entityManager->CleanUp();
+
+	// Removing used modules
+	this->entityManager = nullptr;
+	this->guiManager = nullptr;
+	this->win = nullptr;
+	this->dialogSystem = nullptr;
+	this->audio = nullptr;
 
 	return true;
 }
