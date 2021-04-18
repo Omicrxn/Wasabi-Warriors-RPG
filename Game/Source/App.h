@@ -134,8 +134,9 @@ private:
 	float dt = 0.0f;
 
 	int	cappedMs = -1;
+
+	bool debug;
+	bool fullscreen;
 };
-
-
 
 #endif	// __APP_H__

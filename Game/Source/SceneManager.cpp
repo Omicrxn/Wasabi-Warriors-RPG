@@ -167,7 +167,6 @@ bool SceneManager::Update(float dt)
 		current->transitionRequired = false;
 	}
 
-	if (input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) return false;
 	return true;
 }
 

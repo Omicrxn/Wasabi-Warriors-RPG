@@ -81,6 +81,12 @@ bool GuiIcon::Update(Input* input, AudioManager* audio, float dt)
                 audio->PlayFx(clickFx);
             }
         }
+        else if ((iconType == IconType::ICON_PAUSE || iconType == IconType::ICON_RESUME) && input->GetKey(SDL_SCANCODE_ESCAPE) == KeyState::KEY_DOWN)
+        {
+            NotifyObserver();
+            // Audio Fx when clicked
+            audio->PlayFx(clickFx);
+        }
         else if (controller && input->GetControllerButton(assignedControl) == KeyState::KEY_DOWN)
         {
             NotifyObserver();
