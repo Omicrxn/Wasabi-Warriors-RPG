@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="11" height="15" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="1">
+<map version="1.5" tiledversion="1.5.0" orientation="orthogonal" renderorder="right-down" width="11" height="15" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="1">
  <properties>
   <property name="Navigation" type="int" value="1"/>
   <property name="drawable" type="int" value="0"/>
@@ -18,18 +18,18 @@
  </tileset>
  <layer id="1" name="Capa de patrones 1" width="11" height="15">
   <data>
-   <tile gid="1610612747"/>
-   <tile gid="1610612765"/>
-   <tile gid="1610612765"/>
-   <tile gid="1610612765"/>
-   <tile gid="1610612765"/>
-   <tile gid="1610612765"/>
+   <tile gid="57"/>
+   <tile gid="58"/>
+   <tile gid="58"/>
+   <tile gid="58"/>
+   <tile gid="58"/>
+   <tile gid="58"/>
    <tile gid="11"/>
    <tile/>
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
+   <tile gid="92"/>
    <tile gid="111"/>
    <tile gid="99"/>
    <tile gid="111"/>
@@ -40,7 +40,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
+   <tile gid="92"/>
    <tile gid="42"/>
    <tile gid="43"/>
    <tile gid="43"/>
@@ -51,18 +51,18 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
+   <tile gid="92"/>
    <tile gid="60"/>
    <tile gid="61"/>
    <tile gid="61"/>
    <tile gid="61"/>
    <tile gid="62"/>
    <tile gid="29"/>
-   <tile gid="1610612765"/>
-   <tile gid="1610612765"/>
-   <tile gid="1610612765"/>
+   <tile gid="58"/>
+   <tile gid="58"/>
+   <tile gid="58"/>
    <tile gid="11"/>
-   <tile/>
+   <tile gid="92"/>
    <tile gid="60"/>
    <tile gid="61"/>
    <tile gid="61"/>
@@ -73,7 +73,7 @@
    <tile gid="28"/>
    <tile gid="25"/>
    <tile gid="29"/>
-   <tile gid="1610612747"/>
+   <tile gid="92"/>
    <tile gid="60"/>
    <tile gid="61"/>
    <tile gid="61"/>
@@ -84,7 +84,7 @@
    <tile gid="17"/>
    <tile gid="18"/>
    <tile gid="29"/>
-   <tile gid="3221225501"/>
+   <tile gid="92"/>
    <tile gid="61"/>
    <tile gid="61"/>
    <tile gid="61"/>
@@ -117,7 +117,7 @@
    <tile gid="35"/>
    <tile gid="36"/>
    <tile gid="29"/>
-   <tile gid="3221225501"/>
+   <tile gid="92"/>
    <tile gid="34"/>
    <tile gid="35"/>
    <tile gid="35"/>
@@ -128,7 +128,7 @@
    <tile gid="35"/>
    <tile gid="36"/>
    <tile gid="29"/>
-   <tile gid="3221225501"/>
+   <tile gid="92"/>
    <tile gid="34"/>
    <tile gid="35"/>
    <tile gid="35"/>
@@ -139,7 +139,7 @@
    <tile gid="35"/>
    <tile gid="36"/>
    <tile gid="29"/>
-   <tile gid="3221225501"/>
+   <tile gid="92"/>
    <tile gid="34"/>
    <tile gid="35"/>
    <tile gid="35"/>
@@ -150,7 +150,7 @@
    <tile gid="35"/>
    <tile gid="36"/>
    <tile gid="29"/>
-   <tile gid="3221225501"/>
+   <tile gid="92"/>
    <tile gid="34"/>
    <tile gid="35"/>
    <tile gid="35"/>
@@ -161,7 +161,7 @@
    <tile gid="35"/>
    <tile gid="36"/>
    <tile gid="29"/>
-   <tile gid="2147483749"/>
+   <tile gid="110"/>
    <tile gid="99"/>
    <tile gid="99"/>
    <tile gid="99"/>
@@ -198,7 +198,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="3221225501"/>
+   <tile gid="92"/>
    <tile gid="149"/>
    <tile gid="145"/>
    <tile gid="148"/>
@@ -209,7 +209,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="3221225501"/>
+   <tile gid="92"/>
    <tile gid="167"/>
    <tile gid="163"/>
    <tile gid="166"/>
@@ -220,7 +220,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="3221225501"/>
+   <tile gid="92"/>
    <tile/>
    <tile gid="183"/>
    <tile gid="199"/>
@@ -231,7 +231,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="3221225501"/>
+   <tile gid="92"/>
    <tile/>
    <tile gid="183"/>
    <tile gid="181"/>
@@ -242,7 +242,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="3221225501"/>
+   <tile gid="92"/>
    <tile gid="155"/>
    <tile gid="155"/>
    <tile gid="1610612765"/>
@@ -692,7 +692,7 @@
    <tile/>
   </data>
  </layer>
- <layer id="8" name="Collision" width="11" height="15" opacity="0.65">
+ <layer id="8" name="Collision" width="11" height="15" visible="0" opacity="0.65">
   <properties>
    <property name="Navigation" type="int" value="1"/>
    <property name="drawable" type="int" value="0"/>
