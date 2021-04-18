@@ -2,8 +2,6 @@
 
 #include "Pathfinding.h"
 
-#include "Notifier.h"
-
 #include "Log.h"
 
 #define DEFAULT_PATH_LENGTH 50

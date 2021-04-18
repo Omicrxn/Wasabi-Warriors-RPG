@@ -1,5 +1,4 @@
 #include "Player.h"
-#include "Notifier.h"
 
 #include "Log.h"
 
@@ -9,6 +8,7 @@ Player::Player(Textures* tex, Collisions* collisions, EntityManager* entityManag
     position = iPoint(12 * 16, 27 * 16);
     active = false;
     stopPlayer = false;
+    transitioning = false;
     // Setting Being parameters
     velocity = { 150.0f, 150.0f };
     direction = { 0,0 };
@@ -44,7 +44,7 @@ Player::~Player()
 bool Player::Update(Input* input, float dt)
 {
 
-        if (!Notifier::GetInstance()->GetBattle() && !stopPlayer)
+        if (!Notifier::GetInstance()->GetBattle() && !stopPlayer && !transitioning)
         {
             Walk(direction, dt);
             direction.x = input->GetAxisRaw(AxisName::HORIZONTAL);
@@ -82,8 +82,9 @@ bool Player::Update(Input* input, float dt)
         {
             currentAnim = Animations::IDLE;
         }
-
     }
+
+        transitioning = false;
     return true;
 }
 

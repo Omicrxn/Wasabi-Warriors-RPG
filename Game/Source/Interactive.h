@@ -3,7 +3,7 @@
 #define __INTERACTIVE_H__
 #include "Entity.h"
 #include "SString.h"
-#include "Notifier.h"
+
 class Interactive : public Entity
 {
 public:

@@ -23,6 +23,6 @@ private:
 	SString nameTeleport; // NPC name
 
 	int width = 32, height = 32;
-
+	bool hasInteracted = false;
 	uint stepsCounter;
 };

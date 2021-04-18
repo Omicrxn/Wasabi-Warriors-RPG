@@ -197,40 +197,38 @@ bool Map::CleanUp()
 {
     LOG("Unloading map");
 
-    // L03: DONE 2: Make sure you clean up any memory allocated from tilesets/map
-    // Remove all tilesets
-	ListItem<TileSet*>* item;
-	item = data.tilesets.start;
-
-	while (item != NULL)
+	// L03: DONE 2: Make sure you clean up any memory allocated from tilesets/map
+	// Remove all tilesets
+	for (int i = 0; i < data.tilesets.Count(); i++)
 	{
-		if (item->data->texture != nullptr) tex->UnLoad(item->data->texture);
-		RELEASE(item->data);
-		item = item->next;
+		TileSet* t = data.tilesets[i];
+		delete t;
 	}
 	data.tilesets.Clear();
-
-	// L04: DONE 2: clean up all layer data
+	
+	// L04: TODO 2: clean up all layer data
 	// Remove all layers
-	ListItem<MapLayer*>* item2;
-	item2 = data.layers.start;
-
-	while (item2 != NULL)
+	for (int i = 0; i < data.layers.Count(); i++)
 	{
-		RELEASE(item2->data);
-		item2 = item2->next;
+		data.layers.At(i)->data->properties.list.Clear();
+		RELEASE(data.layers.At(i)->data);
+
 	}
 	data.layers.Clear();
+
 
 	// Clean up the pugui tree
 	mapFile.reset();
 
+	mapLoaded = false;
+	LOG("Map Unloaded");
     return true;
 }
 
 // Load new map
 bool Map::Load(const char* subfolder,const char* filename)
 {
+	CleanUp();
     bool ret = true;
 	folder = "Assets/Maps/";
 	folder += subfolder;
