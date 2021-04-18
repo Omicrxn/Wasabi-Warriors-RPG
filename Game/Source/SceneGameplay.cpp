@@ -270,7 +270,10 @@ bool SceneGameplay::Update(Input* input, float dt)
 		entityManager->TooglePlayerGodMode();
 	}
 
-	SetUpTp();
+	if (notifier->OnMapChange() && notifier->GetNextMap() != currentMap)
+	{
+		SetUpTp();
+	}
 
 	if (input->GetKey(SDL_SCANCODE_E) == KEY_DOWN && battle == false)
 	{
@@ -774,8 +777,7 @@ void SceneGameplay::SetUpTp()
 {
 	MapType previousMap = MapType::NONE;
 
-	if (notifier->OnMapChange() && notifier->GetNextMap() != currentMap)
-	{
+
 		map->CleanUp();
 		previousMap = currentMap;
 		currentMap = notifier->ChangeMap();
@@ -791,7 +793,7 @@ void SceneGameplay::SetUpTp()
 				//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
 
 				RELEASE_ARRAY(data);
-				audio->PlayMusic("Assets/Audio/Music/cemetery.ogg");
+				//audio->PlayMusic("Assets/Audio/Music/cemetery.ogg");
 			}
 			break;
 		case MapType::HOUSE:
@@ -998,7 +1000,6 @@ void SceneGameplay::SetUpTp()
 		//}
 
 		
-	}
 }
 
 void SceneGameplay::EnableBattleButtons()
