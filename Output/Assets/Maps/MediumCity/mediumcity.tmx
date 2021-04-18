@@ -17,7 +17,7 @@
   <image source="../collision.png" width="32" height="32"/>
  </tileset>
  <tileset firstgid="578" name="restaurant_tileset" tilewidth="32" tileheight="32" tilecount="30" columns="5">
-  <image source="../restaurant_tileset.png" width="160" height="192"/>
+  <image source="restaurant_tileset.png" width="160" height="192"/>
  </tileset>
  <layer id="1" name="Tile Layer 1" width="32" height="18">
   <data>
@@ -134,7 +134,7 @@
    <tile gid="505"/>
    <tile gid="461"/>
    <tile gid="510"/>
-   <tile gid="2684355050"/>
+   <tile gid="511"/>
    <tile gid="464"/>
    <tile gid="17"/>
    <tile gid="17"/>
@@ -166,7 +166,7 @@
    <tile gid="523"/>
    <tile gid="461"/>
    <tile gid="510"/>
-   <tile gid="2684355050"/>
+   <tile gid="511"/>
    <tile gid="464"/>
    <tile gid="466"/>
    <tile gid="467"/>
@@ -198,7 +198,7 @@
    <tile gid="477"/>
    <tile gid="461"/>
    <tile gid="510"/>
-   <tile gid="479"/>
+   <tile gid="511"/>
    <tile gid="464"/>
    <tile gid="553"/>
    <tile gid="565"/>
