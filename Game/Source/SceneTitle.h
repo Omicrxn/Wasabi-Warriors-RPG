@@ -33,7 +33,7 @@ public:
     SceneTitle();
     virtual ~SceneTitle();
 
-    bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, Easing* easing);
+    bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, Easing* easing, Render* render);
 
     bool Update(Input* input, float dt);
 

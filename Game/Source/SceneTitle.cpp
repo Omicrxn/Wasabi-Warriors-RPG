@@ -79,7 +79,7 @@ SceneTitle::~SceneTitle()
 {
 }
 
-bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, Easing* easing)
+bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, Easing* easing, Render* render)
 {
     this->guiManager = guiManager;
     this->win = win;
@@ -147,6 +147,9 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
 
     titleFxTimer.Start();
     easing->CreateSpline(&titlePosition.x, width / 2 - mainTitlesRect.w / 2, 3000, SplineType::BACK);
+
+    render->camera.x = 0;
+    render->camera.y = 0;
 
     return true;
 }
@@ -327,6 +330,7 @@ bool SceneTitle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManag
 {
     this->guiManager = nullptr;
     this->win = nullptr;
+    easing->CleanUp();
     this->easing = nullptr;
     this->audio = nullptr;
 

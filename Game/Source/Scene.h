@@ -37,6 +37,10 @@ public:
     {
         return true;
     }
+    virtual bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, Easing* easing, Render* render)
+    {
+        return true;
+    }
     virtual bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityman, DialogSystem* dialogSystem, Easing* easing, App* app)
     {
         return true;
