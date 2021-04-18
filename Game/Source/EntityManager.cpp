@@ -46,7 +46,7 @@ bool EntityManager::CleanUp()
 		if(entityList.At(i)->data->destroy)
 			entityList.Del(entityList.At(i));
 	}
-
+	entityList.Clear();
 	return true;
 }
 
