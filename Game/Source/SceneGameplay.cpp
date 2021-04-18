@@ -248,6 +248,7 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 
 		RELEASE(teleport);
 	}
+
 	return true;
 }
 
@@ -261,8 +262,8 @@ inline bool CheckCollision(SDL_Rect rec1, SDL_Rect rec2)
 bool SceneGameplay::Update(Input* input, float dt)
 {
 	// DO not update until map and entities are correctly loaded
-	if (hasStartedFromContinue)
-		return true;
+	/*if (hasStartedFromContinue)
+		return true;*/
 
 	// Player god mode
 	if (input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
@@ -639,14 +640,11 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 
 bool SceneGameplay::LoadState(pugi::xml_node& scenegameplay)
 {
-	if ((int)currentMap != scenegameplay.attribute("currentMap").as_int() || this->hasStartedFromContinue == true)
+	if ((int)currentMap != scenegameplay.attribute("currentMap").as_int())
 	{
 		MapType nextMap = (MapType)scenegameplay.attribute("currentMap").as_int();
 		this->notifier->NotifyMapChange(nextMap);
 	}
-
-	// When the map is loaded either from continue or load it turns this bool to false
-	this->hasStartedFromContinue = false;
 
 	return true;
 }
@@ -777,77 +775,84 @@ void SceneGameplay::SetUpTp()
 {
 	MapType previousMap = MapType::NONE;
 
-		previousMap = currentMap;
+	previousMap = currentMap;
 
-		currentMap = notifier->ChangeMap();
-		// Create map
-		switch (currentMap)
+	currentMap = notifier->ChangeMap();
+	// Create map
+	switch (currentMap)
+	{
+	case MapType::CEMETERY:
+		if (map->Load("Cemetery", "Cemetery.tmx") == true)
 		{
-		case MapType::CEMETERY:
-			if (map->Load("Cemetery", "Cemetery.tmx") == true)
-			{
-				int w, h;
-				uchar* data = NULL;
+			int w, h;
+			uchar* data = NULL;
 
-				//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
+			//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
 
-				RELEASE_ARRAY(data);
-				//audio->PlayMusic("Assets/Audio/Music/cemetery.ogg");
-			}
-			break;
-		case MapType::HOUSE:
-			if (map->Load("House", "house.tmx") == true)
-			{
-				int w, h;
-				uchar* data = NULL;
-
-				//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
-
-				RELEASE_ARRAY(data);
-				audio->PlayMusic("Assets/Audio/Music/house.ogg");
-			}
-			break;
-		case MapType::MEDIUM_CITY:
-			if (map->Load("MediumCity", "mediumcity.tmx") == true)
-			{
-				int w, h;
-				uchar* data = NULL;
-
-				//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
-
-				RELEASE_ARRAY(data);
-				audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
-			}
-			break;
-		case MapType::RESTAURANT:
-			if (map->Load("Restaurant", "restaurant.tmx") == true)
-			{
-				int w, h;
-				uchar* data = NULL;
-
-				//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
-
-				RELEASE_ARRAY(data);
-				audio->PlayMusic("Assets/Audio/Music/restaurant.ogg");
-			}
-			break;
-		case MapType::TOWN:
-
-			if (map->Load("Town", "townMap.tmx") == true)
-			{
-				int w, h;
-				uchar* data = NULL;
-
-				//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
-
-				RELEASE_ARRAY(data);
-				audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
-			}
-			break;
-		default:
-			break;
+			RELEASE_ARRAY(data);
+			audio->StopMusic();
+			audio->PlayMusic("Assets/Audio/Music/cemetery.ogg");
 		}
+		break;
+	case MapType::HOUSE:
+		if (map->Load("House", "house.tmx") == true)
+		{
+			int w, h;
+			uchar* data = NULL;
 
+			//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
+
+			RELEASE_ARRAY(data);
+			audio->StopMusic();
+			audio->PlayMusic("Assets/Audio/Music/house.ogg");
+		}
+		break;
+	case MapType::MEDIUM_CITY:
+		if (map->Load("MediumCity", "mediumcity.tmx") == true)
+		{
+			int w, h;
+			uchar* data = NULL;
+
+			//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
+
+			RELEASE_ARRAY(data);
+			audio->StopMusic();
+			audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
+		}
+		break;
+	case MapType::RESTAURANT:
+		if (map->Load("Restaurant", "restaurant.tmx") == true)
+		{
+			int w, h;
+			uchar* data = NULL;
+
+			//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
+
+			RELEASE_ARRAY(data);
+			audio->StopMusic();
+			audio->PlayMusic("Assets/Audio/Music/restaurant.ogg");
+		}
+		break;
+	case MapType::TOWN:
+
+		if (map->Load("Town", "townMap.tmx") == true)
+		{
+			int w, h;
+			uchar* data = NULL;
+
+			//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
+
+			RELEASE_ARRAY(data);
+			audio->StopMusic();
+			audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
+		}
+		break;
+	default:
+		break;
+	}
+
+	if (hasStartedFromContinue == false)
+	{
 		pugi::xml_document docData;
 		pugi::xml_node mapNode;
 
@@ -863,7 +868,7 @@ void SceneGameplay::SetUpTp()
 			mapNode = docData.child("map");
 			// GET THE NODE TO THE NEW MAP
 			switch (currentMap)
-		{
+			{
 			case MapType::NONE:
 				break;
 			case MapType::CEMETERY:
@@ -884,7 +889,7 @@ void SceneGameplay::SetUpTp()
 			default:
 				break;
 			}
-			 //FIRST CHANGE PLAYERS POSITION TO NEW POSITION BASED ON THE PREVIOUS MAP 
+			//FIRST CHANGE PLAYERS POSITION TO NEW POSITION BASED ON THE PREVIOUS MAP 
 			pugi::xml_node previousMapNode;
 			switch (previousMap)
 			{
@@ -910,7 +915,7 @@ void SceneGameplay::SetUpTp()
 			}
 			//	// Read the new position
 
-		//	// DELETE ALL ENTITIES EXCEPT PLAYER
+			// DELETE ALL ENTITIES EXCEPT PLAYER
 			entityManager->DeleteAllEntitiesExceptPlayer();
 
 			int newPosX = 0; int newPosY = 0;
@@ -927,7 +932,7 @@ void SceneGameplay::SetUpTp()
 			}
 			RELEASE(list1);
 
-		//	// LOAD ENEMIES
+			//	// LOAD ENEMIES
 			int enemyCount = mapNode.attribute("enemyCount").as_int();
 
 			pugi::xml_node enemyNode = mapNode.child("enemy");
@@ -993,7 +998,13 @@ void SceneGameplay::SetUpTp()
 				teleportNode = teleportNode.next_sibling("teleport");
 			}
 		}
-
+			
+	}
+	else
+	{
+		hasStartedFromContinue = false;
+	}
+			
 		
 }
 
