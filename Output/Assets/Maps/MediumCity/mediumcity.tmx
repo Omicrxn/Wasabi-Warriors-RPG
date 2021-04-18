@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="1">
+<map version="1.5" tiledversion="1.5.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="1">
  <properties>
   <property name="Navigation" type="int" value="1"/>
   <property name="drawable" type="int" value="0"/>
@@ -32,9 +32,9 @@
    <tile gid="161"/>
    <tile gid="161"/>
    <tile gid="161"/>
-   <tile gid="1073742238"/>
-   <tile gid="1073742239"/>
-   <tile gid="1073742240"/>
+   <tile gid="2"/>
+   <tile gid="3"/>
+   <tile gid="4"/>
    <tile gid="259"/>
    <tile gid="260"/>
    <tile gid="226"/>
@@ -149,8 +149,8 @@
    <tile gid="54"/>
    <tile gid="55"/>
    <tile gid="56"/>
-   <tile gid="1073741826"/>
-   <tile gid="1073741827"/>
+   <tile gid="2"/>
+   <tile gid="4"/>
    <tile/>
    <tile/>
    <tile/>
@@ -231,7 +231,7 @@
    <tile gid="12"/>
    <tile gid="161"/>
    <tile gid="210"/>
-   <tile gid="1073742238"/>
+   <tile gid="2"/>
    <tile gid="135"/>
    <tile gid="150"/>
    <tile gid="57"/>
@@ -247,7 +247,7 @@
    <tile gid="150"/>
    <tile gid="13"/>
    <tile gid="62"/>
-   <tile gid="2684354602"/>
+   <tile gid="63"/>
    <tile gid="16"/>
    <tile gid="2"/>
    <tile gid="3"/>
@@ -850,7 +850,7 @@
    <tile gid="23"/>
    <tile gid="65"/>
    <tile gid="66"/>
-   <tile gid="2147483713"/>
+   <tile gid="66"/>
    <tile/>
    <tile/>
    <tile/>
@@ -1232,9 +1232,9 @@
    <tile gid="30"/>
    <tile gid="31"/>
    <tile gid="16"/>
-   <tile gid="2147483862"/>
-   <tile gid="2147483707"/>
-   <tile gid="213"/>
+   <tile gid="128"/>
+   <tile gid="59"/>
+   <tile gid="128"/>
    <tile gid="81"/>
    <tile gid="81"/>
    <tile gid="163"/>
@@ -10936,8 +10936,8 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="2147483970"/>
-   <tile gid="2147483970"/>
+   <tile gid="322"/>
+   <tile gid="545"/>
    <tile gid="322"/>
    <tile gid="322"/>
    <tile gid="322"/>
@@ -50039,7 +50039,7 @@
    <tile/>
   </data>
  </layer>
- <layer id="6" name="Collision" width="100" height="100" opacity="0.72">
+ <layer id="6" name="Collision" width="100" height="100" visible="0" opacity="0.72">
   <properties>
    <property name="Navigation" type="int" value="1"/>
    <property name="drawable" type="int" value="0"/>
