@@ -100,12 +100,8 @@ bool GuiIcon::Update(Input* input, AudioManager* audio, float dt)
 bool GuiIcon::Draw(Render* render, bool debugDraw)
 {
     // Draw the right icon depending on state
-    switch (state)
+    if (state == GuiControlState::NORMAL || state == GuiControlState::FOCUSED || state == GuiControlState::PRESSED)
     {
-    case GuiControlState::HIDDEN:
-        break;
-
-    case GuiControlState::NORMAL:
         switch (iconType)
         {
         case NONE:
@@ -148,75 +144,11 @@ bool GuiIcon::Draw(Render* render, bool debugDraw)
         default:
             break;
         }
-        break;
-
-    case GuiControlState::FOCUSED:
-        render->DrawTexture(texture, bounds.x - 30, bounds.y + 14, &arrowWhiteRight, 0.0f);
-        switch (iconType)
-        {
-        case NONE:
-            break;
-        case ICON_RETURN:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconReturn, 0.0f);
-            break;
-        case ICON_PAUSE:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconPause, 0.0f);
-            break;
-        case ICON_INVENTORY:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconInventory, 0.0f);
-            break;
-        case ICON_PHONE:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconPhone, 0.0f);
-            break;
-        case ICON_RESUME:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconReturn, 0.0f);
-            break;
-        case ICON_SETTINGS:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconSettings, 0.0f);
-            break;
-        case ICON_EXIT:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconExit, 0.0f);
-            break;
-        default:
-            break;
-        }
-        break;
-
-    case GuiControlState::PRESSED:
-        render->DrawTexture(texture, bounds.x - 30, bounds.y + 18, &arrowWhiteRight, 0.0f);
-        switch (iconType)
-        {
-        case NONE:
-            break;
-        case ICON_RETURN:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconReturn, 0.0f);
-            break;
-        case ICON_PAUSE:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconPause, 0.0f);
-            break;
-        case ICON_INVENTORY:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconInventory, 0.0f);
-            break;
-        case ICON_PHONE:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconPhone, 0.0f);
-            break;
-        case ICON_RESUME:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconReturn, 0.0f);
-            break;
-        case ICON_SETTINGS:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconSettings, 0.0f);
-            break;
-        case ICON_EXIT:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconExit, 0.0f);
-            break;
-        default:
-            break;
-        }
-        break;
-
-    default:
-        break;
     }
+    if (state == GuiControlState::FOCUSED)
+        render->DrawTexture(texture, bounds.x - 45, bounds.y + 14, &arrowWhiteRight, 0.0f);
+    else if (state == GuiControlState::PRESSED)
+        render->DrawTexture(texture, bounds.x - 25, bounds.y + 14, &arrowWhiteRight, 0.0f);
 
     if (debugDraw)
     {

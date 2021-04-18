@@ -68,7 +68,7 @@ bool GuiSlider::Update(Input* input, AudioManager* audio, float dt)
                 slider.x = posX - slider.w;
             }
 
-            if (slider.x < bounds.x)
+            if (slider.x < (bounds.x - slider.w))
                 slider.x = bounds.x;
 
             if (slider.x + slider.w >= bounds.x + bounds.w)
@@ -149,7 +149,7 @@ bool GuiSlider::Draw(Render* render, bool debugDraw)
         render->DrawText(font, text.GetString(), bounds.x + bounds.w + 7, bounds.y + bounds.h / 2 - bounds.h / 4, 25, 3, { 105,105,105,255 });
         render->DrawText(font, text.GetString(), bounds.x + bounds.w + 5, bounds.y + bounds.h / 2 - bounds.h / 4, 25, 3, { 0,0,0,255 });
 
-        render->DrawTexture(texture, bounds.x - 30, bounds.y + 9, &arrowWhiteRight, 0.0f);
+        render->DrawTexture(texture, bounds.x - 30, bounds.y + 7, &arrowWhiteRight, 0.0f);
 
         render->DrawTexture(texture, bounds.x, bounds.y + 15, &bar, 0.0f);
         render->DrawTexture(texture, slider.x, slider.y, &whiteCircle, 0.0f);
@@ -158,7 +158,7 @@ bool GuiSlider::Draw(Render* render, bool debugDraw)
         render->DrawText(font, text.GetString(), bounds.x + bounds.w + 7, bounds.y + bounds.h / 2 - bounds.h / 4, 25, 3, { 105,105,105,255 });
         render->DrawText(font, text.GetString(), bounds.x + bounds.w + 5, bounds.y + bounds.h / 2 - bounds.h / 4, 25, 3, { 0,0,0,255 });
 
-        render->DrawTexture(texture, bounds.x - 30, bounds.y + 9, &arrowWhiteRight, 0.0f);
+        render->DrawTexture(texture, bounds.x - 30, bounds.y + 7, &arrowWhiteRight, 0.0f);
 
         render->DrawTexture(texture, bounds.x, bounds.y + 15, &bar, 0.0f);
         render->DrawTexture(texture, slider.x, slider.y, &whiteCircle, 0.0f);

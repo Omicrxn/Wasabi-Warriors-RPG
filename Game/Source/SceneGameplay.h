@@ -9,6 +9,7 @@
 #include "Teleport.h"
 #include "NPC.h"
 #include "Notifier.h"
+#include "Timer.h"
 
 class BattleSystem;
 class GuiManager;
@@ -21,11 +22,12 @@ class GuiIcon;
 enum GameState
 {
     ROAMING,
-    PAUSE,
     INVENTORY,
     PHONE,
+    PAUSE,
     SETTINGS,
-    BATTLE,
+    EXIT,
+    BATTLE
 };
 
 class SceneGameplay : public Scene
@@ -60,9 +62,11 @@ private:
 
     void EnableBattleButtons();
 
-    void ToggleHUDButtons();
+    void EnableHUDButtons();
+    void HideHUDButtons();
 
-    void TogglePauseButtons();
+    void EnablePauseButtons();
+    void HidePauseButtons();
 
     // HUD
     void UpdateHud(Input* input);
@@ -114,14 +118,13 @@ private:
     Font* buttonFont;
 
     // Audio Fx for buttons
-    int hoverFx, clickFx;
+    int hoverFx, clickFx, returnFx;
 
     // Buttons to manage the battle system
     GuiButton* btnAttack;
     GuiButton* btnDefend;
     GuiButton* btnItem;
     GuiButton* btnRun;
-    GuiButton* btnNone;
 
     // Hud buttons
     GuiIcon* iconPause;
@@ -141,6 +144,8 @@ private:
 
     // To Know if this scene was created through a load
     bool hasStartedFromContinue;
+
+    Timer pauseTimer;
 };
 
 #endif // __SCENEGAMEPLAY_H__

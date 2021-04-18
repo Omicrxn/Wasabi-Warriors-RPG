@@ -18,6 +18,8 @@ public:
 
     void SetCheckBoxProperties(Scene* module, SDL_Texture* texture, Font* font, int hoverFx, int clickFx);
 
+    bool GetCheck() const;
+
 private:
 
     // Checkbox specific properties

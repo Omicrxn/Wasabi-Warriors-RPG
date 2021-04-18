@@ -70,6 +70,11 @@ private:
     SDL_Rect mainTitlesRect;
     SDL_Rect settingsTitleRect;
     SDL_Rect settingsBackgroundRect;
+    SDL_Rect creditsTitleRect;
+
+    SDL_Rect iconARect;
+    SDL_Rect dpadRect;
+    SDL_Rect iconSTARTRect;
 
     iPoint titlePosition;
 
@@ -77,7 +82,7 @@ private:
     Font* buttonFont;
 
     // Audio Fx for gui controls
-    int hoverFx, clickFx;
+    int hoverFx, clickFx, returnFx;
 
     Timer titleFxTimer;
     int titleFx;
@@ -100,9 +105,11 @@ private:
     //SettingsSelection settingsCurrentSelection = SettingsSelection::NONE;
 
     bool settingsScene;
+    bool creditsScene;
 
     // Gamepad's menu focused button ID
     uint focusedButtonId;
+    uint prevFocusedButtonId;
 };
 
 #endif // __SCENETITLE_H__

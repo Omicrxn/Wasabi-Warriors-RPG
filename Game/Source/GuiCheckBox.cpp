@@ -38,6 +38,11 @@ void GuiCheckBox::SetCheckBoxProperties(Scene* module, SDL_Texture* texture, Fon
     this->clickFx = clickFx;
 }
 
+bool GuiCheckBox::GetCheck() const
+{
+    return checked;
+}
+
 bool GuiCheckBox::Update(Input* input, AudioManager* audio, float dt)
 {
     if (state != GuiControlState::DISABLED && state != GuiControlState::HIDDEN)
