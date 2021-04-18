@@ -105,23 +105,18 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
     /* MENU BUTTONS */
     btnContinue = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 0, { -350, 200, 190, 49 }, "CONTINUE");
     btnContinue->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::WHITE);
-    easing->CreateSpline(&btnContinue->bounds.x, (int)width / 2 - 190 / 2, 3000, SplineType::EXPO);
 
     btnStart = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, { -350, 300, 190, 49 }, "START");
     btnStart->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::WHITE);
-    easing->CreateSpline(&btnStart->bounds.x, (int)width / 2 - 190 / 2, 3000, SplineType::EXPO);
 
     btnOptions = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 2, { -350, 400, 190, 49 }, "OPTIONS");
     btnOptions->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::WHITE);
-    easing->CreateSpline(&btnOptions->bounds.x, (int)width / 2 - 190 / 2, 3000, SplineType::EXPO);
 
     btnCredits = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 3, { -350, 500, 190, 49 }, "CREDITS");
     btnCredits->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::WHITE);
-    easing->CreateSpline(&btnCredits->bounds.x, (int)width / 2 - 190 / 2, 3000, SplineType::EXPO);
 
     btnExit = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 4, { -350, 600, 190, 49 }, "EXIT");
     btnExit->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::WHITE);
-    easing->CreateSpline(&btnExit->bounds.x, (int)width / 2 - 190 / 2, 3000, SplineType::EXPO);
 
     /* SETTINGS BUTTONS */
     checkFullScreen = (GuiCheckBox*)guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 5, { (int)width / 2 - (int)((float)width / 3.5f) - 20, 194, 45, 49 }, "FULLSCREEN");
@@ -147,6 +142,11 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
 
     titleFxTimer.Start();
     easing->CreateSpline(&titlePosition.x, width / 2 - mainTitlesRect.w / 2, 3000, SplineType::BACK);
+    easing->CreateSpline(&btnExit->bounds.x, (int)width / 2 - 190 / 2, 3000, SplineType::EXPO);
+    easing->CreateSpline(&btnCredits->bounds.x, (int)width / 2 - 190 / 2, 3000, SplineType::EXPO);
+    easing->CreateSpline(&btnOptions->bounds.x, (int)width / 2 - 190 / 2, 3000, SplineType::EXPO);
+    easing->CreateSpline(&btnStart->bounds.x, (int)width / 2 - 190 / 2, 3000, SplineType::EXPO);
+    easing->CreateSpline(&btnContinue->bounds.x, (int)width / 2 - 190 / 2, 3000, SplineType::EXPO);
 
     render->camera.x = 0;
     render->camera.y = 0;
@@ -328,12 +328,8 @@ bool SceneTitle::Draw(Render* render)
 
 bool SceneTitle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager)
 {
-    this->guiManager = nullptr;
-    this->win = nullptr;
-    easing->CleanUp();
-    this->easing = nullptr;
-    this->audio = nullptr;
 
+    easing->CleanUp();
     tex->UnLoad(backgroundTex);
     backgroundTex = nullptr;
     tex->UnLoad(guiAtlasTex);
@@ -374,6 +370,10 @@ bool SceneTitle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManag
     guiManager->DestroyGuiControl(iconReturnTitle);
     iconReturnTitle = nullptr;
 
+    this->guiManager = nullptr;
+    this->win = nullptr;
+    this->easing = nullptr;
+    this->audio = nullptr;
     return true;
 }
 

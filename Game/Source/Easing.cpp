@@ -52,7 +52,7 @@ bool Easing::CleanUp()
 	}
 
 	splines.clear();
-
+	
 	return true;
 }
 
@@ -62,7 +62,10 @@ void Easing::CreateSpline(int* position, const int& finaPos, const float& time, 
 	SplineInfo* info = new SplineInfo(position, finaPos, time, type);
 
 	if (info != nullptr)
+	{
+		info->timePassed = SDL_GetTicks();
 		splines.push_back(info);
+	}
 	else
 		LOG("Error when creating the spline");
 }
