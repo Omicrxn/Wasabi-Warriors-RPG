@@ -52,6 +52,7 @@ public:
 	void OnCollision(Collider* c1, Collider* c2);
 
 	void TooglePlayerGodMode();
+	void DeleteAllEntitiesExceptPlayer();
 public:
 
 	Render* ren;

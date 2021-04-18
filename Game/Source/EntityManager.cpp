@@ -615,3 +615,31 @@ void EntityManager::TooglePlayerGodMode()
 		playerList.At(i)->data->isGod = !playerList.At(i)->data->isGod;
 	}
 }
+
+void EntityManager::DeleteAllEntitiesExceptPlayer()
+{
+	ListItem<Entity*>* list1;
+	for (list1 = entityList.start; list1 != NULL; list1 = list1->next)
+	{
+		if (list1->data->type == EntityType::ENEMY)
+		{
+			enemyList.Del(enemyList.At(enemyList.Find((Enemy*)list1->data)));
+		}
+		else if (list1->data->type == EntityType::NPC)
+		{
+			npcList.Del(npcList.At(npcList.Find((NPC*)list1->data)));
+		}
+		else if (list1->data->type == EntityType::TELEPORT)
+		{
+			teleportList.Del(teleportList.At(teleportList.Find((Teleport*)list1->data)));
+		}
+
+		// Delete all entities except the map and player
+		if (list1->data->type != EntityType::MAP && list1->data->type != EntityType::PLAYER)
+		{
+			DestroyEntity(list1->data);
+		}
+
+	}
+	RELEASE(list1);
+}

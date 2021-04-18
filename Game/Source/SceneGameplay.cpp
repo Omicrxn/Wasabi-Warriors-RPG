@@ -13,6 +13,7 @@
 #include "GuiButton.h"
 #include "GuiIcon.h"
 #include "App.h"
+#include "Log.h"
 
 SceneGameplay::SceneGameplay(bool hasStartedFromContinue)
 {
@@ -174,6 +175,7 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	}
 	else
 	{
+		
 		if (map->Load("Town", "townMap.tmx") == true)
 		{
 			int w, h;
@@ -235,9 +237,15 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 		// Create Teleport
 		Teleport* teleport;
 		teleport = (Teleport*)entityManager->CreateEntity(EntityType::TELEPORT, "DaTransfer");
-		teleport->position = iPoint(12 * 32, 10 * 32);
-		entityManager->teleportList.At(entityManager->teleportList.Find(teleport))->data->SetUpDestination(MapType::TOWN);
+		teleport->position = iPoint(19 * 32, 0 * 32);
+		entityManager->teleportList.At(entityManager->teleportList.Find(teleport))->data->SetUpDestination(MapType::CEMETERY);
 		teleport = nullptr;
+
+		teleport = (Teleport*)entityManager->CreateEntity(EntityType::TELEPORT, "DaTransfer");
+		teleport->position = iPoint(44 * 32, 9 * 32);
+		entityManager->teleportList.At(entityManager->teleportList.Find(teleport))->data->SetUpDestination(MapType::MEDIUM_CITY);
+		teleport = nullptr;
+
 		RELEASE(teleport);
 	}
 	return true;
@@ -261,7 +269,8 @@ bool SceneGameplay::Update(Input* input, float dt)
 	{
 		entityManager->TooglePlayerGodMode();
 	}
-	
+
+	SetUpTp();
 
 	if (input->GetKey(SDL_SCANCODE_E) == KEY_DOWN && battle == false)
 	{
@@ -763,10 +772,12 @@ void SceneGameplay::ExitBattle()
 
 void SceneGameplay::SetUpTp()
 {
+	MapType previousMap = MapType::NONE;
+
 	if (notifier->OnMapChange() && notifier->GetNextMap() != currentMap)
 	{
 		map->CleanUp();
-
+		previousMap = currentMap;
 		currentMap = notifier->ChangeMap();
 		// Create map
 		switch (currentMap)
@@ -835,6 +846,153 @@ void SceneGameplay::SetUpTp()
 		default:
 			break;
 		}
+
+		// LOAD MAP INFO FROM XML(ENEMIES AND NPC)
+		SString saveFileName = "map_info.xml";
+
+		pugi::xml_document docData;
+		pugi::xml_node mapNode;
+
+		pugi::xml_parse_result result = docData.load_file(saveFileName.GetString());
+		
+		// Check result for loading errors
+		if (result == NULL)
+		{
+			LOG("Could not load map info xml file map_info.xml. pugi error: %s", result.description());
+		}
+		else
+		{
+			mapNode = docData.child("map");
+			// GET THE NODE TO THE NEW MAP
+			switch (currentMap)
+			{
+			case MapType::NONE:
+				break;
+			case MapType::CEMETERY:
+				mapNode = mapNode.child("cemetery");
+				break;
+			case MapType::HOUSE:
+				break;
+			case MapType::MEDIUM_CITY:
+				mapNode = mapNode.child("mediumCity");
+				break;
+			case MapType::RESTAURANT:
+				break;
+			case MapType::TOWN:
+				mapNode = mapNode.child("town");
+				break;
+			default:
+				break;
+			}
+			// FIRST CHANGE PLAYERS POSITION TO NEW POSITION BASED ON THE PREVIOUS MAP 
+			pugi::xml_node previousMapNode;
+			switch (previousMap)
+			{
+			case MapType::NONE:
+				break;
+			case MapType::CEMETERY:
+				previousMapNode = mapNode.child("prevCemetery");
+				break;
+			case MapType::HOUSE:
+				break;
+			case MapType::MEDIUM_CITY:
+				previousMapNode = mapNode.child("prevMediumcity");
+				break;
+			case MapType::RESTAURANT:
+				break;
+			case MapType::TOWN:
+				break;
+			default:
+				break;
+			}
+
+			// Read the new position
+			int newPosX = 0; int newPosY = 0;
+			newPosX = previousMapNode.child("player").attribute("posX").as_int();
+			newPosY = previousMapNode.child("player").attribute("posY").as_int();
+
+			// Iterate all players and change position
+			ListItem<Player*>* list1;
+			for (list1 = entityManager->playerList.start; list1 != NULL; list1 = list1->next)
+			{
+				list1->data->position.x = newPosX;
+				list1->data->position.y = newPosY;
+			}
+			RELEASE(list1);
+
+			// DELETE ALL ENTITIES EXCEPT PLAYER
+			entityManager->DeleteAllEntitiesExceptPlayer();
+			
+			// LOAD ENEMIES
+			int enemyCount = mapNode.attribute("enemyCount").as_int();
+
+			pugi::xml_node enemyNode = mapNode.child("enemy");
+			Enemy* enemy = nullptr;
+			for (int i = 0; i < enemyCount; ++i)
+			{
+				enemy = (Enemy*)entityManager->CreateEntity(EntityType::ENEMY, enemyNode.attribute("name").as_string());
+
+				enemy->id = enemyNode.attribute("id").as_uint();
+				enemy->spritePos = enemyNode.attribute("spritePos").as_int();
+				enemy->position.x = enemyNode.attribute("posX").as_int();
+				enemy->position.y = enemyNode.attribute("posY").as_int();
+
+				enemy->classType = enemyNode.attribute("class").as_string();
+				enemy->SetUpClass(enemy->classType.GetString());
+
+				enemy->SetUpTexture();
+				enemy = nullptr;
+				enemyNode = enemyNode.next_sibling("enemy");
+			}
+
+			// LOAD NPCs
+			int npcCount = mapNode.attribute("npcCount").as_int();
+
+			pugi::xml_node npcNode = mapNode.child("npc");
+			NPC* npc = nullptr;
+			for (int i = 0; i < npcCount; ++i)
+			{
+				npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, npcNode.attribute("name").as_string());
+
+				npc->id = npcNode.attribute("id").as_uint();
+				npc->spritePos = npcNode.attribute("spritePos").as_int();
+				npc->position.x = npcNode.attribute("posX").as_int();
+				npc->position.y = npcNode.attribute("posY").as_int();
+
+				npc->SetUpTexture();
+				npc = nullptr;
+				npcNode = npcNode.next_sibling("npc");
+			}
+
+			// LOAD TELEPORTS
+			int teleportCount = mapNode.attribute("teleportCount").as_int();
+
+			pugi::xml_node teleportNode = mapNode.child("teleport");
+			Teleport* teleport = nullptr;
+			for (int i = 0; i < teleportCount; ++i)
+			{
+				teleport = (Teleport*)entityManager->CreateEntity(EntityType::TELEPORT, teleportNode.attribute("name").as_string());
+
+				teleport->id = teleportNode.attribute("id").as_uint();
+				teleport->spritePos = teleportNode.attribute("spritePos").as_int();
+				teleport->position.x = teleportNode.attribute("posX").as_int();
+				teleport->position.y = teleportNode.attribute("posY").as_int();
+
+				/*newTeleportNode.append_attribute("nameTeleport").set_value(list4->data->GetName().GetString());
+				newTeleportNode.append_attribute("name").set_value(list4->data->name.GetString());
+				newTeleportNode.append_attribute("destination").set_value((int)list4->data->GetDestination());*/
+
+				//teleport->SetName((SString)teleportNode.attribute("nameTeleport").as_string());
+				teleport->name = teleportNode.attribute("name").as_string();
+				teleport->SetUpDestination((MapType)teleportNode.attribute("destination").as_int());
+
+				teleport->SetUpTexture();
+				teleport = nullptr;
+				teleportNode = teleportNode.next_sibling("teleport");
+			}
+		}
+
+		
 	}
 }
 
