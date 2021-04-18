@@ -1,15 +1,19 @@
 <?xml version="1.0"?>
 <map>
   <cemetery enemyCount ="1" npcCount ="3" teleportCount ="1">
-    <player posX="352" posY="416"/>
-    <enemy posX="160" posY="160" class="boss" name="Boss"/>
+    <prevTown>
+		<player posX="352" posY="416"/>
+	</prevTown>
+    <enemy posX="160" posY="160" class="boss" name="Boss" spritePos="10"/>
     <npc posX="608" posY="320" spritePos="2"/>
     <npc posX="608" posY="224" spritePos="4"/>
     <npc posX="224" posY="224" spritePos="6"/>
     <teleport posX="352" posY="448" width="64" height="32" destination="4"/>
   </cemetery>
   <mediumCity enemyCount ="2" npcCount ="1" teleportCount ="1">
-    <player posX="800" posY="32"/>
+	<prevTown>
+		<player posX="800" posY="32"/>
+	</prevTown>
     <enemy posX="512" posY="160" class="bruiser" name="Bruiser" spritePos="10"/>
     <enemy posX="224" posY="224" class="henchman" name="Henchman" spritePos="5"/>
     <npc posX="576" posY="320" spritePos="3"/>
