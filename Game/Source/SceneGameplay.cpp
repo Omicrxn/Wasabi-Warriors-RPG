@@ -853,8 +853,8 @@ void SceneGameplay::SetUpTp()
 		pugi::xml_document docData;
 		pugi::xml_node mapNode;
 
-		pugi::xml_parse_result result = docData.load_file(saveFileName.GetString());
-		
+		pugi::xml_parse_result result = docData.load_file("map_info.xml");
+
 		// Check result for loading errors
 		if (result == NULL)
 		{
