@@ -116,7 +116,7 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 
 	// Load battle system textures
 	backgroundTex = tex->Load("Assets/Textures/Scenes/battle_scene.jpg");
-	guiAtlasTex = tex->Load("Assets/Textures/UI/Elements/ui_spritesheet.png");
+	guiAtlasTex = tex->Load("Assets/Textures/UI/ui_spritesheet.png");
 
 	// Create fonts
 	titleFont = new Font("Assets/Fonts/shojumaru.xml", tex);
@@ -174,17 +174,16 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	}
 	else
 	{
-		
-	if (map->Load("Town", "townMap.tmx") == true)
-	{
-		int w, h;
-		uchar* data = NULL;
+		if (map->Load("Town", "townMap.tmx") == true)
+		{
+			int w, h;
+			uchar* data = NULL;
 
-		//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
+			//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
 
-		RELEASE_ARRAY(data);
-		audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
-	}
+			RELEASE_ARRAY(data);
+			audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
+		}
 
 		// Create party member 1
 		Player* player;
@@ -195,6 +194,7 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 		player->SetUpClass("hunter");
 		player = nullptr;
 		currentPlayer = entityManager->playerList.At(0)->data;
+
 		// Create party member 2
 		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "DaCrack");
 		player->position = iPoint(12 * 32, 6 * 32);
@@ -202,6 +202,7 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 		player->SetUpClass("wizard");
 		player = nullptr;
 		RELEASE(player);
+
 		// Create enemy 1
 		Enemy* enemy;
 		enemy = (Enemy*)entityManager->CreateEntity(EntityType::ENEMY, "DaBoss");
@@ -210,17 +211,20 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 		enemy->SetUpClass("henchman");
 		enemy = nullptr;
 		RELEASE(enemy);
+
 		// Create NPC
 		NPC* npc;
 		npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, "DaBot");
 		npc->position = iPoint(8 * 32, 8 * 32);
 		npc->SetTexture(spritesheet, 4);
 		npc = nullptr;
+
 		// Create NPC 2
 		npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, "DaBot2");
 		npc->position = iPoint(10 * 32, 6 * 32);
 		npc->SetTexture(spritesheet, 8);
 		npc = nullptr;
+
 		// Create NPC 3
 		npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, "DaBot3");
 		npc->position = iPoint(15 * 32, 7 * 32);
@@ -257,7 +261,6 @@ bool SceneGameplay::Update(Input* input, float dt)
 	{
 		entityManager->TooglePlayerGodMode();
 	}
-
 	
 
 	if (input->GetKey(SDL_SCANCODE_E) == KEY_DOWN && battle == false)
@@ -286,6 +289,9 @@ bool SceneGameplay::Update(Input* input, float dt)
 		currentState = GameState::BATTLE;
 
 		focusedButtonId = 6;
+
+		audio->StopMusic();
+		audio->PlayMusic("Assets/Audio/Music/battle.ogg");
 	}
 
 	if (notifier->GetBattle())
@@ -304,6 +310,9 @@ bool SceneGameplay::Update(Input* input, float dt)
 		currentState = GameState::BATTLE;
 
 		focusedButtonId = 6;
+
+		audio->StopMusic();
+		audio->PlayMusic("Assets/Audio/Music/battle.ogg");
 	}
 
 
@@ -381,6 +390,30 @@ bool SceneGameplay::Update(Input* input, float dt)
 			}
 		}
 		battleSystem->Update(input, dt);
+
+		if (battleSystem->battleState == BattleState::WON)
+		{
+			if (battleSystem->currentMusic == BattleMusic::WON)
+			{
+				battleSystem->currentMusic = BattleMusic::NONE;
+				audio->StopMusic();
+				audio->PlayMusic("Assets/Audio/Music/victory.ogg");
+			}
+		}
+		else if (battleSystem->battleState == BattleState::LOST)
+		{
+			if (battleSystem->currentMusic == BattleMusic::LOST)
+			{
+				battleSystem->currentMusic = BattleMusic::NONE;
+				audio->StopMusic();
+				audio->PlayMusic("Assets/Audio/Music/defeat.ogg");
+			}
+		}
+		else if (battleSystem->battleState == BattleState::EXIT)
+		{
+			// Get out of the battle screen and return to the gameplay screen
+			ExitBattle();
+		}
 	}
 
 	switch (currentState)
@@ -505,11 +538,6 @@ bool SceneGameplay::Draw(Render* render)
 			render->DrawText(titleFont, "You lose!", 50 + 3, 30 + 3, 125, 0, { 105, 105, 105, 255 });
 			render->DrawText(titleFont, "You lose!", 50, 30, 125, 0, { 255, 255, 255, 255 });
 		}
-		else if (battleSystem->battleState == BattleState::EXIT)
-		{
-			// Get out of the battle screen and return to the gameplay screen
-			ExitBattle();
-		}
 	}
 
 	switch (currentState)
@@ -530,9 +558,6 @@ bool SceneGameplay::Draw(Render* render)
 bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager)
 {
 	// TODO: Unload all resources
-	
-	
-
 	RELEASE(battleSystem);
 	battleSystem = nullptr;
 
@@ -697,6 +722,26 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 
 void SceneGameplay::ExitBattle()
 {
+	audio->StopMusic();
+	switch (currentMap)
+	{
+	case MapType::CEMETERY:
+		audio->PlayMusic("Assets/Audio/Music/cemetery.ogg");
+		break;
+	case MapType::HOUSE:
+		audio->PlayMusic("Assets/Audio/Music/house.ogg");
+		break;
+	case MapType::MEDIUM_CITY:
+		audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
+		break;
+	case MapType::RESTAURANT:
+		audio->PlayMusic("Assets/Audio/Music/restaurant.ogg");
+		break;
+	case MapType::TOWN:
+		audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
+		break;
+	}
+
 	for (int i = 6; i < 10; ++i)
 	{
 		guiManager->controls.At(i)->data->state = GuiControlState::HIDDEN;
@@ -731,7 +776,6 @@ void SceneGameplay::SetUpTp()
 			{
 				int w, h;
 				uchar* data = NULL;
-
 
 				//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
 

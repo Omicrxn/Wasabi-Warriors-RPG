@@ -20,6 +20,8 @@ BattleSystem::BattleSystem()
 	numPlayers = 2;
 	// Time for enemy to manage their actions
 	turnCounter = 0;
+
+	currentMusic = BattleMusic::NONE;
 }
 
 BattleSystem::~BattleSystem()
@@ -157,7 +159,10 @@ void BattleSystem::PlayerTurn()
 
 		// Check if the enemy has died
 		if (enemy->stats.currentHP <= 0)
+		{
 			battleState = BattleState::WON;
+			currentMusic = BattleMusic::WON;
+		}
 		else
 			battleState = BattleState::ENEMY_TURN;
 	}
@@ -205,7 +210,10 @@ void BattleSystem::EnemyTurn()
 
 		// Check if the player has died
 		if (currentPlayer->stats.currentHP <= 0)
+		{
 			battleState = BattleState::LOST;
+			currentMusic = BattleMusic::LOST;
+		}
 		else
 			battleState = BattleState::PLAYER_TURN;
 

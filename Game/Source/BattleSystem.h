@@ -35,6 +35,13 @@ enum class EnemyState
 	NONE
 };
 
+enum class BattleMusic
+{
+	NONE,
+	WON,
+	LOST
+};
+
 class BattleSystem
 {
 public:
@@ -64,6 +71,8 @@ public:
 	PlayerState playerState;
 	// Enemy state (to keep track of the action)
 	EnemyState enemyState;
+
+	BattleMusic currentMusic;
 
 private:
 

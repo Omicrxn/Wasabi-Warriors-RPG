@@ -57,10 +57,10 @@ bool GuiSlider::Update(Input* input, AudioManager* audio, float dt)
                 audio->PlayFx(hoverFx);
             }
 
-            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
+            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_DOWN)
                 audio->PlayFx(clickFx);
 
-            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT)
+            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT)
             {
                 state = GuiControlState::PRESSED;
                 int posX, posY;
@@ -97,20 +97,20 @@ bool GuiSlider::Update(Input* input, AudioManager* audio, float dt)
             }
 
             //// If gamepad button pressed -> Generate event!
-            if (input->GetControllerButton(CONTROLLER_BUTTON_RB) == KEY_DOWN)
+            if (input->GetControllerButton(CONTROLLER_BUTTON_RB) == KeyState::KEY_DOWN)
             {
                 state = GuiControlState::PRESSED;
                 slider.x += 10;
                 audio->PlayFx(clickFx);
             }
-            else if (input->GetControllerButton(CONTROLLER_BUTTON_LB) == KEY_DOWN)
+            else if (input->GetControllerButton(CONTROLLER_BUTTON_LB) == KeyState::KEY_DOWN)
             {
                 state = GuiControlState::PRESSED;
                 slider.x -= 10;
                 audio->PlayFx(clickFx);
             }
 
-            if (input->GetControllerButton(CONTROLLER_BUTTON_RB) == KEY_UP || input->GetControllerButton(CONTROLLER_BUTTON_LB) == KEY_UP)
+            if (input->GetControllerButton(CONTROLLER_BUTTON_RB) == KeyState::KEY_UP || input->GetControllerButton(CONTROLLER_BUTTON_LB) == KeyState::KEY_UP)
                 NotifyObserver();
 
             if (slider.x < bounds.x)

@@ -68,20 +68,20 @@ bool GuiIcon::Update(Input* input, AudioManager* audio, float dt)
                 audio->PlayFx(hoverFx);
             }
 
-            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT)
+            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT)
             {
                 state = GuiControlState::PRESSED;
             }
 
             // If mouse button pressed -> Generate event!
-            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)
+            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_UP)
             {
                 NotifyObserver();
                 // Audio Fx when clicked
                 audio->PlayFx(clickFx);
             }
         }
-        else if (controller && input->GetControllerButton(assignedControl) == KEY_DOWN)
+        else if (controller && input->GetControllerButton(assignedControl) == KeyState::KEY_DOWN)
         {
             NotifyObserver();
             // Audio Fx when pressed
@@ -104,39 +104,39 @@ bool GuiIcon::Draw(Render* render, bool debugDraw)
     {
         switch (iconType)
         {
-        case NONE:
+        case IconType::NONE:
             break;
-        case ICON_RETURN:
+        case IconType::ICON_RETURN:
             render->DrawTexture(texture, bounds.x, bounds.y, &iconReturn, 0.0f);
             if (controller)
                 render->DrawTexture(texture, bounds.x + bounds.w, bounds.y + bounds.h, &iconB, 0.0f);
             break;
-        case ICON_PAUSE:
+        case IconType::ICON_PAUSE:
             render->DrawTexture(texture, bounds.x, bounds.y, &iconPause, 0.0f);
             if (controller)
                 render->DrawTexture(texture, bounds.x + bounds.w, bounds.y + bounds.h, &iconSTART, 0.0f);
             break;
-        case ICON_INVENTORY:
+        case IconType::ICON_INVENTORY:
             render->DrawTexture(texture, bounds.x, bounds.y, &iconInventory, 0.0f);
             if (controller)
                 render->DrawTexture(texture, bounds.x + bounds.w, bounds.y + bounds.h, &iconX, 0.0f);
             break;
-        case ICON_PHONE:
+        case IconType::ICON_PHONE:
             render->DrawTexture(texture, bounds.x, bounds.y, &iconPhone, 0.0f);
             if (controller)
                 render->DrawTexture(texture, bounds.x + bounds.w, bounds.y + bounds.h, &iconB, 0.0f);
             break;
-        case ICON_RESUME:
+        case IconType::ICON_RESUME:
             render->DrawTexture(texture, bounds.x, bounds.y, &iconReturn, 0.0f);
             if (controller)
                 render->DrawTexture(texture, bounds.x + bounds.w, bounds.y + bounds.h, &iconSTART, 0.0f);
             break;
-        case ICON_SETTINGS:
+        case IconType::ICON_SETTINGS:
             render->DrawTexture(texture, bounds.x, bounds.y, &iconSettings, 0.0f);
             if (controller)
                 render->DrawTexture(texture, bounds.x + bounds.w, bounds.y + bounds.h, &iconX, 0.0f);
             break;
-        case ICON_EXIT:
+        case IconType::ICON_EXIT:
             render->DrawTexture(texture, bounds.x, bounds.y, &iconExit, 0.0f);
             if (controller)
                 render->DrawTexture(texture, bounds.x + bounds.w, bounds.y + bounds.h, &iconB, 0.0f);

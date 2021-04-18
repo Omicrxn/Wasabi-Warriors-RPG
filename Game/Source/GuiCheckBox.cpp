@@ -63,13 +63,13 @@ bool GuiCheckBox::Update(Input* input, AudioManager* audio, float dt)
                 audio->PlayFx(hoverFx);
             }
 
-            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT)
+            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT)
             {
                 state = GuiControlState::PRESSED;
             }
 
             // If mouse button pressed -> Generate event!
-            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)
+            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_UP)
             {
                 checked = !checked;
                 NotifyObserver();
@@ -88,13 +88,13 @@ bool GuiCheckBox::Update(Input* input, AudioManager* audio, float dt)
                 audio->PlayFx(hoverFx);
             }
 
-            if (input->GetControllerButton(CONTROLLER_BUTTON_A) == KEY_REPEAT)
+            if (input->GetControllerButton(CONTROLLER_BUTTON_A) == KeyState::KEY_REPEAT)
             {
                 state = GuiControlState::PRESSED;
             }
 
             // If gamepad button pressed -> Generate event!
-            if (input->GetControllerButton(CONTROLLER_BUTTON_A) == KEY_UP)
+            if (input->GetControllerButton(CONTROLLER_BUTTON_A) == KeyState::KEY_UP)
             {
                 checked = !checked;
                 NotifyObserver();

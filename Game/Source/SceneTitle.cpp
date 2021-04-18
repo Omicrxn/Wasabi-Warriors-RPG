@@ -91,7 +91,7 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
 
     backgroundTex = tex->Load("Assets/Textures/Scenes/main_menu.png");
 
-    guiAtlasTex = tex->Load("Assets/Textures/UI/Elements/ui_spritesheet.png");
+    guiAtlasTex = tex->Load("Assets/Textures/UI/ui_spritesheet.png");
     titlesTex = tex->Load("Assets/Textures/Scenes/titles.png");
 
     titleFont = new Font("Assets/Fonts/shojumaru.xml", tex);
@@ -154,16 +154,16 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
 bool SceneTitle::Update(Input* input, float dt)
 {
     // Debug purposes
-    if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN) TransitionToScene(SceneType::GAMEPLAY);
+    if (input->GetKey(SDL_SCANCODE_RETURN) == KeyState::KEY_DOWN) TransitionToScene(SceneType::GAMEPLAY);
     // ---
 
     if (input->GetControllerState())
     {
         if (settingsScene == false)
         {
-            if ((input->GetControllerButton(CONTROLLER_BUTTON_UP) == KEY_DOWN) && focusedButtonId > 0)
+            if ((input->GetControllerButton(CONTROLLER_BUTTON_UP) == KeyState::KEY_DOWN) && focusedButtonId > 0)
                 --focusedButtonId;
-            else if ((input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN) && focusedButtonId < 4)
+            else if ((input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KeyState::KEY_DOWN) && focusedButtonId < 4)
                 ++focusedButtonId;
 
             UpdateControllerSelection(0, 4);
@@ -172,30 +172,30 @@ bool SceneTitle::Update(Input* input, float dt)
         {
             if (focusedButtonId == 5)
             {
-                if (input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN)
+                if (input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KeyState::KEY_DOWN)
                     focusedButtonId = 6;
-                else if (input->GetControllerButton(CONTROLLER_BUTTON_RIGHT) == KEY_DOWN)
+                else if (input->GetControllerButton(CONTROLLER_BUTTON_RIGHT) == KeyState::KEY_DOWN)
                     focusedButtonId = 7;
             }
             else if (focusedButtonId == 6)
             {
-                if (input->GetControllerButton(CONTROLLER_BUTTON_UP) == KEY_DOWN)
+                if (input->GetControllerButton(CONTROLLER_BUTTON_UP) == KeyState::KEY_DOWN)
                     focusedButtonId = 5;
-                else if (input->GetControllerButton(CONTROLLER_BUTTON_RIGHT) == KEY_DOWN)
+                else if (input->GetControllerButton(CONTROLLER_BUTTON_RIGHT) == KeyState::KEY_DOWN)
                     focusedButtonId = 8;
             }
             else if (focusedButtonId == 7)
             {
-                if (input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN)
+                if (input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KeyState::KEY_DOWN)
                     focusedButtonId = 8;
-                else if (input->GetControllerButton(CONTROLLER_BUTTON_LEFT) == KEY_DOWN)
+                else if (input->GetControllerButton(CONTROLLER_BUTTON_LEFT) == KeyState::KEY_DOWN)
                     focusedButtonId = 5;
             }
             else if (focusedButtonId == 8)
             {
-                if (input->GetControllerButton(CONTROLLER_BUTTON_UP) == KEY_DOWN)
+                if (input->GetControllerButton(CONTROLLER_BUTTON_UP) == KeyState::KEY_DOWN)
                     focusedButtonId = 7;
-                else if (input->GetControllerButton(CONTROLLER_BUTTON_LEFT) == KEY_DOWN)
+                else if (input->GetControllerButton(CONTROLLER_BUTTON_LEFT) == KeyState::KEY_DOWN)
                     focusedButtonId = 6;
             }
             UpdateControllerSelection(5, 8);

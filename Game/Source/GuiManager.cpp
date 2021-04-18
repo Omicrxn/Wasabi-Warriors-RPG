@@ -70,7 +70,7 @@ void GuiManager::DestroyGuiControl(GuiControl* control)
 
 bool GuiManager::Start()
 {
-	guiAtlasTex = tex->Load("Assets/Textures/UI/Elements/ui_spritesheet.png");
+	guiAtlasTex = tex->Load("Assets/Textures/UI/ui_spritesheet.png");
 
 	mouseRect[0] = { 30,482,30,30 };
 	mouseRect[1] = { 60,482,30,30 };

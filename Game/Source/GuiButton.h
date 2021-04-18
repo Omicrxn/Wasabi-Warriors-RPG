@@ -3,7 +3,7 @@
 
 #include "GuiControl.h"
 
-enum Style 
+enum class Style 
 {
     WHITE,
     GREY
