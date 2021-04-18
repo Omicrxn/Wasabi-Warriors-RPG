@@ -159,5 +159,22 @@ bool GuiCheckBox::Draw(Render* render, bool debugDraw)
         break;
     }
 
+    if (debugDraw)
+    {
+        switch (state)
+        {
+        case GuiControlState::DISABLED: render->DrawRectangle(bounds, { 100, 100, 100, 255 }, true, false);
+            break;
+        case GuiControlState::NORMAL: render->DrawRectangle(bounds, { 0, 255, 0, 255 }, true, false);
+            break;
+        case GuiControlState::FOCUSED: render->DrawRectangle(bounds, { 255, 255, 0, 255 }, true, false);
+            break;
+        case GuiControlState::PRESSED: render->DrawRectangle(bounds, { 0, 255, 255, 255 }, true, false);
+            break;
+        default:
+            break;
+        }
+    }
+
     return true;
 }

@@ -75,7 +75,6 @@ bool SceneLogo::Update(Input* input, float dt)
         }
     }
 
-    // For debugging purposes
     if (input->GetKey(SDL_SCANCODE_RETURN) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_A) == KeyState::KEY_DOWN)
         TransitionToScene(SceneType::TITLE);
 

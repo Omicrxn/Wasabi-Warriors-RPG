@@ -97,7 +97,7 @@ bool Input::PreUpdate()
 	}
 
 	// Controller input
-	const bool* prevFrameButtons = UpdateControllerInput();
+	const uint8_t* prevFrameButtons = UpdateControllerInput();
 
 	for (int i = 0; i < NUM_CONTROLLER_BUTTONS; ++i)
 	{
@@ -321,9 +321,9 @@ void Input::HandleDeviceRemoval(int index)
 	}
 }
 
-bool* Input::UpdateControllerInput() 
+uint8_t* Input::UpdateControllerInput() 
 {
-	bool buttons[NUM_CONTROLLER_BUTTONS] = {};
+	static uint8_t buttons[NUM_CONTROLLER_BUTTONS] = {};
 
 	// Update all input data
 	if (controller.enabled == true)
