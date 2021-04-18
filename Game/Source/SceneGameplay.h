@@ -58,6 +58,8 @@ public:
     // To return to the gameplay and reset the battle elements and buttons
     void ExitBattle();
 
+    void SetUpTp();
+
 private:
 
     void EnableBattleButtons();

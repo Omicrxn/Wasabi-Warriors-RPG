@@ -841,6 +841,10 @@ void SceneGameplay::ExitBattle()
 	}
 }
 
+void SceneGameplay::SetUpTp()
+{
+}
+
 void SceneGameplay::EnableBattleButtons()
 {
 	for (int i = 6; i < 10; ++i)
