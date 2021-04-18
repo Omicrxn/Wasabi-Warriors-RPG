@@ -329,7 +329,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 	}
 
 
-	if (notifier->OnDialog() && (input->GetKey(SDL_SCANCODE_F) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_A) == KeyState::KEY_DOWN))
+	if (notifier->OnDialog() && (input->GetKey(SDL_SCANCODE_F) == KeyState::KEY_DOWN /*|| input->GetControllerButton(CONTROLLER_BUTTON_A) == KeyState::KEY_DOWN*/))
 	{
 		
 		for (int i = 0; i < entityManager->playerList.Count(); i++)
