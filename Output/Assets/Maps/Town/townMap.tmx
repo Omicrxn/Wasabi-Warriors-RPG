@@ -3977,15 +3977,11 @@
    <tile/>
   </data>
  </layer>
-<<<<<<< HEAD
- <layer id="6" name="Collision" width="47" height="21" visible="0" opacity="0.71">
-=======
  <layer id="6" name="Collision" width="47" height="21" opacity="0.71">
   <properties>
    <property name="Naviagation" type="int" value="1"/>
    <property name="drawable" type="int" value="0"/>
   </properties>
->>>>>>> 854d992c19b337dcd86924567ed834d600e61bc0
   <data>
    <tile/>
    <tile/>
