@@ -321,6 +321,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 	{
 		entityManager->TooglePlayerGodMode();
 	}
+
 	if (notifier->OnMapChange() && notifier->GetNextMap() != currentMap)
 	{
 		map->CleanUp();
