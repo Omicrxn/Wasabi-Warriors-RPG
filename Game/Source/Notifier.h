@@ -1,6 +1,8 @@
 #pragma once
 #include "Defs.h"
 
+#include "SString.h"
+
 enum class MapType
 {
     NONE = -1,
@@ -48,6 +50,16 @@ public:
         this->requestDialog = dialogMode;
     }
 
+    SString GetEnemy()
+    {
+        return enemy;
+    }
+
+    void SetEnemy(SString enemy)
+    {
+        this->enemy = enemy;
+    }
+
 private:
     Notifier() : battle(false) {}
     bool battle = false;
@@ -56,4 +68,5 @@ private:
     // Singleton instance
     static Notifier* instance;
     bool requestDialog = false;
+    SString enemy;
 };

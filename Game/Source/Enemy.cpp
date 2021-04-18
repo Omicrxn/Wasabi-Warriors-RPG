@@ -110,6 +110,8 @@ void Enemy::OnCollision(Collider* collider)
     {
         readyForCombat = false;
         Notifier::GetInstance()->NotifyBattle();
+
+        Notifier::GetInstance()->SetEnemy(this->name);
     }
 
 }

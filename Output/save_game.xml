@@ -6,29 +6,28 @@
 	<audio />
 	<scene />
 	<renderer>
-		<camera x="752" y="256" />
+		<camera x="95" y="175" />
 	</renderer>
-	<collisions collisionsCount="8" />
+	<collisions collisionsCount="7" />
 	<entitymanager>
-		<entitiesCount Num="9" />
+		<entitiesCount Num="8" />
 		<playerList playerCount="2">
-			<player id="0" spritePos="3" name="DaBaby" posX="464" posY="192" isActive="true" isRenderable="false" class="hunter" level="1" damage="20" maxHP="120" currentHP="100" strength="10" defense="15" attackSpeed="5" criticalRate="10" statsName="" />
-			<player id="409346149" spritePos="6" name="DaCrack" posX="464" posY="192" isActive="false" isRenderable="false" class="wizard" level="1" damage="15" maxHP="150" currentHP="120" strength="7" defense="10" attackSpeed="15" criticalRate="15" statsName="" />
+			<player id="84544192" spritePos="3" name="DaBaby" posX="245" posY="165" isActive="true" isRenderable="false" class="hunter" level="1" damage="20" maxHP="120" currentHP="100" strength="10" defense="15" attackSpeed="5" criticalRate="10" statsName="" />
+			<player id="1868963941" spritePos="6" name="DaCrack" posX="245" posY="165" isActive="false" isRenderable="false" class="wizard" level="1" damage="15" maxHP="150" currentHP="120" strength="7" defense="10" attackSpeed="15" criticalRate="15" statsName="" />
 		</playerList>
 		<enemyList enemyCount="1">
-			<enemy id="1868963941" spritePos="5" name="DaBoss" posX="320" posY="192" isActive="true" isRenderable="false" class="henchman" level="1" damage="10" maxHP="120" currentHP="100" strength="10" defense="10" attackSpeed="5" criticalRate="5" statsName="" />
+			<enemy id="0" spritePos="10" name="Boss" posX="160" posY="160" isActive="true" isRenderable="false" class="boss" level="2" damage="15" maxHP="200" currentHP="120" strength="12" defense="15" attackSpeed="6" criticalRate="8" statsName="" />
 		</enemyList>
 		<npcList npcCount="3">
-			<npc id="32" spritePos="4" name="" posX="256" posY="256" isActive="true" isRenderable="false" />
-			<npc id="4294967295" spritePos="8" name="" posX="320" posY="209" isActive="true" isRenderable="false" />
-			<npc id="4294967295" spritePos="7" name="" posX="531" posY="224" isActive="true" isRenderable="false" />
+			<npc id="0" spritePos="2" name="" posX="710" posY="374" isActive="true" isRenderable="false" />
+			<npc id="0" spritePos="4" name="" posX="659" posY="122" isActive="true" isRenderable="false" />
+			<npc id="0" spritePos="6" name="" posX="275" posY="203" isActive="true" isRenderable="false" />
 		</npcList>
-		<teleportList teleportCount="2">
-			<teleport id="0" spritePos="-1" nameTeleport="" name="DaTransfer" destination="0" posX="608" posY="0" isActive="true" isRenderable="false" />
-			<teleport id="0" spritePos="-1" nameTeleport="" name="DaTransfer" destination="2" posX="1408" posY="288" isActive="true" isRenderable="false" />
+		<teleportList teleportCount="1">
+			<teleport id="0" spritePos="0" nameTeleport="" name="" destination="4" posX="352" posY="448" isActive="true" isRenderable="false" />
 		</teleportList>
 	</entitymanager>
 	<scenemanager>
-		<scenegameplay currentMap="4" />
+		<scenegameplay currentMap="0" />
 	</scenemanager>
 </game_state>
