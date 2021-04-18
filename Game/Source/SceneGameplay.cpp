@@ -174,74 +174,17 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	}
 	else
 	{
-		// START A NEW GAME
-		// Create map
-		switch (currentMap)
-		{
-		case MapType::CEMETERY:
-			if (map->Load("Cemetery", "Cemetery.tmx") == true)
-			{
-				int w, h;
-				uchar* data = NULL;
+		
+	if (map->Load("Town", "townMap.tmx") == true)
+	{
+		int w, h;
+		uchar* data = NULL;
 
-				//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
+		//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
 
-				RELEASE_ARRAY(data);
-				audio->PlayMusic("Assets/Audio/Music/cemetery.ogg");
-			}
-			break;
-
-		case MapType::HOUSE:
-			if (map->Load("House", "house.tmx") == true)
-			{
-				int w, h;
-				uchar* data = NULL;
-
-				//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
-
-				RELEASE_ARRAY(data);
-				audio->PlayMusic("Assets/Audio/Music/house.ogg");
-			}
-			break;
-		case MapType::MEDIUM_CITY:
-			if (map->Load("MediumCity", "mediumcity.tmx") == true)
-			{
-				int w, h;
-				uchar* data = NULL;
-
-				//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
-
-				RELEASE_ARRAY(data);
-				audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
-			}
-			break;
-		case MapType::RESTAURANT:
-			if (map->Load("Restaurant", "restaurant.tmx") == true)
-			{
-				int w, h;
-				uchar* data = NULL;
-
-				//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
-
-				RELEASE_ARRAY(data);
-				audio->PlayMusic("Assets/Audio/Music/restaurant.ogg");
-			}
-			break;
-		case MapType::TOWN:
-			if (map->Load("Town", "townMap.tmx") == true)
-			{
-				int w, h;
-				uchar* data = NULL;
-
-				//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
-
-				RELEASE_ARRAY(data);
-				audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
-			}
-			break;
-		default:
-			break;
-		}
+		RELEASE_ARRAY(data);
+		audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
+	}
 
 		// Create party member 1
 		Player* player;
