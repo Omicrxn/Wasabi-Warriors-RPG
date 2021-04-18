@@ -41,7 +41,6 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	easing = new Easing();
 	sceneManager = new SceneManager(input, render, tex, win, audio, entityManager, guiManager, dialogSystem, easing, this);
 	
-
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
 	AddModule(win);
@@ -58,6 +57,9 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 
 	// Render last to swap buffer
 	AddModule(render);
+
+	debug = false;
+	fullscreen = false;
 	
 	PERF_PEEK(ptimer);
 }
@@ -104,7 +106,6 @@ bool App::Awake()
 
 		// L01: DONE 4: Read the title from the config file
 		title.Create(configApp.child("title").child_value());
-		/*win->SetTitle(title.GetString());*/
 		organization.Create(configApp.child("organization").child_value());
 
         // L08: DONE 1: Read from config file your framerate cap
@@ -174,6 +175,18 @@ bool App::Update()
 	// Temporarly save & load input will be displayed here for debugging purposes
 	if (input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) LoadGameRequest();
 	if (input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) SaveGameRequest();
+	if (input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) debug = !debug;
+
+	if (input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN)
+	{
+		fullscreen = !fullscreen;
+		if (fullscreen)
+			SDL_SetWindowFullscreen(win->window, 1);
+		else
+			SDL_SetWindowFullscreen(win->window, 0);
+	}
+
+	//if (input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) return false;
 
 	FinishUpdate();
 	return ret;
@@ -210,7 +223,7 @@ void App::FinishUpdate()
 	// L02: DONE 1: This is a good place to call Load / Save methods
 	if (loadGameRequested == true) LoadGame();
 	if (saveGameRequested == true) SaveGame();
-    
+
     // L07: DONE 4: Now calculate:
 	// Amount of frames since startup
 	// Amount of time since game start (use a low resolution timer)
@@ -229,11 +242,14 @@ void App::FinishUpdate()
 	uint32 lastFrameMs = frameTime.Read();
 	uint32 framesOnLastUpdate = prevLastSecFrameCount;
 
-	static char title[256];
-	sprintf_s(title, 256, "Av.FPS: %.2f Last Frame Ms: %02u Last sec frames: %i Last dt: %.3f Time since startup: %.3f Frame Count: %I64u ",
+	static char titleDebug[256];
+	sprintf_s(titleDebug, 256, "Av.FPS: %.2f Last Frame Ms: %02u Last sec frames: %i Last dt: %.3f Time since startup: %.3f Frame Count: %I64u ",
 			  averageFps, lastFrameMs, framesOnLastUpdate, dt, secondsSinceStartup, frameCount);
 
-	//app->win->SetTitle(title);
+	if (debug)
+		win->SetTitle(titleDebug);
+	else
+		win->SetTitle(title.GetString());
 
     // L08: DONE 2: Use SDL_Delay to make sure you get your capped framerate
 	if ((cappedMs > 0) && (lastFrameMs < cappedMs))
