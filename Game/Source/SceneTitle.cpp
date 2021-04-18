@@ -157,7 +157,7 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
 bool SceneTitle::Update(Input* input, float dt)
 {
     // Debug purposes
-    if (input->GetKey(SDL_SCANCODE_RETURN) == KeyState::KEY_DOWN) TransitionToScene(SceneType::GAMEPLAY);
+    //if (input->GetKey(SDL_SCANCODE_RETURN) == KeyState::KEY_DOWN) TransitionToScene(SceneType::GAMEPLAY);
     // ---
 
     if (input->GetControllerState())
@@ -248,7 +248,7 @@ bool SceneTitle::Update(Input* input, float dt)
     }
     else if (menuCurrentSelection == MenuSelection::EXIT)
     {
-        // TODO
+        guiManager->ExitGame();
     }
 
     return true;

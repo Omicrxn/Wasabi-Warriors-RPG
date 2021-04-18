@@ -21,6 +21,8 @@ GuiManager::GuiManager(Input* input, Render* render, Textures* tex, AudioManager
 	guiAtlasTex = nullptr;
 	mousePos = { 0,0 };
 	clicking = false;
+
+	exitingGame = false;
 }
 
 GuiManager::~GuiManager()
@@ -112,6 +114,8 @@ bool GuiManager::Update(float dt)
 		render->DrawTexture(guiAtlasTex, mousePos.x, mousePos.y, &mouseRect[1], 0.0f);
 	// ----------------------------
 
+	if (exitingGame) return false;
+
 	return true;
 }
 
@@ -149,4 +153,9 @@ bool GuiManager::CleanUp()
 	tex->UnLoad(guiAtlasTex);
 
 	return true;
+}
+
+void GuiManager::ExitGame()
+{
+	exitingGame = true;
 }

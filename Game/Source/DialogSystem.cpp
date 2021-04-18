@@ -56,14 +56,13 @@ bool DialogSystem::Update(float dt)
 	if (currentDialog != nullptr)
 	{
 		// The key to skip to the next dialog line.
-		if (input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN || input->GetKey(SDL_SCANCODE_F) == KeyState::KEY_DOWN)
+		if (input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN || input->GetKey(SDL_SCANCODE_F) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_A) == KeyState::KEY_DOWN)
 		{
 			NextDialog();
-
 		}
 
 		// Select the next option.
-		if (input->GetKey(SDL_SCANCODE_DOWN) == KeyState::KEY_DOWN)
+		if (input->GetKey(SDL_SCANCODE_DOWN) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KeyState::KEY_DOWN)
 		{
 			selectedOption += 1;
 			if (selectedOption == currentDialog->children->size())
@@ -71,7 +70,7 @@ bool DialogSystem::Update(float dt)
 		}
 
 		// Select the previous option.
-		if (input->GetKey(SDL_SCANCODE_UP) == KeyState::KEY_DOWN)
+		if (input->GetKey(SDL_SCANCODE_UP) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_UP) == KeyState::KEY_DOWN)
 		{
 			selectedOption -= 1;
 			if (selectedOption < 0) selectedOption = 0;

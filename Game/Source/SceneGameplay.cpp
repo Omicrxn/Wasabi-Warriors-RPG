@@ -266,7 +266,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 		return true;*/
 
 	// Player god mode
-	if (input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
+	if (input->GetKey(SDL_SCANCODE_F10) == KeyState::KEY_DOWN)
 	{
 		entityManager->TooglePlayerGodMode();
 	}
@@ -276,7 +276,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 		SetUpTp();
 	}
 
-	if (input->GetKey(SDL_SCANCODE_E) == KEY_DOWN && battle == false)
+	if ((input->GetKey(SDL_SCANCODE_E) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_Y) == KeyState::KEY_DOWN) && battle == false)
 	{
 		if (entityManager->playerList.At(entityManager->playerList.Find(currentPlayer))->next != nullptr)
 		{
@@ -329,7 +329,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 	}
 
 
-	if (notifier->OnDialog() && input->GetKey(SDL_SCANCODE_F) == KeyState::KEY_DOWN)
+	if (notifier->OnDialog() && (input->GetKey(SDL_SCANCODE_F) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_A) == KeyState::KEY_DOWN))
 	{
 		
 		for (int i = 0; i < entityManager->playerList.Count(); i++)
