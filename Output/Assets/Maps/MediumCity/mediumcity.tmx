@@ -14,7 +14,7 @@
   <image source="mediumcity3.png" width="256" height="512"/>
  </tileset>
  <tileset firstgid="577" name="Collision" tilewidth="32" tileheight="32" tilecount="1" columns="1">
-  <image source="../Collision.png" width="32" height="32"/>
+  <image source="../collision.png" width="32" height="32"/>
  </tileset>
  <layer id="1" name="Tile Layer 1" width="32" height="18">
   <data>

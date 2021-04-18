@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.5.0" orientation="orthogonal" renderorder="right-down" width="24" height="15" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="1">
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="24" height="15" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="1">
  <properties>
   <property name="Drawable" type="int" value="0"/>
   <property name="Navigation" type="int" value="1"/>
@@ -11,10 +11,10 @@
   <image source="GK_FG_A5_2.png" width="256" height="512"/>
  </tileset>
  <tileset firstgid="385" name="Collision" tilewidth="32" tileheight="32" tilecount="1" columns="1">
-  <image source="../Collision.png" width="32" height="32"/>
+  <image source="../collision.png" width="32" height="32"/>
  </tileset>
  <tileset firstgid="386" name="Collision" tilewidth="32" tileheight="32" tilecount="1" columns="1">
-  <image source="../Collision.png" width="32" height="32"/>
+  <image source="../collision.png" width="32" height="32"/>
  </tileset>
  <layer id="1" name="Ground" width="24" height="15">
   <data>
