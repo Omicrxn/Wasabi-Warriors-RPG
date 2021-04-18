@@ -37,8 +37,6 @@ bool DialogSystem::Start()
 	LoadDialog("Assets/Dialog/1.xml");
 	LoadDialog("Assets/Dialog/2.xml");
 	LoadDialog("Assets/Dialog/3.xml");
-	LoadDialog("Assets/Dialog/4.xml");
-	LoadDialog("Assets/Dialog/5.xml");
 
 	// Register a callback function with the name say_hello. This is just an example.
 	callbacks[std::string("say_hello")] = std::function<void()>(&SayHello);
@@ -84,7 +82,7 @@ bool DialogSystem::Update(float dt)
 	{
 		newDialog = false;
 		dialogFinished = false;
-		uint randNum = rand() % 5 + 1; // randNum in the range 1 to 2
+		uint randNum = rand() % 3 + 1; // randNum in the range 1 to 2
 		char HP[8] = { 0 };
 		sprintf_s(HP, 8, "%03i", randNum);
 
@@ -98,12 +96,6 @@ bool DialogSystem::Update(float dt)
 			break;
 		case 3:
 			StartDialog("3");
-			break;
-		case 4:
-			StartDialog("4");
-			break;
-		case 5:
-			StartDialog("5");
 			break;
 		default:
 			break;

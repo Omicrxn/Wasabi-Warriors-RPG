@@ -1,24 +1,17 @@
-<dialog id="1">
-	<options speaker="Oscar" value="You don't look like you're from around here.">
-		<option value="I've lived here all my life!">
-			<options speaker="Oscar" id="bowler" value="Oh really? Then you must know Mr.Bowler.">
-				<option value="Mr.Bowler is a good friend of mine!">
-					<line speaker="Oscar" value="You liar! There ain't no Mr.Bowler, I made him up!"></line>
-				</option>
-				<option value="Who?">
-					<line speaker="Oscar" id="end-eat" value="Don't worry about it. Do you want something to eat?"></line>
-				</option>
-			</options>
+<dialog id="3">
+	<options speaker="Shopkeeper" value="Hello!How can I help you?">
+		<option value=" Where is the Dragon Breath Restaurant?">
+			<line speaker="Shopkeeper" value="It is the building with a big dragon head in the facade and bright light green roof. It is right around the corner."></line>
+			<option value="Thank you so much!">
+			</option>
+		</option>		
+		<option value=" Where is the cemetery?">
+			<line speaker="Shopkeeper" value="It is on the north east direction. You will see that the entrance is a street that goes straight north."></line>
+			<option value="Thank you so much!">
+			</option>
 		</option>
-		<option value="I came here from Barcelona.">
-			<options speaker="Oscar" value="Barcelona, eh? I heard there's trouble brewing there">
-				<option value="I haven't heard about any trouble.">
-					<goto route="end-eat"></goto>
-				</option>
-				<option value="Did I say Barcelona? I'm actually from Springfield.">
-					<goto route="bowler"></goto>
-				</option> 
-			</options>
+		<option value=" Nothing, have a nice day!">
+			<line speaker="Shopkeeper" value=" Ok! You too!"></line>
 		</option>
 	</options>
 </dialog>
