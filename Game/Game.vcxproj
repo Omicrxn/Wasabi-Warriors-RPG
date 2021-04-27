@@ -120,6 +120,9 @@
     <ClCompile Include="Source\SceneManager.cpp" />
     <ClCompile Include="Source\Render.cpp" />
     <ClCompile Include="Source\SceneTitle.cpp" />
+    <ClCompile Include="Source\ScreenCredits.cpp" />
+    <ClCompile Include="Source\ScreenSettings.cpp" />
+    <ClCompile Include="Source\ScreenTitle.cpp" />
     <ClCompile Include="Source\Teleport.cpp" />
     <ClCompile Include="Source\Textures.cpp" />
     <ClCompile Include="Source\Window.cpp" />
@@ -163,6 +166,10 @@
     <ClInclude Include="Source\Module.h" />
     <ClInclude Include="Source\Render.h" />
     <ClInclude Include="Source\SceneTitle.h" />
+    <ClInclude Include="Source\Screen.h" />
+    <ClInclude Include="Source\ScreenCredits.h" />
+    <ClInclude Include="Source\ScreenSettings.h" />
+    <ClInclude Include="Source\ScreenTitle.h" />
     <ClInclude Include="Source\Teleport.h" />
     <ClInclude Include="Source\Textures.h" />
     <ClInclude Include="Source\Timer.h" />

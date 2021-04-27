@@ -14,6 +14,10 @@
 #include "Font.h"
 #include "Easing.h"
 
+#include "ScreenSettings.h"
+#include "ScreenTitle.h"
+#include "ScreenCredits.h"
+
 #include "SDL/include/SDL.h"
 
 #define TITLE_FADE_SPEED 0.05f
@@ -33,16 +37,9 @@ SceneTitle::SceneTitle()
     guiAtlasTex = nullptr;
     titlesTex = nullptr;
 
-    mainTitlesRect = { 0, 0, 1073, 73 };
     settingsTitleRect = { 0, 149, 530, 81 };
     settingsBackgroundRect = { 1228, 295, 300, 200 };
     creditsTitleRect = { 0, 238, 511, 84 };
-
-    iconARect = { 684, 8, 57, 57 };
-    dpadRect = { 665, 378, 96, 96 };
-    iconSTARTRect = { 685, 291, 55, 54 };
-
-    titlePosition = { 0,0 };
 
     titleFont = nullptr;
     buttonFont = nullptr;
@@ -52,24 +49,7 @@ SceneTitle::SceneTitle()
     titleFx = -1;
     returnFx = -1;
 
-    btnStart = nullptr;
-    btnContinue = nullptr;
-    btnOptions = nullptr;
-    btnCredits = nullptr;
-    btnExit = nullptr;
-
-    checkFullScreen = nullptr;
-    checkVsync = nullptr;
-    sliderMusicVolume = nullptr;
-    sliderFXVolume = nullptr;
-
-    iconReturnTitle = nullptr;
-
     menuCurrentSelection = MenuSelection::NONE;
-    //settingsCurrentSelection = SettingsSelection::NONE;
-
-    settingsScene = false;
-    creditsScene = false;
 
     focusedButtonId = 0;
     prevFocusedButtonId = 0;
@@ -102,55 +82,35 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
     titleFx = audio->LoadFx("Assets/Audio/Fx/title.ogg");
     returnFx = audio->LoadFx("Assets/Audio/Fx/back.ogg");
 
-    /* MENU BUTTONS */
-    btnContinue = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 0, { -350, 200, 190, 49 }, "CONTINUE");
-    btnContinue->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::WHITE);
+    screenTitle = new ScreenTitle();
+    screenTitle->Load(this, win, guiManager, easing, guiAtlasTex, titlesTex, buttonFont, hoverFx, clickFx);
+    screenTitle->isActive = true;
 
-    btnStart = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, { -350, 300, 190, 49 }, "START");
-    btnStart->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::WHITE);
+    screenSettings = new ScreenSettings();
+    screenSettings->Load(this, win, guiManager, easing, guiAtlasTex, titlesTex, buttonFont, hoverFx, clickFx);
 
-    btnOptions = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 2, { -350, 400, 190, 49 }, "OPTIONS");
-    btnOptions->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::WHITE);
-
-    btnCredits = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 3, { -350, 500, 190, 49 }, "CREDITS");
-    btnCredits->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::WHITE);
-
-    btnExit = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 4, { -350, 600, 190, 49 }, "EXIT");
-    btnExit->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::WHITE);
-
-    /* SETTINGS BUTTONS */
-    checkFullScreen = (GuiCheckBox*)guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 5, { (int)width / 2 - (int)((float)width / 3.5f) - 20, 194, 45, 49 }, "FULLSCREEN");
-    checkFullScreen->SetCheckBoxProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx);
-
-    checkVsync = (GuiCheckBox*)guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 6, { (int)width / 2 - (int)((float)width / 3.5f) - 20, 294, 45, 49 }, "VSYNC");
-    checkVsync->SetCheckBoxProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx);
-
-    sliderMusicVolume = (GuiSlider*)guiManager->CreateGuiControl(GuiControlType::SLIDER, 7, { (int)width / 2 - (int)((float)width / 12) + 5, 200, 300, 30 }, "MUSIC VOLUME");
-    sliderMusicVolume->SetSliderProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx);
-
-    sliderFXVolume = (GuiSlider*)guiManager->CreateGuiControl(GuiControlType::SLIDER, 8, { (int)width / 2 - (int)((float)width / 12) + 5, 300, 300, 30 }, "FX VOLUME");
-    sliderFXVolume->SetSliderProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx);
-
-    iconReturnTitle = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, 9, { (int)width / 2 + (int)((float)width / 4), 570, 70, 55 });
-    iconReturnTitle->SetIconProperties(this, guiAtlasTex, buttonFont, hoverFx, returnFx, CONTROLLER_BUTTON_B, IconType::ICON_RETURN);
-
-    HideSettingsButtons();
+    screenCredits = new ScreenCredits();
+    screenCredits->Load(this, win, guiManager, easing, guiAtlasTex, titlesTex, buttonFont, hoverFx, clickFx);
 
     audio->PlayMusic("Assets/Audio/Music/menu.ogg", 40.0f);
 
-    titlePosition = { (int)width + mainTitlesRect.w * 2, (int)((float)height / 2) - (int)((float)height / 2.5f) };
+    ScreenTitle* tempTitle = (ScreenTitle*)screenTitle;
+    tempTitle->titlePosition = { (int)width + tempTitle->mainTitlesRect.w * 2, (int)((float)height / 2) - (int)((float)height / 2.5f) };
 
+   
     titleFxTimer.Start();
-    easing->CreateSpline(&titlePosition.x, width / 2 - mainTitlesRect.w / 2, 3000, SplineType::BACK);
-    easing->CreateSpline(&btnExit->bounds.x, (int)width / 2 - 190 / 2, 3000, SplineType::EXPO);
-    easing->CreateSpline(&btnCredits->bounds.x, (int)width / 2 - 190 / 2, 3000, SplineType::EXPO);
-    easing->CreateSpline(&btnOptions->bounds.x, (int)width / 2 - 190 / 2, 3000, SplineType::EXPO);
-    easing->CreateSpline(&btnStart->bounds.x, (int)width / 2 - 190 / 2, 3000, SplineType::EXPO);
-    easing->CreateSpline(&btnContinue->bounds.x, (int)width / 2 - 190 / 2, 3000, SplineType::EXPO);
+    easing->CreateSpline(&tempTitle->titlePosition.x, width / 2 - tempTitle->mainTitlesRect.w / 2, 3000, SplineType::BACK);
+    easing->CreateSpline(&tempTitle->btnExit->bounds.x, (int)width / 2 - 190 / 2, 3000, SplineType::EXPO);
+    easing->CreateSpline(&tempTitle->btnCredits->bounds.x, (int)width / 2 - 190 / 2, 3000, SplineType::EXPO);
+    easing->CreateSpline(&tempTitle->btnOptions->bounds.x, (int)width / 2 - 190 / 2, 3000, SplineType::EXPO);
+    easing->CreateSpline(&tempTitle->btnStart->bounds.x, (int)width / 2 - 190 / 2, 3000, SplineType::EXPO);
+    easing->CreateSpline(&tempTitle->btnContinue->bounds.x, (int)width / 2 - 190 / 2, 3000, SplineType::EXPO);
 
     render->camera.x = 0;
     render->camera.y = 0;
 
+    screenTitle->ShowButtons();
+    screenSettings->HideButtons();
     return true;
 }
 
@@ -162,88 +122,58 @@ bool SceneTitle::Update(Input* input, float dt)
 
     if (input->GetControllerState())
     {
-        if (settingsScene == false)
+        if (screenTitle->isActive)
         {
-            if ((input->GetControllerButton(CONTROLLER_BUTTON_UP) == KeyState::KEY_DOWN) && focusedButtonId > 0)
-                --focusedButtonId;
-            else if ((input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KeyState::KEY_DOWN) && focusedButtonId < 4)
-                ++focusedButtonId;
-
-            UpdateControllerSelection(0, 4);
+            screenTitle->Update(input, dt, focusedButtonId);
+            screenTitle->UpdateControllerSelection(focusedButtonId);
         }
-        else
+
+        if (screenSettings->isActive)
         {
-            if (focusedButtonId == 5)
-            {
-                if (input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KeyState::KEY_DOWN)
-                    focusedButtonId = 6;
-                else if (input->GetControllerButton(CONTROLLER_BUTTON_RIGHT) == KeyState::KEY_DOWN)
-                    focusedButtonId = 7;
-            }
-            else if (focusedButtonId == 6)
-            {
-                if (input->GetControllerButton(CONTROLLER_BUTTON_UP) == KeyState::KEY_DOWN)
-                    focusedButtonId = 5;
-                else if (input->GetControllerButton(CONTROLLER_BUTTON_RIGHT) == KeyState::KEY_DOWN)
-                    focusedButtonId = 8;
-            }
-            else if (focusedButtonId == 7)
-            {
-                if (input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KeyState::KEY_DOWN)
-                    focusedButtonId = 8;
-                else if (input->GetControllerButton(CONTROLLER_BUTTON_LEFT) == KeyState::KEY_DOWN)
-                    focusedButtonId = 5;
-            }
-            else if (focusedButtonId == 8)
-            {
-                if (input->GetControllerButton(CONTROLLER_BUTTON_UP) == KeyState::KEY_DOWN)
-                    focusedButtonId = 7;
-                else if (input->GetControllerButton(CONTROLLER_BUTTON_LEFT) == KeyState::KEY_DOWN)
-                    focusedButtonId = 6;
-            }
-            UpdateControllerSelection(5, 8);
+            screenSettings->Update(input, dt, focusedButtonId);
+            screenSettings->UpdateControllerSelection(focusedButtonId);
         }
     }
 
-    if (menuCurrentSelection == MenuSelection::SETTINGS && settingsScene == false)
+    if (menuCurrentSelection == MenuSelection::SETTINGS && screenSettings->isActive == false)
     {
         menuCurrentSelection = MenuSelection::NONE;
 
         focusedButtonId = prevFocusedButtonId;
 
         // Hide settings buttons and sliders and enable main title buttons
-        HideSettingsButtons();
-        EnableTitleButtons();
+        screenSettings->HideButtons();
+        screenTitle->ShowButtons();
     }
-    if (menuCurrentSelection == MenuSelection::CREDITS && creditsScene == false)
+    if (menuCurrentSelection == MenuSelection::CREDITS && screenCredits->isActive == false)
     {
         menuCurrentSelection = MenuSelection::NONE;
 
         // Hide credits icon and enable main title buttons
         guiManager->controls.At(9)->data->state = GuiControlState::HIDDEN;
-        EnableTitleButtons();
+        screenTitle->ShowButtons();
     }
 
     if (menuCurrentSelection == MenuSelection::START)
     {
-        HideTitleButtons();
+        screenTitle->HideButtons();
         TransitionToScene(SceneType::GAMEPLAY);
     }
     else if (menuCurrentSelection == MenuSelection::CONTINUE)
     {
-        HideTitleButtons();
+        screenTitle->HideButtons();
         TransitionToScene(SceneType::GAMEPLAY_LOAD);
     }
     else if (menuCurrentSelection == MenuSelection::SETTINGS)
     {
         // Hide main title buttons and enable the settings buttons and slider
-        HideTitleButtons();
-        EnableSettingsButtons();
+        screenTitle->HideButtons();
+        screenSettings->ShowButtons();
     }
     else if (menuCurrentSelection == MenuSelection::CREDITS)
     {
         // Hide main title buttons and enable credits return icon
-        HideTitleButtons();
+        screenTitle->HideButtons();
         guiManager->controls.At(9)->data->state = GuiControlState::NORMAL;
     }
     else if (menuCurrentSelection == MenuSelection::EXIT)
@@ -267,61 +197,18 @@ bool SceneTitle::Draw(Render* render)
         audio->PlayFx(titleFx);
     }
 
-    if (settingsScene == false && creditsScene == false)
+    if (screenTitle->isActive)
     {
-        render->DrawTexture(titlesTex, titlePosition.x, titlePosition.y, &mainTitlesRect, 0.0f);
+        screenTitle->Draw(render);
     }
-    else if (settingsScene == true)
+
+    if (screenSettings->isActive)
     {
-        render->scale = 3;
-        render->DrawTexture(guiAtlasTex, 60, 25, &settingsBackgroundRect, 0.0f);
-        render->scale = 1;
-
-        render->DrawTexture(titlesTex, width / 2 - settingsTitleRect.w / 2, 40, &settingsTitleRect, 0.0f);
-
-        render->DrawTexture(guiAtlasTex, 339, 429, &dpadRect, 0.0f);
-        render->DrawText(buttonFont, "Movement", 339 + dpadRect.w + 15, 465, 25, 3, { 255,255,255,255 });
-        render->DrawTexture(guiAtlasTex, 633, 400, &iconARect, 0.0f);
-        render->DrawText(buttonFont, "Interact", 633 + iconARect.w + 15, 415, 25, 3, { 255,255,255,255 });
-        render->DrawTexture(guiAtlasTex, 633, 505, &iconSTARTRect, 0.0f);
-        render->DrawText(buttonFont, "Pause", 633 + iconSTARTRect.w + 17, 520, 25, 3, { 255,255,255,255 });
+        screenSettings->Draw(render);
     }
-    else if (creditsScene == true)
+    else if (screenCredits->isActive)
     {
-        render->scale = 3;
-        render->DrawTexture(guiAtlasTex, 60, 25, &settingsBackgroundRect, 0.0f);
-        render->scale = 1;
-
-        render->DrawTexture(titlesTex, width / 2 - settingsTitleRect.w / 2, 40, &creditsTitleRect, 0.0f);
-        render->DrawText(buttonFont, "Authors", 250 + 3, 180, 40, 5, { 105,105,105,105 });
-        render->DrawText(buttonFont, "Authors", 250, 180, 40, 5, { 255,255,255,255 });
-
-        render->DrawText(buttonFont, "Alex Avila", 250 + 3, 250, 35, 5, { 105,105,105,105 });
-        render->DrawText(buttonFont, "Alex Avila", 250, 250, 35, 5, { 0,0,0,0 });
-
-        render->DrawText(buttonFont, "Ali Shahid", 250 + 3, 320, 35, 5, { 105,105,105,105 });
-        render->DrawText(buttonFont, "Ali Shahid", 250, 320, 35, 5, { 0,0,0,0 });
-
-        render->DrawText(buttonFont, "Yeray Tarifa", 250 + 3, 390, 35, 5, { 105,105,105,105 });
-        render->DrawText(buttonFont, "Yeray Tarifa", 250, 390, 35, 5, { 0,0,0,0 });
-
-        render->DrawText(buttonFont, "Carles Lopez", 250 + 3, 460, 35, 5, { 105,105,105,105 });
-        render->DrawText(buttonFont, "Carles Lopez", 250, 460, 35, 5, { 0,0,0,0 });
-
-        render->DrawText(buttonFont, "Maria Calle", 250 + 3, 530, 35, 5, { 105,105,105,105 });
-        render->DrawText(buttonFont, "Maria Calle", 250, 530, 35, 5, { 0,0,0,0 });
-
-        render->DrawText(buttonFont, "Bosco Barber", 250 + 3, 600, 35, 5, { 105,105,105,105 });
-        render->DrawText(buttonFont, "Bosco Barber", 250, 600, 35, 5, { 0,0,0,0 });
-
-        render->DrawText(buttonFont, "Project II", 650 + 3, 180, 40, 5, { 105,105,105,105 });
-        render->DrawText(buttonFont, "Project II", 650, 180, 40, 5, { 255,255,255,255 });
-
-        render->DrawText(buttonFont, "MIT License 2021", 650 + 3, 250, 40, 5, { 105,105,105,105 });
-        render->DrawText(buttonFont, "MIT License 2021", 650, 250, 40, 5, { 255,255,255,255 });
-
-        render->DrawText(buttonFont, "UPC - CITM", 650 + 3, 320, 40, 5, { 105,105,105,105 });
-        render->DrawText(buttonFont, "UPC - CITM", 650, 320, 40, 5, { 0,0,255,255 });
+        screenCredits->Draw(render);
     }
     return true;
 }
@@ -347,28 +234,7 @@ bool SceneTitle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManag
     RELEASE(buttonFont);
     buttonFont = nullptr;
 
-    guiManager->DestroyGuiControl(btnStart);
-    btnStart = nullptr;
-    guiManager->DestroyGuiControl(btnContinue);
-    btnContinue = nullptr;
-    guiManager->DestroyGuiControl(btnOptions);
-    btnOptions = nullptr;
-    guiManager->DestroyGuiControl(btnCredits);
-    btnCredits = nullptr;
-    guiManager->DestroyGuiControl(btnExit);
-    btnExit = nullptr;
-
-    guiManager->DestroyGuiControl(checkFullScreen);
-    checkFullScreen = nullptr;
-    guiManager->DestroyGuiControl(checkVsync);
-    checkVsync = nullptr;
-    guiManager->DestroyGuiControl(sliderMusicVolume);
-    sliderMusicVolume = nullptr;
-    guiManager->DestroyGuiControl(sliderFXVolume);
-    sliderFXVolume = nullptr;
-
-    guiManager->DestroyGuiControl(iconReturnTitle);
-    iconReturnTitle = nullptr;
+    screenSettings->Unload(tex, audio, guiManager);
 
     this->guiManager = nullptr;
     this->win = nullptr;
@@ -393,13 +259,15 @@ bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
             prevFocusedButtonId = focusedButtonId;
             focusedButtonId = 5;
             menuCurrentSelection = MenuSelection::SETTINGS;
-            settingsScene = true;
 
+            screenSettings->isActive = true;
+            screenTitle->isActive = false;
         }
         else if (control->id == 3)
         {
             menuCurrentSelection = MenuSelection::CREDITS;
-            creditsScene = true;
+            screenTitle->isActive = false;
+            screenCredits->isActive = true;
         }
         else if (control->id == 4) menuCurrentSelection = MenuSelection::EXIT;
         break;
@@ -408,10 +276,17 @@ bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
     {
         if (control->id == 9)
         {
-            if (settingsScene)
-                settingsScene = false;
-            else if (creditsScene)
-                creditsScene = false;
+            if (screenSettings->isActive)
+            {
+                screenSettings->isActive = false;
+                screenTitle->isActive = true;
+            }
+            else if (screenCredits->isActive)
+            {
+                screenCredits->isActive = false;
+                screenTitle->isActive = true;
+            }
+               
         }
         break;
     }
@@ -419,7 +294,9 @@ bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
     {
         if (control->id == 5)
         {
-            if (checkFullScreen->GetCheck())
+            ScreenSettings* temp = (ScreenSettings*)screenSettings;
+
+            if (temp->checkFullScreen->GetCheck())
                 SDL_SetWindowFullscreen(win->window, 1);
             else
                 SDL_SetWindowFullscreen(win->window, 0);
@@ -429,61 +306,4 @@ bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
     }
 
     return true;
-}
-
-void SceneTitle::UpdateControllerSelection(int idStart, int idEnd)
-{
-    bool isHovering = false;
-
-    for (int i = idStart; i <= idEnd; ++i)
-    {
-        if (guiManager->controls.At(i)->data->mouseFocus)
-            isHovering = true;
-    }
-
-    for (int i = idStart; i <= idEnd; ++i)
-    {
-        if (i != focusedButtonId || isHovering)
-        {
-            // SET GAMEPAD FOCUS TO FALSE
-            guiManager->controls.At(i)->data->gamepadFocus = false;
-        }
-        else
-        {
-            // SET GAMEPAD FOCUS TO TRUE
-            guiManager->controls.At(i)->data->gamepadFocus = true;
-        }
-    }
-}
-
-void SceneTitle::EnableTitleButtons()
-{
-    for (int i = 0; i < 5; ++i)
-    {
-        guiManager->controls.At(i)->data->state = GuiControlState::NORMAL;
-    }
-}
-
-void SceneTitle::EnableSettingsButtons()
-{
-    for (int i = 5; i < 10; ++i)
-    {
-        guiManager->controls.At(i)->data->state = GuiControlState::NORMAL;
-    }
-}
-
-void SceneTitle::HideTitleButtons()
-{
-    for (int i = 0; i < 5; ++i)
-    {
-        guiManager->controls.At(i)->data->state = GuiControlState::HIDDEN;
-    }
-}
-
-void SceneTitle::HideSettingsButtons()
-{
-    for (int i = 5; i < 10; ++i)
-    {
-        guiManager->controls.At(i)->data->state = GuiControlState::HIDDEN;
-    }
 }

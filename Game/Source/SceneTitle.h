@@ -4,6 +4,7 @@
 #include "Scene.h"
 #include "Animation.h"
 
+
 class GuiButton;
 class GuiSlider;
 class GuiCheckBox;
@@ -11,10 +12,12 @@ class GuiIcon;
 
 class Font;
 class Window;
+class Screen;
 
 #include "SDL/include/SDL.h"
 #include "Point.h"
 #include "Timer.h"
+
 
 enum class MenuSelection
 {
@@ -46,20 +49,15 @@ public:
 
 private:
 
-    void UpdateControllerSelection(int idStart, int idEnd);
-
-    void EnableTitleButtons();
-    void EnableSettingsButtons();
-
-    void HideTitleButtons();
-    void HideSettingsButtons();
-
-private:
 
     GuiManager* guiManager;
     Window* win;
     Easing* easing;
     AudioManager* audio;
+
+    Screen* screenSettings;
+    Screen* screenTitle;
+    Screen* screenCredits;
 
     SDL_Texture* backgroundTex;
     SDL_Rect backgroundRect;
@@ -67,16 +65,9 @@ private:
     SDL_Texture* guiAtlasTex;
     SDL_Texture* titlesTex;
 
-    SDL_Rect mainTitlesRect;
     SDL_Rect settingsTitleRect;
     SDL_Rect settingsBackgroundRect;
     SDL_Rect creditsTitleRect;
-
-    SDL_Rect iconARect;
-    SDL_Rect dpadRect;
-    SDL_Rect iconSTARTRect;
-
-    iPoint titlePosition;
 
     Font* titleFont;
     Font* buttonFont;
@@ -87,25 +78,7 @@ private:
     Timer titleFxTimer;
     int titleFx;
 
-    GuiButton* btnStart;
-    GuiButton* btnContinue;
-    GuiButton* btnOptions;
-    GuiButton* btnCredits;
-    GuiButton* btnExit;
-
-    GuiCheckBox* checkFullScreen;
-    GuiCheckBox* checkVsync;
-
-    GuiSlider* sliderMusicVolume;
-    GuiSlider* sliderFXVolume;
-
-    GuiIcon* iconReturnTitle;
-
     MenuSelection menuCurrentSelection;
-    //SettingsSelection settingsCurrentSelection = SettingsSelection::NONE;
-
-    bool settingsScene;
-    bool creditsScene;
 
     // Gamepad's menu focused button ID
     uint focusedButtonId;
