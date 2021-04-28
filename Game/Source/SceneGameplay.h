@@ -18,6 +18,7 @@ class DialogSystem;
 
 class GuiButton;
 class GuiIcon;
+class Screen;
 
 enum GameState
 {
@@ -61,22 +62,7 @@ public:
     void SetUpTp();
 
 private:
-
     void EnableBattleButtons();
-
-    void EnableHUDButtons();
-    void HideHUDButtons();
-
-    void EnablePauseButtons();
-    void HidePauseButtons();
-
-    // HUD
-    void UpdateHud(Input* input);
-    void DrawHud(Render* render);
-
-    // Pause
-    void UpdatePause(Input* input);
-    void DrawPause(Render* render);
 
 private:
 
@@ -86,6 +72,11 @@ private:
     Window* win;
     DialogSystem* dialogSystem;
     AudioManager* audio;
+
+    // The screen for the HUD
+    Screen* screenRoaming;
+    // The screen for the Pause
+    Screen* screenPause;
 
     // Scene gameplay textures
     SDL_Texture* spritesheet;
@@ -113,7 +104,6 @@ private:
     SDL_Rect pauseBackgroundRect;
    
     SDL_Rect settingsTitleRect;
-    SDL_Rect pauseTitleRect;
 
     // Fonts
     Font* titleFont;
@@ -127,16 +117,6 @@ private:
     GuiButton* btnDefend;
     GuiButton* btnItem;
     GuiButton* btnRun;
-
-    // Hud buttons
-    GuiIcon* iconPause;
-    GuiIcon* iconInventory;
-    GuiIcon* iconPhone;
-
-    // Pause buttons
-    GuiIcon* iconResume;
-    GuiIcon* iconSettings;
-    GuiIcon* iconExit;
 
     // Gamepad's menu focused button
     uint focusedButtonId;

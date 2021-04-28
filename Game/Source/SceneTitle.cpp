@@ -206,10 +206,12 @@ bool SceneTitle::Draw(Render* render)
     {
         screenSettings->Draw(render);
     }
-    else if (screenCredits->isActive)
+
+    if (screenCredits->isActive)
     {
         screenCredits->Draw(render);
     }
+
     return true;
 }
 
@@ -235,6 +237,12 @@ bool SceneTitle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManag
     buttonFont = nullptr;
 
     screenSettings->Unload(tex, audio, guiManager);
+    screenTitle->Unload(tex, audio, guiManager);
+    screenCredits->Unload(tex, audio, guiManager);
+
+    RELEASE(screenSettings);
+    RELEASE(screenTitle);
+    RELEASE(screenCredits);
 
     this->guiManager = nullptr;
     this->win = nullptr;

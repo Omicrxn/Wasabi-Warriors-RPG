@@ -109,6 +109,12 @@
     <ClCompile Include="Source\ScreenCredits.cpp">
       <Filter>Screens</Filter>
     </ClCompile>
+    <ClCompile Include="Source\ScreenRoaming.cpp">
+      <Filter>Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ScreenPause.cpp">
+      <Filter>Screens</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\App.h" />
@@ -278,6 +284,12 @@
       <Filter>Screens</Filter>
     </ClInclude>
     <ClInclude Include="Source\ScreenCredits.h">
+      <Filter>Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ScreenRoaming.h">
+      <Filter>Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ScreenPause.h">
       <Filter>Screens</Filter>
     </ClInclude>
   </ItemGroup>

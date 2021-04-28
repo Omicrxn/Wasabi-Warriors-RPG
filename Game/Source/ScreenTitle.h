@@ -4,7 +4,7 @@ class ScreenTitle : public Screen
 {
 public:
 	ScreenTitle();
-	virtual ~ScreenTitle();
+	~ScreenTitle();
 
 	bool Load(Scene* currentScene, Window* win, GuiManager* guiManager, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* font, int hoverFx, int clickFx);
 

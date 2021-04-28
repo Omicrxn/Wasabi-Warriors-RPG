@@ -40,6 +40,7 @@ public:
     }
     ~Screen(){}
 
+    // Many overloads if we need more textures in the screen 
     virtual bool Load(Scene* currentScene, Window* win, GuiManager* guiManager, Easing* easing, SDL_Texture* atlas0, Font* font, int hoverFx, int clickFx) {
         return true;
     }

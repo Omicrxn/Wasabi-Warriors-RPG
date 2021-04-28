@@ -26,12 +26,12 @@ bool ScreenCredits::Load(Scene* currentScene, Window* win, GuiManager* guiManage
     this->win = win;
 
  
-	return false;
+	return true;
 }
 
 bool ScreenCredits::Update(Input* input, float dt, uint& focusedButtonId)
 {
-	return false;
+	return true;
 }
 
 bool ScreenCredits::Draw(Render* render)
@@ -73,10 +73,10 @@ bool ScreenCredits::Draw(Render* render)
 
     render->DrawText(font, "UPC - CITM", 650 + 3, 320, 40, 5, { 105,105,105,105 });
     render->DrawText(font, "UPC - CITM", 650, 320, 40, 5, { 0,0,255,255 });
-	return false;
+	return true;
 }
 
 bool ScreenCredits::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager)
 {
-	return false;
+	return true;
 }

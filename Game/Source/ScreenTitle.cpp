@@ -50,7 +50,7 @@ bool ScreenTitle::Load(Scene* currentScene, Window* win, GuiManager* guiManager,
 
     this->minIndex = 0;
     this->maxIndex = 4;
-	return false;
+	return true;
 }
 
 bool ScreenTitle::Update(Input* input, float dt, uint& focusedButtonId)
@@ -60,7 +60,7 @@ bool ScreenTitle::Update(Input* input, float dt, uint& focusedButtonId)
     else if ((input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KeyState::KEY_DOWN) && focusedButtonId < 4)
         ++focusedButtonId;
 
-	return false;
+	return true;
 }
 
 bool ScreenTitle::Draw(Render* render)
@@ -69,7 +69,7 @@ bool ScreenTitle::Draw(Render* render)
     {
         render->DrawTexture(atlas[1], titlePosition.x, titlePosition.y, &mainTitlesRect, 0.0f);
     }
-	return false;
+	return true;
 }
 
 bool ScreenTitle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager)
@@ -85,6 +85,6 @@ bool ScreenTitle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMana
     guiManager->DestroyGuiControl(btnExit);
     btnExit = nullptr;
 
-	return false;
+	return true;
 }
 

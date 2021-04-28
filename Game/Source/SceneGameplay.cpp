@@ -15,6 +15,9 @@
 #include "App.h"
 #include "Log.h"
 
+#include "ScreenRoaming.h"
+#include "ScreenPause.h"
+
 SceneGameplay::SceneGameplay(bool hasStartedFromContinue)
 {
 	this->hasStartedFromContinue = hasStartedFromContinue;
@@ -55,7 +58,6 @@ SceneGameplay::SceneGameplay(bool hasStartedFromContinue)
 
 	// Rects for titles
 	settingsTitleRect = { 0, 149, 530, 81 };
-	pauseTitleRect = { 0, 73, 440, 75 };
 
 	// Fonts
 	titleFont = nullptr;
@@ -72,23 +74,16 @@ SceneGameplay::SceneGameplay(bool hasStartedFromContinue)
 	btnItem = nullptr;
 	btnRun = nullptr;
 
-	iconPause = nullptr;
-	iconInventory = nullptr;
-	iconPhone = nullptr;
-
-	iconResume = nullptr;
-	iconSettings = nullptr;
-	iconExit = nullptr;
-
 	// Gamepad's menu focused button
 	focusedButtonId = 0;
 
 	notifier = nullptr;
 
-	if (hasStartedFromContinue)
+	/*if (hasStartedFromContinue)
 		currentMap = MapType::NONE;
 	else
-		currentMap = MapType::TOWN;
+		currentMap = MapType::TOWN;*/
+	currentMap = MapType::NONE;
 }
 
 SceneGameplay::~SceneGameplay()
@@ -128,28 +123,15 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	clickFx = audio->LoadFx("Assets/Audio/Fx/click.ogg");
 	returnFx = audio->LoadFx("Assets/Audio/Fx/back.ogg");
 
-	// Load buttons for HUD
-	iconPause = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, 0, { 50, 50, 52, 55 });
-	iconPause->SetIconProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, CONTROLLER_BUTTON_START, IconType::ICON_PAUSE);
+	screenRoaming = new ScreenRoaming();
+	screenRoaming->Load(this, win, guiManager, easing, guiAtlasTex, buttonFont, hoverFx, clickFx);
+	screenRoaming->isActive = true;
+	screenRoaming->ShowButtons();
 
-	iconInventory = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, 1, { 170, 50, 56, 55 });
-	iconInventory->SetIconProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, CONTROLLER_BUTTON_X, IconType::ICON_INVENTORY);
-
-	iconPhone = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, 2, { 290, 50, 41, 55 });
-	iconPhone->SetIconProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, CONTROLLER_BUTTON_B, IconType::ICON_PHONE);
-
-	// Load buttons for pause
-	iconResume = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, 3, { 440 - 65 / 2, 300, 65, 55 });
-	iconResume->SetIconProperties(this, guiAtlasTex, buttonFont, hoverFx, returnFx, CONTROLLER_BUTTON_START, IconType::ICON_RESUME);
-	iconResume->state = GuiControlState::HIDDEN;
-
-	iconSettings = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, 4, { 640 - 58 / 2, 300, 58, 55 });
-	iconSettings->SetIconProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, CONTROLLER_BUTTON_X, IconType::ICON_SETTINGS);
-	iconSettings->state = GuiControlState::HIDDEN;
-
-	iconExit = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, 5, { 840 - 46 / 2, 300, 46, 55 });
-	iconExit->SetIconProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, CONTROLLER_BUTTON_B, IconType::ICON_EXIT);
-	iconExit->state = GuiControlState::HIDDEN;
+	screenPause = new ScreenPause();
+	screenPause->Load(this, win, guiManager, easing, guiAtlasTex, titlesTex, buttonFont, hoverFx, clickFx);
+	screenPause->isActive = true;
+	screenPause->HideButtons();
 
 	// Load buttons for the battle system
 	btnAttack = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 6, { 730, 500, 190, 49 }, "ATTACK");
@@ -168,6 +150,24 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	btnRun->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::WHITE);
 	btnRun->state = GuiControlState::HIDDEN;
 
+	// Create party member 1
+	Player* player;
+	player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "DaBaby");
+	player->position = iPoint(19 * 32, 1 * 32);
+	player->SetTexture(spritesheet, 3);
+	player->SetState(true);
+	player->SetUpClass("hunter");
+	player = nullptr;
+	currentPlayer = entityManager->playerList.At(0)->data;
+
+	// Create party member 2
+	player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "DaCrack");
+	player->position = iPoint(19 * 32, 1 * 32);
+	player->SetTexture(spritesheet, 6);
+	player->SetUpClass("wizard");
+	player = nullptr;
+	RELEASE(player);
+
 	if (hasStartedFromContinue)
 	{
 		// LOAD FROM THE SAVE FILE
@@ -175,78 +175,78 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	}
 	else
 	{
-		
-		if (map->Load("Town", "townMap.tmx") == true)
-		{
-			int w, h;
-			uchar* data = NULL;
+		notifier->NotifyMapChange(MapType::TOWN);
+		//if (map->Load("Town", "townMap.tmx") == true)
+		//{
+		//	int w, h;
+		//	uchar* data = NULL;
 
-			//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
+		//	//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
 
-			RELEASE_ARRAY(data);
-			audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
-		}
+		//	RELEASE_ARRAY(data);
+		//	audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
+		//}
 
-		// Create party member 1
-		Player* player;
-		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "DaBaby");
-		player->position = iPoint(12 * 32, 6 * 32);
-		player->SetTexture(spritesheet, 3);
-		player->SetState(true);
-		player->SetUpClass("hunter");
-		player = nullptr;
-		currentPlayer = entityManager->playerList.At(0)->data;
+		//// Create party member 1
+		//Player* player;
+		//player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "DaBaby");
+		//player->position = iPoint(12 * 32, 6 * 32);
+		//player->SetTexture(spritesheet, 3);
+		//player->SetState(true);
+		//player->SetUpClass("hunter");
+		//player = nullptr;
+		//currentPlayer = entityManager->playerList.At(0)->data;
 
-		// Create party member 2
-		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "DaCrack");
-		player->position = iPoint(12 * 32, 6 * 32);
-		player->SetTexture(spritesheet, 6);
-		player->SetUpClass("wizard");
-		player = nullptr;
-		RELEASE(player);
+		//// Create party member 2
+		//player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "DaCrack");
+		//player->position = iPoint(12 * 32, 6 * 32);
+		//player->SetTexture(spritesheet, 6);
+		//player->SetUpClass("wizard");
+		//player = nullptr;
+		//RELEASE(player);
 
-		// Create enemy 1
-		Enemy* enemy;
-		enemy = (Enemy*)entityManager->CreateEntity(EntityType::ENEMY, "DaBoss");
-		enemy->position = iPoint(10 * 32, 6 * 32);
-		enemy->SetTexture(spritesheet, 5);
-		enemy->SetUpClass("henchman");
-		enemy = nullptr;
-		RELEASE(enemy);
+		//// Create enemy 1
+		//Enemy* enemy;
+		//enemy = (Enemy*)entityManager->CreateEntity(EntityType::ENEMY, "DaBoss");
+		//enemy->position = iPoint(10 * 32, 6 * 32);
+		//enemy->SetTexture(spritesheet, 5);
+		//enemy->SetUpClass("henchman");
+		//enemy = nullptr;
+		//RELEASE(enemy);
 
-		// Create NPC
-		NPC* npc;
-		npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, "DaBot");
-		npc->position = iPoint(8 * 32, 8 * 32);
-		npc->SetTexture(spritesheet, 4);
-		npc = nullptr;
+		//// Create NPC
+		//NPC* npc;
+		//npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, "DaBot");
+		//npc->position = iPoint(8 * 32, 8 * 32);
+		//npc->SetTexture(spritesheet, 4);
+		//npc = nullptr;
 
-		// Create NPC 2
-		npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, "DaBot2");
-		npc->position = iPoint(10 * 32, 6 * 32);
-		npc->SetTexture(spritesheet, 8);
-		npc = nullptr;
+		//// Create NPC 2
+		//npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, "DaBot2");
+		//npc->position = iPoint(10 * 32, 6 * 32);
+		//npc->SetTexture(spritesheet, 8);
+		//npc = nullptr;
 
-		// Create NPC 3
-		npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, "DaBot3");
-		npc->position = iPoint(15 * 32, 7 * 32);
-		npc->SetTexture(spritesheet, 7);
-		npc = nullptr;
-		RELEASE(npc);
+		//// Create NPC 3
+		//npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, "DaBot3");
+		//npc->position = iPoint(15 * 32, 7 * 32);
+		//npc->SetTexture(spritesheet, 7);
+		//npc = nullptr;
+		//RELEASE(npc);
 
-		// Create Teleport
-		Teleport* teleport;
-		teleport = (Teleport*)entityManager->CreateEntity(EntityType::TELEPORT, "DaTransfer");
-		teleport->position = iPoint(19 * 32, 0 * 32);
-		entityManager->teleportList.At(entityManager->teleportList.Find(teleport))->data->SetUpDestination(MapType::CEMETERY);
-		teleport = nullptr;
+		//// Create Teleport
+		//Teleport* teleport;
+		//teleport = (Teleport*)entityManager->CreateEntity(EntityType::TELEPORT, "DaTransfer");
+		//teleport->position = iPoint(19 * 32, 0 * 32);
+		//entityManager->teleportList.At(entityManager->teleportList.Find(teleport))->data->SetUpDestination(MapType::CEMETERY);
+		//teleport = nullptr;
 
-		teleport = (Teleport*)entityManager->CreateEntity(EntityType::TELEPORT, "DaTransfer");
-		teleport->position = iPoint(44 * 32, 9 * 32);
-		entityManager->teleportList.At(entityManager->teleportList.Find(teleport))->data->SetUpDestination(MapType::MEDIUM_CITY);
-		teleport = nullptr;
+		//teleport = (Teleport*)entityManager->CreateEntity(EntityType::TELEPORT, "DaTransfer");
+		//teleport->position = iPoint(44 * 32, 9 * 32);
+		//entityManager->teleportList.At(entityManager->teleportList.Find(teleport))->data->SetUpDestination(MapType::MEDIUM_CITY);
+		//teleport = nullptr;
 
-		RELEASE(teleport);
+		//RELEASE(teleport);
 	}
 
 	return true;
@@ -431,19 +431,19 @@ bool SceneGameplay::Update(Input* input, float dt)
 
 	switch (currentState)
 	{
-	//case GameState::ROAMING:
-	//	UpdateHud(input);
-	//	break;
-	//case GameState::PAUSE:
-	//	UpdatePause(input);
-	//	break;
-	//}
+	case GameState::ROAMING:
+		screenRoaming->Update(input, dt, focusedButtonId);
+		break;
+	case GameState::PAUSE:
+		screenPause->Update(input, dt, focusedButtonId);
+		break;
 	case GameState::EXIT:
 		TransitionToScene(SceneType::TITLE);
 		break;
 	default:
 		break;
 	}
+
 	return true;
 }
 
@@ -555,11 +555,11 @@ bool SceneGameplay::Draw(Render* render)
 
 	switch (currentState)
 	{
-	//case GameState::ROAMING:
-	//	DrawHud(render);
-	//	break;
+	case GameState::ROAMING:
+		screenRoaming->Draw(render);
+		break;
 	case GameState::PAUSE:
-		DrawPause(render);
+		screenPause->Draw(render);
 		break;
 	default:
 		break;
@@ -610,21 +610,15 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 	guiManager->DestroyGuiControl(btnRun);
 	btnRun = nullptr;
 
-	guiManager->DestroyGuiControl(iconPause);
-	iconPause = nullptr;
-	guiManager->DestroyGuiControl(iconInventory);
-	iconInventory = nullptr;
-	guiManager->DestroyGuiControl(iconPhone);
-	iconPhone = nullptr;
-
-	guiManager->DestroyGuiControl(iconResume);
-	iconResume = nullptr;
-	guiManager->DestroyGuiControl(iconSettings);
-	iconSettings = nullptr;
-	guiManager->DestroyGuiControl(iconExit);
-	iconExit = nullptr;
-
 	notifier = nullptr;
+
+	// Unload screens
+	screenRoaming->Unload(tex, audio, guiManager);
+	screenPause->Unload(tex, audio, guiManager);
+
+	// Delete screens
+	RELEASE(screenRoaming);
+	RELEASE(screenPause);
 
 	entityManager->CleanUp();
 
@@ -685,8 +679,13 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 			currentState = GameState::PAUSE;
 			audio->ChangeMusicVolume(SDL_MIX_MAXVOLUME / 10);
 
-			HideHUDButtons();
-			EnablePauseButtons();
+			/*HideHUDButtons();*/
+			screenRoaming->isActive = false;
+			screenRoaming->HideButtons();
+
+			screenPause->isActive = true;
+			screenPause->ShowButtons();
+			/*EnablePauseButtons();*/
 			pauseTimer.Start();
 		}
 		else if (control->id == 1) {} //currentState = GameState::INVENTORY;
@@ -698,15 +697,23 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 				currentState = GameState::ROAMING;
 				audio->ChangeMusicVolume(SDL_MIX_MAXVOLUME / 2);
 
-				HidePauseButtons();
-				EnableHUDButtons();
+				screenPause->isActive = false;
+				screenPause->HideButtons();
+				/*EnableHUDButtons();*/
+				screenRoaming->isActive = true;
+				screenRoaming->ShowButtons();
 			}
 		}
 		else if (control->id == 4) {} //currentState = GameState::SETTINGS;
 		else if (control->id == 5)
 		{
 			currentState = GameState::EXIT;
-			HidePauseButtons();
+
+			screenRoaming->isActive = false;
+			screenRoaming->HideButtons();
+
+			screenPause->isActive = false;
+			screenPause->HideButtons();
 		}
 
 		break;
@@ -763,7 +770,8 @@ void SceneGameplay::ExitBattle()
 	// Change game state to roaming
 	currentState = GameState::ROAMING;
 
-	EnableHUDButtons();
+	screenRoaming->isActive = true;
+	screenRoaming->ShowButtons();
 
 	for (int i = 0; i < entityManager->playerList.Count(); i++)
 	{
@@ -918,19 +926,24 @@ void SceneGameplay::SetUpTp()
 			// DELETE ALL ENTITIES EXCEPT PLAYER
 			entityManager->DeleteAllEntitiesExceptPlayer();
 
-			int newPosX = 0; int newPosY = 0;
-			newPosX = previousMapNode.child("player").attribute("posX").as_int();
-			newPosY = previousMapNode.child("player").attribute("posY").as_int();
-			//	// Iterate all players and change position
-			ListItem<Player*>* list1;
-			for (list1 = entityManager->playerList.start; list1 != NULL; list1 = list1->next)
+			
+			if (previousMap != MapType::NONE)
 			{
-				list1->data->position.x = newPosX;
-				list1->data->position.y = newPosY;
-				list1->data->collider->SetPos(newPosX, newPosY);
-				list1->data->transitioning = true;
+				int newPosX = 0; int newPosY = 0;
+				newPosX = previousMapNode.child("player").attribute("posX").as_int();
+				newPosY = previousMapNode.child("player").attribute("posY").as_int();
+
+				//	// Iterate all players and change position
+				ListItem<Player*>* list1;
+				for (list1 = entityManager->playerList.start; list1 != NULL; list1 = list1->next)
+				{
+					list1->data->position.x = newPosX;
+					list1->data->position.y = newPosY;
+					list1->data->collider->SetPos(newPosX, newPosY);
+					list1->data->transitioning = true;
+				}
+				RELEASE(list1);
 			}
-			RELEASE(list1);
 
 			//	// LOAD ENEMIES
 			int enemyCount = mapNode.attribute("enemyCount").as_int();
@@ -1019,59 +1032,4 @@ void SceneGameplay::EnableBattleButtons()
 	{
 		guiManager->controls.At(i)->data->state = GuiControlState::HIDDEN;
 	}
-}
-
-void SceneGameplay::EnableHUDButtons()
-{
-	for (int i = 0; i < 3; ++i)
-	{
-		guiManager->controls.At(i)->data->state = GuiControlState::NORMAL;
-	}
-}
-
-void SceneGameplay::HideHUDButtons()
-{
-	for (int i = 0; i < 3; ++i)
-	{
-		guiManager->controls.At(i)->data->state = GuiControlState::HIDDEN;
-	}
-}
-
-void SceneGameplay::EnablePauseButtons()
-{
-	for (int i = 3; i < 6; ++i)
-	{
-		guiManager->controls.At(i)->data->state = GuiControlState::NORMAL;
-	}
-}
-
-void SceneGameplay::HidePauseButtons()
-{
-	for (int i = 3; i < 6; ++i)
-	{
-		guiManager->controls.At(i)->data->state = GuiControlState::HIDDEN;
-	}
-}
-
-void SceneGameplay::UpdateHud(Input* input)
-{
-	// Upadate anything extra in the hud like the party member change
-}
-
-void SceneGameplay::UpdatePause(Input* input)
-{
-	// Lower volume in the pause menu
-}
-
-void SceneGameplay::DrawHud(Render* render)
-{
-	// Draw anything extra needed in the hud
-}
-
-void SceneGameplay::DrawPause(Render* render)
-{
-	// Draw pause background & title
-	render->DrawRectangle({ 0,0,1280,720 }, { 0, 0, 0, 100 }, true, false);
-	//render->DrawTexture(guiAtlasTex, 1280 / 2 - pauseBackgroundRect.w / 2, 720 / 2 - pauseBackgroundRect.h / 2, &pauseBackgroundRect, 0.0f);
-	render->DrawTexture(titlesTex, 1280 / 2 - pauseTitleRect.w / 2, 100, &pauseTitleRect, 0.0f);
 }
