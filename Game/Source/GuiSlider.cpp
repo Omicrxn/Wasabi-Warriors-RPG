@@ -37,6 +37,21 @@ void GuiSlider::SetSliderProperties(Scene* module, SDL_Texture* texture, Font* f
     this->clickFx = clickFx;
 }
 
+int GuiSlider::GetValue() const
+{
+    return this->value;
+}
+
+SDL_Rect GuiSlider::GetSlider() const
+{
+    return this->slider;
+}
+
+void GuiSlider::SetSliderPosX(int posX)
+{
+    this->slider.x = posX;
+}
+
 bool GuiSlider::Update(Input* input, AudioManager* audio, float dt)
 {
     if (state != GuiControlState::DISABLED && state != GuiControlState::HIDDEN)
@@ -118,6 +133,10 @@ bool GuiSlider::Update(Input* input, AudioManager* audio, float dt)
 
             if (slider.x + slider.w >= bounds.x + bounds.w)
                 slider.x = bounds.x + bounds.w - slider.w;
+
+            float percentage = (100.0f / bounds.w) * (slider.x - bounds.x);
+            percentage = percentage / 100.0f;
+            value = maxValue * percentage;
         }
         else
         {

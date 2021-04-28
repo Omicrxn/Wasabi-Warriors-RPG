@@ -176,77 +176,6 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	else
 	{
 		notifier->NotifyMapChange(MapType::TOWN);
-		//if (map->Load("Town", "townMap.tmx") == true)
-		//{
-		//	int w, h;
-		//	uchar* data = NULL;
-
-		//	//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
-
-		//	RELEASE_ARRAY(data);
-		//	audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
-		//}
-
-		//// Create party member 1
-		//Player* player;
-		//player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "DaBaby");
-		//player->position = iPoint(12 * 32, 6 * 32);
-		//player->SetTexture(spritesheet, 3);
-		//player->SetState(true);
-		//player->SetUpClass("hunter");
-		//player = nullptr;
-		//currentPlayer = entityManager->playerList.At(0)->data;
-
-		//// Create party member 2
-		//player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "DaCrack");
-		//player->position = iPoint(12 * 32, 6 * 32);
-		//player->SetTexture(spritesheet, 6);
-		//player->SetUpClass("wizard");
-		//player = nullptr;
-		//RELEASE(player);
-
-		//// Create enemy 1
-		//Enemy* enemy;
-		//enemy = (Enemy*)entityManager->CreateEntity(EntityType::ENEMY, "DaBoss");
-		//enemy->position = iPoint(10 * 32, 6 * 32);
-		//enemy->SetTexture(spritesheet, 5);
-		//enemy->SetUpClass("henchman");
-		//enemy = nullptr;
-		//RELEASE(enemy);
-
-		//// Create NPC
-		//NPC* npc;
-		//npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, "DaBot");
-		//npc->position = iPoint(8 * 32, 8 * 32);
-		//npc->SetTexture(spritesheet, 4);
-		//npc = nullptr;
-
-		//// Create NPC 2
-		//npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, "DaBot2");
-		//npc->position = iPoint(10 * 32, 6 * 32);
-		//npc->SetTexture(spritesheet, 8);
-		//npc = nullptr;
-
-		//// Create NPC 3
-		//npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, "DaBot3");
-		//npc->position = iPoint(15 * 32, 7 * 32);
-		//npc->SetTexture(spritesheet, 7);
-		//npc = nullptr;
-		//RELEASE(npc);
-
-		//// Create Teleport
-		//Teleport* teleport;
-		//teleport = (Teleport*)entityManager->CreateEntity(EntityType::TELEPORT, "DaTransfer");
-		//teleport->position = iPoint(19 * 32, 0 * 32);
-		//entityManager->teleportList.At(entityManager->teleportList.Find(teleport))->data->SetUpDestination(MapType::CEMETERY);
-		//teleport = nullptr;
-
-		//teleport = (Teleport*)entityManager->CreateEntity(EntityType::TELEPORT, "DaTransfer");
-		//teleport->position = iPoint(44 * 32, 9 * 32);
-		//entityManager->teleportList.At(entityManager->teleportList.Find(teleport))->data->SetUpDestination(MapType::MEDIUM_CITY);
-		//teleport = nullptr;
-
-		//RELEASE(teleport);
 	}
 
 	return true;
@@ -261,10 +190,6 @@ inline bool CheckCollision(SDL_Rect rec1, SDL_Rect rec2)
 
 bool SceneGameplay::Update(Input* input, float dt)
 {
-	// DO not update until map and entities are correctly loaded
-	/*if (hasStartedFromContinue)
-		return true;*/
-
 	// Player god mode
 	if (input->GetKey(SDL_SCANCODE_F10) == KeyState::KEY_DOWN)
 	{
@@ -921,7 +846,6 @@ void SceneGameplay::SetUpTp()
 			default:
 				break;
 			}
-			//	// Read the new position
 
 			// DELETE ALL ENTITIES EXCEPT PLAYER
 			entityManager->DeleteAllEntitiesExceptPlayer();
@@ -945,7 +869,7 @@ void SceneGameplay::SetUpTp()
 				RELEASE(list1);
 			}
 
-			//	// LOAD ENEMIES
+			// LOAD ENEMIES
 			int enemyCount = mapNode.attribute("enemyCount").as_int();
 
 			pugi::xml_node enemyNode = mapNode.child("enemy");
@@ -1017,7 +941,6 @@ void SceneGameplay::SetUpTp()
 	{
 		hasStartedFromContinue = false;
 	}
-			
 		
 }
 

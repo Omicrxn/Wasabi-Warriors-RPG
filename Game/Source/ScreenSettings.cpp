@@ -43,9 +43,13 @@ bool ScreenSettings::Load(Scene* currentScene, Window* win, GuiManager* guiManag
 
 	sliderMusicVolume = (GuiSlider*)guiManager->CreateGuiControl(GuiControlType::SLIDER, 7, { (int)width / 2 - (int)((float)width / 12) + 5, 200, 300, 30 }, "MUSIC VOLUME");
 	sliderMusicVolume->SetSliderProperties(currentScene, atlas0, buttonFont, hoverFx, clickFx);
+	sliderMusicVolume->minValue = 0;
+	sliderMusicVolume->maxValue = SDL_MIX_MAXVOLUME;
 
 	sliderFXVolume = (GuiSlider*)guiManager->CreateGuiControl(GuiControlType::SLIDER, 8, { (int)width / 2 - (int)((float)width / 12) + 5, 300, 300, 30 }, "FX VOLUME");
 	sliderFXVolume->SetSliderProperties(currentScene, atlas0, buttonFont, hoverFx, clickFx);
+	sliderFXVolume->minValue = 0;
+	sliderFXVolume->maxValue = SDL_MIX_MAXVOLUME;
 
 	iconReturnTitle = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, 9, { (int)width / 2 + (int)((float)width / 4), 570, 70, 55 });
 	iconReturnTitle->SetIconProperties(currentScene, atlas0, buttonFont, hoverFx, clickFx, CONTROLLER_BUTTON_B, IconType::ICON_RETURN);
@@ -133,5 +137,40 @@ bool ScreenSettings::Unload(Textures* tex, AudioManager* audio, GuiManager* guiM
 	iconReturnTitle = nullptr;
 
 	return true;
+}
+
+bool ScreenSettings::LoadState(pugi::xml_node& audio)
+{
+	this->sliderMusicVolume->SetSliderPosX(audio.attribute("sliderVolume").as_int());
+	this->sliderFXVolume->SetSliderPosX(audio.attribute("sliderAudio").as_int());
+	return false;
+}
+
+bool ScreenSettings::SaveState(pugi::xml_node& audio) const
+{
+	SString tempName = audio.attribute("sliderVolume").name();
+	if (tempName == "sliderVolume")
+	{
+		// Attribute currentMap exists
+		audio.attribute("sliderVolume").set_value(this->sliderMusicVolume->GetSlider().x);
+	}
+	else
+	{
+		// Attribute currentMap does not exist
+		audio.append_attribute("sliderVolume").set_value(this->sliderMusicVolume->GetSlider().x);
+	}
+	tempName = audio.attribute("sliderAudio").name();
+	if (tempName == "sliderAudio")
+	{
+		// Attribute currentMap exists
+		audio.attribute("sliderAudio").set_value(this->sliderFXVolume->GetSlider().x);
+	}
+	else
+	{
+		// Attribute currentMap does not exist
+		audio.append_attribute("sliderAudio").set_value(this->sliderFXVolume->GetSlider().x);
+	}
+
+	return false;
 }
 

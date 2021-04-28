@@ -17,15 +17,17 @@ public:
     bool Draw(Render* render, bool debugDraw);
 
     void SetSliderProperties(Scene* module, SDL_Texture* texture, Font* font, int hoverFx, int clickFx);
-    int GetValue() const;
 
+    int GetValue() const;
+    SDL_Rect GetSlider() const;
+    void SetSliderPosX(int posX);
+
+    int minValue;
+    int maxValue;
 private:
 
     // GuiSlider specific properties
     int value;
-
-    int minValue;
-    int maxValue;
 
     SDL_Rect bar;
     SDL_Rect slider;

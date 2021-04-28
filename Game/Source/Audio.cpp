@@ -86,6 +86,42 @@ bool AudioManager::CleanUp()
 	return true;
 }
 
+bool AudioManager::LoadState(pugi::xml_node& audio)
+{
+	this->ChangeMusicVolume(audio.attribute("musicVolume").as_int());
+	this->ChangeFxVolume(audio.attribute("fxVolume").as_int());
+	return true;
+}
+
+bool AudioManager::SaveState(pugi::xml_node& audio) const
+{
+	/* ---------- CHECKS IF THE Attribute WE WANT OVERWRITE EXISTS OR NOT  ----------*/
+	SString tempName = audio.attribute("musicVolume").name();
+	if (tempName == "musicVolume")
+	{
+		// Attribute currentMap exists
+		audio.attribute("musicVolume").set_value(this->GetMusicVolume());
+	}
+	else
+	{
+		// Attribute currentMap does not exist
+		audio.append_attribute("musicVolume").set_value(this->GetMusicVolume());
+	}
+
+	tempName = audio.attribute("fxVolume").name();
+	if (tempName == "fxVolume")
+	{
+		// Attribute currentMap exists
+		audio.attribute("fxVolume").set_value(this->GetFxVolume());
+	}
+	else
+	{
+		// Attribute currentMap does not exist
+		audio.append_attribute("fxVolume").set_value(this->GetFxVolume());
+	}
+	return true;
+}
+
 // Play a music file
 bool AudioManager::PlayMusic(const char* path, float fadeTime)
 {
@@ -193,12 +229,12 @@ bool AudioManager::ChangeFxVolume(int volume)
 	return false;
 }
 
-int AudioManager::GetMusicVolume()
+int AudioManager::GetMusicVolume() const
 {
 	return Mix_VolumeMusic(-1);
 }
 
-int AudioManager::GetFxVolume()
+int AudioManager::GetFxVolume() const
 {
 	return Mix_VolumeChunk(fx.start->data, -1);
 }

@@ -26,6 +26,8 @@ SceneTitle::SceneTitle()
 {
     type = SceneType::TITLE;
 
+    this->name = "scenetitle";
+
     guiManager = nullptr;
     win = nullptr;
     easing = nullptr;
@@ -251,6 +253,22 @@ bool SceneTitle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManag
     return true;
 }
 
+bool SceneTitle::LoadState(pugi::xml_node& scenetitle)
+{
+    // Pass the audio node to the screen settings
+    pugi::xml_node audioNode = scenetitle.parent().parent().child("audio");
+    screenSettings->LoadState(audioNode);
+    return true;
+}
+
+bool SceneTitle::SaveState(pugi::xml_node& scenetitle) const
+{
+    // Pass the audio node to the screen settings
+    pugi::xml_node audioNode = scenetitle.parent().parent().child("audio");
+    screenSettings->SaveState(audioNode);
+    return true;
+}
+
 //----------------------------------------------------------
 // Manage GUI events for this screen
 //----------------------------------------------------------
@@ -309,6 +327,22 @@ bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
             else
                 SDL_SetWindowFullscreen(win->window, 0);
         }
+    }
+    case GuiControlType::SLIDER:
+    {
+        if (control->id == 7)
+        {
+            GuiSlider* tempSlider = (GuiSlider*)this->guiManager->controls.At(7)->data;
+            int value = tempSlider->GetValue();
+            audio->ChangeMusicVolume(value);
+        }
+        else if (control->id == 8)
+        {
+            GuiSlider* tempSlider = (GuiSlider*)this->guiManager->controls.At(8)->data;
+            int value = tempSlider->GetValue();
+            audio->ChangeFxVolume(value);
+        }
+            
     }
     default: break;
     }

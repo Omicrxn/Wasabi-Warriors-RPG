@@ -12,6 +12,9 @@ public:
 	bool Draw(Render* render);
 	bool Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager);
 
+	bool LoadState(pugi::xml_node&);
+	bool SaveState(pugi::xml_node&) const;
+
 	GuiCheckBox* checkFullScreen;
 	GuiCheckBox* checkVsync;
 
