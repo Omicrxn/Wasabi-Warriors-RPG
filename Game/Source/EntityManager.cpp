@@ -11,17 +11,19 @@
 #include "Render.h"
 #include "Textures.h"
 #include "Input.h"
+#include "Transitions.h"
 
 #include "Defs.h"
 #include "Log.h"
 
-EntityManager::EntityManager(Input* input, Render* render, Textures* tex, Collisions* collisions) : Module()
+EntityManager::EntityManager(Input* input, Render* render, Textures* tex, Collisions* collisions, Transitions* transitions) : Module()
 {
 	name.Create("entitymanager");
 	this->ren = render;
 	this->tex = tex;
 	this->input = input;
 	this->collisions = collisions;
+	this->transitions = transitions;
 	texture = nullptr;
 }
 
@@ -64,7 +66,7 @@ Entity* EntityManager::CreateEntity(EntityType type, SString name)
 		playerList.Add((Player*)ret);
 		break;
 	case EntityType::ENEMY:
-		ret = new Enemy(collisions, this);
+		ret = new Enemy(collisions, this, transitions);
 		ret->type = EntityType::ENEMY;
 		ret->name = name;
 		enemyList.Add((Enemy*)ret);

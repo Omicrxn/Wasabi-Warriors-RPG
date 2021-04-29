@@ -15,11 +15,12 @@ enum class EnemyType
     BRUISER,
     BOSS
 };
+
 class Enemy : public Being
 {
 public:
 
-    Enemy(Collisions* collisions, EntityManager* entityManager);
+    Enemy(Collisions* collisions, EntityManager* entityManager, Transitions* transitions);
     ~Enemy();
 
 public:
@@ -39,6 +40,8 @@ public:
     // To setup the enemy class type
     bool SetUpClass(SString name);
 
+    void StartCombat();
+
 public:
 
     Animations currentAnim;
@@ -46,6 +49,9 @@ public:
     int width, height;
 
     bool readyForCombat = true;
+
+    // Needed modules
+    Transitions* transitions = nullptr;
 };
 
 #endif // __ENEMY_H__

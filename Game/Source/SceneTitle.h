@@ -4,6 +4,9 @@
 #include "Scene.h"
 #include "Animation.h"
 
+#include "SDL/include/SDL.h"
+#include "Point.h"
+#include "Timer.h"
 
 class GuiButton;
 class GuiSlider;
@@ -13,11 +16,6 @@ class GuiIcon;
 class Font;
 class Window;
 class Screen;
-
-#include "SDL/include/SDL.h"
-#include "Point.h"
-#include "Timer.h"
-
 
 enum class MenuSelection
 {
@@ -36,7 +34,7 @@ public:
     SceneTitle();
     virtual ~SceneTitle();
 
-    bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, Easing* easing, Render* render);
+    bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, Easing* easing, Render* render, Transitions* transitions);
 
     bool Update(Input* input, float dt);
 
@@ -53,11 +51,12 @@ public:
 
 private:
 
-
+    // Needed modules
     GuiManager* guiManager;
     Window* win;
     Easing* easing;
     AudioManager* audio;
+    Transitions* transitions;
 
     Screen* screenSettings;
     Screen* screenTitle;

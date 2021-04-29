@@ -12,6 +12,7 @@
 #include "Fonts.h"
 #include "DialogSystem.h"
 #include "Easing.h"
+#include "Transitions.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -34,12 +35,13 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	tex = new Textures(render);
 	audio = new AudioManager();
 	collisions = new Collisions(input, render);
-	entityManager = new EntityManager(input, render, tex, collisions);
+	transitions = new Transitions(render, win);
+	entityManager = new EntityManager(input, render, tex, collisions, transitions);
 	guiManager = new GuiManager(input, render, tex, audio);
 	fonts = new Fonts(render, tex);
 	dialogSystem = new DialogSystem(input, render, fonts);
 	easing = new Easing();
-	sceneManager = new SceneManager(input, render, tex, win, audio, entityManager, guiManager, dialogSystem, easing, this);
+	sceneManager = new SceneManager(input, render, tex, win, audio, entityManager, guiManager, dialogSystem, easing, transitions, this);
 	
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -47,6 +49,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(input);
 	AddModule(tex);
 	AddModule(audio);
+	AddModule(transitions);
 	AddModule(entityManager);
 	AddModule(sceneManager);
 	AddModule(guiManager);

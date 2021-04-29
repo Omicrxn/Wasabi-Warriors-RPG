@@ -38,7 +38,7 @@ public:
     SceneGameplay(bool hasStartedFromContinue = false);
     virtual ~SceneGameplay();
 
-    bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, DialogSystem* dialogSystem, Easing* easing, App* app);
+    bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, DialogSystem* dialogSystem, Easing* easing, Transitions* transitions, App* app);
 
     bool Update(Input* input, float dt);
 
@@ -62,6 +62,7 @@ public:
     void SetUpTp();
 
 private:
+
     void EnableBattleButtons();
 
 private:
@@ -72,6 +73,7 @@ private:
     Window* win;
     DialogSystem* dialogSystem;
     AudioManager* audio;
+    Transitions* transitions;
 
     // The screen for the HUD
     Screen* screenRoaming;

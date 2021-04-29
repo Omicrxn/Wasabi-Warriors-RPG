@@ -1,29 +1,21 @@
 #include "Enemy.h"
 
 #include "Pathfinding.h"
+#include "Transitions.h"
 
 #include "Log.h"
 
 #define DEFAULT_PATH_LENGTH 50
 
-Enemy::Enemy(Collisions* collisions, EntityManager* entityManager) : Being()
+Enemy::Enemy(Collisions* collisions, EntityManager* entityManager, Transitions* transitions) : Being()
 {
+    this->transitions = transitions;
     texture = NULL;
     position = iPoint(10 * 16, 27 * 16);
     currentAnim = Animations::IDLE;
     width = 32;
     height = 32;
     direction = { 0,0 };
-	// Define enemy parameters
-	/*this->stats.name = "Enemy";
-	this->stats.level = 1;
-	this->stats.damage = 10;
-	this->stats.maxHP = 120;
-	this->stats.currentHP = 100;
-	this->stats.strength = 10;
-	this->stats.defense = 10;
-	this->stats.attackSpeed = 5;
-	this->stats.criticalRate = 5;*/
 
     collider = collisions->AddCollider({ position.x,position.y,width,height }, Collider::Type::ENEMY, (Module*)entityManager);
     active = true;
@@ -104,16 +96,21 @@ void Enemy::SetName(SString name)
     this->name = name;
     this->stats.name = name;
 }
+
 void Enemy::OnCollision(Collider* collider)
 {
     if (readyForCombat == true)
     {
         readyForCombat = false;
-        Notifier::GetInstance()->NotifyBattle();
-
-        Notifier::GetInstance()->SetEnemy(this->name);
+        
+        transitions->TransitionCombat(WhichAnimation::WIPE, this);
     }
+}
 
+void Enemy::StartCombat()
+{
+    Notifier::GetInstance()->NotifyBattle();
+    Notifier::GetInstance()->SetEnemy(this->name);
 }
 
 bool Enemy::SetUpClass(SString name)

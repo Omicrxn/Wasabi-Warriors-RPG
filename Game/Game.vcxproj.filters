@@ -115,6 +115,9 @@
     <ClCompile Include="Source\ScreenPause.cpp">
       <Filter>Screens</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Transitions.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\App.h" />
@@ -291,6 +294,9 @@
     </ClInclude>
     <ClInclude Include="Source\ScreenPause.h">
       <Filter>Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Transitions.h">
+      <Filter>Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -25,7 +25,7 @@ class Collisions;
 class Fonts;
 class DialogSystem;
 class Easing;
-
+class Transitions;
 
 class App
 {
@@ -102,6 +102,7 @@ public:
 	Fonts* fonts;
 	DialogSystem* dialogSystem;
 	Easing* easing;
+	Transitions* transitions;
 
 private:
 

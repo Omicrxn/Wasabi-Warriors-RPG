@@ -9,6 +9,7 @@
 #include "Notifier.h"
 #include "Easing.h"
 #include "Timer.h"
+#include "Transitions.h"
 
 #include "GuiButton.h"
 #include "GuiIcon.h"
@@ -90,7 +91,7 @@ SceneGameplay::~SceneGameplay()
 {
 }
 
-bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, DialogSystem* dialogSystem, Easing* easing, App* app)
+bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, DialogSystem* dialogSystem, Easing* easing, Transitions* transitions, App* app)
 {
 	audio->StopMusic();
 
@@ -102,6 +103,7 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	this->win = win;
 	this->dialogSystem = dialogSystem;
 	this->audio = audio;
+	this->transitions = transitions;
 
 	map = (Map*)entityManager->CreateEntity(EntityType::MAP, "Map");
 

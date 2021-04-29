@@ -13,6 +13,7 @@
 
 #include "Font.h"
 #include "Easing.h"
+#include "Transitions.h"
 
 #include "ScreenSettings.h"
 #include "ScreenTitle.h"
@@ -32,6 +33,7 @@ SceneTitle::SceneTitle()
     win = nullptr;
     easing = nullptr;
     audio = nullptr;
+    this->transitions = transitions;
 
     backgroundTex = nullptr;
     backgroundRect = { 0, 0, 1280, 720 };
@@ -61,12 +63,13 @@ SceneTitle::~SceneTitle()
 {
 }
 
-bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, Easing* easing, Render* render)
+bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, Easing* easing, Render* render, Transitions* transitions)
 {
     this->guiManager = guiManager;
     this->win = win;
     this->easing = easing;
     this->audio = audio;
+    this->transitions = transitions;
 
     uint width, height;
     win->GetWindowSize(width, height);
@@ -113,6 +116,7 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
 
     screenTitle->ShowButtons();
     screenSettings->HideButtons();
+
     return true;
 }
 
@@ -159,7 +163,8 @@ bool SceneTitle::Update(Input* input, float dt)
     if (menuCurrentSelection == MenuSelection::START)
     {
         screenTitle->HideButtons();
-        TransitionToScene(SceneType::GAMEPLAY);
+        /*TransitionToScene(SceneType::GAMEPLAY);*/
+        transitions->Transition(WhichAnimation::FADE_TO_BLACK, (Scene*)this, SceneType::GAMEPLAY, 2);
     }
     else if (menuCurrentSelection == MenuSelection::CONTINUE)
     {

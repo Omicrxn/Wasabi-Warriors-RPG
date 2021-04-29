@@ -15,13 +15,14 @@ class NPC;
 class Entity;
 enum class EntityType;
 class Collisions;
+class Transitions;
 class SDL_Texture;
 
 class EntityManager : public Module
 {
 public:
 
-	EntityManager(Input* input, Render* ren, Textures* tex, Collisions* collisions);
+	EntityManager(Input* input, Render* ren, Textures* tex, Collisions* collisions, Transitions* transitions);
 
 	// Destructor
 	virtual ~EntityManager();
@@ -59,6 +60,7 @@ public:
 	Textures* tex;
 	Input* input;
 	Collisions* collisions;
+	Transitions* transitions;
 	List<Entity*> entityList;
 	List<Player*> playerList;
 	List<Enemy*> enemyList;
