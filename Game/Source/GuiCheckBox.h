@@ -19,6 +19,7 @@ public:
     void SetCheckBoxProperties(Scene* module, SDL_Texture* texture, Font* font, int hoverFx, int clickFx);
 
     bool GetCheck() const;
+    void SetCheck(bool boolean);
 
 private:
 

@@ -54,6 +54,7 @@ private:
     // Needed modules
     GuiManager* guiManager;
     Window* win;
+    Render* render;
     Easing* easing;
     AudioManager* audio;
     Transitions* transitions;

@@ -43,6 +43,11 @@ bool GuiCheckBox::GetCheck() const
     return checked;
 }
 
+void GuiCheckBox::SetCheck(bool boolean)
+{
+    this->checked = boolean;
+}
+
 bool GuiCheckBox::Update(Input* input, AudioManager* audio, float dt)
 {
     if (state != GuiControlState::DISABLED && state != GuiControlState::HIDDEN)

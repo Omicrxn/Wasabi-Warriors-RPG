@@ -20,6 +20,7 @@
 #include "ScreenCredits.h"
 
 #include "SDL/include/SDL.h"
+#include "Log.h"
 
 #define TITLE_FADE_SPEED 0.05f
 
@@ -67,6 +68,7 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
 {
     this->guiManager = guiManager;
     this->win = win;
+    this->render = render;
     this->easing = easing;
     this->audio = audio;
     this->transitions = transitions;
@@ -93,6 +95,20 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
 
     screenSettings = new ScreenSettings();
     screenSettings->Load(this, win, guiManager, easing, guiAtlasTex, titlesTex, buttonFont, hoverFx, clickFx);
+
+    pugi::xml_document docData;
+    pugi::xml_node screenNode;
+    pugi::xml_parse_result result = docData.load_file("save_game.xml");
+    // Check result for loading errors
+    if (result == NULL)
+    {
+        LOG("Could not load map info xml file map_info.xml. pugi error: %s", result.description());
+    }
+    else
+    {
+        screenNode = docData.child("game_state").child("screen");
+        screenSettings->LoadState(screenNode);
+    }
 
     screenCredits = new ScreenCredits();
     screenCredits->Load(this, win, guiManager, easing, guiAtlasTex, titlesTex, buttonFont, hoverFx, clickFx);
@@ -224,7 +240,6 @@ bool SceneTitle::Draw(Render* render)
 
 bool SceneTitle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager)
 {
-
     easing->CleanUp();
     tex->UnLoad(backgroundTex);
     backgroundTex = nullptr;
@@ -253,6 +268,7 @@ bool SceneTitle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManag
 
     this->guiManager = nullptr;
     this->win = nullptr;
+    this->render = nullptr;
     this->easing = nullptr;
     this->audio = nullptr;
     return true;
@@ -260,17 +276,17 @@ bool SceneTitle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManag
 
 bool SceneTitle::LoadState(pugi::xml_node& scenetitle)
 {
-    // Pass the audio node to the screen settings
-    pugi::xml_node audioNode = scenetitle.parent().parent().child("audio");
-    screenSettings->LoadState(audioNode);
+    // Pass the screensettings node to the screen settings
+    pugi::xml_node screenNode = scenetitle.parent().parent().child("screen");
+    screenSettings->LoadState(screenNode);
     return true;
 }
 
 bool SceneTitle::SaveState(pugi::xml_node& scenetitle) const
 {
     // Pass the audio node to the screen settings
-    pugi::xml_node audioNode = scenetitle.parent().parent().child("audio");
-    screenSettings->SaveState(audioNode);
+    pugi::xml_node screenNode = scenetitle.parent().parent().child("screen");
+    screenSettings->SaveState(screenNode);
     return true;
 }
 
@@ -323,6 +339,7 @@ bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
     }
     case GuiControlType::CHECKBOX:
     {
+        // Fullscreen
         if (control->id == 5)
         {
             ScreenSettings* temp = (ScreenSettings*)screenSettings;
@@ -332,6 +349,47 @@ bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
             else
                 SDL_SetWindowFullscreen(win->window, 0);
         }
+        // Vsync
+        if (control->id == 6)
+        {
+            ScreenSettings* temp = (ScreenSettings*)screenSettings;
+            Uint32 windowFlags = SDL_GetWindowFlags(win->window);
+            Uint32 rendererFlags = SDL_RENDERER_ACCELERATED;
+            
+            if (temp->checkFullScreen->GetCheck())
+
+
+            if (temp->checkVsync->GetCheck())
+                rendererFlags |= SDL_RENDERER_PRESENTVSYNC;
+            else
+                rendererFlags = rendererFlags ^ SDL_RENDERER_PRESENTVSYNC;
+
+            SDL_DestroyWindow(win->window);
+            win->window = SDL_CreateWindow("", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1280, 720, windowFlags);
+
+            SDL_DestroyRenderer(render->renderer);
+            render->renderer = SDL_CreateRenderer(win->window, -1, rendererFlags);
+            transitions->Transition(WhichAnimation::NONE, this, SceneType::TITLE);
+        }
+
+        pugi::xml_document docData;
+        pugi::xml_node screenNode;
+
+        pugi::xml_parse_result result = docData.load_file("save_game.xml");
+
+        // Check result for loading errors
+        if (result == NULL)
+        {
+            LOG("Could not load map info xml file map_info.xml. pugi error: %s", result.description());
+        }
+        else
+        {
+            screenNode = docData.child("game_state").child("screen");
+            screenSettings->SaveState(screenNode);
+            docData.save_file("save_game.xml");
+        }
+
+
     }
     case GuiControlType::SLIDER:
     {

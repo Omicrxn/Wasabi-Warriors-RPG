@@ -139,36 +139,78 @@ bool ScreenSettings::Unload(Textures* tex, AudioManager* audio, GuiManager* guiM
 	return true;
 }
 
-bool ScreenSettings::LoadState(pugi::xml_node& audio)
+bool ScreenSettings::LoadState(pugi::xml_node& screen)
 {
-	this->sliderMusicVolume->SetSliderPosX(audio.attribute("sliderVolume").as_int());
-	this->sliderFXVolume->SetSliderPosX(audio.attribute("sliderAudio").as_int());
+	pugi::xml_node screenSettingsNode = screen.child("screensettings");
+
+	this->sliderMusicVolume->SetSliderPosX(screenSettingsNode.attribute("sliderVolume").as_int());
+	this->sliderFXVolume->SetSliderPosX(screenSettingsNode.attribute("sliderAudio").as_int());
+
+	bool fullscreen = screenSettingsNode.attribute("fullScreen").as_bool();
+	this->checkFullScreen->SetCheck(fullscreen);
+	
+	bool vsync = screenSettingsNode.attribute("vsync").as_bool();
+	this->checkVsync->SetCheck(vsync);
+	
 	return false;
 }
 
-bool ScreenSettings::SaveState(pugi::xml_node& audio) const
+bool ScreenSettings::SaveState(pugi::xml_node& screen) const
 {
-	SString tempName = audio.attribute("sliderVolume").name();
+	// Check screensettings node
+	pugi::xml_node screenSettingsNode;
+	SString tempName = screen.child("screensettings").name();
+	if (tempName == "screensettings")
+	{
+		screenSettingsNode = screen.child("screensettings");
+	}
+	else
+	{
+		screenSettingsNode = screen.append_child("screensettings");
+	}
+
+	// Check sliderVolume attribute
+	tempName = screenSettingsNode.attribute("sliderVolume").name();
 	if (tempName == "sliderVolume")
 	{
-		// Attribute currentMap exists
-		audio.attribute("sliderVolume").set_value(this->sliderMusicVolume->GetSlider().x);
+		screenSettingsNode.attribute("sliderVolume").set_value(this->sliderMusicVolume->GetSlider().x);
 	}
 	else
 	{
-		// Attribute currentMap does not exist
-		audio.append_attribute("sliderVolume").set_value(this->sliderMusicVolume->GetSlider().x);
+		screenSettingsNode.append_attribute("sliderVolume").set_value(this->sliderMusicVolume->GetSlider().x);
 	}
-	tempName = audio.attribute("sliderAudio").name();
+
+	// Check sliderAudio attribute
+	tempName = screenSettingsNode.attribute("sliderAudio").name();
 	if (tempName == "sliderAudio")
 	{
-		// Attribute currentMap exists
-		audio.attribute("sliderAudio").set_value(this->sliderFXVolume->GetSlider().x);
+		screenSettingsNode.attribute("sliderAudio").set_value(this->sliderFXVolume->GetSlider().x);
 	}
 	else
 	{
-		// Attribute currentMap does not exist
-		audio.append_attribute("sliderAudio").set_value(this->sliderFXVolume->GetSlider().x);
+		screenSettingsNode.append_attribute("sliderAudio").set_value(this->sliderFXVolume->GetSlider().x);
+	}
+
+	// Check fullscreen attribute
+	tempName = screenSettingsNode.attribute("fullScreen").name();
+	if (tempName == "fullScreen")
+	{
+		screenSettingsNode.attribute("fullScreen").set_value(this->checkFullScreen->GetCheck());
+	}
+	else
+	{
+		screenSettingsNode.append_attribute("fullScreen").set_value(this->checkFullScreen->GetCheck());
+	}
+
+	// Check vsync attribute
+	tempName = screenSettingsNode.attribute("vsync").name();
+	if (tempName == "vsync")
+	{
+		screenSettingsNode.attribute("vsync").set_value(this->checkVsync->GetCheck());
+	}
+	else
+	{
+		screenSettingsNode.append_attribute("vsync").set_value(this->checkVsync->GetCheck());
 	}
 
 	return false;
