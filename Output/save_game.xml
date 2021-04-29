@@ -30,4 +30,6 @@
 	<scenemanager>
 		<scenegameplay currentMap="0" />
 	</scenemanager>
+	<screen>
+	</screen>
 </game_state>
