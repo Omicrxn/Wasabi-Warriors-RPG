@@ -8,6 +8,7 @@
 class Scene;
 enum class SceneType;
 class Enemy;
+struct SDL_Texture;
 
 //this enum will manage all the transitions, using it to indicate which type of transition we're using
 enum WhichAnimation
@@ -25,7 +26,7 @@ class Transitions : public Module
 public:
 
 	// Main functions
-	Transitions(Render* render, Window* win);
+	Transitions(Render* render, Textures* tex, Window* win);
 	~Transitions();
 
 	bool Start();
@@ -67,6 +68,7 @@ private:
 	// Used for the renders and the transitions functions
 	SDL_Rect screen;
 	SDL_Rect wipeTransRect;
+	SDL_Rect wipeTransTexRect;
 	SDL_Rect curtainTransRect;
 	SDL_Rect curtainTransRect2;
 	
@@ -86,11 +88,15 @@ private:
 	// Needed modules
 	Render* render = nullptr;
 	Window* win = nullptr;
+	Textures* tex;
 
 	bool sceneChange = false;
 	
 	// Combat pending enemy
 	Enemy* enemy = nullptr;
+
+	// Needed textures for transitions
+	SDL_Texture* wipe = nullptr;
 };
 
 #endif // __TRANSITIONS_H__

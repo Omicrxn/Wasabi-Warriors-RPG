@@ -16,14 +16,16 @@
 #include "SceneTitle.h"
 #include "SceneGameplay.h"
 
-Transitions::Transitions(Render* render, Window* win)
+Transitions::Transitions(Render* render, Textures* tex, Window* win)
 {
 	screen = { 0, 0, 1280,720 };
 	wipeTransRect = { -1280, 0, 1280,720 };
+	wipeTransTexRect = { 0,0,1480,720 };
 
 	// Saving needed modules
 	this->render = render;
 	this->win = win;
+	this->tex = tex;
 }
 
 Transitions::~Transitions()
@@ -35,6 +37,9 @@ bool Transitions::Start()
 	SDL_SetRenderDrawBlendMode(render->renderer, SDL_BLENDMODE_BLEND);
 	curtainTransRect = { -(int)win->GetWidth() / 2, 0, (int)win->GetWidth() / 2,720 };
 	curtainTransRect2 = { (int)win->GetWidth(), 0, (int)win->GetWidth() / 2,720 };
+
+	// Load textures
+	wipe = tex->Load("Assets/Textures/Scenes/wipe.png");
 
 	return true;
 }
@@ -108,7 +113,7 @@ bool Transitions::PostUpdate()
 			}
 			else wipeTransRect.x = normalizedXPosition;
 		}
-		else if (ongoingstep== FadeStep::EXITING)
+		else if (ongoingstep == FadeStep::EXITING)
 		{
 			percentatge = timer.ReadSec() * (1 / globaltime);
 			float normalizedXPosition2 = LerpValue(percentatge, 0, -1280);
@@ -118,15 +123,24 @@ bool Transitions::PostUpdate()
 				wipeTransRect.x = -1280;
 			}else wipeTransRect.x = normalizedXPosition2;
 		}
-		//Finally we draw the two rect that will make the wipe
-		SDL_SetRenderDrawColor(render->renderer, 0, 0, 0, 255);
-		SDL_RenderFillRect(render->renderer, &wipeTransRect);
+		// Finally we draw the rect that will make the wipe
+		/*SDL_SetRenderDrawColor(render->renderer, 0, 0, 0, 255);
+		SDL_RenderFillRect(render->renderer, &wipeTransRect);*/
+
+		wipeTransTexRect.x = -wipeTransRect.x;
+		/*wipeTransTexRect.w = 1480 + wipeTransRect.x;*/
+		render->DrawTexture(wipe, 0, 0, &wipeTransTexRect, 0.0f);
+
+		printf("%d\n", wipeTransRect.x);
+
+		/*render->DrawRectangle(wipeTransRect, { 0,0,0,255 }, true, false);*/
+
 		break;
 
 		//ZOOM TRANSITION
 	case (WhichAnimation::ZOOM):
-
-		if (ongoingstep == FadeStep::ENTERING) {
+		if (ongoingstep == FadeStep::ENTERING)
+		{
 			percentatge2 = timer.ReadSec() * (1 / globaltime);
 			float normalizedScale = LerpValue(percentatge2, normalScale, targetScale);
 
