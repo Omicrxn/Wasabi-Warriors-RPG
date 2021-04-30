@@ -42,6 +42,8 @@ public:
 
 	void ExitGame();
 
+	GuiControl* FindById(int id);
+
 public:
 
 	List<GuiControl*> controls;

@@ -41,19 +41,19 @@ public:
     ~Screen(){}
 
     // Many overloads if we need more textures in the screen 
-    virtual bool Load(Scene* currentScene, Window* win, GuiManager* guiManager, Easing* easing, SDL_Texture* atlas0, Font* font, int hoverFx, int clickFx) {
+    virtual bool Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, Easing* easing, SDL_Texture* atlas0, Font* font, int hoverFx, int clickFx) {
         return true;
     }
-    virtual bool Load(Scene* currentScene, Window* win, GuiManager* guiManager, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* font, int hoverFx, int clickFx) {
+    virtual bool Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* font, int hoverFx, int clickFx) {
         return true;
     }
-    virtual bool Load(Scene* currentScene, Window* win, GuiManager* guiManager, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, SDL_Texture* atlas2, Font* font, int hoverFx, int clickFx) {
+    virtual bool Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, SDL_Texture* atlas2, Font* font, int hoverFx, int clickFx) {
         return true;
     }
-    virtual bool Load(Scene* currentScene, Window* win, GuiManager* guiManager, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, SDL_Texture* atlas2, SDL_Texture* atlas3, Font* font, int hoverFx, int clickFx) {
+    virtual bool Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, SDL_Texture* atlas2, SDL_Texture* atlas3, Font* font, int hoverFx, int clickFx) {
         return true;
     }
-    virtual bool Load(Scene* currentScene, Window* win, GuiManager* guiManager, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, SDL_Texture* atlas2, SDL_Texture* atlas3, SDL_Texture* atlas4, Font* font, int hoverFx, int clickFx) {
+    virtual bool Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, SDL_Texture* atlas2, SDL_Texture* atlas3, SDL_Texture* atlas4, Font* font, int hoverFx, int clickFx) {
         return true;
     }
 
@@ -71,14 +71,16 @@ public:
     {
         for (int i = minIndex; i <= maxIndex; ++i)
         {
-            this->guiManager->controls.At(i)->data->state = GuiControlState::HIDDEN;
+            /*this->guiManager->controls.At(i)->data->state = GuiControlState::HIDDEN;*/
+            this->guiManager->FindById(i)->state = GuiControlState::HIDDEN;
         }
     }
     void ShowButtons() 
     {
         for (int i = minIndex; i <= maxIndex; ++i)
         {
-            this->guiManager->controls.At(i)->data->state = GuiControlState::NORMAL;
+            /*this->guiManager->controls.At(i)->data->state = GuiControlState::NORMAL;*/
+            this->guiManager->FindById(i)->state = GuiControlState::NORMAL;
         }
     }
     void UpdateControllerSelection(int focusedButtonId)
@@ -88,12 +90,14 @@ public:
             if (i != focusedButtonId)
             {
                 // SET GAMEPAD FOCUS TO FALSE
-                this->guiManager->controls.At(i)->data->gamepadFocus = false;
+               /* this->guiManager->controls.At(i)->data->gamepadFocus = false;*/
+                this->guiManager->FindById(i)->gamepadFocus = false;
             }
             else
             {
                 // SET GAMEPAD FOCUS TO TRUE
-                this->guiManager->controls.At(i)->data->gamepadFocus = true;
+               /* this->guiManager->controls.At(i)->data->gamepadFocus = true;*/
+                this->guiManager->FindById(i)->gamepadFocus = true;
             }
         }
     }

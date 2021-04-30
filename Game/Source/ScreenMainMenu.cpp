@@ -1,10 +1,10 @@
-#include "ScreenTitle.h"
+#include "ScreenMainMenu.h"
 
 #include "Easing.h"
 #include "Window.h"
 
 #include "Font.h"
-ScreenTitle::ScreenTitle()
+ScreenMainMenu::ScreenMainMenu()
 {
     btnStart = nullptr;
     btnContinue = nullptr;
@@ -16,11 +16,11 @@ ScreenTitle::ScreenTitle()
     titlePosition = { 0,0 };
 }
 
-ScreenTitle::~ScreenTitle()
+ScreenMainMenu::~ScreenMainMenu()
 {
 }
 
-bool ScreenTitle::Load(Scene* currentScene, Window* win, GuiManager* guiManager, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* font, int hoverFx, int clickFx)
+bool ScreenMainMenu::Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* font, int hoverFx, int clickFx)
 {
     this->currentScene = currentScene;
     this->atlas[0] = atlas0;
@@ -33,37 +33,44 @@ bool ScreenTitle::Load(Scene* currentScene, Window* win, GuiManager* guiManager,
     uint width, height;
     win->GetWindowSize(width, height);
 
-    btnContinue = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 0, { -350, 200, 190, 49 }, "CONTINUE");
+    this->minIndex = minIndex;
+    this->maxIndex = maxIndex;
+    int counterId = minIndex;
+
+    btnContinue = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { -350, 200, 190, 49 }, "CONTINUE");
     btnContinue->SetButtonProperties(currentScene, atlas0, font, hoverFx, clickFx, Style::WHITE);
+    ++counterId;
 
-    btnStart = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, { -350, 300, 190, 49 }, "START");
+    btnStart = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { -350, 300, 190, 49 }, "START");
     btnStart->SetButtonProperties(currentScene, atlas0, font, hoverFx, clickFx, Style::WHITE);
+    ++counterId;
 
-    btnOptions = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 2, { -350, 400, 190, 49 }, "OPTIONS");
+    btnOptions = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { -350, 400, 190, 49 }, "OPTIONS");
     btnOptions->SetButtonProperties(currentScene, atlas0, font, hoverFx, clickFx, Style::WHITE);
+    ++counterId;
 
-    btnCredits = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 3, { -350, 500, 190, 49 }, "CREDITS");
+    btnCredits = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { -350, 500, 190, 49 }, "CREDITS");
     btnCredits->SetButtonProperties(currentScene, atlas0, font, hoverFx, clickFx, Style::WHITE);
+    ++counterId;
 
-    btnExit = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 4, { -350, 600, 190, 49 }, "EXIT");
+    btnExit = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { -350, 600, 190, 49 }, "EXIT");
     btnExit->SetButtonProperties(currentScene, atlas0, font, hoverFx, clickFx, Style::WHITE);
 
-    this->minIndex = 0;
-    this->maxIndex = 4;
+    
 	return true;
 }
 
-bool ScreenTitle::Update(Input* input, float dt, uint& focusedButtonId)
+bool ScreenMainMenu::Update(Input* input, float dt, uint& focusedButtonId)
 {
-    if ((input->GetControllerButton(CONTROLLER_BUTTON_UP) == KeyState::KEY_DOWN) && focusedButtonId > 0)
+    if ((input->GetControllerButton(CONTROLLER_BUTTON_UP) == KeyState::KEY_DOWN) && focusedButtonId > minIndex)
         --focusedButtonId;
-    else if ((input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KeyState::KEY_DOWN) && focusedButtonId < 4)
+    else if ((input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KeyState::KEY_DOWN) && focusedButtonId < maxIndex)
         ++focusedButtonId;
 
 	return true;
 }
 
-bool ScreenTitle::Draw(Render* render)
+bool ScreenMainMenu::Draw(Render* render)
 {
     if (isActive)
     {
@@ -72,7 +79,7 @@ bool ScreenTitle::Draw(Render* render)
 	return true;
 }
 
-bool ScreenTitle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager)
+bool ScreenMainMenu::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager)
 {
     guiManager->DestroyGuiControl(btnStart);
     btnStart = nullptr;

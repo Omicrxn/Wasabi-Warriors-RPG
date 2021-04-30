@@ -18,7 +18,7 @@ ScreenPause::~ScreenPause()
 {
 }
 
-bool ScreenPause::Load(Scene* currentScene, Window* win, GuiManager* guiManager, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* font, int hoverFx, int clickFx)
+bool ScreenPause::Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* font, int hoverFx, int clickFx)
 {
 	this->currentScene = currentScene;
 	this->atlas[0] = atlas0;
@@ -28,20 +28,23 @@ bool ScreenPause::Load(Scene* currentScene, Window* win, GuiManager* guiManager,
 	this->guiManager = guiManager;
 	this->win = win;
 
-	iconResume = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, 3, { 440 - 65 / 2, 300, 65, 55 });
+	this->minIndex = minIndex;
+	this->maxIndex = maxIndex;
+	int counterId = minIndex;
+
+	iconResume = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 440 - 65 / 2, 300, 65, 55 });
 	iconResume->SetIconProperties(currentScene, atlas[0], font, hoverFx, clickFx, CONTROLLER_BUTTON_START, IconType::ICON_RESUME);
 	iconResume->state = GuiControlState::HIDDEN;
+	++counterId;
 
-	iconSettings = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, 4, { 640 - 58 / 2, 300, 58, 55 });
+	iconSettings = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 640 - 58 / 2, 300, 58, 55 });
 	iconSettings->SetIconProperties(currentScene, atlas[0], font, hoverFx, clickFx, CONTROLLER_BUTTON_X, IconType::ICON_SETTINGS);
 	iconSettings->state = GuiControlState::HIDDEN;
+	++counterId;
 
-	iconExit = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, 5, { 840 - 46 / 2, 300, 46, 55 });
+	iconExit = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 840 - 46 / 2, 300, 46, 55 });
 	iconExit->SetIconProperties(currentScene, atlas[0], font, hoverFx, clickFx, CONTROLLER_BUTTON_B, IconType::ICON_EXIT);
 	iconExit->state = GuiControlState::HIDDEN;
-
-	this->minIndex = 3;
-	this->maxIndex = 5;
 
 	return true;
 }

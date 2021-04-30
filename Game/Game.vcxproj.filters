@@ -103,7 +103,7 @@
     <ClCompile Include="Source\ScreenSettings.cpp">
       <Filter>Screens</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ScreenTitle.cpp">
+    <ClCompile Include="Source\ScreenMainMenu.cpp">
       <Filter>Screens</Filter>
     </ClCompile>
     <ClCompile Include="Source\ScreenCredits.cpp">
@@ -283,7 +283,7 @@
     <ClInclude Include="Source\ScreenSettings.h">
       <Filter>Screens</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ScreenTitle.h">
+    <ClInclude Include="Source\ScreenMainMenu.h">
       <Filter>Screens</Filter>
     </ClInclude>
     <ClInclude Include="Source\ScreenCredits.h">

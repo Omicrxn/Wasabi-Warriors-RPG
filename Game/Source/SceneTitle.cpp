@@ -16,7 +16,7 @@
 #include "Transitions.h"
 
 #include "ScreenSettings.h"
-#include "ScreenTitle.h"
+#include "ScreenMainMenu.h"
 #include "ScreenCredits.h"
 
 #include "SDL/include/SDL.h"
@@ -30,34 +30,45 @@ SceneTitle::SceneTitle()
 
     this->name = "scenetitle";
 
+    // The pointers
     guiManager = nullptr;
     win = nullptr;
     easing = nullptr;
     audio = nullptr;
     this->transitions = transitions;
 
+    // Background
     backgroundTex = nullptr;
     backgroundRect = { 0, 0, 1280, 720 };
 
+    // Texture
     guiAtlasTex = nullptr;
     titlesTex = nullptr;
 
+    // More backgound
     settingsTitleRect = { 0, 149, 530, 81 };
     settingsBackgroundRect = { 1228, 295, 300, 200 };
     creditsTitleRect = { 0, 238, 511, 84 };
 
+    // Fonts
     titleFont = nullptr;
     buttonFont = nullptr;
 
+    // Fx
     hoverFx = -1;
     clickFx = -1;
     titleFx = -1;
     returnFx = -1;
 
+    // Selections
     menuCurrentSelection = MenuSelection::NONE;
-
     focusedButtonId = 0;
     prevFocusedButtonId = 0;
+
+    // Screens
+    screenCredits = nullptr;
+    screenSettings = nullptr;
+    screenMainMenu = nullptr;
 }
 
 SceneTitle::~SceneTitle()
@@ -89,12 +100,12 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
     titleFx = audio->LoadFx("Assets/Audio/Fx/title.ogg");
     returnFx = audio->LoadFx("Assets/Audio/Fx/back.ogg");
 
-    screenTitle = new ScreenTitle();
-    screenTitle->Load(this, win, guiManager, easing, guiAtlasTex, titlesTex, buttonFont, hoverFx, clickFx);
-    screenTitle->isActive = true;
+    screenMainMenu = new ScreenMainMenu();
+    screenMainMenu->Load(0, 4, this, win, guiManager, easing, guiAtlasTex, titlesTex, buttonFont, hoverFx, clickFx);
+    screenMainMenu->isActive = true;
 
     screenSettings = new ScreenSettings();
-    screenSettings->Load(this, win, guiManager, easing, guiAtlasTex, titlesTex, buttonFont, hoverFx, clickFx);
+    screenSettings->Load(5, 9, this, win, guiManager, easing, guiAtlasTex, titlesTex, buttonFont, hoverFx, clickFx);
 
     pugi::xml_document docData;
     pugi::xml_node screenNode;
@@ -111,11 +122,11 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
     }
 
     screenCredits = new ScreenCredits();
-    screenCredits->Load(this, win, guiManager, easing, guiAtlasTex, titlesTex, buttonFont, hoverFx, clickFx);
+    screenCredits->Load(0, 0, this, win, guiManager, easing, guiAtlasTex, titlesTex, buttonFont, hoverFx, clickFx);
 
     audio->PlayMusic("Assets/Audio/Music/menu.ogg", 40.0f);
 
-    ScreenTitle* tempTitle = (ScreenTitle*)screenTitle;
+    ScreenMainMenu* tempTitle = (ScreenMainMenu*)screenMainMenu;
     tempTitle->titlePosition = { (int)width + tempTitle->mainTitlesRect.w * 2, (int)((float)height / 2) - (int)((float)height / 2.5f) };
 
    
@@ -130,7 +141,7 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
     render->camera.x = 0;
     render->camera.y = 0;
 
-    screenTitle->ShowButtons();
+    screenMainMenu->ShowButtons();
     screenSettings->HideButtons();
 
     return true;
@@ -144,10 +155,10 @@ bool SceneTitle::Update(Input* input, float dt)
 
     if (input->GetControllerState())
     {
-        if (screenTitle->isActive)
+        if (screenMainMenu->isActive)
         {
-            screenTitle->Update(input, dt, focusedButtonId);
-            screenTitle->UpdateControllerSelection(focusedButtonId);
+            screenMainMenu->Update(input, dt, focusedButtonId);
+            screenMainMenu->UpdateControllerSelection(focusedButtonId);
         }
 
         if (screenSettings->isActive)
@@ -165,7 +176,7 @@ bool SceneTitle::Update(Input* input, float dt)
 
         // Hide settings buttons and sliders and enable main title buttons
         screenSettings->HideButtons();
-        screenTitle->ShowButtons();
+        screenMainMenu->ShowButtons();
     }
     if (menuCurrentSelection == MenuSelection::CREDITS && screenCredits->isActive == false)
     {
@@ -173,30 +184,30 @@ bool SceneTitle::Update(Input* input, float dt)
 
         // Hide credits icon and enable main title buttons
         guiManager->controls.At(9)->data->state = GuiControlState::HIDDEN;
-        screenTitle->ShowButtons();
+        screenMainMenu->ShowButtons();
     }
 
     if (menuCurrentSelection == MenuSelection::START)
     {
-        screenTitle->HideButtons();
+        screenMainMenu->HideButtons();
         /*TransitionToScene(SceneType::GAMEPLAY);*/
         transitions->Transition(WhichAnimation::FADE_TO_BLACK, (Scene*)this, SceneType::GAMEPLAY, 2);
     }
     else if (menuCurrentSelection == MenuSelection::CONTINUE)
     {
-        screenTitle->HideButtons();
+        screenMainMenu->HideButtons();
         TransitionToScene(SceneType::GAMEPLAY_LOAD);
     }
     else if (menuCurrentSelection == MenuSelection::SETTINGS)
     {
         // Hide main title buttons and enable the settings buttons and slider
-        screenTitle->HideButtons();
+        screenMainMenu->HideButtons();
         screenSettings->ShowButtons();
     }
     else if (menuCurrentSelection == MenuSelection::CREDITS)
     {
         // Hide main title buttons and enable credits return icon
-        screenTitle->HideButtons();
+        screenMainMenu->HideButtons();
         guiManager->controls.At(9)->data->state = GuiControlState::NORMAL;
     }
     else if (menuCurrentSelection == MenuSelection::EXIT)
@@ -220,9 +231,9 @@ bool SceneTitle::Draw(Render* render)
         audio->PlayFx(titleFx);
     }
 
-    if (screenTitle->isActive)
+    if (screenMainMenu->isActive)
     {
-        screenTitle->Draw(render);
+        screenMainMenu->Draw(render);
     }
 
     if (screenSettings->isActive)
@@ -240,6 +251,7 @@ bool SceneTitle::Draw(Render* render)
 
 bool SceneTitle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager)
 {
+    // Unload textures
     easing->CleanUp();
     tex->UnLoad(backgroundTex);
     backgroundTex = nullptr;
@@ -248,22 +260,25 @@ bool SceneTitle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManag
     tex->UnLoad(titlesTex);
     titlesTex = nullptr;
 
+    // Unload Fx
     audio->UnloadFx(clickFx);
     audio->UnloadFx(hoverFx);
     audio->UnloadFx(titleFx);
     audio->UnloadFx(returnFx);
 
+    // Unload Fonts
     RELEASE(titleFont);
     titleFont = nullptr;
     RELEASE(buttonFont);
     buttonFont = nullptr;
 
+    // Unload Screens
     screenSettings->Unload(tex, audio, guiManager);
-    screenTitle->Unload(tex, audio, guiManager);
+    screenMainMenu->Unload(tex, audio, guiManager);
     screenCredits->Unload(tex, audio, guiManager);
 
     RELEASE(screenSettings);
-    RELEASE(screenTitle);
+    RELEASE(screenMainMenu);
     RELEASE(screenCredits);
 
     this->guiManager = nullptr;
@@ -308,12 +323,12 @@ bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
             menuCurrentSelection = MenuSelection::SETTINGS;
 
             screenSettings->isActive = true;
-            screenTitle->isActive = false;
+            screenMainMenu->isActive = false;
         }
         else if (control->id == 3)
         {
             menuCurrentSelection = MenuSelection::CREDITS;
-            screenTitle->isActive = false;
+            screenMainMenu->isActive = false;
             screenCredits->isActive = true;
         }
         else if (control->id == 4) menuCurrentSelection = MenuSelection::EXIT;
@@ -326,12 +341,12 @@ bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
             if (screenSettings->isActive)
             {
                 screenSettings->isActive = false;
-                screenTitle->isActive = true;
+                screenMainMenu->isActive = true;
             }
             else if (screenCredits->isActive)
             {
                 screenCredits->isActive = false;
-                screenTitle->isActive = true;
+                screenMainMenu->isActive = true;
             }
                
         }

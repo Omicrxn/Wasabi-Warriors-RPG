@@ -79,6 +79,8 @@ private:
     Screen* screenRoaming;
     // The screen for the Pause
     Screen* screenPause;
+    // The screen for the settings
+    Screen* screenSettings;
 
     // Scene gameplay textures
     SDL_Texture* spritesheet;

@@ -22,7 +22,7 @@ ScreenSettings::ScreenSettings()
 }
 ScreenSettings::~ScreenSettings() {}
 
-bool ScreenSettings::Load(Scene* currentScene, Window* win, GuiManager* guiManager, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* buttonFont, int hoverFx, int clickFx)
+bool ScreenSettings::Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* buttonFont, int hoverFx, int clickFx)
 {
 	this->currentScene = currentScene;
 	this->atlas[0] = atlas0;
@@ -35,27 +35,32 @@ bool ScreenSettings::Load(Scene* currentScene, Window* win, GuiManager* guiManag
 	uint width, height;
 	win->GetWindowSize(width, height);
 
-	checkFullScreen = (GuiCheckBox*)guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 5, { (int)width / 2 - (int)((float)width / 3.5f) - 20, 194, 45, 49 }, "FULLSCREEN");
+	this->minIndex = minIndex;
+	this->maxIndex = maxIndex;
+	int counterId = minIndex;
+
+	checkFullScreen = (GuiCheckBox*)guiManager->CreateGuiControl(GuiControlType::CHECKBOX, counterId, { (int)width / 2 - (int)((float)width / 3.5f) - 20, 194, 45, 49 }, "FULLSCREEN");
 	checkFullScreen->SetCheckBoxProperties(currentScene, atlas0, buttonFont, hoverFx, clickFx);
+	++counterId;
 
-	checkVsync = (GuiCheckBox*)guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 6, { (int)width / 2 - (int)((float)width / 3.5f) - 20, 294, 45, 49 }, "VSYNC");
+	checkVsync = (GuiCheckBox*)guiManager->CreateGuiControl(GuiControlType::CHECKBOX, counterId, { (int)width / 2 - (int)((float)width / 3.5f) - 20, 294, 45, 49 }, "VSYNC");
 	checkVsync->SetCheckBoxProperties(currentScene, atlas0, buttonFont, hoverFx, clickFx);
+	++counterId;
 
-	sliderMusicVolume = (GuiSlider*)guiManager->CreateGuiControl(GuiControlType::SLIDER, 7, { (int)width / 2 - (int)((float)width / 12) + 5, 200, 300, 30 }, "MUSIC VOLUME");
+	sliderMusicVolume = (GuiSlider*)guiManager->CreateGuiControl(GuiControlType::SLIDER, counterId, { (int)width / 2 - (int)((float)width / 12) + 5, 200, 300, 30 }, "MUSIC VOLUME");
 	sliderMusicVolume->SetSliderProperties(currentScene, atlas0, buttonFont, hoverFx, clickFx);
 	sliderMusicVolume->minValue = 0;
 	sliderMusicVolume->maxValue = SDL_MIX_MAXVOLUME;
+	++counterId;
 
-	sliderFXVolume = (GuiSlider*)guiManager->CreateGuiControl(GuiControlType::SLIDER, 8, { (int)width / 2 - (int)((float)width / 12) + 5, 300, 300, 30 }, "FX VOLUME");
+	sliderFXVolume = (GuiSlider*)guiManager->CreateGuiControl(GuiControlType::SLIDER, counterId, { (int)width / 2 - (int)((float)width / 12) + 5, 300, 300, 30 }, "FX VOLUME");
 	sliderFXVolume->SetSliderProperties(currentScene, atlas0, buttonFont, hoverFx, clickFx);
 	sliderFXVolume->minValue = 0;
 	sliderFXVolume->maxValue = SDL_MIX_MAXVOLUME;
+	++counterId;
 
-	iconReturnTitle = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, 9, { (int)width / 2 + (int)((float)width / 4), 570, 70, 55 });
+	iconReturnTitle = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { (int)width / 2 + (int)((float)width / 4), 570, 70, 55 });
 	iconReturnTitle->SetIconProperties(currentScene, atlas0, buttonFont, hoverFx, clickFx, CONTROLLER_BUTTON_B, IconType::ICON_RETURN);
-
-	minIndex = 5;
-	maxIndex = 9;
 
 	return true;
 }
@@ -65,33 +70,34 @@ bool ScreenSettings::Update(Input* input, float dt, uint& focusedButtonId)
 	if (isActive)
 	{
 		//Update
-		if (focusedButtonId == 5)
+		// MinIndex is 5
+		if (focusedButtonId == minIndex)
 		{
 			if (input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN)
-				focusedButtonId = 6;
+				focusedButtonId = minIndex + 1;
 			else if (input->GetControllerButton(CONTROLLER_BUTTON_RIGHT) == KEY_DOWN)
-				focusedButtonId = 7;
+				focusedButtonId = minIndex + 2;
 		}
-		else if (focusedButtonId == 6)
+		else if (focusedButtonId == minIndex + 1)
 		{
 			if (input->GetControllerButton(CONTROLLER_BUTTON_UP) == KEY_DOWN)
-				focusedButtonId = 5;
+				focusedButtonId = minIndex;
 			else if (input->GetControllerButton(CONTROLLER_BUTTON_RIGHT) == KEY_DOWN)
-				focusedButtonId = 8;
+				focusedButtonId = minIndex + 3;
 		}
-		else if (focusedButtonId == 7)
+		else if (focusedButtonId == minIndex + 2)
 		{
 			if (input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN)
-				focusedButtonId = 8;
+				focusedButtonId = minIndex + 3;
 			else if (input->GetControllerButton(CONTROLLER_BUTTON_LEFT) == KEY_DOWN)
-				focusedButtonId = 5;
+				focusedButtonId = minIndex;
 		}
-		else if (focusedButtonId == 8)
+		else if (focusedButtonId == minIndex + 3)
 		{
 			if (input->GetControllerButton(CONTROLLER_BUTTON_UP) == KEY_DOWN)
-				focusedButtonId = 7;
+				focusedButtonId = minIndex + 2;
 			else if (input->GetControllerButton(CONTROLLER_BUTTON_LEFT) == KEY_DOWN)
-				focusedButtonId = 6;
+				focusedButtonId = minIndex + 1;
 		}
 	}
 

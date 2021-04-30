@@ -125,7 +125,7 @@
     <ClCompile Include="Source\ScreenPause.cpp" />
     <ClCompile Include="Source\ScreenRoaming.cpp" />
     <ClCompile Include="Source\ScreenSettings.cpp" />
-    <ClCompile Include="Source\ScreenTitle.cpp" />
+    <ClCompile Include="Source\ScreenMainMenu.cpp" />
     <ClCompile Include="Source\Teleport.cpp" />
     <ClCompile Include="Source\Textures.cpp" />
     <ClCompile Include="Source\Window.cpp" />
@@ -175,7 +175,7 @@
     <ClInclude Include="Source\ScreenPause.h" />
     <ClInclude Include="Source\ScreenRoaming.h" />
     <ClInclude Include="Source\ScreenSettings.h" />
-    <ClInclude Include="Source\ScreenTitle.h" />
+    <ClInclude Include="Source\ScreenMainMenu.h" />
     <ClInclude Include="Source\Teleport.h" />
     <ClInclude Include="Source\Textures.h" />
     <ClInclude Include="Source\Timer.h" />

@@ -60,7 +60,7 @@ private:
     Transitions* transitions;
 
     Screen* screenSettings;
-    Screen* screenTitle;
+    Screen* screenMainMenu;
     Screen* screenCredits;
 
     SDL_Texture* backgroundTex;

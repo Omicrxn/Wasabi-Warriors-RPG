@@ -159,3 +159,14 @@ void GuiManager::ExitGame()
 {
 	exitingGame = true;
 }
+
+GuiControl* GuiManager::FindById(int id)
+{
+	GuiControl* toReturn = nullptr;
+	for (int i = 0; i < controls.Count(); i++)
+	{
+		if (controls[i]->id == id)
+			return toReturn = controls[i];
+	}
+	return nullptr;
+}
