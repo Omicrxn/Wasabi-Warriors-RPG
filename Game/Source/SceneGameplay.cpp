@@ -117,10 +117,23 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	// Load battle system textures
 	backgroundTex = tex->Load("Assets/Textures/Scenes/battle_scene.jpg");
 	guiAtlasTex = tex->Load("Assets/Textures/UI/ui_spritesheet.png");
+	aura = tex->Load("Assets/Textures/Scenes/aura.png");
+
+	// Set battle animations
+	for (int j = 0; j < 4; j++)
+	{
+		for (int i = 0; i < 8; i++)
+		{
+			auraAnim.PushBack({ i * 128, j * 128, 128, 128 });
+		}
+	}
+	auraAnim.speed = 1.0f;
+	auraAnim.loop = true;
 
 	// Create fonts
 	titleFont = new Font("Assets/Fonts/shojumaru.xml", tex);
 	buttonFont = new Font("Assets/Fonts/showg.xml", tex);
+	menuFont = new Font("Assets/Fonts/poppins.xml", tex);
 
 	// Load buttons Fx
 	hoverFx = audio->LoadFx("Assets/Audio/Fx/bong.ogg");
@@ -394,7 +407,7 @@ bool SceneGameplay::Draw(Render* render)
 {
 	if (battle == true)
 	{
-		render->DrawRectangle({ 0, 0, 1280, 720 }, { 255, 255, 255, (unsigned char)255.0f }, true, false);
+		/*render->DrawRectangle({ 0, 0, 1280, 720 }, { 255, 255, 255, (unsigned char)255.0f }, true, false);*/
 
 		render->DrawTexture(backgroundTex, 0, 0, &backgroundRect, 0);
 
@@ -438,24 +451,40 @@ bool SceneGameplay::Draw(Render* render)
 			battleSystem->battleState != BattleState::LOST &&
 			battleSystem->battleState != BattleState::EXIT)
 		{
+			render->DrawRectangle({ 115,270,450,100 }, { 255,255,255,127 }, true, false);
+			render->DrawRectangle({ 115,270,450,100 }, { 255,255,255,255 }, false, false);
+
 			// Player name
-			render->DrawText(buttonFont, battleSystem->GetPlayer()->name.GetString(), 125 + 3, 275 + 3, 40, 0, { 105, 105, 105, 255 });
-			render->DrawText(buttonFont, battleSystem->GetPlayer()->name.GetString(), 125, 275, 40, 0, { 255, 255, 255, 255 });
+			render->DrawText(menuFont, battleSystem->GetPlayer()->name.GetString(), 125 + 3, 265 + 3, 50, 3, { 105, 105, 105, 255 });
+			render->DrawText(menuFont, battleSystem->GetPlayer()->name.GetString(), 125, 265, 50, 3, { 255, 255, 255, 255 });
+
+			// Player level
+			char temp[16] = { 0 };
+			sprintf_s(temp, 16, "LVL: %03i", battleSystem->GetPlayer()->stats.level);
+			render->DrawText(menuFont, temp, 420 + 3, 265 + 3, 50, 3, { 105, 105, 105, 255 });
+			render->DrawText(menuFont, temp, 420, 265, 50, 3, { 255, 255, 255, 255 });
 
 			// Player life
-			char HP[8] = { 0 };
-			sprintf_s(HP, 8, "HP: %03i", battleSystem->GetPlayer()->stats.currentHP);
-			render->DrawText(buttonFont, HP, 325 + 3, 275 + 3, 40, 0, { 105, 105, 105, 255 });
-			render->DrawText(buttonFont, HP, 325, 275, 40, 0, { 255, 255, 255, 255 });
+			sprintf_s(temp, 16, "HP: %03i", battleSystem->GetPlayer()->stats.currentHP);
+			render->DrawText(menuFont, temp, 125 + 3, 305 + 3, 35, 3, { 64, 128, 80, 255 });
+			render->DrawText(menuFont, temp, 125, 305, 35, 3, { 127, 255, 160, 255 });
+
+			render->DrawRectangle({ 720,20,450,100 }, { 255,255,255,127 }, true, false);
+			render->DrawRectangle({ 720,20,450,100 }, { 255,255,255,255 }, false, false);
 
 			// Enemy name
-			render->DrawText(buttonFont, battleSystem->GetEnemy()->name.GetString(), 750 + 3, 75 + 3, 40, 0, { 105, 105, 105, 255 });
-			render->DrawText(buttonFont, battleSystem->GetEnemy()->name.GetString(), 750, 75, 40, 0, { 255, 255, 255, 255 });
+			render->DrawText(menuFont, battleSystem->GetEnemy()->name.GetString(), 730 + 3, 15 + 3, 50, 3, { 105, 105, 105, 255 });
+			render->DrawText(menuFont, battleSystem->GetEnemy()->name.GetString(), 730, 15, 50, 3, { 255, 255, 255, 255 });
+
+			// Enemy level
+			sprintf_s(temp, 16, "LVL: %03i", battleSystem->GetEnemy()->stats.level);
+			render->DrawText(menuFont, temp, 1020 + 3, 15 + 3, 50, 3, { 105, 105, 105, 255 });
+			render->DrawText(menuFont, temp, 1020, 15, 50, 3, { 255, 255, 255, 255 });
 
 			// Enemy life
-			sprintf_s(HP, 8, "HP: %03i", battleSystem->GetEnemy()->stats.currentHP);
-			render->DrawText(buttonFont, HP, 950 + 3, 75 + 3, 40, 0, { 105, 105, 105, 255 });
-			render->DrawText(buttonFont, HP, 950, 75, 40, 0, { 255, 255, 255, 255 });
+			sprintf_s(temp, 16, "HP: %03i", battleSystem->GetPlayer()->stats.currentHP);
+			render->DrawText(menuFont, temp, 730 + 3, 55 + 3, 35, 3, { 64, 128, 80, 255 });
+			render->DrawText(menuFont, temp, 730, 55, 35, 3, { 127, 255, 160, 255 });
 
 			// Draw party members textures
 			SDL_Rect rect = { 0,481,32,32 };
@@ -473,14 +502,15 @@ bool SceneGameplay::Draw(Render* render)
 			render->DrawTexture(spritesheet, 170, 25, &rect, 0);
 			render->scale = 1;
 
-			rect = { 171,486,22,21 };
+			render->scale = 2;
 			for (int i = 0; i < battleSystem->GetPlayersList()->Count(); i++)
 			{
 				if (battleSystem->GetPlayer()->name == battleSystem->GetPlayersList()->At(i)->data->name)
 				{
-					render->DrawTexture(guiAtlasTex, 175 + 100 * i, 350, &rect, 0, 90.0);
+					render->DrawTexture(aura, 29 + 50 * i, 165, &auraAnim.GetCurrentFrame(), 0);
 				}
 			}
+			render->scale = 1;
 		}
 		else if (battleSystem->battleState == BattleState::WON)
 		{
@@ -530,6 +560,8 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 	titleFont = nullptr;
 	RELEASE(buttonFont);
 	buttonFont = nullptr;
+	RELEASE(menuFont);
+	menuFont = nullptr;
 
 	// Unload textures
 	tex->UnLoad(spritesheet);

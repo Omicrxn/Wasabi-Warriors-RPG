@@ -131,10 +131,6 @@ bool Transitions::PostUpdate()
 		/*wipeTransTexRect.w = 1480 + wipeTransRect.x;*/
 		render->DrawTexture(wipe, 0, 0, &wipeTransTexRect, 0.0f);
 
-		printf("%d\n", wipeTransRect.x);
-
-		/*render->DrawRectangle(wipeTransRect, { 0,0,0,255 }, true, false);*/
-
 		break;
 
 		//ZOOM TRANSITION

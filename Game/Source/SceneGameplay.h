@@ -103,6 +103,9 @@ private:
     SDL_Texture* backgroundTex;
     SDL_Texture* titlesTex;
     SDL_Texture* guiAtlasTex;
+    SDL_Texture* aura;
+
+    Animation auraAnim;
 
     SDL_Rect backgroundRect;
     SDL_Rect pauseBackgroundRect;
@@ -112,6 +115,7 @@ private:
     // Fonts
     Font* titleFont;
     Font* buttonFont;
+    Font* menuFont;
 
     // Audio Fx for buttons
     int hoverFx, clickFx, returnFx;
