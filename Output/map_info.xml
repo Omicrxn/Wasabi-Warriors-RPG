@@ -4,7 +4,7 @@
     <prevTown>
 		<player posX="352" posY="192"/>
 	</prevTown>
-    <enemy posX="160" posY="160" class="boss" name="Boss" spritePos="10"/>
+    <enemy posX="160" posY="160" class="boss" name="Boss" spritePos="9"/>
     <npc posX="608" posY="320" spritePos="2"/>
     <npc posX="608" posY="224" spritePos="4"/>
     <npc posX="224" posY="224" spritePos="6"/>
@@ -12,7 +12,7 @@
   </cemetery>
   <mediumCity enemyCount ="2" npcCount ="1" teleportCount ="1">
 	<prevTown>
-		<player posX="32" posY="224"/>
+		<player posX="96" posY="224"/>
 	</prevTown>
     <enemy posX="512" posY="160" class="bruiser" name="Bruiser" spritePos="10"/>
     <enemy posX="224" posY="224" class="henchman" name="Henchman" spritePos="5"/>

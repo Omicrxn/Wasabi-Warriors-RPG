@@ -2,7 +2,8 @@
 #include "Log.h"
 Item::Item() : Interactive()
 {
-
+    texture = NULL;
+    animRec = { 0,0,32,32 };
 }
 
 Item::~Item()

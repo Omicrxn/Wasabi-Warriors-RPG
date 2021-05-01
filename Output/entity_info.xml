@@ -12,7 +12,9 @@
   </enemy>
 
   <items>
-    <potion description="Supah potion" level="1" damage="0" max_hp="0" current_hp="10" strength="0" defense="0" attack_speed="0" critical_rate="0"/>
+    <potion description="Just a potion" level="1" damage="0" max_hp="0" current_hp="10" strength="0" defense="0" attack_speed="0" critical_rate="0"/>
+    <bigPotion description="Like a potion but better" level="1" damage="0" max_hp="0" current_hp="50" strength="0" defense="0" attack_speed="0" critical_rate="0"/>
+    <megaPotion description="Like a potion but better" level="1" damage="0" max_hp="0" current_hp="150" strength="0" defense="0" attack_speed="0" critical_rate="0"/>
     <wasabi description="Wasabi is good for your defenses" level="1" damage="0" max_hp="0" current_hp="0" strength="0" defense="10" attack_speed="0" critical_rate="0"/>
     <pan description="Give your enemies a good panaso" level="1" damage="10" max_hp="0" current_hp="0" strength="0" defense="0" attack_speed="0" critical_rate="0"/>
   </items>
