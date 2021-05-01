@@ -87,13 +87,24 @@ Entity* EntityManager::CreateEntity(EntityType type, SString name)
 		ret->name = name;
 		teleportList.Add((Teleport*)ret);
 		break;
+	case EntityType::ITEM:
+		ret = new Item();
+		ret->type = EntityType::ITEM;
+		ret->name = name;
+		itemList.Add((Item*)ret);
+		break;
 	default: break;
 	}
 
 	// Created entities are added to the list
 	if (ret != nullptr) entityList.Add(ret);
 
-	ret->SetTexture(this->texture);
+	if (type == EntityType::ITEM)
+	{
+
+	}
+	else
+		ret->SetTexture(this->texture);
 
 	return ret;
 }

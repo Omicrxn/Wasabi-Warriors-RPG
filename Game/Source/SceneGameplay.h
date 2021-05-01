@@ -53,6 +53,9 @@ public:
     // Returns the current player
     Player* GetCurrentPlayer();
 
+    // Returns the current map
+    MapType GetCurrentMap();
+
     // Declare on mouse click event
     bool OnGuiMouseClickEvent(GuiControl* control);
 
@@ -60,12 +63,6 @@ public:
     void ExitBattle();
 
     void SetUpTp();
-
-    void ResetOneTimeAnimations();
-
-private:
-
-    void EnableBattleButtons();
 
 private:
 
@@ -83,9 +80,11 @@ private:
     Screen* screenPause;
     // The screen for the settings
     Screen* screenSettings;
+    // The screen for the battle
+    Screen* screenBattle;
 
     // Scene gameplay textures
-    SDL_Texture* spritesheet;
+    SDL_Texture* charactersSpritesheet;
 
     // Camera
     SDL_Rect camera;
@@ -94,9 +93,8 @@ private:
     Map* map;
     Player* currentPlayer;
 
-    // Battle system module and bool to activate or deactivate it
+    // Battle system module
     BattleSystem* battleSystem;
-    bool battle;
 
     // Enum to know at what state the game encounters ( in order to show HUD, INVENTORY, or MAP)
     GameState currentState;

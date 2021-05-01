@@ -25,6 +25,7 @@ class GuiSlider;
 class GuiCheckBox;
 class GuiIcon;
 class Screen;
+class BattleSystem;
 
 typedef unsigned int uint;
 
@@ -54,6 +55,9 @@ public:
         return true;
     }
     virtual bool Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, SDL_Texture* atlas2, SDL_Texture* atlas3, SDL_Texture* atlas4, Font* font, int hoverFx, int clickFx) {
+        return true;
+    }
+    virtual bool Load(int minIndex, int maxIndex, Scene* currentScene, BattleSystem* battleSystem, Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* font0, Font* font1, Font* font2, int hoverFx, int clickFx, int returnFx) {
         return true;
     }
 

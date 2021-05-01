@@ -94,7 +94,6 @@
     <ClCompile Include="Source\DialogSystem.cpp" />
     <ClCompile Include="Source\Easing.cpp" />
     <ClCompile Include="Source\Enemy.cpp" />
-    <ClCompile Include="Source\Entity.cpp" />
     <ClCompile Include="Source\EntityManager.cpp" />
     <ClCompile Include="Source\Font.cpp" />
     <ClCompile Include="Source\Fonts.cpp" />
@@ -104,6 +103,7 @@
     <ClCompile Include="Source\GuiManager.cpp" />
     <ClCompile Include="Source\GuiSlider.cpp" />
     <ClCompile Include="Source\Item.cpp" />
+    <ClCompile Include="Source\ScreenBattle.cpp" />
     <ClCompile Include="Source\Transitions.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\App.cpp" />
@@ -149,6 +149,7 @@
     <ClInclude Include="Source\GuiSlider.h" />
     <ClInclude Include="Source\Interactive.h" />
     <ClInclude Include="Source\Item.h" />
+    <ClInclude Include="Source\ScreenBattle.h" />
     <ClInclude Include="Source\Stats.h" />
     <ClInclude Include="Source\Transitions.h" />
     <ClInclude Include="Source\Map.h" />

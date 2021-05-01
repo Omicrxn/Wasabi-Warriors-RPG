@@ -99,7 +99,6 @@
     <ClCompile Include="Source\Easing.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Entity.cpp" />
     <ClCompile Include="Source\ScreenSettings.cpp">
       <Filter>Screens</Filter>
     </ClCompile>
@@ -117,6 +116,9 @@
     </ClCompile>
     <ClCompile Include="Source\Transitions.cpp">
       <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ScreenBattle.cpp">
+      <Filter>Screens</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -300,6 +302,9 @@
     </ClInclude>
     <ClInclude Include="Source\Stats.h">
       <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ScreenBattle.h">
+      <Filter>Screens</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

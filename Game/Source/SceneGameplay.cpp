@@ -19,6 +19,9 @@
 #include "ScreenRoaming.h"
 #include "ScreenPause.h"
 #include "ScreenSettings.h"
+#include "ScreenBattle.h"
+
+#include "Item.h"
 
 SceneGameplay::SceneGameplay(bool hasStartedFromContinue)
 {
@@ -37,7 +40,7 @@ SceneGameplay::SceneGameplay(bool hasStartedFromContinue)
 	dialogSystem = nullptr;
 	audio = nullptr;
 
-	spritesheet = nullptr;
+	charactersSpritesheet = nullptr;
 
 	camera = { 0,0,1280,720 };
 
@@ -45,8 +48,6 @@ SceneGameplay::SceneGameplay(bool hasStartedFromContinue)
 	currentPlayer = nullptr;
 
 	battleSystem = new BattleSystem();
-	// Battle system bool
-	battle = false;
 
 	currentState = GameState::ROAMING;
 
@@ -85,6 +86,7 @@ SceneGameplay::SceneGameplay(bool hasStartedFromContinue)
 	screenPause = nullptr;
 	screenRoaming = nullptr;
 	screenSettings = nullptr;
+	screenBattle = nullptr;
 
 	currentMap = MapType::NONE;
 }
@@ -110,9 +112,9 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	map = (Map*)entityManager->CreateEntity(EntityType::MAP, "Map");
 
 	// Load texture
-	spritesheet = tex->Load("Assets/Textures/Characters/characters_spritesheet.png");
+	charactersSpritesheet = tex->Load("Assets/Textures/Characters/characters_spritesheet.png");
 	titlesTex = tex->Load("Assets/Textures/Scenes/titles.png");
-	entityManager->texture = spritesheet;
+	entityManager->texture = charactersSpritesheet;
 
 	// Load battle system textures
 	backgroundTex = tex->Load("Assets/Textures/Scenes/battle_scene.jpg");
@@ -194,28 +196,15 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	screenSettings->HideButtons();
 	
 	// Gui id goes from 11 to 14
-	// Load buttons for the battle system
-	btnAttack = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 11, { 730, 500, 190, 49 }, "ATTACK");
-	btnAttack->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::WHITE);
-	btnAttack->state = GuiControlState::HIDDEN;
-
-	btnDefend = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 12, { 730, 600, 190, 49 }, "DEFEND");
-	btnDefend->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::WHITE);
-	btnDefend->state = GuiControlState::HIDDEN;
-
-	btnItem = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 13, { 1030, 500, 190, 49 }, "ITEM");
-	btnItem->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::WHITE);
-	btnItem->state = GuiControlState::HIDDEN;
-
-	btnRun = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 14, { 1030, 600, 190, 49 }, "RUN");
-	btnRun->SetButtonProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::WHITE);
-	btnRun->state = GuiControlState::HIDDEN;
+	screenBattle = new ScreenBattle();
+	screenBattle->Load(11, 14, this, battleSystem, tex, win, audio, guiManager, entityManager, charactersSpritesheet, guiAtlasTex, titleFont, buttonFont, menuFont, hoverFx, clickFx, returnFx);
+	screenBattle->isActive = false;
 
 	// Create party member 1
 	Player* player;
 	player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "DaBaby");
 	player->position = iPoint(19 * 32, 1 * 32);
-	player->SetTexture(spritesheet, 3);
+	player->SetTexture(charactersSpritesheet, 3);
 	player->SetState(true);
 	player->SetUpClass("hunter");
 	player = nullptr;
@@ -224,10 +213,16 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	// Create party member 2
 	player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "DaCrack");
 	player->position = iPoint(19 * 32, 1 * 32);
-	player->SetTexture(spritesheet, 6);
+	player->SetTexture(charactersSpritesheet, 6);
 	player->SetUpClass("wizard");
 	player = nullptr;
 	RELEASE(player);
+
+	Item* item;
+	item = (Item*)entityManager->CreateEntity(EntityType::ITEM, "potion");
+	item->SetUpClass("potion");
+	item = nullptr;
+	RELEASE(item);
 
 	if (hasStartedFromContinue)
 	{
@@ -263,7 +258,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 		SetUpTp();
 	}
 
-	if ((input->GetKey(SDL_SCANCODE_E) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_Y) == KeyState::KEY_DOWN) && battle == false)
+	if ((input->GetKey(SDL_SCANCODE_E) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_Y) == KeyState::KEY_DOWN) && screenBattle->isActive == false)
 	{
 		if (entityManager->playerList.At(entityManager->playerList.Find(currentPlayer))->next != nullptr)
 		{
@@ -279,14 +274,15 @@ bool SceneGameplay::Update(Input* input, float dt)
 		}
 	}
 
-	if (input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN && battle == false)
+	if (input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN && screenBattle->isActive == false)
 	{
-		battle = true; 
-		battleSystem->SetupBattle(&entityManager->playerList, (Enemy*)entityManager->SearchEntity(notifier->GetEnemy()));
+		screenBattle->isActive = true; 
+		battleSystem->SetupBattle(&entityManager->playerList, (Enemy*)entityManager->SearchEntity(notifier->GetEnemy()), &entityManager->itemList);
 
-		EnableBattleButtons();
+		((ScreenBattle*)screenBattle)->EnableBattleButtons();
 
 		currentState = GameState::BATTLE;
+		screenBattle->isActive = true;
 
 		focusedButtonId = 6;
 
@@ -300,14 +296,15 @@ bool SceneGameplay::Update(Input* input, float dt)
 		{
 			entityManager->playerList.At(i)->data->stopPlayer = true;
 		}
-		battle = true;
-		battleSystem->SetupBattle(&entityManager->playerList, (Enemy*)entityManager->SearchEntity(notifier->GetEnemy()));
+		screenBattle->isActive = true;
+		battleSystem->SetupBattle(&entityManager->playerList, (Enemy*)entityManager->SearchEntity(notifier->GetEnemy()), &entityManager->itemList);
 
-		EnableBattleButtons();
+		((ScreenBattle*)screenBattle)->EnableBattleButtons();
 
 		notifier->NotifyBattle();
 
 		currentState = GameState::BATTLE;
+		screenBattle->isActive = true;
 
 		focusedButtonId = 6;
 
@@ -334,88 +331,6 @@ bool SceneGameplay::Update(Input* input, float dt)
 		dialogSystem->SetDialogFinished(false);
 	}
 
-	if (battle == true)
-	{
-		if (input->GetControllerState())
-		{
-			//11 = 6
-			// GAMEPAD INPUT
-			if (focusedButtonId == 11)
-			{
-				if (input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN)
-					focusedButtonId = 12;
-				else if (input->GetControllerButton(CONTROLLER_BUTTON_RIGHT) == KEY_DOWN)
-					focusedButtonId = 13;
-			}
-			else if (focusedButtonId == 12)
-			{
-				if (input->GetControllerButton(CONTROLLER_BUTTON_UP) == KEY_DOWN)
-					focusedButtonId = 11;
-				else if (input->GetControllerButton(CONTROLLER_BUTTON_RIGHT) == KEY_DOWN)
-					focusedButtonId = 14;
-			}
-			else if (focusedButtonId == 13)
-			{
-				if (input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN)
-					focusedButtonId = 14;
-				else if (input->GetControllerButton(CONTROLLER_BUTTON_LEFT) == KEY_DOWN)
-					focusedButtonId = 11;
-			}
-			else if (focusedButtonId == 14)
-			{
-				if (input->GetControllerButton(CONTROLLER_BUTTON_UP) == KEY_DOWN)
-					focusedButtonId = 13;
-				else if (input->GetControllerButton(CONTROLLER_BUTTON_LEFT) == KEY_DOWN)
-					focusedButtonId = 12;
-			}
-
-			bool isHovering = false;
-			for (int i = 11; i <= 14; ++i)
-			{
-				if (guiManager->controls.At(i)->data->mouseFocus)
-					isHovering = true;
-			}
-			for (int i = 11; i <= 14; ++i)
-			{
-				if (i != focusedButtonId || isHovering)
-				{
-					// SET GAMEPAD FOCUS TO FALSE
-					guiManager->controls.At(i)->data->gamepadFocus = false;
-				}
-				else
-				{
-					// SET GAMEPAD FOCUS TO TRUE
-					guiManager->controls.At(i)->data->gamepadFocus = true;
-				}
-			}
-		}
-		battleSystem->Update(input, dt);
-
-		if (battleSystem->battleState == BattleState::WON)
-		{
-			if (battleSystem->currentMusic == BattleMusic::WON)
-			{
-				battleSystem->currentMusic = BattleMusic::NONE;
-				audio->StopMusic();
-				audio->PlayMusic("Assets/Audio/Music/victory.ogg");
-			}
-		}
-		else if (battleSystem->battleState == BattleState::LOST)
-		{
-			if (battleSystem->currentMusic == BattleMusic::LOST)
-			{
-				battleSystem->currentMusic = BattleMusic::NONE;
-				audio->StopMusic();
-				audio->PlayMusic("Assets/Audio/Music/defeat.ogg");
-			}
-		}
-		else if (battleSystem->battleState == BattleState::EXIT)
-		{
-			// Get out of the battle screen and return to the gameplay screen
-			ExitBattle();
-		}
-	}
-
 	switch (currentState)
 	{
 	case GameState::ROAMING:
@@ -430,158 +345,20 @@ bool SceneGameplay::Update(Input* input, float dt)
 	case GameState::EXIT:
 		TransitionToScene(SceneType::TITLE);
 		break;
+	case GameState::BATTLE:
+		screenBattle->Update(input, dt, focusedButtonId);
+		break;
 	default:
 		break;
 	}
 
-	if (battleSystem->IsTurnChanging()) ResetOneTimeAnimations();
+	if (battleSystem->IsTurnChanging()) ((ScreenBattle*)screenBattle)->ResetOneTimeAnimations();
 
 	return true;
 }
 
 bool SceneGameplay::Draw(Render* render)
 {
-	if (battle == true)
-	{
-		/*render->DrawRectangle({ 0, 0, 1280, 720 }, { 255, 255, 255, (unsigned char)255.0f }, true, false);*/
-
-		render->DrawTexture(backgroundTex, 0, 0, &backgroundRect, 0);
-
-		uint width, height;
-		win->GetWindowSize(width, height);
-
-		if (battleSystem->battleState == BattleState::PLAYER_TURN)
-		{
-			render->DrawText(titleFont, "Your turn", 50 + 3, 30 + 3, 100, 0, { 105, 105, 105, 255 });
-			render->DrawText(titleFont, "Your turn", 50, 30, 100, 0, { 255, 255, 255, 255 });
-
-			if (battleSystem->playerState == PlayerState::ATTACK)
-			{
-				render->DrawText(titleFont, "You're attacking!", 50 + 3, 130 + 3, 50, 0, { 105, 105, 105, 255 });
-				render->DrawText(titleFont, "You're attacking!", 50, 130, 50, 0, { 255, 255, 255, 255 });
-			}
-			else if (battleSystem->playerState == PlayerState::DEFEND)
-			{
-				render->DrawText(titleFont, "You're defending!", 50 + 3, 130 + 3, 50, 0, { 105, 105, 105, 255 });
-				render->DrawText(titleFont, "You're defending!", 50, 130, 50, 0, { 255, 255, 255, 255 });
-			}
-
-			if (!cast1Anim.Finished())
-			{
-				render->DrawTexture(cast1, 100, 200, &cast1Anim.GetCurrentFrame(), 0);
-			}
-
-			for (int i = 0; i < battleSystem->GetPlayersList()->Count(); i++)
-			{
-				if (battleSystem->GetPlayer()->name == battleSystem->GetPlayersList()->At(i)->data->name)
-				{
-					render->DrawTexture(indicator, 95 + 100 * i, 430, &indicatorAnim.GetCurrentFrame(), 0);
-				}
-			}
-		}
-		else if (battleSystem->battleState == BattleState::ENEMY_TURN)
-		{
-			render->DrawText(titleFont, "Enemy turn", 50 + 3, 30 + 3, 100, 0, { 105, 105, 105, 255 });
-			render->DrawText(titleFont, "Enemy turn", 50, 30, 100, 0, { 255, 255, 255, 255 });
-
-			if (battleSystem->enemyState == EnemyState::ATTACK)
-			{
-				render->DrawText(titleFont, "Enemy is attacking!", 50 + 3, 130 + 3, 50, 0, { 105, 105, 105, 255 });
-				render->DrawText(titleFont, "Enemy is attacking!", 50, 130, 50, 0, { 255, 255, 255, 255 });
-			}
-			else if (battleSystem->enemyState == EnemyState::DEFEND)
-			{
-				render->DrawText(titleFont, "Enemy is defending!", 50 + 3, 130 + 3, 50, 0, { 105, 105, 105, 255 });
-				render->DrawText(titleFont, "Enemy is defending!", 50, 130, 50, 0, { 255, 255, 255, 255 });
-			}
-
-			if (!enemyCastAnim.Finished())
-			{
-				render->DrawTexture(enemyCast, 675, 0, &enemyCastAnim.GetCurrentFrame(), 0);
-			}
-
-			render->DrawTexture(indicator, 835, 180, &indicatorAnim.GetCurrentFrame(), 0);
-		}
-
-		if (battleSystem->battleState != BattleState::WON &&
-			battleSystem->battleState != BattleState::LOST &&
-			battleSystem->battleState != BattleState::EXIT)
-		{
-			render->DrawRectangle({ 115,270,450,100 }, { 255,255,255,127 }, true, false);
-			render->DrawRectangle({ 115,270,450,100 }, { 255,255,255,255 }, false, false);
-
-			// Player name
-			render->DrawText(menuFont, battleSystem->GetPlayer()->name.GetString(), 125 + 3, 265 + 3, 50, 3, { 105, 105, 105, 255 });
-			render->DrawText(menuFont, battleSystem->GetPlayer()->name.GetString(), 125, 265, 50, 3, { 255, 255, 255, 255 });
-
-			// Player level
-			char temp[16] = { 0 };
-			sprintf_s(temp, 16, "LVL: %03i", battleSystem->GetPlayer()->stats.level);
-			render->DrawText(menuFont, temp, 420 + 3, 265 + 3, 50, 3, { 105, 105, 105, 255 });
-			render->DrawText(menuFont, temp, 420, 265, 50, 3, { 255, 255, 255, 255 });
-
-			// Player life
-			sprintf_s(temp, 16, "HP: %03i", battleSystem->GetPlayer()->stats.currentHP);
-			render->DrawText(menuFont, temp, 125 + 3, 305 + 3, 35, 3, { 64, 128, 80, 255 });
-			render->DrawText(menuFont, temp, 125, 305, 35, 3, { 127, 255, 160, 255 });
-
-			render->DrawRectangle({ 720,20,450,100 }, { 255,255,255,127 }, true, false);
-			render->DrawRectangle({ 720,20,450,100 }, { 255,255,255,255 }, false, false);
-
-			// Enemy name
-			render->DrawText(menuFont, battleSystem->GetEnemy()->name.GetString(), 730 + 3, 15 + 3, 50, 3, { 105, 105, 105, 255 });
-			render->DrawText(menuFont, battleSystem->GetEnemy()->name.GetString(), 730, 15, 50, 3, { 255, 255, 255, 255 });
-
-			// Enemy level
-			sprintf_s(temp, 16, "LVL: %03i", battleSystem->GetEnemy()->stats.level);
-			render->DrawText(menuFont, temp, 1020 + 3, 15 + 3, 50, 3, { 105, 105, 105, 255 });
-			render->DrawText(menuFont, temp, 1020, 15, 50, 3, { 255, 255, 255, 255 });
-
-			// Enemy life
-			sprintf_s(temp, 16, "HP: %03i", battleSystem->GetPlayer()->stats.currentHP);
-			render->DrawText(menuFont, temp, 730 + 3, 55 + 3, 35, 3, { 64, 128, 80, 255 });
-			render->DrawText(menuFont, temp, 730, 55, 35, 3, { 127, 255, 160, 255 });
-
-			// Draw party members textures
-			SDL_Rect rect = { 0,481,32,32 };
-			render->scale = 5;
-			for (int i = 0; i < battleSystem->GetPlayersList()->Count(); i++)
-			{
-				rect = battleSystem->GetPlayersList()->At(i)->data->idleAnim.GetFrame(0);
-				render->DrawTexture(spritesheet, 22.5 + 20 * i, 75, &rect, 0);
-			}
-			render->scale = 1;
-
-			// Draw Enemy textures
-			rect = battleSystem->GetEnemy()->animRec;
-			render->scale = 5;
-			render->DrawTexture(spritesheet, 170, 25, &rect, 0);
-			render->scale = 1;
-
-			render->scale = 2;
-			for (int i = 0; i < battleSystem->GetPlayersList()->Count(); i++)
-			{
-				if (battleSystem->GetPlayer()->name == battleSystem->GetPlayersList()->At(i)->data->name)
-				{
-					render->DrawTexture(aura, 29 + 50 * i, 165, &auraAnim.GetCurrentFrame(), 0);
-				}
-			}
-			render->scale = 1;
-		}
-		else if (battleSystem->battleState == BattleState::WON)
-		{
-			// Display winner text
-			render->DrawText(titleFont, "You win!", 50 + 3, 30 + 3, 125, 0, { 105, 105, 105, 255 });
-			render->DrawText(titleFont, "You win!", 50, 30, 125, 0, { 255, 255, 255, 255 });
-		}
-		else if (battleSystem->battleState == BattleState::LOST)
-		{
-			// Display loser text
-			render->DrawText(titleFont, "You lose!", 50 + 3, 30 + 3, 125, 0, { 105, 105, 105, 255 });
-			render->DrawText(titleFont, "You lose!", 50, 30, 125, 0, { 255, 255, 255, 255 });
-		}
-	}
-
 	switch (currentState)
 	{
 	case GameState::ROAMING:
@@ -592,6 +369,9 @@ bool SceneGameplay::Draw(Render* render)
 		break;
 	case GameState::SETTINGS:
 		screenSettings->Draw(render);
+		break;
+	case GameState::BATTLE:
+		screenBattle->Draw(render);
 		break;
 	default:
 		break;
@@ -620,8 +400,8 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 	menuFont = nullptr;
 
 	// Unload textures
-	tex->UnLoad(spritesheet);
-	spritesheet = nullptr;
+	tex->UnLoad(charactersSpritesheet);
+	charactersSpritesheet = nullptr;
 	tex->UnLoad(backgroundTex);
 	backgroundTex = nullptr;
 	tex->UnLoad(guiAtlasTex);
@@ -632,6 +412,8 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 	cast1 = nullptr;
 	tex->UnLoad(enemyCast);
 	enemyCast = nullptr;
+	tex->UnLoad(indicator);
+	indicator = nullptr;
 
 	// Unload Fx
 	audio->UnloadFx(clickFx);
@@ -654,11 +436,13 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 	screenRoaming->Unload(tex, audio, guiManager);
 	screenPause->Unload(tex, audio, guiManager);
 	screenSettings->Unload(tex, audio, guiManager);
+	screenBattle->Unload(tex, audio, guiManager);
 
 	// Delete screens
 	RELEASE(screenRoaming);
 	RELEASE(screenPause);
 	RELEASE(screenSettings);
+	RELEASE(screenBattle);
 
 	entityManager->CleanUp();
 
@@ -706,6 +490,11 @@ bool SceneGameplay::SaveState(pugi::xml_node& scenegameplay) const
 Player* SceneGameplay::GetCurrentPlayer()
 {
 	return currentPlayer;
+}
+
+MapType SceneGameplay::GetCurrentMap()
+{
+	return currentMap;
 }
 
 //----------------------------------------------------------
@@ -813,7 +602,6 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 			int value = tempSlider->GetValue();
 			audio->ChangeFxVolume(value);
 		}
-
 	}
 	default: break;
 	}
@@ -848,7 +636,7 @@ void SceneGameplay::ExitBattle()
 		guiManager->controls.At(i)->data->state = GuiControlState::HIDDEN;
 	}
 
-	battle = false;
+	screenBattle->isActive = false;
 	battleSystem->ResetBattle();
 
 	// Change game state to roaming
@@ -1094,30 +882,9 @@ void SceneGameplay::SetUpTp()
 				teleportNode = teleportNode.next_sibling("teleport");
 			}
 		}
-			
 	}
 	else
 	{
 		hasStartedFromContinue = false;
 	}
-		
-}
-
-void SceneGameplay::EnableBattleButtons()
-{
-	for (int i = 11; i <= 14; ++i)
-	{
-		guiManager->controls.At(i)->data->state = GuiControlState::NORMAL;
-	}
-
-	for (int i = 0; i <= 10; ++i)
-	{
-		guiManager->controls.At(i)->data->state = GuiControlState::HIDDEN;
-	}
-}
-
-void SceneGameplay::ResetOneTimeAnimations()
-{
-	cast1Anim.Reset();
-	enemyCastAnim.Reset();
 }

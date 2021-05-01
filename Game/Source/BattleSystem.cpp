@@ -5,6 +5,10 @@
 #include "Font.h"
 #include "Window.h"
 
+#include "Player.h"
+#include "Enemy.h"
+#include "Item.h"
+
 #include "GuiManager.h"
 #include "GuiButton.h"
 
@@ -52,12 +56,13 @@ bool BattleSystem::Update(Input* input, float dt)
 	return true;
 }
 
-void BattleSystem::SetupBattle(List<Player*>* players, Enemy* enemy)
+void BattleSystem::SetupBattle(List<Player*>* players, Enemy* enemy, List<Item*>* items)
 {
 	// Register fighters in the battle system
 	this->players = players;
 	currentPlayer = players->At(0)->data;
 	this->enemy = enemy;
+	this->items = items;
 
 	// Play animations of the fighters (not necessary for the vertical slice)
 	// Display introductory text
@@ -139,6 +144,7 @@ void BattleSystem::PlayerTurn()
 		case PlayerState::ITEM:
 			// Get into the items menu
 			// Items logic
+			currentPlayer->stats = items->At(0)->data->Interact(currentPlayer->stats);
 			break;
 		case PlayerState::RUN:
 			// Return to the gameplay screen
