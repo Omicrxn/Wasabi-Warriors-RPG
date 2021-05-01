@@ -189,7 +189,6 @@ SDL_Rect Player::GetBounds()
 void Player::SetName(SString name)
 {
     this->name = name;
-    this->stats.name = name;
 }
 
 bool Player::SetUpClass(SString name)

@@ -141,6 +141,8 @@ bool Input::PreUpdate()
 				//case SDL_WINDOWEVENT_LEAVE:
 			case SDL_WINDOWEVENT_HIDDEN:
 			case SDL_WINDOWEVENT_MINIMIZED:
+				//SDL_MinimizeWindow(win->window);
+				break;
 			case SDL_WINDOWEVENT_FOCUS_LOST:
 				windowEvents[WE_HIDE] = true;
 				break;
@@ -148,8 +150,11 @@ bool Input::PreUpdate()
 			case SDL_WINDOWEVENT_SHOWN:
 			case SDL_WINDOWEVENT_FOCUS_GAINED:
 			case SDL_WINDOWEVENT_MAXIMIZED:
+				//SDL_MaximizeWindow(win->window);
+				break;
 			case SDL_WINDOWEVENT_RESTORED:
 				windowEvents[WE_SHOW] = true;
+				//SDL_RestoreWindow(win->window);
 				break;
 			}
 			break;

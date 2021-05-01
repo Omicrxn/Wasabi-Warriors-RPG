@@ -15,9 +15,10 @@ protected:
 
 	virtual void Interact() = 0;
 
-private:
+protected:
 
 	SString description;
+
 };
 
 #endif // __INTERACTIVE_H__

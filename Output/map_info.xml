@@ -12,7 +12,7 @@
   </cemetery>
   <mediumCity enemyCount ="2" npcCount ="1" teleportCount ="1">
 	<prevTown>
-		<player posX="800" posY="32"/>
+		<player posX="32" posY="224"/>
 	</prevTown>
     <enemy posX="512" posY="160" class="bruiser" name="Bruiser" spritePos="10"/>
     <enemy posX="224" posY="224" class="henchman" name="Henchman" spritePos="5"/>

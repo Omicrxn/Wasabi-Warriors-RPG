@@ -159,7 +159,7 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 		player->stats.defense = playerNode.attribute("defense").as_int();
 		player->stats.attackSpeed = playerNode.attribute("attackSpeed").as_int();
 		player->stats.criticalRate = playerNode.attribute("criticalRate").as_int();
-		player->stats.name = playerNode.attribute("statsName").as_string();
+		player->name = playerNode.attribute("statsName").as_string();
 
 		player->SetUpTexture();
 
@@ -195,7 +195,7 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 		enemy->stats.defense = enemyNode.attribute("defense").as_int();
 		enemy->stats.attackSpeed = enemyNode.attribute("attackSpeed").as_int();
 		enemy->stats.criticalRate = enemyNode.attribute("criticalRate").as_int();
-		enemy->stats.name = enemyNode.attribute("statsName").as_string();
+		enemy->name = enemyNode.attribute("statsName").as_string();
 
 		enemy->SetUpTexture();
 		enemy = nullptr;
@@ -341,7 +341,7 @@ bool EntityManager::SaveState(pugi::xml_node& data) const
 		newPlayerNode.append_attribute("defense").set_value(list1->data->stats.defense);
 		newPlayerNode.append_attribute("attackSpeed").set_value(list1->data->stats.attackSpeed);
 		newPlayerNode.append_attribute("criticalRate").set_value(list1->data->stats.criticalRate);
-		newPlayerNode.append_attribute("statsName").set_value(list1->data->stats.name.GetString());
+		newPlayerNode.append_attribute("statsName").set_value(list1->data->name.GetString());
 	}
 
 
@@ -410,7 +410,7 @@ bool EntityManager::SaveState(pugi::xml_node& data) const
 		newEnemyNode.append_attribute("defense").set_value(list2->data->stats.defense);
 		newEnemyNode.append_attribute("attackSpeed").set_value(list2->data->stats.attackSpeed);
 		newEnemyNode.append_attribute("criticalRate").set_value(list2->data->stats.criticalRate);
-		newEnemyNode.append_attribute("statsName").set_value(list2->data->stats.name.GetString());
+		newEnemyNode.append_attribute("statsName").set_value(list2->data->name.GetString());
 	}
 
 	/* ---------- THIRD SAVE THE NPCs ----------*/
