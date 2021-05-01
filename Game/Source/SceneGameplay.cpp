@@ -179,19 +179,19 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 
 	// Gui id goes from 0 to 2
 	screenRoaming = new ScreenRoaming();
-	screenRoaming->Load(0, 2, this, win, guiManager, easing, guiAtlasTex, buttonFont, hoverFx, clickFx);
+	screenRoaming->Load(0, 2, this, win, guiManager,entityManager, easing, guiAtlasTex, buttonFont, hoverFx, clickFx);
 	screenRoaming->isActive = true;
 	screenRoaming->ShowButtons();
 
 	// Gui id goes from 3 to 5
 	screenPause = new ScreenPause();
-	screenPause->Load(3, 5, this, win, guiManager, easing, guiAtlasTex, titlesTex, buttonFont, hoverFx, clickFx);
+	screenPause->Load(3, 5, this, win, guiManager, NULL, easing, guiAtlasTex, titlesTex, buttonFont, hoverFx, clickFx);
 	screenPause->isActive = false;
 	screenPause->HideButtons();
 
 	// Gui id goes from 6 to 10
 	screenSettings = new ScreenSettings();
-	screenSettings->Load(6, 10, this, win, guiManager, easing, guiAtlasTex, titlesTex, buttonFont, hoverFx, clickFx);
+	screenSettings->Load(6, 10, this, win, guiManager, NULL, easing, guiAtlasTex, titlesTex, buttonFont, hoverFx, clickFx);
 	screenSettings->isActive = false;
 	screenSettings->HideButtons();
 	
@@ -232,6 +232,8 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 		player = nullptr;
 		RELEASE(player);
 
+		((ScreenRoaming*)screenRoaming)->SetCurrentPlayer(currentPlayer);
+
 		// LOAD FROM MAP_XML
 		notifier->NotifyMapChange(MapType::TOWN);
 	}
@@ -264,6 +266,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 		if (currentPlayer == nullptr)
 		{
 			currentPlayer = entityManager->playerList.At(0)->next->data;
+			((ScreenRoaming*)screenRoaming)->SetCurrentPlayer(currentPlayer);
 		}
 
 		if (entityManager->playerList.At(entityManager->playerList.Find(currentPlayer))->next != nullptr)
@@ -271,12 +274,14 @@ bool SceneGameplay::Update(Input* input, float dt)
 			currentPlayer->SetState(false);
 			currentPlayer = entityManager->playerList.At(entityManager->playerList.Find(currentPlayer))->next->data;
 			currentPlayer->SetState(true);
+			((ScreenRoaming*)screenRoaming)->SetCurrentPlayer(currentPlayer);
 		}
 		else 
 		{
 			currentPlayer->SetState(false);
 			currentPlayer = entityManager->playerList.At(0)->data;
 			currentPlayer->SetState(true);
+			((ScreenRoaming*)screenRoaming)->SetCurrentPlayer(currentPlayer);
 		}
 	}
 

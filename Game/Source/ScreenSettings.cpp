@@ -22,7 +22,7 @@ ScreenSettings::ScreenSettings()
 }
 ScreenSettings::~ScreenSettings() {}
 
-bool ScreenSettings::Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* buttonFont, int hoverFx, int clickFx)
+bool ScreenSettings::Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, EntityManager* entityManager, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* buttonFont, int hoverFx, int clickFx)
 {
 	this->currentScene = currentScene;
 	this->atlas[0] = atlas0;
