@@ -114,6 +114,8 @@ bool BattleSystem::WinAndLose()
 
 void BattleSystem::PlayerTurn()
 {
+	if (turnChanged) turnChanged = false;
+
 	if (turnCounter == 0)
 	{
 		// Manage player input for the battle system interface
@@ -164,12 +166,17 @@ void BattleSystem::PlayerTurn()
 			currentMusic = BattleMusic::WON;
 		}
 		else
+		{
 			battleState = BattleState::ENEMY_TURN;
+			turnChanged = true;
+		}
 	}
 }
 
 void BattleSystem::EnemyTurn()
 {
+	if (turnChanged) turnChanged = false;
+
 	// Define randomly an action for the enemy (only the first time)
 	if (turnCounter == 0)
 	{
@@ -215,7 +222,10 @@ void BattleSystem::EnemyTurn()
 			currentMusic = BattleMusic::LOST;
 		}
 		else
+		{
 			battleState = BattleState::PLAYER_TURN;
+			turnChanged = true;
+		}
 
 		// Set as the current player the next party member (if it's available)
 		for (int i = 0; i < players->Count(); i++)
@@ -249,4 +259,9 @@ List<Player*>* BattleSystem::GetPlayersList()
 Enemy* BattleSystem::GetEnemy()
 {
 	return enemy;
+}
+
+bool BattleSystem::IsTurnChanging()
+{
+	return turnChanged;
 }

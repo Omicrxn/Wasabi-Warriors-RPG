@@ -61,6 +61,8 @@ public:
 
     void SetUpTp();
 
+    void ResetOneTimeAnimations();
+
 private:
 
     void EnableBattleButtons();
@@ -104,8 +106,14 @@ private:
     SDL_Texture* titlesTex;
     SDL_Texture* guiAtlasTex;
     SDL_Texture* aura;
+    SDL_Texture* cast1;
+    SDL_Texture* enemyCast;
+    SDL_Texture* indicator;
 
     Animation auraAnim;
+    Animation cast1Anim;
+    Animation enemyCastAnim;
+    Animation indicatorAnim;
 
     SDL_Rect backgroundRect;
     SDL_Rect pauseBackgroundRect;

@@ -118,8 +118,12 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	backgroundTex = tex->Load("Assets/Textures/Scenes/battle_scene.jpg");
 	guiAtlasTex = tex->Load("Assets/Textures/UI/ui_spritesheet.png");
 	aura = tex->Load("Assets/Textures/Scenes/aura.png");
+	cast1 = tex->Load("Assets/Textures/Effects/cast_001.png");
+	enemyCast = tex->Load("Assets/Textures/Effects/cast_008.png");
+	indicator = tex->Load("Assets/Textures/Effects/fire_003.png");
 
 	// Set battle animations
+	// Aura
 	for (int j = 0; j < 4; j++)
 	{
 		for (int i = 0; i < 8; i++)
@@ -129,6 +133,37 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	}
 	auraAnim.speed = 1.0f;
 	auraAnim.loop = true;
+
+	// Cast 1
+	for (int j = 0; j < 4; j++)
+	{
+		for (int i = 0; i < 5; i++)
+		{
+			cast1Anim.PushBack({ i * 192, j * 192, 192, 192 });
+		}
+	}
+	cast1Anim.speed = 0.5f;
+
+	// Enemy cast
+	for (int j = 0; j < 4; j++)
+	{
+		for (int i = 0; i < 5; i++)
+		{
+			enemyCastAnim.PushBack({ i * 192, j * 192, 192, 192 });
+		}
+	}
+	enemyCastAnim.speed = 0.5f;
+
+	// Indicator
+	for (int j = 0; j < 4; j++)
+	{
+		for (int i = 0; i < 5; i++)
+		{
+			indicatorAnim.PushBack({ i * 192, j * 192, 192, 192 });
+		}
+	}
+	indicatorAnim.speed = 1.0f;
+	indicatorAnim.loop = true;
 
 	// Create fonts
 	titleFont = new Font("Assets/Fonts/shojumaru.xml", tex);
@@ -280,7 +315,6 @@ bool SceneGameplay::Update(Input* input, float dt)
 		audio->PlayMusic("Assets/Audio/Music/battle.ogg");
 	}
 
-
 	if (notifier->OnDialog() && (input->GetKey(SDL_SCANCODE_F) == KeyState::KEY_DOWN /*|| input->GetControllerButton(CONTROLLER_BUTTON_A) == KeyState::KEY_DOWN*/))
 	{
 		
@@ -400,6 +434,8 @@ bool SceneGameplay::Update(Input* input, float dt)
 		break;
 	}
 
+	if (battleSystem->IsTurnChanging()) ResetOneTimeAnimations();
+
 	return true;
 }
 
@@ -429,6 +465,19 @@ bool SceneGameplay::Draw(Render* render)
 				render->DrawText(titleFont, "You're defending!", 50 + 3, 130 + 3, 50, 0, { 105, 105, 105, 255 });
 				render->DrawText(titleFont, "You're defending!", 50, 130, 50, 0, { 255, 255, 255, 255 });
 			}
+
+			if (!cast1Anim.Finished())
+			{
+				render->DrawTexture(cast1, 100, 200, &cast1Anim.GetCurrentFrame(), 0);
+			}
+
+			for (int i = 0; i < battleSystem->GetPlayersList()->Count(); i++)
+			{
+				if (battleSystem->GetPlayer()->name == battleSystem->GetPlayersList()->At(i)->data->name)
+				{
+					render->DrawTexture(indicator, 95 + 100 * i, 430, &indicatorAnim.GetCurrentFrame(), 0);
+				}
+			}
 		}
 		else if (battleSystem->battleState == BattleState::ENEMY_TURN)
 		{
@@ -445,6 +494,13 @@ bool SceneGameplay::Draw(Render* render)
 				render->DrawText(titleFont, "Enemy is defending!", 50 + 3, 130 + 3, 50, 0, { 105, 105, 105, 255 });
 				render->DrawText(titleFont, "Enemy is defending!", 50, 130, 50, 0, { 255, 255, 255, 255 });
 			}
+
+			if (!enemyCastAnim.Finished())
+			{
+				render->DrawTexture(enemyCast, 675, 0, &enemyCastAnim.GetCurrentFrame(), 0);
+			}
+
+			render->DrawTexture(indicator, 835, 180, &indicatorAnim.GetCurrentFrame(), 0);
 		}
 
 		if (battleSystem->battleState != BattleState::WON &&
@@ -572,6 +628,10 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 	guiAtlasTex = nullptr;
 	tex->UnLoad(titlesTex);
 	titlesTex = nullptr;
+	tex->UnLoad(cast1);
+	cast1 = nullptr;
+	tex->UnLoad(enemyCast);
+	enemyCast = nullptr;
 
 	// Unload Fx
 	audio->UnloadFx(clickFx);
@@ -1054,4 +1114,10 @@ void SceneGameplay::EnableBattleButtons()
 	{
 		guiManager->controls.At(i)->data->state = GuiControlState::HIDDEN;
 	}
+}
+
+void SceneGameplay::ResetOneTimeAnimations()
+{
+	cast1Anim.Reset();
+	enemyCastAnim.Reset();
 }

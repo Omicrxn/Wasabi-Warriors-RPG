@@ -64,6 +64,7 @@ public:
 	Player* GetPlayer();
 	List<Player*>* BattleSystem::GetPlayersList();
 	Enemy* GetEnemy();
+	bool IsTurnChanging();
 
 	// Battle state (Current attacker and defender)
 	BattleState battleState;
@@ -86,6 +87,8 @@ private:
 	Enemy* enemy;
 	// Time counter for the enemy turn
 	uint turnCounter;
+	// Bool to know if turn has been changed
+	bool turnChanged;
 };
 
 #endif // __BATTLESYSTEM_H__

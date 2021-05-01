@@ -20,7 +20,7 @@ Transitions::Transitions(Render* render, Textures* tex, Window* win)
 {
 	screen = { 0, 0, 1280,720 };
 	wipeTransRect = { -1280, 0, 1280,720 };
-	wipeTransTexRect = { 0,0,1480,720 };
+	wipeTransTexRect = { 0,0,1680,720 };
 
 	// Saving needed modules
 	this->render = render;
@@ -127,8 +127,8 @@ bool Transitions::PostUpdate()
 		/*SDL_SetRenderDrawColor(render->renderer, 0, 0, 0, 255);
 		SDL_RenderFillRect(render->renderer, &wipeTransRect);*/
 
-		wipeTransTexRect.x = -wipeTransRect.x;
-		/*wipeTransTexRect.w = 1480 + wipeTransRect.x;*/
+		wipeTransTexRect.x = -wipeTransRect.x + 400;
+		/*wipeTransTexRect.w = 1680 + wipeTransRect.x;*/
 		render->DrawTexture(wipe, 0, 0, &wipeTransTexRect, 0.0f);
 
 		break;
