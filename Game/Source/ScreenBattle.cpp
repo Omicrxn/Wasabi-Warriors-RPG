@@ -396,38 +396,17 @@ bool ScreenBattle::Draw(Render* render)
 
 bool ScreenBattle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager)
 {
-	// TODO: Unload all resources
-	RELEASE(battleSystem);
-	battleSystem = nullptr;
-
-	// Stop music (GitHub)
-
-	// Release fonts
-	RELEASE(titleFont);
-	titleFont = nullptr;
-	RELEASE(buttonFont);
-	buttonFont = nullptr;
-	RELEASE(menuFont);
-	menuFont = nullptr;
-
 	// Unload textures
 	tex->UnLoad(charactersSpritesheet);
 	charactersSpritesheet = nullptr;
 	tex->UnLoad(backgroundTex);
 	backgroundTex = nullptr;
-	tex->UnLoad(guiAtlasTex);
-	guiAtlasTex = nullptr;
 	tex->UnLoad(cast1);
 	cast1 = nullptr;
 	tex->UnLoad(enemyCast);
 	enemyCast = nullptr;
 	tex->UnLoad(indicator);
 	indicator = nullptr;
-
-	// Unload Fx
-	audio->UnloadFx(clickFx);
-	audio->UnloadFx(hoverFx);
-	audio->UnloadFx(returnFx);
 
 	// Destory GUI Controls
 	guiManager->DestroyGuiControl(btnAttack);

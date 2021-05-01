@@ -200,24 +200,6 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	screenBattle->Load(11, 14, this, battleSystem, tex, win, audio, guiManager, entityManager, charactersSpritesheet, guiAtlasTex, titleFont, buttonFont, menuFont, hoverFx, clickFx, returnFx);
 	screenBattle->isActive = false;
 
-	// Create party member 1
-	Player* player;
-	player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "DaBaby");
-	player->position = iPoint(19 * 32, 1 * 32);
-	player->SetTexture(charactersSpritesheet, 3);
-	player->SetState(true);
-	player->SetUpClass("hunter");
-	player = nullptr;
-	currentPlayer = entityManager->playerList.At(0)->data;
-
-	// Create party member 2
-	player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "DaCrack");
-	player->position = iPoint(19 * 32, 1 * 32);
-	player->SetTexture(charactersSpritesheet, 6);
-	player->SetUpClass("wizard");
-	player = nullptr;
-	RELEASE(player);
-
 	Item* item;
 	item = (Item*)entityManager->CreateEntity(EntityType::ITEM, "potion");
 	item->SetUpClass("potion");
@@ -228,9 +210,28 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	{
 		// LOAD FROM THE SAVE FILE
 		app->LoadGameRequest();
+		currentPlayer = nullptr;
 	}
 	else
 	{
+		// Create party member 1
+		Player* player;
+		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "DaBaby");
+		player->position = iPoint(19 * 32, 1 * 32);
+		player->SetTexture(charactersSpritesheet, 3);
+		player->SetState(true);
+		player->SetUpClass("hunter");
+		player = nullptr;
+		currentPlayer = entityManager->playerList.At(0)->data;
+
+		// Create party member 2
+		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "DaCrack");
+		player->position = iPoint(19 * 32, 1 * 32);
+		player->SetTexture(charactersSpritesheet, 6);
+		player->SetUpClass("wizard");
+		player = nullptr;
+		RELEASE(player);
+
 		// LOAD FROM MAP_XML
 		notifier->NotifyMapChange(MapType::TOWN);
 	}
@@ -260,6 +261,11 @@ bool SceneGameplay::Update(Input* input, float dt)
 
 	if ((input->GetKey(SDL_SCANCODE_E) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_Y) == KeyState::KEY_DOWN) && screenBattle->isActive == false)
 	{
+		if (currentPlayer == nullptr)
+		{
+			currentPlayer = entityManager->playerList.At(0)->next->data;
+		}
+
 		if (entityManager->playerList.At(entityManager->playerList.Find(currentPlayer))->next != nullptr)
 		{
 			currentPlayer->SetState(false);
@@ -314,7 +320,6 @@ bool SceneGameplay::Update(Input* input, float dt)
 
 	if (notifier->OnDialog() && (input->GetKey(SDL_SCANCODE_F) == KeyState::KEY_DOWN /*|| input->GetControllerButton(CONTROLLER_BUTTON_A) == KeyState::KEY_DOWN*/))
 	{
-		
 		for (int i = 0; i < entityManager->playerList.Count(); i++)
 		{
 			entityManager->playerList.At(i)->data->stopPlayer = true;
@@ -517,6 +522,11 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 
 			screenPause->isActive = true;
 			screenPause->ShowButtons();
+
+			for (int i = 0; i < entityManager->playerList.Count(); i++)
+			{
+				entityManager->playerList.At(i)->data->stopPlayer = true;
+			}
 			
 			pauseTimer.Start();
 		}
@@ -533,6 +543,11 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 				
 				screenRoaming->isActive = true;
 				screenRoaming->ShowButtons();
+
+				for (int i = 0; i < entityManager->playerList.Count(); i++)
+				{
+					entityManager->playerList.At(i)->data->stopPlayer = false;
+				}
 			}
 		}
 		else if (control->id == 4) 
@@ -571,6 +586,7 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 
 			screenSettings->isActive = false;
 			screenSettings->HideButtons();
+
 		}
 
 		break;

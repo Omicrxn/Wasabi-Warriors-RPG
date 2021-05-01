@@ -45,8 +45,11 @@ bool EntityManager::CleanUp()
 {
 	for (int i = 0; i < entityList.Count(); i++)
 	{
-		if(entityList.At(i)->data->destroy)
-			entityList.Del(entityList.At(i));
+		this->DestroyEntity(entityList.At(i)->data);
+		/*if (->data->collider != nullptr)
+			entityList.At(i)->data->collider->pendingToDelete = true;
+
+		entityList.Del(entityList.At(i));*/
 	}
 	entityList.Clear();
 	return true;
@@ -115,7 +118,6 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 	ListItem<Entity*>* list1;
 	for (list1 = entityList.start; list1 != NULL; list1 = list1->next)
 	{
-
 		// Also delete them from their own lists
 		if (list1->data->type == EntityType::PLAYER)
 		{
@@ -138,7 +140,11 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 		{
 			DestroyEntity(list1->data);
 		}
-
+		
+		playerList.Clear();
+		enemyList.Clear();
+		npcList.Clear();
+		teleportList.Clear();
 	}
 	RELEASE(list1);
 	/* ---------- SECOND LOAD PLAYERS FROM THE SAVE FILE ----------*/
@@ -543,16 +549,11 @@ bool EntityManager::SaveState(pugi::xml_node& data) const
 
 void EntityManager::DestroyEntity(Entity* entity)
 {
+	if(entity->collider != nullptr)
+		entity->collider->pendingToDelete = true;
+
 	entityList.Del(entityList.At(entityList.Find(entity)));
 	RELEASE(entity);
-
-	/*for (int i = 0; i < entityList.Count(); i++)
-	{
-		if (entityList.At(i)->data->id == entity->id)
-		{
-			entityList.Del(entityList.At(i));
-		}
-	}*/
 }
 
 void EntityManager::DestroyEntityChecker(float dt)

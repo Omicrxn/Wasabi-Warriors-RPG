@@ -105,7 +105,7 @@ bool SceneManager::Update(float dt)
 			if (transitionAlpha > 1.00f)
 			{
 				transitionAlpha = 1.0f;
-
+				
 				current->Unload(tex, audio, guiManager); // Unload current screen
 				if (next->type == SceneType::GAMEPLAY || next->type == SceneType::GAMEPLAY_LOAD)
 				{

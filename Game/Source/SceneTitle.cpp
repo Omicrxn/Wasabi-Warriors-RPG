@@ -384,6 +384,7 @@ bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
 
             SDL_DestroyRenderer(render->renderer);
             render->renderer = SDL_CreateRenderer(win->window, -1, rendererFlags);
+            guiManager->Start();
             transitions->Transition(WhichAnimation::NONE, this, SceneType::TITLE);
         }
 

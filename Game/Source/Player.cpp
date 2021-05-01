@@ -43,25 +43,24 @@ Player::~Player()
 
 bool Player::Update(Input* input, float dt)
 {
-
-        if (!Notifier::GetInstance()->GetBattle() && !stopPlayer && !transitioning)
+    if (!Notifier::GetInstance()->GetBattle() && !stopPlayer && !transitioning)
+    {
+        Walk(direction, dt);
+        direction.x = input->GetAxisRaw(AxisName::HORIZONTAL);
+        direction.y = input->GetAxisRaw(AxisName::VERTICAL);
+        // Update collider position
+        if (collider != nullptr)
         {
-            Walk(direction, dt);
-            direction.x = input->GetAxisRaw(AxisName::HORIZONTAL);
-            direction.y = input->GetAxisRaw(AxisName::VERTICAL);
-            // Update collider position
-            if (collider != nullptr)
-            {
-                collider->SetPos(position.x, position.y);
-            }
+            collider->SetPos(position.x, position.y);
         }
-        else
-        {
-            direction = { 0,0 };
-        }
+    }
+    else
+    {
+        direction = { 0,0 };
+    }
 
-        if (active)
-        {
+    if (active)
+    {
         if (direction.x > 0)
         {
             currentAnim = Animations::RIGHT;
@@ -84,7 +83,7 @@ bool Player::Update(Input* input, float dt)
         }
     }
 
-        transitioning = false;
+    transitioning = false;
     return true;
 }
 
@@ -226,7 +225,7 @@ bool Player::SetUpClass(SString name)
         this->stats.criticalRate = docNode.attribute("critical_rate").as_int(0);
     }
 
-    LOG("Saving enemy info from %s", newName.GetString());
+    LOG("Saving player info from %s", newName.GetString());
 
     return ret;
 }
