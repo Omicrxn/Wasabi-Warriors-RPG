@@ -21,4 +21,17 @@ public:
 	GuiIcon* iconPhone;
 
 	Player* currentPlayer;
+
+	iPoint playerMiniRectPos[4];
+	iPoint posRight;
+	iPoint posLeft;
+
+	SDL_Rect LBButton;
+	SDL_Rect RBButton;
+	SDL_Rect playersIcons;
+
+	bool controller;
+
+	int previousSelected;
+	int currentSelected;
 };

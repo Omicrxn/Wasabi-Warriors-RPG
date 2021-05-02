@@ -230,6 +230,13 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 		player->SetTexture(charactersSpritesheet, 6);
 		player->SetUpClass("wizard");
 		player = nullptr;
+
+		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "DaWho?");
+		player->position = iPoint(19 * 32, 1 * 32);
+		player->SetTexture(charactersSpritesheet, 4);
+		player->SetUpClass("wizard");
+		player = nullptr;
+
 		RELEASE(player);
 
 		((ScreenRoaming*)screenRoaming)->SetCurrentPlayer(currentPlayer);

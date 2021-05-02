@@ -32,7 +32,7 @@ typedef unsigned int uint;
 class Screen
 {
 public:
-    Screen(): minIndex(0), maxIndex(0), currentScene(nullptr), win(nullptr), guiManager(nullptr),entityManager(nullptr), font(nullptr), isActive(false)
+    Screen(): minIndex(0), maxIndex(0), currentScene(nullptr), win(nullptr), guiManager(nullptr),entityManager(nullptr), font(nullptr), easing(nullptr), isActive(false)
     {
         for (int i = 0; i < 5; ++i)
         {
@@ -117,6 +117,7 @@ public:
     Window* win;
     Font* font;
     EntityManager* entityManager;
+    Easing* easing;
 
     SDL_Texture* atlas[5];
 };
