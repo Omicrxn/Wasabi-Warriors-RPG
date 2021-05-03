@@ -40,6 +40,10 @@ public:
 
 	void DrawAll();
 
+	void ExitGame();
+
+	GuiControl* FindById(int id);
+
 public:
 
 	List<GuiControl*> controls;
@@ -61,6 +65,10 @@ public:
 	SDL_Rect mouseRect[2];
 	iPoint mousePos;
 	bool clicking;
+
+private:
+	
+	bool exitingGame;
 };
 
 #endif // __GUIMANAGER_H__

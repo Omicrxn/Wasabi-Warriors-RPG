@@ -38,6 +38,8 @@ bool Render::Awake(pugi::xml_node& config)
 	}
 
 	renderer = SDL_CreateRenderer(win->window, -1, flags);
+	SDL_RenderSetLogicalSize(renderer, win->screenSurface->w, win->screenSurface->h);
+
 
 	if(renderer == NULL)
 	{

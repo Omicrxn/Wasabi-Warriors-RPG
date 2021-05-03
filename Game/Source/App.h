@@ -25,7 +25,7 @@ class Collisions;
 class Fonts;
 class DialogSystem;
 class Easing;
-
+class Transitions;
 
 class App
 {
@@ -102,6 +102,7 @@ public:
 	Fonts* fonts;
 	DialogSystem* dialogSystem;
 	Easing* easing;
+	Transitions* transitions;
 
 private:
 
@@ -134,8 +135,9 @@ private:
 	float dt = 0.0f;
 
 	int	cappedMs = -1;
+
+	bool debug;
+	bool fullscreen;
 };
-
-
 
 #endif	// __APP_H__

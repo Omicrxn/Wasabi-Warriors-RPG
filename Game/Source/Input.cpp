@@ -97,7 +97,7 @@ bool Input::PreUpdate()
 	}
 
 	// Controller input
-	const bool* prevFrameButtons = UpdateControllerInput();
+	const uint8_t* prevFrameButtons = UpdateControllerInput();
 
 	for (int i = 0; i < NUM_CONTROLLER_BUTTONS; ++i)
 	{
@@ -141,6 +141,8 @@ bool Input::PreUpdate()
 				//case SDL_WINDOWEVENT_LEAVE:
 			case SDL_WINDOWEVENT_HIDDEN:
 			case SDL_WINDOWEVENT_MINIMIZED:
+				//SDL_MinimizeWindow(win->window);
+				break;
 			case SDL_WINDOWEVENT_FOCUS_LOST:
 				windowEvents[WE_HIDE] = true;
 				break;
@@ -148,8 +150,11 @@ bool Input::PreUpdate()
 			case SDL_WINDOWEVENT_SHOWN:
 			case SDL_WINDOWEVENT_FOCUS_GAINED:
 			case SDL_WINDOWEVENT_MAXIMIZED:
+				//SDL_MaximizeWindow(win->window);
+				break;
 			case SDL_WINDOWEVENT_RESTORED:
 				windowEvents[WE_SHOW] = true;
+				//SDL_RestoreWindow(win->window);
 				break;
 			}
 			break;
@@ -321,9 +326,9 @@ void Input::HandleDeviceRemoval(int index)
 	}
 }
 
-bool* Input::UpdateControllerInput() 
+uint8_t* Input::UpdateControllerInput() 
 {
-	bool buttons[NUM_CONTROLLER_BUTTONS] = {};
+	static uint8_t buttons[NUM_CONTROLLER_BUTTONS] = {};
 
 	// Update all input data
 	if (controller.enabled == true)

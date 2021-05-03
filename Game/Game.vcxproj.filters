@@ -99,7 +99,27 @@
     <ClCompile Include="Source\Easing.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Entity.cpp" />
+    <ClCompile Include="Source\ScreenSettings.cpp">
+      <Filter>Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ScreenMainMenu.cpp">
+      <Filter>Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ScreenCredits.cpp">
+      <Filter>Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ScreenRoaming.cpp">
+      <Filter>Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ScreenPause.cpp">
+      <Filter>Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Transitions.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ScreenBattle.cpp">
+      <Filter>Screens</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\App.h" />
@@ -259,6 +279,33 @@
     <ClInclude Include="Source\Easing.h">
       <Filter>Modules</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Screen.h">
+      <Filter>Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ScreenSettings.h">
+      <Filter>Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ScreenMainMenu.h">
+      <Filter>Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ScreenCredits.h">
+      <Filter>Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ScreenRoaming.h">
+      <Filter>Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ScreenPause.h">
+      <Filter>Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Transitions.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Stats.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ScreenBattle.h">
+      <Filter>Screens</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">
@@ -281,6 +328,9 @@
     </Filter>
     <Filter Include="Scenes">
       <UniqueIdentifier>{3ed4a5d6-0e62-404d-b40b-cef602e825fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Screens">
+      <UniqueIdentifier>{09428e2e-b25f-45f1-bd25-fe3ee4352b37}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

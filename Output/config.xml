@@ -2,7 +2,7 @@
 <!-- L01: DONE 1: Create configuration file-->
 <config>
   <app framerate_cap="60">
-    <title>Game Development Testbed</title>
+    <title>Wasabi Warriors</title>
     <organization>UPC</organization>
   </app>
 
@@ -14,7 +14,7 @@
     <resolution width="1280" height="720" scale="1"/>
     <fullscreen value="false"/>
     <borderless value="false"/>
-    <resizable value="false"/>
+    <resizable value="true"/>
     <fullscreen_window value="false"/>
   </window>
 </config>

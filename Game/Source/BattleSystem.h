@@ -3,10 +3,12 @@
 #define __BATTLESYSTEM_H__
 
 #include "Scene.h"
-#include "Player.h"
-#include "Enemy.h"
 
 #include "List.h"
+
+class Player;
+class Enemy;
+class Item;
 
 enum class BattleState
 {
@@ -35,6 +37,13 @@ enum class EnemyState
 	NONE
 };
 
+enum class BattleMusic
+{
+	NONE,
+	WON,
+	LOST
+};
+
 class BattleSystem
 {
 public:
@@ -43,7 +52,7 @@ public:
 	~BattleSystem();
 
 	// To get the player and the enemy information
-	void SetupBattle(List<Player*>* players, Enemy* enemy);
+	void SetupBattle(List<Player*>* players, Enemy* enemy, List<Item*>* items);
 
 	// Functions for the different battle states
 	bool Update(Input* input, float dt);
@@ -57,6 +66,7 @@ public:
 	Player* GetPlayer();
 	List<Player*>* BattleSystem::GetPlayersList();
 	Enemy* GetEnemy();
+	bool IsTurnChanging();
 
 	// Battle state (Current attacker and defender)
 	BattleState battleState;
@@ -64,6 +74,8 @@ public:
 	PlayerState playerState;
 	// Enemy state (to keep track of the action)
 	EnemyState enemyState;
+
+	BattleMusic currentMusic;
 
 private:
 
@@ -75,8 +87,12 @@ private:
 	Player* currentPlayer;
 	// Enemy against whom the player is fighting
 	Enemy* enemy;
+	// List of items
+	List<Item*>* items;
 	// Time counter for the enemy turn
 	uint turnCounter;
+	// Bool to know if turn has been changed
+	bool turnChanged;
 };
 
 #endif // __BATTLESYSTEM_H__

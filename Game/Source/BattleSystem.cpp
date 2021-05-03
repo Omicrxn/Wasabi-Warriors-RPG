@@ -5,6 +5,10 @@
 #include "Font.h"
 #include "Window.h"
 
+#include "Player.h"
+#include "Enemy.h"
+#include "Item.h"
+
 #include "GuiManager.h"
 #include "GuiButton.h"
 
@@ -20,6 +24,8 @@ BattleSystem::BattleSystem()
 	numPlayers = 2;
 	// Time for enemy to manage their actions
 	turnCounter = 0;
+
+	currentMusic = BattleMusic::NONE;
 }
 
 BattleSystem::~BattleSystem()
@@ -50,12 +56,13 @@ bool BattleSystem::Update(Input* input, float dt)
 	return true;
 }
 
-void BattleSystem::SetupBattle(List<Player*>* players, Enemy* enemy)
+void BattleSystem::SetupBattle(List<Player*>* players, Enemy* enemy, List<Item*>* items)
 {
 	// Register fighters in the battle system
 	this->players = players;
 	currentPlayer = players->At(0)->data;
 	this->enemy = enemy;
+	this->items = items;
 
 	// Play animations of the fighters (not necessary for the vertical slice)
 	// Display introductory text
@@ -112,6 +119,8 @@ bool BattleSystem::WinAndLose()
 
 void BattleSystem::PlayerTurn()
 {
+	if (turnChanged) turnChanged = false;
+
 	if (turnCounter == 0)
 	{
 		// Manage player input for the battle system interface
@@ -135,6 +144,7 @@ void BattleSystem::PlayerTurn()
 		case PlayerState::ITEM:
 			// Get into the items menu
 			// Items logic
+			currentPlayer->stats = items->At(0)->data->Interact(currentPlayer->stats);
 			break;
 		case PlayerState::RUN:
 			// Return to the gameplay screen
@@ -157,14 +167,22 @@ void BattleSystem::PlayerTurn()
 
 		// Check if the enemy has died
 		if (enemy->stats.currentHP <= 0)
+		{
 			battleState = BattleState::WON;
+			currentMusic = BattleMusic::WON;
+		}
 		else
+		{
 			battleState = BattleState::ENEMY_TURN;
+			turnChanged = true;
+		}
 	}
 }
 
 void BattleSystem::EnemyTurn()
 {
+	if (turnChanged) turnChanged = false;
+
 	// Define randomly an action for the enemy (only the first time)
 	if (turnCounter == 0)
 	{
@@ -205,9 +223,15 @@ void BattleSystem::EnemyTurn()
 
 		// Check if the player has died
 		if (currentPlayer->stats.currentHP <= 0)
+		{
 			battleState = BattleState::LOST;
+			currentMusic = BattleMusic::LOST;
+		}
 		else
+		{
 			battleState = BattleState::PLAYER_TURN;
+			turnChanged = true;
+		}
 
 		// Set as the current player the next party member (if it's available)
 		for (int i = 0; i < players->Count(); i++)
@@ -241,4 +265,9 @@ List<Player*>* BattleSystem::GetPlayersList()
 Enemy* BattleSystem::GetEnemy()
 {
 	return enemy;
+}
+
+bool BattleSystem::IsTurnChanging()
+{
+	return turnChanged;
 }

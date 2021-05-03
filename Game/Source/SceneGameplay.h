@@ -18,6 +18,7 @@ class DialogSystem;
 
 class GuiButton;
 class GuiIcon;
+class Screen;
 
 enum GameState
 {
@@ -37,7 +38,7 @@ public:
     SceneGameplay(bool hasStartedFromContinue = false);
     virtual ~SceneGameplay();
 
-    bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, DialogSystem* dialogSystem, Easing* easing, App* app);
+    bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, DialogSystem* dialogSystem, Easing* easing, Transitions* transitions, App* app);
 
     bool Update(Input* input, float dt);
 
@@ -52,6 +53,9 @@ public:
     // Returns the current player
     Player* GetCurrentPlayer();
 
+    // Returns the current map
+    MapType GetCurrentMap();
+
     // Declare on mouse click event
     bool OnGuiMouseClickEvent(GuiControl* control);
 
@@ -62,33 +66,25 @@ public:
 
 private:
 
-    void EnableBattleButtons();
-
-    void EnableHUDButtons();
-    void HideHUDButtons();
-
-    void EnablePauseButtons();
-    void HidePauseButtons();
-
-    // HUD
-    void UpdateHud(Input* input);
-    void DrawHud(Render* render);
-
-    // Pause
-    void UpdatePause(Input* input);
-    void DrawPause(Render* render);
-
-private:
-
     // Needed modules
     EntityManager* entityManager;
     GuiManager* guiManager;
     Window* win;
     DialogSystem* dialogSystem;
     AudioManager* audio;
+    Transitions* transitions;
+
+    // The screen for the HUD
+    Screen* screenRoaming;
+    // The screen for the Pause
+    Screen* screenPause;
+    // The screen for the settings
+    Screen* screenSettings;
+    // The screen for the battle
+    Screen* screenBattle;
 
     // Scene gameplay textures
-    SDL_Texture* spritesheet;
+    SDL_Texture* charactersSpritesheet;
 
     // Camera
     SDL_Rect camera;
@@ -97,9 +93,8 @@ private:
     Map* map;
     Player* currentPlayer;
 
-    // Battle system module and bool to activate or deactivate it
+    // Battle system module
     BattleSystem* battleSystem;
-    bool battle;
 
     // Enum to know at what state the game encounters ( in order to show HUD, INVENTORY, or MAP)
     GameState currentState;
@@ -108,16 +103,25 @@ private:
     SDL_Texture* backgroundTex;
     SDL_Texture* titlesTex;
     SDL_Texture* guiAtlasTex;
+    SDL_Texture* aura;
+    SDL_Texture* cast1;
+    SDL_Texture* enemyCast;
+    SDL_Texture* indicator;
+
+    Animation auraAnim;
+    Animation cast1Anim;
+    Animation enemyCastAnim;
+    Animation indicatorAnim;
 
     SDL_Rect backgroundRect;
     SDL_Rect pauseBackgroundRect;
    
     SDL_Rect settingsTitleRect;
-    SDL_Rect pauseTitleRect;
 
     // Fonts
     Font* titleFont;
     Font* buttonFont;
+    Font* menuFont;
 
     // Audio Fx for buttons
     int hoverFx, clickFx, returnFx;
@@ -127,16 +131,6 @@ private:
     GuiButton* btnDefend;
     GuiButton* btnItem;
     GuiButton* btnRun;
-
-    // Hud buttons
-    GuiIcon* iconPause;
-    GuiIcon* iconInventory;
-    GuiIcon* iconPhone;
-
-    // Pause buttons
-    GuiIcon* iconResume;
-    GuiIcon* iconSettings;
-    GuiIcon* iconExit;
 
     // Gamepad's menu focused button
     uint focusedButtonId;

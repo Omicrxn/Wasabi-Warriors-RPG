@@ -4,6 +4,8 @@
 #include "Point.h"
 #include "SString.h"
 #include "Collisions.h"
+#include "Notifier.h"
+#include "Animation.h"
 struct SDL_Texture;
 struct Render;
 struct Input;
@@ -79,7 +81,9 @@ public:
 
 protected:
     bool active = true;
-   
+    Notifier* notifier;
+public:
+    SDL_Rect animRec;
 };
 
 #endif // __ENTITY_H__

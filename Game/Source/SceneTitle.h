@@ -4,6 +4,10 @@
 #include "Scene.h"
 #include "Animation.h"
 
+#include "SDL/include/SDL.h"
+#include "Point.h"
+#include "Timer.h"
+
 class GuiButton;
 class GuiSlider;
 class GuiCheckBox;
@@ -11,10 +15,7 @@ class GuiIcon;
 
 class Font;
 class Window;
-
-#include "SDL/include/SDL.h"
-#include "Point.h"
-#include "Timer.h"
+class Screen;
 
 enum class MenuSelection
 {
@@ -33,7 +34,7 @@ public:
     SceneTitle();
     virtual ~SceneTitle();
 
-    bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, Easing* easing);
+    bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, Easing* easing, Render* render, Transitions* transitions);
 
     bool Update(Input* input, float dt);
 
@@ -41,25 +42,26 @@ public:
 
     bool Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager);
 
+    // Load / Save
+    bool LoadState(pugi::xml_node&);
+    bool SaveState(pugi::xml_node&) const;
+
     // Declare on mouse click event
     bool OnGuiMouseClickEvent(GuiControl* control);
 
 private:
 
-    void UpdateControllerSelection(int idStart, int idEnd);
-
-    void EnableTitleButtons();
-    void EnableSettingsButtons();
-
-    void HideTitleButtons();
-    void HideSettingsButtons();
-
-private:
-
+    // Needed modules
     GuiManager* guiManager;
     Window* win;
+    Render* render;
     Easing* easing;
     AudioManager* audio;
+    Transitions* transitions;
+
+    Screen* screenSettings;
+    Screen* screenMainMenu;
+    Screen* screenCredits;
 
     SDL_Texture* backgroundTex;
     SDL_Rect backgroundRect;
@@ -67,16 +69,9 @@ private:
     SDL_Texture* guiAtlasTex;
     SDL_Texture* titlesTex;
 
-    SDL_Rect mainTitlesRect;
     SDL_Rect settingsTitleRect;
     SDL_Rect settingsBackgroundRect;
     SDL_Rect creditsTitleRect;
-
-    SDL_Rect iconARect;
-    SDL_Rect dpadRect;
-    SDL_Rect iconSTARTRect;
-
-    iPoint titlePosition;
 
     Font* titleFont;
     Font* buttonFont;
@@ -87,25 +82,7 @@ private:
     Timer titleFxTimer;
     int titleFx;
 
-    GuiButton* btnStart;
-    GuiButton* btnContinue;
-    GuiButton* btnOptions;
-    GuiButton* btnCredits;
-    GuiButton* btnExit;
-
-    GuiCheckBox* checkFullScreen;
-    GuiCheckBox* checkVsync;
-
-    GuiSlider* sliderMusicVolume;
-    GuiSlider* sliderFXVolume;
-
-    GuiIcon* iconReturnTitle;
-
     MenuSelection menuCurrentSelection;
-    //SettingsSelection settingsCurrentSelection = SettingsSelection::NONE;
-
-    bool settingsScene;
-    bool creditsScene;
 
     // Gamepad's menu focused button ID
     uint focusedButtonId;

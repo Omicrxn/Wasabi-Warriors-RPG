@@ -2,8 +2,7 @@
 
 Wasabi Warriors is a Role-Playing Game with a theme-based on an urban Japanese environment and a story about power and corruption. It is mainly played in top-down perspective combined with combat scenes and has different locations and areas to explore. The project aims to be a 30 minutes gameplay experience with a catching narrative to make the player experience a different journey.
 
-![Main Menu](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/Wiki/Layouts/main_menu.png)
-![Graveyard](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/Wiki/Scenarios/graveyard.gif)
+![Main Menu](Screenshots/title_menu.png)
 
 ## Key Features
 
@@ -25,15 +24,23 @@ Wasabi Warriors is a Role-Playing Game with a theme-based on an urban Japanese e
 
 | Action | Key | Button |
 | :---: | :---: | :---: |
-| **Move Up** | ![](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/Wiki/Controls/key_W.png) | ![](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/Wiki/Controls/button_up.png) |
-| **Move Down** | ![](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/Wiki/Controls/key_S.png) | ![](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/Wiki/Controls/button_down.png) |
-| **Move Left** | ![](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/Wiki/Controls/key_A.png) | ![](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/Wiki/Controls/button_left.png) |
-| **Move Right** | ![](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/Wiki/Controls/key_D.png) | ![](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/Wiki/Controls/button_right.png) |
-| **Select / Interact** | ![](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/Wiki/Controls/key_E.png) | ![](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/Wiki/Controls/button_A.png) |
-| **Open Map** | ![](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/Wiki/Controls/key_M.png) | ![](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/Wiki/Controls/button_X.png) |
-| **Return / Cancel** | ![](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/Wiki/Controls/key_C.png) | ![](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/Wiki/Controls/button_B.png) |
-| **Change between party members** | ![](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/Wiki/Controls/key_Z.png) ![](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/Wiki/Controls/key_X.png) | ![](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/Wiki/Controls/button_LB.png) ![](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/Wiki/Controls/button_RB.png) |
-| **Pause Menu** | ![](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/Wiki/Controls/key_ESC.png) | ![](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/Wiki/Controls/button_menu.png) |
+| **Move Up** | ![](docs/Wiki/Controls/key_W.png) ![](docs/Wiki/Controls/key_up.png) | ![](docs/Wiki/Controls/button_up.png) |
+| **Move Down** | ![](docs/Wiki/Controls/key_S.png) ![](docs/Wiki/Controls/key_down.png) | ![](docs/Wiki/Controls/button_down.png) |
+| **Move Left** | ![](docs/Wiki/Controls/key_A.png) ![](docs/Wiki/Controls/key_left.png) | ![](docs/Wiki/Controls/button_left.png) |
+| **Move Right** | ![](docs/Wiki/Controls/key_D.png) ![](docs/Wiki/Controls/key_right.png) | ![](docs/Wiki/Controls/button_right.png) |
+| **Select / Interact** | ![](docs/Wiki/Controls/key_F.png) | ![](docs/Wiki/Controls/button_A.png) |
+| **Change between party members** | ![](docs/Wiki/Controls/key_E.png) | ![](docs/Wiki/Controls/button_Y.png) |
+| **Pause Menu** | ![](docs/Wiki/Controls/key_ESC.png) | ![](docs/Wiki/Controls/button_menu.png) |
+
+### Debug Controls
+| Action | Key |
+| :---: | :---: |
+| **GUI Debug** | ![](docs/Wiki/Controls/key_F1.png) |
+| **Save** | ![](docs/Wiki/Controls/key_F5.png) |
+| **Load** | ![](docs/Wiki/Controls/key_F6.png) |
+| **Battle** | ![](docs/Wiki/Controls/key_F7.png) |
+| **God Mode & Debug Info** | ![](docs/Wiki/Controls/key_F10.png) |
+| **Fullscreen** | ![](docs/Wiki/Controls/key_F11.png) |
 
 ## Developers
 
@@ -51,4 +58,5 @@ This project is licensed under an unmodified MIT license, which is an OSI-certif
 # About Bat Cat Studios
 Bat Cat Studios is a game development team based in Barcelona which team members are students of the UPC/CITM Videogame Design and development bachelor degree. Wasabi Warriors RPG is the first game developed by Bat Cat triggered by Project II subject. Our objective is to create games that feel different to the player but maintaining the common mechanics.
 
-![Bat Cat Studios](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/Wiki/Scenarios/logo_scene.png)
+![Bat Cat Studios](docs/Wiki/Scenarios/logo_scene.png)
+

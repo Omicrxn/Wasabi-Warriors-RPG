@@ -43,6 +43,11 @@ bool GuiCheckBox::GetCheck() const
     return checked;
 }
 
+void GuiCheckBox::SetCheck(bool boolean)
+{
+    this->checked = boolean;
+}
+
 bool GuiCheckBox::Update(Input* input, AudioManager* audio, float dt)
 {
     if (state != GuiControlState::DISABLED && state != GuiControlState::HIDDEN)
@@ -63,13 +68,13 @@ bool GuiCheckBox::Update(Input* input, AudioManager* audio, float dt)
                 audio->PlayFx(hoverFx);
             }
 
-            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT)
+            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT)
             {
                 state = GuiControlState::PRESSED;
             }
 
             // If mouse button pressed -> Generate event!
-            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)
+            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_UP)
             {
                 checked = !checked;
                 NotifyObserver();
@@ -88,13 +93,13 @@ bool GuiCheckBox::Update(Input* input, AudioManager* audio, float dt)
                 audio->PlayFx(hoverFx);
             }
 
-            if (input->GetControllerButton(CONTROLLER_BUTTON_A) == KEY_REPEAT)
+            if (input->GetControllerButton(CONTROLLER_BUTTON_A) == KeyState::KEY_REPEAT)
             {
                 state = GuiControlState::PRESSED;
             }
 
             // If gamepad button pressed -> Generate event!
-            if (input->GetControllerButton(CONTROLLER_BUTTON_A) == KEY_UP)
+            if (input->GetControllerButton(CONTROLLER_BUTTON_A) == KeyState::KEY_UP)
             {
                 checked = !checked;
                 NotifyObserver();
@@ -157,6 +162,23 @@ bool GuiCheckBox::Draw(Render* render, bool debugDraw)
         break;
     default:
         break;
+    }
+
+    if (debugDraw)
+    {
+        switch (state)
+        {
+        case GuiControlState::DISABLED: render->DrawRectangle(bounds, { 100, 100, 100, 255 }, true, false);
+            break;
+        case GuiControlState::NORMAL: render->DrawRectangle(bounds, { 0, 255, 0, 255 }, true, false);
+            break;
+        case GuiControlState::FOCUSED: render->DrawRectangle(bounds, { 255, 255, 0, 255 }, true, false);
+            break;
+        case GuiControlState::PRESSED: render->DrawRectangle(bounds, { 0, 255, 255, 255 }, true, false);
+            break;
+        default:
+            break;
+        }
     }
 
     return true;

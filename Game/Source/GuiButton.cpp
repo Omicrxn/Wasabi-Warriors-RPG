@@ -65,13 +65,13 @@ bool GuiButton::Update(Input* input, AudioManager* audio, float dt)
                 audio->PlayFx(hoverFx);
             }
 
-            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT)
+            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT)
             {
                 state = GuiControlState::PRESSED;
             }
 
             // If mouse button pressed -> Generate event!
-            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)
+            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_UP)
             {
                 NotifyObserver();
                 // Audio Fx when clicked
@@ -89,13 +89,13 @@ bool GuiButton::Update(Input* input, AudioManager* audio, float dt)
                 audio->PlayFx(hoverFx);
             }
 
-            if (input->GetControllerButton(CONTROLLER_BUTTON_A) == KEY_REPEAT)
+            if (input->GetControllerButton(CONTROLLER_BUTTON_A) == KeyState::KEY_REPEAT)
             {
                 state = GuiControlState::PRESSED;
             }
 
             // If gamepad button pressed -> Generate event!
-            if (input->GetControllerButton(CONTROLLER_BUTTON_A) == KEY_UP)
+            if (input->GetControllerButton(CONTROLLER_BUTTON_A) == KeyState::KEY_UP)
             {
                 NotifyObserver();
                 // Audio Fx when pressed
@@ -128,47 +128,47 @@ bool GuiButton::Draw(Render* render, bool debugDraw)
     case GuiControlState::NORMAL:
         switch (buttonStyle)
         {
-        case WHITE:
+        case Style::WHITE:
             render->DrawTexture(texture, bounds.x, bounds.y, &whiteButton, 0.0f);
             break;
-        case GREY:
+        case Style::GREY:
             break;
         default:
             break;
         }
-        render->DrawText(font, text.GetString(), bounds.x + bounds.w / 5 - bounds.w / 6, bounds.y + bounds.h / 2 - bounds.h / 4, 22, 8, { 105,105,105,255 });
+        render->DrawText(font, text.GetString(), bounds.x + bounds.w / 5 - bounds.w / 6 + 5, bounds.y + bounds.h / 2 - bounds.h / 4, 22, 8, { 105,105,105,255 });
         break;
     case GuiControlState::FOCUSED:
         render->DrawTexture(texture, bounds.x - 30, bounds.y + 14, &arrowWhiteRight, 0.0f);
         switch (buttonStyle)
         {
-        case WHITE:
+        case Style::WHITE:
             render->DrawTexture(texture, bounds.x, bounds.y, &whiteButton, 0.0f);
             render->DrawTexture(texture, bounds.x + bounds.w + 8, bounds.y + 14, &arrowWhiteLeft, 0.0f);
             break;
-        case GREY:
+        case Style::GREY:
             break;
         default:
             break;
         }
-        render->DrawText(font, text.GetString(), bounds.x + bounds.w / 5 - bounds.w / 6 + 2, bounds.y + bounds.h / 2 - bounds.h / 4 + 2, 22, 8, { 105,105,105,255 });
-        render->DrawText(font, text.GetString(), bounds.x + bounds.w / 5 - bounds.w / 6, bounds.y + bounds.h / 2 - bounds.h / 4, 22, 8, { 0,0,0,255 });
+        render->DrawText(font, text.GetString(), bounds.x + bounds.w / 5 - bounds.w / 6 + 7, bounds.y + bounds.h / 2 - bounds.h / 4 + 2, 22, 8, { 105,105,105,255 });
+        render->DrawText(font, text.GetString(), bounds.x + bounds.w / 5 - bounds.w / 6 + 5, bounds.y + bounds.h / 2 - bounds.h / 4, 22, 8, { 0,0,0,255 });
         break;
     case GuiControlState::PRESSED:
         render->DrawTexture(texture, bounds.x - 30, bounds.y + 18, &arrowWhiteRight, 0.0f);
         switch (buttonStyle)
         {
-        case WHITE:
+        case Style::WHITE:
             render->DrawTexture(texture, bounds.x, bounds.y + 4, &whiteButtonPressed, 0.0f);
             render->DrawTexture(texture, bounds.x + bounds.w + 8, bounds.y + 18, &arrowWhiteLeft, 0.0f);
             break;
-        case GREY:
+        case Style::GREY:
             break;
         default:
             break;
         }
-        render->DrawText(font, text.GetString(), bounds.x + bounds.w / 5 - bounds.w / 6 + 2, bounds.y + bounds.h / 2 - bounds.h / 4 + 4 + 2, 22, 8, { 105,105,105,255 });
-        render->DrawText(font, text.GetString(), bounds.x + bounds.w / 5 - bounds.w / 6, bounds.y + bounds.h / 2 - bounds.h / 4 + 4, 22, 8, { 0,0,0,255 });
+        render->DrawText(font, text.GetString(), bounds.x + bounds.w / 5 - bounds.w / 6 + 7, bounds.y + bounds.h / 2 - bounds.h / 4 + 4 + 2, 22, 8, { 105,105,105,255 });
+        render->DrawText(font, text.GetString(), bounds.x + bounds.w / 5 - bounds.w / 6 + 5, bounds.y + bounds.h / 2 - bounds.h / 4 + 4, 22, 8, { 0,0,0,255 });
         break;
     default:
         break;

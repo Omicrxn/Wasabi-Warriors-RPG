@@ -1,5 +1,4 @@
 #include "Player.h"
-#include "Notifier.h"
 
 #include "Log.h"
 
@@ -9,6 +8,7 @@ Player::Player(Textures* tex, Collisions* collisions, EntityManager* entityManag
     position = iPoint(12 * 16, 27 * 16);
     active = false;
     stopPlayer = false;
+    transitioning = false;
     // Setting Being parameters
     velocity = { 150.0f, 150.0f };
     direction = { 0,0 };
@@ -43,25 +43,24 @@ Player::~Player()
 
 bool Player::Update(Input* input, float dt)
 {
-
-        if (!Notifier::GetInstance()->GetBattle() && !stopPlayer)
+    if (!Notifier::GetInstance()->GetBattle() && !stopPlayer && !transitioning)
+    {
+        Walk(direction, dt);
+        direction.x = input->GetAxisRaw(AxisName::HORIZONTAL);
+        direction.y = input->GetAxisRaw(AxisName::VERTICAL);
+        // Update collider position
+        if (collider != nullptr)
         {
-            Walk(direction, dt);
-            direction.x = input->GetAxisRaw(AxisName::HORIZONTAL);
-            direction.y = input->GetAxisRaw(AxisName::VERTICAL);
-            // Update collider position
-            if (collider != nullptr)
-            {
-                collider->SetPos(position.x, position.y);
-            }
+            collider->SetPos(position.x, position.y);
         }
-        else
-        {
-            direction = { 0,0 };
-        }
+    }
+    else
+    {
+        direction = { 0,0 };
+    }
 
-        if (active)
-        {
+    if (active)
+    {
         if (direction.x > 0)
         {
             currentAnim = Animations::RIGHT;
@@ -82,8 +81,9 @@ bool Player::Update(Input* input, float dt)
         {
             currentAnim = Animations::IDLE;
         }
-
     }
+
+    transitioning = false;
     return true;
 }
 
@@ -188,7 +188,6 @@ SDL_Rect Player::GetBounds()
 void Player::SetName(SString name)
 {
     this->name = name;
-    this->stats.name = name;
 }
 
 bool Player::SetUpClass(SString name)
@@ -226,7 +225,7 @@ bool Player::SetUpClass(SString name)
         this->stats.criticalRate = docNode.attribute("critical_rate").as_int(0);
     }
 
-    LOG("Saving enemy info from %s", newName.GetString());
+    LOG("Saving player info from %s", newName.GetString());
 
     return ret;
 }

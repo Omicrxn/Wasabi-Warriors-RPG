@@ -21,6 +21,8 @@ GuiManager::GuiManager(Input* input, Render* render, Textures* tex, AudioManager
 	guiAtlasTex = nullptr;
 	mousePos = { 0,0 };
 	clicking = false;
+
+	exitingGame = false;
 }
 
 GuiManager::~GuiManager()
@@ -70,11 +72,12 @@ void GuiManager::DestroyGuiControl(GuiControl* control)
 
 bool GuiManager::Start()
 {
-	guiAtlasTex = tex->Load("Assets/Textures/UI/Elements/ui_spritesheet.png");
+	if (guiAtlasTex != nullptr)
+		tex->UnLoad(guiAtlasTex);
 
+	guiAtlasTex = tex->Load("Assets/Textures/UI/ui_spritesheet.png");
 	mouseRect[0] = { 30,482,30,30 };
 	mouseRect[1] = { 60,482,30,30 };
-
 	return true;
 }
 
@@ -111,6 +114,8 @@ bool GuiManager::Update(float dt)
 	else
 		render->DrawTexture(guiAtlasTex, mousePos.x, mousePos.y, &mouseRect[1], 0.0f);
 	// ----------------------------
+
+	if (exitingGame) return false;
 
 	return true;
 }
@@ -149,4 +154,20 @@ bool GuiManager::CleanUp()
 	tex->UnLoad(guiAtlasTex);
 
 	return true;
+}
+
+void GuiManager::ExitGame()
+{
+	exitingGame = true;
+}
+
+GuiControl* GuiManager::FindById(int id)
+{
+	GuiControl* toReturn = nullptr;
+	for (int i = 0; i < controls.Count(); i++)
+	{
+		if (controls[i]->id == id)
+			return toReturn = controls[i];
+	}
+	return nullptr;
 }

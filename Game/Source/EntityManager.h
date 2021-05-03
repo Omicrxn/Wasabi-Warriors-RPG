@@ -15,13 +15,15 @@ class NPC;
 class Entity;
 enum class EntityType;
 class Collisions;
+class Transitions;
 class SDL_Texture;
+class Item;
 
 class EntityManager : public Module
 {
 public:
 
-	EntityManager(Input* input, Render* ren, Textures* tex, Collisions* collisions);
+	EntityManager(Input* input, Render* ren, Textures* tex, Collisions* collisions, Transitions* transitions);
 
 	// Destructor
 	virtual ~EntityManager();
@@ -52,17 +54,20 @@ public:
 	void OnCollision(Collider* c1, Collider* c2);
 
 	void TooglePlayerGodMode();
+	void DeleteAllEntitiesExceptPlayer();
 public:
 
 	Render* ren;
 	Textures* tex;
 	Input* input;
 	Collisions* collisions;
+	Transitions* transitions;
 	List<Entity*> entityList;
 	List<Player*> playerList;
 	List<Enemy*> enemyList;
 	List<NPC*> npcList;
 	List<Teleport*> teleportList;
+	List<Item*> itemList;
 	SDL_Texture* texture;
 
 	float accumulatedTime = 0.0f;

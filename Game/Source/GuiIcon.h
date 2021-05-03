@@ -4,7 +4,7 @@
 
 #include "GuiControl.h"
 
-enum IconType
+enum class IconType
 {
     NONE,
     ICON_RETURN,

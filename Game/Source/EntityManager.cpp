@@ -11,17 +11,19 @@
 #include "Render.h"
 #include "Textures.h"
 #include "Input.h"
+#include "Transitions.h"
 
 #include "Defs.h"
 #include "Log.h"
 
-EntityManager::EntityManager(Input* input, Render* render, Textures* tex, Collisions* collisions) : Module()
+EntityManager::EntityManager(Input* input, Render* render, Textures* tex, Collisions* collisions, Transitions* transitions) : Module()
 {
 	name.Create("entitymanager");
 	this->ren = render;
 	this->tex = tex;
 	this->input = input;
 	this->collisions = collisions;
+	this->transitions = transitions;
 	texture = nullptr;
 }
 
@@ -43,8 +45,11 @@ bool EntityManager::CleanUp()
 {
 	for (int i = 0; i < entityList.Count(); i++)
 	{
-		if(entityList.At(i)->data->destroy)
-			entityList.Del(entityList.At(i));
+		this->DestroyEntity(entityList.At(i)->data);
+		/*if (->data->collider != nullptr)
+			entityList.At(i)->data->collider->pendingToDelete = true;
+
+		entityList.Del(entityList.At(i));*/
 	}
 	entityList.Clear();
 	return true;
@@ -64,7 +69,7 @@ Entity* EntityManager::CreateEntity(EntityType type, SString name)
 		playerList.Add((Player*)ret);
 		break;
 	case EntityType::ENEMY:
-		ret = new Enemy(collisions, this);
+		ret = new Enemy(collisions, this, transitions);
 		ret->type = EntityType::ENEMY;
 		ret->name = name;
 		enemyList.Add((Enemy*)ret);
@@ -85,13 +90,24 @@ Entity* EntityManager::CreateEntity(EntityType type, SString name)
 		ret->name = name;
 		teleportList.Add((Teleport*)ret);
 		break;
+	case EntityType::ITEM:
+		ret = new Item();
+		ret->type = EntityType::ITEM;
+		ret->name = name;
+		itemList.Add((Item*)ret);
+		break;
 	default: break;
 	}
 
 	// Created entities are added to the list
 	if (ret != nullptr) entityList.Add(ret);
 
-	ret->SetTexture(this->texture);
+	if (type == EntityType::ITEM)
+	{
+
+	}
+	else
+		ret->SetTexture(this->texture);
 
 	return ret;
 }
@@ -102,7 +118,6 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 	ListItem<Entity*>* list1;
 	for (list1 = entityList.start; list1 != NULL; list1 = list1->next)
 	{
-
 		// Also delete them from their own lists
 		if (list1->data->type == EntityType::PLAYER)
 		{
@@ -125,7 +140,11 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 		{
 			DestroyEntity(list1->data);
 		}
-
+		
+		playerList.Clear();
+		enemyList.Clear();
+		npcList.Clear();
+		teleportList.Clear();
 	}
 	RELEASE(list1);
 	/* ---------- SECOND LOAD PLAYERS FROM THE SAVE FILE ----------*/
@@ -157,7 +176,7 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 		player->stats.defense = playerNode.attribute("defense").as_int();
 		player->stats.attackSpeed = playerNode.attribute("attackSpeed").as_int();
 		player->stats.criticalRate = playerNode.attribute("criticalRate").as_int();
-		player->stats.name = playerNode.attribute("statsName").as_string();
+		player->name = playerNode.attribute("statsName").as_string();
 
 		player->SetUpTexture();
 
@@ -193,7 +212,7 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 		enemy->stats.defense = enemyNode.attribute("defense").as_int();
 		enemy->stats.attackSpeed = enemyNode.attribute("attackSpeed").as_int();
 		enemy->stats.criticalRate = enemyNode.attribute("criticalRate").as_int();
-		enemy->stats.name = enemyNode.attribute("statsName").as_string();
+		enemy->name = enemyNode.attribute("statsName").as_string();
 
 		enemy->SetUpTexture();
 		enemy = nullptr;
@@ -339,7 +358,7 @@ bool EntityManager::SaveState(pugi::xml_node& data) const
 		newPlayerNode.append_attribute("defense").set_value(list1->data->stats.defense);
 		newPlayerNode.append_attribute("attackSpeed").set_value(list1->data->stats.attackSpeed);
 		newPlayerNode.append_attribute("criticalRate").set_value(list1->data->stats.criticalRate);
-		newPlayerNode.append_attribute("statsName").set_value(list1->data->stats.name.GetString());
+		newPlayerNode.append_attribute("statsName").set_value(list1->data->name.GetString());
 	}
 
 
@@ -408,7 +427,7 @@ bool EntityManager::SaveState(pugi::xml_node& data) const
 		newEnemyNode.append_attribute("defense").set_value(list2->data->stats.defense);
 		newEnemyNode.append_attribute("attackSpeed").set_value(list2->data->stats.attackSpeed);
 		newEnemyNode.append_attribute("criticalRate").set_value(list2->data->stats.criticalRate);
-		newEnemyNode.append_attribute("statsName").set_value(list2->data->stats.name.GetString());
+		newEnemyNode.append_attribute("statsName").set_value(list2->data->name.GetString());
 	}
 
 	/* ---------- THIRD SAVE THE NPCs ----------*/
@@ -530,16 +549,11 @@ bool EntityManager::SaveState(pugi::xml_node& data) const
 
 void EntityManager::DestroyEntity(Entity* entity)
 {
+	if(entity->collider != nullptr)
+		entity->collider->pendingToDelete = true;
+
 	entityList.Del(entityList.At(entityList.Find(entity)));
 	RELEASE(entity);
-
-	/*for (int i = 0; i < entityList.Count(); i++)
-	{
-		if (entityList.At(i)->data->id == entity->id)
-		{
-			entityList.Del(entityList.At(i));
-		}
-	}*/
 }
 
 void EntityManager::DestroyEntityChecker(float dt)
@@ -614,4 +628,32 @@ void EntityManager::TooglePlayerGodMode()
 	{
 		playerList.At(i)->data->isGod = !playerList.At(i)->data->isGod;
 	}
+}
+
+void EntityManager::DeleteAllEntitiesExceptPlayer()
+{
+	ListItem<Entity*>* list1;
+	for (list1 = entityList.start; list1 != NULL; list1 = list1->next)
+	{
+		if (list1->data->type == EntityType::ENEMY)
+		{
+			enemyList.Del(enemyList.At(enemyList.Find((Enemy*)list1->data)));
+		}
+		else if (list1->data->type == EntityType::NPC)
+		{
+			npcList.Del(npcList.At(npcList.Find((NPC*)list1->data)));
+		}
+		else if (list1->data->type == EntityType::TELEPORT)
+		{
+			teleportList.Del(teleportList.At(teleportList.Find((Teleport*)list1->data)));
+		}
+
+		// Delete all entities except the map and player
+		if (list1->data->type != EntityType::MAP && list1->data->type != EntityType::PLAYER)
+		{
+			DestroyEntity(list1->data);
+		}
+
+	}
+	RELEASE(list1);
 }

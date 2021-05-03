@@ -44,7 +44,8 @@ public:
     Animations currentAnim;
 
     int width, height;
-    bool stopPlayer = true;
+    bool stopPlayer = false;
+    bool transitioning = false;
     bool isGod = false;
 };
 

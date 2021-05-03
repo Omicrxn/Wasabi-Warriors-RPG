@@ -37,6 +37,21 @@ void GuiSlider::SetSliderProperties(Scene* module, SDL_Texture* texture, Font* f
     this->clickFx = clickFx;
 }
 
+int GuiSlider::GetValue() const
+{
+    return this->value;
+}
+
+SDL_Rect GuiSlider::GetSlider() const
+{
+    return this->slider;
+}
+
+void GuiSlider::SetSliderPosX(int posX)
+{
+    this->slider.x = posX;
+}
+
 bool GuiSlider::Update(Input* input, AudioManager* audio, float dt)
 {
     if (state != GuiControlState::DISABLED && state != GuiControlState::HIDDEN)
@@ -57,10 +72,10 @@ bool GuiSlider::Update(Input* input, AudioManager* audio, float dt)
                 audio->PlayFx(hoverFx);
             }
 
-            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
+            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_DOWN)
                 audio->PlayFx(clickFx);
 
-            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT)
+            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT)
             {
                 state = GuiControlState::PRESSED;
                 int posX, posY;
@@ -97,20 +112,20 @@ bool GuiSlider::Update(Input* input, AudioManager* audio, float dt)
             }
 
             //// If gamepad button pressed -> Generate event!
-            if (input->GetControllerButton(CONTROLLER_BUTTON_RB) == KEY_DOWN)
+            if (input->GetControllerButton(CONTROLLER_BUTTON_RB) == KeyState::KEY_DOWN)
             {
                 state = GuiControlState::PRESSED;
                 slider.x += 10;
                 audio->PlayFx(clickFx);
             }
-            else if (input->GetControllerButton(CONTROLLER_BUTTON_LB) == KEY_DOWN)
+            else if (input->GetControllerButton(CONTROLLER_BUTTON_LB) == KeyState::KEY_DOWN)
             {
                 state = GuiControlState::PRESSED;
                 slider.x -= 10;
                 audio->PlayFx(clickFx);
             }
 
-            if (input->GetControllerButton(CONTROLLER_BUTTON_RB) == KEY_UP || input->GetControllerButton(CONTROLLER_BUTTON_LB) == KEY_UP)
+            if (input->GetControllerButton(CONTROLLER_BUTTON_RB) == KeyState::KEY_UP || input->GetControllerButton(CONTROLLER_BUTTON_LB) == KeyState::KEY_UP)
                 NotifyObserver();
 
             if (slider.x < bounds.x)
@@ -118,6 +133,10 @@ bool GuiSlider::Update(Input* input, AudioManager* audio, float dt)
 
             if (slider.x + slider.w >= bounds.x + bounds.w)
                 slider.x = bounds.x + bounds.w - slider.w;
+
+            float percentage = (100.0f / bounds.w) * (slider.x - bounds.x);
+            percentage = percentage / 100.0f;
+            value = maxValue * percentage;
         }
         else
         {

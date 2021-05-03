@@ -7,6 +7,8 @@ Teleport::Teleport(Collisions* collisions, EntityManager* entityManager)
 	height = 32;
 	collider = collisions->AddCollider({ position.x ,position.y,width,height }, Collider::Type::TELEPORT, (Module*)entityManager);
 	active = true;
+	notifier = Notifier::GetInstance();
+	hasInteracted = false;
 }
 
 Teleport::~Teleport()
@@ -27,7 +29,8 @@ bool Teleport::Update(Input* input, float dt)
 
 void Teleport::Interact()
 {
-	Notifier::GetInstance()->NotifyMapChange(destination);
+	notifier->NotifyMapChange(destination);
+	hasInteracted = true;
 }
 
 void Teleport::SetUpDestination(MapType destination)
@@ -37,5 +40,9 @@ void Teleport::SetUpDestination(MapType destination)
 
 void Teleport::OnCollision(Collider* collider)
 {
-	Interact();
+	if (!hasInteracted)
+	{
+		Interact();
+	}
+	this->collider->pendingToDelete = true;
 }

@@ -141,7 +141,7 @@ private:
 
 	// Called at PreUpdate
 	// Iterates through all active gamepads and update all input data
-	bool* UpdateControllerInput();
+	uint8_t* UpdateControllerInput();
 
 private:
 

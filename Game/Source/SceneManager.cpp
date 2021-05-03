@@ -14,6 +14,7 @@
 #include "GuiManager.h"
 #include "DialogSystem.h"
 #include "Easing.h"
+#include "Transitions.h"
 #include "App.h"
 
 #include "Defs.h"
@@ -24,7 +25,7 @@
 #define FADEOUT_TRANSITION_SPEED	2.0f
 #define FADEIN_TRANSITION_SPEED		2.0f
 
-SceneManager::SceneManager(Input* input, Render* render, Textures* tex, Window* win, AudioManager* audio, EntityManager* entityman, GuiManager* guiManager, DialogSystem* dialogSystem, Easing* easing, App* app) : Module()
+SceneManager::SceneManager(Input* input, Render* render, Textures* tex, Window* win, AudioManager* audio, EntityManager* entityman, GuiManager* guiManager, DialogSystem* dialogSystem, Easing* easing, Transitions* transitions, App* app) : Module()
 {
 	name.Create("scenemanager");
 
@@ -41,6 +42,7 @@ SceneManager::SceneManager(Input* input, Render* render, Textures* tex, Window* 
 	this->guiManager = guiManager;
 	this->dialogSystem = dialogSystem;
 	this->easing = easing;
+	this->transitions = transitions;
 	this->app = app;
 }
 
@@ -63,9 +65,13 @@ bool SceneManager::Start()
 	current = new SceneLogo();
 	if (current->type == SceneType::GAMEPLAY || current->type == SceneType::GAMEPLAY_LOAD)
 	{
-		current->Load(tex, win, audio, guiManager, entityman, dialogSystem, easing, app);
+		current->Load(tex, win, audio, guiManager, entityman, dialogSystem, easing, transitions, app);
 	}
-	else 
+	else if (current->type == SceneType::TITLE)
+	{
+		current->Load(tex, win, audio, guiManager, easing, render, transitions);
+	}
+	else
 	{
 		current->Load(tex, win, audio, guiManager, easing);
 	}
@@ -99,11 +105,15 @@ bool SceneManager::Update(float dt)
 			if (transitionAlpha > 1.00f)
 			{
 				transitionAlpha = 1.0f;
-
+				
 				current->Unload(tex, audio, guiManager); // Unload current screen
 				if (next->type == SceneType::GAMEPLAY || next->type == SceneType::GAMEPLAY_LOAD)
 				{
-					next->Load(tex, win, audio, guiManager, entityman, dialogSystem, easing, app);	// Load next screen
+					next->Load(tex, win, audio, guiManager, entityman, dialogSystem, easing, transitions, app);	// Load next screen
+				}
+				else if (next->type == SceneType::TITLE)
+				{
+					next->Load(tex, win, audio, guiManager, easing, render, transitions);
 				}
 				else
 				{
@@ -135,10 +145,10 @@ bool SceneManager::Update(float dt)
 	current->Draw(render);
 
 	// Draw full screen rectangle in front of everything
-	if (onTransition)
+	/*if (onTransition)
 	{
 		render->DrawRectangle({ 0, 0, 1280, 720 }, { 0, 0, 0, (unsigned char)(255.0f * transitionAlpha) }, true, false);
-	}
+	}*/
 
 	if (current->transitionRequired)
 	{
@@ -159,7 +169,6 @@ bool SceneManager::Update(float dt)
 		current->transitionRequired = false;
 	}
 
-	if (input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) return false;
 	return true;
 }
 
