@@ -104,6 +104,7 @@
     <ClCompile Include="Source\GuiSlider.cpp" />
     <ClCompile Include="Source\Item.cpp" />
     <ClCompile Include="Source\ScreenBattle.cpp" />
+    <ClCompile Include="Source\ScreenInventory.cpp" />
     <ClCompile Include="Source\Transitions.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\App.cpp" />
@@ -150,6 +151,7 @@
     <ClInclude Include="Source\Interactive.h" />
     <ClInclude Include="Source\Item.h" />
     <ClInclude Include="Source\ScreenBattle.h" />
+    <ClInclude Include="Source\ScreenInventory.h" />
     <ClInclude Include="Source\Stats.h" />
     <ClInclude Include="Source\Transitions.h" />
     <ClInclude Include="Source\Map.h" />

@@ -20,6 +20,7 @@
 #include "ScreenPause.h"
 #include "ScreenSettings.h"
 #include "ScreenBattle.h"
+#include "ScreenInventory.h"
 
 #include "Item.h"
 
@@ -87,6 +88,7 @@ SceneGameplay::SceneGameplay(bool hasStartedFromContinue)
 	screenRoaming = nullptr;
 	screenSettings = nullptr;
 	screenBattle = nullptr;
+	screenInventory = nullptr;
 
 	currentMap = MapType::NONE;
 }
@@ -179,7 +181,7 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 
 	// Gui id goes from 0 to 2
 	screenRoaming = new ScreenRoaming();
-	screenRoaming->Load(0, 2, this, win, guiManager,entityManager, easing, guiAtlasTex, buttonFont, hoverFx, clickFx);
+	screenRoaming->Load(0, 2, this, win, guiManager, entityManager, easing, guiAtlasTex, buttonFont, hoverFx, clickFx);
 	screenRoaming->isActive = true;
 	screenRoaming->ShowButtons();
 
@@ -194,11 +196,17 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	screenSettings->Load(6, 10, this, win, guiManager, NULL, easing, guiAtlasTex, titlesTex, buttonFont, hoverFx, clickFx);
 	screenSettings->isActive = false;
 	screenSettings->HideButtons();
-	
+
 	// Gui id goes from 11 to 14
 	screenBattle = new ScreenBattle();
 	screenBattle->Load(11, 14, this, battleSystem, tex, win, audio, guiManager, entityManager, charactersSpritesheet, guiAtlasTex, titleFont, buttonFont, menuFont, hoverFx, clickFx, returnFx);
 	screenBattle->isActive = false;
+
+	// Gui id goes from 15 to 16
+	screenInventory = new ScreenInventory();
+	screenInventory->Load(15, 16, this, win, guiManager, entityManager, easing, guiAtlasTex, buttonFont, hoverFx, clickFx);
+	screenInventory->isActive = false;
+	screenInventory->HideButtons();
 
 	Item* item;
 	item = (Item*)entityManager->CreateEntity(EntityType::ITEM, "potion");
@@ -365,6 +373,9 @@ bool SceneGameplay::Update(Input* input, float dt)
 	case GameState::BATTLE:
 		screenBattle->Update(input, dt, focusedButtonId);
 		break;
+	case GameState::INVENTORY:
+		screenInventory->Update(input, dt, focusedButtonId);
+		break;
 	default:
 		break;
 	}
@@ -389,6 +400,9 @@ bool SceneGameplay::Draw(Render* render)
 		break;
 	case GameState::BATTLE:
 		screenBattle->Draw(render);
+		break;
+	case GameState::INVENTORY:
+		screenInventory->Draw(render);
 		break;
 	default:
 		break;
@@ -454,12 +468,19 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 	screenPause->Unload(tex, audio, guiManager);
 	screenSettings->Unload(tex, audio, guiManager);
 	screenBattle->Unload(tex, audio, guiManager);
+	screenInventory->Unload(tex, audio, guiManager);
 
 	// Delete screens
 	RELEASE(screenRoaming);
+	screenRoaming = nullptr;
 	RELEASE(screenPause);
+	screenPause = nullptr;
 	RELEASE(screenSettings);
+	screenSettings = nullptr;
 	RELEASE(screenBattle);
+	screenBattle = nullptr;
+	RELEASE(screenInventory);
+	screenInventory = nullptr;
 
 	entityManager->CleanUp();
 
@@ -542,7 +563,16 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 			
 			pauseTimer.Start();
 		}
-		else if (control->id == 1) {} //currentState = GameState::INVENTORY;
+		else if (control->id == 1)
+		{
+			currentState = GameState::INVENTORY;
+
+			screenRoaming->isActive = false;
+			screenRoaming->HideButtons();
+
+			screenInventory->isActive = true;
+			screenInventory->ShowButtons();
+		}
 		else if (control->id == 2) {} //currentState = GameState::PHONE;
 		else if (control->id == 3)
 		{
@@ -598,7 +628,6 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 
 			screenSettings->isActive = false;
 			screenSettings->HideButtons();
-
 		}
 
 		break;
@@ -612,6 +641,17 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 		{
 			battleSystem->playerState = PlayerState::RUN;
 			ExitBattle();
+		}
+		else if (control->id == 15) {}
+		else if(control->id == 16)
+		{
+			currentState = GameState::ROAMING;
+
+			screenInventory->isActive = false;
+			screenInventory->HideButtons();
+
+			screenRoaming->isActive = true;
+			screenRoaming->ShowButtons();
 		}
 
 		break;
