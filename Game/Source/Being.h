@@ -25,7 +25,7 @@ public:
 	virtual ~Being() {}
 
 	virtual void Walk(iPoint direction, float dt) = 0;
-	virtual void SetUpTexture() {}
+	virtual void SetUpTexture(SString texPath) {}
 	virtual bool SetUpClass(SString name) { return true; }
 
 	fPoint velocity;

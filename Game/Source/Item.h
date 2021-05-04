@@ -4,6 +4,7 @@
 #include "Interactive.h"
 
 #include "Point.h"
+#include "Textures.h"
 #include "SString.h"
 #include "Stats.h"
 
@@ -11,7 +12,7 @@ class Item : public Interactive
 {
 public:
 
-    Item();
+    Item(Textures* tex, EntitySubtype subtype);
     virtual ~Item();
     void Interact() {}
     Stats Interact(Stats stats);

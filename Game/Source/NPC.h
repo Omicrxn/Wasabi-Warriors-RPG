@@ -4,6 +4,7 @@
 
 #include "Interactive.h"
 #include "Animation.h"
+#include "Textures.h"
 #include "EntityManager.h"
 
 enum class NPCAnimations
@@ -19,13 +20,13 @@ class NPC : public Interactive
 {
 public:
 
-	NPC(Collisions* collisions, EntityManager* entityManager);
+	NPC(Textures* tex, Collisions* collisions, EntityManager* entityManager, EntitySubtype subtype);
 	~NPC();
 
 	bool NPC::Update(Input* input, float dt);
 	bool Draw(Render* render);
 
-	void NPC::SetUpTexture();
+	void NPC::SetUpTexture(SString texPath);
 	void NPC::SetName(SString name);
 
 private:

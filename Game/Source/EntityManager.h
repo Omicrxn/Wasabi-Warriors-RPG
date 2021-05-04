@@ -4,7 +4,7 @@
 #include "Module.h"
 
 #include "List.h"
-
+#include "Point.h"
 class Render;
 class Textures;
 class Input;
@@ -14,6 +14,7 @@ class Teleport;
 class NPC;
 class Entity;
 enum class EntityType;
+enum class EntitySubtype;
 class Collisions;
 class Transitions;
 class SDL_Texture;
@@ -41,7 +42,7 @@ public:
 	bool SaveState(pugi::xml_node&) const;
 
 	// Additional methods
-	Entity* CreateEntity(EntityType type, SString name);
+	Entity* CreateEntity(EntityType type, SString name, EntitySubtype subtype, iPoint position = iPoint(0,0));
 	void DestroyEntity(Entity* entity);
 	void DestroyEntityChecker(float dt);
 

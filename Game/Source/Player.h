@@ -18,14 +18,14 @@ class Player: public Being
 {
 public:
 
-    Player(Textures* tex, Collisions* collisions, EntityManager* entityManager);
+    Player(Textures* tex, Collisions* collisions, EntityManager* entityManager, EntitySubtype subtype);
     ~Player();
 
     bool Update(Input* input, float dt);
 
     bool Draw(Render* render);
 
-    void SetUpTexture();
+    void SetUpTexture(SString texPath);
 
     SDL_Rect GetBounds();
 

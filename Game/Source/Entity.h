@@ -9,18 +9,36 @@
 struct SDL_Texture;
 struct Render;
 struct Input;
+struct Textures;
 
 enum class EntityType
 {
+    UNKNOWN = -1,
     PLAYER,
     ENEMY,
     ITEM,
     MAP,
     NPC,
-    TELEPORT,
-    UNKNOWN
-};
+    TELEPORT
 
+};
+ 
+enum class EntitySubtype
+{
+    UNKNOWN = -1,
+    PLAYER_HUNTER,
+    PLAYER_WIZARD,
+    ENEMY_HENCHMAN,
+    ENEMY_BRUISER,
+    ENEMY_BOSS,
+    ITEM_POTION,
+    ITEM_BPOTION,
+    ITEM_MPOTION,
+    ITEM_WASABI,
+    ITEM_PAN,
+    ITEM_FORK
+
+};
 class Entity
 {
 public:
@@ -52,13 +70,13 @@ public:
     {
         active = state;
     }
-    void SetTexture(SDL_Texture* texture, int spritePos = -1) {
-        this->texture = texture;
+    void SetTexture(SString path, int spritePos = -1) {
+        this->texPath = path;
         this->spritePos = spritePos;
         if (spritePos > -1)
-            SetUpTexture();
+            SetUpTexture(texPath);
     }
-    virtual void SetUpTexture() {}
+    virtual void SetUpTexture(SString texPath) {}
 
     const Collider* GetCollider() const { return collider; }
 
@@ -74,7 +92,8 @@ public:
     // want our Entity class, maybe it's not renderable...
     iPoint position;        // Use a float instead?
     bool renderable = false;
-    SDL_Texture* texture;
+    SDL_Texture* texture = nullptr;
+    SString texPath;
 
     bool destroy = false;
     int spritePos;
@@ -82,6 +101,7 @@ public:
 protected:
     bool active = true;
     Notifier* notifier;
+    Textures* tex = nullptr;
 public:
     SDL_Rect animRec;
 };

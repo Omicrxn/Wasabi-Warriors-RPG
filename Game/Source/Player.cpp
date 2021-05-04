@@ -2,8 +2,9 @@
 
 #include "Log.h"
 
-Player::Player(Textures* tex, Collisions* collisions, EntityManager* entityManager) : Being()
+Player::Player(Textures* tex, Collisions* collisions, EntityManager* entityManager, EntitySubtype subtype) : Being()
 {
+    this->tex = tex;
     texture = NULL;
     position = iPoint(12 * 16, 27 * 16);
     active = false;
@@ -31,9 +32,21 @@ Player::Player(Textures* tex, Collisions* collisions, EntityManager* entityManag
     currentAnim = Animations::IDLE;
     width = 32;
     height = 32;
-
+    
     collider = collisions->AddCollider({ position.x,position.y ,width,height }, Collider::Type::PLAYER, (Module*)entityManager);
     isGod = false;
+
+    if (subtype == EntitySubtype::PLAYER_HUNTER)
+    {
+        SetUpClass("hunter");
+        SetTexture("Assets/Textures/Characters/characters_spritesheet.png", 3);
+    }
+    else if (subtype == EntitySubtype::PLAYER_WIZARD)
+    {
+        SetUpClass("wizard");
+        SetTexture("Assets/Textures/Characters/characters_spritesheet.png", 6);
+
+    }
 }
 
 Player::~Player()
@@ -121,8 +134,9 @@ bool Player::Draw(Render* render)
     return true;
 }
 
-void Player::SetUpTexture()
+void Player::SetUpTexture(SString texPath)
 {
+    texture = tex->Load(texPath.GetString());
     // Define player textures / animations
     int textureStartYPos = spritePos * 32 * 5;
     for (int y = textureStartYPos; y < y + 160; y += 32)

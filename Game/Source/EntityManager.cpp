@@ -55,7 +55,7 @@ bool EntityManager::CleanUp()
 	return true;
 }
 
-Entity* EntityManager::CreateEntity(EntityType type, SString name)
+Entity* EntityManager::CreateEntity(EntityType type, SString name, EntitySubtype subtype, iPoint position)
 {
 	Entity* ret = nullptr;
 
@@ -63,15 +63,18 @@ Entity* EntityManager::CreateEntity(EntityType type, SString name)
 	{
 		// L13: Create the corresponding type entity
 	case EntityType::PLAYER:
-		ret = new Player(tex, collisions, this);
-		ret->type = EntityType::PLAYER;
+		ret = new Player(tex, collisions, this, subtype);
+		ret->type = type;
 		ret->name = name;
+		ret->position = position;
+
 		playerList.Add((Player*)ret);
 		break;
 	case EntityType::ENEMY:
-		ret = new Enemy(collisions, this, transitions);
-		ret->type = EntityType::ENEMY;
+		ret = new Enemy(tex,collisions, this, transitions, subtype);
+		ret->type = type;
 		ret->name = name;
+		ret->position = position;
 		enemyList.Add((Enemy*)ret);
 		break;
 		//case EntityType::ITEM: ret = new Item(); break;
@@ -79,21 +82,24 @@ Entity* EntityManager::CreateEntity(EntityType type, SString name)
 		ret = new Map(tex);
 		break;
 	case EntityType::NPC:
-		ret = new NPC(collisions,this);
-		ret->type = EntityType::NPC;
+		ret = new NPC(tex,collisions,this, subtype);
+		ret->type = type;
 		ret->name = name;
+		ret->position = position;
 		npcList.Add((NPC*)ret);
 		break;
 	case EntityType::TELEPORT:
 		ret = new Teleport(collisions,this);
-		ret->type = EntityType::TELEPORT;
+		ret->type = type;
 		ret->name = name;
+		ret->position = position;
 		teleportList.Add((Teleport*)ret);
 		break;
 	case EntityType::ITEM:
-		ret = new Item();
-		ret->type = EntityType::ITEM;
+		ret = new Item(tex,subtype);
+		ret->type = type;
 		ret->name = name;
+		ret->position = position;
 		itemList.Add((Item*)ret);
 		break;
 	default: break;
@@ -101,13 +107,6 @@ Entity* EntityManager::CreateEntity(EntityType type, SString name)
 
 	// Created entities are added to the list
 	if (ret != nullptr) entityList.Add(ret);
-
-	if (type == EntityType::ITEM)
-	{
-
-	}
-	else
-		ret->SetTexture(this->texture);
 
 	return ret;
 }
@@ -156,7 +155,7 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 	Player* player = nullptr;
 	for (int i = 0; i < playerCount; ++i)
 	{
-		player = (Player*)CreateEntity(EntityType::PLAYER, playerNode.attribute("name").as_string());
+		player = (Player*)CreateEntity(EntityType::PLAYER, playerNode.attribute("name").as_string(), EntitySubtype::UNKNOWN);
 
 		player->id = playerNode.attribute("id").as_uint();
 		player->spritePos = playerNode.attribute("spritePos").as_int();
@@ -178,7 +177,7 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 		player->stats.criticalRate = playerNode.attribute("criticalRate").as_int();
 		player->name = playerNode.attribute("statsName").as_string();
 
-		player->SetUpTexture();
+
 
 		player = nullptr;
 		playerNode = playerNode.next_sibling();
@@ -193,7 +192,7 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 	Enemy* enemy = nullptr;
 	for (int i = 0; i < enemyCount; ++i)
 	{
-		enemy = (Enemy*)CreateEntity(EntityType::ENEMY, enemyNode.attribute("name").as_string());
+		enemy = (Enemy*)CreateEntity(EntityType::ENEMY, enemyNode.attribute("name").as_string(),EntitySubtype::UNKNOWN);
 
 		enemy->id = enemyNode.attribute("id").as_uint();
 		enemy->spritePos = enemyNode.attribute("spritePos").as_int();
@@ -214,7 +213,6 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 		enemy->stats.criticalRate = enemyNode.attribute("criticalRate").as_int();
 		enemy->name = enemyNode.attribute("statsName").as_string();
 
-		enemy->SetUpTexture();
 		enemy = nullptr;
 		enemyNode = enemyNode.next_sibling();
 	}
@@ -228,7 +226,7 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 	NPC* npc = nullptr;
 	for (int i = 0; i < npcCount; ++i)
 	{
-		npc = (NPC*)CreateEntity(EntityType::NPC, npcNode.attribute("name").as_string());
+		npc = (NPC*)CreateEntity(EntityType::NPC, npcNode.attribute("name").as_string(), EntitySubtype::UNKNOWN);
 
 		npc->id = npcNode.attribute("id").as_uint();
 		npc->spritePos = npcNode.attribute("spritePos").as_int();
@@ -236,7 +234,6 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 		npc->position.y = npcNode.attribute("posY").as_int();
 		npc->renderable = npcNode.attribute("renderable").as_bool();
 
-		npc->SetUpTexture();
 		npc = nullptr;
 		npcNode = npcNode.next_sibling();
 	}
@@ -249,7 +246,7 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 	Teleport* teleport = nullptr;
 	for (int i = 0; i < teleportCount; ++i)
 	{
-		teleport = (Teleport*)CreateEntity(EntityType::TELEPORT, teleportNode.attribute("name").as_string());
+		teleport = (Teleport*)CreateEntity(EntityType::TELEPORT, teleportNode.attribute("name").as_string(), EntitySubtype::UNKNOWN);
 
 		teleport->id = teleportNode.attribute("id").as_uint();
 		teleport->spritePos = teleportNode.attribute("spritePos").as_int();
@@ -265,7 +262,6 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 		teleport->name = teleportNode.attribute("name").as_string();
 		teleport->SetUpDestination((MapType)teleportNode.attribute("destination").as_int());
 
-		teleport->SetUpTexture();
 		teleport = nullptr;
 		teleportNode = teleportNode.next_sibling();
 	}

@@ -7,8 +7,9 @@
 
 #define DEFAULT_PATH_LENGTH 50
 
-Enemy::Enemy(Collisions* collisions, EntityManager* entityManager, Transitions* transitions) : Being()
+Enemy::Enemy(Textures* tex, Collisions* collisions, EntityManager* entityManager, Transitions* transitions, EntitySubtype subtype) : Being()
 {
+    this->tex = tex;
     this->transitions = transitions;
     texture = NULL;
     position = iPoint(10 * 16, 27 * 16);
@@ -21,6 +22,23 @@ Enemy::Enemy(Collisions* collisions, EntityManager* entityManager, Transitions* 
     active = true;
 
     readyForCombat = true;
+
+    if (subtype == EntitySubtype::ENEMY_HENCHMAN)
+    {
+        SetUpClass("henchman");
+        SetTexture("Assets/Textures/Characters/characters_spritesheet.png", 3);
+    }
+    else if (subtype == EntitySubtype::ENEMY_BRUISER)
+    {
+        SetUpClass("bruiser");
+        SetTexture("Assets/Textures/Characters/characters_spritesheet.png", 6);
+
+    }
+    else if (subtype == EntitySubtype::ENEMY_BOSS)
+    {
+        SetUpClass("bruiser");
+        SetTexture("Assets/Textures/Characters/characters_spritesheet.png", 10);
+    }
 }
 
 Enemy::~Enemy()
@@ -47,8 +65,9 @@ bool Enemy::Draw(Render* render)
 	return true;
 }
 
-void Enemy::SetUpTexture()
+void Enemy::SetUpTexture(SString texPath)
 {
+    texture = tex->Load(texPath.GetString());
     // Define player textures / animations
     int textureStartYPos = spritePos * 32 * 5;
     for (int y = textureStartYPos; y < y + 160; y += 32)

@@ -1,7 +1,8 @@
 #include "NPC.h"
 #include "Render.h"
-NPC::NPC(Collisions* collisions, EntityManager* entityManager) : Interactive()
+NPC::NPC(Textures* tex,Collisions* collisions, EntityManager* entityManager,EntitySubtype subtype) : Interactive()
 {
+    this->tex = tex;
     texture = NULL;
     position = iPoint(15 * 16, 27 * 16);
     currentAnim = NPCAnimations::IDLE;
@@ -12,6 +13,7 @@ NPC::NPC(Collisions* collisions, EntityManager* entityManager) : Interactive()
     active = true;
     stepsCounter = 0;
     collider = collisions->AddCollider({ position.x,position.y,width,height }, Collider::Type::NPC, (Module*)entityManager);
+    SetTexture("Assets/Textures/Characters/characters_spritesheet.png", 4);
 }
 
 NPC::~NPC()
@@ -133,8 +135,9 @@ void NPC::Walk(iPoint direction, float dt)
     position.y = position.y + direction.y * (velocity.y * dt);
 }
 
-void NPC::SetUpTexture()
+void NPC::SetUpTexture(SString texPath)
 {
+    texture = tex->Load(texPath.GetString());
     // Define player textures / animations
     int textureStartYPos = spritePos * 32 * 5;
     for (int y = textureStartYPos; y < y + 160; y += 32)

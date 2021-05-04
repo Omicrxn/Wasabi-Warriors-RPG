@@ -1,7 +1,8 @@
 #include "Item.h"
 #include "Log.h"
-Item::Item() : Interactive()
+Item::Item(Textures* tex, EntitySubtype subtype) : Interactive()
 {
+    this->tex = tex;
     texture = NULL;
     animRec = { 0,0,32,32 };
 }

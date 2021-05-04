@@ -109,7 +109,7 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	this->audio = audio;
 	this->transitions = transitions;
 
-	map = (Map*)entityManager->CreateEntity(EntityType::MAP, "Map");
+	map = (Map*)entityManager->CreateEntity(EntityType::MAP, "Map", EntitySubtype::UNKNOWN);
 
 	// Load texture
 	charactersSpritesheet = tex->Load("Assets/Textures/Characters/characters_spritesheet.png");
@@ -201,7 +201,7 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	screenBattle->isActive = false;
 
 	Item* item;
-	item = (Item*)entityManager->CreateEntity(EntityType::ITEM, "potion");
+	item = (Item*)entityManager->CreateEntity(EntityType::ITEM, "potion",EntitySubtype::ITEM_POTION);
 	item->SetUpClass("potion");
 	item = nullptr;
 	RELEASE(item);
@@ -216,25 +216,16 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	{
 		// Create party member 1
 		Player* player;
-		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "DaBaby");
-		player->position = iPoint(19 * 32, 1 * 32);
-		player->SetTexture(charactersSpritesheet, 3);
+		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "DaBaby", EntitySubtype::PLAYER_HUNTER,iPoint(19 * 32, 1 * 32));
 		player->SetState(true);
-		player->SetUpClass("hunter");
 		player = nullptr;
 		currentPlayer = entityManager->playerList.At(0)->data;
 
 		// Create party member 2
-		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "DaCrack");
-		player->position = iPoint(19 * 32, 1 * 32);
-		player->SetTexture(charactersSpritesheet, 6);
-		player->SetUpClass("wizard");
+		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER,  "DaCrack", EntitySubtype::PLAYER_WIZARD, iPoint(19 * 32, 1 * 32));
 		player = nullptr;
 
-		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "DaWho?");
-		player->position = iPoint(19 * 32, 1 * 32);
-		player->SetTexture(charactersSpritesheet, 4);
-		player->SetUpClass("wizard");
+		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER,  "DaBug", EntitySubtype::PLAYER_WIZARD,  iPoint(19 * 32, 1 * 32));
 		player = nullptr;
 
 		RELEASE(player);
@@ -851,7 +842,7 @@ void SceneGameplay::SetUpTp()
 			Enemy* enemy = nullptr;
 			for (int i = 0; i < enemyCount; ++i)
 			{
-				enemy = (Enemy*)entityManager->CreateEntity(EntityType::ENEMY, enemyNode.attribute("name").as_string());
+				enemy = (Enemy*)entityManager->CreateEntity(EntityType::ENEMY, enemyNode.attribute("name").as_string(), EntitySubtype::UNKNOWN);
 
 				enemy->id = enemyNode.attribute("id").as_uint();
 				enemy->spritePos = enemyNode.attribute("spritePos").as_int();
@@ -861,7 +852,7 @@ void SceneGameplay::SetUpTp()
 				enemy->classType = enemyNode.attribute("class").as_string();
 				enemy->SetUpClass(enemy->classType.GetString());
 
-				enemy->SetUpTexture();
+				
 				enemy = nullptr;
 				enemyNode = enemyNode.next_sibling("enemy");
 			}
@@ -873,14 +864,14 @@ void SceneGameplay::SetUpTp()
 			NPC* npc = nullptr;
 			for (int i = 0; i < npcCount; ++i)
 			{
-				npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, npcNode.attribute("name").as_string());
+				npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, npcNode.attribute("name").as_string(), EntitySubtype::UNKNOWN);
 
 				npc->id = npcNode.attribute("id").as_uint();
 				npc->spritePos = npcNode.attribute("spritePos").as_int();
 				npc->position.x = npcNode.attribute("posX").as_int();
 				npc->position.y = npcNode.attribute("posY").as_int();
 
-				npc->SetUpTexture();
+				
 				npc = nullptr;
 				npcNode = npcNode.next_sibling("npc");
 			}
@@ -892,7 +883,7 @@ void SceneGameplay::SetUpTp()
 			Teleport* teleport = nullptr;
 			for (int i = 0; i < teleportCount; ++i)
 			{
-				teleport = (Teleport*)entityManager->CreateEntity(EntityType::TELEPORT, teleportNode.attribute("name").as_string());
+				teleport = (Teleport*)entityManager->CreateEntity(EntityType::TELEPORT, teleportNode.attribute("name").as_string(), EntitySubtype::UNKNOWN);
 
 				teleport->id = teleportNode.attribute("id").as_uint();
 				teleport->spritePos = teleportNode.attribute("spritePos").as_int();
