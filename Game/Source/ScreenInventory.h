@@ -30,10 +30,8 @@ public:
 private:
 	InventorySlot inventory[INVENTORY_ROWS][INVENTORY_COLUMNS];
 
-	uint selectionX;
-	uint selectionY;
-
-	bool itemChosen;
+	iPoint itemHovering;
+	iPoint itemSelected;
 
 	GuiButton* btnConfirm;
 	GuiButton* btnCancel;
