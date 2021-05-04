@@ -120,6 +120,9 @@
     <ClCompile Include="Source\ScreenBattle.cpp">
       <Filter>Screens</Filter>
     </ClCompile>
+    <ClCompile Include="Source\ScreenInventory.cpp">
+      <Filter>Screens</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\App.h" />
@@ -304,6 +307,9 @@
       <Filter>Entities</Filter>
     </ClInclude>
     <ClInclude Include="Source\ScreenBattle.h">
+      <Filter>Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ScreenInventory.h">
       <Filter>Screens</Filter>
     </ClInclude>
   </ItemGroup>

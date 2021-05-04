@@ -82,6 +82,8 @@ private:
     Screen* screenSettings;
     // The screen for the battle
     Screen* screenBattle;
+    // The screen for the inventory
+    Screen* screenInventory;
 
     // Scene gameplay textures
     SDL_Texture* charactersSpritesheet;
