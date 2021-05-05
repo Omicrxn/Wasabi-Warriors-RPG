@@ -56,7 +56,7 @@ jobs:
         mkdir build
         cd build
         mkdir ${{ env.RELEASE_NAME }}
-        cd ../../../Wasabi-Warriors-RPG
+        cd ../Wasabi-Warriors-RPG
     # Setup MSBuild.exe path if required
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1.0.2
@@ -64,7 +64,7 @@ jobs:
 
     - name: Build Library (MSVC16)
       run: |
-        cd Game
+        cd ./Game
         msbuild.exe Development.sln /target:wasabi-warriors /property:Configuration=Release /property:Platform=${{ matrix.ARCH }}
         copy /Y .\build\wasabi-warriors\bin\${{ matrix.VSARCHPATH }}\Release\Game.exe .\..\..\build\${{ env.RELEASE_NAME }}\Game.exe
         cd ../..
@@ -73,7 +73,7 @@ jobs:
 
     - name: Generate Artifacts
       run: |
-        copy /Y .\Output .\build\${{ env.RELEASE_NAME }}\
+        copy /Y /E .\Output .\build\${{ env.RELEASE_NAME }}\
         copy /Y .\README.md .\build\${{ env.RELEASE_NAME }}\README.md
         copy /Y .\LICENSE .\build\${{ env.RELEASE_NAME }}\LICENSE
         cd build
