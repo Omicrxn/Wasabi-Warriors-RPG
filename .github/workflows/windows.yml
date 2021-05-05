@@ -36,7 +36,7 @@ jobs:
           VSARCHPATH: "x64"
 
     env:
-      ZIP_NAME:
+      ZIP_NAME:Bat_Cat_Studios-Wasabi_Warriors_RPG_${{ github.event.release.tag_name }}
       RELEASE_NAME: Bat_Cat_Studios-Wasabi_Warriors_RPG_${{ matrix.bits }}_${{ matrix.compiler }}
       GNUTARGET: default
 
@@ -78,7 +78,7 @@ jobs:
         copy /Y .\README.md .\build\${{ env.RELEASE_NAME }}\README.md
         copy /Y .\LICENSE .\build\${{ env.RELEASE_NAME }}\LICENSE
         cd build
-        7z a ./${{ env.RELEASE_NAME }}.zip ./Bat_Cat_Studios-Wasabi_Warriors_RPG_${{ github.event.release.tag_name }}
+        7z a ./${{ env.ZIP_NAME }}.zip ./${{ env.RELEASE_NAME }}
         dir
       shell: cmd
 
