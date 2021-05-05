@@ -77,7 +77,7 @@ jobs:
         copy /Y .\README.md .\build\${{ env.RELEASE_NAME }}\README.md
         copy /Y .\LICENSE .\build\${{ env.RELEASE_NAME }}\LICENSE
         cd build
-        7z a ./Bat_Cat_Studios-Wasabi_Warriors_RPG_${{ github.event.release.tag_name }}.zip ./${{ env.RELEASE_NAME }}
+        7z a ./${{ env.RELEASE_NAME }}.zip ./Bat_Cat_Studios-Wasabi_Warriors_RPG_${{ github.event.release.tag_name }}
         dir
       shell: cmd
 
