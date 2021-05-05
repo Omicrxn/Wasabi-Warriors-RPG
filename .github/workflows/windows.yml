@@ -65,8 +65,8 @@ jobs:
     - name: Build Library (MSVC16)
       run: |
         
-        msbuild.exe Development.sln /target:Output /property:Configuration=Release
-        copy /Y .\build\Output\bin\${{ matrix.VSARCHPATH }}\Release\Game.exe .\..\..\build\${{ env.RELEASE_NAME }}\Game.exe
+        msbuild.exe Development.sln /target:Wasabi-Warriors-RPG /property:Configuration=Release
+        copy /Y .\build\Wasabi-Warriors-RPG\bin\${{ matrix.VSARCHPATH }}\Release\Game.exe .\..\..\build\${{ env.RELEASE_NAME }}\Game.exe
         
         dir
       shell: cmd
