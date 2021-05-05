@@ -73,7 +73,7 @@ jobs:
 
     - name: Generate Artifacts
       run: |
-        copy /Y /E .\Output .\build\${{ env.RELEASE_NAME }}\
+        copy /Y .\Output .\build\${{ env.RELEASE_NAME }}\
         copy /Y .\README.md .\build\${{ env.RELEASE_NAME }}\README.md
         copy /Y .\LICENSE .\build\${{ env.RELEASE_NAME }}\LICENSE
         cd build
