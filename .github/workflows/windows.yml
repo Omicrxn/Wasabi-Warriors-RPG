@@ -64,8 +64,10 @@ jobs:
 
     - name: Build Library (MSVC16)
       run: |
-        msbuild.exe Development.sln /target:wasabi-warriors /property:Configuration=Release /property:Platform=${{ matrix.ARCH }}
-        copy /Y ..\build\wasabi-warriors\bin\${{ matrix.VSARCHPATH }}\Release\Game.exe .\..\..\build\${{ env.RELEASE_NAME }}\Game.exe
+        
+        msbuild.exe Development.sln /target:wasabi-warriors 
+        copy /Y .\build\wasabi-warriors\bin\${{ matrix.VSARCHPATH }}\Release\Game.exe .\..\..\build\${{ env.RELEASE_NAME }}\Game.exe
+        
         dir
       shell: cmd
       if: matrix.compiler == 'msvc16'
@@ -76,13 +78,13 @@ jobs:
         copy /Y .\README.md .\build\${{ env.RELEASE_NAME }}\README.md
         copy /Y .\LICENSE .\build\${{ env.RELEASE_NAME }}\LICENSE
         cd build
-        7z a ./${{ env.ZIP_NAME }}.zip ./${{ env.RELEASE_NAME }}
+        7z a ./${{ env.RELEASE_NAME }}.zip ./${{ env.RELEASE_NAME }}
         dir
       shell: cmd
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: ${{ env.ZIP_NAME }}.zip
-        path: ./build/${{ env.ZIP_NAME }}.zip
+        name: ${{ env.RELEASE_NAME }}.zip
+        path: ./build/${{ env.RELEASE_NAME }}.zip
         
