@@ -6,25 +6,22 @@
 	<audio musicVolume="32" fxVolume="128" />
 	<scene />
 	<renderer>
-		<camera x="2123" y="514" />
+		<camera x="1709" y="1618" />
 	</renderer>
-	<collisions collisionsCount="10" />
+	<collisions collisionsCount="3" />
 	<entitymanager>
-		<entitiesCount Num="6" />
+		<entitiesCount Num="4" />
 		<playerList playerCount="3">
-			<player id="0" spritePos="3" name="DaBaby" posX="921" posY="278" isActive="true" isRenderable="false" class="hunter" level="1" damage="20" maxHP="120" currentHP="100" strength="10" defense="15" attackSpeed="5" criticalRate="10" statsName="DaBaby" />
-			<player id="0" spritePos="6" name="DaCrack" posX="921" posY="278" isActive="false" isRenderable="false" class="wizard" level="1" damage="15" maxHP="150" currentHP="120" strength="7" defense="10" attackSpeed="15" criticalRate="15" statsName="DaCrack" />
-			<player id="0" spritePos="4" name="DaWho?" posX="921" posY="278" isActive="false" isRenderable="false" class="wizard" level="1" damage="15" maxHP="150" currentHP="120" strength="7" defense="10" attackSpeed="15" criticalRate="15" statsName="DaWho?" />
+			<player id="0" spritePos="3" name="DaBaby" posX="783" posY="646" isActive="true" isRenderable="false" class="hunter" level="1" damage="20" maxHP="120" currentHP="100" strength="10" defense="15" attackSpeed="5" criticalRate="10" statsName="DaBaby" />
+			<player id="0" spritePos="6" name="DaCrack" posX="783" posY="646" isActive="false" isRenderable="false" class="wizard" level="1" damage="15" maxHP="150" currentHP="120" strength="7" defense="10" attackSpeed="15" criticalRate="15" statsName="DaCrack" />
+			<player id="0" spritePos="6" name="DaBug" posX="783" posY="646" isActive="false" isRenderable="false" class="wizard" level="1" damage="15" maxHP="150" currentHP="120" strength="7" defense="10" attackSpeed="15" criticalRate="15" statsName="DaBug" />
 		</playerList>
 		<enemyList enemyCount="0" />
 		<npcList npcCount="0" />
-		<teleportList teleportCount="2">
-			<teleport id="0" spritePos="0" nameTeleport="" name="" destination="0" posX="608" posY="0" isActive="true" isRenderable="false" />
-			<teleport id="0" spritePos="0" nameTeleport="" name="" destination="2" posX="1408" posY="256" isActive="true" isRenderable="false" />
-		</teleportList>
+		<teleportList teleportCount="0" />
 	</entitymanager>
 	<scenemanager>
-		<scenegameplay currentMap="4" />
+		<scenegameplay currentMap="5" />
 	</scenemanager>
 	<screen>
 		<screensettings sliderVolume="539" sliderAudio="539" fullScreen="false" vsync="false" />

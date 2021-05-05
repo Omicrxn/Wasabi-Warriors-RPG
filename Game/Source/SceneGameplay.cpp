@@ -233,6 +233,7 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER,  "DaCrack", EntitySubtype::PLAYER_WIZARD, iPoint(19 * 32, 1 * 32));
 		player = nullptr;
 
+		// Create party member 3
 		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER,  "DaBug", EntitySubtype::PLAYER_WIZARD,  iPoint(19 * 32, 1 * 32));
 		player = nullptr;
 
@@ -688,6 +689,11 @@ void SceneGameplay::ExitBattle()
 	case MapType::TOWN:
 		audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
 		break;
+	case MapType::BIG_CITY:
+		audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
+		break;
+	default:
+		break;
 	}
 
 	for (int i = 11; i <= 14; ++i)
@@ -717,6 +723,7 @@ void SceneGameplay::SetUpTp()
 	previousMap = currentMap;
 
 	currentMap = notifier->ChangeMap();
+
 	// Create map
 	switch (currentMap)
 	{
@@ -786,6 +793,20 @@ void SceneGameplay::SetUpTp()
 			audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
 		}
 		break;
+	case MapType::BIG_CITY:
+
+		if (map->Load("BigCity", "bigCity.tmx") == true)
+		{
+			int w, h;
+			uchar* data = NULL;
+
+			//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
+
+			RELEASE_ARRAY(data);
+			audio->StopMusic();
+			audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
+		}
+		break;
 	default:
 		break;
 	}
@@ -825,6 +846,9 @@ void SceneGameplay::SetUpTp()
 			case MapType::TOWN:
 				mapNode = mapNode.child("town");
 				break;
+			case MapType::BIG_CITY:
+				mapNode = mapNode.child("bigCity");
+				break;
 			default:
 				break;
 			}
@@ -848,6 +872,9 @@ void SceneGameplay::SetUpTp()
 				break;
 			case MapType::TOWN:
 				previousMapNode = mapNode.child("prevTown");
+				break;
+			case MapType::BIG_CITY:
+				previousMapNode = mapNode.child("prevBigCity");
 				break;
 			default:
 				break;

@@ -10,12 +10,14 @@ enum class MapType
     HOUSE,
     MEDIUM_CITY,
     RESTAURANT,
-    TOWN
-
+    TOWN,
+    BIG_CITY
 };
+
 class Notifier
 {
 public:
+
     static Notifier* GetInstance();
     ~Notifier() {RELEASE(instance)}
     void NotifyBattle() { battle = !battle; }
@@ -61,6 +63,7 @@ public:
     }
 
 private:
+
     Notifier() : battle(false) {}
     bool battle = false;
     MapType nextMap = MapType::CEMETERY;
