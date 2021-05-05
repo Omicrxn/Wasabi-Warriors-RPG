@@ -85,6 +85,6 @@ jobs:
     - name: Upload Artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: ${{ env.RELEASE_NAME }}.zip
-        path: ./build/${{ env.RELEASE_NAME }}.zip
+        name: ${{ env.ZIP_NAME }}.zip
+        path: ./build/${{ env.ZIP_NAME }}.zip
         
