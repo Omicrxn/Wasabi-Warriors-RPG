@@ -36,6 +36,7 @@ jobs:
           VSARCHPATH: "x64"
 
     env:
+      ZIP_NAME:
       RELEASE_NAME: Bat_Cat_Studios-Wasabi_Warriors_RPG_${{ matrix.bits }}_${{ matrix.compiler }}
       GNUTARGET: default
 
@@ -71,10 +72,11 @@ jobs:
 
     - name: Generate Artifacts
       run: |
+        copy /Y .\Build\Release\Game.exe .\build\${{ env.RELEASE_NAME }}\Game.exe
         copy /Y .\README.md .\build\${{ env.RELEASE_NAME }}\README.md
         copy /Y .\LICENSE .\build\${{ env.RELEASE_NAME }}\LICENSE
         cd build
-        7z a ./${{ env.RELEASE_NAME }}.zip ./${{ env.RELEASE_NAME }}
+        7z a ./${{ env.RELEASE_NAME }}.zip ./Bat_Cat_Studios-Wasabi_Warriors_RPG_${{ github.event.release.tag_name }}
         dir
       shell: cmd
 
@@ -83,3 +85,4 @@ jobs:
       with:
         name: ${{ env.RELEASE_NAME }}.zip
         path: ./build/${{ env.RELEASE_NAME }}.zip
+        
