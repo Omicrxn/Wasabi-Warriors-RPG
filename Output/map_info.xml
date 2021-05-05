@@ -32,7 +32,7 @@
   </town>
   <bigCity enemyCount="0" npcCount="0" teleportCount="0">
     <prevMediumcity>
-      <player posX="500" posY="500"/>
+      <player posX="800" posY="1100"/>
     </prevMediumcity>
   </bigCity>
 </map>
