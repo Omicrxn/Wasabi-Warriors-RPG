@@ -74,7 +74,7 @@ jobs:
 
     - name: Generate Artifacts
       run: |
-        Xcopy /s .\Output .\build\${{ env.RELEASE_NAME }}\Output
+        robocopy .\Output .\build\${{ env.RELEASE_NAME }}\Output /S
         copy /Y .\README.md .\build\${{ env.RELEASE_NAME }}\README.md
         copy /Y .\LICENSE .\build\${{ env.RELEASE_NAME }}\LICENSE
         cd build
