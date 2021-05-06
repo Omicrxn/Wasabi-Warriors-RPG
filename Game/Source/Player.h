@@ -18,7 +18,7 @@ class Player: public Being
 {
 public:
 
-    Player(Textures* tex, Collisions* collisions, EntityManager* entityManager, EntitySubtype subtype);
+    Player(SString name,Textures* tex, Collisions* collisions, EntityManager* entityManager,EntityType type, EntitySubtype subtype, iPoint position);
     ~Player();
 
     bool Update(Input* input, float dt);

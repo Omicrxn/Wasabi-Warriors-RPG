@@ -36,7 +36,7 @@ jobs:
           VSARCHPATH: "x64"
 
     env:
-      ZIP_NAME:
+      ZIP_NAME: Bat_Cat_Studios-Wasabi_Warriors_RPG_${{ github.event.release.tag_name }}
       RELEASE_NAME: Bat_Cat_Studios-Wasabi_Warriors_RPG_${{ matrix.bits }}_${{ matrix.compiler }}
       GNUTARGET: default
 
@@ -56,7 +56,7 @@ jobs:
         mkdir build
         cd build
         mkdir ${{ env.RELEASE_NAME }}
-        cd ../../../Wasabi-Warriors-RPG
+        cd ../../Wasabi-Warriors-RPG
     # Setup MSBuild.exe path if required
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1.0.2
@@ -64,19 +64,21 @@ jobs:
 
     - name: Build Library (MSVC16)
       run: |
-        cd Game
-        msbuild.exe Development.sln /target:wasabi-warriors /property:Configuration=Release /property:Platform=${{ matrix.ARCH }}
-        cd ../..
+        
+        msbuild.exe Development.sln  /property:Configuration=Release
+        copy /Y .\build\Wasabi-Warriors-RPG\bin\${{ matrix.VSARCHPATH }}\Release\Game.exe .\..\..\build\${{ env.RELEASE_NAME }}\Game.exe
+        
+        dir
       shell: cmd
       if: matrix.compiler == 'msvc16'
 
     - name: Generate Artifacts
       run: |
-        copy /Y .\Build\Release\Game.exe .\build\${{ env.RELEASE_NAME }}\Game.exe
+        robocopy .\Output .\build\${{ env.RELEASE_NAME }}\Output /S
         copy /Y .\README.md .\build\${{ env.RELEASE_NAME }}\README.md
         copy /Y .\LICENSE .\build\${{ env.RELEASE_NAME }}\LICENSE
         cd build
-        7z a ./${{ env.RELEASE_NAME }}.zip ./Bat_Cat_Studios-Wasabi_Warriors_RPG_${{ github.event.release.tag_name }}
+        7z a ./${{ env.RELEASE_NAME }}.zip ./${{ env.RELEASE_NAME }}
         dir
       shell: cmd
 

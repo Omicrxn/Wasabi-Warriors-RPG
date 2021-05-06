@@ -1,8 +1,10 @@
 #include "Teleport.h"
-Teleport::Teleport(Collisions* collisions, EntityManager* entityManager)
+Teleport::Teleport(SString name, Collisions* collisions, EntityManager* entityManager, EntityType type, iPoint position)
 {
 	texture = NULL;
-	position = iPoint(10 * 16, 27 * 16);
+	this->position = position;
+	this->type = type;
+	this->name = name;
 	width = 32;
 	height = 32;
 	collider = collisions->AddCollider({ position.x ,position.y,width,height }, Collider::Type::TELEPORT, (Module*)entityManager);

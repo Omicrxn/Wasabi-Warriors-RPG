@@ -5,8 +5,10 @@
 
 #include "List.h"
 #include "Point.h"
+
 class Render;
 class Textures;
+struct SDL_Texture;
 class Input;
 class Player;
 class Enemy;
@@ -17,7 +19,6 @@ enum class EntityType;
 enum class EntitySubtype;
 class Collisions;
 class Transitions;
-class SDL_Texture;
 class Item;
 
 class EntityManager : public Module
@@ -31,6 +32,9 @@ public:
 
 	// Called before render is available
 	bool Awake(pugi::xml_node&);
+
+	// Called before the first frame
+	bool Start();
 
 	bool Update(float dt);
 
@@ -56,9 +60,10 @@ public:
 
 	void TooglePlayerGodMode();
 	void DeleteAllEntitiesExceptPlayer();
+
 public:
 
-	Render* ren;
+	Render* render;
 	Textures* tex;
 	Input* input;
 	Collisions* collisions;
@@ -70,6 +75,7 @@ public:
 	List<Teleport*> teleportList;
 	List<Item*> itemList;
 	SDL_Texture* texture;
+	SDL_Texture* itemsTexture;
 
 	float accumulatedTime = 0.0f;
 	float updateMsCycle = 0.0f;

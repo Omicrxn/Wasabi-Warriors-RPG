@@ -208,11 +208,7 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	screenInventory->isActive = false;
 	screenInventory->HideButtons();
 
-	Item* item;
-	item = (Item*)entityManager->CreateEntity(EntityType::ITEM, "potion",EntitySubtype::ITEM_POTION);
-	item->SetUpClass("potion");
-	item = nullptr;
-	RELEASE(item);
+
 
 	if (hasStartedFromContinue)
 	{
@@ -224,7 +220,7 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	{
 		// Create party member 1
 		Player* player;
-		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "DaBaby", EntitySubtype::PLAYER_HUNTER,iPoint(19 * 32, 1 * 32));
+		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "DaBaby", EntitySubtype::PLAYER_HUNTER, iPoint(19 * 32, 1 * 32));
 		player->SetState(true);
 		player = nullptr;
 		currentPlayer = entityManager->playerList.At(0)->data;
@@ -238,9 +234,6 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 		player = nullptr;
 
 		RELEASE(player);
-
-		((ScreenRoaming*)screenRoaming)->SetCurrentPlayer(currentPlayer);
-
 		// LOAD FROM MAP_XML
 		notifier->NotifyMapChange(MapType::TOWN);
 	}
@@ -266,6 +259,11 @@ bool SceneGameplay::Update(Input* input, float dt)
 	if (notifier->OnMapChange() && notifier->GetNextMap() != currentMap)
 	{
 		SetUpTp();
+	}
+
+	if (notifier->GetItemAddition())
+	{
+		AddItemToInvItemsList(notifier->GetItem());
 	}
 
 	if ((input->GetKey(SDL_SCANCODE_E) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_Y) == KeyState::KEY_DOWN) && screenBattle->isActive == false)
@@ -883,7 +881,6 @@ void SceneGameplay::SetUpTp()
 			// DELETE ALL ENTITIES EXCEPT PLAYER
 			entityManager->DeleteAllEntitiesExceptPlayer();
 
-			
 			if (previousMap != MapType::NONE)
 			{
 				int newPosX = 0; int newPosY = 0;
@@ -915,13 +912,7 @@ void SceneGameplay::SetUpTp()
 				enemy = (Enemy*)entityManager->CreateEntity(EntityType::ENEMY, enemyNode.attribute("name").as_string(), (EntitySubtype)subtype, position);
 
 				enemy->id = enemyNode.attribute("id").as_uint();
-				enemy->spritePos = enemyNode.attribute("spritePos").as_int();
-				
 
-				enemy->classType = enemyNode.attribute("class").as_string();
-				enemy->SetUpClass(enemy->classType.GetString());
-
-				
 				enemy = nullptr;
 				enemyNode = enemyNode.next_sibling("enemy");
 			}
@@ -969,10 +960,47 @@ void SceneGameplay::SetUpTp()
 				teleport = nullptr;
 				teleportNode = teleportNode.next_sibling("teleport");
 			}
+
+			// LOAD ITEMS
+			int itemCount = mapNode.attribute("itemCount").as_int();
+
+			pugi::xml_node itemNode = mapNode.child("item");
+			Item* item = nullptr;
+			for (int i = 0; i < itemCount; ++i)
+			{
+				int subtype = itemNode.attribute("subtype").as_int();
+				iPoint position = { itemNode.attribute("posX").as_int(),itemNode.attribute("posY").as_int() };
+
+				item = (Item*)entityManager->CreateEntity(EntityType::ITEM, itemNode.attribute("name").as_string(), (EntitySubtype)subtype, position);
+
+				item->id = itemNode.attribute("id").as_uint();
+
+				item = nullptr;
+				itemNode = itemNode.next_sibling("item");
+			}
 		}
 	}
 	else
 	{
 		hasStartedFromContinue = false;
 	}
+}
+
+void SceneGameplay::AddItemToInvItemsList(Item* item)
+{
+	for (ListItem<InvItem*>* invItem = invItemsList.start; invItem; invItem = invItem->next)
+	{
+		if (invItem->data->item->subtype == item->subtype)
+		{
+			invItem->data->count++;
+			RELEASE(item);
+			return;
+		}
+	}
+
+	InvItem* invItem = new InvItem();
+	invItem->item = item;
+	invItem->count = 0;
+	invItemsList.Add(invItem);
+	RELEASE(invItem);
 }

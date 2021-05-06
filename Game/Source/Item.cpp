@@ -1,14 +1,63 @@
 #include "Item.h"
 #include "Log.h"
-Item::Item(Textures* tex, EntitySubtype subtype) : Interactive()
+
+#include "EntityManager.h"
+#include "Render.h"
+#include "SceneGameplay.h"
+#include "Notifier.h"
+#include "Collisions.h"
+
+Item::Item(SString name, Textures* tex, Collisions* collisions, EntityManager* entityManager, EntityType type, EntitySubtype subtype, iPoint position) : Interactive()
 {
+    // Needed modules
     this->tex = tex;
-    texture = NULL;
-    animRec = { 0,0,32,32 };
+    this->entityManager = entityManager;
+    this->name = name;
+    this->type = type;
+    this->position = position;
+    // Saving item type
+    this->subtype = subtype;
+
+    // Setting the texture section depending on the item type
+    if (subtype == EntitySubtype::ITEM_POTION)
+    {
+        width = height = 96;
+        section = { 0,0,width,height };
+    }
+
+    // Adding collider
+    collider = collisions->AddCollider({ position.x,position.y,width,height }, Collider::Type::ITEM, (Module*)entityManager);
+
+    // Starts visible on map, ready to be picked
+    onMap = true;
 }
 
 Item::~Item()
 {
+}
+
+bool Item::Draw(Render* render)
+{
+
+    //if (onMap)
+    //{
+
+    //    render->DrawTexture(entityManager->itemsTexture, position.x, position.y, &section);
+
+    //}
+    if (collider != nullptr)
+    {
+        collider->SetPos(position.x, position.y);
+    }
+    render->DrawTexture(entityManager->itemsTexture, position.x, position.y, &section);
+
+    return true;
+}
+
+void Item::OnCollision(Collider* collider)
+{
+    //onMap = false;
+    //Notifier::GetInstance()->NotifyItemAddition(this);
 }
 
 Stats Item::Interact(Stats stats) {

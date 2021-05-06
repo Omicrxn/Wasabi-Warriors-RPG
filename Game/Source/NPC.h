@@ -20,14 +20,14 @@ class NPC : public Interactive
 {
 public:
 
-	NPC(Textures* tex, Collisions* collisions, EntityManager* entityManager, EntitySubtype subtype);
+	NPC(SString name,Textures* tex, Collisions* collisions, EntityManager* entityManager,EntityType type, EntitySubtype subtype,iPoint position);
 	~NPC();
 
-	bool NPC::Update(Input* input, float dt);
+	bool Update(Input* input, float dt);
 	bool Draw(Render* render);
 
-	void NPC::SetUpTexture(SString texPath);
-	void NPC::SetName(SString name);
+	void SetUpTexture(SString texPath);
+	void SetName(SString name);
 
 private:
 

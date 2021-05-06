@@ -3,6 +3,8 @@
 
 #include "SString.h"
 
+class Item;
+
 enum class MapType
 {
     NONE = -1,
@@ -20,6 +22,7 @@ public:
 
     static Notifier* GetInstance();
     ~Notifier() {RELEASE(instance)}
+
     void NotifyBattle() { battle = !battle; }
     bool GetBattle() { return battle; }
 
@@ -28,7 +31,6 @@ public:
         nextMap = maptype;
         requestMapChange = true;
     }
-
 
     bool OnMapChange() { return requestMapChange; }
     MapType ChangeMap() { 
@@ -42,14 +44,28 @@ public:
             requestDialog = true;
     }
 
-    bool OnDialog() {
-
-            return requestDialog;
+    bool OnDialog()
+    {
+        return requestDialog;
     }
 
     void SetDialogMode(bool dialogMode)
     {
         this->requestDialog = dialogMode;
+    }
+
+    void NotifyItemAddition(Item* itemType)
+    {
+        itemAddition = true;
+        this->item = itemType;
+    }
+    bool GetItemAddition()
+    {
+        return itemAddition;
+    }
+    Item* GetItem()
+    {
+        return item;
     }
 
     SString GetEnemy()
@@ -72,4 +88,7 @@ private:
     static Notifier* instance;
     bool requestDialog = false;
     SString enemy;
+
+    bool itemAddition = false;
+    Item* item;
 };

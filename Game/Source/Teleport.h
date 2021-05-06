@@ -6,7 +6,7 @@ class Teleport : public Interactive
 {
 public:
 
-	Teleport(Collisions* collisions, EntityManager* entityManager);
+	Teleport(SString name, Collisions* collisions, EntityManager* entityManager, EntityType type, iPoint position);
 	~Teleport();
 
 	bool Update(Input* input, float dt);

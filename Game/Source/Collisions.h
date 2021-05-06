@@ -20,6 +20,7 @@ struct Collider
 		ENEMY,
 		TELEPORT,
 		SIGN,
+		ITEM,
 		MAX
 	};
 

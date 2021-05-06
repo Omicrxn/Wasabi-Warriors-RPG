@@ -7,12 +7,15 @@
 
 #define DEFAULT_PATH_LENGTH 50
 
-Enemy::Enemy(Textures* tex, Collisions* collisions, EntityManager* entityManager, Transitions* transitions, EntitySubtype subtype) : Being()
+Enemy::Enemy(SString name, Textures* tex, Collisions* collisions, EntityManager* entityManager, Transitions* transitions, EntityType type, EntitySubtype subtype, iPoint position) : Being()
 {
     this->tex = tex;
     this->transitions = transitions;
     texture = NULL;
-    position = iPoint(10 * 16, 27 * 16);
+    this->position = position;
+    this->type = type;
+    this->name = name;
+    this->subtype = subtype;
     currentAnim = Animations::IDLE;
     width = 32;
     height = 32;
@@ -113,7 +116,6 @@ void Enemy::Walk(iPoint direction, float dt)
 void Enemy::SetName(SString name)
 {
     this->name = name;
-
 }
 
 void Enemy::OnCollision(Collider* collider)

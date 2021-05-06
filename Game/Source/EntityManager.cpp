@@ -19,7 +19,7 @@
 EntityManager::EntityManager(Input* input, Render* render, Textures* tex, Collisions* collisions, Transitions* transitions) : Module()
 {
 	name.Create("entitymanager");
-	this->ren = render;
+	this->render = render;
 	this->tex = tex;
 	this->input = input;
 	this->collisions = collisions;
@@ -38,6 +38,16 @@ bool EntityManager::Awake(pugi::xml_node& config)
 	bool ret = true;
 
 	return ret;
+}
+
+// Called before the first frame
+bool EntityManager::Start()
+{
+	LOG("entitymanager start");
+	
+	itemsTexture = tex->Load("Assets/Textures/items_1.png");
+
+	return true;
 }
 
 // Called before quitting
@@ -63,18 +73,11 @@ Entity* EntityManager::CreateEntity(EntityType type, SString name, EntitySubtype
 	{
 		// L13: Create the corresponding type entity
 	case EntityType::PLAYER:
-		ret = new Player(tex, collisions, this, subtype);
-		ret->type = type;
-		ret->name = name;
-		ret->position = position;
-
+		ret = new Player(name,tex, collisions, this,type, subtype,position);
 		playerList.Add((Player*)ret);
 		break;
 	case EntityType::ENEMY:
-		ret = new Enemy(tex,collisions, this, transitions, subtype);
-		ret->type = type;
-		ret->name = name;
-		ret->position = position;
+		ret = new Enemy(name,tex, collisions, this, transitions, type, subtype,position);
 		enemyList.Add((Enemy*)ret);
 		break;
 		//case EntityType::ITEM: ret = new Item(); break;
@@ -82,27 +85,19 @@ Entity* EntityManager::CreateEntity(EntityType type, SString name, EntitySubtype
 		ret = new Map(tex);
 		break;
 	case EntityType::NPC:
-		ret = new NPC(tex,collisions,this, subtype);
-		ret->type = type;
-		ret->name = name;
-		ret->position = position;
+		ret = new NPC(name,tex, collisions, this,type, subtype,position);
 		npcList.Add((NPC*)ret);
 		break;
 	case EntityType::TELEPORT:
-		ret = new Teleport(collisions,this);
-		ret->type = type;
-		ret->name = name;
-		ret->position = position;
+		ret = new Teleport(name,collisions, this,type,position);
 		teleportList.Add((Teleport*)ret);
 		break;
 	case EntityType::ITEM:
-		ret = new Item(tex,subtype);
-		ret->type = type;
-		ret->name = name;
-		ret->position = position;
+		ret = new Item(name,tex, collisions, this, type, subtype,position);
 		itemList.Add((Item*)ret);
 		break;
-	default: break;
+	default:
+		break;
 	}
 
 	// Created entities are added to the list
@@ -176,8 +171,6 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 		player->stats.attackSpeed = playerNode.attribute("attackSpeed").as_int();
 		player->stats.criticalRate = playerNode.attribute("criticalRate").as_int();
 		player->name = playerNode.attribute("statsName").as_string();
-
-
 
 		player = nullptr;
 		playerNode = playerNode.next_sibling();
@@ -587,9 +580,8 @@ bool EntityManager::UpdateAll(float dt, bool doLogic)
 		{
 			entityList.At(i)->data->Update(dt);
 			entityList.At(i)->data->Update(input,dt);
-			entityList.At(i)->data->Draw(ren);
+			entityList.At(i)->data->Draw(render);
 		}
-
 	}
 
 	return true;
@@ -643,13 +635,16 @@ void EntityManager::DeleteAllEntitiesExceptPlayer()
 		{
 			teleportList.Del(teleportList.At(teleportList.Find((Teleport*)list1->data)));
 		}
+		else if (list1->data->type == EntityType::ITEM)
+		{
+			itemList.Del(itemList.At(itemList.Find((Item*)list1->data)));
+		}
 
 		// Delete all entities except the map and player
 		if (list1->data->type != EntityType::MAP && list1->data->type != EntityType::PLAYER)
 		{
 			DestroyEntity(list1->data);
 		}
-
 	}
 	RELEASE(list1);
 }

@@ -1,9 +1,14 @@
 #include "NPC.h"
 #include "Render.h"
-NPC::NPC(Textures* tex,Collisions* collisions, EntityManager* entityManager,EntitySubtype subtype) : Interactive()
+
+NPC::NPC(SString name, Textures* tex, Collisions* collisions, EntityManager* entityManager, EntityType type, EntitySubtype subtype, iPoint position) : Interactive()
 {
     this->tex = tex;
     texture = NULL;
+    this->position = position;
+    this->type = type;
+    this->name = name;
+    this->subtype = subtype;
     position = iPoint(15 * 16, 27 * 16);
     currentAnim = NPCAnimations::IDLE;
     velocity = { 150.0f, 150.0f };

@@ -6,6 +6,7 @@
 #include "Collisions.h"
 #include "Notifier.h"
 #include "Animation.h"
+
 struct SDL_Texture;
 struct Render;
 struct Input;
@@ -20,7 +21,6 @@ enum class EntityType
     MAP,
     NPC,
     TELEPORT
-
 };
  
 enum class EntitySubtype
@@ -85,6 +85,7 @@ public:
 public:
 
     EntityType type;
+    EntitySubtype subtype;
     SString name;         // Entity name identifier?
     uint32 id;            // Entity identifier?
     Collider* collider = nullptr;
@@ -99,9 +100,11 @@ public:
     int spritePos;
 
 protected:
+
     bool active = true;
     Notifier* notifier;
     Textures* tex = nullptr;
+
 public:
     SDL_Rect animRec;
 };

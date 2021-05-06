@@ -19,30 +19,42 @@ Collisions::Collisions(Input* input, Render* render) : Module()
 	matrix[Collider::Type::PLAYER][Collider::Type::ENEMY] = false;
 	matrix[Collider::Type::PLAYER][Collider::Type::TELEPORT] = false;
 	matrix[Collider::Type::PLAYER][Collider::Type::SIGN] = false;
+	matrix[Collider::Type::PLAYER][Collider::Type::ITEM] = false;
 
 	matrix[Collider::Type::ENEMY][Collider::Type::ENEMY] = false;
 	matrix[Collider::Type::ENEMY][Collider::Type::PLAYER] = true;
 	matrix[Collider::Type::ENEMY][Collider::Type::NPC] = false;
 	matrix[Collider::Type::ENEMY][Collider::Type::TELEPORT] = false;
 	matrix[Collider::Type::ENEMY][Collider::Type::SIGN] = false;
+	matrix[Collider::Type::ENEMY][Collider::Type::ITEM] = false;
 
 	matrix[Collider::Type::NPC][Collider::Type::ENEMY] = false;
 	matrix[Collider::Type::NPC][Collider::Type::PLAYER] = true;
 	matrix[Collider::Type::NPC][Collider::Type::NPC] = false;
 	matrix[Collider::Type::NPC][Collider::Type::TELEPORT] = false;
 	matrix[Collider::Type::NPC][Collider::Type::SIGN] = false;
+	matrix[Collider::Type::NPC][Collider::Type::ITEM] = false;
 
 	matrix[Collider::Type::TELEPORT][Collider::Type::ENEMY] = false;
 	matrix[Collider::Type::TELEPORT][Collider::Type::PLAYER] = true;
 	matrix[Collider::Type::TELEPORT][Collider::Type::NPC] = false;
 	matrix[Collider::Type::TELEPORT][Collider::Type::TELEPORT] = false;
 	matrix[Collider::Type::TELEPORT][Collider::Type::SIGN] = false;
+	matrix[Collider::Type::TELEPORT][Collider::Type::ITEM] = false;
+
+	matrix[Collider::Type::ITEM][Collider::Type::PLAYER] = false;
+	matrix[Collider::Type::ITEM][Collider::Type::NPC] = false;
+	matrix[Collider::Type::ITEM][Collider::Type::ENEMY] = false;
+	matrix[Collider::Type::ITEM][Collider::Type::TELEPORT] = false;
+	matrix[Collider::Type::ITEM][Collider::Type::SIGN] = false;
+	matrix[Collider::Type::ITEM][Collider::Type::ITEM] = false;
 
 	matrix[Collider::Type::SIGN][Collider::Type::ENEMY] = false;
 	matrix[Collider::Type::SIGN][Collider::Type::PLAYER] = true;
 	matrix[Collider::Type::SIGN][Collider::Type::NPC] = false;
 	matrix[Collider::Type::SIGN][Collider::Type::TELEPORT] = false;
 	matrix[Collider::Type::SIGN][Collider::Type::SIGN] = false;
+	matrix[Collider::Type::SIGN][Collider::Type::ITEM] = false;
 }
 
 Collisions::~Collisions() {}
@@ -92,7 +104,8 @@ bool Collisions::PreUpdate()
 	return true;
 }
 
-bool Collisions::Update(float dt) {
+bool Collisions::Update(float dt)
+{
 	if (input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
 		debug = !debug;
 	if (input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
@@ -101,14 +114,15 @@ bool Collisions::Update(float dt) {
 	return true;
 }
 
-bool Collisions::PostUpdate() {
+bool Collisions::PostUpdate()
+{
 	if (debug)
 		DebugDraw();
 
 	return true;
 }
 
-// Debud draw
+// Debug draw
 void Collisions::DebugDraw()
 {
 	Uint8 alpha = 80;
@@ -134,6 +148,10 @@ void Collisions::DebugDraw()
 			break;
 		case Collider::Type::SIGN:
 			render->DrawRectangle(colliders[i]->rect, { 255, 0, 255, alpha });
+			break;
+		case Collider::Type::ITEM:
+			render->scale = 1;
+			render->DrawRectangle(colliders[i]->rect, { 127, 0, 255, alpha });
 			break;
 		}
 		render->scale = 1;
@@ -162,7 +180,8 @@ bool Collisions::SaveState(pugi::xml_node& collisionsNode) const
 	return true;
 }
 
-bool Collisions::CleanUp() {
+bool Collisions::CleanUp()
+{
 	LOG("Freeing all colliders");
 
 	for (uint i = 0; i < MAX_COLLIDERS; ++i) {
