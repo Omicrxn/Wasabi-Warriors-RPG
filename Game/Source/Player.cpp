@@ -45,7 +45,6 @@ Player::Player(Textures* tex, Collisions* collisions, EntityManager* entityManag
     {
         SetUpClass("wizard");
         SetTexture("Assets/Textures/Characters/characters_spritesheet.png", 6);
-
     }
 }
 

@@ -209,7 +209,7 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	screenInventory->HideButtons();
 
 	Item* item;
-	item = (Item*)entityManager->CreateEntity(EntityType::ITEM, "potion",EntitySubtype::ITEM_POTION);
+	item = (Item*)entityManager->CreateEntity(EntityType::ITEM, "potion", EntitySubtype::ITEM_POTION, { 100,100 });
 	item->SetUpClass("potion");
 	item = nullptr;
 	RELEASE(item);
@@ -224,7 +224,7 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	{
 		// Create party member 1
 		Player* player;
-		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "DaBaby", EntitySubtype::PLAYER_HUNTER,iPoint(19 * 32, 1 * 32));
+		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "DaBaby", EntitySubtype::PLAYER_HUNTER, iPoint(19 * 32, 1 * 32));
 		player->SetState(true);
 		player = nullptr;
 		currentPlayer = entityManager->playerList.At(0)->data;
@@ -266,6 +266,11 @@ bool SceneGameplay::Update(Input* input, float dt)
 	if (notifier->OnMapChange() && notifier->GetNextMap() != currentMap)
 	{
 		SetUpTp();
+	}
+
+	if (notifier->GetItemAddition())
+	{
+		AddItemToInvItemsList(notifier->GetItem());
 	}
 
 	if ((input->GetKey(SDL_SCANCODE_E) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_Y) == KeyState::KEY_DOWN) && screenBattle->isActive == false)
@@ -883,7 +888,6 @@ void SceneGameplay::SetUpTp()
 			// DELETE ALL ENTITIES EXCEPT PLAYER
 			entityManager->DeleteAllEntitiesExceptPlayer();
 
-			
 			if (previousMap != MapType::NONE)
 			{
 				int newPosX = 0; int newPosY = 0;
@@ -975,4 +979,24 @@ void SceneGameplay::SetUpTp()
 	{
 		hasStartedFromContinue = false;
 	}
+}
+
+void SceneGameplay::AddItemToInvItemsList(Item* item)
+{
+	for (ListItem<InvItem*>* invItem = invItemsList.start; invItem; invItem = invItem->next)
+	{
+		if (invItem->data->item->subtype == item->subtype)
+		{
+			invItem->data->count++;
+			RELEASE(item);
+			return;
+		}
+	}
+
+	InvItem* invItem = new InvItem();
+	invItem->item = item;
+	invItem->count = 0;
+	invItemsList.Add(invItem);
+	RELEASE(invItem);
+	invItem = nullptr;
 }

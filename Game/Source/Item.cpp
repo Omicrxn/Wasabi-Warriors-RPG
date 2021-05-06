@@ -1,14 +1,54 @@
 #include "Item.h"
 #include "Log.h"
-Item::Item(Textures* tex, EntitySubtype subtype) : Interactive()
+
+#include "EntityManager.h"
+#include "Render.h"
+#include "SceneGameplay.h"
+#include "Notifier.h"
+#include "Collisions.h"
+
+Item::Item(Textures* tex, Collisions* collisions, EntityManager* entityManager, EntitySubtype subtype) : Interactive()
 {
+    // Needed modules
     this->tex = tex;
-    texture = NULL;
-    animRec = { 0,0,32,32 };
+    this->entityManager = entityManager;
+
+    // Saving item type
+    this->subtype = subtype;
+
+    // Setting the texture section depending on the item type
+    if (subtype == EntitySubtype::ITEM_POTION)
+    {
+        section = { 0,0,16,16 };
+    }
+
+    // Adding collider
+    collider = collisions->AddCollider({ position.x,position.y,section.w,section.h }, Collider::Type::ITEM, (Module*)entityManager);
+
+    // Starts visible on map, ready to be picked
+    onMap = true;
 }
 
 Item::~Item()
 {
+}
+
+bool Item::Draw(Render* render)
+{
+    if (onMap)
+    {
+        render->scale = 2;
+        render->DrawTexture(entityManager->itemsTexture, position.x, position.y, &section);
+        render->scale = 1;
+    }
+
+    return true;
+}
+
+void Item::OnCollision(Collider* collider)
+{
+    onMap = false;
+    Notifier::GetInstance()->NotifyItemAddition(this);
 }
 
 Stats Item::Interact(Stats stats) {

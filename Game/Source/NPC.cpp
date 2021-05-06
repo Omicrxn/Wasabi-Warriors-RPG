@@ -1,5 +1,6 @@
 #include "NPC.h"
 #include "Render.h"
+
 NPC::NPC(Textures* tex,Collisions* collisions, EntityManager* entityManager,EntitySubtype subtype) : Interactive()
 {
     this->tex = tex;

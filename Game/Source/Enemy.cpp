@@ -113,7 +113,6 @@ void Enemy::Walk(iPoint direction, float dt)
 void Enemy::SetName(SString name)
 {
     this->name = name;
-
 }
 
 void Enemy::OnCollision(Collider* collider)

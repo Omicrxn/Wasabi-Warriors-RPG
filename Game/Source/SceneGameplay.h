@@ -20,6 +20,8 @@ class GuiButton;
 class GuiIcon;
 class Screen;
 
+struct InvItem;
+
 enum GameState
 {
     ROAMING,
@@ -63,6 +65,9 @@ public:
     void ExitBattle();
 
     void SetUpTp();
+
+    // Adds an item to the inventory items list
+    void AddItemToInvItemsList(Item* item);
 
 private:
 
@@ -144,6 +149,9 @@ private:
     bool hasStartedFromContinue;
 
     Timer pauseTimer;
+
+    // Invenory items list
+    List<InvItem*> invItemsList;
 };
 
 #endif // __SCENEGAMEPLAY_H__
