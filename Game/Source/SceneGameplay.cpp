@@ -208,8 +208,6 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	screenInventory->isActive = false;
 	screenInventory->HideButtons();
 
-
-
 	if (hasStartedFromContinue)
 	{
 		// LOAD FROM THE SAVE FILE
@@ -988,12 +986,14 @@ void SceneGameplay::SetUpTp()
 
 void SceneGameplay::AddItemToInvItemsList(Item* item)
 {
+	notifier->GetInstance()->NotifyItemAddition();
+
 	for (ListItem<InvItem*>* invItem = invItemsList.start; invItem; invItem = invItem->next)
 	{
 		if (invItem->data->item->subtype == item->subtype)
 		{
 			invItem->data->count++;
-			RELEASE(item);
+			entityManager->DestroyEntity((Entity*)item);
 			return;
 		}
 	}

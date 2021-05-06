@@ -38,26 +38,26 @@ Item::~Item()
 
 bool Item::Draw(Render* render)
 {
-
-    //if (onMap)
-    //{
-
-    //    render->DrawTexture(entityManager->itemsTexture, position.x, position.y, &section);
-
-    //}
-    if (collider != nullptr)
+    /*if (collider != nullptr)
     {
         collider->SetPos(position.x, position.y);
-    }
-    render->DrawTexture(entityManager->itemsTexture, position.x, position.y, &section);
+    }*/
+
+    if(onMap) render->DrawTexture(entityManager->itemsTexture, position.x, position.y, &section);
 
     return true;
 }
 
 void Item::OnCollision(Collider* collider)
 {
-    //onMap = false;
-    //Notifier::GetInstance()->NotifyItemAddition(this);
+    if (!hasInteracted)
+    {
+        hasInteracted = true;
+        onMap = false;
+        Notifier::GetInstance()->NotifyItemAddition();
+        Notifier::GetInstance()->SetItem(this);
+    }
+    this->collider->pendingToDelete = true;
 }
 
 Stats Item::Interact(Stats stats) {

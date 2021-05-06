@@ -350,7 +350,6 @@ bool EntityManager::SaveState(pugi::xml_node& data) const
 		newPlayerNode.append_attribute("statsName").set_value(list1->data->name.GetString());
 	}
 
-
 	/* ---------- SECOND SAVE THE ENEMIES ----------*/
 	// Erase the enemies in the XML
 	pugi::xml_node enemyListNode;
@@ -387,7 +386,6 @@ bool EntityManager::SaveState(pugi::xml_node& data) const
 		// Node entitiesCount does not exist
 		enemyListNode.append_attribute("enemyCount").set_value(enemyList.Count());
 	}
-	
 
 	// Add the enemies in the XML
 	ListItem<Enemy*>* list2;
@@ -454,7 +452,6 @@ bool EntityManager::SaveState(pugi::xml_node& data) const
 		// Node entitiesCount does not exist
 		npcListNode.append_attribute("npcCount").set_value(npcList.Count());
 	}
-	
 
 	// Add the NPCs in the XML
 	ListItem<NPC*>* list3;

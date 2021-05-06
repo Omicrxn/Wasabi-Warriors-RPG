@@ -37,6 +37,8 @@ private:
     EntityManager* entityManager;
 
     SDL_Rect section;
+
+    bool hasInteracted = false;
 };
 
 struct InvItem

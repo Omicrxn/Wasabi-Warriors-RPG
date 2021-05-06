@@ -42,7 +42,7 @@ Collisions::Collisions(Input* input, Render* render) : Module()
 	matrix[Collider::Type::TELEPORT][Collider::Type::SIGN] = false;
 	matrix[Collider::Type::TELEPORT][Collider::Type::ITEM] = false;
 
-	matrix[Collider::Type::ITEM][Collider::Type::PLAYER] = false;
+	matrix[Collider::Type::ITEM][Collider::Type::PLAYER] = true;
 	matrix[Collider::Type::ITEM][Collider::Type::NPC] = false;
 	matrix[Collider::Type::ITEM][Collider::Type::ENEMY] = false;
 	matrix[Collider::Type::ITEM][Collider::Type::TELEPORT] = false;
@@ -62,8 +62,10 @@ Collisions::~Collisions() {}
 bool Collisions::PreUpdate()
 {
 	// Remove all colliders scheduled for deletion
-	for (uint i = 0; i < MAX_COLLIDERS; ++i) {
-		if (colliders[i] != nullptr && colliders[i]->pendingToDelete == true) {
+	for (uint i = 0; i < MAX_COLLIDERS; ++i)
+	{
+		if (colliders[i] != nullptr && colliders[i]->pendingToDelete == true)
+		{
 			delete colliders[i];
 			colliders[i] = nullptr;
 			--colliderCount;
@@ -76,7 +78,8 @@ bool Collisions::PreUpdate()
 	if (godMode)
 		return true;
 
-	for (uint i = 0; i < MAX_COLLIDERS; ++i) {
+	for (uint i = 0; i < MAX_COLLIDERS; ++i)
+	{
 		// Skip empty colliders
 		if (colliders[i] == nullptr)
 			continue;
@@ -84,20 +87,24 @@ bool Collisions::PreUpdate()
 		c1 = colliders[i];
 
 		// Avoid checking collisions already checked
-		for (uint k = i + 1; k < MAX_COLLIDERS; ++k) {
+		for (uint k = i + 1; k < MAX_COLLIDERS; ++k)
+		{
 			// Skip empty colliders
 			if (colliders[k] == nullptr)
 				continue;
 
 			c2 = colliders[k];
 
-			if (c1->Intersects(c2->rect)) {
+			if (c2->type == Collider::Type::ITEM) c1->rect = { c1->rect.x * 3, c1->rect.y * 3, c1->rect.w * 3, c1->rect.h * 3 };
+			if (c1->Intersects(c2->rect))
+			{
 				if (matrix[c1->type][c2->type] && c1->listener)
 					c1->listener->OnCollision(c1, c2);
 
 				if (matrix[c2->type][c1->type] && c2->listener)
 					c2->listener->OnCollision(c2, c1);
 			}
+			if (c2->type == Collider::Type::ITEM) c1->rect = { c1->rect.x / 3, c1->rect.y / 3, c1->rect.w / 3, c1->rect.h / 3 };
 		}
 	}
 
@@ -195,11 +202,14 @@ bool Collisions::CleanUp()
 	return true;
 }
 
-Collider* Collisions::AddCollider(SDL_Rect rect, Collider::Type type, Module* listener) {
+Collider* Collisions::AddCollider(SDL_Rect rect, Collider::Type type, Module* listener)
+{
 	Collider* ret = nullptr;
 
-	for (uint i = 0; i < MAX_COLLIDERS; ++i) {
-		if (colliders[i] == nullptr) {
+	for (uint i = 0; i < MAX_COLLIDERS; ++i)
+	{
+		if (colliders[i] == nullptr)
+		{
 			ret = colliders[i] = new Collider(rect, type, listener);
 			++colliderCount;
 			break;
@@ -209,9 +219,12 @@ Collider* Collisions::AddCollider(SDL_Rect rect, Collider::Type type, Module* li
 	return ret;
 }
 
-bool Collisions::DeleteCollider(Collider* collider) {
-	if (collider != nullptr) {
-		for (uint i = 0; i < MAX_COLLIDERS; ++i) {
+bool Collisions::DeleteCollider(Collider* collider)
+{
+	if (collider != nullptr)
+	{
+		for (uint i = 0; i < MAX_COLLIDERS; ++i)
+		{
 			if (colliders[i] == collider) {
 				collider->pendingToDelete = true;
 				break;
@@ -225,12 +238,14 @@ bool Collisions::DeleteCollider(Collider* collider) {
 // Collider class
 Collider::Collider(SDL_Rect rectangle, Type type, Module* listener) : rect(rectangle), type(type), listener(listener) {}
 
-void Collider::SetPos(int x, int y) {
+void Collider::SetPos(int x, int y)
+{
 	rect.x = x;
 	rect.y = y;
 }
 
-bool Collider::Intersects(const SDL_Rect& r) const {
+bool Collider::Intersects(const SDL_Rect& r) const
+{
 	// Return true if there is an overlap
 	// between argument "r" and property "rect"
 	return (rect.x < r.x + r.w &&

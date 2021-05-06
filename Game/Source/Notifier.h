@@ -54,14 +54,18 @@ public:
         this->requestDialog = dialogMode;
     }
 
-    void NotifyItemAddition(Item* itemType)
+    // Items management
+    void NotifyItemAddition()
     {
-        itemAddition = true;
-        this->item = itemType;
+        itemAddition = !itemAddition;
     }
     bool GetItemAddition()
     {
         return itemAddition;
+    }
+    void SetItem(Item* item)
+    {
+        this->item = item;
     }
     Item* GetItem()
     {
