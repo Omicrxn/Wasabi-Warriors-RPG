@@ -30,11 +30,16 @@
     <teleport posX="608" posY="0" width="64" height="32" destination="0"/>
     <teleport posX="1408" posY="256" width="32" height="224" destination="2"/>
     <item posX="100" posY="100" class="item" name="Potion" subtype="5"/>
-
   </town>
-  <bigCity enemyCount="0" npcCount="0" teleportCount="0">
+  <bigCity enemyCount="0" npcCount="0" teleportCount="1">
     <prevMediumcity>
       <player posX="800" posY="1100"/>
     </prevMediumcity>
+    <teleport posX="768" posY="288" width="64" height="32" destination="6"/>
   </bigCity>
+  <dungeon>
+    <prevMediumcity>
+      <player posX="1536" posY="288"/>
+    </prevMediumcity>
+  </dungeon>
 </map>

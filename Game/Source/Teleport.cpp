@@ -24,6 +24,8 @@ bool Teleport::Update(Input* input, float dt)
 	if (collider != nullptr)
 	{
 		collider->SetPos(position.x, position.y);
+		collider->rect.w = width;
+		collider->rect.h = height;
 	}
 	return true;
 }

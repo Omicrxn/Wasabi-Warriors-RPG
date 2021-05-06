@@ -13,7 +13,8 @@ enum class MapType
     MEDIUM_CITY,
     RESTAURANT,
     TOWN,
-    BIG_CITY
+    BIG_CITY,
+    SKYSCRAPER
 };
 
 class Notifier

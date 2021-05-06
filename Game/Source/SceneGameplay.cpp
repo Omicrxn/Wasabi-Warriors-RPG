@@ -776,7 +776,6 @@ void SceneGameplay::SetUpTp()
 		}
 		break;
 	case MapType::TOWN:
-
 		if (map->Load("Town", "townMap.tmx") == true)
 		{
 			int w, h;
@@ -790,8 +789,20 @@ void SceneGameplay::SetUpTp()
 		}
 		break;
 	case MapType::BIG_CITY:
-
 		if (map->Load("BigCity", "bigCity.tmx") == true)
+		{
+			int w, h;
+			uchar* data = NULL;
+
+			//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
+
+			RELEASE_ARRAY(data);
+			audio->StopMusic();
+			audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
+		}
+		break;
+	case MapType::SKYSCRAPER:
+		if (map->Load("Dungeon", "dungeon.tmx") == true)
 		{
 			int w, h;
 			uchar* data = NULL;
@@ -947,6 +958,8 @@ void SceneGameplay::SetUpTp()
 				teleport->spritePos = teleportNode.attribute("spritePos").as_int();
 				teleport->position.x = teleportNode.attribute("posX").as_int();
 				teleport->position.y = teleportNode.attribute("posY").as_int();
+				teleport->width = teleportNode.attribute("width").as_int();
+				teleport->height = teleportNode.attribute("height").as_int();
 
 				/*newTeleportNode.append_attribute("nameTeleport").set_value(list4->data->GetName().GetString());
 				newTeleportNode.append_attribute("name").set_value(list4->data->name.GetString());
