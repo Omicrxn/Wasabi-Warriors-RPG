@@ -2,11 +2,14 @@
 
 #include "Log.h"
 
-Player::Player(Textures* tex, Collisions* collisions, EntityManager* entityManager, EntitySubtype subtype) : Being()
+Player::Player(SString name, Textures* tex, Collisions* collisions, EntityManager* entityManager, EntityType type, EntitySubtype subtype, iPoint position) : Being()
 {
     this->tex = tex;
     texture = NULL;
-    position = iPoint(12 * 16, 27 * 16);
+    this->position = position;
+    this->type = type;
+    this->name = name;
+    this->subtype = subtype;
     active = false;
     stopPlayer = false;
     transitioning = false;

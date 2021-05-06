@@ -73,17 +73,11 @@ Entity* EntityManager::CreateEntity(EntityType type, SString name, EntitySubtype
 	{
 		// L13: Create the corresponding type entity
 	case EntityType::PLAYER:
-		ret = new Player(tex, collisions, this, subtype);
-		ret->type = type;
-		ret->name = name;
-		ret->position = position;
+		ret = new Player(name,tex, collisions, this,type, subtype,position);
 		playerList.Add((Player*)ret);
 		break;
 	case EntityType::ENEMY:
-		ret = new Enemy(tex, collisions, this, transitions, subtype);
-		ret->type = type;
-		ret->name = name;
-		ret->position = position;
+		ret = new Enemy(name,tex, collisions, this, transitions, type, subtype,position);
 		enemyList.Add((Enemy*)ret);
 		break;
 		//case EntityType::ITEM: ret = new Item(); break;
@@ -91,17 +85,11 @@ Entity* EntityManager::CreateEntity(EntityType type, SString name, EntitySubtype
 		ret = new Map(tex);
 		break;
 	case EntityType::NPC:
-		ret = new NPC(tex, collisions, this, subtype);
-		ret->type = type;
-		ret->name = name;
-		ret->position = position;
+		ret = new NPC(name,tex, collisions, this,type, subtype,position);
 		npcList.Add((NPC*)ret);
 		break;
 	case EntityType::TELEPORT:
-		ret = new Teleport(collisions, this);
-		ret->type = type;
-		ret->name = name;
-		ret->position = position;
+		ret = new Teleport(name,collisions, this,type,position);
 		teleportList.Add((Teleport*)ret);
 		break;
 	case EntityType::ITEM:

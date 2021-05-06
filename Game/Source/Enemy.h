@@ -20,7 +20,7 @@ class Enemy : public Being
 {
 public:
 
-    Enemy(Textures* tex,Collisions* collisions, EntityManager* entityManager, Transitions* transitions, EntitySubtype subtype);
+    Enemy(SString name, Textures* tex,Collisions* collisions, EntityManager* entityManager, Transitions* transitions,EntityType type, EntitySubtype subtype, iPoint position);
     ~Enemy();
 
 public:

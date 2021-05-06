@@ -20,7 +20,7 @@ class NPC : public Interactive
 {
 public:
 
-	NPC(Textures* tex, Collisions* collisions, EntityManager* entityManager, EntitySubtype subtype);
+	NPC(SString name,Textures* tex, Collisions* collisions, EntityManager* entityManager,EntityType type, EntitySubtype subtype,iPoint position);
 	~NPC();
 
 	bool Update(Input* input, float dt);
