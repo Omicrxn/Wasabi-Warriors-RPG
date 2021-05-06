@@ -21,11 +21,12 @@ Item::Item(SString name, Textures* tex, Collisions* collisions, EntityManager* e
     // Setting the texture section depending on the item type
     if (subtype == EntitySubtype::ITEM_POTION)
     {
-        section = { 0,0,16,16 };
+        width = height = 96;
+        section = { 0,0,width,height };
     }
 
     // Adding collider
-    collider = collisions->AddCollider({ position.x,position.y,section.w,section.h }, Collider::Type::ITEM, (Module*)entityManager);
+    collider = collisions->AddCollider({ position.x,position.y,width,height }, Collider::Type::ITEM, (Module*)entityManager);
 
     // Starts visible on map, ready to be picked
     onMap = true;
@@ -37,15 +38,18 @@ Item::~Item()
 
 bool Item::Draw(Render* render)
 {
+
     //if (onMap)
     //{
-    //    render->scale = 2;
+
     //    render->DrawTexture(entityManager->itemsTexture, position.x, position.y, &section);
-    //    render->scale = 1;
+
     //}
-    render->scale = 2;
+    if (collider != nullptr)
+    {
+        collider->SetPos(position.x, position.y);
+    }
     render->DrawTexture(entityManager->itemsTexture, position.x, position.y, &section);
-    render->scale = 1;
 
     return true;
 }

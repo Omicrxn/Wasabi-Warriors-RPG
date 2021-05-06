@@ -150,6 +150,7 @@ void Collisions::DebugDraw()
 			render->DrawRectangle(colliders[i]->rect, { 255, 0, 255, alpha });
 			break;
 		case Collider::Type::ITEM:
+			render->scale = 1;
 			render->DrawRectangle(colliders[i]->rect, { 127, 0, 255, alpha });
 			break;
 		}

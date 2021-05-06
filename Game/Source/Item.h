@@ -32,7 +32,7 @@ public:
     bool onMap;
 
 private:
-
+    int width, height;
     // Needed modules
     EntityManager* entityManager;
 
