@@ -919,13 +919,7 @@ void SceneGameplay::SetUpTp()
 				enemy = (Enemy*)entityManager->CreateEntity(EntityType::ENEMY, enemyNode.attribute("name").as_string(), (EntitySubtype)subtype, position);
 
 				enemy->id = enemyNode.attribute("id").as_uint();
-				enemy->spritePos = enemyNode.attribute("spritePos").as_int();
-				
 
-				enemy->classType = enemyNode.attribute("class").as_string();
-				enemy->SetUpClass(enemy->classType.GetString());
-
-				
 				enemy = nullptr;
 				enemyNode = enemyNode.next_sibling("enemy");
 			}

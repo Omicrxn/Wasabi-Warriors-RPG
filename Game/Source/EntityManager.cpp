@@ -105,10 +105,7 @@ Entity* EntityManager::CreateEntity(EntityType type, SString name, EntitySubtype
 		teleportList.Add((Teleport*)ret);
 		break;
 	case EntityType::ITEM:
-		ret = new Item(tex, collisions, this, subtype);
-		ret->type = type;
-		ret->name = name;
-		ret->position = position;
+		ret = new Item(name,tex, collisions, this, type, subtype,position);
 		itemList.Add((Item*)ret);
 		break;
 	default:

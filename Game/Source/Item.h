@@ -14,7 +14,7 @@ class Item : public Interactive
 {
 public:
 
-    Item(Textures* tex, Collisions* collisions, EntityManager* entityManager, EntitySubtype subtype);
+    Item(SString name,Textures* tex, Collisions* collisions, EntityManager* entityManager,EntityType type, EntitySubtype subtype, iPoint position);
     virtual ~Item();
     bool Draw(Render* render);
     void OnCollision(Collider* collider) override;

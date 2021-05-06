@@ -7,12 +7,14 @@
 #include "Notifier.h"
 #include "Collisions.h"
 
-Item::Item(Textures* tex, Collisions* collisions, EntityManager* entityManager, EntitySubtype subtype) : Interactive()
+Item::Item(SString name, Textures* tex, Collisions* collisions, EntityManager* entityManager, EntityType type, EntitySubtype subtype, iPoint position) : Interactive()
 {
     // Needed modules
     this->tex = tex;
     this->entityManager = entityManager;
-
+    this->name = name;
+    this->type = type;
+    this->position = position;
     // Saving item type
     this->subtype = subtype;
 
