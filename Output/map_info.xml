@@ -20,7 +20,7 @@
     <teleport posX="32" posY="224" width="32" height="96" destination="4" />
     <teleport posX="850" posY="35" width="1000" height="250" destination="5"/>
   </mediumCity>
-  <town enemyCount ="0" npcCount ="0" teleportCount ="3">
+  <town enemyCount ="0" npcCount ="0" teleportCount ="3" itemCount="1">
     <prevCemetery>
       <player posX="608" posY="32"/>
     </prevCemetery>
@@ -29,6 +29,8 @@
     </prevMediumcity>
     <teleport posX="608" posY="0" width="64" height="32" destination="0"/>
     <teleport posX="1408" posY="256" width="32" height="224" destination="2"/>
+    <item posX="100" posY="100" class="item" name="Potion" subtype="5"/>
+
   </town>
   <bigCity enemyCount="0" npcCount="0" teleportCount="0">
     <prevMediumcity>

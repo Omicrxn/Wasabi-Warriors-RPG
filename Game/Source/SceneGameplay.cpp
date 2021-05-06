@@ -208,11 +208,7 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	screenInventory->isActive = false;
 	screenInventory->HideButtons();
 
-	Item* item;
-	item = (Item*)entityManager->CreateEntity(EntityType::ITEM, "potion", EntitySubtype::ITEM_POTION, { 100,100 });
-	item->SetUpClass("potion");
-	item = nullptr;
-	RELEASE(item);
+
 
 	if (hasStartedFromContinue)
 	{
@@ -238,9 +234,6 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 		player = nullptr;
 
 		RELEASE(player);
-
-		((ScreenRoaming*)screenRoaming)->SetCurrentPlayer(currentPlayer);
-
 		// LOAD FROM MAP_XML
 		notifier->NotifyMapChange(MapType::TOWN);
 	}
@@ -967,6 +960,24 @@ void SceneGameplay::SetUpTp()
 				teleport = nullptr;
 				teleportNode = teleportNode.next_sibling("teleport");
 			}
+
+			// LOAD ITEMS
+			int itemCount = mapNode.attribute("itemCount").as_int();
+
+			pugi::xml_node itemNode = mapNode.child("item");
+			Item* item = nullptr;
+			for (int i = 0; i < itemCount; ++i)
+			{
+				int subtype = itemNode.attribute("subtype").as_int();
+				iPoint position = { itemNode.attribute("posX").as_int(),itemNode.attribute("posY").as_int() };
+
+				item = (Item*)entityManager->CreateEntity(EntityType::ITEM, itemNode.attribute("name").as_string(), (EntitySubtype)subtype, position);
+
+				item->id = itemNode.attribute("id").as_uint();
+
+				item = nullptr;
+				itemNode = itemNode.next_sibling("item");
+			}
 		}
 	}
 	else
@@ -992,5 +1003,4 @@ void SceneGameplay::AddItemToInvItemsList(Item* item)
 	invItem->count = 0;
 	invItemsList.Add(invItem);
 	RELEASE(invItem);
-	invItem = nullptr;
 }

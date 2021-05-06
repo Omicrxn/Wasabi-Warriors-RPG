@@ -89,6 +89,6 @@ private:
     bool requestDialog = false;
     SString enemy;
 
-    bool itemAddition;
+    bool itemAddition = false;
     Item* item;
 };

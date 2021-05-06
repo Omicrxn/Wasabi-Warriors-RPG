@@ -37,20 +37,23 @@ Item::~Item()
 
 bool Item::Draw(Render* render)
 {
-    if (onMap)
-    {
-        render->scale = 2;
-        render->DrawTexture(entityManager->itemsTexture, position.x, position.y, &section);
-        render->scale = 1;
-    }
+    //if (onMap)
+    //{
+    //    render->scale = 2;
+    //    render->DrawTexture(entityManager->itemsTexture, position.x, position.y, &section);
+    //    render->scale = 1;
+    //}
+    render->scale = 2;
+    render->DrawTexture(entityManager->itemsTexture, position.x, position.y, &section);
+    render->scale = 1;
 
     return true;
 }
 
 void Item::OnCollision(Collider* collider)
 {
-    onMap = false;
-    Notifier::GetInstance()->NotifyItemAddition(this);
+    //onMap = false;
+    //Notifier::GetInstance()->NotifyItemAddition(this);
 }
 
 Stats Item::Interact(Stats stats) {

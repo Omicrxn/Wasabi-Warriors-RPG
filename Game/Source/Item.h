@@ -16,6 +16,7 @@ public:
 
     Item(SString name,Textures* tex, Collisions* collisions, EntityManager* entityManager,EntityType type, EntitySubtype subtype, iPoint position);
     virtual ~Item();
+    bool Update(float dt) { return true; };
     bool Draw(Render* render);
     void OnCollision(Collider* collider) override;
     void Interact() {}
