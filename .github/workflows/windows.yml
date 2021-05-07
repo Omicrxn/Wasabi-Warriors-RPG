@@ -57,6 +57,7 @@ jobs:
         cd build
         mkdir ${{ env.RELEASE_NAME }}
         cd ../../Wasabi-Warriors-RPG
+        dir
     # Setup MSBuild.exe path if required
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1.0.2
@@ -67,7 +68,7 @@ jobs:
         
         msbuild.exe Development.sln  /property:Configuration=Release
         copy /Y .\..\..\build\Release\Game.exe .\..\..\build\${{ env.RELEASE_NAME }}\Game.exe
-        cd build\${{ env.RELEASE_NAME }}\Game.exe
+        cd build\${{ env.RELEASE_NAME }}
         dir
         cd .\..\..\Wasabi-Warriors-RPG
         dir
