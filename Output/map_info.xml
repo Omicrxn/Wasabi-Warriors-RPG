@@ -38,8 +38,8 @@
     <teleport posX="768" posY="288" width="64" height="32" destination="6"/>
   </bigCity>
   <dungeon>
-    <prevMediumcity>
+    <prevBigCity>
       <player posX="1536" posY="288"/>
-    </prevMediumcity>
+    </prevBigCity>
   </dungeon>
 </map>
