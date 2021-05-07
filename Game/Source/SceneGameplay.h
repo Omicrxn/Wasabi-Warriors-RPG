@@ -69,6 +69,8 @@ public:
     // Adds an item to the inventory items list
     void AddItemToInvItemsList(Item* item);
 
+    void PlayMapMusic();
+
 private:
 
     // Needed modules

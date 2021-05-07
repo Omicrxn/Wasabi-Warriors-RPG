@@ -152,8 +152,9 @@ bool ScreenInventory::Draw(Render* render)
 		slotRect.y = slotRect.y + spacing + slotRect.h;
 	}
 
+	// Draw miniplayer
 	render->DrawTexture(this->atlas[0], 1000, 100, &playersIcons, 0.0f);
-	if (controller)
+	if (0)
 	{
 		render->DrawTexture(this->atlas[0], 950 - 40, 100, &LBButton, 0.0f);
 		render->DrawTexture(this->atlas[0], 1050 + 40, 100, &RBButton, 0.0f);
@@ -169,8 +170,36 @@ bool ScreenInventory::Draw(Render* render)
 			render->DrawRectangle({ 1010,  180, 70, 70 }, { 255,255,255,255 }, false, false);
 			render->DrawTexture(entityManager->texture, 1010 / 2 + 2, 180 / 2 + 2, &rect, 0.0f);
 			render->scale = 1;
+
+			// Draw Player Stats
+			char statsString[24] = { 0 };
+			sprintf_s(statsString, 24, "Level: %i", entityManager->playerList.At(i)->data->stats.level);
+			render->DrawText(font, statsString, 925, 260, 30, 2, { 255,255,255,255 });
+
+			sprintf_s(statsString, 24, "Damage: %i", entityManager->playerList.At(i)->data->stats.damage);
+			render->DrawText(font, statsString, 925, 300, 30, 2, { 255,255,255,255 });
+
+			sprintf_s(statsString, 24, "MaxHP: %i", entityManager->playerList.At(i)->data->stats.maxHP);
+			render->DrawText(font, statsString, 925, 340, 30, 2, { 255,255,255,255 });
+
+			sprintf_s(statsString, 24, "CurrentHP: %i", entityManager->playerList.At(i)->data->stats.currentHP);
+			render->DrawText(font, statsString, 925, 380, 30, 2, { 255,255,255,255 });
+
+			sprintf_s(statsString, 24, "Strength: %i", entityManager->playerList.At(i)->data->stats.strength);
+			render->DrawText(font, statsString, 925, 420, 30, 2, { 255,255,255,255 });
+
+			sprintf_s(statsString, 24, "Defense: %i", entityManager->playerList.At(i)->data->stats.defense);
+			render->DrawText(font, statsString, 925, 460, 30, 2, { 255,255,255,255 });
+
+			sprintf_s(statsString, 24, "AttackSpeed: %i", entityManager->playerList.At(i)->data->stats.attackSpeed);
+			render->DrawText(font, statsString, 925, 500, 30, 2, { 255,255,255,255 });
+
+			sprintf_s(statsString, 24, "CriticalRate: %f", entityManager->playerList.At(i)->data->stats.criticalRate);
+			render->DrawText(font, statsString, 925, 540, 30, 2, { 255,255,255,255 });
+
 		}
 	}
+
 
 	return true;
 }

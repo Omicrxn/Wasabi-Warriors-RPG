@@ -17,6 +17,7 @@ SceneLogo::SceneLogo()
     this->name = "scenelogo";
 
     logoTex = nullptr;
+    backgroundTex = nullptr;
     logo = { 0, 0, 1280, 720 };
 
     logoFx = -1;
@@ -25,6 +26,8 @@ SceneLogo::SceneLogo()
     logoAlpha = 0.0f;
 
     logoFxTimer.Start();
+
+    posX = 2000;
 }
 
 SceneLogo::~SceneLogo()
@@ -35,10 +38,15 @@ bool SceneLogo::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager
 {
     this->audio = audio;
 
-    logoTex = tex->Load("Assets/Textures/Scenes/logo_scene.png");
+    logoTex = tex->Load("Assets/Textures/Scenes/logo_logo.png");
+    backgroundTex = tex->Load("Assets/Textures/Scenes/logo_background.png");
     logoFx = audio->LoadFx("Assets/Audio/Fx/logo.wav");
 
     logoFxTimer.Start();
+    uint width, height;
+    win->GetWindowSize(width, height);
+
+    easing->CreateSpline(&posX, width / 2 - 861 / 2, 3000, SplineType::QUART);
     return true;
 }
 
@@ -79,7 +87,7 @@ bool SceneLogo::Update(Input* input, float dt)
         TransitionToScene(SceneType::TITLE);
 
     // Main title FX sounds just at title appearing
-    if (logoFxTimer.ReadSec() >= 0.0f && logoFxTimer.ReadSec() < 0.1f)
+    if (logoFxTimer.ReadSec() >= 1.0f && logoFxTimer.ReadSec() < 1.1f)
     {
         audio->PlayFx(logoFx);
     }
@@ -90,15 +98,16 @@ bool SceneLogo::Update(Input* input, float dt)
 bool SceneLogo::Draw(Render* render)
 {
     // Set texture alpha with the updated logoAlpha to accomplish fade in / fade out
-    SDL_SetTextureAlphaMod(logoTex, logoAlpha);
-    render->DrawTexture(logoTex, 0, 0, &logo);
-
+    //SDL_SetTextureAlphaMod(logoTex, logoAlpha);
+    render->DrawTexture(backgroundTex, 0, 0);
+    render->DrawTexture(logoTex, posX, 200);
     return true;
 }
 
 bool SceneLogo::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager)
 {
     tex->UnLoad(logoTex);
+    tex->UnLoad(backgroundTex);
     audio->UnloadFx(logoFx);
     return true;
 }

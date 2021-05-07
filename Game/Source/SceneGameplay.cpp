@@ -584,6 +584,8 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 				{
 					entityManager->playerList.At(i)->data->stopPlayer = false;
 				}
+
+				PlayMapMusic();
 			}
 		}
 		else if (control->id == 4) 
@@ -600,6 +602,9 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 			// Fullscreen and vsync controls are disabled if you acces from gameplay
 			this->guiManager->controls.At(6)->data->state = GuiControlState::DISABLED;
 			this->guiManager->controls.At(7)->data->state = GuiControlState::DISABLED;
+
+			audio->StopMusic();
+			audio->PlayMusic("Assets/Audio/Music/menu_settings.ogg");
 		}
 		else if (control->id == 5)
 		{
@@ -646,6 +651,8 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 
 			screenRoaming->isActive = true;
 			screenRoaming->ShowButtons();
+
+			PlayMapMusic();
 		}
 
 		break;
@@ -673,30 +680,7 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 
 void SceneGameplay::ExitBattle()
 {
-	audio->StopMusic();
-	switch (currentMap)
-	{
-	case MapType::CEMETERY:
-		audio->PlayMusic("Assets/Audio/Music/cemetery.ogg");
-		break;
-	case MapType::HOUSE:
-		audio->PlayMusic("Assets/Audio/Music/house.ogg");
-		break;
-	case MapType::MEDIUM_CITY:
-		audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
-		break;
-	case MapType::RESTAURANT:
-		audio->PlayMusic("Assets/Audio/Music/restaurant.ogg");
-		break;
-	case MapType::TOWN:
-		audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
-		break;
-	case MapType::BIG_CITY:
-		audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
-		break;
-	default:
-		break;
-	}
+	PlayMapMusic();
 
 	for (int i = 11; i <= 14; ++i)
 	{
@@ -1024,4 +1008,32 @@ void SceneGameplay::AddItemToInvItemsList(Item* item)
 	//RELEASE(invItem);
 	
 	((ScreenInventory*)screenInventory)->SetInventory(this->invItemsList);
+}
+
+void SceneGameplay::PlayMapMusic()
+{
+	audio->StopMusic();
+	switch (currentMap)
+	{
+	case MapType::CEMETERY:
+		audio->PlayMusic("Assets/Audio/Music/cemetery.ogg");
+		break;
+	case MapType::HOUSE:
+		audio->PlayMusic("Assets/Audio/Music/house.ogg");
+		break;
+	case MapType::MEDIUM_CITY:
+		audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
+		break;
+	case MapType::RESTAURANT:
+		audio->PlayMusic("Assets/Audio/Music/restaurant.ogg");
+		break;
+	case MapType::TOWN:
+		audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
+		break;
+	case MapType::BIG_CITY:
+		audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
+		break;
+	default:
+		break;
+	}
 }

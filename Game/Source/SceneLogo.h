@@ -25,6 +25,7 @@ public:
 private:
     AudioManager* audio;
 
+    SDL_Texture* backgroundTex;
     SDL_Texture* logoTex;
     SDL_Rect logo;
 
@@ -32,7 +33,7 @@ private:
 
     int logoFx;
     int state;
-
+    int posX;
 
     float timeCounter;
     float logoAlpha;

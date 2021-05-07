@@ -324,6 +324,9 @@ bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
 
             screenSettings->isActive = true;
             screenMainMenu->isActive = false;
+
+            audio->StopMusic();
+            audio->PlayMusic("Assets/Audio/Music/menu_settings.ogg");
         }
         else if (control->id == 3)
         {
@@ -348,7 +351,8 @@ bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
                 screenCredits->isActive = false;
                 screenMainMenu->isActive = true;
             }
-               
+            audio->StopMusic();
+            audio->PlayMusic("Assets/Audio/Music/menu.ogg");
         }
         break;
     }
