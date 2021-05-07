@@ -67,9 +67,9 @@ jobs:
         
         msbuild.exe Development.sln  /property:Configuration=Release
         copy /Y .\..\..\build\Release\Game.exe .\..\..\build\${{ env.RELEASE_NAME }}\Game.exe
-        cd .\..\..\build\${{ env.RELEASE_NAME }}\Game.exe
+        cd build\${{ env.RELEASE_NAME }}\Game.exe
         dir
-        cd .\..\..\
+        cd .\..\..\Wasabi-Warriors-RPG
         dir
       shell: cmd
       if: matrix.compiler == 'msvc16'
