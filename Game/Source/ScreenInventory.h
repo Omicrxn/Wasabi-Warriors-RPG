@@ -7,11 +7,11 @@
 #define INVENTORY_ROWS 2
 #define INVENTORY_COLUMNS 3
 
-struct InventorySlot
-{
-	Item* item = nullptr;
-	uint quantity = 0;
-};
+//struct InventorySlot
+//{
+//	Item* item = nullptr;
+//	uint quantity = 0;
+//};
 
 class ScreenInventory : public Screen
 {
@@ -27,14 +27,23 @@ public:
 
 	bool Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager);
 
+	void SetInventory(List<InvItem*> invItems);
 private:
-	InventorySlot inventory[INVENTORY_ROWS][INVENTORY_COLUMNS];
+	//InventorySlot inventory[INVENTORY_ROWS][INVENTORY_COLUMNS];
 
 	iPoint itemHovering;
 	iPoint itemSelected;
 
 	GuiButton* btnConfirm;
 	GuiButton* btnCancel;
+
+	SDL_Rect LBButton;
+	SDL_Rect RBButton;
+	SDL_Rect playersIcons;
+
+	List<InvItem*> listInvItems;
+
+	bool controller;
 };
 
 #endif // __SCREENINVENTORY_H__

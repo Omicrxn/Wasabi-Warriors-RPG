@@ -79,7 +79,7 @@ bool ScreenRoaming::Draw(Render* render)
 	// Draw anything extra needed in the hud
 	render->DrawTexture(this->atlas[0], posLeft.x + 50, posLeft.y - 70, &playersIcons, 0.0f);
 	// LB & RB buttons sprite draw
-	if (1)
+	if (controller)
 	{
 		render->DrawTexture(this->atlas[0], posLeft.x - 40, posLeft.y - 70, &LBButton, 0.0f);
 		render->DrawTexture(this->atlas[0], posRight.x + 40, posRight.y - 70, &RBButton, 0.0f);

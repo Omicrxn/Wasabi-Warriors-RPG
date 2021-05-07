@@ -151,27 +151,27 @@ void Player::SetUpTexture(SString texPath)
             {
                 SDL_Rect rect = { x,y,32,32 };
                 idleAnim.PushBack(rect);
-                idleAnim.speed = 0.2;
+                idleAnim.speed = 0.2f;
             }
             else if (y == textureStartYPos + 32)
             {
                 walkRightAnim.PushBack({ x,y,32,32 });
-                walkRightAnim.speed = 0.2;
+                walkRightAnim.speed = 0.2f;
             }
             else if (y == textureStartYPos + 32 * 2)
             {
                 walkUpAnim.PushBack({ x,y,32,32 });
-                walkUpAnim.speed = 0.2;
+                walkUpAnim.speed = 0.2f;
             }
             else if (y == textureStartYPos + 32 * 3)
             {
                 walkDownAnim.PushBack({ x,y,32,32 });
-                walkDownAnim.speed = 0.2;
+                walkDownAnim.speed = 0.2f;
             }
             else if (y == textureStartYPos + 32 * 4)
             {
                 walkLeftAnim.PushBack({ x,y,32,32 });
-                walkLeftAnim.speed = 0.2;
+                walkLeftAnim.speed = 0.2f;
             }
         }
     }

@@ -405,6 +405,12 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 	RELEASE(battleSystem);
 	battleSystem = nullptr;
 
+	for (int i = 0; i < invItemsList.Count(); ++i)
+	{
+		invItemsList.Del(invItemsList.At(0));
+	}
+	invItemsList.Clear();
+
 	// Remove map
 	map->CleanUp();
 
@@ -1013,7 +1019,9 @@ void SceneGameplay::AddItemToInvItemsList(Item* item)
 
 	InvItem* invItem = new InvItem();
 	invItem->item = item;
-	invItem->count = 0;
+	invItem->count = 1;
 	invItemsList.Add(invItem);
-	RELEASE(invItem);
+	//RELEASE(invItem);
+	
+	((ScreenInventory*)screenInventory)->SetInventory(this->invItemsList);
 }
