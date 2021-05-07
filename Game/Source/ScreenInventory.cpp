@@ -134,6 +134,9 @@ bool ScreenInventory::Draw(Render* render)
 			else
 				render->DrawRectangle(slotRect, { 255,0,0,255 }, true, false);
 
+			// Draw item stats
+
+
 			if (listItem != NULL)
 			{
 				// Draw item
@@ -144,6 +147,7 @@ bool ScreenInventory::Draw(Render* render)
 				sprintf_s(itemType, 24, "item count is %i", (int)listItem->data->count);
 				render->DrawText(font, itemType, slotRect.x, slotRect.y + 10, 10, 2, { 255,255,255,255 });
 				listItem = listItem->next;
+
 			}
 			else
 				continue;
@@ -172,29 +176,29 @@ bool ScreenInventory::Draw(Render* render)
 			render->scale = 1;
 
 			// Draw Player Stats
-			char statsString[24] = { 0 };
-			sprintf_s(statsString, 24, "Level: %i", entityManager->playerList.At(i)->data->stats.level);
+			char statsString[30] = { 0 };
+			sprintf_s(statsString, 30, "LVL: %i", entityManager->playerList.At(i)->data->stats.level);
 			render->DrawText(font, statsString, 925, 260, 30, 2, { 255,255,255,255 });
 
-			sprintf_s(statsString, 24, "Damage: %i", entityManager->playerList.At(i)->data->stats.damage);
+			sprintf_s(statsString, 30, "Damage: %i", entityManager->playerList.At(i)->data->stats.damage);
 			render->DrawText(font, statsString, 925, 300, 30, 2, { 255,255,255,255 });
 
-			sprintf_s(statsString, 24, "MaxHP: %i", entityManager->playerList.At(i)->data->stats.maxHP);
+			sprintf_s(statsString, 30, "Max HP: %i", entityManager->playerList.At(i)->data->stats.maxHP);
 			render->DrawText(font, statsString, 925, 340, 30, 2, { 255,255,255,255 });
 
-			sprintf_s(statsString, 24, "CurrentHP: %i", entityManager->playerList.At(i)->data->stats.currentHP);
+			sprintf_s(statsString, 30, "HP: %i", entityManager->playerList.At(i)->data->stats.currentHP);
 			render->DrawText(font, statsString, 925, 380, 30, 2, { 255,255,255,255 });
 
-			sprintf_s(statsString, 24, "Strength: %i", entityManager->playerList.At(i)->data->stats.strength);
+			sprintf_s(statsString, 30, "Strength: %i", entityManager->playerList.At(i)->data->stats.strength);
 			render->DrawText(font, statsString, 925, 420, 30, 2, { 255,255,255,255 });
 
-			sprintf_s(statsString, 24, "Defense: %i", entityManager->playerList.At(i)->data->stats.defense);
+			sprintf_s(statsString, 30, "Defense: %i", entityManager->playerList.At(i)->data->stats.defense);
 			render->DrawText(font, statsString, 925, 460, 30, 2, { 255,255,255,255 });
 
-			sprintf_s(statsString, 24, "AttackSpeed: %i", entityManager->playerList.At(i)->data->stats.attackSpeed);
+			sprintf_s(statsString, 30, "Atk Speed: %i", entityManager->playerList.At(i)->data->stats.attackSpeed);
 			render->DrawText(font, statsString, 925, 500, 30, 2, { 255,255,255,255 });
 
-			sprintf_s(statsString, 24, "CriticalRate: %f", entityManager->playerList.At(i)->data->stats.criticalRate);
+			sprintf_s(statsString, 30, "CritRate: %.1f", entityManager->playerList.At(i)->data->stats.criticalRate);
 			render->DrawText(font, statsString, 925, 540, 30, 2, { 255,255,255,255 });
 
 		}
