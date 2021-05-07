@@ -35,11 +35,11 @@ bool ScreenInventory::Load(int minIndex, int maxIndex, Scene* currentScene, Wind
 	this->maxIndex = maxIndex;
 	int counterId = minIndex;
 
-	btnConfirm = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { 900, 600, 190, 49 }, "");
+	btnConfirm = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { 800, 600, 190, 49 }, "CONFIRM");
 	btnConfirm->SetButtonProperties(currentScene, atlas[0], font, hoverFx, clickFx, Style::WHITE);
 	++counterId;
 
-	btnCancel = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { 950, 600, 190, 49 }, "");
+	btnCancel = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { 1050, 600, 190, 49 }, "CANCEL");
 	btnCancel->SetButtonProperties(currentScene, atlas[0], font, hoverFx, clickFx, Style::WHITE);
 
 	return true;
@@ -135,7 +135,34 @@ bool ScreenInventory::Draw(Render* render)
 				render->DrawRectangle(slotRect, { 255,0,0,255 }, true, false);
 
 			// Draw item stats
+			if (listInvItems.Count() > 0 && (listInvItems.Count() - 1) >= (itemSelected.x * INVENTORY_COLUMNS + itemSelected.y))
+			{
+				InvItem* currentItem = listInvItems.At(itemSelected.x * INVENTORY_COLUMNS + itemSelected.y)->data;
 
+				render->DrawText(font, "Description", 100, 450, 22, 2, { 255,255,255,255 });
+
+				char statsString[30] = { 0 };
+				sprintf_s(statsString, 30, "%s", currentItem->item->name.GetString());
+				render->DrawText(font, statsString, 100, 400, 30, 2, { 255,255,255,255 });
+
+				// Items stats increase for player draw
+				sprintf_s(statsString, 30, "+%i  ", currentItem->item->stats.level);
+				render->DrawText(font, statsString, 1150, 260, 30, 2, { 0,255,0,255 });
+				sprintf_s(statsString, 30, "+%i  ", currentItem->item->stats.damage);
+				render->DrawText(font, statsString, 1150, 300, 30, 2, { 0,255,0,255 });
+				sprintf_s(statsString, 30, "+%i  ", currentItem->item->stats.maxHP);
+				render->DrawText(font, statsString, 1150, 340, 30, 2, { 0,255,0,255 });
+				sprintf_s(statsString, 30, "+%i  ", currentItem->item->stats.currentHP);
+				render->DrawText(font, statsString, 1150, 380, 30, 2, { 0,255,0,255 });
+				sprintf_s(statsString, 30, "+%i  ", currentItem->item->stats.strength);
+				render->DrawText(font, statsString, 1150, 420, 30, 2, { 0,255,0,255 });
+				sprintf_s(statsString, 30, "+%i  ", currentItem->item->stats.defense);
+				render->DrawText(font, statsString, 1150, 460, 30, 2, { 0,255,0,255 });
+				sprintf_s(statsString, 30, "+%i  ", currentItem->item->stats.attackSpeed);
+				render->DrawText(font, statsString, 1150, 500, 30, 2, { 0,255,0,255 });
+				sprintf_s(statsString, 30, "+%.1f  ", currentItem->item->stats.criticalRate);
+				render->DrawText(font, statsString, 1150, 540, 30, 2, { 0,255,0,255 });
+			}
 
 			if (listItem != NULL)
 			{
@@ -147,22 +174,21 @@ bool ScreenInventory::Draw(Render* render)
 				sprintf_s(itemType, 24, "item count is %i", (int)listItem->data->count);
 				render->DrawText(font, itemType, slotRect.x, slotRect.y + 10, 10, 2, { 255,255,255,255 });
 				listItem = listItem->next;
-
 			}
 			else
 				continue;
-			
+
 		}
 		slotRect.y = slotRect.y + spacing + slotRect.h;
 	}
 
-	// Draw miniplayer
-	render->DrawTexture(this->atlas[0], 1000, 100, &playersIcons, 0.0f);
+	render->DrawTexture(this->atlas[0], 930, 70, &playersIcons, 0.0f);
 	if (0)
 	{
-		render->DrawTexture(this->atlas[0], 950 - 40, 100, &LBButton, 0.0f);
-		render->DrawTexture(this->atlas[0], 1050 + 40, 100, &RBButton, 0.0f);
+		render->DrawTexture(this->atlas[0], 880 - 40, 70, &LBButton, 0.0f);
+		render->DrawTexture(this->atlas[0], 980 + 40, 70, &RBButton, 0.0f);
 	}
+	// Draw miniplayer
 	for (int i = 0; i < entityManager->playerList.Count(); ++i)
 	{
 		if (entityManager->playerList.At(i)->data->IsActive())
@@ -170,41 +196,47 @@ bool ScreenInventory::Draw(Render* render)
 			int y = entityManager->playerList.At(i)->data->spritePos * 32 * 5;
 			SDL_Rect rect = { 0, y , 32, 32 };
 			render->scale = 2;
-			render->DrawRectangle({ 1010,  180, 70, 70 }, { 255,255,255,127 }, true, false);
-			render->DrawRectangle({ 1010,  180, 70, 70 }, { 255,255,255,255 }, false, false);
-			render->DrawTexture(entityManager->texture, 1010 / 2 + 2, 180 / 2 + 2, &rect, 0.0f);
+			render->DrawRectangle({ 940,  150, 70, 70 }, { 255,255,255,127 }, true, false);
+			render->DrawRectangle({ 940,  150, 70, 70 }, { 255,255,255,255 }, false, false);
+			render->DrawTexture(entityManager->texture, 940 / 2 + 2, 150 / 2 + 2, &rect, 0.0f);
 			render->scale = 1;
 
 			// Draw Player Stats
+			render->DrawText(font, "LVL:", 825, 260, 30, 2, { 255,255,255,255 });
+			render->DrawText(font, "Damage:", 825, 300, 30, 2, { 255,255,255,255 });
+			render->DrawText(font, "Max HP:", 825, 340, 30, 2, { 255,255,255,255 });
+			render->DrawText(font, "HP:", 825, 380, 30, 2, { 255,255,255,255 });
+			render->DrawText(font, "Strength:", 825, 420, 30, 2, { 255,255,255,255 });
+			render->DrawText(font, "Defense:", 825, 460, 30, 2, { 255,255,255,255 });
+			render->DrawText(font, "Atk Speed:", 825, 500, 30, 2, { 255,255,255,255 });
+			render->DrawText(font, "CritRate:", 825, 540, 30, 2, { 255,255,255,255 });
+
 			char statsString[30] = { 0 };
-			sprintf_s(statsString, 30, "LVL: %i", entityManager->playerList.At(i)->data->stats.level);
-			render->DrawText(font, statsString, 925, 260, 30, 2, { 255,255,255,255 });
+			sprintf_s(statsString, 30, "%i  ", entityManager->playerList.At(i)->data->stats.level);
+			render->DrawText(font, statsString, 1050, 260, 30, 2, { 255,255,255,255 });
 
-			sprintf_s(statsString, 30, "Damage: %i", entityManager->playerList.At(i)->data->stats.damage);
-			render->DrawText(font, statsString, 925, 300, 30, 2, { 255,255,255,255 });
+			sprintf_s(statsString, 30, "%i  ", entityManager->playerList.At(i)->data->stats.damage);
+			render->DrawText(font, statsString, 1050, 300, 30, 2, { 255,255,255,255 });
 
-			sprintf_s(statsString, 30, "Max HP: %i", entityManager->playerList.At(i)->data->stats.maxHP);
-			render->DrawText(font, statsString, 925, 340, 30, 2, { 255,255,255,255 });
+			sprintf_s(statsString, 30, "%i  ", entityManager->playerList.At(i)->data->stats.maxHP);
+			render->DrawText(font, statsString, 1050, 340, 30, 2, { 255,255,255,255 });
 
-			sprintf_s(statsString, 30, "HP: %i", entityManager->playerList.At(i)->data->stats.currentHP);
-			render->DrawText(font, statsString, 925, 380, 30, 2, { 255,255,255,255 });
+			sprintf_s(statsString, 30, "%i  ", entityManager->playerList.At(i)->data->stats.currentHP);
+			render->DrawText(font, statsString, 1050, 380, 30, 2, { 255,255,255,255 });
 
-			sprintf_s(statsString, 30, "Strength: %i", entityManager->playerList.At(i)->data->stats.strength);
-			render->DrawText(font, statsString, 925, 420, 30, 2, { 255,255,255,255 });
+			sprintf_s(statsString, 30, "%i  ", entityManager->playerList.At(i)->data->stats.strength);
+			render->DrawText(font, statsString, 1050, 420, 30, 2, { 255,255,255,255 });
 
-			sprintf_s(statsString, 30, "Defense: %i", entityManager->playerList.At(i)->data->stats.defense);
-			render->DrawText(font, statsString, 925, 460, 30, 2, { 255,255,255,255 });
+			sprintf_s(statsString, 30, "%i  ", entityManager->playerList.At(i)->data->stats.defense);
+			render->DrawText(font, statsString, 1050, 460, 30, 2, { 255,255,255,255 });
 
-			sprintf_s(statsString, 30, "Atk Speed: %i", entityManager->playerList.At(i)->data->stats.attackSpeed);
-			render->DrawText(font, statsString, 925, 500, 30, 2, { 255,255,255,255 });
+			sprintf_s(statsString, 30, "%i  ", entityManager->playerList.At(i)->data->stats.attackSpeed);
+			render->DrawText(font, statsString, 1050, 500, 30, 2, { 255,255,255,255 });
 
-			sprintf_s(statsString, 30, "CritRate: %.1f", entityManager->playerList.At(i)->data->stats.criticalRate);
-			render->DrawText(font, statsString, 925, 540, 30, 2, { 255,255,255,255 });
-
+			sprintf_s(statsString, 30, "%.1f  ", entityManager->playerList.At(i)->data->stats.criticalRate);
+			render->DrawText(font, statsString, 1050, 540, 30, 2, { 255,255,255,255 });
 		}
 	}
-
-
 	return true;
 }
 
