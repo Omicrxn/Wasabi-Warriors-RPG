@@ -281,8 +281,10 @@ bool AudioManager::UnloadFx(uint index)
 		{
 			Mix_FreeChunk(item->data);
 			fx.Del(item);
+			return true;
 		}
 	}
+	RELEASE(item);
 
 	return ret;
 }

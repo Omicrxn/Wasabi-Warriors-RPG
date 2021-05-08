@@ -413,6 +413,8 @@ bool App::LoadGame()
 		LOG("Starting to LoadState of each Module");
 		docNode = docData.child("game_state");
 
+		collisions->godMode = true;
+
 		ListItem<Module*>* item;
 		item = modules.start;
 
@@ -422,6 +424,8 @@ bool App::LoadGame()
 			ret = item->data->LoadState(docNode.child(item->data->name.GetString()));
 			item = item->next;
 		}
+
+		collisions->godMode = false;
 	}
 
 	loadGameRequested = false;

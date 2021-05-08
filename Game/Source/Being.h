@@ -36,8 +36,6 @@ public:
 	Animation walkLeftAnim;
 	Animation walkUpAnim;
 	Animation walkDownAnim;
-
-	SString classType;
 };
 
 #endif //__BEING_H__

@@ -27,7 +27,6 @@ public:
 
     Stats stats;
     bool usable = true;
-    SString classType;
     // Bool to keep track of where the item is (on the map or in the inventory)
     bool onMap;
 

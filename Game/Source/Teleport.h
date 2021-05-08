@@ -17,7 +17,7 @@ public:
 	MapType GetDestination() { return destination; }
 	void SetAsSimpleTP();
 	void SetNextPosition(int nextPosX, int nextPosY);
-
+	iPoint GetNextPosition();
 	int width = 32, height = 32;
 
 private:

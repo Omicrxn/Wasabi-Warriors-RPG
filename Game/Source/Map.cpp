@@ -199,20 +199,27 @@ bool Map::CleanUp()
 
 	// L03: DONE 2: Make sure you clean up any memory allocated from tilesets/map
 	// Remove all tilesets
-	for (int i = 0; i < data.tilesets.Count(); i++)
+	// Remove all tilesets
+	ListItem<TileSet*>* item;
+	item = data.tilesets.start;
+
+	while (item != NULL)
 	{
-		TileSet* t = data.tilesets[i];
-		delete t;
+		if (item->data->texture != nullptr)
+			tex->UnLoad(item->data->texture);
+		RELEASE(item->data);
+		item = item->next;
 	}
 	data.tilesets.Clear();
-	
-	// L04: TODO 2: clean up all layer data
-	// Remove all layers
-	for (int i = 0; i < data.layers.Count(); i++)
-	{
-		data.layers.At(i)->data->properties.list.Clear();
-		RELEASE(data.layers.At(i)->data);
 
+	// Remove all layers
+	ListItem<MapLayer*>* layerList;
+	layerList = data.layers.start;
+
+	while (layerList != NULL)
+	{
+		RELEASE(layerList->data);
+		layerList = layerList->next;
 	}
 	data.layers.Clear();
 

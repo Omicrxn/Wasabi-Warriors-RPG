@@ -46,7 +46,9 @@ Enemy::Enemy(SString name, Textures* tex, Collisions* collisions, EntityManager*
 
 Enemy::~Enemy()
 {
+    LOG("Enemy destructor...");
     collider->pendingToDelete = true;
+    tex->UnLoad(texture);
 }
 
 bool Enemy::Update(Input* input, float dt)
@@ -70,6 +72,7 @@ bool Enemy::Draw(Render* render)
 
 void Enemy::SetUpTexture(SString texPath)
 {
+    LOG("Setting enemy texture");
     texture = tex->Load(texPath.GetString());
     // Define player textures / animations
     int textureStartYPos = spritePos * 32 * 5;
@@ -153,8 +156,7 @@ bool Enemy::SetUpClass(SString name)
     }
     else
     {
-        LOG("Loading entity info");
-        this->classType = name;
+        LOG("Loading entity enemy info");
 
         docNode = docData.child("entity").child("enemy");
         docNode = docNode.child(name.GetString());
@@ -167,6 +169,8 @@ bool Enemy::SetUpClass(SString name)
         this->stats.defense = docNode.attribute("defense").as_int(0);
         this->stats.attackSpeed = docNode.attribute("attack_speed").as_int(0);
         this->stats.criticalRate = docNode.attribute("critical_rate").as_int(0);
+
+        LOG("Entity enemy info loaded");
     }
 
     LOG("Saving enemy info from %s", newName.GetString());

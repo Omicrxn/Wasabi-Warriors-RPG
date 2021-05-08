@@ -44,7 +44,9 @@ Player::Player(SString name, Textures* tex, Collisions* collisions, EntityManage
 
 Player::~Player()
 {
+    LOG("Player destructor...");
     collider->pendingToDelete = true;
+    tex->UnLoad(texture);
 }
 
 bool Player::Update(Input* input, float dt)
@@ -129,6 +131,7 @@ bool Player::Draw(Render* render)
 
 void Player::SetUpTexture(SString texPath)
 {
+    LOG("Setting player texture");
     texture = tex->Load(texPath.GetString());
     // Define player textures / animations
     int textureStartYPos = spritePos * 32 * 5;
@@ -216,8 +219,7 @@ bool Player::SetUpClass(SString name)
     }
     else
     {
-        LOG("Loading entity info");
-        this->classType = name;
+        LOG("Loading entity player info");
 
         docNode = docData.child("entity").child("player");
         docNode = docNode.child(name.GetString());
@@ -230,6 +232,8 @@ bool Player::SetUpClass(SString name)
         this->stats.defense = docNode.attribute("defense").as_int(0);
         this->stats.attackSpeed = docNode.attribute("attack_speed").as_int(0);
         this->stats.criticalRate = docNode.attribute("critical_rate").as_int(0);
+
+        LOG("Entity player info loaded");
     }
 
     LOG("Saving player info from %s", newName.GetString());

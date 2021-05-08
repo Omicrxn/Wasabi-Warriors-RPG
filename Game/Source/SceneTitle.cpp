@@ -189,12 +189,14 @@ bool SceneTitle::Update(Input* input, float dt)
 
     if (menuCurrentSelection == MenuSelection::START)
     {
+        audio->StopMusic();
         screenMainMenu->HideButtons();
         /*TransitionToScene(SceneType::GAMEPLAY);*/
         transitions->Transition(WhichAnimation::FADE_TO_BLACK, (Scene*)this, SceneType::GAMEPLAY, 2);
     }
     else if (menuCurrentSelection == MenuSelection::CONTINUE)
     {
+        audio->StopMusic();
         screenMainMenu->HideButtons();
         TransitionToScene(SceneType::GAMEPLAY_LOAD);
     }
@@ -212,6 +214,7 @@ bool SceneTitle::Update(Input* input, float dt)
     }
     else if (menuCurrentSelection == MenuSelection::EXIT)
     {
+        audio->StopMusic();
         guiManager->ExitGame();
     }
 
@@ -278,8 +281,11 @@ bool SceneTitle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManag
     screenCredits->Unload(tex, audio, guiManager);
 
     RELEASE(screenSettings);
+    screenSettings = nullptr;
     RELEASE(screenMainMenu);
+    screenMainMenu = nullptr;
     RELEASE(screenCredits);
+    screenCredits = nullptr;
 
     this->guiManager = nullptr;
     this->win = nullptr;

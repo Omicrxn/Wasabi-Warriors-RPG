@@ -79,6 +79,9 @@ public:
 	// Load / Save
 	bool LoadState(pugi::xml_node&);
 	bool SaveState(pugi::xml_node&) const;
+
+	bool godMode = false;
+
 private:
 	// All existing colliders in the scene
 	Collider* colliders[MAX_COLLIDERS] = { nullptr };
@@ -89,8 +92,6 @@ private:
 
 	// Simple debugging flag to draw all colliders
 	bool debug = false;
-	
-	bool godMode = false;
 	// The amount of colliders loaded into the array
 	uint colliderCount = 0;
 

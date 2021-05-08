@@ -60,6 +60,11 @@ void Teleport::SetNextPosition(int nextPosX, int nextPosY)
 	nextPosition.y = nextPosY;
 }
 
+iPoint Teleport::GetNextPosition()
+{
+	return nextPosition;
+}
+
 void Teleport::OnCollision(Collider* collider)
 {
 	if (!hasInteracted)

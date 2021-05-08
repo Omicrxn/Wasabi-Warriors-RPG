@@ -23,6 +23,7 @@ Item::Item(SString name, Textures* tex, Collisions* collisions, EntityManager* e
     {
         width = height = 96;
         section = { 0,0,width,height };
+        SetUpClass("potion");
     }
 
     // Adding collider
@@ -84,8 +85,7 @@ bool Item::SetUpClass(SString name)
     }
     else
     {
-        LOG("Loading entity info");
-        this->classType = name;
+        LOG("Loading item entity info");
 
         docNode = docData.child("entity").child("items");
         docNode = docNode.child(name.GetString());
@@ -98,6 +98,8 @@ bool Item::SetUpClass(SString name)
         this->stats.defense = docNode.attribute("defense").as_int(0);
         this->stats.attackSpeed = docNode.attribute("attack_speed").as_int(0);
         this->stats.criticalRate = docNode.attribute("critical_rate").as_int(0);
+
+        LOG("Item entity info loaded");
     }
 
     LOG("Saving enemy info from %s", newName.GetString());

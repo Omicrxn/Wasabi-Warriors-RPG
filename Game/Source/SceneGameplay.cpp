@@ -513,6 +513,7 @@ bool SceneGameplay::LoadState(pugi::xml_node& scenegameplay)
 	}
 	pugi::xml_node screenNode = scenegameplay.parent().parent().child("screen");
 	screenSettings->LoadState(screenNode);
+	hasStartedFromContinue = true;
 	return true;
 }
 
@@ -720,9 +721,11 @@ void SceneGameplay::ExitBattle()
 
 void SceneGameplay::SetUpTp()
 {
+	map->CleanUp();
+
 	MapType previousMap = MapType::NONE;
 	previousMap = currentMap;
-	currentMap = notifier->ChangeMap();
+	currentMap = notifier->GetNextMap();
 
 	// Create map
 	switch (currentMap)
@@ -822,101 +825,101 @@ void SceneGameplay::SetUpTp()
 		break;
 	}
 
-	if (hasStartedFromContinue == false)
+	pugi::xml_document docData;
+	pugi::xml_node mapNode;
+
+	pugi::xml_parse_result result = docData.load_file("map_info.xml");
+
+	// Check result for loading errors
+	if (result == NULL)
 	{
-		pugi::xml_document docData;
-		pugi::xml_node mapNode;
-
-		pugi::xml_parse_result result = docData.load_file("map_info.xml");
-
-		// Check result for loading errors
-		if (result == NULL)
+		LOG("Could not load map info xml file map_info.xml. pugi error: %s", result.description());
+	}
+	else
+	{
+		mapNode = docData.child("map");
+		// GET THE NODE TO THE NEW MAP
+		switch (currentMap)
 		{
-			LOG("Could not load map info xml file map_info.xml. pugi error: %s", result.description());
+		case MapType::NONE:
+			break;
+		case MapType::CEMETERY:
+			mapNode = mapNode.child("cemetery");
+			break;
+		case MapType::HOUSE:
+			mapNode = mapNode.child("house");
+			break;
+		case MapType::MEDIUM_CITY:
+			mapNode = mapNode.child("mediumCity");
+			break;
+		case MapType::RESTAURANT:
+			mapNode = mapNode.child("restaurant");
+			break;
+		case MapType::TOWN:
+			mapNode = mapNode.child("town");
+			break;
+		case MapType::BIG_CITY:
+			mapNode = mapNode.child("bigCity");
+			break;
+		case MapType::SKYSCRAPER:
+			mapNode = mapNode.child("dungeon");
+			break;
+		default:
+			break;
 		}
-		else
+		//FIRST CHANGE PLAYERS POSITION TO NEW POSITION BASED ON THE PREVIOUS MAP 
+		pugi::xml_node previousMapNode;
+		switch (previousMap)
 		{
-			mapNode = docData.child("map");
-			// GET THE NODE TO THE NEW MAP
-			switch (currentMap)
-			{
-			case MapType::NONE:
-				break;
-			case MapType::CEMETERY:
-				mapNode = mapNode.child("cemetery");
-				break;
-			case MapType::HOUSE:
-				mapNode = mapNode.child("house");
-				break;
-			case MapType::MEDIUM_CITY:
-				mapNode = mapNode.child("mediumCity");
-				break;
-			case MapType::RESTAURANT:
-				mapNode = mapNode.child("restaurant");
-				break;
-			case MapType::TOWN:
-				mapNode = mapNode.child("town");
-				break;
-			case MapType::BIG_CITY:
-				mapNode = mapNode.child("bigCity");
-				break;
-			case MapType::SKYSCRAPER:
-				mapNode = mapNode.child("dungeon");
-				break;
-			default:
-				break;
-			}
-			//FIRST CHANGE PLAYERS POSITION TO NEW POSITION BASED ON THE PREVIOUS MAP 
-			pugi::xml_node previousMapNode;
-			switch (previousMap)
-			{
-			case MapType::NONE:
-				break;
-			case MapType::CEMETERY:
-				previousMapNode = mapNode.child("prevCemetery");
-				break;
-			case MapType::HOUSE:
-				previousMapNode = mapNode.child("prevHouse");
-				break;
-			case MapType::MEDIUM_CITY:
-				previousMapNode = mapNode.child("prevMediumcity");
-				break;
-			case MapType::RESTAURANT:
-				previousMapNode = mapNode.child("prevRestaurant");
-				break;
-			case MapType::TOWN:
-				previousMapNode = mapNode.child("prevTown");
-				break;
-			case MapType::BIG_CITY:
-				previousMapNode = mapNode.child("prevBigCity");
-				break;
-			case MapType::SKYSCRAPER:
-				previousMapNode = mapNode.child("prevSkyscraper");
-				break;
-			default:
-				break;
-			}
+		case MapType::NONE:
+			break;
+		case MapType::CEMETERY:
+			previousMapNode = mapNode.child("prevCemetery");
+			break;
+		case MapType::HOUSE:
+			previousMapNode = mapNode.child("prevHouse");
+			break;
+		case MapType::MEDIUM_CITY:
+			previousMapNode = mapNode.child("prevMediumCity");
+			break;
+		case MapType::RESTAURANT:
+			previousMapNode = mapNode.child("prevRestaurant");
+			break;
+		case MapType::TOWN:
+			previousMapNode = mapNode.child("prevTown");
+			break;
+		case MapType::BIG_CITY:
+			previousMapNode = mapNode.child("prevBigCity");
+			break;
+		case MapType::SKYSCRAPER:
+			previousMapNode = mapNode.child("prevSkyscraper");
+			break;
+		default:
+			break;
+		}
 
+		if (previousMap != MapType::NONE)
+		{
+			int newPosX = 0; int newPosY = 0;
+			newPosX = previousMapNode.child("player").attribute("posX").as_int();
+			newPosY = previousMapNode.child("player").attribute("posY").as_int();
+
+			// Iterate all players and change position
+			ListItem<Player*>* list1;
+			for (list1 = entityManager->playerList.start; list1 != NULL; list1 = list1->next)
+			{
+				list1->data->position.x = newPosX;
+				list1->data->position.y = newPosY;
+				list1->data->collider->SetPos(newPosX, newPosY);
+				list1->data->transitioning = true;
+			}
+			RELEASE(list1);
+		}
+
+		if (hasStartedFromContinue == false)
+		{
 			// DELETE ALL ENTITIES EXCEPT PLAYER
 			entityManager->DeleteAllEntitiesExceptPlayer();
-
-			if (previousMap != MapType::NONE)
-			{
-				int newPosX = 0; int newPosY = 0;
-				newPosX = previousMapNode.child("player").attribute("posX").as_int();
-				newPosY = previousMapNode.child("player").attribute("posY").as_int();
-
-				// Iterate all players and change position
-				ListItem<Player*>* list1;
-				for (list1 = entityManager->playerList.start; list1 != NULL; list1 = list1->next)
-				{
-					list1->data->position.x = newPosX;
-					list1->data->position.y = newPosY;
-					list1->data->collider->SetPos(newPosX, newPosY);
-					list1->data->transitioning = true;
-				}
-				RELEASE(list1);
-			}
 
 			// LOAD ENEMIES
 			int enemyCount = mapNode.attribute("enemyCount").as_int();
@@ -927,7 +930,7 @@ void SceneGameplay::SetUpTp()
 			{
 				int subtype = enemyNode.attribute("subtype").as_int();
 				iPoint position = { enemyNode.attribute("posX").as_int(),enemyNode.attribute("posY").as_int() };
-				
+
 				enemy = (Enemy*)entityManager->CreateEntity(EntityType::ENEMY, enemyNode.attribute("name").as_string(), (EntitySubtype)subtype, position);
 
 				enemy->id = enemyNode.attribute("id").as_uint();
@@ -950,7 +953,7 @@ void SceneGameplay::SetUpTp()
 				npc->position.x = npcNode.attribute("posX").as_int();
 				npc->position.y = npcNode.attribute("posY").as_int();
 
-				
+
 				npc = nullptr;
 				npcNode = npcNode.next_sibling("npc");
 			}
@@ -971,11 +974,6 @@ void SceneGameplay::SetUpTp()
 				teleport->width = teleportNode.attribute("width").as_int();
 				teleport->height = teleportNode.attribute("height").as_int();
 
-				/*newTeleportNode.append_attribute("nameTeleport").set_value(list4->data->GetName().GetString());
-				newTeleportNode.append_attribute("name").set_value(list4->data->name.GetString());
-				newTeleportNode.append_attribute("destination").set_value((int)list4->data->GetDestination());*/
-
-				//teleport->SetName((SString)teleportNode.attribute("nameTeleport").as_string());
 				teleport->name = teleportNode.attribute("name").as_string();
 				if (teleportNode.attribute("destination").as_int() == -1)
 				{
@@ -1008,10 +1006,10 @@ void SceneGameplay::SetUpTp()
 				itemNode = itemNode.next_sibling("item");
 			}
 		}
-	}
-	else
-	{
-		hasStartedFromContinue = false;
+		else 
+		{
+			hasStartedFromContinue = false;
+		}
 	}
 }
 

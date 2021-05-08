@@ -108,6 +108,8 @@ Entity* EntityManager::CreateEntity(EntityType type, SString name, EntitySubtype
 
 bool EntityManager::LoadState(pugi::xml_node& data)
 {
+	LOG("START LOAD ENTITYMANAGER");
+	LOG("DELETE ALL");
 	/* ---------- FIRST DELETE ALL THE ENTITIES ----------*/
 	ListItem<Entity*>* list1;
 	for (list1 = entityList.start; list1 != NULL; list1 = list1->next)
@@ -129,18 +131,27 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 		{
 			teleportList.Del(teleportList.At(teleportList.Find((Teleport*)list1->data)));
 		}
+		else if (list1->data->type == EntityType::ITEM)
+		{
+			itemList.Del(itemList.At(itemList.Find((Item*)list1->data)));
+		}
+
 		// Delete all entities except the map
 		if (list1->data->type != EntityType::MAP)
 		{
 			DestroyEntity(list1->data);
 		}
-		
-		playerList.Clear();
-		enemyList.Clear();
-		npcList.Clear();
-		teleportList.Clear();
 	}
+
+	playerList.Clear();
+	enemyList.Clear();
+	npcList.Clear();
+	teleportList.Clear();
+	itemList.Clear();
+
 	RELEASE(list1);
+
+	LOG("LOAD ALL PLAYERS");
 	/* ---------- SECOND LOAD PLAYERS FROM THE SAVE FILE ----------*/
 	pugi::xml_node playerListNode;
 	playerListNode = data.child("playerList");
@@ -150,17 +161,15 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 	Player* player = nullptr;
 	for (int i = 0; i < playerCount; ++i)
 	{
-		player = (Player*)CreateEntity(EntityType::PLAYER, playerNode.attribute("name").as_string(), EntitySubtype::UNKNOWN);
+		LOG("LOADING PLAYER NUMBER: %i", i);
+		EntitySubtype subtype = (EntitySubtype)playerNode.attribute("entitySubType").as_int();
+		iPoint pos = { playerNode.attribute("posX").as_int(), playerNode.attribute("posY").as_int() };
+		player = (Player*)CreateEntity(EntityType::PLAYER, playerNode.attribute("name").as_string(), subtype, pos);
 
 		player->id = playerNode.attribute("id").as_uint();
 		player->spritePos = playerNode.attribute("spritePos").as_int();
-		player->position.x = playerNode.attribute("posX").as_int();
-		player->position.y = playerNode.attribute("posY").as_int();
 		player->renderable = playerNode.attribute("renderable").as_bool();
 		player->SetState(playerNode.attribute("isActive").as_bool());
-
-		player->classType = playerNode.attribute("class").as_string();
-		player->SetUpClass(player->classType.GetString());
 
 		player->stats.level = playerNode.attribute("level").as_int();
 		player->stats.damage = playerNode.attribute("damage").as_int();
@@ -175,8 +184,9 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 		player = nullptr;
 		playerNode = playerNode.next_sibling();
 	}
-	/* ---------- THIRD LOAD ENEMIES FROM THE SAVE FILE ----------*/
 
+	LOG("LOADING ENEMIES");
+	/* ---------- THIRD LOAD ENEMIES FROM THE SAVE FILE ----------*/
 	pugi::xml_node enemyListNode;
 	enemyListNode = data.child("enemyList");
 	int enemyCount = enemyListNode.attribute("enemyCount").as_int();
@@ -185,16 +195,14 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 	Enemy* enemy = nullptr;
 	for (int i = 0; i < enemyCount; ++i)
 	{
-		enemy = (Enemy*)CreateEntity(EntityType::ENEMY, enemyNode.attribute("name").as_string(),EntitySubtype::UNKNOWN);
+		LOG("LOADING ENEMY NUMBER: %i", i);
+		EntitySubtype subtype = (EntitySubtype)enemyNode.attribute("entitySubType").as_int();
+		iPoint pos = { enemyNode.attribute("posX").as_int(), enemyNode.attribute("posY").as_int() };
+		enemy = (Enemy*)CreateEntity(EntityType::ENEMY, enemyNode.attribute("name").as_string(), subtype, pos);
 
 		enemy->id = enemyNode.attribute("id").as_uint();
 		enemy->spritePos = enemyNode.attribute("spritePos").as_int();
-		enemy->position.x = enemyNode.attribute("posX").as_int();
-		enemy->position.y = enemyNode.attribute("posY").as_int();
 		enemy->renderable = enemyNode.attribute("renderable").as_bool();
-
-		enemy->classType = enemyNode.attribute("class").as_string();
-		enemy->SetUpClass(enemy->classType.GetString());
 
 		enemy->stats.level = enemyNode.attribute("level").as_int();
 		enemy->stats.damage = enemyNode.attribute("damage").as_int();
@@ -210,6 +218,7 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 		enemyNode = enemyNode.next_sibling();
 	}
 
+	LOG("LOADING NPCs");
 	/* ---------- FOURTH LOAD NPCs FROM THE SAVE FILE ----------*/
 	pugi::xml_node npcListNode;
 	npcListNode = data.child("npcList");
@@ -219,18 +228,20 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 	NPC* npc = nullptr;
 	for (int i = 0; i < npcCount; ++i)
 	{
-		npc = (NPC*)CreateEntity(EntityType::NPC, npcNode.attribute("name").as_string(), EntitySubtype::UNKNOWN);
+		LOG("LOADING NPC NUMBER: %i", i);
+		iPoint pos = { npcNode.attribute("posX").as_int(), npcNode.attribute("posY").as_int() };
+		npc = (NPC*)CreateEntity(EntityType::NPC, npcNode.attribute("name").as_string(), EntitySubtype::UNKNOWN, pos);
 
 		npc->id = npcNode.attribute("id").as_uint();
 		npc->spritePos = npcNode.attribute("spritePos").as_int();
-		npc->position.x = npcNode.attribute("posX").as_int();
-		npc->position.y = npcNode.attribute("posY").as_int();
 		npc->renderable = npcNode.attribute("renderable").as_bool();
 
 		npc = nullptr;
 		npcNode = npcNode.next_sibling();
 	}
 
+	LOG("LOADING TELEPORT");
+	/* ---------- FIFTH LOAD TELEPORT FROM THE SAVE FILE ----------*/
 	pugi::xml_node teleportListNode;
 	teleportListNode = data.child("teleportList");
 	int teleportCount = teleportListNode.attribute("teleportCount").as_int();
@@ -239,25 +250,53 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 	Teleport* teleport = nullptr;
 	for (int i = 0; i < teleportCount; ++i)
 	{
-		teleport = (Teleport*)CreateEntity(EntityType::TELEPORT, teleportNode.attribute("name").as_string(), EntitySubtype::UNKNOWN);
+		LOG("LOADING TELEPORT NUMBER: %i", i);
+		iPoint pos = { teleportNode.attribute("posX").as_int(), teleportNode.attribute("posY").as_int() };
+		teleport = (Teleport*)CreateEntity(EntityType::TELEPORT, teleportNode.attribute("name").as_string(), EntitySubtype::UNKNOWN, pos);
 
 		teleport->id = teleportNode.attribute("id").as_uint();
 		teleport->spritePos = teleportNode.attribute("spritePos").as_int();
-		teleport->position.x = teleportNode.attribute("posX").as_int();
-		teleport->position.y = teleportNode.attribute("posY").as_int();
 		teleport->renderable = teleportNode.attribute("renderable").as_bool();
 
-		/*newTeleportNode.append_attribute("nameTeleport").set_value(list4->data->GetName().GetString());
-		newTeleportNode.append_attribute("name").set_value(list4->data->name.GetString());
-		newTeleportNode.append_attribute("destination").set_value((int)list4->data->GetDestination());*/
-
-		//teleport->SetName((SString)teleportNode.attribute("nameTeleport").as_string());
 		teleport->name = teleportNode.attribute("name").as_string();
-		teleport->SetUpDestination((MapType)teleportNode.attribute("destination").as_int());
+
+		if (teleportNode.attribute("destination").as_int() == -1)
+		{
+			teleport->SetAsSimpleTP();
+			teleport->SetNextPosition(teleportNode.attribute("nextPosX").as_int(), teleportNode.attribute("nextPosY").as_int());
+		}
+		else
+		{
+			teleport->SetUpDestination((MapType)teleportNode.attribute("destination").as_int());
+		}
 
 		teleport = nullptr;
 		teleportNode = teleportNode.next_sibling();
 	}
+
+	LOG("LOADING ITEMS");
+	/* ---------- SIXTH LOAD ITEMS FROM THE SAVE FILE ----------*/
+	pugi::xml_node itemListNode;
+	itemListNode = data.child("itemList");
+	int itemCount = itemListNode.attribute("itemCount").as_int();
+
+	pugi::xml_node itemNode = itemListNode.child("item");
+	Item* item = nullptr;
+	for (int i = 0; i < itemCount; ++i)
+	{
+		LOG("LOADING ITEM NUMBER: %i", i);
+		EntitySubtype subtype = (EntitySubtype)itemNode.attribute("entitySubType").as_int();
+		iPoint pos = { itemNode.attribute("posX").as_int(), itemNode.attribute("posY").as_int() };
+		item = (Item*)CreateEntity(EntityType::ITEM, itemNode.attribute("name").as_string(), subtype, pos);
+
+		item->id = itemNode.attribute("id").as_uint();
+		item->spritePos = itemNode.attribute("spritePos").as_int();
+		item->renderable = itemNode.attribute("renderable").as_bool();
+
+		item = nullptr;
+		itemNode = itemNode.next_sibling();
+	}
+
 	return true;
 }
 
@@ -338,7 +377,7 @@ bool EntityManager::SaveState(pugi::xml_node& data) const
 		newPlayerNode.append_attribute("isRenderable").set_value(list1->data->renderable);
 
 		// Fill in the stats in order to save
-		newPlayerNode.append_attribute("class").set_value(list1->data->classType.GetString());
+		newPlayerNode.append_attribute("entitySubType").set_value((int)list1->data->subtype);
 		newPlayerNode.append_attribute("level").set_value(list1->data->stats.level);
 		newPlayerNode.append_attribute("damage").set_value(list1->data->stats.damage);
 		newPlayerNode.append_attribute("maxHP").set_value(list1->data->stats.maxHP);
@@ -357,12 +396,12 @@ bool EntityManager::SaveState(pugi::xml_node& data) const
 	tempName = data.child("enemyList").name();
 	if (tempName == "enemyList")
 	{
-		// Node playerList exists
+		// Node enemyList exists
 		enemyListNode = data.child("enemyList");
 	}
 	else
 	{
-		// Node playerList does not exist
+		// Node enemyList does not exist
 		enemyListNode = data.append_child("enemyList");
 	}
 
@@ -378,12 +417,12 @@ bool EntityManager::SaveState(pugi::xml_node& data) const
 	tempName = enemyListNode.attribute("enemyCount").name();
 	if (tempName == "enemyCount")
 	{
-		// Node entitiesCount exists
+		// Node enemyCount exists
 		enemyListNode.attribute("enemyCount").set_value(enemyList.Count());
 	}
 	else
 	{
-		// Node entitiesCount does not exist
+		// Node enemyCount does not exist
 		enemyListNode.append_attribute("enemyCount").set_value(enemyList.Count());
 	}
 
@@ -405,7 +444,7 @@ bool EntityManager::SaveState(pugi::xml_node& data) const
 		newEnemyNode.append_attribute("isRenderable").set_value(list2->data->renderable);
 
 		// Fill in the stats in order to save
-		newEnemyNode.append_attribute("class").set_value(list2->data->classType.GetString());
+		newEnemyNode.append_attribute("entitySubType").set_value((int)list2->data->subtype);
 		newEnemyNode.append_attribute("level").set_value(list2->data->stats.level);
 		newEnemyNode.append_attribute("damage").set_value(list2->data->stats.damage);
 		newEnemyNode.append_attribute("maxHP").set_value(list2->data->stats.maxHP);
@@ -424,12 +463,12 @@ bool EntityManager::SaveState(pugi::xml_node& data) const
 	tempName = data.child("npcList").name();
 	if (tempName == "npcList")
 	{
-		// Node playerList exists
+		// Node npcList exists
 		npcListNode = data.child("npcList");
 	}
 	else
 	{
-		// Node playerList does not exist
+		// Node npcList does not exist
 		npcListNode = data.append_child("npcList");
 	}
 
@@ -444,12 +483,12 @@ bool EntityManager::SaveState(pugi::xml_node& data) const
 	tempName = npcListNode.attribute("npcCount").name();
 	if (tempName == "npcCount")
 	{
-		// Node entitiesCount exists
+		// Node npcCount exists
 		npcListNode.attribute("npcCount").set_value(npcList.Count());
 	}
 	else
 	{
-		// Node entitiesCount does not exist
+		// Node npcCount does not exist
 		npcListNode.append_attribute("npcCount").set_value(npcList.Count());
 	}
 
@@ -478,12 +517,12 @@ bool EntityManager::SaveState(pugi::xml_node& data) const
 	tempName = data.child("teleportList").name();
 	if (tempName == "teleportList")
 	{
-		// Node playerList exists
+		// Node teleportList exists
 		teleportListNode = data.child("teleportList");
 	}
 	else
 	{
-		// Node playerList does not exist
+		// Node teleportList does not exist
 		teleportListNode = data.append_child("teleportList");
 	}
 
@@ -498,17 +537,17 @@ bool EntityManager::SaveState(pugi::xml_node& data) const
 	tempName = teleportListNode.attribute("teleportCount").name();
 	if (tempName == "teleportCount")
 	{
-		// Node entitiesCount exists
+		// Node teleportCount exists
 		teleportListNode.attribute("teleportCount").set_value(teleportList.Count());
 	}
 	else
 	{
-		// Node entitiesCount does not exist
+		// Node teleportCount does not exist
 		teleportListNode.append_attribute("teleportCount").set_value(teleportList.Count());
 	}
 
 
-	// Add the NPCs in the XML
+	// Add the Teleports in the XML
 	ListItem<Teleport*>* list4;
 	for (list4 = teleportList.start; list4 != NULL; list4 = list4->next)
 	{
@@ -524,10 +563,72 @@ bool EntityManager::SaveState(pugi::xml_node& data) const
 		newTeleportNode.append_attribute("name").set_value(list4->data->name.GetString());
 		newTeleportNode.append_attribute("destination").set_value((int)list4->data->GetDestination());
 
+		if ((int)list4->data->GetDestination() == -1)
+		{
+			newTeleportNode.append_attribute("nextPosX").set_value((int)list4->data->GetNextPosition().x);
+			newTeleportNode.append_attribute("nextPosY").set_value((int)list4->data->GetNextPosition().y);
+		}
+		
 		newTeleportNode.append_attribute("posX").set_value(list4->data->position.x);
 		newTeleportNode.append_attribute("posY").set_value(list4->data->position.y);
 		newTeleportNode.append_attribute("isActive").set_value(list4->data->IsActive());
 		newTeleportNode.append_attribute("isRenderable").set_value(list4->data->renderable);
+	}
+
+	/* ---------- FIFTH SAVE THE ITEMS ----------*/
+	// Erase the Items in the XML
+	pugi::xml_node itemListNode;
+
+	tempName = data.child("itemList").name();
+	if (tempName == "itemList")
+	{
+		// Node ItemsList exists
+		itemListNode = data.child("itemList");
+	}
+	else
+	{
+		// Node ItemsList does not exist
+		itemListNode = data.append_child("itemList");
+	}
+
+	for (int i = 0; i < itemListNode.attribute("itemCount").as_int(); ++i)
+	{
+		bool remove = itemListNode.remove_child("item");
+		if (remove == false)
+			break;
+	}
+
+	/* ---------- CHECKS IF THE NODE WE WANT OVERWRITE EXISTS OR NOT  ----------*/
+	tempName = itemListNode.attribute("itemCount").name();
+	if (tempName == "itemCount")
+	{
+		// Node Items exists
+		itemListNode.attribute("itemCount").set_value(itemList.Count());
+	}
+	else
+	{
+		// Node Items does not exist
+		itemListNode.append_attribute("itemCount").set_value(itemList.Count());
+	}
+
+	// Add the Items in the XML
+	ListItem<Item*>* list5;
+	for (list5 = itemList.start; list5 != NULL; list5 = list5->next)
+	{
+		// Creates a new node for the Items
+		pugi::xml_node newItemNode = itemListNode;
+		newItemNode = newItemNode.append_child("item");
+
+		// Fill in the info in order to save
+		newItemNode.append_attribute("id").set_value(list5->data->id);
+		newItemNode.append_attribute("spritePos").set_value(list5->data->spritePos);
+
+		newItemNode.append_attribute("name").set_value(list5->data->name.GetString());
+
+		newItemNode.append_attribute("posX").set_value(list5->data->position.x);
+		newItemNode.append_attribute("posY").set_value(list5->data->position.y);
+		newItemNode.append_attribute("isActive").set_value(list5->data->IsActive());
+		newItemNode.append_attribute("isRenderable").set_value(list5->data->renderable);
 	}
 
 	return true;

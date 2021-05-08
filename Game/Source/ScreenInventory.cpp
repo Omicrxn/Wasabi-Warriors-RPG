@@ -157,7 +157,7 @@ bool ScreenInventory::Draw(Render* render)
 				sprintf_s(statsString, 30, "%s", currentItem->item->name.GetString());
 				render->DrawText(font, statsString, invMatrixPos.x + 100, 390, 30, 2, { 255,255,255,255 });
 
-				render->DrawText(font, "Description", invMatrixPos.x + 100, 440, 22, 2, { 255,255,255,255 });
+				render->DrawText(font, currentItem->item->GetDescription(), invMatrixPos.x + 100, 440, 22, 2, { 255,255,255,255 });
 
 				int posIncreaseX = 1060;
 				// Items stats increase for player draw
