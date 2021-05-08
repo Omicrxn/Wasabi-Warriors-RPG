@@ -30,16 +30,34 @@ bool Teleport::Update(Input* input, float dt)
 	return true;
 }
 
-
 void Teleport::Interact()
 {
-	notifier->NotifyMapChange(destination);
-	hasInteracted = true;
+	if (simpleTP)
+	{
+		notifier->NotifyPositionChange();
+		notifier->SetNextPosition(this->nextPosition);
+	}
+	else
+	{
+		notifier->NotifyMapChange(destination);
+		hasInteracted = true;
+	}
 }
 
 void Teleport::SetUpDestination(MapType destination)
 {
 	this->destination = destination;
+}
+
+void Teleport::SetAsSimpleTP()
+{
+	simpleTP = true;
+}
+
+void Teleport::SetNextPosition(int nextPosX, int nextPosY)
+{
+	nextPosition.x = nextPosX;
+	nextPosition.y = nextPosY;
 }
 
 void Teleport::OnCollision(Collider* collider)
@@ -48,5 +66,5 @@ void Teleport::OnCollision(Collider* collider)
 	{
 		Interact();
 	}
-	this->collider->pendingToDelete = true;
+	if(!simpleTP) this->collider->pendingToDelete = true;
 }

@@ -15,6 +15,8 @@ public:
 	SDL_Rect GetBounds() { return { position.x,position.y,width,height }; }
 	void SetUpDestination(MapType destination);
 	MapType GetDestination() { return destination; }
+	void SetAsSimpleTP();
+	void SetNextPosition(int nextPosX, int nextPosY);
 
 	int width = 32, height = 32;
 
@@ -28,4 +30,8 @@ private:
 
 	bool hasInteracted = false;
 	uint stepsCounter;
+
+	// Bool to set the TP as simple (without map change)
+	bool simpleTP = false;
+	iPoint nextPosition;
 };

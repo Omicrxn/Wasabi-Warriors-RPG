@@ -254,14 +254,30 @@ bool SceneGameplay::Update(Input* input, float dt)
 		entityManager->TooglePlayerGodMode();
 	}
 
+	// Checking if we have to change the map
 	if (notifier->OnMapChange() && notifier->GetNextMap() != currentMap)
 	{
 		SetUpTp();
 	}
 
+	// Checking if we have to add any item
 	if (notifier->GetItemAddition())
 	{
 		AddItemToInvItemsList(notifier->GetItem());
+	}
+
+	// Checking if we have to change the player position
+	if (notifier->OnPositionChange())
+	{
+		// Reset the request position change to false
+		notifier->NotifyPositionChange();
+
+		// Iterate all players and change position
+		for (int i = 0; i < entityManager->playerList.Count(); i++)
+		{
+			entityManager->playerList.At(i)->data->position = notifier->GetNextPosition();
+			entityManager->playerList.At(i)->data->collider->SetPos(notifier->GetNextPosition().x, notifier->GetNextPosition().y);
+		}
 	}
 
 	if ((input->GetKey(SDL_SCANCODE_E) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_Y) == KeyState::KEY_DOWN) && screenBattle->isActive == false)
@@ -705,9 +721,7 @@ void SceneGameplay::ExitBattle()
 void SceneGameplay::SetUpTp()
 {
 	MapType previousMap = MapType::NONE;
-
 	previousMap = currentMap;
-
 	currentMap = notifier->ChangeMap();
 
 	// Create map
@@ -846,6 +860,9 @@ void SceneGameplay::SetUpTp()
 			case MapType::BIG_CITY:
 				mapNode = mapNode.child("bigCity");
 				break;
+			case MapType::SKYSCRAPER:
+				mapNode = mapNode.child("dungeon");
+				break;
 			default:
 				break;
 			}
@@ -873,6 +890,9 @@ void SceneGameplay::SetUpTp()
 			case MapType::BIG_CITY:
 				previousMapNode = mapNode.child("prevBigCity");
 				break;
+			case MapType::SKYSCRAPER:
+				previousMapNode = mapNode.child("prevSkyscraper");
+				break;
 			default:
 				break;
 			}
@@ -886,7 +906,7 @@ void SceneGameplay::SetUpTp()
 				newPosX = previousMapNode.child("player").attribute("posX").as_int();
 				newPosY = previousMapNode.child("player").attribute("posY").as_int();
 
-				//	// Iterate all players and change position
+				// Iterate all players and change position
 				ListItem<Player*>* list1;
 				for (list1 = entityManager->playerList.start; list1 != NULL; list1 = list1->next)
 				{
@@ -957,7 +977,15 @@ void SceneGameplay::SetUpTp()
 
 				//teleport->SetName((SString)teleportNode.attribute("nameTeleport").as_string());
 				teleport->name = teleportNode.attribute("name").as_string();
-				teleport->SetUpDestination((MapType)teleportNode.attribute("destination").as_int());
+				if (teleportNode.attribute("destination").as_int() == -1)
+				{
+					teleport->SetAsSimpleTP();
+					teleport->SetNextPosition(teleportNode.attribute("nextPosX").as_int(), teleportNode.attribute("nextPosY").as_int());
+				}
+				else
+				{
+					teleport->SetUpDestination((MapType)teleportNode.attribute("destination").as_int());
+				}
 				teleport = nullptr;
 				teleportNode = teleportNode.next_sibling("teleport");
 			}
@@ -1032,6 +1060,9 @@ void SceneGameplay::PlayMapMusic()
 		break;
 	case MapType::BIG_CITY:
 		audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
+		break;
+	case MapType::SKYSCRAPER:
+		audio->PlayMusic("Assets/Audio/Music/cemetry.ogg");
 		break;
 	default:
 		break;

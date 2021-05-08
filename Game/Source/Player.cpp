@@ -16,15 +16,6 @@ Player::Player(SString name, Textures* tex, Collisions* collisions, EntityManage
     // Setting Being parameters
     velocity = { 150.0f, 150.0f };
     direction = { 0,0 };
-    /*this->stats.name = "Player";
-    this->stats.level = 1;
-    this->stats.damage = 20;
-    this->stats.maxHP = 120;
-    this->stats.currentHP = 100;
-    this->stats.strength = 10;
-    this->stats.defense = 15;
-    this->stats.attackSpeed = 5;
-    this->stats.criticalRate = 10;*/
     idleAnim = {};
     walkRightAnim = {};
     walkLeftAnim = {};

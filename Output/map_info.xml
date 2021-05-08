@@ -17,16 +17,16 @@
     <enemy posX="512" posY="160" class="bruiser" name="Bruiser" spritePos="10" subtype="3"/>
     <enemy posX="224" posY="224" class="henchman" name="Henchman" spritePos="5" subtype="2"/>
     <npc posX="576" posY="320" spritePos="3"/>
-    <teleport posX="32" posY="224" width="32" height="96" destination="4" />
-    <teleport posX="850" posY="35" width="1000" height="250" destination="5"/>
+    <teleport posX="32" posY="224" width="32" height="64" destination="4"/>
+    <teleport posX="850" posY="35" width="32" height="32" destination="5"/>
   </mediumCity>
   <town enemyCount ="0" npcCount ="0" teleportCount ="3" itemCount="1">
     <prevCemetery>
       <player posX="608" posY="32"/>
     </prevCemetery>
-    <prevMediumcity>
+    <prevMediumCity>
       <player posX="1376" posY="288"/>
-    </prevMediumcity>
+    </prevMediumCity>
     <teleport posX="608" posY="0" width="64" height="32" destination="0"/>
     <teleport posX="1408" posY="256" width="32" height="224" destination="2"/>
     <item posX="100" posY="100" class="item" name="Potion" subtype="5"/>
@@ -37,9 +37,16 @@
     </prevMediumcity>
     <teleport posX="768" posY="288" width="64" height="32" destination="6"/>
   </bigCity>
-  <dungeon>
+  <dungeon enemyCount="0" npcCount="0" teleportCount="7">
     <prevBigCity>
-      <player posX="1536" posY="288"/>
+      <player posX="256" posY="1504"/>
     </prevBigCity>
+    <teleport name ="floor1_1" posX="256" posY="1568" width="32" height="32" destination="5"/>
+    <teleport name ="floor1_2" posX="160" posY="1184" width="32" height="32" destination="-1" nextPosX="160" nextPosY="96"/>
+    <teleport name ="floor2_1" posX="160" posY="32" width="32" height="32" destination="-1" nextPosX="160" nextPosY="1248"/>
+    <teleport name ="floor2_2" posX="384" posY="192" width="32" height="32" destination="-1" nextPosX="1216" nextPosY="96"/>
+    <teleport name ="floor3_1" posX="1216" posY="32" width="32" height="32" destination="-1" nextPosX="384" nextPosY="256"/>
+    <teleport name ="floor3_2" posX="1248" posY="32" width="32" height="32" destination="-1" nextPosX="1312" nextPosY="1152"/>
+    <teleport name ="floor4" posX="1312" posY="1088" width="32" height="32" destination="-1" nextPosX="1216" nextPosY="96"/>
   </dungeon>
 </map>
