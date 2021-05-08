@@ -12,6 +12,11 @@ public:
 	bool Draw(Render* render);
 	bool Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager);
 
-	SDL_Rect settingsBackgroundRect;
+private:
 	SDL_Rect creditsTitleRect;
+	SDL_Rect creditsBackgroundRect1;
+	SDL_Rect creditsBackgroundRect2;
+
+	SDL_Color creditsBackgroundColor1;
+	SDL_Color creditsBackgroundColor2;
 };

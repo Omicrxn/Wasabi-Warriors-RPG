@@ -14,12 +14,15 @@ ScreenSettings::ScreenSettings()
 	iconReturnTitle = nullptr;
 
 	settingsTitleRect = { 0, 149, 530, 81 };
-	settingsBackgroundRect = { 1228, 295, 300, 200 };
+
+	settingsBackgroundColor1 = { 74,79,95,255 };
+	settingsBackgroundColor2 = { 128,137,154,255 };
 
 	iconARect = { 684, 8, 57, 57 };
 	dpadRect = { 665, 378, 96, 96 };
 	iconSTARTRect = { 685, 291, 55, 54 };
 }
+
 ScreenSettings::~ScreenSettings() {}
 
 bool ScreenSettings::Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, EntityManager* entityManager, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* buttonFont, int hoverFx, int clickFx)
@@ -34,6 +37,9 @@ bool ScreenSettings::Load(int minIndex, int maxIndex, Scene* currentScene, Windo
 
 	uint width, height;
 	win->GetWindowSize(width, height);
+
+	settingsBackgroundRect1 = { int(width) / 2 - 500, 75, 1000, 600 };
+	settingsBackgroundRect2 = { settingsBackgroundRect1.x + 25, settingsBackgroundRect1.y + 25, settingsBackgroundRect1.w - 50, settingsBackgroundRect1.h - 50 };
 
 	this->minIndex = minIndex;
 	this->maxIndex = maxIndex;
@@ -69,7 +75,7 @@ bool ScreenSettings::Update(Input* input, float dt, uint& focusedButtonId)
 {
 	if (isActive)
 	{
-		//Update
+		// Update
 		// MinIndex is 5
 		if (focusedButtonId == minIndex)
 		{
@@ -111,9 +117,11 @@ bool ScreenSettings::Draw(Render* render)
 		uint width, height;
 		win->GetWindowSize(width, height);
 
-		render->scale = 3;
-		render->DrawTexture(atlas[0], 60, 25, &settingsBackgroundRect, 0.0f);
-		render->scale = 1;
+		//render->scale = 3;
+		//render->DrawTexture(atlas[0], 60, 25, &settingsBackgroundRect, 0.0f);
+		//render->scale = 1;
+		render->DrawRectangle(settingsBackgroundRect1, settingsBackgroundColor1, true, false);
+		render->DrawRectangle(settingsBackgroundRect2, settingsBackgroundColor2, true, false);
 
 		render->DrawTexture(atlas[1], width / 2 - settingsTitleRect.w / 2, 40, &settingsTitleRect, 0.0f);
 

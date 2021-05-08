@@ -23,8 +23,12 @@ public:
 
 	GuiIcon* iconReturnTitle;
 
+private:
 	SDL_Rect settingsTitleRect;
-	SDL_Rect settingsBackgroundRect;
+	SDL_Rect settingsBackgroundRect1;
+	SDL_Rect settingsBackgroundRect2;
+	SDL_Color settingsBackgroundColor1;
+	SDL_Color settingsBackgroundColor2;
 
 	SDL_Rect iconARect;
 	SDL_Rect dpadRect;

@@ -28,6 +28,7 @@ public:
 	bool Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager);
 
 	void SetInventory(List<InvItem*> invItems);
+
 private:
 	//InventorySlot inventory[INVENTORY_ROWS][INVENTORY_COLUMNS];
 
@@ -43,7 +44,14 @@ private:
 
 	List<InvItem*> listInvItems;
 
+	iPoint invMatrixPos;
+
 	bool controller;
+
+	SDL_Rect inventoryBackgroundRect1;
+	SDL_Rect inventoryBackgroundRect2;
+	SDL_Color inventoryBackgroundColor1;
+	SDL_Color inventoryBackgroundColor2;
 };
 
 #endif // __SCREENINVENTORY_H__

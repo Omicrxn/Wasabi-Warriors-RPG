@@ -12,6 +12,7 @@ public:
 	bool Draw(Render* render);
 	bool Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager);
 
+public:
 	GuiButton* btnStart;
 	GuiButton* btnContinue;
 	GuiButton* btnOptions;
