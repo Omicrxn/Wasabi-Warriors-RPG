@@ -36,7 +36,6 @@ jobs:
           VSARCHPATH: "x64"
 
     env:
-      ZIP_NAME: Bat_Cat_Studios-Wasabi_Warriors_RPG_${{ github.event.release.tag_name }}
       RELEASE_NAME: Bat_Cat_Studios-Wasabi_Warriors_RPG_${{ matrix.bits }}_${{ matrix.compiler }}
       GNUTARGET: default
 
