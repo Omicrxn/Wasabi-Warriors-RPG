@@ -46,7 +46,7 @@ jobs:
     
     - name: Setup Release Version
       run: |
-        echo "RELEASE_NAME=Bat_Cat_Studios-Wasabi_Warriors_RPG_${{ github.event.release.tag_name }}" >> $GITHUB_ENV
+        echo "RELEASE_NAME=Bat_Cat_Studios-Wasabi_Warriors_RPG_${{ github.event.release.tag_name }}_win${{ matrix.bits }}_${{ matrix.compiler }}" >> $GITHUB_ENV
       shell: bash
       if: github.event_name == 'release' && github.event.action == 'published'
 
@@ -91,10 +91,13 @@ jobs:
         path: ./build/${{ env.RELEASE_NAME }}.zip
         
         
-    - name: Create Release
-      uses: ncipollo/release-action@v1
+    - name: Upload Artifact to Release
+      uses: actions/upload-release-asset@v1.0.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag: ${{ github.event.release.tag_name }}
-        artifacts: ${{ env.RELEASE_NAME }}.zip
-        token: ${{ secrets.GITHUB_TOKEN }}
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./build/${{ env.RELEASE_NAME }}.zip
+          asset_name: ${{ env.RELEASE_NAME }}.zip
+          asset_content_type: application/zip
       if: github.event_name == 'release' && github.event.action == 'published'
