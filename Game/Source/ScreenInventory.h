@@ -27,7 +27,12 @@ public:
 
 	bool Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager);
 
+	bool LoadState(pugi::xml_node&);
+	bool SaveState(pugi::xml_node&) const;
+
 	void SetInventory(List<InvItem*> invItems);
+
+	List<InvItem*> listInvItems;
 
 private:
 	//InventorySlot inventory[INVENTORY_ROWS][INVENTORY_COLUMNS];
@@ -42,7 +47,7 @@ private:
 	SDL_Rect RBButton;
 	SDL_Rect playersIcons;
 
-	List<InvItem*> listInvItems;
+	
 
 	iPoint invMatrixPos;
 

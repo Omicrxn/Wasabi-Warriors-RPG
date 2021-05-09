@@ -64,6 +64,9 @@ public:
     bool LoadState(pugi::xml_node&);
     bool SaveState(pugi::xml_node&) const;
 
+    void SaveGameProgress(pugi::xml_node&) const;
+    void LoadGameProgress(pugi::xml_node&);
+
     // Returns the current player
     Player* GetCurrentPlayer();
 

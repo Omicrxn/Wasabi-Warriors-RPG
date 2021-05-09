@@ -140,6 +140,10 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 		{
 			itemList.Del(itemList.At(itemList.Find((Item*)list1->data)));
 		}
+		else if (list1->data->type == EntityType::ACTIVATOR)
+		{
+			activatorList.Del(activatorList.At(activatorList.Find((Activator*)list1->data)));
+		}
 
 		// Delete all entities except the map
 		if (list1->data->type != EntityType::MAP)
@@ -153,6 +157,7 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 	npcList.Clear();
 	teleportList.Clear();
 	itemList.Clear();
+	activatorList.Clear();
 
 	RELEASE(list1);
 
@@ -241,6 +246,9 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 		npc->spritePos = npcNode.attribute("spritePos").as_int();
 		npc->renderable = npcNode.attribute("renderable").as_bool();
 
+		npc->stop = npcNode.attribute("stop").as_bool();
+		npc->dialogIndex = npcNode.attribute("dialogIndex").as_int();
+
 		npc = nullptr;
 		npcNode = npcNode.next_sibling();
 	}
@@ -297,9 +305,33 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 		item->id = itemNode.attribute("id").as_uint();
 		item->spritePos = itemNode.attribute("spritePos").as_int();
 		item->renderable = itemNode.attribute("renderable").as_bool();
+		if (itemNode.attribute("onMap"))
 
 		item = nullptr;
 		itemNode = itemNode.next_sibling();
+	}
+
+	LOG("LOADING ACTIVATORS");
+	/* ---------- SEVENTH LOAD ACTIVATORS FROM THE SAVE FILE ----------*/
+	pugi::xml_node activatorListNode;
+	activatorListNode = data.child("activatorList");
+	int activatorCoun = activatorListNode.attribute("activatorCount").as_int();
+
+	pugi::xml_node activatorNode = activatorListNode.child("activator");
+	Activator* activator = nullptr;
+	for (int i = 0; i < itemCount; ++i)
+	{
+		LOG("LOADING ITEM NUMBER: %i", i);
+		EntitySubtype subtype = (EntitySubtype)activatorNode.attribute("entitySubType").as_int();
+		iPoint pos = { activatorNode.attribute("posX").as_int(), activatorNode.attribute("posY").as_int() };
+		activator = (Activator*)CreateEntity(EntityType::ACTIVATOR, activatorNode.attribute("name").as_string(), subtype, pos);
+
+		activator->id = activatorNode.attribute("id").as_uint();
+		activator->spritePos = activatorNode.attribute("spritePos").as_int();
+		activator->renderable = activatorNode.attribute("renderable").as_bool();
+		
+		activator = nullptr;
+		itemNode = activatorNode.next_sibling();
 	}
 
 	return true;
@@ -618,8 +650,12 @@ bool EntityManager::SaveState(pugi::xml_node& data) const
 
 	// Add the Items in the XML
 	ListItem<Item*>* list5;
+	int onMapCount = 0;
 	for (list5 = itemList.start; list5 != NULL; list5 = list5->next)
 	{
+		// The load of items in the inventory will be done in the scenegameplay
+		if (list5->data->onMap == false)
+			continue;
 		// Creates a new node for the Items
 		pugi::xml_node newItemNode = itemListNode;
 		newItemNode = newItemNode.append_child("item");
@@ -627,13 +663,74 @@ bool EntityManager::SaveState(pugi::xml_node& data) const
 		// Fill in the info in order to save
 		newItemNode.append_attribute("id").set_value(list5->data->id);
 		newItemNode.append_attribute("spritePos").set_value(list5->data->spritePos);
-
+		newItemNode.append_attribute("entitySubType").set_value((int)list5->data->subtype);
 		newItemNode.append_attribute("name").set_value(list5->data->name.GetString());
 
 		newItemNode.append_attribute("posX").set_value(list5->data->position.x);
 		newItemNode.append_attribute("posY").set_value(list5->data->position.y);
 		newItemNode.append_attribute("isActive").set_value(list5->data->IsActive());
 		newItemNode.append_attribute("isRenderable").set_value(list5->data->renderable);
+
+		++onMapCount;
+	}
+	// Modify again the count to not include the onMap == false items
+	itemListNode.attribute("itemCount").set_value(onMapCount);
+
+	/* ---------- SIXTH SAVE THE ACTIVATOR ----------*/
+	// Erase the Items in the XML
+	pugi::xml_node activatorListNode;
+
+	tempName = data.child("activatorList").name();
+	if (tempName == "activatorList")
+	{
+		// Node ItemsList exists
+		activatorListNode = data.child("activatorList");
+	}
+	else
+	{
+		// Node ItemsList does not exist
+		activatorListNode = data.append_child("activatorList");
+	}
+
+	for (int i = 0; i < activatorListNode.attribute("activatorCount").as_int(); ++i)
+	{
+		bool remove = activatorListNode.remove_child("activator");
+		if (remove == false)
+			break;
+	}
+
+	/* ---------- CHECKS IF THE NODE WE WANT OVERWRITE EXISTS OR NOT  ----------*/
+	tempName = activatorListNode.attribute("activatorCount").name();
+	if (tempName == "activatorCount")
+	{
+		// Node Items exists
+		activatorListNode.attribute("activatorCount").set_value(activatorList.Count());
+	}
+	else
+	{
+		// Node Items does not exist
+		activatorListNode.append_attribute("activatorCount").set_value(activatorList.Count());
+	}
+
+	// Add the Items in the XML
+	ListItem<Activator*>* list6;
+	for (list6 = activatorList.start; list6 != NULL; list6 = list6->next)
+	{
+		// The load of items in the inventory will be done in the scenegameplay
+		// Creates a new node for the Items
+		pugi::xml_node newActivatorNode = activatorListNode;
+		newActivatorNode = newActivatorNode.append_child("activator");
+
+		// Fill in the info in order to save
+		newActivatorNode.append_attribute("id").set_value(list6->data->id);
+		newActivatorNode.append_attribute("spritePos").set_value(list6->data->spritePos);
+		newActivatorNode.append_attribute("entitySubType").set_value((int)list6->data->subtype);
+		newActivatorNode.append_attribute("name").set_value(list6->data->name.GetString());
+
+		newActivatorNode.append_attribute("posX").set_value(list6->data->position.x);
+		newActivatorNode.append_attribute("posY").set_value(list6->data->position.y);
+		newActivatorNode.append_attribute("isActive").set_value(list6->data->IsActive());
+		newActivatorNode.append_attribute("isRenderable").set_value(list6->data->renderable);
 	}
 
 	return true;
@@ -641,9 +738,11 @@ bool EntityManager::SaveState(pugi::xml_node& data) const
 
 void EntityManager::DestroyEntity(Entity* entity)
 {
-	if(entity->collider != nullptr)
+	if (entity->collider != nullptr)
+	{
 		entity->collider->pendingToDelete = true;
-
+		entity->collider = nullptr;
+	}
 	entityList.Del(entityList.At(entityList.Find(entity)));
 	RELEASE(entity);
 }
@@ -652,7 +751,17 @@ void EntityManager::DestroyEntityChecker(float dt)
 {
 	for (int i = 0; i < entityList.Count(); i++)
 	{
-		if (entityList.At(i)->data->destroy == true) entityList.Del(entityList.At(i));
+		if (entityList.At(i)->data->destroy == true)
+		{
+			if (entityList.At(i)->data->collider != nullptr)
+			{
+				entityList.At(i)->data->collider->pendingToDelete = true;
+				entityList.At(i)->data->collider = nullptr;
+			}
+				
+
+			entityList.Del(entityList.At(i));
+		}
 	}
 }
 

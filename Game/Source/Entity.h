@@ -44,7 +44,7 @@ class Entity
 {
 public:
 
-    Entity(EntityType type) : type(type), active(true) {}
+    Entity(EntityType type) : type(type), active(true), name("") {}
     virtual ~Entity() {}
 
     virtual bool Update(float dt)

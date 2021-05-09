@@ -82,9 +82,9 @@ public:
     }
 
     // Items management
-    void NotifyItemAddition()
+    void SetItemAddition(bool itemAddition)
     {
-        itemAddition = !itemAddition;
+        this->itemAddition = itemAddition;
     }
     bool GetItemAddition()
     {

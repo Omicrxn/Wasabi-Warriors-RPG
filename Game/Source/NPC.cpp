@@ -29,7 +29,11 @@ NPC::NPC(SString name, Input* input, Textures* tex, Collisions* collisions, Enti
 
 NPC::~NPC()
 {
-    collider->pendingToDelete = true;
+    if (collider != nullptr)
+    {
+        this->collider->pendingToDelete = true;
+        this->collider = nullptr;
+    }
 }
 
 void NPC::Interact()

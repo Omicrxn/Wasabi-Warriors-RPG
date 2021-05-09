@@ -20,6 +20,7 @@ public:
     bool Draw(Render* render);
     void OnCollision(Collider* collider) override;
     void Interact() {}
+    void ConvertToInvItem();
     Stats Interact(Stats stats);
     bool SetUpClass(SString name);
 

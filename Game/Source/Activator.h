@@ -27,8 +27,6 @@ private:
 
 public:
 
-	SString name; // Activator name
-
 	int width, height;
 };
 

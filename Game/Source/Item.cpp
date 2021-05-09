@@ -53,12 +53,21 @@ void Item::OnCollision(Collider* collider)
 {
     if (!hasInteracted)
     {
-        hasInteracted = true;
-        onMap = false;
-        Notifier::GetInstance()->NotifyItemAddition();
-        Notifier::GetInstance()->SetItem(this);
+        ConvertToInvItem();
     }
-    this->collider->pendingToDelete = true;
+}
+
+void Item::ConvertToInvItem()
+{
+    hasInteracted = true;
+    onMap = false;
+    Notifier::GetInstance()->SetItemAddition(true);
+    Notifier::GetInstance()->SetItem(this);
+    if (collider != nullptr)
+    {
+        this->collider->pendingToDelete = true;
+        this->collider = nullptr;
+    }
 }
 
 Stats Item::Interact(Stats stats) {

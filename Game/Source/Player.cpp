@@ -45,8 +45,10 @@ Player::Player(SString name, Textures* tex, Collisions* collisions, EntityManage
 Player::~Player()
 {
     LOG("Player destructor...");
-    collider->pendingToDelete = true;
-    tex->UnLoad(texture);
+    if (collider != nullptr)
+        collider->pendingToDelete = true;
+    if (texture != nullptr) 
+        tex->UnLoad(texture);
 }
 
 bool Player::Update(Input* input, float dt)

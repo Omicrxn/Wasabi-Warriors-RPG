@@ -6,24 +6,45 @@
 	<audio musicVolume="32" fxVolume="128" />
 	<scene />
 	<renderer>
-		<camera x="1709" y="1618" />
+		<camera x="308" y="4192" />
 	</renderer>
-	<collisions collisionsCount="3" />
+	<collisions collisionsCount="15" />
 	<entitymanager>
-		<entitiesCount Num="4" />
+		<entitiesCount Num="16" />
 		<playerList playerCount="3">
-			<player id="0" spritePos="3" name="DaBaby" posX="783" posY="646" isActive="true" isRenderable="false" class="hunter" level="1" damage="20" maxHP="120" currentHP="100" strength="10" defense="15" attackSpeed="5" criticalRate="10" statsName="DaBaby" />
-			<player id="0" spritePos="6" name="DaCrack" posX="783" posY="646" isActive="false" isRenderable="false" class="wizard" level="1" damage="15" maxHP="150" currentHP="120" strength="7" defense="10" attackSpeed="15" criticalRate="15" statsName="DaCrack" />
-			<player id="0" spritePos="6" name="DaBug" posX="783" posY="646" isActive="false" isRenderable="false" class="wizard" level="1" damage="15" maxHP="150" currentHP="120" strength="7" defense="10" attackSpeed="15" criticalRate="15" statsName="DaBug" />
+			<player id="0" spritePos="3" name="DaBaby" posX="316" posY="1504" isActive="true" isRenderable="false" entitySubType="0" level="1" damage="120" maxHP="120" currentHP="100" strength="10" defense="15" attackSpeed="5" criticalRate="10" statsName="DaBaby" />
+			<player id="0" spritePos="6" name="DaCrack" posX="316" posY="1504" isActive="false" isRenderable="false" entitySubType="1" level="1" damage="115" maxHP="150" currentHP="120" strength="7" defense="10" attackSpeed="15" criticalRate="15" statsName="DaCrack" />
+			<player id="0" spritePos="6" name="DaBug" posX="316" posY="1504" isActive="false" isRenderable="false" entitySubType="1" level="1" damage="115" maxHP="150" currentHP="120" strength="7" defense="10" attackSpeed="15" criticalRate="15" statsName="DaBug" />
 		</playerList>
-		<enemyList enemyCount="0" />
-		<npcList npcCount="0" />
-		<teleportList teleportCount="0" />
+		<enemyList enemyCount="3">
+			<enemy id="0" spritePos="6" name="Ben" posX="320" posY="64" isActive="true" isRenderable="false" entitySubType="3" level="1" damage="8" maxHP="150" currentHP="120" strength="5" defense="15" attackSpeed="3" criticalRate="8" statsName="Ben" />
+			<enemy id="0" spritePos="6" name="John" posX="96" posY="320" isActive="true" isRenderable="false" entitySubType="3" level="1" damage="8" maxHP="150" currentHP="120" strength="5" defense="15" attackSpeed="3" criticalRate="8" statsName="John" />
+			<enemy id="0" spritePos="6" name="Robert" posX="256" posY="416" isActive="true" isRenderable="false" entitySubType="3" level="1" damage="8" maxHP="150" currentHP="120" strength="5" defense="15" attackSpeed="3" criticalRate="8" statsName="Robert" />
+		</enemyList>
+		<npcList npcCount="1">
+			<npc id="0" spritePos="3" name="" posX="307" posY="1419" isActive="true" isRenderable="false" />
+		</npcList>
+		<teleportList teleportCount="7">
+			<teleport id="0" spritePos="0" nameTeleport="" name="floor1_1" destination="5" posX="256" posY="1568" isActive="true" isRenderable="false" />
+			<teleport id="0" spritePos="0" nameTeleport="" name="floor1_2" destination="-1" nextPosX="160" nextPosY="96" posX="160" posY="1184" isActive="true" isRenderable="false" />
+			<teleport id="0" spritePos="0" nameTeleport="" name="floor2_1" destination="-1" nextPosX="160" nextPosY="1248" posX="160" posY="32" isActive="true" isRenderable="false" />
+			<teleport id="0" spritePos="0" nameTeleport="" name="floor2_2" destination="-1" nextPosX="1216" nextPosY="96" posX="384" posY="192" isActive="true" isRenderable="false" />
+			<teleport id="0" spritePos="0" nameTeleport="" name="floor3_1" destination="-1" nextPosX="384" nextPosY="256" posX="1216" posY="32" isActive="true" isRenderable="false" />
+			<teleport id="0" spritePos="0" nameTeleport="" name="floor3_2" destination="-1" nextPosX="1312" nextPosY="1152" posX="1248" posY="32" isActive="true" isRenderable="false" />
+			<teleport id="0" spritePos="0" nameTeleport="" name="floor4" destination="-1" nextPosX="1216" nextPosY="96" posX="1312" posY="1088" isActive="true" isRenderable="false" />
+		</teleportList>
+		<itemList itemCount="0" />
+		<activatorList activatorCount="1">
+			<activator id="0" spritePos="0" entitySubType="-1" name="pc" posX="1408" posY="64" isActive="true" isRenderable="false" />
+		</activatorList>
 	</entitymanager>
 	<scenemanager>
-		<scenegameplay currentMap="5" />
+		<scenegameplay currentMap="6">
+			<gameProgress xp="0" gold="0" hasSpoken="false" numKilledOfficers="0" hasKilledOfficers="false" hasActivated="false" />
+		</scenegameplay>
 	</scenemanager>
 	<screen>
 		<screensettings sliderVolume="539" sliderAudio="539" fullScreen="false" vsync="false" />
+		<screeninventory inventoryCount="0" />
 	</screen>
 </game_state>

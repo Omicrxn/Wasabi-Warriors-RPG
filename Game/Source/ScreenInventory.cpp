@@ -3,6 +3,7 @@
 #include "EntityManager.h"
 #include "Window.h"
 #include "Player.h"
+#include "Log.h"
 
 ScreenInventory::ScreenInventory()
 {
@@ -273,9 +274,68 @@ bool ScreenInventory::Unload(Textures* tex, AudioManager* audio, GuiManager* gui
 	return true;
 }
 
+bool ScreenInventory::LoadState(pugi::xml_node& screenNode)
+{
+	return true;
+}
+
+bool ScreenInventory::SaveState(pugi::xml_node& screenNode) const
+{
+	LOG("SAVING INVENTORY");
+	// Check screeninventory node
+	pugi::xml_node screenInventoryNode;
+	SString tempName = screenNode.child("screeninventory").name();
+	if (tempName == "screeninventory")
+	{
+		screenInventoryNode = screenNode.child("screeninventory");
+	}
+	else
+	{
+		screenInventoryNode = screenNode.append_child("screeninventory");
+	}
+
+	for (int i = 0; i < screenInventoryNode.attribute("inventoryCount").as_int(); ++i)
+	{
+		bool remove = screenInventoryNode.remove_child("invSlot");
+		if (remove == false)
+			break;
+	}
+
+	// Check inventoryCount
+	tempName = screenInventoryNode.attribute("inventoryCount").name();
+	if (tempName == "inventoryCount")
+	{
+		screenInventoryNode.attribute("inventoryCount").set_value(listInvItems.Count());
+	}
+	else
+	{
+		screenInventoryNode.append_attribute("inventoryCount").set_value(listInvItems.Count());
+	}
+
+	// Save each individual inventory item
+	ListItem<InvItem*>* list;
+	for (list = listInvItems.start; list != NULL; list = list->next)
+	{
+		// Create Node to save invSlots
+		pugi::xml_node itemNode = screenInventoryNode;
+		itemNode = itemNode.append_child("invSlot");
+		itemNode.append_attribute("entitySubType").set_value((int)list->data->item->subtype);
+		itemNode.append_attribute("count").set_value(list->data->count);
+	}
+
+	LOG("INVENTORY SAVED");
+	return true;
+}
+
 void ScreenInventory::SetInventory(List<InvItem*> invItems)
 {
+	for (int i = 0; i < listInvItems.Count(); ++i)
+	{
+		/*RELEASE(listInvItems.At(i)->data->item);*/
+		listInvItems.Del(listInvItems.At(i));
+	}
 	listInvItems.Clear();
+
 	for (ListItem<InvItem*>* invItem = invItems.start; invItem; invItem = invItem->next)
 	{
 		listInvItems.Add(invItem->data);

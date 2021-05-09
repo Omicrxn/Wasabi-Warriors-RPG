@@ -501,11 +501,7 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 	RELEASE(questManager);
 	questManager = nullptr;
 
-	for (int i = 0; i < invItemsList.Count(); ++i)
-	{
-		invItemsList.Del(invItemsList.At(0));
-	}
-	invItemsList.Clear();
+	
 
 	// Remove map
 	map->CleanUp();
@@ -593,7 +589,47 @@ bool SceneGameplay::LoadState(pugi::xml_node& scenegameplay)
 	}
 	pugi::xml_node screenNode = scenegameplay.parent().parent().child("screen");
 	screenSettings->LoadState(screenNode);
+
+	//---------------------------------//
+	LOG("LOADING INVENTORY");
+	for (ListItem<InvItem*>* invItem = ((ScreenInventory*)screenInventory)->listInvItems.start; invItem; invItem = invItem->next)
+	{
+		((ScreenInventory*)screenInventory)->listInvItems.Del(invItem);
+	}
+	((ScreenInventory*)screenInventory)->listInvItems.Clear();
+
+	pugi::xml_node screenInventoryNode;
+	screenInventoryNode = screenNode.child("screeninventory");
+	int invCount = screenInventoryNode.attribute("inventoryCount").as_int();
+
+	pugi::xml_node invSlotNode = screenInventoryNode.child("invSlot");
+	Item* item = nullptr;
+	for (int i = 0; i < invCount; ++i)
+	{
+		// The problem is invItem->item, better use stats?
+		EntitySubtype subtype = (EntitySubtype)invSlotNode.attribute("entitySubType").as_int();
+		item = (Item*)entityManager->CreateEntity(EntityType::ITEM, invSlotNode.attribute("name").as_string(), subtype);
+		item->onMap = false;
+		if (item->collider != nullptr)
+		{
+			item->collider->pendingToDelete = true;
+			item->collider = nullptr;
+		}
+		AddItemToInvItemsList(item);
+		item = nullptr;
+	}
+	LOG("INVENTORY LOADED");
+	//---------------------------------//
 	hasStartedFromContinue = true;
+
+	LOG("LOADING GAME PROGRESS");
+	pugi::xml_node gameProgressNode = scenegameplay.child("gameProgress");
+	LoadGameProgress(gameProgressNode);
+
+	questManager->CleanUp();
+	questManager->Start();
+
+
 	return true;
 }
 
@@ -611,9 +647,79 @@ bool SceneGameplay::SaveState(pugi::xml_node& scenegameplay) const
 		// Attribute currentMap does not exist
 		scenegameplay.append_attribute("currentMap").set_value((int)this->currentMap);
 	}
+
+	// Save each screen data
 	pugi::xml_node screenNode = scenegameplay.parent().parent().child("screen");
 	screenSettings->SaveState(screenNode);
+	screenInventory->SaveState(screenNode);
+
+	LOG("SAVING GAME PROGRESS");
+	/* ---------- CHECKS IF THE Child WE WANT OVERWRITE EXISTS OR NOT  ----------*/
+	pugi::xml_node gameProgressNode;
+	tempName = scenegameplay.child("gameProgress").name();
+	if (tempName == "gameProgress")
+	{
+		// Attribute currentMap exists
+		gameProgressNode = scenegameplay.child("gameProgress");
+	}
+	else
+	{
+		// Attribute currentMap does not exist
+		gameProgressNode = scenegameplay.append_child("gameProgress");
+	}
+	SaveGameProgress(gameProgressNode);
+
 	return true;
+}
+
+void SceneGameplay::SaveGameProgress(pugi::xml_node& data)const
+{
+	SString tempName = data.attribute("xp").name();
+
+	if (tempName == "xp")
+		data.attribute("xp").set_value(this->gameProgress.xp);
+	else
+		data.append_attribute("xp").set_value(this->gameProgress.xp);
+
+	tempName = data.attribute("gold").name();
+	if (tempName == "gold")
+		data.attribute("gold").set_value(this->gameProgress.gold);
+	else
+		data.append_attribute("gold").set_value(this->gameProgress.gold);
+
+	tempName = data.attribute("hasSpoken").name();
+	if (tempName == "hasSpoken")
+		data.attribute("hasSpoken").set_value(this->gameProgress.hasSpoken);
+	else
+		data.append_attribute("hasSpoken").set_value(this->gameProgress.hasSpoken);
+
+	tempName = data.attribute("numKilledOfficers").name();
+	if (tempName == "numKilledOfficers")
+		data.attribute("numKilledOfficers").set_value(this->gameProgress.numKilledOfficers);
+	else
+		data.append_attribute("numKilledOfficers").set_value(this->gameProgress.numKilledOfficers);
+
+	tempName = data.attribute("hasKilledOfficers").name();
+	if (tempName == "hasKilledOfficers")
+		data.attribute("hasKilledOfficers").set_value(this->gameProgress.hasKilledOfficers);
+	else
+		data.append_attribute("hasKilledOfficers").set_value(this->gameProgress.hasKilledOfficers);
+
+	tempName = data.attribute("hasActivated").name();
+	if (tempName == "hasActivated")
+		data.attribute("hasActivated").set_value(this->gameProgress.hasActivated);
+	else
+		data.append_attribute("hasActivated").set_value(this->gameProgress.hasActivated);
+}
+
+void SceneGameplay::LoadGameProgress(pugi::xml_node& data)
+{
+	this->gameProgress.xp = data.attribute("xp").as_int();
+	this->gameProgress.gold = data.attribute("gold").as_int();
+	this->gameProgress.hasSpoken = data.attribute("hasSpoken").as_bool();
+	this->gameProgress.numKilledOfficers = data.attribute("numKilledOfficers").as_int();
+	this->gameProgress.hasKilledOfficers = data.attribute("hasKilledOfficers").as_bool();
+	this->gameProgress.hasActivated = data.attribute("hasActivated").as_bool();
 }
 
 Player* SceneGameplay::GetCurrentPlayer()
@@ -1108,9 +1214,9 @@ void SceneGameplay::SetUpTp()
 
 void SceneGameplay::AddItemToInvItemsList(Item* item)
 {
-	notifier->GetInstance()->NotifyItemAddition();
+	notifier->GetInstance()->SetItemAddition(false);
 
-	for (ListItem<InvItem*>* invItem = invItemsList.start; invItem; invItem = invItem->next)
+	for (ListItem<InvItem*>* invItem = ((ScreenInventory*)screenInventory)->listInvItems.start; invItem; invItem = invItem->next)
 	{
 		if (invItem->data->item->subtype == item->subtype)
 		{
@@ -1119,14 +1225,10 @@ void SceneGameplay::AddItemToInvItemsList(Item* item)
 			return;
 		}
 	}
-
 	InvItem* invItem = new InvItem();
 	invItem->item = item;
 	invItem->count = 1;
-	invItemsList.Add(invItem);
-	//RELEASE(invItem);
-	
-	((ScreenInventory*)screenInventory)->SetInventory(this->invItemsList);
+	((ScreenInventory*)screenInventory)->listInvItems.Add(invItem);
 }
 
 void SceneGameplay::PlayMapMusic()

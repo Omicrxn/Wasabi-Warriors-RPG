@@ -15,7 +15,12 @@ Teleport::Teleport(SString name, Collisions* collisions, EntityManager* entityMa
 
 Teleport::~Teleport()
 {
-	collider->pendingToDelete = true;
+	if (collider != nullptr)
+	{
+		collider->pendingToDelete = true;
+		collider = nullptr;
+	}
+		
 }
 
 bool Teleport::Update(Input* input, float dt)
@@ -71,5 +76,9 @@ void Teleport::OnCollision(Collider* collider)
 	{
 		Interact();
 	}
-	if(!simpleTP) this->collider->pendingToDelete = true;
+	if (!simpleTP && this->collider != nullptr)
+	{
+		this->collider->pendingToDelete = true;
+		this->collider = nullptr;
+	}
 }

@@ -47,8 +47,10 @@ Enemy::Enemy(SString name, Textures* tex, Collisions* collisions, EntityManager*
 Enemy::~Enemy()
 {
     LOG("Enemy destructor...");
-    collider->pendingToDelete = true;
-    tex->UnLoad(texture);
+    if (collider != nullptr)
+        collider->pendingToDelete = true;
+    if (texture != nullptr)
+        tex->UnLoad(texture);
 }
 
 bool Enemy::Update(Input* input, float dt)
