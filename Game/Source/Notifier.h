@@ -4,6 +4,7 @@
 #include "Point.h"
 
 class Item;
+class Activator;
 
 enum class MapType
 {
@@ -24,9 +25,17 @@ public:
     static Notifier* GetInstance();
     ~Notifier() {RELEASE(instance)}
 
-    // Battle functions
+    // Battle management
     void NotifyBattle() { battle = !battle; }
     bool GetBattle() { return battle; }
+    SString GetEnemy()
+    {
+        return enemy;
+    }
+    void SetEnemy(SString enemy)
+    {
+        this->enemy = enemy;
+    }
 
     // Teleport functions
     void NotifyMapChange(MapType maptype)
@@ -54,9 +63,10 @@ public:
     iPoint GetNextPosition() { return nextPosition; }
 
     // Dialog functions
-    void NotifyDialog()
+    void NotifyDialog(int dialogIndex)
     {
-            requestDialog = true;
+        requestDialog = true;
+        this->dialogIndex = dialogIndex;
     }
     bool OnDialog()
     {
@@ -65,6 +75,10 @@ public:
     void SetDialogMode(bool dialogMode)
     {
         this->requestDialog = dialogMode;
+    }
+    int GetDialogIndex()
+    {
+        return dialogIndex;
     }
 
     // Items management
@@ -85,20 +99,26 @@ public:
         return item;
     }
 
-    SString GetEnemy()
+    // Activators management
+    void NotifyActivator()
     {
-        return enemy;
+        requestActivator = !requestActivator;
     }
-
-    void SetEnemy(SString enemy)
+    void SetActivator(Activator* activator)
     {
-        this->enemy = enemy;
+        this->activator = activator;
+    }
+    Activator* GetActivator()
+    {
+        return activator;
     }
 
 private:
 
     Notifier() : battle(false) {}
     bool battle = false;
+
+    int dialogIndex = -1;
 
     MapType nextMap = MapType::CEMETERY;
     bool requestMapChange = false;
@@ -111,6 +131,11 @@ private:
     bool requestDialog = false;
     SString enemy;
 
+    // Items
     bool itemAddition = false;
     Item* item;
+
+    // Activators
+    bool requestActivator;
+    Activator* activator;
 };

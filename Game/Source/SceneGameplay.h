@@ -33,6 +33,18 @@ enum GameState
     BATTLE
 };
 
+struct GameProgress
+{
+    int xp = 0;
+    int gold = 0;
+
+    // Quests bools (for the quest manager to keep track of the quests state)
+    bool hasSpoken = false;
+    int numKilledOfficers = 0;
+    bool hasKilledOfficers = false;
+    bool hasActivated = false;
+};
+
 class SceneGameplay : public Scene
 {
 public:
@@ -40,7 +52,7 @@ public:
     SceneGameplay(bool hasStartedFromContinue = false);
     virtual ~SceneGameplay();
 
-    bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, DialogSystem* dialogSystem, Easing* easing, Transitions* transitions, App* app);
+    bool Load(Input* input, Render* render, Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, DialogSystem* dialogSystem, Easing* easing, Transitions* transitions, App* app);
 
     bool Update(Input* input, float dt);
 
@@ -71,6 +83,11 @@ public:
 
     void PlayMapMusic();
 
+    // Functions to keep track of the game progress
+    GameProgress* GetGameProgress();
+    void RewardXP(int xp);
+    void RewardGold(int gold);
+
 private:
 
     // Needed modules
@@ -80,6 +97,7 @@ private:
     DialogSystem* dialogSystem;
     AudioManager* audio;
     Transitions* transitions;
+    QuestManager* questManager;
 
     // The screen for the HUD
     Screen* screenRoaming;
@@ -116,11 +134,13 @@ private:
     SDL_Texture* cast1;
     SDL_Texture* enemyCast;
     SDL_Texture* indicator;
+    SDL_Texture* signal;
 
     Animation auraAnim;
     Animation cast1Anim;
     Animation enemyCastAnim;
     Animation indicatorAnim;
+    Animation signalAnim;
 
     SDL_Rect backgroundRect;
     SDL_Rect pauseBackgroundRect;
@@ -154,6 +174,9 @@ private:
 
     // Invenory items list
     List<InvItem*> invItemsList;
+
+    // Struct to keep track of the game progress
+    GameProgress gameProgress;
 };
 
 #endif // __SCENEGAMEPLAY_H__

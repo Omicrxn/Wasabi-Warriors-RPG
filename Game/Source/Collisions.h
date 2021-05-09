@@ -21,6 +21,7 @@ struct Collider
 		TELEPORT,
 		SIGN,
 		ITEM,
+		ACTIVATOR,
 		MAX
 	};
 

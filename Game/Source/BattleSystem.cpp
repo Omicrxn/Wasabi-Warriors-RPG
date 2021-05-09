@@ -107,8 +107,9 @@ bool BattleSystem::ResetBattle()
 
 bool BattleSystem::WinAndLose()
 {
-	turnCounter++;
+	if (turnChanged) turnChanged = false;
 
+	turnCounter++;
 	if (turnCounter > 300)
 	{
 		battleState = BattleState::EXIT;
@@ -170,6 +171,7 @@ void BattleSystem::PlayerTurn()
 		{
 			battleState = BattleState::WON;
 			currentMusic = BattleMusic::WON;
+			turnChanged = true;
 		}
 		else
 		{
@@ -226,6 +228,7 @@ void BattleSystem::EnemyTurn()
 		{
 			battleState = BattleState::LOST;
 			currentMusic = BattleMusic::LOST;
+			turnChanged = true;
 		}
 		else
 		{

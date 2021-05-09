@@ -20,7 +20,7 @@ class NPC : public Interactive
 {
 public:
 
-	NPC(SString name,Textures* tex, Collisions* collisions, EntityManager* entityManager,EntityType type, EntitySubtype subtype,iPoint position);
+	NPC(SString name, Input* input, Textures* tex, Collisions* collisions, EntityManager* entityManager,EntityType type, EntitySubtype subtype,iPoint position);
 	~NPC();
 
 	bool Update(Input* input, float dt);
@@ -52,6 +52,8 @@ public:
 
 	uint stepsCounter;
 	bool stop = false;
+
+	int dialogIndex = -1;
 };
 
 #endif //__NPC_H__

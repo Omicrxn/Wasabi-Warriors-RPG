@@ -15,6 +15,7 @@
 #include "DialogSystem.h"
 #include "Easing.h"
 #include "Transitions.h"
+#include "QuestManager.h"
 #include "App.h"
 
 #include "Defs.h"
@@ -65,7 +66,7 @@ bool SceneManager::Start()
 	current = new SceneLogo();
 	if (current->type == SceneType::GAMEPLAY || current->type == SceneType::GAMEPLAY_LOAD)
 	{
-		current->Load(tex, win, audio, guiManager, entityman, dialogSystem, easing, transitions, app);
+		current->Load(input, render, tex, win, audio, guiManager, entityman, dialogSystem, easing, transitions, app);
 	}
 	else if (current->type == SceneType::TITLE)
 	{
@@ -109,7 +110,7 @@ bool SceneManager::Update(float dt)
 				current->Unload(tex, audio, guiManager); // Unload current screen
 				if (next->type == SceneType::GAMEPLAY || next->type == SceneType::GAMEPLAY_LOAD)
 				{
-					next->Load(tex, win, audio, guiManager, entityman, dialogSystem, easing, transitions, app);	// Load next screen
+					next->Load(input, render, tex, win, audio, guiManager, entityman, dialogSystem, easing, transitions, app);	// Load next screen
 				}
 				else if (next->type == SceneType::TITLE)
 				{

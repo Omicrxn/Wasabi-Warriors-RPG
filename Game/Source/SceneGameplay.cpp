@@ -5,6 +5,7 @@
 #include "GuiManager.h"
 #include "Window.h"
 #include "DialogSystem.h"
+#include "QuestManager.h"
 
 #include "Notifier.h"
 #include "Easing.h"
@@ -23,6 +24,7 @@
 #include "ScreenInventory.h"
 
 #include "Item.h"
+#include "Activator.h"
 
 SceneGameplay::SceneGameplay(bool hasStartedFromContinue)
 {
@@ -97,7 +99,7 @@ SceneGameplay::~SceneGameplay()
 {
 }
 
-bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, DialogSystem* dialogSystem, Easing* easing, Transitions* transitions, App* app)
+bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, DialogSystem* dialogSystem, Easing* easing, Transitions* transitions, App* app)
 {
 	audio->StopMusic();
 
@@ -110,6 +112,9 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	this->dialogSystem = dialogSystem;
 	this->audio = audio;
 	this->transitions = transitions;
+
+	questManager = new QuestManager(input, render, tex, this);
+	questManager->Start();
 
 	map = (Map*)entityManager->CreateEntity(EntityType::MAP, "Map", EntitySubtype::UNKNOWN);
 
@@ -125,6 +130,7 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	cast1 = tex->Load("Assets/Textures/Effects/cast_001.png");
 	enemyCast = tex->Load("Assets/Textures/Effects/cast_008.png");
 	indicator = tex->Load("Assets/Textures/Effects/fire_003.png");
+	signal = tex->Load("Assets/Textures/Effects/magic_004.png");
 
 	// Set battle animations
 	// Aura
@@ -168,6 +174,24 @@ bool SceneGameplay::Load(Textures* tex, Window* win, AudioManager* audio, GuiMan
 	}
 	indicatorAnim.speed = 1.0f;
 	indicatorAnim.loop = true;
+
+	// Signal
+	for (int j = 0; j < 7; j++)
+	{
+		for (int i = 0; i < 5; i++)
+		{
+			signalAnim.PushBack({ i * 192, j * 192, 192, 192 });
+		}
+	}
+	for (int j = 6; j >= 0; j--)
+	{
+		for (int i = 4; i >=0; i--)
+		{
+			signalAnim.PushBack({ i * 192, j * 192, 192, 192 });
+		}
+	}
+	signalAnim.speed = 1.0f;
+	signalAnim.loop = true;
 
 	// Create fonts
 	titleFont = new Font("Assets/Fonts/shojumaru.xml", tex);
@@ -331,6 +355,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 
 		((ScreenBattle*)screenBattle)->EnableBattleButtons();
 
+		// Reset battle bool to false
 		notifier->NotifyBattle();
 
 		currentState = GameState::BATTLE;
@@ -348,7 +373,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 		{
 			entityManager->playerList.At(i)->data->stopPlayer = true;
 		}
-		dialogSystem->NewDialog();
+		dialogSystem->NewDialog(notifier->GetDialogIndex());
 	}
 	if (dialogSystem->DialogHasFinished())
 	{
@@ -358,6 +383,21 @@ bool SceneGameplay::Update(Input* input, float dt)
 		}
 		notifier->SetDialogMode(false);
 		dialogSystem->SetDialogFinished(false);
+
+		if (notifier->GetDialogIndex() == 7)
+		{
+			gameProgress.hasSpoken = true;
+		}
+	}
+
+	if (notifier->GetActivator())
+	{
+		notifier->NotifyActivator();
+
+		if (notifier->GetActivator()->name == "pc")
+		{
+			gameProgress.hasActivated = true;
+		}
 	}
 
 	switch (currentState)
@@ -386,6 +426,14 @@ bool SceneGameplay::Update(Input* input, float dt)
 
 	if (battleSystem->IsTurnChanging()) ((ScreenBattle*)screenBattle)->ResetOneTimeAnimations();
 
+	if (!screenPause->isActive &&
+		!screenSettings->isActive &&
+		!screenBattle->isActive &&
+		!screenInventory->isActive)
+	{
+		questManager->Update(dt);
+	}
+
 	return true;
 }
 
@@ -412,6 +460,35 @@ bool SceneGameplay::Draw(Render* render)
 		break;
 	}
 
+	if (!screenPause->isActive &&
+		!screenSettings->isActive &&
+		!screenBattle->isActive &&
+		!screenInventory->isActive)
+	{
+		questManager->PostUpdate();
+
+		// Gold HUD
+		render->DrawText(menuFont, "$:", 53, 143, 50, 3, { 0,0,0,255 });
+		render->DrawText(menuFont, "$:", 50, 140, 50, 3, { 249,215,28,255 });
+		string s = to_string(gameProgress.gold);
+		const char* s2 = s.c_str();
+		render->DrawText(menuFont, s2, 133, 143, 50, 3, { 0,0,0,255 });
+		render->DrawText(menuFont, s2, 130, 140, 50, 3, { 255,255,255,255 });
+
+		// XP HUD
+		render->DrawText(menuFont, "XP:", 53, 183, 50, 3, { 0,0,0,255 });
+		render->DrawText(menuFont, "XP:", 50, 180, 50, 3, { 60,179,113,255 });
+		s = to_string(gameProgress.xp);
+		s2 = s.c_str();
+		render->DrawText(menuFont, s2, 133, 183, 50, 3, { 0,0,0,255 });
+		render->DrawText(menuFont, s2, 130, 180, 50, 3, { 255,255,255,255 });
+
+		if (gameProgress.hasKilledOfficers && !gameProgress.hasActivated)
+		{
+			render->DrawTexture(signal, 4160, 120, &signalAnim.GetCurrentFrame());
+		}
+	}
+
 	return true;
 }
 
@@ -420,6 +497,9 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 	// TODO: Unload all resources
 	RELEASE(battleSystem);
 	battleSystem = nullptr;
+
+	RELEASE(questManager);
+	questManager = nullptr;
 
 	for (int i = 0; i < invItemsList.Count(); ++i)
 	{
@@ -952,8 +1032,8 @@ void SceneGameplay::SetUpTp()
 				npc->spritePos = npcNode.attribute("spritePos").as_int();
 				npc->position.x = npcNode.attribute("posX").as_int();
 				npc->position.y = npcNode.attribute("posY").as_int();
-
-
+				npc->stop = npcNode.attribute("stop").as_bool();
+				npc->dialogIndex = npcNode.attribute("dialogIndex").as_int();
 				npc = nullptr;
 				npcNode = npcNode.next_sibling("npc");
 			}
@@ -1004,6 +1084,19 @@ void SceneGameplay::SetUpTp()
 
 				item = nullptr;
 				itemNode = itemNode.next_sibling("item");
+			}
+
+			// LOAD ACTIVATORS
+			int activatorCount = mapNode.attribute("activatorCount").as_int();
+
+			pugi::xml_node activatorNode = mapNode.child("activator");
+			Activator* activator = nullptr;
+			for (int i = 0; i < activatorCount; ++i)
+			{
+				iPoint position = { activatorNode.attribute("posX").as_int(), activatorNode.attribute("posY").as_int() };
+				activator = (Activator*)entityManager->CreateEntity(EntityType::ACTIVATOR, activatorNode.attribute("name").as_string(), EntitySubtype::UNKNOWN, position);
+				activator = nullptr;
+				activatorNode = activatorNode.next_sibling("activator");
 			}
 		}
 		else 
@@ -1065,4 +1158,19 @@ void SceneGameplay::PlayMapMusic()
 	default:
 		break;
 	}
+}
+
+GameProgress* SceneGameplay::GetGameProgress()
+{
+	return &gameProgress;
+}
+
+void SceneGameplay::RewardXP(int xp)
+{
+	gameProgress.xp += xp;
+}
+
+void SceneGameplay::RewardGold(int gold)
+{
+	gameProgress.gold += gold;
 }

@@ -20,7 +20,8 @@ enum class EntityType
     ITEM,
     MAP,
     NPC,
-    TELEPORT
+    TELEPORT,
+    ACTIVATOR
 };
  
 enum class EntitySubtype
@@ -104,6 +105,7 @@ protected:
     bool active = true;
     Notifier* notifier;
     Textures* tex = nullptr;
+    Input* input = nullptr;
 
 public:
     SDL_Rect animRec;

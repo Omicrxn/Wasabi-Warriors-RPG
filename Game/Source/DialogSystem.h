@@ -15,6 +15,7 @@ class Fonts;
 class DialogSystem : public Module
 {
 public:
+
 	DialogSystem(Input* input, Render* render, Fonts* fonts);
 
 	// Destructor
@@ -47,7 +48,7 @@ public:
 	bool DialogHasFinished();
 	void SetDialogFinished(bool dialogFinished);
 
-	void NewDialog();
+	void NewDialog(int dialogIndex);
 
 private:
 
@@ -72,6 +73,8 @@ private:
 	Fonts* fonts;
 
 	// Bool to search a random dialog
+	bool newRandomDialog = false;
 	bool newDialog = false;
+	int dialogIndex;
 	bool dialogFinished = false;
 };

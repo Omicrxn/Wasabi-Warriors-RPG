@@ -7,6 +7,7 @@
 #include "Map.h"
 #include "NPC.h"
 #include "Teleport.h"
+#include "Activator.h"
 
 #include "Render.h"
 #include "Textures.h"
@@ -85,16 +86,20 @@ Entity* EntityManager::CreateEntity(EntityType type, SString name, EntitySubtype
 		ret = new Map(tex);
 		break;
 	case EntityType::NPC:
-		ret = new NPC(name,tex, collisions, this,type, subtype,position);
+		ret = new NPC(name, input, tex, collisions, this, type, subtype, position);
 		npcList.Add((NPC*)ret);
 		break;
 	case EntityType::TELEPORT:
-		ret = new Teleport(name,collisions, this,type,position);
+		ret = new Teleport(name, collisions, this,type,position);
 		teleportList.Add((Teleport*)ret);
 		break;
 	case EntityType::ITEM:
-		ret = new Item(name,tex, collisions, this, type, subtype,position);
+		ret = new Item(name, tex, collisions, this, type, subtype,position);
 		itemList.Add((Item*)ret);
+		break;
+	case EntityType::ACTIVATOR:
+		ret = new Activator(name, input, tex, collisions, this, type, subtype, position);
+		activatorList.Add((Activator*)ret);
 		break;
 	default:
 		break;

@@ -1,10 +1,13 @@
 #include "NPC.h"
-#include "Render.h"
 
-NPC::NPC(SString name, Textures* tex, Collisions* collisions, EntityManager* entityManager, EntityType type, EntitySubtype subtype, iPoint position) : Interactive()
+#include "Render.h"
+#include "Input.h"
+
+NPC::NPC(SString name, Input* input, Textures* tex, Collisions* collisions, EntityManager* entityManager, EntityType type, EntitySubtype subtype, iPoint position) : Interactive()
 {
     this->tex = tex;
     texture = NULL;
+    this->input = input;
     this->position = position;
     this->type = type;
     this->name = name;
@@ -19,6 +22,9 @@ NPC::NPC(SString name, Textures* tex, Collisions* collisions, EntityManager* ent
     stepsCounter = 0;
     collider = collisions->AddCollider({ position.x,position.y,width,height }, Collider::Type::NPC, (Module*)entityManager);
     SetTexture("Assets/Textures/Characters/characters_spritesheet.png", 4);
+
+    // Index to keep track of the dialog of the NPC
+    dialogIndex = -1;
 }
 
 NPC::~NPC()
@@ -28,15 +34,13 @@ NPC::~NPC()
 
 void NPC::Interact()
 {
-    Notifier::GetInstance()->NotifyDialog();
+    Notifier::GetInstance()->NotifyDialog(dialogIndex);
 }
 
 bool NPC::Update(Input* input, float dt)
 {
     if (!stop)
     {
-
-
         Walk(direction, dt);
         stepsCounter++;
         // Update collider position
@@ -79,8 +83,8 @@ bool NPC::Update(Input* input, float dt)
         }
     }
 
+    if (stop == true && !Notifier::GetInstance()->OnDialog()) stop = false;
 
-    stop = false;
     return true;
 }
 
@@ -187,12 +191,12 @@ void NPC::SetName(SString name)
 
 void NPC::OnCollision(Collider* collider)
 {
-    if (collider->type == Collider::Type::PLAYER)
+    if (collider->type == Collider::Type::PLAYER && input->GetKey(SDL_SCANCODE_F) == KEY_DOWN
+        /*|| input->GetControllerButton(CONTROLLER_BUTTON_A) == KeyState::KEY_DOWN*/)
     {
         stop = true;
         direction = { 0,0 };
         currentAnim = NPCAnimations::IDLE;
         Interact();
     }
-
 }

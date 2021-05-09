@@ -20,6 +20,7 @@ enum class EntitySubtype;
 class Collisions;
 class Transitions;
 class Item;
+class Activator;
 
 class EntityManager : public Module
 {
@@ -74,6 +75,7 @@ public:
 	List<NPC*> npcList;
 	List<Teleport*> teleportList;
 	List<Item*> itemList;
+	List<Activator*> activatorList;
 	SDL_Texture* texture;
 	SDL_Texture* itemsTexture;
 

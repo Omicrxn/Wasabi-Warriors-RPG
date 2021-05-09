@@ -14,6 +14,7 @@ class Window;
 class DialogSystem;
 class Easing;
 class Transitions;
+class QuestManager;
 class App;
 
 class GuiControl;
@@ -42,7 +43,7 @@ public:
     {
         return true;
     }
-    virtual bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityman, DialogSystem* dialogSystem, Easing* easing, Transitions* transitions, App* app)
+    virtual bool Load(Input* input, Render* render, Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityman, DialogSystem* dialogSystem, Easing* easing, Transitions* transitions, App* app)
     {
         return true;
     }

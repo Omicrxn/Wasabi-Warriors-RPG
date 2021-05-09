@@ -20,6 +20,7 @@ Collisions::Collisions(Input* input, Render* render) : Module()
 	matrix[Collider::Type::PLAYER][Collider::Type::TELEPORT] = false;
 	matrix[Collider::Type::PLAYER][Collider::Type::SIGN] = false;
 	matrix[Collider::Type::PLAYER][Collider::Type::ITEM] = false;
+	matrix[Collider::Type::PLAYER][Collider::Type::ACTIVATOR] = false;
 
 	matrix[Collider::Type::ENEMY][Collider::Type::ENEMY] = false;
 	matrix[Collider::Type::ENEMY][Collider::Type::PLAYER] = true;
@@ -27,6 +28,7 @@ Collisions::Collisions(Input* input, Render* render) : Module()
 	matrix[Collider::Type::ENEMY][Collider::Type::TELEPORT] = false;
 	matrix[Collider::Type::ENEMY][Collider::Type::SIGN] = false;
 	matrix[Collider::Type::ENEMY][Collider::Type::ITEM] = false;
+	matrix[Collider::Type::ENEMY][Collider::Type::ACTIVATOR] = false;
 
 	matrix[Collider::Type::NPC][Collider::Type::ENEMY] = false;
 	matrix[Collider::Type::NPC][Collider::Type::PLAYER] = true;
@@ -34,6 +36,7 @@ Collisions::Collisions(Input* input, Render* render) : Module()
 	matrix[Collider::Type::NPC][Collider::Type::TELEPORT] = false;
 	matrix[Collider::Type::NPC][Collider::Type::SIGN] = false;
 	matrix[Collider::Type::NPC][Collider::Type::ITEM] = false;
+	matrix[Collider::Type::NPC][Collider::Type::ACTIVATOR] = false;
 
 	matrix[Collider::Type::TELEPORT][Collider::Type::ENEMY] = false;
 	matrix[Collider::Type::TELEPORT][Collider::Type::PLAYER] = true;
@@ -41,6 +44,7 @@ Collisions::Collisions(Input* input, Render* render) : Module()
 	matrix[Collider::Type::TELEPORT][Collider::Type::TELEPORT] = false;
 	matrix[Collider::Type::TELEPORT][Collider::Type::SIGN] = false;
 	matrix[Collider::Type::TELEPORT][Collider::Type::ITEM] = false;
+	matrix[Collider::Type::TELEPORT][Collider::Type::ACTIVATOR] = false;
 
 	matrix[Collider::Type::ITEM][Collider::Type::PLAYER] = true;
 	matrix[Collider::Type::ITEM][Collider::Type::NPC] = false;
@@ -48,6 +52,7 @@ Collisions::Collisions(Input* input, Render* render) : Module()
 	matrix[Collider::Type::ITEM][Collider::Type::TELEPORT] = false;
 	matrix[Collider::Type::ITEM][Collider::Type::SIGN] = false;
 	matrix[Collider::Type::ITEM][Collider::Type::ITEM] = false;
+	matrix[Collider::Type::ITEM][Collider::Type::ACTIVATOR] = false;
 
 	matrix[Collider::Type::SIGN][Collider::Type::ENEMY] = false;
 	matrix[Collider::Type::SIGN][Collider::Type::PLAYER] = true;
@@ -55,6 +60,15 @@ Collisions::Collisions(Input* input, Render* render) : Module()
 	matrix[Collider::Type::SIGN][Collider::Type::TELEPORT] = false;
 	matrix[Collider::Type::SIGN][Collider::Type::SIGN] = false;
 	matrix[Collider::Type::SIGN][Collider::Type::ITEM] = false;
+	matrix[Collider::Type::SIGN][Collider::Type::ACTIVATOR] = false;
+
+	matrix[Collider::Type::ACTIVATOR][Collider::Type::ACTIVATOR] = false;
+	matrix[Collider::Type::ACTIVATOR][Collider::Type::ENEMY] = false;
+	matrix[Collider::Type::ACTIVATOR][Collider::Type::PLAYER] = true;
+	matrix[Collider::Type::ACTIVATOR][Collider::Type::NPC] = false;
+	matrix[Collider::Type::ACTIVATOR][Collider::Type::TELEPORT] = false;
+	matrix[Collider::Type::ACTIVATOR][Collider::Type::SIGN] = false;
+	matrix[Collider::Type::ACTIVATOR][Collider::Type::ITEM] = false;
 }
 
 Collisions::~Collisions() {}
@@ -159,6 +173,10 @@ void Collisions::DebugDraw()
 		case Collider::Type::ITEM:
 			render->scale = 1;
 			render->DrawRectangle(colliders[i]->rect, { 127, 0, 255, alpha });
+			render->scale = 3;
+			break;
+		case Collider::Type::ACTIVATOR:
+			render->DrawRectangle(colliders[i]->rect, { 255, 127, 80, alpha });
 			break;
 		}
 		render->scale = 1;

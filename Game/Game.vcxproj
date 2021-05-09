@@ -90,6 +90,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Activator.cpp" />
     <ClCompile Include="Source\BattleSystem.cpp" />
     <ClCompile Include="Source\DialogSystem.cpp" />
     <ClCompile Include="Source\Easing.cpp" />
@@ -103,6 +104,7 @@
     <ClCompile Include="Source\GuiManager.cpp" />
     <ClCompile Include="Source\GuiSlider.cpp" />
     <ClCompile Include="Source\Item.cpp" />
+    <ClCompile Include="Source\QuestManager.cpp" />
     <ClCompile Include="Source\ScreenBattle.cpp" />
     <ClCompile Include="Source\ScreenInventory.cpp" />
     <ClCompile Include="Source\Transitions.cpp" />
@@ -130,6 +132,7 @@
     <ClCompile Include="Source\Teleport.cpp" />
     <ClCompile Include="Source\Textures.cpp" />
     <ClCompile Include="Source\Window.cpp" />
+    <ClInclude Include="Source\Activator.h" />
     <ClInclude Include="Source\Animation.h" />
     <ClInclude Include="Source\Being.h" />
     <ClInclude Include="Source\BattleSystem.h" />
@@ -150,6 +153,7 @@
     <ClInclude Include="Source\GuiSlider.h" />
     <ClInclude Include="Source\Interactive.h" />
     <ClInclude Include="Source\Item.h" />
+    <ClInclude Include="Source\QuestManager.h" />
     <ClInclude Include="Source\ScreenBattle.h" />
     <ClInclude Include="Source\ScreenInventory.h" />
     <ClInclude Include="Source\Stats.h" />

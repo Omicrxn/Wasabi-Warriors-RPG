@@ -6,9 +6,11 @@
 
 using Attributes = std::map<std::string, std::string>;
 
-struct DialogNode {
+struct DialogNode
+{
 public:
-	enum class NodeType {
+	enum class NodeType
+	{
 		DIALOG,
 		LINE,
 		OPTIONS,
@@ -16,18 +18,21 @@ public:
 		GOTO
 	};
 
-	DialogNode(Attributes* _attributes = nullptr) {
+	DialogNode(Attributes* _attributes = nullptr)
+	{
 		type = NodeType::DIALOG;
 		children = new std::vector<DialogNode*>();
 		attributes = _attributes;
 	}
 
-	~DialogNode() {
+	~DialogNode()
+	{
 		delete children;
 		delete attributes;
 	}
 
-	void SetAttributes(Attributes* _attributes) {
+	void SetAttributes(Attributes* _attributes)
+	{
 		attributes = _attributes;
 	}
 
