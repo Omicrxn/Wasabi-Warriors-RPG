@@ -10,12 +10,14 @@
 
 Enemy::Enemy(SString name, Textures* tex, Collisions* collisions, EntityManager* entityManager, Transitions* transitions, EntityType type, EntitySubtype subtype, iPoint position) : Being()
 {
-    this->tex = tex;
+    Timer timer;
+    timer.Start();
+
     this->entityManager = entityManager;
     this->transitions = transitions;
     this->position = position;
-    this->type = type;
     this->name = name;
+    this->type = type;
     this->subtype = subtype;
 
     currentAnim = Animations::IDLE;
@@ -44,6 +46,8 @@ Enemy::Enemy(SString name, Textures* tex, Collisions* collisions, EntityManager*
         SetUpClass("bruiser");
         SetTexture(10);
     }
+
+    printf("%f\n", timer.ReadSec());
 }
 
 Enemy::~Enemy()
@@ -80,7 +84,7 @@ void Enemy::SetUpTexture()
 
     // Define player textures / animations
     int textureStartYPos = spritePos * 32 * 5;
-    for (int y = textureStartYPos; y < y + 160; y += 32)
+    for (int y = textureStartYPos; y < textureStartYPos + 160; y += 32)
     {
         for (int x = 0; x < 8 * 32; x += 32)
         {

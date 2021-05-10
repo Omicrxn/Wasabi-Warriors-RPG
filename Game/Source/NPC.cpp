@@ -152,7 +152,7 @@ void NPC::SetUpTexture()
 {
     // Define player textures / animations
     int textureStartYPos = spritePos * 32 * 5;
-    for (int y = textureStartYPos; y < y + 160; y += 32)
+    for (int y = textureStartYPos; y < textureStartYPos + 160; y += 32)
     {
         for (int x = 0; x < 8 * 32; x += 32)
         {

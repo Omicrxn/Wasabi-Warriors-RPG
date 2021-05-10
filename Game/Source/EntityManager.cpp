@@ -80,11 +80,11 @@ Entity* EntityManager::CreateEntity(EntityType type, SString name, EntitySubtype
 	{
 		// L13: Create the corresponding type entity
 	case EntityType::PLAYER:
-		ret = new Player(name,tex, collisions, this,type, subtype,position);
+		ret = new Player(name, tex, collisions, this,type, subtype,position);
 		playerList.Add((Player*)ret);
 		break;
 	case EntityType::ENEMY:
-		ret = new Enemy(name,tex, collisions, this, transitions, type, subtype,position);
+		ret = new Enemy(name, tex, collisions, this, transitions, type, subtype,position);
 		enemyList.Add((Enemy*)ret);
 		break;
 		//case EntityType::ITEM: ret = new Item(); break;
