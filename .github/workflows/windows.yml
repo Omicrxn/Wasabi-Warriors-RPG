@@ -19,7 +19,7 @@ jobs:
     
     - name: Setup Release Version
       run: |
-        echo "RELEASE_NAME=Bat_Cat_Studios-Wasabi_Warriors_RPG_${{ github.event.release.tag_name }} >> $GITHUB_ENV
+        echo "RELEASE_NAME=Bat_Cat_Studios-Wasabi_Warriors_RPG_${{ github.event.release.tag_name }}" >> $GITHUB_ENV
       shell: bash
       if: github.event_name == 'release' && github.event.action == 'published'
 
