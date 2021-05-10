@@ -47,6 +47,7 @@ bool EntityManager::Start()
 	LOG("entitymanager start");
 	
 	itemsTexture = tex->Load("Assets/Textures/items_1.png");
+	entitiesTexture = tex->Load("Assets/Textures/Characters/characters_spritesheet.png");
 
 	return true;
 }
@@ -63,6 +64,11 @@ bool EntityManager::CleanUp()
 		entityList.Del(entityList.At(i));*/
 	}
 	entityList.Clear();
+
+	// Freeing textures
+	tex->UnLoad(itemsTexture);
+	tex->UnLoad(entitiesTexture);
+
 	return true;
 }
 

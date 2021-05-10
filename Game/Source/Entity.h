@@ -11,6 +11,7 @@ struct SDL_Texture;
 struct Render;
 struct Input;
 struct Textures;
+class EntityManager;
 
 enum class EntityType
 {
@@ -71,13 +72,12 @@ public:
     {
         active = state;
     }
-    void SetTexture(SString path, int spritePos = -1) {
-        this->texPath = path;
+    void SetTexture(int spritePos = -1) {
         this->spritePos = spritePos;
         if (spritePos > -1)
-            SetUpTexture(texPath);
+            SetUpTexture();
     }
-    virtual void SetUpTexture(SString texPath) {}
+    virtual void SetUpTexture() {}
 
     const Collider* GetCollider() const { return collider; }
 
@@ -106,8 +106,10 @@ protected:
     Notifier* notifier;
     Textures* tex = nullptr;
     Input* input = nullptr;
+    EntityManager* entityManager = nullptr;
 
 public:
+
     SDL_Rect animRec;
 };
 

@@ -25,7 +25,7 @@ public:
 
     bool Draw(Render* render);
 
-    void SetUpTexture(SString texPath);
+    void SetUpTexture();
 
     SDL_Rect GetBounds();
 

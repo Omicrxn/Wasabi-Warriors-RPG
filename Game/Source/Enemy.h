@@ -20,7 +20,7 @@ class Enemy : public Being
 {
 public:
 
-    Enemy(SString name, Textures* tex,Collisions* collisions, EntityManager* entityManager, Transitions* transitions,EntityType type, EntitySubtype subtype, iPoint position);
+    Enemy(SString name, Textures* tex, Collisions* collisions, EntityManager* entityManager, Transitions* transitions,EntityType type, EntitySubtype subtype, iPoint position);
     ~Enemy();
 
 public:
@@ -29,7 +29,7 @@ public:
 
     bool Draw(Render* render);
 
-    void SetUpTexture(SString texPath);
+    void SetUpTexture();
 
     void Walk(iPoint direction, float dt);
 

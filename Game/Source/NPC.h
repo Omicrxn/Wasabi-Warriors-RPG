@@ -26,7 +26,7 @@ public:
 	bool Update(Input* input, float dt);
 	bool Draw(Render* render);
 
-	void SetUpTexture(SString texPath);
+	void SetUpTexture();
 	void SetName(SString name);
 
 private:

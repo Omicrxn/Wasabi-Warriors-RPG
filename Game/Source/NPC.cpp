@@ -6,13 +6,13 @@
 NPC::NPC(SString name, Input* input, Textures* tex, Collisions* collisions, EntityManager* entityManager, EntityType type, EntitySubtype subtype, iPoint position) : Interactive()
 {
     this->tex = tex;
-    texture = NULL;
+    this->entityManager = entityManager;
     this->input = input;
     this->position = position;
     this->type = type;
     this->name = name;
     this->subtype = subtype;
-    position = iPoint(15 * 16, 27 * 16);
+
     currentAnim = NPCAnimations::IDLE;
     velocity = { 150.0f, 150.0f };
     width = 32;
@@ -21,7 +21,7 @@ NPC::NPC(SString name, Input* input, Textures* tex, Collisions* collisions, Enti
     active = true;
     stepsCounter = 0;
     collider = collisions->AddCollider({ position.x,position.y,width,height }, Collider::Type::NPC, (Module*)entityManager);
-    SetTexture("Assets/Textures/Characters/characters_spritesheet.png", 4);
+    SetTexture(4);
 
     // Index to keep track of the dialog of the NPC
     dialogIndex = -1;
@@ -117,7 +117,7 @@ bool NPC::Draw(Render* render)
     }
 
     render->scale = 3;
-    if (active) render->DrawTexture(texture, position.x, position.y, &animRec);
+    if (active) render->DrawTexture(entityManager->entitiesTexture, position.x, position.y, &animRec);
     render->scale = 1;
 
     return true;
@@ -148,9 +148,8 @@ void NPC::Walk(iPoint direction, float dt)
     position.y = position.y + direction.y * (velocity.y * dt);
 }
 
-void NPC::SetUpTexture(SString texPath)
+void NPC::SetUpTexture()
 {
-    texture = tex->Load(texPath.GetString());
     // Define player textures / animations
     int textureStartYPos = spritePos * 32 * 5;
     for (int y = textureStartYPos; y < y + 160; y += 32)

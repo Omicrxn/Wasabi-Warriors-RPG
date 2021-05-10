@@ -5,7 +5,6 @@
 #include "Entity.h"
 #include "Stats.h"
 
-
 enum class Animations
 {
 	IDLE,
@@ -14,8 +13,6 @@ enum class Animations
 	LEFT,
 	RIGHT
 };
-
-
 
 class Being : public Entity
 {

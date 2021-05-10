@@ -5,14 +5,16 @@
 Player::Player(SString name, Textures* tex, Collisions* collisions, EntityManager* entityManager, EntityType type, EntitySubtype subtype, iPoint position) : Being()
 {
     this->tex = tex;
-    texture = NULL;
+    this->entityManager = entityManager;
     this->position = position;
     this->type = type;
     this->name = name;
     this->subtype = subtype;
+
     active = false;
     stopPlayer = false;
     transitioning = false;
+
     // Setting Being parameters
     velocity = { 150.0f, 150.0f };
     direction = { 0,0 };
@@ -33,12 +35,12 @@ Player::Player(SString name, Textures* tex, Collisions* collisions, EntityManage
     if (subtype == EntitySubtype::PLAYER_HUNTER)
     {
         SetUpClass("hunter");
-        SetTexture("Assets/Textures/Characters/characters_spritesheet.png", 3);
+        SetTexture(3);
     }
     else if (subtype == EntitySubtype::PLAYER_WIZARD)
     {
         SetUpClass("wizard");
-        SetTexture("Assets/Textures/Characters/characters_spritesheet.png", 6);
+        SetTexture(6);
     }
 }
 
@@ -124,17 +126,17 @@ bool Player::Draw(Render* render)
         render->scale = 3;
         render->CameraFollow(position.x, position.y);
 
-        if (active) render->DrawTexture(texture, position.x, position.y, &animRec);
+        if (active) render->DrawTexture(entityManager->entitiesTexture, position.x, position.y, &animRec);
 
         render->scale = 1;
     }
     return true;
 }
 
-void Player::SetUpTexture(SString texPath)
+void Player::SetUpTexture()
 {
     LOG("Setting player texture");
-    texture = tex->Load(texPath.GetString());
+
     // Define player textures / animations
     int textureStartYPos = spritePos * 32 * 5;
     for (int y = textureStartYPos; y < y + 160; y += 32)

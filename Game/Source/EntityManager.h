@@ -78,6 +78,7 @@ public:
 	List<Activator*> activatorList;
 	SDL_Texture* texture;
 	SDL_Texture* itemsTexture;
+	SDL_Texture* entitiesTexture;
 
 	float accumulatedTime = 0.0f;
 	float updateMsCycle = 0.0f;

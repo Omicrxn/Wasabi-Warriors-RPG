@@ -1,5 +1,6 @@
 #include "Enemy.h"
 
+#include "EntityManager.h"
 #include "Pathfinding.h"
 #include "Transitions.h"
 
@@ -10,12 +11,13 @@
 Enemy::Enemy(SString name, Textures* tex, Collisions* collisions, EntityManager* entityManager, Transitions* transitions, EntityType type, EntitySubtype subtype, iPoint position) : Being()
 {
     this->tex = tex;
+    this->entityManager = entityManager;
     this->transitions = transitions;
-    texture = NULL;
     this->position = position;
     this->type = type;
     this->name = name;
     this->subtype = subtype;
+
     currentAnim = Animations::IDLE;
     width = 32;
     height = 32;
@@ -29,18 +31,18 @@ Enemy::Enemy(SString name, Textures* tex, Collisions* collisions, EntityManager*
     if (subtype == EntitySubtype::ENEMY_HENCHMAN)
     {
         SetUpClass("henchman");
-        SetTexture("Assets/Textures/Characters/characters_spritesheet.png", 3);
+        SetTexture(3);
     }
     else if (subtype == EntitySubtype::ENEMY_BRUISER)
     {
         SetUpClass("bruiser");
-        SetTexture("Assets/Textures/Characters/characters_spritesheet.png", 6);
+        SetTexture(6);
 
     }
     else if (subtype == EntitySubtype::ENEMY_BOSS)
     {
         SetUpClass("bruiser");
-        SetTexture("Assets/Textures/Characters/characters_spritesheet.png", 10);
+        SetTexture(10);
     }
 }
 
@@ -67,15 +69,15 @@ bool Enemy::Draw(Render* render)
 {
 	animRec = idleAnim.GetFrame(0);
 	render->scale = 3;
-	if (active) render->DrawTexture(texture, position.x, position.y, &animRec);
+	if (active) render->DrawTexture(entityManager->entitiesTexture, position.x, position.y, &animRec);
 	render->scale = 1;
 	return true;
 }
 
-void Enemy::SetUpTexture(SString texPath)
+void Enemy::SetUpTexture()
 {
     LOG("Setting enemy texture");
-    texture = tex->Load(texPath.GetString());
+
     // Define player textures / animations
     int textureStartYPos = spritePos * 32 * 5;
     for (int y = textureStartYPos; y < y + 160; y += 32)
