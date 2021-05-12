@@ -263,16 +263,9 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 	return true;
 }
 
-inline bool CheckCollision(SDL_Rect rec1, SDL_Rect rec2)
-{
-	if ((rec1.x < (rec2.x + rec2.w) && (rec1.x + rec1.w) > rec2.x) &&
-		(rec1.y < (rec2.y + rec2.h) && (rec1.y + rec1.h) > rec2.y)) return true;
-	else return false;
-}
-
 bool SceneGameplay::Update(Input* input, float dt)
 {
-	CollisionHandler();
+
 	// Player god mode
 	if (input->GetKey(SDL_SCANCODE_F10) == KeyState::KEY_DOWN)
 	{
@@ -1283,33 +1276,8 @@ void SceneGameplay::RewardGold(int gold)
 	gameProgress.gold += gold;
 }
 
-void SceneGameplay::CollisionHandler()
-{
-	// Check if updated player position collides with next tile
-	// IMPROVEMENT: Just check adyacent tiles to player
-	//ListItem<Entity*>* entity = entityManager->entityList.start;
-	//while (entity != NULL)
-	//{
-	//	for (int y = 0; y < map->data.height; y++)
-	//	{
-	//		for (int x = 0; x < map->data.width; x++)
-	//		{
-	//			//Check ground
-	//			if ((map->data.layers[4]->Get(x, y) >= 1051) && entity->data->type != EntityType::MAP &&
-	//				CheckCollision(map->GetTilemapRec(x, y), entity->data->GetBounds()))
-	//			{
-	//				iPoint tempPosition = entity->data->position;
-	//				if (entity->data->type == EntityType::PLAYER || entity->data->type == EntityType::NPC || entity->data->type == EntityType::ENEMY)
-	//					entity->data->position = tempPosition;
-	//				break;
-	//			}
-	//		}
-	//	}
-	//	entity = entity->next;
-	//}
-}
-
 void SceneGameplay::SetMapTransitionState()
 {
 	readyToChangeMap = true;
 }
+

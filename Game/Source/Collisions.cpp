@@ -3,7 +3,7 @@
 #include "Render.h"
 #include "Input.h"
 #include "SDL/include/SDL_scancode.h"
-
+#include "Map.h"
 #include "Log.h"
 
 Collisions::Collisions(Input* input, Render* render) : Module()
@@ -251,6 +251,33 @@ bool Collisions::DeleteCollider(Collider* collider)
 	}
 
 	return false;
+}
+
+
+inline bool CheckCollision(SDL_Rect rec1, SDL_Rect rec2)
+{
+	if ((rec1.x < (rec2.x + rec2.w) && (rec1.x + rec1.w) > rec2.x) &&
+		(rec1.y < (rec2.y + rec2.h) && (rec1.y + rec1.h) > rec2.y)) return true;
+	else return false;
+}
+
+void Collisions::DetectTilemapCollision(Collider* collider,Map* map, iPoint tempPosition, iPoint& entityPosition)
+{
+	// Check if updated player position collides with next tile
+	// IMPROVEMENT: Just check adyacent tiles to player
+		for (int y = 0; y < map->data.height; y++)
+		{
+			for (int x = 0; x < map->data.width; x++)
+			{
+				//Check ground
+				if ((map->data.layers[4]->Get(x, y) >= 1051) &&
+					CheckCollision(map->GetTilemapRec(x, y), collider->rect))
+				{
+						entityPosition = tempPosition;
+					break;
+				}
+			}
+		}
 }
 
 // Collider class

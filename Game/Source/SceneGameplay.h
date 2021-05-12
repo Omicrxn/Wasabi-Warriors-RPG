@@ -91,8 +91,6 @@ public:
     void RewardXP(int xp);
     void RewardGold(int gold);
 
-    void CollisionHandler();
-
     void SetMapTransitionState();
 
 private:

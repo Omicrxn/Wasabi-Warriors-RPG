@@ -6,9 +6,11 @@
 
 #include "Module.h"
 #include "SDL/include/SDL_rect.h"
+#include "Point.h"
 
 class Input;
 class Render;
+class Map;
 
 struct Collider
 {
@@ -77,6 +79,7 @@ public:
 
 	inline uint GetColliderCount() const { return colliderCount; };
 
+	void DetectTilemapCollision(Collider* collider, Map* map, iPoint tempPosition, iPoint& entityPosition);
 	// Load / Save
 	bool LoadState(pugi::xml_node&);
 	bool SaveState(pugi::xml_node&) const;

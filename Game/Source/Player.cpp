@@ -1,5 +1,5 @@
 #include "Player.h"
-
+#include "Map.h"
 #include "Log.h"
 
 Player::Player(SString name, Textures* tex, Collisions* collisions, EntityManager* entityManager, EntityType type, EntitySubtype subtype, iPoint position) : Being()
@@ -28,7 +28,7 @@ Player::Player(SString name, Textures* tex, Collisions* collisions, EntityManage
     currentAnim = Animations::IDLE;
     width = 32;
     height = 32;
-    
+    this->collisions = collisions;
     collider = collisions->AddCollider({ position.x,position.y ,width,height }, Collider::Type::PLAYER, (Module*)entityManager);
     isGod = false;
 
@@ -55,6 +55,7 @@ Player::~Player()
 
 bool Player::Update(Input* input, float dt)
 {
+    iPoint tempPosition = position;
     if (!Notifier::GetInstance()->GetBattle() && !stopPlayer && !transitioning)
     {
         Walk(direction, dt);
@@ -94,7 +95,8 @@ bool Player::Update(Input* input, float dt)
             currentAnim = Animations::IDLE;
         }
     }
-
+    
+    collisions->DetectTilemapCollision(collider, (Map*)entityManager->SearchEntity("Map"),tempPosition,position);
     transitioning = false;
     return true;
 }
