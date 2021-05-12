@@ -10,9 +10,6 @@
 
 Enemy::Enemy(SString name, Textures* tex, Collisions* collisions, EntityManager* entityManager, Transitions* transitions, EntityType type, EntitySubtype subtype, iPoint position) : Being()
 {
-    Timer timer;
-    timer.Start();
-
     this->entityManager = entityManager;
     this->transitions = transitions;
     this->position = position;
@@ -46,8 +43,6 @@ Enemy::Enemy(SString name, Textures* tex, Collisions* collisions, EntityManager*
         SetUpClass("bruiser");
         SetTexture(10);
     }
-
-    printf("%f\n", timer.ReadSec());
 }
 
 Enemy::~Enemy()

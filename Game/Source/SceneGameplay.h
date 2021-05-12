@@ -92,6 +92,9 @@ public:
     void RewardGold(int gold);
 
     void CollisionHandler();
+
+    void SetMapTransitionState();
+
 private:
 
     // Needed modules
@@ -181,6 +184,9 @@ private:
 
     // Struct to keep track of the game progress
     GameProgress gameProgress;
+
+    // Bool to keep track of the map change specific moment
+    bool readyToChangeMap = false;
 };
 
 #endif // __SCENEGAMEPLAY_H__

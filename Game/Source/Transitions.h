@@ -9,6 +9,7 @@ class Scene;
 enum class SceneType;
 class Enemy;
 struct SDL_Texture;
+class SceneGameplay;
 
 //this enum will manage all the transitions, using it to indicate which type of transition we're using
 enum WhichAnimation
@@ -44,6 +45,7 @@ public:
 
 	bool Transition(WhichAnimation type, Scene* moduleOffP, SceneType sceneType, float time = 2, float targetScaleP = 2);
 	bool TransitionCombat(WhichAnimation type, Enemy* enemy, float time = 2, float targetScaleP = 2);
+	bool TransitionMap(WhichAnimation type, SceneGameplay* sceneGameplay, float time = 2, float targetScaleP = 2);
 	
 	// The following calculates the percentatge of the transition that is done
 	float LerpValue(float percent, float start, float end);
@@ -92,8 +94,11 @@ private:
 
 	bool sceneChange = false;
 	
+	// Needed variables for specific transitions
 	// Combat pending enemy
 	Enemy* enemy = nullptr;
+	// Scene gameplay instance to acces its info.
+	SceneGameplay* sceneGameplay = nullptr;
 
 	// Needed textures for transitions
 	SDL_Texture* wipe = nullptr;

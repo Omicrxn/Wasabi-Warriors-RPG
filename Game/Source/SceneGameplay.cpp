@@ -282,6 +282,11 @@ bool SceneGameplay::Update(Input* input, float dt)
 	// Checking if we have to change the map
 	if (notifier->OnMapChange() && notifier->GetNextMap() != currentMap)
 	{
+		transitions->TransitionMap(WhichAnimation::FADE_TO_WHITE, this);
+	}
+	if (readyToChangeMap)
+	{
+		readyToChangeMap = false;
 		SetUpTp();
 	}
 
@@ -1282,24 +1287,29 @@ void SceneGameplay::CollisionHandler()
 {
 	// Check if updated player position collides with next tile
 	// IMPROVEMENT: Just check adyacent tiles to player
-	ListItem<Entity*>* entity = entityManager->entityList.start;
-	while (entity != NULL)
-	{
-		for (int y = 0; y < map->data.height; y++)
-		{
-			for (int x = 0; x < map->data.width; x++)
-			{
-				//Check ground
-				if ((map->data.layers[4]->Get(x, y) >= 1051) && entity->data->type != EntityType::MAP &&
-					CheckCollision(map->GetTilemapRec(x, y), entity->data->GetBounds()))
-				{
-					iPoint tempPosition = entity->data->position;
-					if (entity->data->type == EntityType::PLAYER || entity->data->type == EntityType::NPC || entity->data->type == EntityType::ENEMY)
-						entity->data->position = tempPosition;
-					break;
-				}
-			}
-		}
-		entity = entity->next;
-	}
+	//ListItem<Entity*>* entity = entityManager->entityList.start;
+	//while (entity != NULL)
+	//{
+	//	for (int y = 0; y < map->data.height; y++)
+	//	{
+	//		for (int x = 0; x < map->data.width; x++)
+	//		{
+	//			//Check ground
+	//			if ((map->data.layers[4]->Get(x, y) >= 1051) && entity->data->type != EntityType::MAP &&
+	//				CheckCollision(map->GetTilemapRec(x, y), entity->data->GetBounds()))
+	//			{
+	//				iPoint tempPosition = entity->data->position;
+	//				if (entity->data->type == EntityType::PLAYER || entity->data->type == EntityType::NPC || entity->data->type == EntityType::ENEMY)
+	//					entity->data->position = tempPosition;
+	//				break;
+	//			}
+	//		}
+	//	}
+	//	entity = entity->next;
+	//}
+}
+
+void SceneGameplay::SetMapTransitionState()
+{
+	readyToChangeMap = true;
 }

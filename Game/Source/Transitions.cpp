@@ -63,10 +63,18 @@ bool Transitions::PostUpdate()
 
 			if (sceneChange) moduleOff->TransitionToScene(nextSceneType);
 
+			// Do things depending on the type of transition
+			// Battle transition
 			if (enemy != nullptr)
 			{
 				enemy->StartCombat();
 				enemy = nullptr;
+			}
+			// Map transition
+			if (sceneGameplay != nullptr)
+			{
+				sceneGameplay->SetMapTransitionState();
+				sceneGameplay = nullptr;
 			}
 			
 			timer.Start();
@@ -254,6 +262,37 @@ bool Transitions::TransitionCombat(WhichAnimation type, Enemy* enemy, float time
 
 	wAnim = type;
 	this->enemy = enemy;
+
+	if (ongoingstep == FadeStep::NONE)
+	{
+		ongoingstep = FadeStep::ENTERING;
+		// startTime = SDL_GetTicks();
+		globaltime = time;
+		timer.Start();
+
+		// For zoom
+		targetScale = targetScaleP;
+		originalWidth = render->camera.w;
+		originalHeight = render->camera.h;
+		finalWidth = render->camera.w / targetScaleP;
+		finalHeight = render->camera.h / targetScaleP;
+		currentWidth = render->camera.w;
+		currentHeight = render->camera.h;
+
+		ret = true;
+	}
+
+	sceneChange = false;
+
+	return ret;
+}
+
+bool Transitions::TransitionMap(WhichAnimation type, SceneGameplay* sceneGameplay, float time, float targetScaleP)
+{
+	bool ret = false;
+
+	wAnim = type;
+	this->sceneGameplay = sceneGameplay;
 
 	if (ongoingstep == FadeStep::NONE)
 	{
