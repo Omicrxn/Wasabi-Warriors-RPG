@@ -82,6 +82,7 @@ public:
     const Collider* GetCollider() const { return collider; }
 
     virtual void OnCollision(Collider* collider) {};
+    virtual SDL_Rect GetBounds() const { return { collider->rect.x, collider->rect.y, width, height }; };
 
 public:
 
@@ -96,7 +97,7 @@ public:
     bool renderable = false;
     SDL_Texture* texture = nullptr;
     SString texPath;
-
+    int width, height;
     bool destroy = false;
     int spritePos;
 

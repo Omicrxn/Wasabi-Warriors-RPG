@@ -91,6 +91,7 @@ public:
     void RewardXP(int xp);
     void RewardGold(int gold);
 
+    void CollisionHandler();
 private:
 
     // Needed modules

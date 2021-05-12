@@ -48,7 +48,6 @@ public:
 	NPCAnimations currentAnim;
 	SDL_Rect animRec;
 
-	int width, height;
 
 	uint stepsCounter;
 	bool stop = false;

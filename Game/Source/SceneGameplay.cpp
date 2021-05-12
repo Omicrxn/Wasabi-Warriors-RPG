@@ -272,6 +272,7 @@ inline bool CheckCollision(SDL_Rect rec1, SDL_Rect rec2)
 
 bool SceneGameplay::Update(Input* input, float dt)
 {
+	CollisionHandler();
 	// Player god mode
 	if (input->GetKey(SDL_SCANCODE_F10) == KeyState::KEY_DOWN)
 	{
@@ -1105,7 +1106,7 @@ void SceneGameplay::SetUpTp()
 		if (hasStartedFromContinue == false)
 		{
 			// DELETE ALL ENTITIES EXCEPT PLAYER
-			entityManager->DeleteAllEntitiesExceptPlayer();
+			//entityManager->DeleteAllEntitiesExceptPlayer();
 
 			// LOAD ENEMIES
 			int enemyCount = mapNode.attribute("enemyCount").as_int();
@@ -1275,4 +1276,30 @@ void SceneGameplay::RewardXP(int xp)
 void SceneGameplay::RewardGold(int gold)
 {
 	gameProgress.gold += gold;
+}
+
+void SceneGameplay::CollisionHandler()
+{
+	// Check if updated player position collides with next tile
+	// IMPROVEMENT: Just check adyacent tiles to player
+	ListItem<Entity*>* entity = entityManager->entityList.start;
+	while (entity != NULL)
+	{
+		for (int y = 0; y < map->data.height; y++)
+		{
+			for (int x = 0; x < map->data.width; x++)
+			{
+				//Check ground
+				if ((map->data.layers[4]->Get(x, y) >= 1051) && entity->data->type != EntityType::MAP &&
+					CheckCollision(map->GetTilemapRec(x, y), entity->data->GetBounds()))
+				{
+					iPoint tempPosition = entity->data->position;
+					if (entity->data->type == EntityType::PLAYER || entity->data->type == EntityType::NPC || entity->data->type == EntityType::ENEMY)
+						entity->data->position = tempPosition;
+					break;
+				}
+			}
+		}
+		entity = entity->next;
+	}
 }

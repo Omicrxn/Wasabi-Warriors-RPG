@@ -24,10 +24,6 @@ private:
 
 	void Interact();
 	void OnCollision(Collider* collider) override;
-
-public:
-
-	int width, height;
 };
 
 #endif //__ACTIVATOR_H__

@@ -46,8 +46,6 @@ public:
 
     Animations currentAnim;
 
-    int width, height;
-
     bool readyForCombat = true;
 
     // Needed modules
