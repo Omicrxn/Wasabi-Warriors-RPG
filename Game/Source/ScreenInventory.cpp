@@ -21,6 +21,9 @@ ScreenInventory::ScreenInventory()
 
 	inventoryBackgroundColor1 = { 74,79,95,255 };
 	inventoryBackgroundColor2 = { 128,137,154,255 };
+
+	controller = false;
+	hasClickedConsume = false;
 }
 
 ScreenInventory::~ScreenInventory() {}
@@ -60,6 +63,7 @@ bool ScreenInventory::Load(int minIndex, int maxIndex, Scene* currentScene, Wind
 
 bool ScreenInventory::Update(Input* input, float dt, uint& focusedButtonId)
 {
+
 	if ((input->GetKey(SDL_SCANCODE_UP) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_UP) == KeyState::KEY_DOWN) && itemHovering.y > 0)
 		--itemHovering.y;
 	else if ((input->GetKey(SDL_SCANCODE_DOWN) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KeyState::KEY_DOWN) && itemHovering.y < INVENTORY_ROWS - 1)
@@ -103,11 +107,28 @@ bool ScreenInventory::Update(Input* input, float dt, uint& focusedButtonId)
 		slotRect.y = slotRect.y + spacing + slotRect.h;
 	}
 
+	// Accept button has been clicked
+	if (hasClickedConsume)
+	{
+		for (int i = 0; i < entityManager->playerList.Count(); ++i)
+		{
+			if (entityManager->playerList.At(i)->data->IsActive())
+			{
+				// (y * width) + x
+				int index = (itemSelected.y * 2) + itemSelected.x;
+				if (listInvItems.At(index) != nullptr)
+				{
+					// Play consume fx
+					ConsumeItem(entityManager->playerList.At(i)->data, listInvItems.At(index)->data);
+					break;
+				}
+			}
+		}
+		
+		hasClickedConsume = false;
+	}
+	
 
-	//if ((mouseX > bounds.x) && (mouseX < (bounds.x + bounds.w)) &&
-	//	(mouseY > bounds.y) && (mouseY < (bounds.y + bounds.h)))
-	//{
-	//	if(input->GetMouseButtonDown(SDL_SCANCODE_) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_) == KeyState::KEY_DOWN)
 	controller = input->GetControllerState();
 
 	return true;
@@ -327,17 +348,15 @@ bool ScreenInventory::SaveState(pugi::xml_node& screenNode) const
 	return true;
 }
 
-void ScreenInventory::SetInventory(List<InvItem*> invItems)
+void ScreenInventory::SetHasClickedConsume(bool value)
 {
-	for (int i = 0; i < listInvItems.Count(); ++i)
-	{
-		/*RELEASE(listInvItems.At(i)->data->item);*/
-		listInvItems.Del(listInvItems.At(i));
-	}
-	listInvItems.Clear();
+	hasClickedConsume = value;
+}
 
-	for (ListItem<InvItem*>* invItem = invItems.start; invItem; invItem = invItem->next)
-	{
-		listInvItems.Add(invItem->data);
-	}
+void ScreenInventory::ConsumeItem(Player* currentPlayer, InvItem* inventoryItem)
+{
+	currentPlayer->stats = inventoryItem->item->Interact(currentPlayer->stats);
+	inventoryItem->count -= 1;
+	if (inventoryItem->count <= 0)
+		listInvItems.Del(listInvItems.At(listInvItems.Find(inventoryItem)));
 }

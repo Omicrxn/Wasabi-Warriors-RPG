@@ -24,6 +24,7 @@ public:
 
 private:
     AudioManager* audio;
+    Easing* easing;
 
     SDL_Texture* backgroundTex;
     SDL_Texture* logoTex;
@@ -37,6 +38,8 @@ private:
 
     float timeCounter;
     float logoAlpha;
+
+    uint width, height;
 };
 
 #endif // __SCENELOGO_H__

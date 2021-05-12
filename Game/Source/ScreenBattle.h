@@ -34,6 +34,9 @@ public:
     void ResetOneTimeAnimations();
 
     void EnableBattleButtons();
+    void DisableBattleButtons();
+
+    BattleSystem* GetBattleSystem();
 
 private:
 

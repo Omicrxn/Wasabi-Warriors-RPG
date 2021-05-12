@@ -145,7 +145,7 @@ void BattleSystem::PlayerTurn()
 		case PlayerState::ITEM:
 			// Get into the items menu
 			// Items logic
-			currentPlayer->stats = items->At(0)->data->Interact(currentPlayer->stats);
+			//currentPlayer->stats = items->At(0)->data->Interact(currentPlayer->stats);
 			break;
 		case PlayerState::RUN:
 			// Return to the gameplay screen

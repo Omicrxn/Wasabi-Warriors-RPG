@@ -28,6 +28,12 @@ SceneLogo::SceneLogo()
     logoFxTimer.Start();
 
     posX = 2000;
+
+    width = 0;
+    height = 0;
+
+    audio = nullptr;
+    easing = nullptr;
 }
 
 SceneLogo::~SceneLogo()
@@ -37,13 +43,13 @@ SceneLogo::~SceneLogo()
 bool SceneLogo::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, Easing* easing)
 {
     this->audio = audio;
+    this->easing = easing;
 
     logoTex = tex->Load("Assets/Textures/Scenes/logo_logo.png");
     backgroundTex = tex->Load("Assets/Textures/Scenes/logo_background.png");
     logoFx = audio->LoadFx("Assets/Audio/Fx/logo.wav");
 
     logoFxTimer.Start();
-    uint width, height;
     win->GetWindowSize(width, height);
 
     easing->CreateSpline(&posX, width / 2 - 861 / 2, 3000, SplineType::QUART);
@@ -91,6 +97,13 @@ bool SceneLogo::Update(Input* input, float dt)
     {
         audio->PlayFx(logoFx);
     }
+
+    if (logoFxTimer.ReadSec() >= 2.0f && logoFxTimer.ReadSec() < 2.1f)
+    {
+        easing->CreateSpline(&posX, 2000, 6000, SplineType::BACK);
+    }
+    
+
 
     return true;
 }

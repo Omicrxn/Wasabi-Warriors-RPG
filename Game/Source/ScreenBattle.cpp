@@ -493,6 +493,19 @@ void ScreenBattle::EnableBattleButtons()
 	}
 }
 
+void ScreenBattle::DisableBattleButtons()
+{
+	for (int i = 11; i <= 14; ++i)
+	{
+		guiManager->controls.At(i)->data->state = GuiControlState::HIDDEN;
+	}
+}
+
+BattleSystem* ScreenBattle::GetBattleSystem()
+{
+	return battleSystem;
+}
+
 void ScreenBattle::ResetOneTimeAnimations()
 {
 	cast1Anim.Reset();

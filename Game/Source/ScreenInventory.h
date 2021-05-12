@@ -4,14 +4,10 @@
 #include "Screen.h"
 #include "Item.h"
 
+class Player;
+
 #define INVENTORY_ROWS 2
 #define INVENTORY_COLUMNS 3
-
-//struct InventorySlot
-//{
-//	Item* item = nullptr;
-//	uint quantity = 0;
-//};
 
 class ScreenInventory : public Screen
 {
@@ -29,8 +25,9 @@ public:
 
 	bool LoadState(pugi::xml_node&);
 	bool SaveState(pugi::xml_node&) const;
-
-	void SetInventory(List<InvItem*> invItems);
+	
+	void SetHasClickedConsume(bool value);
+	void ConsumeItem(Player* currentPlayer, InvItem* inventoryItem);
 
 	List<InvItem*> listInvItems;
 
@@ -47,11 +44,10 @@ private:
 	SDL_Rect RBButton;
 	SDL_Rect playersIcons;
 
-	
-
 	iPoint invMatrixPos;
 
 	bool controller;
+	bool hasClickedConsume;
 
 	SDL_Rect inventoryBackgroundRect1;
 	SDL_Rect inventoryBackgroundRect2;

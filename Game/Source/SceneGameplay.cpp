@@ -92,6 +92,10 @@ SceneGameplay::SceneGameplay(bool hasStartedFromContinue)
 	screenBattle = nullptr;
 	screenInventory = nullptr;
 
+	// Bools
+	readyToChangeMap = false;
+	battleInventory = false;
+
 	currentMap = MapType::NONE;
 }
 
@@ -415,6 +419,21 @@ bool SceneGameplay::Update(Input* input, float dt)
 		break;
 	case GameState::BATTLE:
 		screenBattle->Update(input, dt, focusedButtonId);
+
+		if (battleInventory == false)
+		{
+			if (((ScreenBattle*)screenBattle)->GetBattleSystem()->playerState == PlayerState::ITEM)
+			{
+				battleInventory = true;
+				((ScreenBattle*)screenBattle)->DisableBattleButtons();
+				screenInventory->isActive = true;
+				screenInventory->ShowButtons();
+			}
+		}
+		else
+		{
+			screenInventory->Update(input, dt, focusedButtonId);
+		}
 		break;
 	case GameState::INVENTORY:
 		screenInventory->Update(input, dt, focusedButtonId);
@@ -451,6 +470,8 @@ bool SceneGameplay::Draw(Render* render)
 		break;
 	case GameState::BATTLE:
 		screenBattle->Draw(render);
+		if (battleInventory)
+			screenInventory->Draw(render);
 		break;
 	case GameState::INVENTORY:
 		screenInventory->Draw(render);
@@ -603,7 +624,7 @@ bool SceneGameplay::LoadState(pugi::xml_node& scenegameplay)
 
 	pugi::xml_node invSlotNode = screenInventoryNode.child("invSlot");
 	Item* item = nullptr;
-	for (int i = 0; i < invCount; ++i)
+	for (int i = 0; i <= invCount; ++i)
 	{
 		// The problem is invItem->item, better use stats?
 		EntitySubtype subtype = (EntitySubtype)invSlotNode.attribute("entitySubType").as_int();
@@ -843,18 +864,35 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 			battleSystem->playerState = PlayerState::RUN;
 			ExitBattle();
 		}
-		else if (control->id == 15) {}
+		else if (control->id == 15) 
+		{
+			((ScreenInventory*)screenInventory)->SetHasClickedConsume(true);
+		}
 		else if(control->id == 16)
 		{
-			currentState = GameState::ROAMING;
+			if (currentState == GameState::BATTLE)
+			{
+				battleInventory = false;
 
-			screenInventory->isActive = false;
-			screenInventory->HideButtons();
+				screenInventory->isActive = false;
+				screenInventory->HideButtons();
 
-			screenRoaming->isActive = true;
-			screenRoaming->ShowButtons();
+				((ScreenBattle*)screenBattle)->EnableBattleButtons();
+				
+			}
+			else
+			{
+				currentState = GameState::ROAMING;
 
-			PlayMapMusic();
+				screenInventory->isActive = false;
+				screenInventory->HideButtons();
+
+				screenRoaming->isActive = true;
+				screenRoaming->ShowButtons();
+
+				PlayMapMusic();
+			}
+			
 		}
 
 		break;
