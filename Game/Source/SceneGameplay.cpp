@@ -272,6 +272,15 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 
 bool SceneGameplay::Update(Input* input, float dt)
 {
+	if (input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN)
+	{
+		transitions->Transition(WhichAnimation::FADE_TO_BLACK, (Scene*)this, SceneType::ENDING_DEFEAT, 2);
+	}
+	if (input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+	{
+		transitions->Transition(WhichAnimation::FADE_TO_BLACK, (Scene*)this, SceneType::ENDING_VICTORY, 2);
+	}
+
 	// Player god mode
 	if (input->GetKey(SDL_SCANCODE_F10) == KeyState::KEY_DOWN)
 	{

@@ -25,7 +25,8 @@ enum class SceneType
     TITLE,
     GAMEPLAY_LOAD,
     GAMEPLAY,
-    ENDING,
+    ENDING_DEFEAT,
+    ENDING_VICTORY,
     BATTLE
 };
 

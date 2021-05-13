@@ -163,7 +163,8 @@ bool SceneManager::Update(float dt)
 			case SceneType::TITLE: next = new SceneTitle(); break;
 			case SceneType::GAMEPLAY: next = new SceneGameplay(false); break;
 			case SceneType::GAMEPLAY_LOAD: next = new SceneGameplay(true); break;
-			case SceneType::ENDING: next = new SceneEnding(); break;
+			case SceneType::ENDING_DEFEAT: next = new SceneEnding(false); break;
+			case SceneType::ENDING_VICTORY: next = new SceneEnding(true); break;
 			default: break;
 		}
 

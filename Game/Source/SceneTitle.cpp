@@ -101,6 +101,7 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
     clickFx = audio->LoadFx("Assets/Audio/Fx/click.ogg");
     titleFx = audio->LoadFx("Assets/Audio/Fx/title.ogg");
     returnFx = audio->LoadFx("Assets/Audio/Fx/back.ogg");
+
     screenMainMenu = new ScreenMainMenu();
     screenMainMenu->Load(0, 4, this, win, guiManager, NULL, audio, easing, guiAtlasTex, titlesTex, buttonFont, hoverFx, clickFx);
     screenMainMenu->isActive = true;
@@ -128,7 +129,6 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
     ScreenMainMenu* tempTitle = (ScreenMainMenu*)screenMainMenu;
     tempTitle->titlePosition = { (int)width + tempTitle->mainTitlesRect.w * 2, (int)((float)height / 2) - (int)((float)height / 2.5f) };
 
-   
     titleFxTimer.Start();
     easing->CreateSpline(&tempTitle->titlePosition.x, width / 2 - tempTitle->mainTitlesRect.w / 2, 3000, SplineType::BACK);
     easing->CreateSpline(&tempTitle->btnExit->bounds.x, (int)width / 2 - 190 / 2, 3000, SplineType::EXPO);
@@ -197,7 +197,7 @@ bool SceneTitle::Update(Input* input, float dt)
     {
         audio->StopMusic();
         screenMainMenu->HideButtons();
-        TransitionToScene(SceneType::GAMEPLAY_LOAD);
+        transitions->Transition(WhichAnimation::FADE_TO_BLACK, (Scene*)this, SceneType::GAMEPLAY_LOAD, 2);
     }
     else if (menuCurrentSelection == MenuSelection::SETTINGS)
     {
