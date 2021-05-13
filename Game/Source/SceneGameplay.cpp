@@ -258,10 +258,11 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 		// Create party member 3
 		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER,  "DaBug", EntitySubtype::PLAYER_WIZARD,  iPoint(19 * 32, 1 * 32));
 		player = nullptr;
-
 		RELEASE(player);
+
 		// LOAD FROM MAP_XML
 		notifier->NotifyMapChange(MapType::TOWN);
+		SetUpTp();
 	}
 
 	return true;
@@ -269,7 +270,6 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 
 bool SceneGameplay::Update(Input* input, float dt)
 {
-
 	// Player god mode
 	if (input->GetKey(SDL_SCANCODE_F10) == KeyState::KEY_DOWN)
 	{
@@ -279,7 +279,8 @@ bool SceneGameplay::Update(Input* input, float dt)
 	// Checking if we have to change the map
 	if (notifier->OnMapChange() && notifier->GetNextMap() != currentMap)
 	{
-		transitions->TransitionMap(WhichAnimation::FADE_TO_WHITE, this);
+		transitions->TransitionMap(WhichAnimation::FADE_TO_WHITE, this, 1.0f);
+		notifier->ChangeMap();
 	}
 	if (readyToChangeMap)
 	{
@@ -520,8 +521,6 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 
 	RELEASE(questManager);
 	questManager = nullptr;
-
-	
 
 	// Remove map
 	map->CleanUp();

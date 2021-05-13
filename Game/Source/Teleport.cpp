@@ -20,7 +20,6 @@ Teleport::~Teleport()
 		collider->pendingToDelete = true;
 		collider = nullptr;
 	}
-		
 }
 
 bool Teleport::Update(Input* input, float dt)
