@@ -26,10 +26,10 @@ Player::Player(SString name, Textures* tex, Collisions* collisions, EntityManage
     animRec = {};
 
     currentAnim = Animations::IDLE;
-    width = 32;
-    height = 32;
+    width = 32 - 10;
+    height = 32 - 10;
     this->collisions = collisions;
-    collider = collisions->AddCollider({ position.x,position.y ,width,height }, Collider::Type::PLAYER, (Module*)entityManager);
+    collider = collisions->AddCollider({ position.x,position.y , width, height }, Collider::Type::PLAYER, (Module*)entityManager);
     isGod = false;
 
     if (subtype == EntitySubtype::PLAYER_HUNTER)

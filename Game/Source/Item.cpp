@@ -6,8 +6,9 @@
 #include "SceneGameplay.h"
 #include "Notifier.h"
 #include "Collisions.h"
+#include "Audio.h"
 
-Item::Item(SString name, Textures* tex, Collisions* collisions, EntityManager* entityManager, EntityType type, EntitySubtype subtype, iPoint position) : Interactive()
+Item::Item(SString name, Textures* tex, AudioManager* audio, Collisions* collisions, EntityManager* entityManager, EntityType type, EntitySubtype subtype, iPoint position) : Interactive()
 {
     // Needed modules
     this->tex = tex;
@@ -15,19 +16,46 @@ Item::Item(SString name, Textures* tex, Collisions* collisions, EntityManager* e
     this->name = name;
     this->type = type;
     this->position = position;
+    this->audio = audio;
     // Saving item type
     this->subtype = subtype;
 
+    pickUpFx = -1;
+    consumeFx = -1;
+
     // Setting the texture section depending on the item type
-    if (subtype == EntitySubtype::ITEM_POTION)
+    switch (subtype)
     {
-        width = height = 96;
-        section = { 0,0,width,height };
+    case EntitySubtype::ITEM_POTION:
+        section = { 16, 538, width = 16, height = 30 };
         SetUpClass("potion");
+        break;
+    case EntitySubtype::ITEM_BPOTION:
+        section = { 60, 538, width = 24, height = 30 };
+        SetUpClass("bigPotion");
+        break;
+    case EntitySubtype::ITEM_MPOTION:
+        section = { 636, 534, width = 24, height = 35 };
+        SetUpClass("megaPotion");
+        break;
+    case EntitySubtype::ITEM_WASABI:
+        section = { 10, 62, width = 28, height = 24 };
+        SetUpClass("wasabi");
+        break;
+    case EntitySubtype::ITEM_PAN:
+        section = { 63, 16, width = 22, height = 18 };
+        SetUpClass("pan");
+        break;
+    case EntitySubtype::ITEM_FORK:
+        section = { 148, 290, width = 42, height = 42 };
+        SetUpClass("pan");
+        break;
+    default:
+        break;
     }
 
     // Adding collider
-    collider = collisions->AddCollider({ position.x,position.y,width,height }, Collider::Type::ITEM, (Module*)entityManager);
+    collider = collisions->AddCollider({ position.x, position.y, width, height }, Collider::Type::ITEM, (Module*)entityManager);
 
     // Starts visible on map, ready to be picked
     onMap = true;
@@ -35,6 +63,7 @@ Item::Item(SString name, Textures* tex, Collisions* collisions, EntityManager* e
 
 Item::~Item()
 {
+    LOG("Destroying item");
 }
 
 bool Item::Draw(Render* render)
@@ -53,6 +82,7 @@ void Item::OnCollision(Collider* collider)
 {
     if (!hasInteracted)
     {
+        audio->PlayFx(pickUpFx);
         ConvertToInvItem();
     }
 }
@@ -114,4 +144,9 @@ bool Item::SetUpClass(SString name)
     LOG("Saving enemy info from %s", newName.GetString());
 
     return ret;
+}
+
+SDL_Rect Item::GetSection()
+{
+    return section;
 }

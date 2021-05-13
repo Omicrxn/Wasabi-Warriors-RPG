@@ -21,12 +21,13 @@ class Collisions;
 class Transitions;
 class Item;
 class Activator;
+class AudioManager;
 
 class EntityManager : public Module
 {
 public:
 
-	EntityManager(Input* input, Render* ren, Textures* tex, Collisions* collisions, Transitions* transitions);
+	EntityManager(Input* input, Render* ren, Textures* tex, AudioManager *audio, Collisions* collisions, Transitions* transitions);
 
 	// Destructor
 	virtual ~EntityManager();
@@ -67,6 +68,7 @@ public:
 	Render* render;
 	Textures* tex;
 	Input* input;
+	AudioManager* audio;
 	Collisions* collisions;
 	Transitions* transitions;
 	List<Entity*> entityList;
@@ -83,6 +85,9 @@ public:
 	float accumulatedTime = 0.0f;
 	float updateMsCycle = 0.0f;
 	bool doLogic = false;
+
+	// Audio Fx for items
+	int consumeFx, pickUpFx;
 };
 
 #endif // __ENTITYMANAGER_H__

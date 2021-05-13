@@ -17,7 +17,7 @@ ScreenCredits::~ScreenCredits()
 {
 }
 
-bool ScreenCredits::Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, EntityManager* entityManager, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* font, int hoverFx, int clickFx)
+bool ScreenCredits::Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* font, int hoverFx, int clickFx)
 {
     this->currentScene = currentScene;
     this->atlas[0] = atlas0;

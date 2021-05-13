@@ -32,7 +32,7 @@ typedef unsigned int uint;
 class Screen
 {
 public:
-    Screen(): minIndex(0), maxIndex(0), currentScene(nullptr), win(nullptr), guiManager(nullptr),entityManager(nullptr), font(nullptr), easing(nullptr), isActive(false)
+    Screen(): minIndex(0), maxIndex(0), currentScene(nullptr), win(nullptr), guiManager(nullptr),entityManager(nullptr), font(nullptr), audio(nullptr), easing(nullptr), isActive(false)
     {
         for (int i = 0; i < 5; ++i)
         {
@@ -42,13 +42,13 @@ public:
     ~Screen(){}
 
     // Many overloads if we need more textures in the screen 
-    virtual bool Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, EntityManager* entityManager, Easing* easing, SDL_Texture* atlas0, Font* font, int hoverFx, int clickFx) {
+    virtual bool Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, Font* font, int hoverFx, int clickFx) {
         return true;
     }
-    virtual bool Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, EntityManager* entityManager, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* font, int hoverFx, int clickFx) {
+    virtual bool Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* font, int hoverFx, int clickFx) {
         return true;
     }
-    virtual bool Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, EntityManager* entityManager, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, SDL_Texture* atlas2, Font* font, int hoverFx, int clickFx) {
+    virtual bool Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, SDL_Texture* atlas2, Font* font, int hoverFx, int clickFx) {
         return true;
     }
     virtual bool Load(int minIndex, int maxIndex, Scene* currentScene, BattleSystem* battleSystem, Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* font0, Font* font1, Font* font2, int hoverFx, int clickFx, int returnFx) {
@@ -118,6 +118,7 @@ public:
     Font* font;
     EntityManager* entityManager;
     Easing* easing;
+    AudioManager* audio;
 
     SDL_Texture* atlas[5];
 };

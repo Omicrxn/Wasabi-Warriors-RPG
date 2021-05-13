@@ -13,11 +13,12 @@
 #include "Textures.h"
 #include "Input.h"
 #include "Transitions.h"
+#include "Audio.h"
 
 #include "Defs.h"
 #include "Log.h"
 
-EntityManager::EntityManager(Input* input, Render* render, Textures* tex, Collisions* collisions, Transitions* transitions) : Module()
+EntityManager::EntityManager(Input* input, Render* render, Textures* tex, AudioManager* audio,Collisions* collisions, Transitions* transitions) : Module()
 {
 	name.Create("entitymanager");
 	this->render = render;
@@ -25,7 +26,12 @@ EntityManager::EntityManager(Input* input, Render* render, Textures* tex, Collis
 	this->input = input;
 	this->collisions = collisions;
 	this->transitions = transitions;
+	this->audio = audio;
 	texture = nullptr;
+
+	// Audio Fx for items
+	consumeFx = -1;
+	pickUpFx = -1;
 }
 
 // Destructor
@@ -45,9 +51,13 @@ bool EntityManager::Awake(pugi::xml_node& config)
 bool EntityManager::Start()
 {
 	LOG("entitymanager start");
-	
-	itemsTexture = tex->Load("Assets/Textures/items_1.png");
-	entitiesTexture = tex->Load("Assets/Textures/Characters/characters_spritesheet.png");
+	if (itemsTexture == nullptr)
+		itemsTexture = tex->Load("Assets/Textures/Items/items_equipment.png");
+	if (entitiesTexture == nullptr)
+		entitiesTexture = tex->Load("Assets/Textures/Characters/characters_spritesheet.png");
+
+	consumeFx = audio->LoadFx("Assets/Audio/Fx/consume.ogg");
+	pickUpFx = audio->LoadFx("Assets/Audio/Fx/pickup.ogg");
 
 	return true;
 }
@@ -57,17 +67,50 @@ bool EntityManager::CleanUp()
 {
 	for (int i = 0; i < entityList.Count(); i++)
 	{
-		this->DestroyEntity(entityList.At(i)->data);
-		/*if (->data->collider != nullptr)
-			entityList.At(i)->data->collider->pendingToDelete = true;
+		// Also delete them from their own lists
+		if (entityList.At(i)->data->type == EntityType::PLAYER)
+		{
+			playerList.Del(playerList.At(playerList.Find((Player*)entityList.At(i)->data)));
+		}
+		else if (entityList.At(i)->data->type == EntityType::ENEMY)
+		{
+			enemyList.Del(enemyList.At(enemyList.Find((Enemy*)entityList.At(i)->data)));
+		}
+		else if (entityList.At(i)->data->type == EntityType::NPC)
+		{
+			npcList.Del(npcList.At(npcList.Find((NPC*)entityList.At(i)->data)));
+		}
+		else if (entityList.At(i)->data->type == EntityType::TELEPORT)
+		{
+			teleportList.Del(teleportList.At(teleportList.Find((Teleport*)entityList.At(i)->data)));
+		}
+		else if (entityList.At(i)->data->type == EntityType::ITEM)
+		{
+			itemList.Del(itemList.At(itemList.Find((Item*)entityList.At(i)->data)));
+		}
+		else if (entityList.At(i)->data->type == EntityType::ACTIVATOR)
+		{
+			activatorList.Del(activatorList.At(activatorList.Find((Activator*)entityList.At(i)->data)));
+		}
 
-		entityList.Del(entityList.At(i));*/
+		this->DestroyEntity(entityList.At(i)->data);
 	}
+	playerList.Clear();
+	enemyList.Clear();
+	npcList.Clear();
+	teleportList.Clear();
+	itemList.Clear();
+	activatorList.Clear();
 	entityList.Clear();
 
 	// Freeing textures
 	tex->UnLoad(itemsTexture);
+	itemsTexture = nullptr;
 	tex->UnLoad(entitiesTexture);
+	entitiesTexture = nullptr;
+
+	audio->UnloadFx(consumeFx);
+	audio->UnloadFx(pickUpFx);
 
 	return true;
 }
@@ -100,7 +143,9 @@ Entity* EntityManager::CreateEntity(EntityType type, SString name, EntitySubtype
 		teleportList.Add((Teleport*)ret);
 		break;
 	case EntityType::ITEM:
-		ret = new Item(name, tex, collisions, this, type, subtype,position);
+		ret = new Item(name, tex, audio, collisions, this, type, subtype,position);
+		((Item*)ret)->pickUpFx = pickUpFx;
+		((Item*)ret)->consumeFx = consumeFx;
 		itemList.Add((Item*)ret);
 		break;
 	case EntityType::ACTIVATOR:

@@ -160,6 +160,7 @@ private:
     // Audio Fx for buttons
     int hoverFx, clickFx, returnFx;
 
+
     // Buttons to manage the battle system
     GuiButton* btnAttack;
     GuiButton* btnDefend;

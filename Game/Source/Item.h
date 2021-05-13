@@ -9,12 +9,13 @@
 #include "Stats.h"
 
 class EntityManager;
+class AudioManager;
 
 class Item : public Interactive
 {
 public:
 
-    Item(SString name,Textures* tex, Collisions* collisions, EntityManager* entityManager,EntityType type, EntitySubtype subtype, iPoint position);
+    Item(SString name, Textures* tex, AudioManager* audio, Collisions* collisions, EntityManager* entityManager, EntityType type, EntitySubtype subtype, iPoint position);
     virtual ~Item();
     bool Update(float dt) { return true; };
     bool Draw(Render* render);
@@ -23,18 +24,24 @@ public:
     void ConvertToInvItem();
     Stats Interact(Stats stats);
     bool SetUpClass(SString name);
-
+    SDL_Rect GetSection();
 public:
 
     Stats stats;
     bool usable = true;
+
     // Bool to keep track of where the item is (on the map or in the inventory)
     bool onMap;
 
+    int consumeFx = -1;
+    int pickUpFx = -1;
 private:
+
     int width, height;
+
     // Needed modules
     EntityManager* entityManager;
+    AudioManager* audio;
 
     SDL_Rect section;
 

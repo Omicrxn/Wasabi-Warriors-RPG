@@ -102,10 +102,10 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
     titleFx = audio->LoadFx("Assets/Audio/Fx/title.ogg");
     returnFx = audio->LoadFx("Assets/Audio/Fx/back.ogg");
     screenMainMenu = new ScreenMainMenu();
-    screenMainMenu->Load(0, 4, this, win, guiManager, NULL, easing, guiAtlasTex, titlesTex, buttonFont, hoverFx, clickFx);
+    screenMainMenu->Load(0, 4, this, win, guiManager, NULL, audio, easing, guiAtlasTex, titlesTex, buttonFont, hoverFx, clickFx);
     screenMainMenu->isActive = true;
     screenSettings = new ScreenSettings();
-    screenSettings->Load(5, 9, this, win, guiManager, NULL, easing, guiAtlasTex, titlesTex, buttonFont, hoverFx, clickFx);
+    screenSettings->Load(5, 9, this, win, guiManager, NULL, audio, easing, guiAtlasTex, titlesTex, buttonFont, hoverFx, clickFx);
 
     pugi::xml_document docData;
     pugi::xml_node screenNode;
@@ -122,7 +122,7 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
     }
 
     screenCredits = new ScreenCredits();
-    screenCredits->Load(0, 0, this, win, guiManager, NULL, easing, guiAtlasTex, titlesTex, buttonFont, hoverFx, clickFx);
+    screenCredits->Load(0, 0, this, win, guiManager, NULL, audio, easing, guiAtlasTex, titlesTex, buttonFont, hoverFx, clickFx);
 
     audio->PlayMusic("Assets/Audio/Music/menu.ogg", 0.5f);
     ScreenMainMenu* tempTitle = (ScreenMainMenu*)screenMainMenu;

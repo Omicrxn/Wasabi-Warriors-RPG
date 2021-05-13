@@ -24,11 +24,12 @@ ScreenInventory::ScreenInventory()
 
 	controller = false;
 	hasClickedConsume = false;
+
 }
 
 ScreenInventory::~ScreenInventory() {}
 
-bool ScreenInventory::Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, EntityManager* entityManager, Easing* easing, SDL_Texture* atlas0, Font* font, int hoverFx, int clickFx)
+bool ScreenInventory::Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, Font* font, int hoverFx, int clickFx)
 {
 	this->currentScene = currentScene;
 	this->atlas[0] = atlas0;
@@ -38,6 +39,7 @@ bool ScreenInventory::Load(int minIndex, int maxIndex, Scene* currentScene, Wind
 	this->entityManager = entityManager;
 	this->win = win;
 	this->easing = easing;
+	this->audio = audio;
 
 	controller = false;
 
@@ -115,10 +117,11 @@ bool ScreenInventory::Update(Input* input, float dt, uint& focusedButtonId)
 			if (entityManager->playerList.At(i)->data->IsActive())
 			{
 				// (y * width) + x
-				int index = (itemSelected.y * 2) + itemSelected.x;
+				int index = (itemSelected.y * INVENTORY_ROWS) + itemSelected.x;
 				if (listInvItems.At(index) != nullptr)
 				{
 					// Play consume fx
+					audio->PlayFx(listInvItems.At(index)->data->item->consumeFx);
 					ConsumeItem(entityManager->playerList.At(i)->data, listInvItems.At(index)->data);
 					break;
 				}
@@ -171,9 +174,9 @@ bool ScreenInventory::Draw(Render* render)
 				render->DrawRectangle(slotRect, { 255,0,0,255 }, true, false);
 
 			// Draw item stats
-			if (listInvItems.Count() > 0 && (listInvItems.Count() - 1) >= (itemSelected.x * INVENTORY_COLUMNS + itemSelected.y))
+			if (listInvItems.Count() > 0 && (listInvItems.Count() - 1) >= (itemSelected.y * INVENTORY_ROWS) + itemSelected.x)
 			{
-				InvItem* currentItem = listInvItems.At(itemSelected.x * INVENTORY_COLUMNS + itemSelected.y)->data;
+				InvItem* currentItem = listInvItems.At((itemSelected.y * INVENTORY_ROWS) + itemSelected.x)->data;
 
 				char statsString[30] = { 0 };
 				sprintf_s(statsString, 30, "%s", currentItem->item->name.GetString());
@@ -203,13 +206,16 @@ bool ScreenInventory::Draw(Render* render)
 
 			if (listItem != NULL)
 			{
+				render->scale = 2;
+				render->DrawTexture(entityManager->itemsTexture, slotRect.x / render->scale + 9, slotRect.y / render->scale + 2, &listItem->data->item->GetSection(), 0.0f);
+				render->scale = 1;
 				// Draw item
 				char itemType[24] = { 0 };
-				sprintf_s(itemType, 24, "item type is %i", (int)listItem->data->item->subtype);
-				render->DrawText(font, itemType, slotRect.x, slotRect.y, 10, 2, { 255,255,255,255 });
+				/*sprintf_s(itemType, 24, "item type is %i", (int)listItem->data->item->subtype);
+				render->DrawText(font, itemType, slotRect.x, slotRect.y, 10, 2, { 255,255,255,255 });*/
 
-				sprintf_s(itemType, 24, "item count is %i", (int)listItem->data->count);
-				render->DrawText(font, itemType, slotRect.x, slotRect.y + 10, 10, 2, { 255,255,255,255 });
+				sprintf_s(itemType, 24, "%i", (int)listItem->data->count);
+				render->DrawText(font, itemType, slotRect.x + slotRect.w - 20, slotRect.y + slotRect.h - 30, 50, 2, { 255,255,255,255 });
 				listItem = listItem->next;
 			}
 			else

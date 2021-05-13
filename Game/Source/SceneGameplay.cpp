@@ -73,7 +73,7 @@ SceneGameplay::SceneGameplay(bool hasStartedFromContinue)
 	hoverFx = -1;
 	clickFx = -1;
 	returnFx = -1;
-
+	
 	// Buttons
 	btnAttack = nullptr;
 	btnDefend = nullptr;
@@ -106,6 +106,8 @@ SceneGameplay::~SceneGameplay()
 bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, DialogSystem* dialogSystem, Easing* easing, Transitions* transitions, App* app)
 {
 	audio->StopMusic();
+
+	entityManager->Start();
 
 	notifier = Notifier::GetInstance();
 
@@ -209,19 +211,19 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 
 	// Gui id goes from 0 to 2
 	screenRoaming = new ScreenRoaming();
-	screenRoaming->Load(0, 2, this, win, guiManager, entityManager, easing, guiAtlasTex, buttonFont, hoverFx, clickFx);
+	screenRoaming->Load(0, 2, this, win, guiManager, entityManager, audio, easing, guiAtlasTex, buttonFont, hoverFx, clickFx);
 	screenRoaming->isActive = true;
 	screenRoaming->ShowButtons();
 
 	// Gui id goes from 3 to 5
 	screenPause = new ScreenPause();
-	screenPause->Load(3, 5, this, win, guiManager, NULL, easing, guiAtlasTex, titlesTex, buttonFont, hoverFx, clickFx);
+	screenPause->Load(3, 5, this, win, guiManager, NULL, audio, easing, guiAtlasTex, titlesTex, buttonFont, hoverFx, clickFx);
 	screenPause->isActive = false;
 	screenPause->HideButtons();
 
 	// Gui id goes from 6 to 10
 	screenSettings = new ScreenSettings();
-	screenSettings->Load(6, 10, this, win, guiManager, NULL, easing, guiAtlasTex, titlesTex, buttonFont, hoverFx, clickFx);
+	screenSettings->Load(6, 10, this, win, guiManager, NULL, audio, easing, guiAtlasTex, titlesTex, buttonFont, hoverFx, clickFx);
 	screenSettings->isActive = false;
 	screenSettings->HideButtons();
 
@@ -232,7 +234,7 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 
 	// Gui id goes from 15 to 16
 	screenInventory = new ScreenInventory();
-	screenInventory->Load(15, 16, this, win, guiManager, entityManager, easing, guiAtlasTex, buttonFont, hoverFx, clickFx);
+	screenInventory->Load(15, 16, this, win, guiManager, entityManager, audio, easing, guiAtlasTex, buttonFont, hoverFx, clickFx);
 	screenInventory->isActive = false;
 	screenInventory->HideButtons();
 
@@ -544,17 +546,23 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 	guiAtlasTex = nullptr;
 	tex->UnLoad(titlesTex);
 	titlesTex = nullptr;
+	
+	tex->UnLoad(aura);
+	aura = nullptr;
 	tex->UnLoad(cast1);
 	cast1 = nullptr;
 	tex->UnLoad(enemyCast);
 	enemyCast = nullptr;
 	tex->UnLoad(indicator);
 	indicator = nullptr;
+	tex->UnLoad(signal);
+	signal = nullptr;
 
 	// Unload Fx
 	audio->UnloadFx(clickFx);
 	audio->UnloadFx(hoverFx);
 	audio->UnloadFx(returnFx);
+
 
 	// Destory GUI Controls
 	guiManager->DestroyGuiControl(btnAttack);
@@ -626,17 +634,20 @@ bool SceneGameplay::LoadState(pugi::xml_node& scenegameplay)
 	Item* item = nullptr;
 	for (int i = 0; i <= invCount; ++i)
 	{
-		// The problem is invItem->item, better use stats?
 		EntitySubtype subtype = (EntitySubtype)invSlotNode.attribute("entitySubType").as_int();
-		item = (Item*)entityManager->CreateEntity(EntityType::ITEM, invSlotNode.attribute("name").as_string(), subtype);
-		item->onMap = false;
-		if (item->collider != nullptr)
+		if ((int)subtype >= 5 && (int)subtype <= 10)
 		{
-			item->collider->pendingToDelete = true;
-			item->collider = nullptr;
+			item = (Item*)entityManager->CreateEntity(EntityType::ITEM, invSlotNode.attribute("name").as_string(), subtype);
+			item->onMap = false;
+			if (item->collider != nullptr)
+			{
+				item->collider->pendingToDelete = true;
+				item->collider = nullptr;
+			}
+			AddItemToInvItemsList(item);
+			item = nullptr;
 		}
-		AddItemToInvItemsList(item);
-		item = nullptr;
+		invSlotNode = invSlotNode.next_sibling("invSlot");
 	}
 	LOG("INVENTORY LOADED");
 	//---------------------------------//
