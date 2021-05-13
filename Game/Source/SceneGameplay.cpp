@@ -597,6 +597,7 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 	this->dialogSystem = nullptr;
 	this->audio = nullptr;
 
+	LOG("Unload gameplay finished.");
 	return true;
 }
 

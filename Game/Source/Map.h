@@ -148,6 +148,8 @@ public:
 	iPoint WorldToMap(int x, int y) const;
 
 	SDL_Rect GetTilemapRec(int x, int y) const;
+
+	int findCollisionLayer();
 	
 	// BFS/Dijkstra methods not required any more: Using PathFinding class
 	/*
