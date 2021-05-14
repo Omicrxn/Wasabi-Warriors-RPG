@@ -13,7 +13,6 @@
 #include "SDL/include/SDL.h"
 
 class SceneManager;
-class Collisions;
 
 class Player: public Being
 {
@@ -43,7 +42,6 @@ private:
 public:
 
     Animations currentAnim;
-    Collisions* collisions;
     bool stopPlayer = false;
     bool transitioning = false;
     bool isGod = false;

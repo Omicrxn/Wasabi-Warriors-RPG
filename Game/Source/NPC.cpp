@@ -12,7 +12,7 @@ NPC::NPC(SString name, Input* input, Textures* tex, Collisions* collisions, Enti
     this->type = type;
     this->name = name;
     this->subtype = subtype;
-
+    this->collisions = collisions;
     currentAnim = NPCAnimations::IDLE;
     velocity = { 150.0f, 150.0f };
     width = 32;
@@ -43,6 +43,7 @@ void NPC::Interact()
 
 bool NPC::Update(Input* input, float dt)
 {
+    iPoint tempPosition = position;
     if (!stop)
     {
         Walk(direction, dt);
@@ -88,7 +89,7 @@ bool NPC::Update(Input* input, float dt)
     }
 
     if (stop == true && !Notifier::GetInstance()->OnDialog()) stop = false;
-
+    collisions->DetectTilemapCollision(collider, (Map*)entityManager->SearchEntity("Map"), tempPosition, position);
     return true;
 }
 

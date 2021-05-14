@@ -157,6 +157,18 @@ SDL_Rect Map::GetTilemapRec(int x, int y) const
 	return rec;
 }
 
+int Map::findCollisionLayer()
+{
+	for (int i = 0; i < data.layers.Count(); ++i)
+	{
+		if (data.layers[i]->name == "Collision")
+		{
+			return i;
+		}
+	}
+	return -1;
+}
+
 // L06: DONE 3: Pick the right Tileset based on a tile id
 TileSet* Map::GetTilesetFromTileId(int id) const
 {

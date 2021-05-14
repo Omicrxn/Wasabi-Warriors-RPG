@@ -13,6 +13,7 @@ struct Input;
 struct Textures;
 class EntityManager;
 
+
 enum class EntityType
 {
     UNKNOWN = -1,
@@ -100,7 +101,7 @@ public:
     int width, height;
     bool destroy = false;
     int spritePos;
-
+    Collisions* collisions;
 protected:
 
     bool active = true;

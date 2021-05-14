@@ -84,7 +84,6 @@ struct MapLayer
 	int width;
 	int height;
 	uint* data;
-
 	// L06: DONE 1: Support custom properties
 	Properties properties;
 
