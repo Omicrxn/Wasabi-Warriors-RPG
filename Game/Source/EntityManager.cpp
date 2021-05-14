@@ -298,6 +298,7 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 		npc->renderable = npcNode.attribute("renderable").as_bool();
 
 		npc->stop = npcNode.attribute("stop").as_bool();
+		if (npc->stop) npc->stopForever = true;
 		npc->dialogIndex = npcNode.attribute("dialogIndex").as_int();
 
 		npc = nullptr;
@@ -591,6 +592,7 @@ bool EntityManager::SaveState(pugi::xml_node& data) const
 		// Fill in the info in order to save
 		newNPCNode.append_attribute("id").set_value(list3->data->id);
 		newNPCNode.append_attribute("spritePos").set_value(list3->data->spritePos);
+		newNPCNode.append_attribute("stop").set_value(list3->data->stop);
 		newNPCNode.append_attribute("name").set_value(list3->data->name.GetString());
 		newNPCNode.append_attribute("posX").set_value(list3->data->position.x);
 		newNPCNode.append_attribute("posY").set_value(list3->data->position.y);
