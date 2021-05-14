@@ -2,33 +2,33 @@
 <map>
   <cemetery enemyCount ="1" npcCount ="3" teleportCount ="1">
     <prevTown>
-		  <player posX="352" posY="192"/>
+		  <player posX="384" posY="224"/>
 	  </prevTown>
-    <enemy posX="160" posY="160" class="boss" name="Boss" spritePos="9" subtype="4"/>
-    <npc posX="608" posY="320" spritePos="2" stop="false" dialogIndex="-1"/>
-    <npc posX="608" posY="224" spritePos="4" stop="false" dialogIndex="-1"/>
-    <npc posX="224" posY="224" spritePos="6" stop="false" dialogIndex="-1"/>
-    <teleport posX="352" posY="448" width="64" height="32" destination="4"/>
+    <enemy posX="224" posY="192" class="boss" name="Boss" spritePos="9" subtype="4"/>
+    <npc posX="640" posY="352" spritePos="2" stop="false" dialogIndex="-1"/>
+    <npc posX="640" posY="256" spritePos="4" stop="false" dialogIndex="-1"/>
+    <npc posX="256" posY="256" spritePos="6" stop="false" dialogIndex="-1"/>
+    <teleport posX="384" posY="480" width="64" height="32" destination="4"/>
   </cemetery>
   <mediumCity enemyCount ="2" npcCount ="1" teleportCount ="2">
 	  <prevTown>
-		  <player posX="96" posY="224"/>
+		  <player posX="128" posY="256"/>
 	  </prevTown>
-    <enemy posX="512" posY="160" class="bruiser" name="Bruiser" spritePos="10" subtype="3"/>
-    <enemy posX="224" posY="224" class="henchman" name="Henchman" spritePos="5" subtype="2"/>
-    <npc posX="576" posY="320" spritePos="3" stop="false" dialogIndex="-1"/>
+    <enemy posX="544" posY="192" class="bruiser" name="Bruiser" spritePos="10" subtype="3"/>
+    <enemy posX="256" posY="256" class="henchman" name="Henchman" spritePos="5" subtype="2"/>
+    <npc posX="608" posY="352" spritePos="3" stop="false" dialogIndex="-1"/>
     <teleport posX="32" posY="224" width="32" height="64" destination="4"/>
-    <teleport posX="850" posY="35" width="32" height="32" destination="5"/>
+    <teleport posX="832" posY="32" width="64" height="32" destination="5"/>
   </mediumCity>
   <town enemyCount ="0" npcCount ="0" teleportCount ="2" itemCount="6">
-    <prevCemetery>
-      <player posX="608" posY="32"/>
+    <prevCemetery>s
+      <player posX="640" posY="64"/>
     </prevCemetery>
     <prevMediumCity>
-      <player posX="1376" posY="288"/>
+      <player posX="1408" posY="288"/>
     </prevMediumCity>
-    <teleport posX="608" posY="0" width="64" height="32" destination="0"/>
-    <teleport posX="1408" posY="256" width="32" height="224" destination="2"/>
+    <teleport posX="640" posY="32" width="64" height="32" destination="0"/>
+    <teleport posX="1440" posY="288" width="32" height="224" destination="2"/>
     <item posX="100" posY="100" class="item" name="potion" subtype="5"/>
 	<item posX="200" posY="100" class="item" name="bigPotion" subtype="6"/>
 	<item posX="300" posY="100" class="item" name="megaPotion" subtype="7"/>
@@ -44,6 +44,7 @@
       <player posX="768" posY="352"/>
     </prevSkyscraper>
     <teleport posX="768" posY="288" width="64" height="32" destination="6"/>
+    <teleport posX="736" posY="1152" width="128" height="32" destination="2"/>
   </bigCity>
   <dungeon enemyCount="3" npcCount="1" teleportCount="7" activatorCount="1">
     <prevBigCity>

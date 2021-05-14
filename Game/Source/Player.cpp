@@ -96,7 +96,10 @@ bool Player::Update(Input* input, float dt)
         }
     }
     
-    collisions->DetectTilemapCollision(collider, (Map*)entityManager->SearchEntity("Map"),tempPosition,position);
+    if (!isGod)
+    {
+        collisions->DetectTilemapCollision(collider, (Map*)entityManager->SearchEntity("Map"), tempPosition, position);
+    }
     transitioning = false;
     return true;
 }

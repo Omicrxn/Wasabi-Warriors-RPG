@@ -248,17 +248,17 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 	{
 		// Create party member 1
 		Player* player;
-		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "DaBaby", EntitySubtype::PLAYER_HUNTER, iPoint(19 * 32, 1 * 32));
+		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "DaBaby", EntitySubtype::PLAYER_HUNTER, iPoint(20 * 32, 5 * 32));
 		player->SetState(true);
 		player = nullptr;
 		currentPlayer = entityManager->playerList.At(0)->data;
 
 		// Create party member 2
-		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER,  "DaCrack", EntitySubtype::PLAYER_WIZARD, iPoint(19 * 32, 1 * 32));
+		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER,  "DaCrack", EntitySubtype::PLAYER_WIZARD, iPoint(20 * 32, 5 * 32));
 		player = nullptr;
 
 		// Create party member 3
-		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER,  "DaBug", EntitySubtype::PLAYER_WIZARD,  iPoint(19 * 32, 1 * 32));
+		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER,  "DaBug", EntitySubtype::PLAYER_WIZARD,  iPoint(20 * 32, 5 * 32));
 		player = nullptr;
 		RELEASE(player);
 
