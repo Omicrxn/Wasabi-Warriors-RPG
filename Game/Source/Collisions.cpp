@@ -281,6 +281,7 @@ void Collisions::DetectTilemapCollision(Collider* collider,Map* map, iPoint temp
 				}
 			}
 		}
+
 }
 
 // Collider class

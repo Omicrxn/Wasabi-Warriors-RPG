@@ -285,6 +285,8 @@ bool SceneGameplay::Update(Input* input, float dt)
 	if (input->GetKey(SDL_SCANCODE_F10) == KeyState::KEY_DOWN)
 	{
 		entityManager->TooglePlayerGodMode();
+		map->drawColliders = !map->drawColliders;
+
 	}
 
 	// Checking if we have to change the map

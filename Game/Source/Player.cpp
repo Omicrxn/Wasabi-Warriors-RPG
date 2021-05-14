@@ -26,8 +26,8 @@ Player::Player(SString name, Textures* tex, Collisions* collisions, EntityManage
     animRec = {};
 
     currentAnim = Animations::IDLE;
-    width = 32 - 10;
-    height = 32 - 10;
+    width = 12;
+    height = 24;
     this->collisions = collisions;
     collider = collisions->AddCollider({ position.x,position.y , width, height }, Collider::Type::PLAYER, (Module*)entityManager);
     isGod = false;
@@ -64,7 +64,7 @@ bool Player::Update(Input* input, float dt)
         // Update collider position
         if (collider != nullptr)
         {
-            collider->SetPos(position.x, position.y);
+            collider->SetPos(position.x + 10, position.y+4);
         }
     }
     else
