@@ -623,6 +623,7 @@ bool SceneGameplay::LoadState(pugi::xml_node& scenegameplay)
 	{
 		MapType nextMap = (MapType)scenegameplay.attribute("currentMap").as_int();
 		this->notifier->NotifyMapChange(nextMap);
+		SetMapTransitionState();
 	}
 	pugi::xml_node screenNode = scenegameplay.parent().parent().child("screen");
 	screenSettings->LoadState(screenNode);
