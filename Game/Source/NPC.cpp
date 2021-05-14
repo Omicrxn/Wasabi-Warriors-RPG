@@ -21,6 +21,7 @@ NPC::NPC(SString name, Input* input, Textures* tex, Collisions* collisions, Enti
     active = true;
     stepsCounter = 0;
     collider = collisions->AddCollider({ position.x,position.y,width,height }, Collider::Type::NPC, (Module*)entityManager);
+    collider->SetPos(position.x, position.y);
     SetTexture(4);
 
     // Index to keep track of the dialog of the NPC
@@ -44,7 +45,7 @@ void NPC::Interact()
 bool NPC::Update(Input* input, float dt)
 {
     iPoint tempPosition = position;
-    if (!stop)
+    if (!stop && !stopForever)
     {
         Walk(direction, dt);
         stepsCounter++;
@@ -90,6 +91,7 @@ bool NPC::Update(Input* input, float dt)
 
     if (stop == true && !Notifier::GetInstance()->OnDialog()) stop = false;
     collisions->DetectTilemapCollision(collider, (Map*)entityManager->SearchEntity("Map"), tempPosition, position);
+
     return true;
 }
 

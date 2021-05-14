@@ -49,7 +49,7 @@
     <prevBigCity>
       <player posX="256" posY="1504"/>
     </prevBigCity>
-    <npc posX="256" posY="1368" spritePos="3" stop="true" dialogIndex="7"/>
+    <npc posX="256" posY="1432" spritePos="3" stop="true" dialogIndex="7"/>
     <enemy posX="320" posY="64" class="bruiser" name="Ben" spritePos="4" subtype="3"/>
     <enemy posX="96" posY="320" class="bruiser" name="John" spritePos="5" subtype="3"/>
     <enemy posX="256" posY="416" class="bruiser" name="Robert" spritePos="6" subtype="3"/>

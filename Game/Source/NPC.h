@@ -48,9 +48,9 @@ public:
 	NPCAnimations currentAnim;
 	SDL_Rect animRec;
 
-
 	uint stepsCounter;
 	bool stop = false;
+	bool stopForever = false;
 
 	int dialogIndex = -1;
 };

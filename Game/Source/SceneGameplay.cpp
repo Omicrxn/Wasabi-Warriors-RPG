@@ -1162,7 +1162,7 @@ void SceneGameplay::SetUpTp()
 		if (hasStartedFromContinue == false)
 		{
 			// DELETE ALL ENTITIES EXCEPT PLAYER
-			//entityManager->DeleteAllEntitiesExceptPlayer();
+			entityManager->DeleteAllEntitiesExceptPlayer();
 
 			// LOAD ENEMIES
 			int enemyCount = mapNode.attribute("enemyCount").as_int();
@@ -1189,13 +1189,15 @@ void SceneGameplay::SetUpTp()
 			NPC* npc = nullptr;
 			for (int i = 0; i < npcCount; ++i)
 			{
-				npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, npcNode.attribute("name").as_string(), EntitySubtype::UNKNOWN);
+				iPoint position = { npcNode.attribute("posX").as_int(), npcNode.attribute("posY").as_int() };
+				npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, npcNode.attribute("name").as_string(), EntitySubtype::UNKNOWN, position);
 
 				npc->id = npcNode.attribute("id").as_uint();
 				npc->spritePos = npcNode.attribute("spritePos").as_int();
 				npc->position.x = npcNode.attribute("posX").as_int();
 				npc->position.y = npcNode.attribute("posY").as_int();
 				npc->stop = npcNode.attribute("stop").as_bool();
+				if (npc->stop) npc->stopForever = true;
 				npc->dialogIndex = npcNode.attribute("dialogIndex").as_int();
 				npc = nullptr;
 				npcNode = npcNode.next_sibling("npc");
