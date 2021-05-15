@@ -38,8 +38,11 @@ void Teleport::Interact()
 {
 	if (simpleTP)
 	{
-		notifier->NotifyPositionChange();
-		notifier->SetNextPosition(this->nextPosition);
+		if (!notifier->OnPositionChange())
+		{
+			notifier->NotifyPositionChange();
+			notifier->SetNextPosition(this->nextPosition);
+		}
 	}
 	else
 	{

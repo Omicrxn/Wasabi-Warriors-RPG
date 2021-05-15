@@ -99,8 +99,8 @@ bool BattleSystem::ResetBattle()
 	currentPlayer = nullptr;
 	// Enemy against whom the player is fighting
 	enemy = nullptr;
-	// Time counter for the enemy turn
-	/*uint enemyTurnCounter;*/
+	// Time counter for each turn
+	turnCounter = 0;
 
 	return true;
 }
