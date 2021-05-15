@@ -76,12 +76,12 @@
       <player posX="224" posY="160"/>
     </prevSecretRoom>
     <teleport posX="160" posY="416" width="64" height="32" destination="2"/>
-    <teleport posX="224" posY="128" width="32" height="32" destination="9"/>
+    <teleport posX="224" posY="128" width="32" height="32" destination="7"/>
   </restaurant>
   <secretRoom>
     <prevRestaurant>
       <player posX="64" posY="128"/>
-      <teleport posX="64" posY="192" width="32" height="32" destination="2"/>
     </prevRestaurant>
+    <teleport posX="64" posY="192" width="32" height="32" destination="3"/>
   </secretRoom>
 </map>
