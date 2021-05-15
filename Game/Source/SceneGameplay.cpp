@@ -1394,7 +1394,7 @@ void SceneGameplay::SetUpTp()
 			for (int i = 0; i < itemCount; ++i)
 			{
 				int subtype = itemNode.attribute("subtype").as_int();
-				iPoint position = { itemNode.attribute("posX").as_int(),itemNode.attribute("posY").as_int() };
+				iPoint position = { itemNode.attribute("posX").as_int() * 3,itemNode.attribute("posY").as_int() * 3 };
 
 				item = (Item*)entityManager->CreateEntity(EntityType::ITEM, itemNode.attribute("name").as_string(), (EntitySubtype)subtype, position);
 
