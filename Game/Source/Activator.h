@@ -7,6 +7,13 @@
 #include "Textures.h"
 #include "EntityManager.h"
 
+enum class DrawState
+{
+	NONE = -1,
+	MAP = 0,
+	HUD
+};
+
 class Activator : public Interactive
 {
 public:
@@ -20,10 +27,18 @@ public:
 	void SetUpTexture(SString texPath);
 	void SetName(SString name);
 
+	void SetDrawState(DrawState drawState);
+	DrawState GetDrawState();
+
 private:
 
 	void Interact();
 	void OnCollision(Collider* collider) override;
+
+private:
+
+	SDL_Rect rect;
+	DrawState drawState = DrawState::NONE;
 };
 
 #endif //__ACTIVATOR_H__

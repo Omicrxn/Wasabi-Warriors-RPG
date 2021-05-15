@@ -2,12 +2,15 @@
 
 #include "Render.h"
 #include "Input.h"
+#include "EntityManager.h"
 
 Activator::Activator(SString name, Input* input, Textures* tex, Collisions* collisions, EntityManager* entityManager, EntityType type, EntitySubtype subtype, iPoint position) : Interactive()
 {
-    this->tex = tex;
-    texture = NULL;
+    this->name = name;
     this->input = input;
+    this->tex = tex;
+    texture = nullptr;
+    this->entityManager = entityManager;
     this->position = position;
     this->type = type;
     this->name = name;
@@ -27,6 +30,7 @@ void Activator::Interact()
     Notifier::GetInstance()->NotifyActivator();
     Notifier::GetInstance()->SetActivator(this);
     if (name != "secretRoom") collider->pendingToDelete = true;
+    hasInteracted = true;
 }
 
 bool Activator::Update(Input* input, float dt)
@@ -36,9 +40,26 @@ bool Activator::Update(Input* input, float dt)
 
 bool Activator::Draw(Render* render)
 {
-    render->scale = 3;
+    /*render->scale = 3;
     if (active) render->DrawTexture(texture, position.x, position.y, &animRec);
-    render->scale = 1;
+    render->scale = 1;*/
+
+    if (drawState != DrawState::NONE)
+    {
+        if (drawState == DrawState::MAP)
+        {
+            render->DrawTexture(entityManager->itemsTexture, position.x * 3 + 32, position.y * 3 + 32, &rect);
+        }
+        else if (drawState == DrawState::HUD)
+        {
+            iPoint hudPosition;
+            if (name == "key")
+            {
+                hudPosition = { 50,50 };
+            }
+            render->DrawTexture(entityManager->itemsTexture, hudPosition.x, hudPosition.y, &rect, 0);
+        }
+    }
 
     return true;
 }
@@ -55,10 +76,28 @@ void Activator::SetName(SString name)
     this->name = name;
 }
 
+void Activator::SetDrawState(DrawState drawState)
+{
+    this->drawState = drawState;
+
+    if (name == "key")
+    {
+        rect = { 296,346,30,28 };
+    }
+}
+
+DrawState Activator::GetDrawState()
+{
+    return drawState;
+}
+
 void Activator::OnCollision(Collider* collider)
 {
-    if (collider->type == Collider::Type::PLAYER)
+    if (!hasInteracted)
     {
-        if (input->GetKey(SDL_SCANCODE_F) == KEY_DOWN) Interact();
+        if (collider->type == Collider::Type::PLAYER)
+        {
+            if (input->GetKey(SDL_SCANCODE_F) == KEY_DOWN) Interact();
+        }
     }
 }

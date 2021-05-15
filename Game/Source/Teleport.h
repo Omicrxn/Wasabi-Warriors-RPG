@@ -27,7 +27,6 @@ private:
 	MapType destination = MapType::NONE;
 	SString nameTeleport; // NPC name
 
-	bool hasInteracted = false;
 	uint stepsCounter;
 
 	// Bool to set the TP as simple (without map change)

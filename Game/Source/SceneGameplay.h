@@ -46,7 +46,7 @@ struct GameProgress
     bool hasKilledBoss = false;
 
     // Puzzles bools
-    bool hasPickedKey = true;
+    bool hasPickedKey = false;
 };
 
 class SceneGameplay : public Scene

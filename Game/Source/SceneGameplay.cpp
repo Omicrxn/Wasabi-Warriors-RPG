@@ -412,8 +412,21 @@ bool SceneGameplay::Update(Input* input, float dt)
 		}
 		else if (notifier->GetActivator()->name == "secretRoom")
 		{
-			if (gameProgress.hasPickedKey) notifier->NotifyMapChange(MapType::SECRET_ROOM);
+			notifier->GetActivator()->ChangeInteraction();
+			if (gameProgress.hasPickedKey)
+			{
+				notifier->NotifyMapChange(MapType::SECRET_ROOM);
+				/*((Activator*)entityManager->SearchEntity("key"))->SetDrawState(DrawState::NONE);*/
+			}
 			else notifier->NotifyDialog(8);
+		}
+		else if (notifier->GetActivator()->GetDrawState() == DrawState::MAP)
+		{
+			if (notifier->GetActivator()->name == "key")
+			{
+				gameProgress.hasPickedKey = true;
+				notifier->GetActivator()->SetDrawState(DrawState::HUD);
+			}
 		}
 	}
 
@@ -1279,6 +1292,7 @@ void SceneGameplay::SetUpTp()
 			{
 				iPoint position = { activatorNode.attribute("posX").as_int(), activatorNode.attribute("posY").as_int() };
 				activator = (Activator*)entityManager->CreateEntity(EntityType::ACTIVATOR, activatorNode.attribute("name").as_string(), EntitySubtype::UNKNOWN, position);
+				if (activatorNode.attribute("drawState").as_int() != -1) activator->SetDrawState((DrawState)activatorNode.attribute("drawState").as_int());
 				activator = nullptr;
 				activatorNode = activatorNode.next_sibling("activator");
 			}

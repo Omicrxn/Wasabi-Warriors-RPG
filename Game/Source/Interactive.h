@@ -16,6 +16,11 @@ public:
 		return description.GetString();
 	}
 
+	void ChangeInteraction()
+	{
+		hasInteracted = !hasInteracted;
+	}
+
 protected:
 
 	virtual void Interact() = 0;
@@ -24,6 +29,7 @@ protected:
 
 	SString description;
 
+	bool hasInteracted = false;
 };
 
 #endif // __INTERACTIVE_H__

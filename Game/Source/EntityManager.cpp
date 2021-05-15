@@ -381,7 +381,9 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 		activator->id = activatorNode.attribute("id").as_uint();
 		activator->spritePos = activatorNode.attribute("spritePos").as_int();
 		activator->renderable = activatorNode.attribute("renderable").as_bool();
-		
+
+		if (activatorNode.attribute("drawState").as_int() != -1) activator->SetDrawState((DrawState)activatorNode.attribute("drawState").as_int());
+
 		activator = nullptr;
 		itemNode = activatorNode.next_sibling();
 	}
@@ -784,6 +786,8 @@ bool EntityManager::SaveState(pugi::xml_node& data) const
 		newActivatorNode.append_attribute("posY").set_value(list6->data->position.y);
 		newActivatorNode.append_attribute("isActive").set_value(list6->data->IsActive());
 		newActivatorNode.append_attribute("isRenderable").set_value(list6->data->renderable);
+
+		newActivatorNode.append_attribute("drawState").set_value((int)list6->data->GetDrawState());
 	}
 
 	return true;
