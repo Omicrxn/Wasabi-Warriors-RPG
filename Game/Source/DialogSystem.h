@@ -5,18 +5,21 @@
 #include <functional>
 
 #include "Module.h"
+#include "SDL/include/SDL_rect.h"
 
 class DialogNode;
 
 class Input;
 class Render;
 class Fonts;
+class Textures;
+struct SDL_Texture;
 
 class DialogSystem : public Module
 {
 public:
 
-	DialogSystem(Input* input, Render* render, Fonts* fonts);
+	DialogSystem(Input* input, Render* render, Textures* tex, Fonts* fonts);
 
 	// Destructor
 	virtual ~DialogSystem();
@@ -71,10 +74,14 @@ private:
 	Input* input;
 	Render* render;
 	Fonts* fonts;
+	Textures* tex;
 
 	// Bool to search a random dialog
 	bool newRandomDialog = false;
 	bool newDialog = false;
 	int dialogIndex;
 	bool dialogFinished = false;
+
+	SDL_Texture* dialogBackground;
+	SDL_Rect backgroundRect;
 };
