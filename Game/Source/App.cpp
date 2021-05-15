@@ -39,7 +39,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	entityManager = new EntityManager(input, render, tex, audio, collisions, transitions);
 	guiManager = new GuiManager(input, render, tex, audio);
 	fonts = new Fonts(render, tex);
-	dialogSystem = new DialogSystem(input, render, fonts);
+	dialogSystem = new DialogSystem(input, render, tex, fonts);
 	easing = new Easing();
 	sceneManager = new SceneManager(input, render, tex, win, audio, entityManager, guiManager, dialogSystem, easing, transitions, this);
 	

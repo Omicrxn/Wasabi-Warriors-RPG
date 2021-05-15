@@ -4,6 +4,7 @@
 #include "Input.h"
 #include "Render.h"
 #include "Fonts.h"
+#include "Textures.h"
 
 #include <utility>
 
@@ -12,12 +13,13 @@
 
 #include "Log.h"
 
-DialogSystem::DialogSystem(Input* input, Render* render, Fonts* fonts)
+DialogSystem::DialogSystem(Input* input, Render* render, Textures* tex, Fonts* fonts)
 {
 	name.Create("dialog");
 	this->input = input;
 	this->render = render;
 	this->fonts = fonts;
+	this->tex = tex;
 }
 
 DialogSystem::~DialogSystem()
@@ -34,14 +36,20 @@ bool DialogSystem::Awake(pugi::xml_node& config)
 
 bool DialogSystem::Start()
 {
+	// Random dialogs
 	LoadDialog("Assets/Dialog/1.xml");
 	LoadDialog("Assets/Dialog/2.xml");
 	LoadDialog("Assets/Dialog/3.xml");
 	LoadDialog("Assets/Dialog/4.xml");
 	LoadDialog("Assets/Dialog/5.xml");
 
+	// Defined dialogs
 	LoadDialog("Assets/Dialog/7.xml");
 	LoadDialog("Assets/Dialog/8.xml");
+
+	// Needed textures
+	dialogBackground = tex->Load("Assets/Textures/Dialog/dialog_background.png");
+	backgroundRect = { 0,0,1240,220 };
 
 	// Register a callback function with the name say_hello. This is just an example.
 	callbacks[std::string("say_hello")] = std::function<void()>(&SayHello);
@@ -148,13 +156,14 @@ bool DialogSystem::PostUpdate()
 void DialogSystem::DrawDialog()
 {
 	// Draw the background rectangle.
-	render->DrawRectangle(SDL_Rect({ 0, (render->camera.h / 3) * 2, render->camera.w, render->camera.h / 3 }), {255, 255, 255, 255}, true, false);
+	/*render->DrawRectangle(SDL_Rect({ 0, (render->camera.h / 3) * 2, render->camera.w, render->camera.h / 3 }), {255, 255, 255, 255}, true, false);*/
+	render->DrawTexture(dialogBackground, 20, 480, &backgroundRect, 0);
 
 	// Set the text to uppercase, since our font only supports uppercase.
 	std::string text = ToUpperCase(currentDialog->attributes->at("value"));
 
 	// Write the dialog line.
-	fonts->BlitText(10, (render->camera.h / 3) * 2 + 10, 0, text.c_str());
+	fonts->BlitText(10 + 70, (render->camera.h / 3) * 2 + 10 + 50, 0, text.c_str());
 
 	// If the current node is a question, we should also draw the possible answers
 	if (currentDialog->type == DialogNode::NodeType::OPTIONS)
@@ -167,12 +176,12 @@ void DialogSystem::DrawDialog()
 			// Set them to uppercase.
 			text = ToUpperCase((*i)->attributes->at("value"));
 			// Draw them, increasing the y offset at every iteration.
-			fonts->BlitText(30, (render->camera.h / 3) * 2 + 30 + (18 * y), 0, text.c_str());
+			fonts->BlitText(30 + 70, (render->camera.h / 3) * 2 + 30 + (18 * y) + 50, 0, text.c_str());
 			y++;
 		}
 		// Draw a small black rectangle next to the selected option.
-		SDL_Rect selectedRectangle = SDL_Rect({ 20, (render->camera.h / 3) * 2 + 30 + (18 * selectedOption), 6, 6 });
-		render->DrawRectangle(selectedRectangle, {0, 0, 0, 255}, true, false);
+		SDL_Rect selectedRectangle = SDL_Rect({ 20 + 70, (render->camera.h / 3) * 2 + 30 + (18 * selectedOption) + 50, 6, 6 });
+		render->DrawRectangle(selectedRectangle, {255, 255, 255, 255}, true, false);
 	}
 }
 
@@ -181,6 +190,9 @@ bool DialogSystem::CleanUp()
 	nodeRoutes.clear();
 	callbacks.clear();
 	dialogues.clear();
+
+	// Unloading textures
+	tex->UnLoad(dialogBackground);
 
 	return true;
 }
