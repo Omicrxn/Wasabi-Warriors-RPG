@@ -272,7 +272,7 @@ void Collisions::DetectTilemapCollision(Collider* collider,Map* map, iPoint temp
 				SDL_Rect entityRect = { collider->rect.x * 3,collider->rect.y * 3,collider->rect.w * 3,collider->rect.h * 3 };
 
 				//Check ground
-				uint currentLayerGid = map->data.layers[map->findCollisionLayer()]->Get(x, y);
+				uint currentLayerGid = map->data.layers[map->FindCollisionLayer()]->Get(x, y);
 				if ((currentLayerGid != 0) &&
 					CheckCollision(map->GetTilemapRec(x, y), entityRect))
 				{

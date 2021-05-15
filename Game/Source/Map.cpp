@@ -157,7 +157,7 @@ SDL_Rect Map::GetTilemapRec(int x, int y) const
 	return rec;
 }
 
-int Map::findCollisionLayer()
+int Map::FindCollisionLayer()
 {
 	for (int i = 0; i < data.layers.Count(); ++i)
 	{

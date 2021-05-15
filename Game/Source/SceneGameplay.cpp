@@ -1062,6 +1062,18 @@ void SceneGameplay::SetUpTp()
 			audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
 		}
 		break;
+	case MapType::SECRET_ROOM:
+		if (map->Load("Restaurant", "secretRoom.tmx") == true)
+		{
+			int w, h;
+			uchar* data = NULL;
+
+			//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
+
+			RELEASE_ARRAY(data);
+			audio->StopMusic();
+			audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
+		}
 	default:
 		break;
 	}
@@ -1105,6 +1117,9 @@ void SceneGameplay::SetUpTp()
 		case MapType::SKYSCRAPER:
 			mapNode = mapNode.child("dungeon");
 			break;
+		case MapType::SECRET_ROOM:
+			mapNode = mapNode.child("secretRoom");
+			break;
 		default:
 			break;
 		}
@@ -1134,6 +1149,9 @@ void SceneGameplay::SetUpTp()
 			break;
 		case MapType::SKYSCRAPER:
 			previousMapNode = mapNode.child("prevSkyscraper");
+			break;
+		case MapType::SECRET_ROOM:
+			previousMapNode = mapNode.child("prevSecretRoom");
 			break;
 		default:
 			break;
@@ -1311,6 +1329,9 @@ void SceneGameplay::PlayMapMusic()
 		break;
 	case MapType::SKYSCRAPER:
 		audio->PlayMusic("Assets/Audio/Music/cemetry.ogg");
+		break;
+	case MapType::SECRET_ROOM:
+		audio->PlayMusic("Assets/Audio/Music/restaurant.ogg");
 		break;
 	default:
 		break;

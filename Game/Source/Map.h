@@ -148,7 +148,7 @@ public:
 
 	SDL_Rect GetTilemapRec(int x, int y) const;
 
-	int findCollisionLayer();
+	int FindCollisionLayer();
 	
 	// BFS/Dijkstra methods not required any more: Using PathFinding class
 	/*

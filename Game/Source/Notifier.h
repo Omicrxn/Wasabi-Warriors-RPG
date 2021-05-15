@@ -15,7 +15,8 @@ enum class MapType
     RESTAURANT,
     TOWN,
     BIG_CITY,
-    SKYSCRAPER
+    SKYSCRAPER,
+    SECRET_ROOM
 };
 
 class Notifier

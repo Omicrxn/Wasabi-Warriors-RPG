@@ -10,15 +10,19 @@
     <npc posX="256" posY="256" spritePos="6" stop="false" dialogIndex="-1"/>
     <teleport posX="384" posY="480" width="64" height="32" destination="4"/>
   </cemetery>
-  <mediumCity enemyCount ="2" npcCount ="1" teleportCount ="2">
+  <mediumCity enemyCount ="2" npcCount ="1" teleportCount ="3">
 	  <prevTown>
 		  <player posX="128" posY="256"/>
 	  </prevTown>
+    <prevRestaurant>
+      <player posX="416" posY="448"/>
+    </prevRestaurant>
     <enemy posX="544" posY="192" class="bruiser" name="Bruiser" spritePos="10" subtype="3"/>
     <enemy posX="256" posY="256" class="henchman" name="Henchman" spritePos="5" subtype="2"/>
     <npc posX="608" posY="352" spritePos="3" stop="false" dialogIndex="-1"/>
     <teleport posX="32" posY="224" width="32" height="64" destination="4"/>
     <teleport posX="832" posY="32" width="64" height="32" destination="5"/>
+    <teleport posX="416" posY="416" width="32" height="32" destination="3"/>
   </mediumCity>
   <town enemyCount ="0" npcCount ="0" teleportCount ="2" itemCount="6">
     <prevCemetery>s
@@ -30,12 +34,12 @@
     <teleport posX="640" posY="32" width="64" height="32" destination="0"/>
     <teleport posX="1440" posY="288" width="32" height="224" destination="2"/>
     <item posX="100" posY="100" class="item" name="potion" subtype="5"/>
-	<item posX="200" posY="100" class="item" name="bigPotion" subtype="6"/>
-	<item posX="300" posY="100" class="item" name="megaPotion" subtype="7"/>
-	<item posX="400" posY="100" class="item" name="wasabi" subtype="8"/>
-	<item posX="500" posY="100" class="item" name="pan" subtype="9"/>
-	<item posX="600" posY="100" class="item" name="fork" subtype="10"/>
-  </town>
+	  <item posX="200" posY="100" class="item" name="bigPotion" subtype="6"/>
+	  <item posX="300" posY="100" class="item" name="megaPotion" subtype="7"/>
+	  <item posX="400" posY="100" class="item" name="wasabi" subtype="8"/>
+	  <item posX="500" posY="100" class="item" name="pan" subtype="9"/>
+	  <item posX="600" posY="100" class="item" name="fork" subtype="10"/>
+   </town>
   <bigCity enemyCount="0" npcCount="0" teleportCount="1">
     <prevMediumCity>
       <player posX="800" posY="1100"/>
@@ -64,4 +68,20 @@
     <teleport name ="floor4" posX="1312" posY="1088" width="32" height="32" destination="-1" nextPosX="1216" nextPosY="96"/>
     <activator name ="pc" posX="1408" posY="64"/>
   </dungeon>
+  <restaurant enemyCount="0" npcCount="0" teleportCount="2" activatorCount="0">
+    <prevMediumCity>
+      <player posX="160" posY="384"/>
+    </prevMediumCity>
+    <prevSecretRoom>
+      <player posX="224" posY="160"/>
+    </prevSecretRoom>
+    <teleport posX="160" posY="416" width="64" height="32" destination="2"/>
+    <teleport posX="224" posY="128" width="32" height="32" destination="9"/>
+  </restaurant>
+  <secretRoom>
+    <prevRestaurant>
+      <player posX="64" posY="128"/>
+      <teleport posX="64" posY="192" width="32" height="32" destination="2"/>
+    </prevRestaurant>
+  </secretRoom>
 </map>
