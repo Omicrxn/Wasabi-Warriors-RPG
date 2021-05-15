@@ -25,6 +25,7 @@
 
 #include "Item.h"
 #include "Activator.h"
+#include "Stats.h"
 
 SceneGameplay::SceneGameplay(bool hasStartedFromContinue)
 {
@@ -32,8 +33,18 @@ SceneGameplay::SceneGameplay(bool hasStartedFromContinue)
 	if (this->hasStartedFromContinue)
 		type = SceneType::GAMEPLAY_LOAD;
 	else
+	{
 		type = SceneType::GAMEPLAY;
+		// Delete map node from save file has we have started a new game!!
+		pugi::xml_document docData;
+		pugi::xml_node mapNode;
 
+		pugi::xml_parse_result result = docData.load_file("save_game.xml");
+		mapNode = docData.first_child().child("scenemanager").child("scenegameplay");
+		mapNode.remove_child("map");
+		docData.save_file("save_game.xml");
+	}
+		
 	this->name = "scenegameplay";
 
 	// Needed modules
@@ -42,6 +53,7 @@ SceneGameplay::SceneGameplay(bool hasStartedFromContinue)
 	win = nullptr;
 	dialogSystem = nullptr;
 	audio = nullptr;
+	this->app = nullptr;
 
 	charactersSpritesheet = nullptr;
 
@@ -118,6 +130,7 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 	this->dialogSystem = dialogSystem;
 	this->audio = audio;
 	this->transitions = transitions;
+	this->app = app;
 
 	questManager = new QuestManager(input, render, tex, this);
 	questManager->Start();
@@ -276,6 +289,27 @@ bool SceneGameplay::Update(Input* input, float dt)
 		transitions->Transition(WhichAnimation::FADE_TO_BLACK, (Scene*)this, SceneType::ENDING_VICTORY, 2);
 	}
 
+	if (input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
+	{
+		pugi::xml_document docData;
+		pugi::xml_node scenegameplayNode;
+
+		pugi::xml_parse_result result = docData.load_file("save_game.xml");
+		scenegameplayNode = docData.first_child().child("scenemanager").child("scenegameplay");
+
+		SString tempName = scenegameplayNode.attribute("lastMap").name();
+		if (tempName == "lastMap")
+		{
+			// Attribute currentMap exists
+			scenegameplayNode.attribute("lastMap").set_value((int)this->currentMap);
+		}
+		else
+		{
+			// Attribute currentMap does not exist
+			scenegameplayNode.append_attribute("lastMap").set_value((int)this->currentMap);
+		}
+		docData.save_file("save_game.xml");
+	}
 	// Player god mode
 	if (input->GetKey(SDL_SCANCODE_F10) == KeyState::KEY_DOWN)
 	{
@@ -287,6 +321,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 	// Checking if we have to change the map
 	if (notifier->OnMapChange() && notifier->GetNextMap() != currentMap)
 	{
+		app->SaveGameRequest();
 		transitions->TransitionMap(WhichAnimation::FADE_TO_WHITE, this, 1.0f);
 		notifier->ChangeMap();
 	}
@@ -634,9 +669,9 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 
 bool SceneGameplay::LoadState(pugi::xml_node& scenegameplay)
 {
-	if ((int)currentMap != scenegameplay.attribute("currentMap").as_int())
+	if ((int)currentMap != scenegameplay.attribute("lastMap").as_int())
 	{
-		MapType nextMap = (MapType)scenegameplay.attribute("currentMap").as_int();
+		MapType nextMap = (MapType)scenegameplay.attribute("lastMap").as_int();
 		this->notifier->NotifyMapChange(nextMap);
 		SetMapTransitionState();
 	}
@@ -691,19 +726,6 @@ bool SceneGameplay::LoadState(pugi::xml_node& scenegameplay)
 
 bool SceneGameplay::SaveState(pugi::xml_node& scenegameplay) const
 {
-	/* ---------- CHECKS IF THE Attribute WE WANT OVERWRITE EXISTS OR NOT  ----------*/
-	SString tempName = scenegameplay.attribute("currentMap").name();
-	if (tempName == "currentMap")
-	{
-		// Attribute currentMap exists
-		scenegameplay.attribute("currentMap").set_value((int)this->currentMap);
-	}
-	else
-	{
-		// Attribute currentMap does not exist
-		scenegameplay.append_attribute("currentMap").set_value((int)this->currentMap);
-	}
-
 	// Save each screen data
 	pugi::xml_node screenNode = scenegameplay.parent().parent().child("screen");
 	screenSettings->SaveState(screenNode);
@@ -712,7 +734,7 @@ bool SceneGameplay::SaveState(pugi::xml_node& scenegameplay) const
 	LOG("SAVING GAME PROGRESS");
 	/* ---------- CHECKS IF THE Child WE WANT OVERWRITE EXISTS OR NOT  ----------*/
 	pugi::xml_node gameProgressNode;
-	tempName = scenegameplay.child("gameProgress").name();
+	SString tempName = scenegameplay.child("gameProgress").name();
 	if (tempName == "gameProgress")
 	{
 		// Attribute currentMap exists
@@ -723,6 +745,8 @@ bool SceneGameplay::SaveState(pugi::xml_node& scenegameplay) const
 		// Attribute currentMap does not exist
 		gameProgressNode = scenegameplay.append_child("gameProgress");
 	}
+
+	Save(scenegameplay);
 	SaveGameProgress(gameProgressNode);
 
 	return true;
@@ -766,6 +790,57 @@ void SceneGameplay::SaveGameProgress(pugi::xml_node& data)const
 		data.attribute("hasActivated").set_value(this->gameProgress.hasActivated);
 	else
 		data.append_attribute("hasActivated").set_value(this->gameProgress.hasActivated);
+
+	// Save map booleans
+	data = data.next_sibling("map");
+
+	tempName = data.attribute("hasVisitedCemetery").name();
+	if (tempName == "hasVisitedCemetery")
+		data.attribute("hasVisitedCemetery").set_value(this->gameProgress.hasVisitedCemetery);
+	else
+		data.append_attribute("hasVisitedCemetery").set_value(this->gameProgress.hasVisitedCemetery);
+
+	tempName = data.attribute("hasVisitedHouse").name();
+	if (tempName == "hasVisitedHouse")
+		data.attribute("hasVisitedHouse").set_value(this->gameProgress.hasVisitedHouse);
+	else
+		data.append_attribute("hasVisitedHouse").set_value(this->gameProgress.hasVisitedHouse);
+
+	tempName = data.attribute("hasVisitedMediumCity").name();
+	if (tempName == "hasVisitedMediumCity")
+		data.attribute("hasVisitedMediumCity").set_value(this->gameProgress.hasVisitedMediumCity);
+	else
+		data.append_attribute("hasVisitedMediumCity").set_value(this->gameProgress.hasVisitedMediumCity);
+
+	tempName = data.attribute("hasVisitedRestaurant").name();
+	if (tempName == "hasVisitedRestaurant")
+		data.attribute("hasVisitedRestaurant").set_value(this->gameProgress.hasVisitedRestaurant);
+	else
+		data.append_attribute("hasVisitedRestaurant").set_value(this->gameProgress.hasVisitedCemetery);
+
+	tempName = data.attribute("hasVisitedTown").name();
+	if (tempName == "hasVisitedTown")
+		data.attribute("hasVisitedTown").set_value(this->gameProgress.hasVisitedTown);
+	else
+		data.append_attribute("hasVisitedTown").set_value(this->gameProgress.hasVisitedTown);
+
+	tempName = data.attribute("hasVisitedBigCity").name();
+	if (tempName == "hasVisitedBigCity")
+		data.attribute("hasVisitedBigCity").set_value(this->gameProgress.hasVisitedBigCity);
+	else
+		data.append_attribute("hasVisitedBigCity").set_value(this->gameProgress.hasVisitedBigCity);
+
+	tempName = data.attribute("hasVisitedSkyScraper").name();
+	if (tempName == "hasVisitedSkyScraper")
+		data.attribute("hasVisitedSkyScraper").set_value(this->gameProgress.hasVisitedSkyScraper);
+	else
+		data.append_attribute("hasVisitedSkyScraper").set_value(this->gameProgress.hasVisitedSkyScraper);
+
+	tempName = data.attribute("hasVisitedSecretRoom").name();
+	if (tempName == "hasVisitedSecretRoom")
+		data.attribute("hasVisitedSecretRoom").set_value(this->gameProgress.hasVisitedSecretRoom);
+	else
+		data.append_attribute("hasVisitedSecretRoom").set_value(this->gameProgress.hasVisitedSecretRoom);
 }
 
 void SceneGameplay::LoadGameProgress(pugi::xml_node& data)
@@ -776,6 +851,25 @@ void SceneGameplay::LoadGameProgress(pugi::xml_node& data)
 	this->gameProgress.numKilledOfficers = data.attribute("numKilledOfficers").as_int();
 	this->gameProgress.hasKilledOfficers = data.attribute("hasKilledOfficers").as_bool();
 	this->gameProgress.hasActivated = data.attribute("hasActivated").as_bool();
+
+	data = data.next_sibling("map");
+	this->gameProgress.hasVisitedCemetery = data.attribute("hasVisitedCemetery").as_bool();
+	this->gameProgress.hasVisitedHouse = data.attribute("hasVisitedHouse").as_bool();
+	this->gameProgress.hasVisitedMediumCity = data.attribute("hasVisitedMediumCity").as_bool();
+	this->gameProgress.hasVisitedRestaurant = data.attribute("hasVisitedRestaurant").as_bool();
+	this->gameProgress.hasVisitedTown = data.attribute("hasVisitedTown").as_bool();
+	this->gameProgress.hasVisitedBigCity = data.attribute("hasVisitedBigCity").as_bool();
+	this->gameProgress.hasVisitedSkyScraper = data.attribute("hasVisitedSkyScraper").as_bool();
+	this->gameProgress.hasVisitedSecretRoom = data.attribute("hasVisitedSecretRoom").as_bool();
+}
+
+void SceneGameplay::Save(pugi::xml_node& scenegameplay) const
+{
+	entityManager->SaveStateInfo(scenegameplay, currentMap);
+}
+
+void SceneGameplay::Load(pugi::xml_node& scenegameplay)
+{
 }
 
 Player* SceneGameplay::GetCurrentPlayer()
@@ -986,6 +1080,18 @@ void SceneGameplay::SetUpTp()
 	previousMap = currentMap;
 	currentMap = notifier->GetNextMap();
 
+	// Save player stats
+	int size = entityManager->playerList.Count();
+	Stats *playerStats = new Stats[size];
+	ListItem<Player*>* list1;
+	int i = 0;
+	for (list1 = entityManager->playerList.start; list1 != NULL; list1 = list1->next)
+	{
+		playerStats[i] = list1->data->stats;
+		++i;
+	}
+	RELEASE(list1);
+
 	// Create map
 	switch (currentMap)
 	{
@@ -1108,6 +1214,7 @@ void SceneGameplay::SetUpTp()
 	}
 	else
 	{
+		bool hasVisitedLocation = false;
 		mapNode = docData.child("map");
 		// GET THE NODE TO THE NEW MAP
 		switch (currentMap)
@@ -1116,27 +1223,35 @@ void SceneGameplay::SetUpTp()
 			break;
 		case MapType::CEMETERY:
 			mapNode = mapNode.child("cemetery");
+			hasVisitedLocation = gameProgress.hasVisitedCemetery;
 			break;
 		case MapType::HOUSE:
 			mapNode = mapNode.child("house");
+			hasVisitedLocation = gameProgress.hasVisitedHouse;
 			break;
 		case MapType::MEDIUM_CITY:
 			mapNode = mapNode.child("mediumCity");
+			hasVisitedLocation = gameProgress.hasVisitedMediumCity;
 			break;
 		case MapType::RESTAURANT:
 			mapNode = mapNode.child("restaurant");
+			hasVisitedLocation = gameProgress.hasVisitedRestaurant;
 			break;
 		case MapType::TOWN:
 			mapNode = mapNode.child("town");
+			hasVisitedLocation = gameProgress.hasVisitedTown;
 			break;
 		case MapType::BIG_CITY:
 			mapNode = mapNode.child("bigCity");
+			hasVisitedLocation = gameProgress.hasVisitedBigCity;
 			break;
 		case MapType::SKYSCRAPER:
 			mapNode = mapNode.child("dungeon");
+			hasVisitedLocation = gameProgress.hasVisitedSkyScraper;
 			break;
 		case MapType::SECRET_ROOM:
 			mapNode = mapNode.child("secretRoom");
+			hasVisitedLocation = gameProgress.hasVisitedSecretRoom;
 			break;
 		default:
 			break;
@@ -1193,8 +1308,11 @@ void SceneGameplay::SetUpTp()
 			RELEASE(list1);
 		}
 
-		if (hasStartedFromContinue == false)
+		// Check if we have visited that location already
+		if (hasVisitedLocation == false)
 		{
+			/*LOAD FROM MAP INFO*/
+
 			// DELETE ALL ENTITIES EXCEPT PLAYER
 			entityManager->DeleteAllEntitiesExceptPlayer();
 
@@ -1208,6 +1326,7 @@ void SceneGameplay::SetUpTp()
 				int subtype = enemyNode.attribute("subtype").as_int();
 				iPoint position = { enemyNode.attribute("posX").as_int(),enemyNode.attribute("posY").as_int() };
 				enemy = (Enemy*)entityManager->CreateEntity(EntityType::ENEMY, enemyNode.attribute("name").as_string(), (EntitySubtype)subtype, position);
+				enemy->id = 0;
 				enemy->spritePos = enemyNode.attribute("spritePos").as_int();
 
 				enemy = nullptr;
@@ -1224,6 +1343,7 @@ void SceneGameplay::SetUpTp()
 				iPoint position = { npcNode.attribute("posX").as_int(), npcNode.attribute("posY").as_int() };
 				npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, npcNode.attribute("name").as_string(), EntitySubtype::UNKNOWN, position);
 
+				npc->id = 0;
 				npc->id = npcNode.attribute("id").as_uint();
 				npc->spritePos = npcNode.attribute("spritePos").as_int();
 				npc->position.x = npcNode.attribute("posX").as_int();
@@ -1244,6 +1364,7 @@ void SceneGameplay::SetUpTp()
 			{
 				teleport = (Teleport*)entityManager->CreateEntity(EntityType::TELEPORT, teleportNode.attribute("name").as_string(), EntitySubtype::UNKNOWN);
 
+				teleport->id = 0;
 				teleport->id = teleportNode.attribute("id").as_uint();
 				teleport->spritePos = teleportNode.attribute("spritePos").as_int();
 				teleport->position.x = teleportNode.attribute("posX").as_int();
@@ -1277,6 +1398,8 @@ void SceneGameplay::SetUpTp()
 
 				item = (Item*)entityManager->CreateEntity(EntityType::ITEM, itemNode.attribute("name").as_string(), (EntitySubtype)subtype, position);
 
+				item->id = 0;
+				item->spritePos = 0;
 				item->id = itemNode.attribute("id").as_uint();
 
 				item = nullptr;
@@ -1296,11 +1419,61 @@ void SceneGameplay::SetUpTp()
 				activator = nullptr;
 				activatorNode = activatorNode.next_sibling("activator");
 			}
+
+			// Change the booleans of progress
+			switch (currentMap)
+			{
+			case MapType::CEMETERY:
+				gameProgress.hasVisitedCemetery = true;
+				break;
+			case MapType::HOUSE:
+				gameProgress.hasVisitedHouse = true;
+				break;
+			case MapType::MEDIUM_CITY:
+				gameProgress.hasVisitedMediumCity = true;
+				break;
+			case MapType::RESTAURANT:
+				gameProgress.hasVisitedRestaurant = true;
+				break;
+			case MapType::TOWN:
+				gameProgress.hasVisitedTown = true;
+				break;
+			case MapType::BIG_CITY:
+				gameProgress.hasVisitedBigCity = true;
+				break;
+			case MapType::SKYSCRAPER:
+				gameProgress.hasVisitedSkyScraper = true;
+				break;
+			case MapType::SECRET_ROOM:
+				gameProgress.hasVisitedSecretRoom = true;
+			default:
+				break;
+			}
 		}
 		else 
 		{
-			hasStartedFromContinue = false;
+			/*LOAD FROM SAVE GAME*/
+			pugi::xml_document docData;
+			pugi::xml_node loadNode;
+
+			pugi::xml_parse_result result = docData.load_file("save_game.xml");
+			loadNode = docData.first_child().child("scenemanager").child("scenegameplay");
+			entityManager->LoadStateInfo(loadNode, currentMap);
+
+			// Old player stats
+			ListItem<Player*>* list1;
+			int i = 0;
+			for (list1 = entityManager->playerList.start; list1 != NULL; list1 = list1->next)
+			{
+				list1->data->stats = playerStats[i];
+				++i;
+			}
+			RELEASE(list1);
+			delete [] playerStats;
+			playerStats = nullptr;
 		}
+		//this->app->SaveGameRequest();
+		
 	}
 }
 

@@ -5,6 +5,7 @@
 
 #include "List.h"
 #include "Point.h"
+#include "Notifier.h"
 
 class Render;
 class Textures;
@@ -22,6 +23,7 @@ class Transitions;
 class Item;
 class Activator;
 class AudioManager;
+
 
 class EntityManager : public Module
 {
@@ -43,9 +45,12 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
-	// Load / Save
-	bool LoadState(pugi::xml_node&);
-	bool SaveState(pugi::xml_node&) const;
+	//// Load / Save
+	//bool LoadState(pugi::xml_node&);
+	//bool SaveState(pugi::xml_node&) const;
+
+	bool LoadStateInfo(pugi::xml_node&, MapType currentMap);
+	bool SaveStateInfo(pugi::xml_node&, MapType currentMap) const;
 
 	// Additional methods
 	Entity* CreateEntity(EntityType type, SString name, EntitySubtype subtype, iPoint position = iPoint(0,0));

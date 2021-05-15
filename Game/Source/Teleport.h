@@ -1,6 +1,7 @@
 #pragma once
 #include "Interactive.h"
 #include "EntityManager.h"
+#include "Timer.h"
 
 class Teleport : public Interactive
 {
@@ -32,4 +33,6 @@ private:
 	// Bool to set the TP as simple (without map change)
 	bool simpleTP = false;
 	iPoint nextPosition;
+
+	Timer cooldown;
 };

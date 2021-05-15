@@ -36,6 +36,7 @@ bool Teleport::Update(Input* input, float dt)
 
 void Teleport::Interact()
 {
+	cooldown.Start();
 	if (simpleTP)
 	{
 		if (!notifier->OnPositionChange())
@@ -74,13 +75,13 @@ iPoint Teleport::GetNextPosition()
 
 void Teleport::OnCollision(Collider* collider)
 {
-	if (!hasInteracted)
+	if (!hasInteracted && cooldown.ReadSec() >= 2.0f)
 	{
 		Interact();
 	}
-	if (!simpleTP && this->collider != nullptr)
+	/*if (!simpleTP && this->collider != nullptr)
 	{
 		this->collider->pendingToDelete = true;
 		this->collider = nullptr;
-	}
+	}*/
 }

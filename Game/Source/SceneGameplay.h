@@ -47,6 +47,16 @@ struct GameProgress
 
     // Puzzles bools
     bool hasPickedKey = false;
+
+    // Map bools
+    bool hasVisitedCemetery = false;
+    bool hasVisitedHouse = false;
+    bool hasVisitedMediumCity = false;
+    bool hasVisitedRestaurant = false;
+    bool hasVisitedTown = false;
+    bool hasVisitedBigCity = false;
+    bool hasVisitedSkyScraper = false;
+    bool hasVisitedSecretRoom = false;
 };
 
 class SceneGameplay : public Scene
@@ -70,6 +80,9 @@ public:
 
     void SaveGameProgress(pugi::xml_node&) const;
     void LoadGameProgress(pugi::xml_node&);
+
+    void Save(pugi::xml_node&) const;
+    void Load(pugi::xml_node&);
 
     // Returns the current player
     Player* GetCurrentPlayer();
@@ -107,6 +120,7 @@ private:
     AudioManager* audio;
     Transitions* transitions;
     QuestManager* questManager;
+    App* app;
 
     // The screen for the HUD
     Screen* screenRoaming;
