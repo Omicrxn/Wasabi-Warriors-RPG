@@ -271,6 +271,9 @@ bool ScreenBattle::Update(Input* input, float dt, uint& focusedButtonId)
 		}
 	}
 
+	if (sceneGameplay->GetGameProgress()->hasKilledBoss)
+		sceneGameplay->TransitionToScene(SceneType::ENDING_VICTORY);
+
 	return true;
 }
 

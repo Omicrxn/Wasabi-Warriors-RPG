@@ -138,11 +138,6 @@ bool QuestManager::DrawActiveQuests()
 			render->DrawText(font, L->data->title.GetString(), 53, 223, 50, 3, { 0,0,0,255 });
 			render->DrawText(font, L->data->title.GetString(), 50, 220, 50, 3, { 255,255,255,255 });
 
-			// Amount of mushrooms taken
-			/*numToStr = to_string(app->player->mushroomCount);
-			numToStr2 = numToStr.c_str();
-			app->render->DrawText(font, numToStr2, 280, 63, 60, 0, { 255,255,255,200 });*/
-
 			// Description Drawing if pressed L
 			///////////////////////////////////////////////////////////////////////////
 			if (input->GetKey(SDL_SCANCODE_L) == KEY_REPEAT)
@@ -155,11 +150,6 @@ bool QuestManager::DrawActiveQuests()
 			render->DrawText(font, L->data->title.GetString(), 53, 223, 50, 3, { 0,0,0,255 });
 			render->DrawText(font, L->data->title.GetString(), 50, 220, 50, 3, { 255,255,255,255 });
 
-			// Amount of trees taken
-			/*numToStr = to_string(app->player->chopTreeCount);
-			numToStr2 = numToStr.c_str();
-			app->render->DrawText(font, numToStr2, 180, 63, 60, 0, { 255,255,255,200 });*/
-
 			// Description Drawing if pressed L
 			///////////////////////////////////////////////////////////////////////////
 			if (input->GetKey(SDL_SCANCODE_L) == KEY_REPEAT)
@@ -171,11 +161,6 @@ bool QuestManager::DrawActiveQuests()
 			// Title Drawing
 			render->DrawText(font, L->data->title.GetString(), 53, 223, 50, 3, { 0,0,0,255 });
 			render->DrawText(font, L->data->title.GetString(), 50, 220, 50, 3, { 255,255,255,255 });
-
-			// Amount of rubbish taken
-			/*numToStr = to_string(app->player->beachRubbish);
-			numToStr2 = numToStr.c_str();
-			app->render->DrawText(font, numToStr2, 225, 103, 60, 0, { 255,255,255,200 });*/
 
 			// Description Drawing if pressed L
 			///////////////////////////////////////////////////////////////////////////
