@@ -30,7 +30,7 @@
 		isCompleted = "false"
 		status = "1"
 	/>
-	 <!--  Killing quest, active when quest 1 is completed --> 
+	 <!--  Killing quest, active when quest 1 is completed -->
 	<quest 
 		id = "2"
 		type = "0"
@@ -59,6 +59,22 @@
 		rewardXP = "150"
 		rewardGold = "0"
 		requiredId = "2"
+		isCompleted = "false"
+		status = "0"
+	/>
+  <!--  Killing quest, active when quest 1 is completed -->
+  <quest
+		id = "4"
+		type = "0"
+		title = "Defeat Takuda"
+		description = "Face Takuda in a battle and may the best win..."
+		objective = "None"
+		quantity = "None"
+		demandingNPC = "None"
+		rewardingNPC = "None"
+		rewardXP = "500"
+		rewardGold = "500"
+		requiredId = "3"
 		isCompleted = "false"
 		status = "0"
 	/>

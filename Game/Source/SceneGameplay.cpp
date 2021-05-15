@@ -248,19 +248,14 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 	{
 		// Create party member 1
 		Player* player;
-		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "DaBaby", EntitySubtype::PLAYER_HUNTER, iPoint(20 * 32, 5 * 32));
+		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "B. Willies", EntitySubtype::PLAYER_HUNTER, iPoint(20 * 32, 5 * 32));
 		player->SetState(true);
 		player = nullptr;
 		currentPlayer = entityManager->playerList.At(0)->data;
 
 		// Create party member 2
-		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER,  "DaCrack", EntitySubtype::PLAYER_WIZARD, iPoint(20 * 32, 5 * 32));
+		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "B. Dickinson", EntitySubtype::PLAYER_WIZARD, iPoint(20 * 32, 5 * 32));
 		player = nullptr;
-
-		// Create party member 3
-		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER,  "DaBug", EntitySubtype::PLAYER_WIZARD,  iPoint(20 * 32, 5 * 32));
-		player = nullptr;
-		RELEASE(player);
 
 		// LOAD FROM MAP_XML
 		notifier->NotifyMapChange(MapType::TOWN);
@@ -1176,10 +1171,8 @@ void SceneGameplay::SetUpTp()
 			{
 				int subtype = enemyNode.attribute("subtype").as_int();
 				iPoint position = { enemyNode.attribute("posX").as_int(),enemyNode.attribute("posY").as_int() };
-
 				enemy = (Enemy*)entityManager->CreateEntity(EntityType::ENEMY, enemyNode.attribute("name").as_string(), (EntitySubtype)subtype, position);
-
-				enemy->id = enemyNode.attribute("id").as_uint();
+				enemy->spritePos = enemyNode.attribute("spritePos").as_int();
 
 				enemy = nullptr;
 				enemyNode = enemyNode.next_sibling("enemy");

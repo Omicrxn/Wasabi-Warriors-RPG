@@ -43,6 +43,7 @@ struct GameProgress
     int numKilledOfficers = 0;
     bool hasKilledOfficers = false;
     bool hasActivated = false;
+    bool hasKilledBoss = false;
 };
 
 class SceneGameplay : public Scene

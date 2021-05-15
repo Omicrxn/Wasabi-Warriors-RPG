@@ -78,9 +78,9 @@ public:
 	List<Teleport*> teleportList;
 	List<Item*> itemList;
 	List<Activator*> activatorList;
-	SDL_Texture* texture;
-	SDL_Texture* itemsTexture;
-	SDL_Texture* entitiesTexture;
+	SDL_Texture* texture = nullptr;
+	SDL_Texture* itemsTexture = nullptr;
+	SDL_Texture* entitiesTexture = nullptr;
 
 	float accumulatedTime = 0.0f;
 	float updateMsCycle = 0.0f;

@@ -2610,7 +2610,7 @@
    <tile gid="227"/>
    <tile gid="227"/>
    <tile gid="976"/>
-   <tile gid="229"/>
+   <tile gid="979"/>
    <tile gid="978"/>
    <tile gid="1080"/>
    <tile gid="1083"/>
@@ -7618,7 +7618,7 @@
    <tile gid="60"/>
    <tile gid="672"/>
    <tile gid="673"/>
-   <tile gid="839"/>
+   <tile/>
    <tile gid="838"/>
    <tile/>
    <tile/>
@@ -7668,7 +7668,7 @@
    <tile gid="138"/>
    <tile gid="750"/>
    <tile gid="751"/>
-   <tile gid="917"/>
+   <tile/>
    <tile gid="916"/>
    <tile gid="61"/>
    <tile gid="62"/>

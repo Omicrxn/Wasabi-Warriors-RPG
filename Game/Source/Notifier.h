@@ -133,9 +133,9 @@ private:
 
     // Items
     bool itemAddition = false;
-    Item* item;
+    Item* item = nullptr;
 
     // Activators
-    bool requestActivator;
-    Activator* activator;
+    bool requestActivator = false;
+    Activator* activator = nullptr;
 };

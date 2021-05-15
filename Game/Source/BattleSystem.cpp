@@ -21,7 +21,7 @@ BattleSystem::BattleSystem()
 	enemyState = EnemyState::NONE;
 
 	// Right now we only have one party member implemented
-	numPlayers = 3;
+	numPlayers = 2;
 	// Time for enemy to manage their actions
 	turnCounter = 0;
 

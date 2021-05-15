@@ -288,9 +288,6 @@
     <ClInclude Include="Source\Easing.h">
       <Filter>Modules</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Screen.h">
-      <Filter>Screens</Filter>
-    </ClInclude>
     <ClInclude Include="Source\ScreenSettings.h">
       <Filter>Screens</Filter>
     </ClInclude>
@@ -323,6 +320,9 @@
     </ClInclude>
     <ClInclude Include="Source\Activator.h">
       <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Screen.h">
+      <Filter>Screens</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -811,7 +811,6 @@ void EntityManager::DestroyEntityChecker(float dt)
 				entityList.At(i)->data->collider->pendingToDelete = true;
 				entityList.At(i)->data->collider = nullptr;
 			}
-				
 
 			entityList.Del(entityList.At(i));
 		}
@@ -823,7 +822,7 @@ bool EntityManager::Update(float dt)
 	accumulatedTime += dt;
 	if (accumulatedTime >= updateMsCycle) doLogic = true;
 
-	UpdateAll(dt, doLogic);
+	if(entityList.Count() != 0) UpdateAll(dt, doLogic);
 
 	if (doLogic == true)
 	{
@@ -844,7 +843,7 @@ bool EntityManager::UpdateAll(float dt, bool doLogic)
 		for (int i = 0; i < entityList.Count(); i++)
 		{
 			entityList.At(i)->data->Update(dt);
-			entityList.At(i)->data->Update(input,dt);
+			entityList.At(i)->data->Update(input, dt);
 			entityList.At(i)->data->Draw(render);
 		}
 	}

@@ -102,6 +102,7 @@ public:
     bool destroy = false;
     int spritePos;
     Collisions* collisions;
+
 protected:
 
     bool active = true;

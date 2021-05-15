@@ -165,10 +165,9 @@ bool QuestManager::DrawActiveQuests()
 			if (input->GetKey(SDL_SCANCODE_L) == KEY_REPEAT)
 				render->DrawText(font, L->data->description.GetString(), 350, 230, 35, 3, { 200,200,200,255 });
 			///////////////////////////////////////////////////////////////////////////
-
 			break;
 
-		case 3: // new quest chain 2
+		case 3: // new quest chain 1
 			// Title Drawing
 			render->DrawText(font, L->data->title.GetString(), 53, 223, 50, 3, { 0,0,0,255 });
 			render->DrawText(font, L->data->title.GetString(), 50, 220, 50, 3, { 255,255,255,255 });
@@ -177,6 +176,17 @@ bool QuestManager::DrawActiveQuests()
 			/*numToStr = to_string(app->player->beachRubbish);
 			numToStr2 = numToStr.c_str();
 			app->render->DrawText(font, numToStr2, 225, 103, 60, 0, { 255,255,255,200 });*/
+
+			// Description Drawing if pressed L
+			///////////////////////////////////////////////////////////////////////////
+			if (input->GetKey(SDL_SCANCODE_L) == KEY_REPEAT)
+				render->DrawText(font, L->data->description.GetString(), 350, 230, 35, 3, { 200,200,200,255 });
+			///////////////////////////////////////////////////////////////////////////
+			break;
+		case 4: // new quest chain 1
+			// Title Drawing
+			render->DrawText(font, L->data->title.GetString(), 53, 223, 50, 3, { 0,0,0,255 });
+			render->DrawText(font, L->data->title.GetString(), 50, 220, 50, 3, { 255,255,255,255 });
 
 			// Description Drawing if pressed L
 			///////////////////////////////////////////////////////////////////////////
@@ -277,27 +287,13 @@ bool QuestManager::CheckObjectivesCompletion()
 			sceneGameplay->GetGameProgress()->hasKilledOfficers = true;
 			++debugId;
 			break;
-		case 3:
-			/*app->player->beachRubbish = 6;
-			L = app->entities->entities.start;
-			while (L != NULL)
-			{
-				if (L->data->entityType == EntityType::ITEM_RUBBISH)
-					app->entities->entities.Del(L);
-				L = L->next;
-			}
-			++debugId;*/
+		case 3: // Quest 3
+			sceneGameplay->GetGameProgress()->hasActivated = true;
+			++debugId;
 			break;
-		case 4:
-			/*app->player->turtleKilled = true;
-			L = app->entities->entities.start;
-			while (L != NULL)
-			{
-				if (L->data->entityType == EntityType::TURTLE)
-					app->entities->entities.Del(L);
-				L = L->next;
-			}
-			++debugId;*/
+		case 4: // Quest 4
+			sceneGameplay->GetGameProgress()->hasKilledBoss = true;
+			++debugId;
 			break;
 		case 5:
 			/*app->player->snailDelivered = true;
@@ -337,10 +333,10 @@ bool QuestManager::CheckObjectivesCompletion()
 	if (sceneGameplay->GetGameProgress()->hasActivated == true)
 		CompleteQuest(3);
 
-	/*if (app->player->turtleKilled == true)
+	if (sceneGameplay->GetGameProgress()->hasKilledBoss == true)
 		CompleteQuest(4);
 
-	if (app->player->snailDelivered == true)
+	/*if (app->player->snailDelivered == true)
 		CompleteQuest(5);
 
 	if (app->player->monsterKilled == true)

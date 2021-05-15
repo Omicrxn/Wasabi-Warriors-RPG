@@ -247,11 +247,11 @@ bool ScreenBattle::Update(Input* input, float dt, uint& focusedButtonId)
 
 	if (battleSystem->IsTurnChanging()) ResetOneTimeAnimations();
 
-	if (!sceneGameplay->GetGameProgress()->hasKilledOfficers)
+	if (battleSystem->IsTurnChanging())
 	{
-		if (battleSystem->IsTurnChanging())
+		if (battleSystem->battleState == BattleState::WON)
 		{
-			if (battleSystem->battleState == BattleState::WON)
+			if (!sceneGameplay->GetGameProgress()->hasKilledOfficers)
 			{
 				if (battleSystem->GetEnemy()->name == "Ben" ||
 					battleSystem->GetEnemy()->name == "John" ||
@@ -259,6 +259,13 @@ bool ScreenBattle::Update(Input* input, float dt, uint& focusedButtonId)
 				{
 					sceneGameplay->GetGameProgress()->numKilledOfficers++;
 					if (sceneGameplay->GetGameProgress()->numKilledOfficers == 3) sceneGameplay->GetGameProgress()->hasKilledOfficers = true;
+				}
+			}
+			else if (!sceneGameplay->GetGameProgress()->hasKilledBoss)
+			{
+				if (battleSystem->GetEnemy()->name == "Takuda")
+				{
+					sceneGameplay->GetGameProgress()->hasKilledBoss = true;
 				}
 			}
 		}

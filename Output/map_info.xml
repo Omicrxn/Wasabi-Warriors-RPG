@@ -46,7 +46,7 @@
     <teleport posX="768" posY="288" width="64" height="32" destination="6"/>
     <teleport posX="736" posY="1152" width="128" height="32" destination="2"/>
   </bigCity>
-  <dungeon enemyCount="3" npcCount="1" teleportCount="7" activatorCount="1">
+  <dungeon enemyCount="4" npcCount="1" teleportCount="7" activatorCount="1">
     <prevBigCity>
       <player posX="256" posY="1504"/>
     </prevBigCity>
@@ -54,12 +54,13 @@
     <enemy posX="320" posY="64" class="bruiser" name="Ben" spritePos="4" subtype="3"/>
     <enemy posX="96" posY="320" class="bruiser" name="John" spritePos="5" subtype="3"/>
     <enemy posX="256" posY="416" class="bruiser" name="Robert" spritePos="6" subtype="3"/>
+    <enemy posX="1312" posY="1248" class="boss" name="Takuda" spritePos="7" subtype="3"/>
     <teleport name ="floor1_1" posX="256" posY="1568" width="32" height="32" destination="5"/>
     <teleport name ="floor1_2" posX="160" posY="1184" width="32" height="32" destination="-1" nextPosX="160" nextPosY="96"/>
     <teleport name ="floor2_1" posX="160" posY="32" width="32" height="32" destination="-1" nextPosX="160" nextPosY="1248"/>
     <teleport name ="floor2_2" posX="384" posY="192" width="32" height="32" destination="-1" nextPosX="1216" nextPosY="96"/>
     <teleport name ="floor3_1" posX="1216" posY="32" width="32" height="32" destination="-1" nextPosX="384" nextPosY="256"/>
-    <teleport name ="floor3_2" posX="1248" posY="32" width="32" height="32" destination="-1" nextPosX="1312" nextPosY="1152"/>
+    <teleport name ="floor3_2" posX="1440" posY="32" width="32" height="32" destination="-1" nextPosX="1312" nextPosY="1152"/>
     <teleport name ="floor4" posX="1312" posY="1088" width="32" height="32" destination="-1" nextPosX="1216" nextPosY="96"/>
     <activator name ="pc" posX="1408" posY="64"/>
   </dungeon>
