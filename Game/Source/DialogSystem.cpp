@@ -41,6 +41,7 @@ bool DialogSystem::Start()
 	LoadDialog("Assets/Dialog/5.xml");
 
 	LoadDialog("Assets/Dialog/7.xml");
+	LoadDialog("Assets/Dialog/8.xml");
 
 	// Register a callback function with the name say_hello. This is just an example.
 	callbacks[std::string("say_hello")] = std::function<void()>(&SayHello);
@@ -121,6 +122,9 @@ bool DialogSystem::Update(float dt)
 		{
 		case 7:
 			StartDialog("7");
+			break;
+		case 8:
+			StartDialog("8");
 			break;
 		default:
 			break;

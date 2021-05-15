@@ -402,13 +402,18 @@ bool SceneGameplay::Update(Input* input, float dt)
 		}
 	}
 
-	if (notifier->GetActivator())
+	if (notifier->OnActivator())
 	{
 		notifier->NotifyActivator();
 
 		if (notifier->GetActivator()->name == "pc")
 		{
 			gameProgress.hasActivated = true;
+		}
+		else if (notifier->GetActivator()->name == "secretRoom")
+		{
+			if (gameProgress.hasPickedKey) notifier->NotifyMapChange(MapType::SECRET_ROOM);
+			else notifier->NotifyDialog(8);
 		}
 	}
 

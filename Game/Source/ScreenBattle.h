@@ -28,9 +28,6 @@ public:
 
     bool Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager);
 
-    // To return to the gameplay and reset the battle elements and buttons
-    void ExitBattle();
-
     void ResetOneTimeAnimations();
 
     void EnableBattleButtons();

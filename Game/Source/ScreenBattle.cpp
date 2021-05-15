@@ -241,7 +241,7 @@ bool ScreenBattle::Update(Input* input, float dt, uint& focusedButtonId)
 		else if (battleSystem->battleState == BattleState::EXIT)
 		{
 			// Get out of the battle screen and return to the gameplay screen
-			ExitBattle();
+			sceneGameplay->ExitBattle();
 		}
 	}
 
@@ -452,42 +452,6 @@ bool ScreenBattle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMan
 	this->audio = nullptr;
 
 	return true;
-}
-
-void ScreenBattle::ExitBattle()
-{
-	audio->StopMusic();
-	switch (sceneGameplay->GetCurrentMap())
-	{
-	case MapType::CEMETERY:
-		audio->PlayMusic("Assets/Audio/Music/cemetery.ogg");
-		break;
-	case MapType::HOUSE:
-		audio->PlayMusic("Assets/Audio/Music/house.ogg");
-		break;
-	case MapType::MEDIUM_CITY:
-		audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
-		break;
-	case MapType::RESTAURANT:
-		audio->PlayMusic("Assets/Audio/Music/restaurant.ogg");
-		break;
-	case MapType::TOWN:
-		audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
-		break;
-	}
-
-	for (int i = 11; i <= 14; ++i)
-	{
-		guiManager->controls.At(i)->data->state = GuiControlState::HIDDEN;
-	}
-
-	this->isActive = false;
-	battleSystem->ResetBattle();
-
-	for (int i = 0; i < entityManager->playerList.Count(); i++)
-	{
-		entityManager->playerList.At(i)->data->stopPlayer = false;
-	}
 }
 
 void ScreenBattle::EnableBattleButtons()

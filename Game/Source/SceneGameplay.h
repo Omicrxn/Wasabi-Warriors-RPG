@@ -44,6 +44,9 @@ struct GameProgress
     bool hasKilledOfficers = false;
     bool hasActivated = false;
     bool hasKilledBoss = false;
+
+    // Puzzles bools
+    bool hasPickedKey = true;
 };
 
 class SceneGameplay : public Scene

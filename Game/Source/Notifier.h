@@ -113,6 +113,10 @@ public:
     {
         return activator;
     }
+    bool OnActivator()
+    {
+        return requestActivator;
+    }
 
 private:
 

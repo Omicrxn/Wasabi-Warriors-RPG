@@ -26,7 +26,7 @@ void Activator::Interact()
 {
     Notifier::GetInstance()->NotifyActivator();
     Notifier::GetInstance()->SetActivator(this);
-    collider->pendingToDelete = true;
+    if (name != "secretRoom") collider->pendingToDelete = true;
 }
 
 bool Activator::Update(Input* input, float dt)
