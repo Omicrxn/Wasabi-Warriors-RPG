@@ -1067,7 +1067,8 @@ bool EntityManager::LoadStateInfo(pugi::xml_node& scenegameplay, MapType current
 		activator->spritePos = activatorNode.attribute("spritePos").as_int();
 		activator->renderable = activatorNode.attribute("renderable").as_bool();
 	
-		if (activatorNode.attribute("drawState").as_int() != -1) activator->SetDrawState((DrawState)activatorNode.attribute("drawState").as_int());
+		DrawState drawState = (DrawState)activatorNode.attribute("drawState").as_int();
+		activator->SetDrawState(drawState);
 	
 		activator = nullptr;
 		activatorNode = activatorNode.next_sibling();
@@ -1680,7 +1681,15 @@ void EntityManager::DeleteAllEntitiesExceptPlayer()
 		// Delete all entities except the map and player
 		if (list1->data->type != EntityType::MAP && list1->data->type != EntityType::PLAYER)
 		{
-			DestroyEntity(list1->data);
+			if (list1->data->type == EntityType::ACTIVATOR)
+			{
+				if (((Activator*)list1->data)->GetDrawState() == DrawState::NONE)
+					DestroyEntity(list1->data);
+			}
+			else if (list1->data->type != EntityType::ACTIVATOR)
+			{
+				DestroyEntity(list1->data);
+			}
 		}
 	}
 	RELEASE(list1);

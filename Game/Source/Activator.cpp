@@ -55,9 +55,11 @@ bool Activator::Draw(Render* render)
             iPoint hudPosition;
             if (name == "key")
             {
-                hudPosition = { 50,50 };
+                hudPosition = { 20,200 };
             }
+            render->scale = 3;
             render->DrawTexture(entityManager->itemsTexture, hudPosition.x, hudPosition.y, &rect, 0);
+            render->scale = 1;
         }
     }
 
@@ -97,7 +99,8 @@ void Activator::OnCollision(Collider* collider)
     {
         if (collider->type == Collider::Type::PLAYER)
         {
-            if (input->GetKey(SDL_SCANCODE_F) == KEY_DOWN) Interact();
+            if (input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
+                Interact();
         }
     }
 }
