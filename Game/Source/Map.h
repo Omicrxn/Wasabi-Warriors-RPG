@@ -122,7 +122,7 @@ class Map : public Entity
 {
 public:
 
-    Map(Textures* textures/*, AssetsManager* assetsManager*/);
+    Map(Textures* textures, AssetsManager* assetsManager);
 
     // Destructor
     virtual ~Map();

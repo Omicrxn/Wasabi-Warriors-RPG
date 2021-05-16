@@ -5,7 +5,7 @@
 
 #include "PugiXml/src/pugixml.hpp"
 
-Font::Font(const char* rtpFontFile, Textures* tex)
+Font::Font(const char* rtpFontFile, Textures* tex/*, AssetsManager* assetsManager*/)
 {
 	fontLoaded = false;
 
@@ -14,6 +14,10 @@ Font::Font(const char* rtpFontFile, Textures* tex)
 	pugi::xml_node xmlNodeGlyph;
 
 	pugi::xml_parse_result result = xmlDocFontAtlas.load_file(rtpFontFile);
+	//char* buffer = nullptr;
+	//size_t size = assetsManager->LoadXML(rtpFontFile, &buffer);
+	//pugi::xml_parse_result result = xmlDocFontAtlas.load_buffer(buffer, size);
+	//RELEASE_ARRAY(buffer);
 
 	if (result == NULL) LOG("Could not load xml file: %s. pugi error: %s", rtpFontFile, result.description());
 	else xmlNodeAtlas = xmlDocFontAtlas.child("AtlasTexture");

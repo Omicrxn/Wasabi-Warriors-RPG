@@ -8,6 +8,7 @@
 #include "Notifier.h"
 
 class Render;
+class AssetsManager;
 class Textures;
 struct SDL_Texture;
 class Input;
@@ -30,7 +31,7 @@ class EntityManager : public Module
 {
 public:
 
-	EntityManager(Input* input, Render* ren, Textures* tex, AudioManager *audio, Collisions* collisions, Transitions* transitions);
+	EntityManager(Input* input, Render* ren, Textures* tex, AudioManager *audio, Collisions* collisions, Transitions* transitions, AssetsManager* assetsManager);
 
 	// Destructor
 	virtual ~EntityManager();
@@ -72,6 +73,7 @@ public:
 public:
 
 	Render* render;
+	AssetsManager* assetsManager;
 	Textures* tex;
 	Input* input;
 	AudioManager* audio;

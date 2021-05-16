@@ -208,6 +208,10 @@ bool DialogSystem::LoadDialog(const char* filename)
 
 	// Load the file.
 	pugi::xml_parse_result result = dialogFile.load_file(path.c_str());
+	//char* buffer = nullptr;
+	//size_t size = assetsManager->LoadXML(path.c_str(), &buffer);
+	//pugi::xml_parse_result result = dialogFile.load_buffer(buffer, size);
+	//RELEASE_ARRAY(buffer);
 
 	if (result == NULL) {
 		LOG("Could not load map xml file %s. pugi error: %s", filename, result.description());

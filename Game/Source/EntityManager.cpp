@@ -12,6 +12,7 @@
 #include "Lever.h"
 
 #include "Render.h"
+#include "AssetsManager.h"
 #include "Textures.h"
 #include "Input.h"
 #include "Transitions.h"
@@ -20,10 +21,11 @@
 #include "Defs.h"
 #include "Log.h"
 
-EntityManager::EntityManager(Input* input, Render* render, Textures* tex, AudioManager* audio,Collisions* collisions, Transitions* transitions) : Module()
+EntityManager::EntityManager(Input* input, Render* render, Textures* tex, AudioManager* audio, Collisions* collisions, Transitions* transitions, AssetsManager* assetsManager) : Module()
 {
 	name.Create("entitymanager");
 	this->render = render;
+	this->assetsManager = assetsManager;
 	this->tex = tex;
 	this->input = input;
 	this->collisions = collisions;
@@ -53,6 +55,7 @@ bool EntityManager::Awake(pugi::xml_node& config)
 bool EntityManager::Start()
 {
 	LOG("entitymanager start");
+
 	if (itemsTexture == nullptr)
 		itemsTexture = tex->Load("Assets/Textures/Items/items_equipment.png");
 	if (entitiesTexture == nullptr)
@@ -146,7 +149,7 @@ Entity* EntityManager::CreateEntity(EntityType type, SString name, EntitySubtype
 		break;
 		//case EntityType::ITEM: ret = new Item(); break;
 	case EntityType::MAP:
-		ret = new Map(tex);
+		ret = new Map(tex, assetsManager);
 		break;
 	case EntityType::NPC:
 		ret = new NPC(name, input, tex, collisions, this, type, subtype, position);

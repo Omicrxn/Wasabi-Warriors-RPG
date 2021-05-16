@@ -5,7 +5,7 @@
 
 #include <math.h>
 
-Map::Map(Textures* texture/*, AssetsManager* assetsManager*/) : Entity(EntityType::MAP)
+Map::Map(Textures* texture, AssetsManager* assetsManager) : Entity(EntityType::MAP)
 {
 	mapLoaded = false;
 
@@ -14,7 +14,7 @@ Map::Map(Textures* texture/*, AssetsManager* assetsManager*/) : Entity(EntityTyp
 	name = "Map";
 
 	tex = texture;
-	//this->assetsManager = assetsManager;
+	this->assetsManager = assetsManager;
 
 	scale = 3;
 }

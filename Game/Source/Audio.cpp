@@ -267,7 +267,6 @@ bool AudioManager::MuteMusic()
 		Mix_PauseMusic();
 	}
 
-
 	return ret;
 }
 

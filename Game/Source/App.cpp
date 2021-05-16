@@ -38,7 +38,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	audio = new AudioManager(assetsManager);
 	collisions = new Collisions(input, render);
 	transitions = new Transitions(render, tex, win);
-	entityManager = new EntityManager(input, render, tex, audio, collisions, transitions);
+	entityManager = new EntityManager(input, render, tex, audio, collisions, transitions, assetsManager);
 	guiManager = new GuiManager(input, render, tex, audio);
 	fonts = new Fonts(render, tex);
 	dialogSystem = new DialogSystem(input, render, tex, fonts, assetsManager);

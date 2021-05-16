@@ -6,12 +6,13 @@
 #include "SDL/include/SDL.h"
 
 class Textures;
+class AssetsManager;
 
 class Font
 {
 public:
 
-    Font(const char* rtpFontFile, Textures* tex);
+    Font(const char* rtpFontFile, Textures* tex/*, AssetsManager* assetsManager*/);
 
     ~Font();
 

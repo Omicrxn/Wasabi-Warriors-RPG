@@ -4,8 +4,8 @@
 #include "Defs.h"
 #include "Log.h"
 
-#include "External/PhysFS/include/physfsrwops.h"
-#include "External/PhysFS/include/physfsrwops.c"
+#include "PhysFS/include/physfsrwops.h"
+#include "PhysFS/include/physfsrwops.c"
 
 AssetsManager::AssetsManager() : Module()
 {
