@@ -57,16 +57,16 @@ bool EntityManager::Start()
 	LOG("entitymanager start");
 
 	if (itemsTexture == nullptr)
-		itemsTexture = tex->Load("Assets/Textures/Items/items_equipment.png");
+		itemsTexture = tex->Load("Textures/Items/items_equipment.png");
 	if (entitiesTexture == nullptr)
-		entitiesTexture = tex->Load("Assets/Textures/Characters/characters_spritesheet.png");
+		entitiesTexture = tex->Load("Textures/Characters/characters_spritesheet.png");
 	if (secretWallTexture == nullptr)
-		secretWallTexture = tex->Load("Assets/Textures/secret_wall_texture.png");
+		secretWallTexture = tex->Load("Textures/secret_wall_texture.png");
 	if (leversTexture == nullptr)
-		leversTexture = tex->Load("Assets/Textures/Effects/magic_008.png");
+		leversTexture = tex->Load("Textures/Effects/magic_008.png");
 
-	consumeFx = audio->LoadFx("Assets/Audio/Fx/consume.ogg");
-	pickUpFx = audio->LoadFx("Assets/Audio/Fx/pickup.ogg");
+	consumeFx = audio->LoadFx("Audio/Fx/consume.ogg");
+	pickUpFx = audio->LoadFx("Audio/Fx/pickup.ogg");
 
 	return true;
 }
@@ -1108,48 +1108,52 @@ bool EntityManager::LoadStateInfo(pugi::xml_node& scenegameplay, MapType current
 		activatorNode = activatorNode.next_sibling();
 	}
 
-	/* ---------- EIGHT LOAD SECRET WALL FROM THE SAVE FILE ----------*/
-	pugi::xml_node secretWallListNode;
-	secretWallListNode = mapNode.child("secretWallList");	
-	int secretWallCount = secretWallListNode.attribute("secretWallCount").as_int();
-
-	pugi::xml_node secretWallNode = secretWallListNode.child("secretwall");
-	SecretWall* secretWall = nullptr;
-	for (int i = 0; i < secretWallCount; ++i)
+	if (mapNode.parent().attribute("hasFinishedPuzzle1").as_bool() == false)
 	{
-		iPoint position = { secretWallNode.attribute("posX").as_int(), secretWallNode.attribute("posY").as_int() };
-		secretWall = (SecretWall*)CreateEntity(EntityType::SECRET_WALL, secretWallNode.attribute("name").as_string(), EntitySubtype::UNKNOWN, position);
-		secretWall->reset = secretWallNode.attribute("reset").as_bool();
-		secretWall->lever1 = secretWallNode.attribute("lever1").as_bool();
-		secretWall->lever2 = secretWallNode.attribute("lever2").as_bool();
-		secretWall->lever3 = secretWallNode.attribute("lever3").as_bool();
-		secretWallNode = secretWallNode.next_sibling("secretWall");
+		/* ---------- EIGHT LOAD SECRET WALL FROM THE SAVE FILE ----------*/
+		pugi::xml_node secretWallListNode;
+		secretWallListNode = mapNode.child("secretWallList");
+		int secretWallCount = secretWallListNode.attribute("secretWallCount").as_int();
+
+		pugi::xml_node secretWallNode = secretWallListNode.child("secretwall");
+		SecretWall* secretWall = nullptr;
+		for (int i = 0; i < secretWallCount; ++i)
+		{
+			iPoint position = { secretWallNode.attribute("posX").as_int(), secretWallNode.attribute("posY").as_int() };
+			secretWall = (SecretWall*)CreateEntity(EntityType::SECRET_WALL, secretWallNode.attribute("name").as_string(), EntitySubtype::UNKNOWN, position);
+			secretWall->reset = secretWallNode.attribute("reset").as_bool();
+			secretWall->lever1 = secretWallNode.attribute("lever1").as_bool();
+			secretWall->lever2 = secretWallNode.attribute("lever2").as_bool();
+			secretWall->lever3 = secretWallNode.attribute("lever3").as_bool();
+			secretWallNode = secretWallNode.next_sibling("secretWall");
+		}
+
+		LOG("LOADING LEVERS");
+		/* ---------- NINE LOAD LEVERS FROM THE SAVE FILE ----------*/
+		pugi::xml_node leverListNode;
+		leverListNode = mapNode.child("leverList");
+		int leverCount = leverListNode.attribute("leverCount").as_int();
+
+		pugi::xml_node leverNode = leverListNode.child("lever");
+		Lever* lever = nullptr;
+		for (int i = 0; i < leverCount; ++i)
+		{
+			LOG("LOADING lever NUMBER: %i", i);
+			EntitySubtype subtype = (EntitySubtype)leverNode.attribute("entitySubType").as_int();
+			iPoint pos = { leverNode.attribute("posX").as_int(), leverNode.attribute("posY").as_int() };
+			lever = (Lever*)CreateEntity(EntityType::LEVER, leverNode.attribute("name").as_string(), subtype, pos);
+			lever->SetSecretWall(secretWall);
+			lever->SetNumber(leverNode.attribute("number").as_uint());
+			lever->id = leverNode.attribute("id").as_uint();
+			lever->spritePos = leverNode.attribute("spritePos").as_int();
+			lever->renderable = leverNode.attribute("renderable").as_bool();
+
+			lever = nullptr;
+			leverNode = leverNode.next_sibling();
+		}
+		secretWall = nullptr;
 	}
-
-	LOG("LOADING LEVERS");
-	/* ---------- NINE LOAD LEVERS FROM THE SAVE FILE ----------*/
-	pugi::xml_node leverListNode;
-	leverListNode = mapNode.child("leverList");
-	int leverCount = leverListNode.attribute("leverCount").as_int();
-
-	pugi::xml_node leverNode = leverListNode.child("lever");
-	Lever* lever = nullptr;
-	for (int i = 0; i < leverCount; ++i)
-	{
-		LOG("LOADING lever NUMBER: %i", i);
-		EntitySubtype subtype = (EntitySubtype)leverNode.attribute("entitySubType").as_int();
-		iPoint pos = { leverNode.attribute("posX").as_int(), leverNode.attribute("posY").as_int() };
-		lever = (Lever*)CreateEntity(EntityType::LEVER, leverNode.attribute("name").as_string(), subtype, pos);
-		lever->SetSecretWall(secretWall);
-		lever->SetNumber(leverNode.attribute("number").as_uint());
-		lever->id = leverNode.attribute("id").as_uint();
-		lever->spritePos = leverNode.attribute("spritePos").as_int();
-		lever->renderable = leverNode.attribute("renderable").as_bool();
-
-		lever = nullptr;
-		leverNode = leverNode.next_sibling();
-	}
-	secretWall = nullptr;
+	
 	return true;
 }
 

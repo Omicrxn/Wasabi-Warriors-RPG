@@ -48,6 +48,7 @@ struct GameProgress
 
     // Puzzles bools
     bool hasPickedKey = false;
+    bool hasFinishedPuzzle1 = false;
 
     // Map bools
     bool hasVisitedCemetery = false;

@@ -28,6 +28,7 @@
 #include "Activator.h"
 #include "Lever.h"
 #include "Stats.h"
+#include "SecretWall.h"
 
 SceneGameplay::SceneGameplay(bool hasStartedFromContinue)
 {
@@ -287,6 +288,16 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 
 bool SceneGameplay::Update(Input* input, float dt)
 {
+	if (entityManager->secretWallList.Count() > 0)
+	{
+		SecretWall* tempWall = nullptr;
+		tempWall = entityManager->secretWallList.At(0)->data;
+		if (tempWall->destroy == true)
+		{
+			gameProgress.hasFinishedPuzzle1 = true;
+		}
+	}
+
 	if (input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN)
 	{
 		transitions->Transition(WhichAnimation::FADE_TO_BLACK, (Scene*)this, SceneType::ENDING_DEFEAT, 2);
@@ -826,6 +837,12 @@ void SceneGameplay::SaveGameProgress(pugi::xml_node& data)const
 		data.attribute("hasVisitedSecretRoom").set_value(this->gameProgress.hasVisitedSecretRoom);
 	else
 		data.append_attribute("hasVisitedSecretRoom").set_value(this->gameProgress.hasVisitedSecretRoom);
+
+	tempName = data.attribute("hasFinishedPuzzle1").name();
+	if (tempName == "hasFinishedPuzzle1")
+		data.attribute("hasFinishedPuzzle1").set_value(this->gameProgress.hasFinishedPuzzle1);
+	else
+		data.append_attribute("hasFinishedPuzzle1").set_value(this->gameProgress.hasFinishedPuzzle1);
 }
 
 void SceneGameplay::LoadGameProgress(pugi::xml_node& data)
@@ -846,6 +863,8 @@ void SceneGameplay::LoadGameProgress(pugi::xml_node& data)
 	this->gameProgress.hasVisitedBigCity = data.attribute("hasVisitedBigCity").as_bool();
 	this->gameProgress.hasVisitedSkyScraper = data.attribute("hasVisitedSkyScraper").as_bool();
 	this->gameProgress.hasVisitedSecretRoom = data.attribute("hasVisitedSecretRoom").as_bool();
+	this->gameProgress.hasFinishedPuzzle1 = data.attribute("hasFinishedPuzzle1").as_bool();
+
 }
 
 void SceneGameplay::Save(pugi::xml_node& scenegameplay) const
@@ -1146,7 +1165,7 @@ void SceneGameplay::SetUpTp()
 		}
 		break;
 	case MapType::BIG_CITY:
-		if (map->Load("BigCity", "bigCity.tmx") == true)
+		if (map->Load("bigCity", "bigCity.tmx") == true)
 		{
 			int w, h;
 			uchar* data = NULL;
