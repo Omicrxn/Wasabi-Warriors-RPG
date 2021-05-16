@@ -886,18 +886,14 @@ bool EntityManager::LoadStateInfo(pugi::xml_node& scenegameplay, MapType current
 		}
 		else if (list1->data->type == EntityType::ACTIVATOR)
 		{
-			if ( !(((Activator*)list1->data)->GetDrawState() == DrawState::HUD) )
-			{
-				activatorList.Del(activatorList.At(activatorList.Find((Activator*)list1->data)));
-				DestroyEntity(list1->data);
-				continue;
-			}
+			activatorList.Del(activatorList.At(activatorList.Find((Activator*)list1->data)));
 		}
 		else if (list1->data->type == EntityType::LEVER)
 		{
 			leverList.Del(leverList.At(leverList.Find((Lever*)list1->data)));
 		}
-		
+	
+		// Delete all entities except the map
 		if (list1->data->type != EntityType::MAP)
 		{
 			DestroyEntity(list1->data);
@@ -1635,12 +1631,12 @@ bool EntityManager::SaveStateInfo(pugi::xml_node& scenegameplay, MapType current
 	if (tempName == "leverCount")
 	{
 		// Node Items exists
-		leverListNode.attribute("leverCount").set_value(leverList.Count());
+		activatorListNode.attribute("leverCount").set_value(leverList.Count());
 	}
 	else
 	{
 		// Node Items does not exist
-		leverListNode.append_attribute("leverCount").set_value(leverList.Count());
+		activatorListNode.append_attribute("leverCount").set_value(leverList.Count());
 	}
 
 	// Add the Items in the XML
@@ -1789,7 +1785,7 @@ void EntityManager::DeleteAllEntitiesExceptPlayer()
 		{
 			if (list1->data->type == EntityType::ACTIVATOR)
 			{
-				if (!(((Activator*)list1->data)->GetDrawState() == DrawState::HUD))
+				if (((Activator*)list1->data)->GetDrawState() == DrawState::NONE)
 					DestroyEntity(list1->data);
 			}
 			else if (list1->data->type != EntityType::ACTIVATOR)
