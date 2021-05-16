@@ -5,12 +5,17 @@
 
 #include <math.h>
 
-Map::Map(Textures* texture) : Entity(EntityType::MAP)
+Map::Map(Textures* texture/*, AssetsManager* assetsManager*/) : Entity(EntityType::MAP)
 {
 	mapLoaded = false;
+
 	folder.Create("Assets/Maps/");
+
 	name = "Map";
+
 	tex = texture;
+	//this->assetsManager = assetsManager;
+
 	scale = 3;
 }
 

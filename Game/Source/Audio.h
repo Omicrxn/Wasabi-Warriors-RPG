@@ -10,11 +10,13 @@
 struct _Mix_Music;
 struct Mix_Chunk;
 
+class AssetsManager;
+
 class AudioManager : public Module
 {
 public:
 
-	AudioManager();
+	AudioManager(AssetsManager* assetsManager);
 
 	// Destructor
 	virtual ~AudioManager();
@@ -50,8 +52,9 @@ public:
 
 	bool StopMusic();
 
-
 private:
+
+	AssetsManager* assetsManager;
 
 	_Mix_Music* music;
 	List<Mix_Chunk *> fx;

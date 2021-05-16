@@ -135,6 +135,9 @@
     <ClCompile Include="Source\Lever.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Source\AssetsManager.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\App.h" />
@@ -335,6 +338,9 @@
     </ClInclude>
     <ClInclude Include="Source\SecretWall.h">
       <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AssetsManager.h">
+      <Filter>Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

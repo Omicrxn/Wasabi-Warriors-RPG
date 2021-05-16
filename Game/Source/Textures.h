@@ -6,6 +6,7 @@
 #include "List.h"
 
 class Render;
+class AssetsManager;
 
 struct SDL_Texture;
 struct SDL_Surface;
@@ -14,7 +15,7 @@ class Textures : public Module
 {
 public:
 
-	Textures(Render* render);
+	Textures(Render* render, AssetsManager* assetsManager);
 
 	// Destructor
 	virtual ~Textures();
@@ -37,9 +38,9 @@ public:
 public:
 
 	Render* render;
+	AssetsManager* assetsManager;
 
 	List<SDL_Texture*> textures;
 };
-
 
 #endif // __TEXTURES_H__

@@ -1,5 +1,6 @@
 #include "Textures.h"
 #include "Render.h"
+#include "AssetsManager.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -7,11 +8,12 @@
 #include "SDL_image/include/SDL_image.h"
 //#pragma comment(lib, "../Game/Source/External/SDL_image/libx86/SDL2_image.lib")
 
-Textures::Textures(Render* render) : Module()
+Textures::Textures(Render* render, AssetsManager* assetsManager) : Module()
 {
 	name.Create("textures");
 
 	this->render = render;
+	this->assetsManager = assetsManager;
 }
 
 // Destructor
@@ -65,7 +67,10 @@ bool Textures::CleanUp()
 SDL_Texture* const Textures::Load(const char* path)
 {
 	SDL_Texture* texture = NULL;
+
 	SDL_Surface* surface = IMG_Load(path);
+	//SDL_RWops* rw = assetsManager->LoadAsset(path);
+	//SDL_Surface* surface = IMG_Load_RW(rw, 0);
 
 	if(surface == NULL)
 	{
@@ -76,6 +81,8 @@ SDL_Texture* const Textures::Load(const char* path)
 		texture = LoadSurface(surface);
 		SDL_FreeSurface(surface);
 	}
+
+	//SDL_RWclose(rw);
 
 	return texture;
 }

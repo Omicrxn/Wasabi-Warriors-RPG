@@ -4,6 +4,7 @@
 #include "Entity.h"
 #include "Render.h"
 #include "Textures.h"
+#include "AssetsManager.h"
 
 #include "List.h"
 #include "PQueue.h"
@@ -121,7 +122,7 @@ class Map : public Entity
 {
 public:
 
-    Map(Textures* textures);
+    Map(Textures* textures/*, AssetsManager* assetsManager*/);
 
     // Destructor
     virtual ~Map();
@@ -197,6 +198,7 @@ public:
 private:
 
 	Textures* tex;
+	AssetsManager* assetsManager;
 
     pugi::xml_document mapFile;
     SString folder;

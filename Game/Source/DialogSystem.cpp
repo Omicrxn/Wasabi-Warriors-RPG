@@ -3,6 +3,7 @@
 
 #include "Input.h"
 #include "Render.h"
+#include "AssetsManager.h"
 #include "Fonts.h"
 #include "Textures.h"
 
@@ -13,13 +14,14 @@
 
 #include "Log.h"
 
-DialogSystem::DialogSystem(Input* input, Render* render, Textures* tex, Fonts* fonts)
+DialogSystem::DialogSystem(Input* input, Render* render, Textures* tex, Fonts* fonts, AssetsManager* assetsManager)
 {
 	name.Create("dialog");
 	this->input = input;
 	this->render = render;
 	this->fonts = fonts;
 	this->tex = tex;
+	this->assetsManager = assetsManager;
 }
 
 DialogSystem::~DialogSystem()

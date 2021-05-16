@@ -11,6 +11,7 @@ class DialogNode;
 
 class Input;
 class Render;
+class AssetsManager;
 class Fonts;
 class Textures;
 struct SDL_Texture;
@@ -19,7 +20,7 @@ class DialogSystem : public Module
 {
 public:
 
-	DialogSystem(Input* input, Render* render, Textures* tex, Fonts* fonts);
+	DialogSystem(Input* input, Render* render, Textures* tex, Fonts* fonts, AssetsManager* assetsManager);
 
 	// Destructor
 	virtual ~DialogSystem();
@@ -73,6 +74,7 @@ private:
 	// Needed modules
 	Input* input;
 	Render* render;
+	AssetsManager* assetsManager;
 	Fonts* fonts;
 	Textures* tex;
 

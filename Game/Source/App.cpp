@@ -3,6 +3,7 @@
 #include "Window.h"
 #include "Input.h"
 #include "Render.h"
+#include "AssetsManager.h"
 #include "Textures.h"
 #include "Audio.h"
 #include "EntityManager.h"
@@ -32,14 +33,15 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	win = new Window();
 	input = new Input(win);
 	render = new Render(win);
-	tex = new Textures(render);
-	audio = new AudioManager();
+	assetsManager = new AssetsManager();
+	tex = new Textures(render, assetsManager);
+	audio = new AudioManager(assetsManager);
 	collisions = new Collisions(input, render);
 	transitions = new Transitions(render, tex, win);
 	entityManager = new EntityManager(input, render, tex, audio, collisions, transitions);
 	guiManager = new GuiManager(input, render, tex, audio);
 	fonts = new Fonts(render, tex);
-	dialogSystem = new DialogSystem(input, render, tex, fonts);
+	dialogSystem = new DialogSystem(input, render, tex, fonts, assetsManager);
 	easing = new Easing();
 	sceneManager = new SceneManager(input, render, tex, win, audio, entityManager, guiManager, dialogSystem, easing, transitions, this);
 	
@@ -47,6 +49,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	// Reverse order of CleanUp
 	AddModule(win);
 	AddModule(input);
+	AddModule(assetsManager);
 	AddModule(tex);
 	AddModule(audio);
 	AddModule(transitions);

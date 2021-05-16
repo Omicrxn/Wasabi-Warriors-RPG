@@ -1,5 +1,6 @@
 #include "App.h"
 #include "Audio.h"
+#include "AssetsManager.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -12,10 +13,12 @@
 // NOTE: Library linkage is configured in Linker Options
 //#pragma comment(lib, "../Game/Source/External/SDL_mixer/libx86/SDL2_mixer.lib")
 
-AudioManager::AudioManager() : Module()
+AudioManager::AudioManager(AssetsManager* assetsManager) : Module()
 {
 	music = NULL;
 	name.Create("audio");
+
+	this->assetsManager = assetsManager;
 }
 
 // Destructor
@@ -139,7 +142,6 @@ bool AudioManager::PlayMusic(const char* path, float fadeTime)
 		else
 		{
 			Mix_HaltMusic();
-
 		}
 
 		// this call blocks until fade out is done
@@ -148,6 +150,8 @@ bool AudioManager::PlayMusic(const char* path, float fadeTime)
 	}
 
 	music = Mix_LoadMUS(path);
+	//SDL_RWops* rw = assetsManager->LoadAsset(path);
+	//music = Mix_LoadMUS_RW(rw, 0);
 
 	if(music == NULL)
 	{
@@ -189,6 +193,8 @@ unsigned int AudioManager::LoadFx(const char* path)
 		return 0;
 
 	Mix_Chunk* chunk = Mix_LoadWAV(path);
+	//SDL_RWops* rw = assetsManager->LoadAsset(path);
+	//Mix_Chunk* chunk = Mix_LoadWAV_RW(rw, 0);
 
 	if(chunk == NULL)
 	{
@@ -199,6 +205,8 @@ unsigned int AudioManager::LoadFx(const char* path)
 		fx.Add(chunk);
 		ret = fx.Count();
 	}
+
+	//SDL_RWclose(rw);
 
 	return ret;
 }
