@@ -259,6 +259,10 @@ bool Map::Load(const char* subfolder,const char* filename)
     SString tmp("%s/%s",folder.GetString(),filename);
 
     pugi::xml_parse_result result = mapFile.load_file(tmp.GetString());
+	//char* buffer = nullptr;
+	//size_t size = assetsManager->LoadXML(tmp.GetString(), &buffer);
+	//pugi::xml_parse_result result = mapFile.load_buffer(buffer, size);
+	//RELEASE_ARRAY(buffer);
 
     if(result == NULL)
     {

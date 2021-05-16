@@ -6,6 +6,7 @@
 
 class Input;
 class Render;
+class AssetsManager;
 class Textures;
 class AudioManager;
 class EntityManager;
@@ -44,7 +45,7 @@ public:
     {
         return true;
     }
-    virtual bool Load(Input* input, Render* render, Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityman, DialogSystem* dialogSystem, Easing* easing, Transitions* transitions, App* app)
+    virtual bool Load(Input* input, Render* render, Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityman, DialogSystem* dialogSystem, Easing* easing, Transitions* transitions, AssetsManager* assetsManager, App* app)
     {
         return true;
     }

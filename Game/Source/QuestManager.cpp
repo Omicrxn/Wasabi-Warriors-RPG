@@ -19,11 +19,12 @@
 #include <iostream>
 using namespace std;
 
-QuestManager::QuestManager(Input* input, Render* render, Textures* tex, SceneGameplay* sceneGameplay)
+QuestManager::QuestManager(Input* input, Render* render, Textures* tex, SceneGameplay* sceneGameplay, AssetsManager* assetsManager)
 {
 	// Needed modules
 	this->input = input;
 	this->render = render;
+	this->assetsManager = assetsManager;
 	this->tex = tex;
 	this->sceneGameplay = sceneGameplay;
 }
@@ -40,7 +41,13 @@ bool QuestManager::Start()
 	///////////////////////////////////////////////////////////////////////////
 	pugi::xml_node questNode;
 	pugi::xml_document questData;
+
 	pugi::xml_parse_result parseResult = questData.load_file("Assets/Quests/quests.xml");
+	//char* buffer = nullptr;
+	//size_t size = assetsManager->LoadXML("Quests/quests.xml", &buffer);
+	//pugi::xml_parse_result parseResult = questData.load_buffer(buffer, size);
+	//RELEASE_ARRAY(buffer);
+
 	if (parseResult == NULL)
 		LOG("Could not load xml file <quests.xml> pugi error: %s", parseResult.description());
 	else

@@ -43,7 +43,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	fonts = new Fonts(render, tex);
 	dialogSystem = new DialogSystem(input, render, tex, fonts, assetsManager);
 	easing = new Easing();
-	sceneManager = new SceneManager(input, render, tex, win, audio, entityManager, guiManager, dialogSystem, easing, transitions, this);
+	sceneManager = new SceneManager(input, render, tex, win, audio, entityManager, guiManager, dialogSystem, easing, transitions, assetsManager, this);
 	
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp

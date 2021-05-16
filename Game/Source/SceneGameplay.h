@@ -11,6 +11,7 @@
 #include "Notifier.h"
 #include "Timer.h"
 
+class AssetsManager;
 class BattleSystem;
 class GuiManager;
 class Window;
@@ -66,7 +67,7 @@ public:
     SceneGameplay(bool hasStartedFromContinue = false);
     virtual ~SceneGameplay();
 
-    bool Load(Input* input, Render* render, Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, DialogSystem* dialogSystem, Easing* easing, Transitions* transitions, App* app);
+    bool Load(Input* input, Render* render, Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, DialogSystem* dialogSystem, Easing* easing, Transitions* transitions, AssetsManager* assetsManager, App* app);
 
     bool Update(Input* input, float dt);
 
@@ -113,6 +114,7 @@ public:
 private:
 
     // Needed modules
+    AssetsManager* assetsManager;
     EntityManager* entityManager;
     GuiManager* guiManager;
     Window* win;

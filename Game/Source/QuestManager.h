@@ -12,6 +12,7 @@ using namespace std;
 
 class Font;
 class SceneGameplay;
+class AssetsManager;
 
 class Quest
 {
@@ -39,7 +40,7 @@ class QuestManager
 {
 public:
 
-	QuestManager(Input* input, Render* render, Textures* tex, SceneGameplay* sceneGameplay);
+	QuestManager(Input* input, Render* render, Textures* tex, SceneGameplay* sceneGameplay, AssetsManager* assetsManager);
 	~QuestManager();
 
 	// Called before the first frame
@@ -71,6 +72,7 @@ private:
 	// Needed modules
 	Input* input = nullptr;
 	Render* render = nullptr;
+	AssetsManager* assetsManager = nullptr;
 	Textures* tex = nullptr;
 	EntityManager* entityManager = nullptr;
 

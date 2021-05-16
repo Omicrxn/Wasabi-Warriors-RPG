@@ -1,5 +1,6 @@
 #include "SceneGameplay.h"
 
+#include "AssetsManager.h"
 #include "EntityManager.h"
 #include "BattleSystem.h"
 #include "GuiManager.h"
@@ -49,6 +50,7 @@ SceneGameplay::SceneGameplay(bool hasStartedFromContinue)
 	this->name = "scenegameplay";
 
 	// Needed modules
+	assetsManager = nullptr;
 	entityManager = nullptr;
 	guiManager = nullptr;
 	win = nullptr;
@@ -116,7 +118,7 @@ SceneGameplay::~SceneGameplay()
 {
 }
 
-bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, DialogSystem* dialogSystem, Easing* easing, Transitions* transitions, App* app)
+bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, DialogSystem* dialogSystem, Easing* easing, Transitions* transitions, AssetsManager* assetsManager, App* app)
 {
 	audio->StopMusic();
 
@@ -125,6 +127,7 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 	notifier = Notifier::GetInstance();
 
 	// Needed modules
+	this->assetsManager = assetsManager;
 	this->entityManager = entityManager;
 	this->guiManager = guiManager;
 	this->win = win;
@@ -133,7 +136,7 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 	this->transitions = transitions;
 	this->app = app;
 
-	questManager = new QuestManager(input, render, tex, this);
+	questManager = new QuestManager(input, render, tex, this, assetsManager);
 	questManager->Start();
 
 	map = (Map*)entityManager->CreateEntity(EntityType::MAP, "Map", EntitySubtype::UNKNOWN);
@@ -579,10 +582,7 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 {
 	// TODO: Unload all resources
 	RELEASE(battleSystem);
-	battleSystem = nullptr;
-
 	RELEASE(questManager);
-	questManager = nullptr;
 
 	// Remove map
 	map->CleanUp();
@@ -591,32 +591,20 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 
 	// Release fonts
 	RELEASE(titleFont);
-	titleFont = nullptr;
 	RELEASE(buttonFont);
-	buttonFont = nullptr;
 	RELEASE(menuFont);
-	menuFont = nullptr;
 
 	// Unload textures
 	tex->UnLoad(charactersSpritesheet);
-	charactersSpritesheet = nullptr;
 	tex->UnLoad(backgroundTex);
-	backgroundTex = nullptr;
 	tex->UnLoad(guiAtlasTex);
-	guiAtlasTex = nullptr;
 	tex->UnLoad(titlesTex);
-	titlesTex = nullptr;
 	
 	tex->UnLoad(aura);
-	aura = nullptr;
 	tex->UnLoad(cast1);
-	cast1 = nullptr;
 	tex->UnLoad(enemyCast);
-	enemyCast = nullptr;
 	tex->UnLoad(indicator);
-	indicator = nullptr;
 	tex->UnLoad(signal);
-	signal = nullptr;
 
 	// Unload Fx
 	audio->UnloadFx(clickFx);
@@ -626,13 +614,9 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 
 	// Destory GUI Controls
 	guiManager->DestroyGuiControl(btnAttack);
-	btnAttack = nullptr;
 	guiManager->DestroyGuiControl(btnDefend);
-	btnDefend = nullptr;
 	guiManager->DestroyGuiControl(btnItem);
-	btnItem = nullptr;
 	guiManager->DestroyGuiControl(btnRun);
-	btnRun = nullptr;
 
 	notifier = nullptr;
 
@@ -645,15 +629,10 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 
 	// Delete screens
 	RELEASE(screenRoaming);
-	screenRoaming = nullptr;
 	RELEASE(screenPause);
-	screenPause = nullptr;
 	RELEASE(screenSettings);
-	screenSettings = nullptr;
 	RELEASE(screenBattle);
-	screenBattle = nullptr;
 	RELEASE(screenInventory);
-	screenInventory = nullptr;
 
 	entityManager->CleanUp();
 

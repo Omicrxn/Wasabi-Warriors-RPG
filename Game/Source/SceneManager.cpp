@@ -7,6 +7,7 @@
 
 #include "Input.h"
 #include "Render.h"
+#include "AssetsManager.h"
 #include "Textures.h"
 #include "Window.h"
 #include "Audio.h"
@@ -26,7 +27,7 @@
 #define FADEOUT_TRANSITION_SPEED	2.0f
 #define FADEIN_TRANSITION_SPEED		2.0f
 
-SceneManager::SceneManager(Input* input, Render* render, Textures* tex, Window* win, AudioManager* audio, EntityManager* entityman, GuiManager* guiManager, DialogSystem* dialogSystem, Easing* easing, Transitions* transitions, App* app) : Module()
+SceneManager::SceneManager(Input* input, Render* render, Textures* tex, Window* win, AudioManager* audio, EntityManager* entityman, GuiManager* guiManager, DialogSystem* dialogSystem, Easing* easing, Transitions* transitions, AssetsManager* assetsManager, App* app) : Module()
 {
 	name.Create("scenemanager");
 
@@ -36,6 +37,7 @@ SceneManager::SceneManager(Input* input, Render* render, Textures* tex, Window* 
 
 	this->input = input;
 	this->render = render;
+	this->assetsManager = assetsManager;
 	this->tex = tex;
 	this->win = win;
 	this->audio = audio;
@@ -66,7 +68,7 @@ bool SceneManager::Start()
 	current = new SceneLogo();
 	if (current->type == SceneType::GAMEPLAY || current->type == SceneType::GAMEPLAY_LOAD)
 	{
-		current->Load(input, render, tex, win, audio, guiManager, entityman, dialogSystem, easing, transitions, app);
+		current->Load(input, render, tex, win, audio, guiManager, entityman, dialogSystem, easing, transitions, assetsManager, app);
 	}
 	else if (current->type == SceneType::TITLE)
 	{
@@ -110,7 +112,7 @@ bool SceneManager::Update(float dt)
 				current->Unload(tex, audio, guiManager); // Unload current screen
 				if (next->type == SceneType::GAMEPLAY || next->type == SceneType::GAMEPLAY_LOAD)
 				{
-					next->Load(input, render, tex, win, audio, guiManager, entityman, dialogSystem, easing, transitions, app);	// Load next screen
+					next->Load(input, render, tex, win, audio, guiManager, entityman, dialogSystem, easing, transitions, assetsManager, app);	// Load next screen
 				}
 				else if (next->type == SceneType::TITLE)
 				{
