@@ -1,0 +1,34 @@
+#pragma once
+#include "Interactive.h"
+#include "Textures.h"
+#include "EntityManager.h"
+#include "Render.h"
+class SecretWall : public Interactive
+{
+public:
+
+	SecretWall(SString name, Textures* tex, EntityManager* entityManager, EntityType type, iPoint position);
+	~SecretWall();
+
+	bool Update(float dt);
+	bool Draw(Render* render);
+	void SetName(SString name);
+	void SetLever(int leverNumber);
+
+private:
+
+	void Interact() {};
+	void OnCollision(Collider* collider) override;
+	
+
+private:
+
+	SDL_Rect rect;
+	bool lever1 = false;
+	bool lever2 = false;
+	bool lever3 = false;
+	List<uint> sequence;
+public:
+	bool reset = false;
+
+};

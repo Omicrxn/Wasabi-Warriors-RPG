@@ -23,7 +23,9 @@ enum class EntityType
     MAP,
     NPC,
     TELEPORT,
-    ACTIVATOR
+    ACTIVATOR,
+    SECRET_WALL,
+    LEVER
 };
  
 enum class EntitySubtype

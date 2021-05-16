@@ -104,9 +104,11 @@
     <ClCompile Include="Source\GuiManager.cpp" />
     <ClCompile Include="Source\GuiSlider.cpp" />
     <ClCompile Include="Source\Item.cpp" />
+    <ClCompile Include="Source\Lever.cpp" />
     <ClCompile Include="Source\QuestManager.cpp" />
     <ClCompile Include="Source\ScreenBattle.cpp" />
     <ClCompile Include="Source\ScreenInventory.cpp" />
+    <ClCompile Include="Source\SecretWall.cpp" />
     <ClCompile Include="Source\Transitions.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\App.cpp" />
@@ -153,9 +155,11 @@
     <ClInclude Include="Source\GuiSlider.h" />
     <ClInclude Include="Source\Interactive.h" />
     <ClInclude Include="Source\Item.h" />
+    <ClInclude Include="Source\Lever.h" />
     <ClInclude Include="Source\QuestManager.h" />
     <ClInclude Include="Source\ScreenBattle.h" />
     <ClInclude Include="Source\ScreenInventory.h" />
+    <ClInclude Include="Source\SecretWall.h" />
     <ClInclude Include="Source\Stats.h" />
     <ClInclude Include="Source\Transitions.h" />
     <ClInclude Include="Source\Map.h" />

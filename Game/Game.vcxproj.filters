@@ -129,6 +129,10 @@
     <ClCompile Include="Source\Activator.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Source\SecretWall.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Lever.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\App.h" />
@@ -323,6 +327,12 @@
     </ClInclude>
     <ClInclude Include="Source\Screen.h">
       <Filter>Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Lever.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SecretWall.h">
+      <Filter>Entities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

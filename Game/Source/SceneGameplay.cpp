@@ -1180,7 +1180,6 @@ void SceneGameplay::SetUpTp()
 			uchar* data = NULL;
 
 			//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
-
 			RELEASE_ARRAY(data);
 			audio->StopMusic();
 			audio->PlayMusic("Assets/Audio/Music/city_background.ogg");

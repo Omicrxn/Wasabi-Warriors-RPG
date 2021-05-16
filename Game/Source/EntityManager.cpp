@@ -8,6 +8,8 @@
 #include "NPC.h"
 #include "Teleport.h"
 #include "Activator.h"
+#include "SecretWall.h"
+#include "Lever.h"
 
 #include "Render.h"
 #include "Textures.h"
@@ -55,6 +57,8 @@ bool EntityManager::Start()
 		itemsTexture = tex->Load("Assets/Textures/Items/items_equipment.png");
 	if (entitiesTexture == nullptr)
 		entitiesTexture = tex->Load("Assets/Textures/Characters/characters_spritesheet.png");
+	if (secretWallTexture == nullptr)
+		secretWallTexture = tex->Load("Assets/Textures/secret_wall_texture.png");
 
 	consumeFx = audio->LoadFx("Assets/Audio/Fx/consume.ogg");
 	pickUpFx = audio->LoadFx("Assets/Audio/Fx/pickup.ogg");
@@ -108,6 +112,8 @@ bool EntityManager::CleanUp()
 	itemsTexture = nullptr;
 	tex->UnLoad(entitiesTexture);
 	entitiesTexture = nullptr;
+	tex->UnLoad(secretWallTexture);
+	secretWallTexture = nullptr;
 
 	audio->UnloadFx(consumeFx);
 	audio->UnloadFx(pickUpFx);
@@ -151,6 +157,13 @@ Entity* EntityManager::CreateEntity(EntityType type, SString name, EntitySubtype
 	case EntityType::ACTIVATOR:
 		ret = new Activator(name, input, tex, collisions, this, type, subtype, position);
 		activatorList.Add((Activator*)ret);
+		break;
+	case EntityType::SECRET_WALL:
+		ret = new SecretWall(name,tex, this, type, position);
+		break;
+	case EntityType::LEVER:
+		ret = new Lever(name, tex, this, type, position);
+		leverList.Add((Lever*)ret);
 		break;
 	default:
 		break;

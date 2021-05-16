@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="1">
+<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="1">
  <tileset firstgid="1" name="dungeonTiles1" tilewidth="32" tileheight="32" tilecount="2262" columns="78">
   <image source="dungeonTiles1.png" width="2496" height="928"/>
  </tileset>
@@ -2172,7 +2172,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
+   <tile gid="2519"/>
    <tile/>
    <tile/>
    <tile/>
@@ -12389,7 +12389,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
+   <tile gid="757"/>
    <tile/>
    <tile/>
    <tile gid="833"/>
@@ -22408,7 +22408,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
+   <tile gid="2519"/>
    <tile/>
    <tile/>
    <tile gid="2519"/>
