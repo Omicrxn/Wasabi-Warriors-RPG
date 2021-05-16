@@ -1,8 +1,8 @@
 <!-- Entity info file for the game -->
 <entity>
   <player>
-    <hunter level="1" damage="120" max_hp="120" current_hp="100" strength="10" defense="15" attack_speed="5" critical_rate="10"/>
-    <wizard level="1" damage="115" max_hp="150" current_hp="120" strength="7" defense="10" attack_speed="15" critical_rate="15"/>
+    <hunter level="1" damage="25" max_hp="120" current_hp="100" strength="10" defense="15" attack_speed="5" critical_rate="10"/>
+    <wizard level="1" damage="20" max_hp="150" current_hp="120" strength="7" defense="10" attack_speed="15" critical_rate="15"/>
   </player>
 
   <enemy>
