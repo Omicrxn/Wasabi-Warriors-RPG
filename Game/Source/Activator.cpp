@@ -81,7 +81,12 @@ void Activator::SetName(SString name)
 void Activator::SetDrawState(DrawState drawState)
 {
     this->drawState = drawState;
-
+    if (drawState == DrawState::HUD)
+    {
+        if (collider != nullptr) 
+            collider->pendingToDelete = true;
+    }
+       
     if (name == "key")
     {
         rect = { 296,346,30,28 };

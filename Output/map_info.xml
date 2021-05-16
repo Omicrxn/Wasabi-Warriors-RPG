@@ -99,10 +99,14 @@
 	<item posX="64" posY="320" class="item" name="wasabi" subtype="8"/>
 	<item posX="256" posY="320" class="item" name="wasabi" subtype="8"/>
   </restaurant>
-  <secretRoom enemyCount="0" npcCount="0" teleportCount="1" activatorCount="0" secretWallCount="0" leverCount="0">
+  <secretRoom enemyCount="0" npcCount="0" teleportCount="1" itemCount="4" activatorCount="0" secretWallCount="0" leverCount="0">
     <prevRestaurant>
       <player posX="64" posY="128"/>
     </prevRestaurant>
     <teleport posX="64" posY="192" width="32" height="32" destination="3"/>
+	<item posX="64" posY="64" class="item" name="megaPotion" subtype="7"/>
+	<item posX="64" posY="96" class="item" name="megaPotion" subtype="7"/>
+	<item posX="96" posY="64" class="item" name="megaPotion" subtype="7"/>
+	<item posX="96" posY="96" class="item" name="megaPotion" subtype="7"/>
   </secretRoom>
 </map>

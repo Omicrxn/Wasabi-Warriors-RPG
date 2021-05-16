@@ -890,8 +890,8 @@ bool EntityManager::LoadStateInfo(pugi::xml_node& scenegameplay, MapType current
 			{
 				activatorList.Del(activatorList.At(activatorList.Find((Activator*)list1->data)));
 				DestroyEntity(list1->data);
-				continue;
 			}
+			continue;
 		}
 		else if (list1->data->type == EntityType::LEVER)
 		{
@@ -1091,7 +1091,7 @@ bool EntityManager::LoadStateInfo(pugi::xml_node& scenegameplay, MapType current
 		activator->renderable = activatorNode.attribute("renderable").as_bool();
 	
 		DrawState drawState = (DrawState)activatorNode.attribute("drawState").as_int();
-		activator->SetDrawState(drawState);
+		activator->SetDrawState(drawState);		
 	
 		activator = nullptr;
 		activatorNode = activatorNode.next_sibling();
