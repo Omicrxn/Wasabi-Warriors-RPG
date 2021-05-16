@@ -35,12 +35,14 @@ public:
     // To setup the player class type
     bool SetUpClass(SString name);
 
+    void OnCollision(Collider* collider) override;
+
 private:
 
     void Walk(iPoint direction, float dt);
 
 public:
-
+    iPoint tempPosition = { 0,0 };
     Animations currentAnim;
     bool stopPlayer = false;
     bool transitioning = false;

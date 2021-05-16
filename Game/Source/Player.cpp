@@ -55,7 +55,7 @@ Player::~Player()
 
 bool Player::Update(Input* input, float dt)
 {
-    iPoint tempPosition = position;
+    tempPosition = position;
     if (!Notifier::GetInstance()->GetBattle() && !stopPlayer && !transitioning)
     {
         Walk(direction, dt);
@@ -249,3 +249,13 @@ bool Player::SetUpClass(SString name)
 
     return ret;
 }
+
+void Player::OnCollision(Collider* collider)
+{
+    if (collider->type = Collider::Type::SECRET_WALL)
+    {
+        position = tempPosition;
+    }
+}
+
+

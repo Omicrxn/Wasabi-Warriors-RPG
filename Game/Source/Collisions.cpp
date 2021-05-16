@@ -21,7 +21,7 @@ Collisions::Collisions(Input* input, Render* render) : Module()
 	matrix[Collider::Type::PLAYER][Collider::Type::SIGN] = false;
 	matrix[Collider::Type::PLAYER][Collider::Type::ITEM] = false;
 	matrix[Collider::Type::PLAYER][Collider::Type::ACTIVATOR] = false;
-	matrix[Collider::Type::PLAYER][Collider::Type::SECRET_WALL] = false;
+	matrix[Collider::Type::PLAYER][Collider::Type::SECRET_WALL] = true;
 	matrix[Collider::Type::PLAYER][Collider::Type::LEVER] = false;
 
 	matrix[Collider::Type::ENEMY][Collider::Type::ENEMY] = false;

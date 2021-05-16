@@ -5,5 +5,7 @@
 	<textures />
 	<audio musicVolume="32" fxVolume="128" />
 	<scene />
-	<renderer />
+	<renderer>
+		<camera x="1640" y="634" />
+	</renderer>
 </game_state>
