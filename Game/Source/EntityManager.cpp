@@ -101,13 +101,13 @@ bool EntityManager::CleanUp()
 		{
 			activatorList.Del(activatorList.At(activatorList.Find((Activator*)entityList.At(i)->data)));
 		}
-		else if (entityList.At(i)->data->type == EntityType::SECRET_WALL)
-		{
-			//secretWallList.Del(activatorList.At(activatorList.Find((Activator*)entityList.At(i)->data)));
-		}
 		else if (entityList.At(i)->data->type == EntityType::LEVER)
 		{
-			//leverList.Del(leverList.At(leverList.Find((Lever*)leverList.At(i)->data)));
+			leverList.Del(leverList.At(leverList.Find((Lever*)leverList.At(i)->data)));
+		}
+		else if (entityList.At(i)->data->type == EntityType::SECRET_WALL)
+		{
+			secretWallList.Del(secretWallList.At(secretWallList.Find((SecretWall*)secretWallList.At(i)->data)));
 		}
 
 		this->DestroyEntity(entityList.At(i)->data);
@@ -118,6 +118,9 @@ bool EntityManager::CleanUp()
 	teleportList.Clear();
 	itemList.Clear();
 	activatorList.Clear();
+	secretWallList.Clear();
+	leverList.Clear();
+
 	entityList.Clear();
 
 	// Freeing textures
@@ -127,6 +130,8 @@ bool EntityManager::CleanUp()
 	entitiesTexture = nullptr;
 	tex->UnLoad(secretWallTexture);
 	secretWallTexture = nullptr;
+	tex->UnLoad(leversTexture);
+	leversTexture = nullptr;
 
 	audio->UnloadFx(consumeFx);
 	audio->UnloadFx(pickUpFx);
@@ -173,6 +178,7 @@ Entity* EntityManager::CreateEntity(EntityType type, SString name, EntitySubtype
 		break;
 	case EntityType::SECRET_WALL:
 		ret = new SecretWall(name,collisions,tex, this, type, position);
+		secretWallList.Add((SecretWall*)ret);
 		break;
 	case EntityType::LEVER:
 		ret = new Lever(name,collisions, input,tex, this, type, position);
@@ -897,6 +903,10 @@ bool EntityManager::LoadStateInfo(pugi::xml_node& scenegameplay, MapType current
 		{
 			leverList.Del(leverList.At(leverList.Find((Lever*)list1->data)));
 		}
+		else if (list1->data->type == EntityType::SECRET_WALL)
+		{
+			secretWallList.Del(secretWallList.At(secretWallList.Find((SecretWall*)list1->data)));
+		}
 	
 		// Delete all entities except the map
 		if (list1->data->type != EntityType::MAP)
@@ -912,6 +922,7 @@ bool EntityManager::LoadStateInfo(pugi::xml_node& scenegameplay, MapType current
 	itemList.Clear();
 	activatorList.Clear();
 	leverList.Clear();
+	secretWallList.Clear();
 	
 	RELEASE(list1);
 	
@@ -1097,9 +1108,25 @@ bool EntityManager::LoadStateInfo(pugi::xml_node& scenegameplay, MapType current
 		activatorNode = activatorNode.next_sibling();
 	}
 
+	/* ---------- EIGHT LOAD SECRET WALL FROM THE SAVE FILE ----------*/
+	int secretWallCount = mapNode.attribute("secretWallCount").as_int();
+
+	pugi::xml_node secretWallNode = mapNode.child("secretwall");
+	SecretWall* secretWall = nullptr;
+
+	for (int i = 0; i < secretWallCount; ++i)
+	{
+		iPoint position = { secretWallNode.attribute("posX").as_int(), secretWallNode.attribute("posY").as_int() };
+		secretWall = (SecretWall*)CreateEntity(EntityType::SECRET_WALL, secretWallNode.attribute("name").as_string(), EntitySubtype::UNKNOWN, position);
+		secretWall->reset = secretWallNode.attribute("reset").as_bool();
+		secretWall->lever1 = secretWallNode.attribute("lever1").as_bool();
+		secretWall->lever2 = secretWallNode.attribute("lever2").as_bool();
+		secretWall->lever3 = secretWallNode.attribute("lever3").as_bool();
+		secretWallNode = secretWallNode.next_sibling("secretWall");
+	}
 
 	LOG("LOADING LEVERS");
-	/* ---------- EIGHT LOAD ACTIVATORS FROM THE SAVE FILE ----------*/
+	/* ---------- NINE LOAD LEVERS FROM THE SAVE FILE ----------*/
 	pugi::xml_node leverListNode;
 	leverListNode = mapNode.child("leverList");
 	int leverCount = leverListNode.attribute("leverCount").as_int();
@@ -1112,7 +1139,8 @@ bool EntityManager::LoadStateInfo(pugi::xml_node& scenegameplay, MapType current
 		EntitySubtype subtype = (EntitySubtype)leverNode.attribute("entitySubType").as_int();
 		iPoint pos = { leverNode.attribute("posX").as_int(), leverNode.attribute("posY").as_int() };
 		lever = (Lever*)CreateEntity(EntityType::ACTIVATOR, leverNode.attribute("name").as_string(), subtype, pos);
-
+		lever->SetSecretWall(secretWall);
+		lever->SetNumber(leverNode.attribute("number").as_uint());
 		lever->id = leverNode.attribute("id").as_uint();
 		lever->spritePos = leverNode.attribute("spritePos").as_int();
 		lever->renderable = leverNode.attribute("renderable").as_bool();
@@ -1120,7 +1148,7 @@ bool EntityManager::LoadStateInfo(pugi::xml_node& scenegameplay, MapType current
 		lever = nullptr;
 		leverNode = leverNode.next_sibling();
 	}
-
+	secretWall = nullptr;
 	return true;
 }
 
@@ -1608,7 +1636,70 @@ bool EntityManager::SaveStateInfo(pugi::xml_node& scenegameplay, MapType current
 		newActivatorNode.append_attribute("drawState").set_value((int)list6->data->GetDrawState());
 	}
 
-	/* ---------- SEVENTH SAVE THE ACTIVATOR ----------*/
+	/* ---------- SEVENTH SAVE THE SECRET DOOR ----------*/
+		// Erase the Items in the XML
+	pugi::xml_node secretWallListNode;
+
+	tempName = mapNode.child("secretWallList").name();
+	if (tempName == "secretWallList")
+	{
+		// Node ItemsList exists
+		secretWallListNode = mapNode.child("secretWallList");
+	}
+	else
+	{
+		// Node ItemsList does not exist
+		secretWallListNode = mapNode.append_child("secretWallList");
+	}
+
+	for (int i = 0; i < secretWallListNode.attribute("secretWallCount").as_int(); ++i)
+	{
+		bool remove = secretWallListNode.remove_child("secretwall");
+		if (remove == false)
+			break;
+	}
+
+	/* ---------- CHECKS IF THE NODE WE WANT OVERWRITE EXISTS OR NOT  ----------*/
+	tempName = secretWallListNode.attribute("secretWallCount").name();
+	if (tempName == "secretWallCount")
+	{
+		// Node Items exists
+		secretWallListNode.attribute("secretWallCount").set_value(secretWallList.Count());
+	}
+	else
+	{
+		// Node Items does not exist
+		secretWallListNode.append_attribute("secretWallCount").set_value(secretWallList.Count());
+	}
+
+	// Add the Items in the XML
+	ListItem<SecretWall*>* list7;
+	for (list7 = secretWallList.start; list7 != NULL; list7 = list7->next)
+	{
+		// The load of items in the inventory will be done in the scenegameplay
+		// Creates a new node for the Items
+		pugi::xml_node newSecretWallNode = secretWallListNode;
+		newSecretWallNode = newSecretWallNode.append_child("secretwall");
+
+		// Fill in the info in order to save
+		newSecretWallNode.append_attribute("id").set_value(list7->data->id);
+		newSecretWallNode.append_attribute("spritePos").set_value(list7->data->spritePos);
+		newSecretWallNode.append_attribute("entitySubType").set_value((int)list7->data->subtype);
+		newSecretWallNode.append_attribute("name").set_value(list7->data->name.GetString());
+
+		newSecretWallNode.append_attribute("posX").set_value(list7->data->position.x);
+		newSecretWallNode.append_attribute("posY").set_value(list7->data->position.y);
+		newSecretWallNode.append_attribute("isActive").set_value(list7->data->IsActive());
+		newSecretWallNode.append_attribute("isRenderable").set_value(list7->data->renderable);
+		newSecretWallNode.append_attribute("width").set_value(list7->data->width);
+		newSecretWallNode.append_attribute("height").set_value(list7->data->height);
+		newSecretWallNode.append_attribute("reset").set_value(list7->data->reset);
+		newSecretWallNode.append_attribute("lever1").set_value(list7->data->lever1);
+		newSecretWallNode.append_attribute("lever2").set_value(list7->data->lever2);
+		newSecretWallNode.append_attribute("lever3").set_value(list7->data->lever3);
+	}
+
+	/* ---------- EIGTH SAVE THE LEVER ----------*/
 	// Erase the Items in the XML
 	pugi::xml_node leverListNode;
 
@@ -1645,8 +1736,8 @@ bool EntityManager::SaveStateInfo(pugi::xml_node& scenegameplay, MapType current
 	}
 
 	// Add the Items in the XML
-	ListItem<Lever*>* list7;
-	for (list7 = leverList.start; list7 != NULL; list7 = list7->next)
+	ListItem<Lever*>* list8;
+	for (list8 = leverList.start; list8 != NULL; list8 = list8->next)
 	{
 		// The load of items in the inventory will be done in the scenegameplay
 		// Creates a new node for the Items
@@ -1654,18 +1745,18 @@ bool EntityManager::SaveStateInfo(pugi::xml_node& scenegameplay, MapType current
 		newLeverNode = newLeverNode.append_child("lever");
 
 		// Fill in the info in order to save
-		newLeverNode.append_attribute("id").set_value(list7->data->id);
-		newLeverNode.append_attribute("spritePos").set_value(list7->data->spritePos);
-		newLeverNode.append_attribute("entitySubType").set_value((int)list7->data->subtype);
-		newLeverNode.append_attribute("name").set_value(list7->data->name.GetString());
+		newLeverNode.append_attribute("id").set_value(list8->data->id);
+		newLeverNode.append_attribute("spritePos").set_value(list8->data->spritePos);
+		newLeverNode.append_attribute("entitySubType").set_value((int)list8->data->subtype);
+		newLeverNode.append_attribute("name").set_value(list8->data->name.GetString());
 
-		newLeverNode.append_attribute("posX").set_value(list7->data->position.x);
-		newLeverNode.append_attribute("posY").set_value(list7->data->position.y);
-		newLeverNode.append_attribute("isActive").set_value(list7->data->IsActive());
-		newLeverNode.append_attribute("isRenderable").set_value(list7->data->renderable);
-		newLeverNode.append_attribute("number").set_value(list7->data->GetNumber());
-		newLeverNode.append_attribute("width").set_value(list7->data->rect.w);
-		newLeverNode.append_attribute("width").set_value(list7->data->rect.h);
+		newLeverNode.append_attribute("posX").set_value(list8->data->position.x);
+		newLeverNode.append_attribute("posY").set_value(list8->data->position.y);
+		newLeverNode.append_attribute("isActive").set_value(list8->data->IsActive());
+		newLeverNode.append_attribute("isRenderable").set_value(list8->data->renderable);
+		newLeverNode.append_attribute("number").set_value(list8->data->GetNumber());
+		newLeverNode.append_attribute("width").set_value(list8->data->width);
+		newLeverNode.append_attribute("height").set_value(list8->data->height);
 	}
 	return true;
 }
@@ -1783,6 +1874,14 @@ void EntityManager::DeleteAllEntitiesExceptPlayer()
 		else if (list1->data->type == EntityType::ITEM)
 		{
 			itemList.Del(itemList.At(itemList.Find((Item*)list1->data)));
+		}
+		else if (list1->data->type == EntityType::LEVER)
+		{
+			leverList.Del(leverList.At(leverList.Find((Lever*)list1->data)));
+		}
+		else if (list1->data->type == EntityType::SECRET_WALL)
+		{
+			secretWallList.Del(secretWallList.At(secretWallList.Find((SecretWall*)list1->data)));
 		}
 
 		// Delete all entities except the map and player

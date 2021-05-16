@@ -74,7 +74,7 @@ void Lever::SetNumber(uint number)
 
 uint Lever::GetNumber()
 {
-	return uint();
+	return number;
 }
 
 void Lever::Interact()

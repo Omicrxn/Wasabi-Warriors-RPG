@@ -24,11 +24,11 @@ private:
 private:
 
 	SDL_Rect rect;
+	List<uint> sequence;
+public:
 	bool lever1 = false;
 	bool lever2 = false;
 	bool lever3 = false;
-	List<uint> sequence;
-public:
 	bool reset = false;
 	Input* input = nullptr;
 };

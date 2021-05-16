@@ -24,6 +24,7 @@ class Transitions;
 class Item;
 class Activator;
 class Lever;
+class SecretWall;
 class AudioManager;
 
 
@@ -87,6 +88,7 @@ public:
 	List<Item*> itemList;
 	List<Activator*> activatorList;
 	List<Lever*> leverList;
+	List<SecretWall*> secretWallList;
 	SDL_Texture* texture = nullptr;
 	SDL_Texture* itemsTexture = nullptr;
 	SDL_Texture* secretWallTexture = nullptr;
