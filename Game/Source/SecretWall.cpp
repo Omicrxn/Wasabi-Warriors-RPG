@@ -10,7 +10,7 @@ SecretWall::SecretWall(SString name,Collisions* collisions, Textures* tex, Entit
 	this->subtype = subtype;
 	this->position = position;
 	width = 32;
-	height = 96;
+	height = 68;
 	this->rect = { 0,0,width,height };
 	collider = collisions->AddCollider({ position.x,position.y , width, height }, Collider::Type::SECRET_WALL, (Module*)entityManager);
 

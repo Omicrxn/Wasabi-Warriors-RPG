@@ -105,7 +105,7 @@ bool EntityManager::CleanUp()
 		}
 		else if (entityList.At(i)->data->type == EntityType::LEVER)
 		{
-			leverList.Del(leverList.At(leverList.Find((Lever*)leverList.At(i)->data)));
+			//leverList.Del(leverList.At(leverList.Find((Lever*)leverList.At(i)->data)));
 		}
 
 		this->DestroyEntity(entityList.At(i)->data);
