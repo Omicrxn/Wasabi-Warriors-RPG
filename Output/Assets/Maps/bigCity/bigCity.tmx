@@ -4,9 +4,6 @@
   <image source="MainTileMap.png" width="2336" height="672"/>
  </tileset>
  <tileset firstgid="1534" name="Collision" tilewidth="32" tileheight="32" tilecount="1" columns="1">
-  <image source="../Collision.png" width="32" height="32"/>
- </tileset>
- <tileset firstgid="1535" name="Collision" tilewidth="32" tileheight="32" tilecount="1" columns="1">
   <image source="../collision.png" width="32" height="32"/>
  </tileset>
  <layer id="1" name="Capa de patrones 1" width="40" height="37">

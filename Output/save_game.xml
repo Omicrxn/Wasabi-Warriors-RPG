@@ -47,11 +47,47 @@
 					</enemyList>
 					<npcList npcCount="1">
 						<npc id="0" spritePos="3" stop="false" name="" posX="656" posY="436" isActive="true" isRenderable="false" />
+>>>>>>> 06b79c3c7ee53f96687425fee0ffe2d6e0053464
 					</npcList>
 					<teleportList teleportCount="3">
 						<teleport id="0" spritePos="0" nameTeleport="" name="" destination="4" posX="32" posY="224" isActive="true" isRenderable="false" />
 						<teleport id="0" spritePos="0" nameTeleport="" name="" destination="5" posX="832" posY="32" isActive="true" isRenderable="false" />
 						<teleport id="0" spritePos="0" nameTeleport="" name="" destination="3" posX="416" posY="416" isActive="true" isRenderable="false" />
+<<<<<<< HEAD
+					</teleportList>
+					<itemList itemCount="3">
+						<item id="0" spritePos="0" entitySubType="8" name="wasabi" posX="1536" posY="768" isActive="true" isRenderable="false" />
+						<item id="0" spritePos="0" entitySubType="9" name="pan" posX="768" posY="768" isActive="true" isRenderable="false" />
+						<item id="0" spritePos="0" entitySubType="10" name="fork" posX="960" posY="1248" isActive="true" isRenderable="false" />
+					</itemList>
+					<activatorList activatorCount="1" leverCount="0">
+						<activator id="0" spritePos="735068448" entitySubType="-1" name="key" posX="64" posY="640" isActive="true" isRenderable="false" drawState="0" />
+					</activatorList>
+					<leverList />
+				</mediumCity>
+				<bigCity>
+					<entitiesCount Num="9" />
+					<playerList playerCount="2">
+						<player id="536898933" spritePos="3" name="B. Willies" posX="770" posY="316" isActive="true" isRenderable="false" entitySubType="0" level="1" damage="120" maxHP="120" currentHP="100" strength="10" defense="15" attackSpeed="5" criticalRate="10" statsName="B. Willies" />
+						<player id="0" spritePos="6" name="B. Dickinson" posX="770" posY="316" isActive="false" isRenderable="false" entitySubType="1" level="1" damage="115" maxHP="150" currentHP="120" strength="7" defense="10" attackSpeed="15" criticalRate="15" statsName="B. Dickinson" />
+					</playerList>
+					<enemyList enemyCount="0" />
+					<npcList npcCount="0" />
+					<teleportList teleportCount="2">
+						<teleport id="0" spritePos="0" nameTeleport="" name="" destination="6" posX="768" posY="288" isActive="true" isRenderable="false" />
+						<teleport id="0" spritePos="0" nameTeleport="" name="" destination="2" posX="736" posY="1152" isActive="true" isRenderable="false" />
+					</teleportList>
+					<itemList itemCount="3">
+						<item id="0" spritePos="0" entitySubType="5" name="potion" posX="2496" posY="1080" isActive="true" isRenderable="false" />
+						<item id="0" spritePos="0" entitySubType="6" name="bigPotion" posX="2016" posY="1248" isActive="true" isRenderable="false" />
+						<item id="0" spritePos="0" entitySubType="7" name="megaPotion" posX="2520" posY="1248" isActive="true" isRenderable="false" />
+					</itemList>
+					<activatorList activatorCount="1" leverCount="0">
+						<activator id="0" spritePos="735068448" entitySubType="-1" name="key" posX="64" posY="640" isActive="true" isRenderable="false" drawState="0" />
+					</activatorList>
+					<leverList />
+				</bigCity>
+=======
 					</teleportList>
 					<itemList itemCount="3">
 						<item id="0" spritePos="0" entitySubType="8" name="wasabi" posX="1536" posY="768" isActive="true" isRenderable="false" />
@@ -87,6 +123,7 @@
 					</activatorList>
 					<leverList leverCount="0" />
 				</restaurant>
+>>>>>>> 06b79c3c7ee53f96687425fee0ffe2d6e0053464
 			</map>
 		</scenegameplay>
 	</scenemanager>
