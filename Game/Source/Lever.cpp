@@ -52,7 +52,7 @@ bool Lever::Update(float dt)
 bool Lever::Draw(Render* render)
 {
 	if(!hasInteracted)
-		render->DrawTexture(entityManager->leversTexture, position.x, position.y, &leverAnim.GetCurrentFrame());
+		render->DrawTexture(entityManager->leversTexture, position.x * 3 - 48, position.y * 3 - 64, &leverAnim.GetCurrentFrame());
 
 	return true;
 }

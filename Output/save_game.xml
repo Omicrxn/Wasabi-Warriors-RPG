@@ -6,6 +6,6 @@
 	<audio musicVolume="32" fxVolume="128" />
 	<scene />
 	<renderer>
-		<camera x="1652" y="634" />
+		<camera x="1676" y="631" />
 	</renderer>
 </game_state>
