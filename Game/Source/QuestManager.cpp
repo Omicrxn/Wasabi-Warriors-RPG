@@ -40,7 +40,7 @@ bool QuestManager::Start()
 	///////////////////////////////////////////////////////////////////////////
 	pugi::xml_node questNode;
 	pugi::xml_document questData;
-	pugi::xml_parse_result parseResult = questData.load_file("quests.xml");
+	pugi::xml_parse_result parseResult = questData.load_file("Assets/Quests/quests.xml");
 	if (parseResult == NULL)
 		LOG("Could not load xml file <quests.xml> pugi error: %s", parseResult.description());
 	else
