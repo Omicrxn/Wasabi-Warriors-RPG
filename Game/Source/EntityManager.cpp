@@ -1109,11 +1109,12 @@ bool EntityManager::LoadStateInfo(pugi::xml_node& scenegameplay, MapType current
 	}
 
 	/* ---------- EIGHT LOAD SECRET WALL FROM THE SAVE FILE ----------*/
-	int secretWallCount = mapNode.attribute("secretWallCount").as_int();
+	pugi::xml_node secretWallListNode;
+	secretWallListNode = mapNode.child("secretWallList");	
+	int secretWallCount = secretWallListNode.attribute("secretWallCount").as_int();
 
-	pugi::xml_node secretWallNode = mapNode.child("secretwall");
+	pugi::xml_node secretWallNode = secretWallListNode.child("secretwall");
 	SecretWall* secretWall = nullptr;
-
 	for (int i = 0; i < secretWallCount; ++i)
 	{
 		iPoint position = { secretWallNode.attribute("posX").as_int(), secretWallNode.attribute("posY").as_int() };
