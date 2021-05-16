@@ -1398,7 +1398,8 @@ void SceneGameplay::SetUpTp()
 			{
 				iPoint position = { activatorNode.attribute("posX").as_int(), activatorNode.attribute("posY").as_int() };
 				activator = (Activator*)entityManager->CreateEntity(EntityType::ACTIVATOR, activatorNode.attribute("name").as_string(), EntitySubtype::UNKNOWN, position);
-				if (activatorNode.attribute("drawState").as_int() != -1) activator->SetDrawState((DrawState)activatorNode.attribute("drawState").as_int());
+				DrawState drawState = (DrawState)activatorNode.attribute("drawState").as_int();
+				activator->SetDrawState(drawState);
 				activator = nullptr;
 				activatorNode = activatorNode.next_sibling("activator");
 			}
