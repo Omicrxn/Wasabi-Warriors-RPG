@@ -142,18 +142,18 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 	map = (Map*)entityManager->CreateEntity(EntityType::MAP, "Map", EntitySubtype::UNKNOWN);
 
 	// Load texture
-	charactersSpritesheet = tex->Load("Assets/Textures/Characters/characters_spritesheet.png");
-	titlesTex = tex->Load("Assets/Textures/Scenes/titles.png");
+	charactersSpritesheet = tex->Load("Textures/Characters/characters_spritesheet.png");
+	titlesTex = tex->Load("Textures/Scenes/titles.png");
 	entityManager->texture = charactersSpritesheet;
 
 	// Load battle system textures
-	backgroundTex = tex->Load("Assets/Textures/Scenes/battle_scene.jpg");
-	guiAtlasTex = tex->Load("Assets/Textures/UI/ui_spritesheet.png");
-	aura = tex->Load("Assets/Textures/Scenes/aura.png");
-	cast1 = tex->Load("Assets/Textures/Effects/cast_001.png");
-	enemyCast = tex->Load("Assets/Textures/Effects/cast_008.png");
-	indicator = tex->Load("Assets/Textures/Effects/fire_003.png");
-	signal = tex->Load("Assets/Textures/Effects/magic_004.png");
+	backgroundTex = tex->Load("Textures/Scenes/battle_scene.jpg");
+	guiAtlasTex = tex->Load("Textures/UI/ui_spritesheet.png");
+	aura = tex->Load("Textures/Scenes/aura.png");
+	cast1 = tex->Load("Textures/Effects/cast_001.png");
+	enemyCast = tex->Load("Textures/Effects/cast_008.png");
+	indicator = tex->Load("Textures/Effects/fire_003.png");
+	signal = tex->Load("Textures/Effects/magic_004.png");
 
 	// Set battle animations
 	// Aura
@@ -217,17 +217,17 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 	signalAnim.loop = true;
 
 	// Create fonts
-	titleFont = new Font("Assets/Fonts/shojumaru.xml", tex);
-	buttonFont = new Font("Assets/Fonts/showg.xml", tex);
-	menuFont = new Font("Assets/Fonts/poppins.xml", tex);
+	titleFont = new Font("Fonts/shojumaru.xml", tex, assetsManager);
+	buttonFont = new Font("Fonts/SHOWG.xml", tex, assetsManager);
+	menuFont = new Font("Fonts/poppins.xml", tex, assetsManager);
 
 	// Load buttons Fx
-	hoverFx = audio->LoadFx("Assets/Audio/Fx/bong.ogg");
-	clickFx = audio->LoadFx("Assets/Audio/Fx/click.ogg");
-	returnFx = audio->LoadFx("Assets/Audio/Fx/back.ogg");
+	hoverFx = audio->LoadFx("Audio/Fx/bong.ogg");
+	clickFx = audio->LoadFx("Audio/Fx/click.ogg");
+	returnFx = audio->LoadFx("Audio/Fx/back.ogg");
 
 	// Load other fx
-	doorOpenFx = audio->LoadFx("Assets/Audio/Fx/door_open.ogg");
+	doorOpenFx = audio->LoadFx("Audio/Fx/door_open.ogg");
 
 	// Gui id goes from 0 to 2
 	screenRoaming = new ScreenRoaming();
@@ -395,7 +395,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 		focusedButtonId = 6;
 
 		audio->StopMusic();
-		audio->PlayMusic("Assets/Audio/Music/battle.ogg");
+		audio->PlayMusic("Audio/Music/battle.ogg");
 	}
 
 	if (notifier->GetBattle())
@@ -418,7 +418,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 		focusedButtonId = 6;
 
 		audio->StopMusic();
-		audio->PlayMusic("Assets/Audio/Music/battle.ogg");
+		audio->PlayMusic("Audio/Music/battle.ogg");
 	}
 
 	if (notifier->OnDialog() && (input->GetKey(SDL_SCANCODE_F) == KeyState::KEY_DOWN /*|| input->GetControllerButton(CONTROLLER_BUTTON_A) == KeyState::KEY_DOWN*/))
@@ -641,6 +641,7 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 	entityManager->CleanUp();
 
 	// Removing used modules
+	this->assetsManager = nullptr;
 	this->entityManager = nullptr;
 	this->guiManager = nullptr;
 	this->win = nullptr;
@@ -941,7 +942,7 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 			this->guiManager->controls.At(7)->data->state = GuiControlState::DISABLED;
 
 			audio->StopMusic();
-			audio->PlayMusic("Assets/Audio/Music/menu_settings.ogg");
+			audio->PlayMusic("Audio/Music/menu_settings.ogg");
 		}
 		else if (control->id == 5)
 		{
@@ -1089,7 +1090,7 @@ void SceneGameplay::SetUpTp()
 
 			RELEASE_ARRAY(data);
 			audio->StopMusic();
-			audio->PlayMusic("Assets/Audio/Music/cemetery.ogg");
+			audio->PlayMusic("Audio/Music/cemetery.ogg");
 		}
 		break;
 	case MapType::HOUSE:
@@ -1102,7 +1103,7 @@ void SceneGameplay::SetUpTp()
 
 			RELEASE_ARRAY(data);
 			audio->StopMusic();
-			audio->PlayMusic("Assets/Audio/Music/house.ogg");
+			audio->PlayMusic("Audio/Music/house.ogg");
 		}
 		break;
 	case MapType::MEDIUM_CITY:
@@ -1115,7 +1116,7 @@ void SceneGameplay::SetUpTp()
 
 			RELEASE_ARRAY(data);
 			audio->StopMusic();
-			audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
+			audio->PlayMusic("Audio/Music/city_background.ogg");
 		}
 		break;
 	case MapType::RESTAURANT:
@@ -1128,7 +1129,7 @@ void SceneGameplay::SetUpTp()
 
 			RELEASE_ARRAY(data);
 			audio->StopMusic();
-			audio->PlayMusic("Assets/Audio/Music/restaurant.ogg");
+			audio->PlayMusic("Audio/Music/restaurant.ogg");
 		}
 		break;
 	case MapType::TOWN:
@@ -1141,7 +1142,7 @@ void SceneGameplay::SetUpTp()
 
 			RELEASE_ARRAY(data);
 			audio->StopMusic();
-			audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
+			audio->PlayMusic("Audio/Music/city_background.ogg");
 		}
 		break;
 	case MapType::BIG_CITY:
@@ -1154,7 +1155,7 @@ void SceneGameplay::SetUpTp()
 
 			RELEASE_ARRAY(data);
 			audio->StopMusic();
-			audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
+			audio->PlayMusic("Audio/Music/city_background.ogg");
 		}
 		break;
 	case MapType::SKYSCRAPER:
@@ -1166,7 +1167,7 @@ void SceneGameplay::SetUpTp()
 			//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
 			RELEASE_ARRAY(data);
 			audio->StopMusic();
-			audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
+			audio->PlayMusic("Audio/Music/city_background.ogg");
 		}
 		break;
 	case MapType::SECRET_ROOM:
@@ -1179,7 +1180,7 @@ void SceneGameplay::SetUpTp()
 
 			RELEASE_ARRAY(data);
 			audio->StopMusic();
-			audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
+			audio->PlayMusic("Audio/Music/city_background.ogg");
 		}
 	default:
 		break;
@@ -1513,28 +1514,28 @@ void SceneGameplay::PlayMapMusic()
 	switch (currentMap)
 	{
 	case MapType::CEMETERY:
-		audio->PlayMusic("Assets/Audio/Music/cemetery.ogg");
+		audio->PlayMusic("Audio/Music/cemetery.ogg");
 		break;
 	case MapType::HOUSE:
-		audio->PlayMusic("Assets/Audio/Music/house.ogg");
+		audio->PlayMusic("Audio/Music/house.ogg");
 		break;
 	case MapType::MEDIUM_CITY:
-		audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
+		audio->PlayMusic("Audio/Music/city_background.ogg");
 		break;
 	case MapType::RESTAURANT:
-		audio->PlayMusic("Assets/Audio/Music/restaurant.ogg");
+		audio->PlayMusic("Audio/Music/restaurant.ogg");
 		break;
 	case MapType::TOWN:
-		audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
+		audio->PlayMusic("Audio/Music/city_background.ogg");
 		break;
 	case MapType::BIG_CITY:
-		audio->PlayMusic("Assets/Audio/Music/city_background.ogg");
+		audio->PlayMusic("Audio/Music/city_background.ogg");
 		break;
 	case MapType::SKYSCRAPER:
-		audio->PlayMusic("Assets/Audio/Music/cemetry.ogg");
+		audio->PlayMusic("Audio/Music/cemetry.ogg");
 		break;
 	case MapType::SECRET_ROOM:
-		audio->PlayMusic("Assets/Audio/Music/restaurant.ogg");
+		audio->PlayMusic("Audio/Music/restaurant.ogg");
 		break;
 	default:
 		break;

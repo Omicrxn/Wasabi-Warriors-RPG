@@ -1,6 +1,7 @@
 #include "SceneEnding.h"
 
 #include "Render.h"
+#include "AssetsManager.h"
 #include "Font.h"
 
 #include "SDL/include/SDL.h"
@@ -26,6 +27,7 @@ SceneEnding::SceneEnding(bool isVictory)
     textFont = nullptr;
 
     // The pointers
+    assetsManager = nullptr;
     guiManager = nullptr;
     win = nullptr;
     easing = nullptr;
@@ -45,29 +47,30 @@ SceneEnding::~SceneEnding()
 {
 }
 
-bool SceneEnding::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, Easing* easing)
+bool SceneEnding::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, Easing* easing, AssetsManager* assetsManager)
 {
     audio->StopMusic();
     if (isVictory)
-        audio->PlayMusic("Assets/Audio/Music/victory.ogg");
+        audio->PlayMusic("Audio/Music/victory.ogg");
     else
-        audio->PlayMusic("Assets/Audio/Music/defeat.ogg");
+        audio->PlayMusic("Audio/Music/defeat.ogg");
 
+    this->assetsManager = assetsManager;
     this->guiManager = guiManager;
     this->win = win;
     this->easing = easing;
     this->audio = audio;
 
     // Load font
-    textFont = new Font("Assets/Fonts/poppins.xml", tex);
-    buttonFont = new Font("Assets/Fonts/showg.xml", tex);
+    textFont = new Font("Fonts/poppins.xml", tex, assetsManager);
+    buttonFont = new Font("Fonts/SHOWG.xml", tex, assetsManager);
 
     uint width, height;
     win->GetWindowSize(width, height);
 
-    guiAtlasTex = tex->Load("Assets/Textures/UI/ui_spritesheet.png");
-    hoverFx = audio->LoadFx("Assets/Audio/Fx/bong.ogg");
-    clickFx = audio->LoadFx("Assets/Audio/Fx/click.ogg");
+    guiAtlasTex = tex->Load("Textures/UI/ui_spritesheet.png");
+    hoverFx = audio->LoadFx("Audio/Fx/bong.ogg");
+    clickFx = audio->LoadFx("Audio/Fx/click.ogg");
 
     iconReturnTitle = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, 1, { 2000, 570, 70, 55 });
     iconReturnTitle->SetIconProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, CONTROLLER_BUTTON_B, IconType::ICON_RETURN);

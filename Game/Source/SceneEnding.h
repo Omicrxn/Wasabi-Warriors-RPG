@@ -17,7 +17,7 @@ public:
     SceneEnding(bool isVictory = false);
     virtual ~SceneEnding();
 
-    bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, Easing* easing);
+    bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, Easing* easing, AssetsManager* assetsManager);
 
     bool Update(Input* input, float dt);
 
@@ -32,6 +32,7 @@ private:
     bool isVictory = false;
 
     // Needed modules
+    AssetsManager* assetsManager;
     GuiManager* guiManager;
     Window* win;
     Easing* easing;

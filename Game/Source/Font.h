@@ -12,7 +12,7 @@ class Font
 {
 public:
 
-    Font(const char* rtpFontFile, Textures* tex/*, AssetsManager* assetsManager*/);
+    Font(const char* rtpFontFile, Textures* tex, AssetsManager* assetsManager);
 
     ~Font();
 

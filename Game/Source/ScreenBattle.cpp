@@ -75,11 +75,11 @@ bool ScreenBattle::Load(int minIndex, int maxIndex, Scene* currentScene, BattleS
 	// Load battle system textures
 	this->charactersSpritesheet = charactersSpritesheet;
 	this->guiAtlasTex = guiAtlasTex;
-	backgroundTex = tex->Load("Assets/Textures/Scenes/battle_screen.jpg");
-	aura = tex->Load("Assets/Textures/Scenes/aura.png");
-	cast1 = tex->Load("Assets/Textures/Effects/cast_001.png");
-	enemyCast = tex->Load("Assets/Textures/Effects/cast_008.png");
-	indicator = tex->Load("Assets/Textures/Effects/fire_003.png");
+	backgroundTex = tex->Load("Textures/Scenes/battle_scene.jpg");
+	aura = tex->Load("Textures/Scenes/aura.png");
+	cast1 = tex->Load("Textures/Effects/cast_001.png");
+	enemyCast = tex->Load("Textures/Effects/cast_008.png");
+	indicator = tex->Load("Textures/Effects/fire_003.png");
 
 	// Set battle animations
 	// Aura
@@ -226,7 +226,7 @@ bool ScreenBattle::Update(Input* input, float dt, uint& focusedButtonId)
 			{
 				battleSystem->currentMusic = BattleMusic::NONE;
 				audio->StopMusic();
-				audio->PlayMusic("Assets/Audio/Music/victory.ogg");
+				audio->PlayMusic("Audio/Music/victory.ogg");
 			}
 		}
 		else if (battleSystem->battleState == BattleState::LOST)
@@ -235,7 +235,7 @@ bool ScreenBattle::Update(Input* input, float dt, uint& focusedButtonId)
 			{
 				battleSystem->currentMusic = BattleMusic::NONE;
 				audio->StopMusic();
-				audio->PlayMusic("Assets/Audio/Music/defeat.ogg");
+				audio->PlayMusic("Audio/Music/defeat.ogg");
 			}
 		}
 		else if (battleSystem->battleState == BattleState::EXIT)

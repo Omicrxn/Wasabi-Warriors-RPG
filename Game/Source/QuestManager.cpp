@@ -35,18 +35,17 @@ QuestManager::~QuestManager()
 
 bool QuestManager::Start()
 {
-	font = new Font("Assets/Fonts/poppins.xml", tex);
+	font = new Font("Fonts/poppins.xml", tex, assetsManager);
 
 	// ToDo 2: Load the xml file, parse the result, and make a node pointing to quests parent
 	///////////////////////////////////////////////////////////////////////////
 	pugi::xml_node questNode;
 	pugi::xml_document questData;
 
-	pugi::xml_parse_result parseResult = questData.load_file("Assets/Quests/quests.xml");
-	//char* buffer = nullptr;
-	//size_t size = assetsManager->LoadXML("Quests/quests.xml", &buffer);
-	//pugi::xml_parse_result parseResult = questData.load_buffer(buffer, size);
-	//RELEASE_ARRAY(buffer);
+	char* buffer = nullptr;
+	size_t size = assetsManager->LoadXML("Quests/quests.xml", &buffer);
+	pugi::xml_parse_result parseResult = questData.load_buffer(buffer, size);
+	RELEASE_ARRAY(buffer);
 
 	if (parseResult == NULL)
 		LOG("Could not load xml file <quests.xml> pugi error: %s", parseResult.description());

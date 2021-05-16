@@ -2,6 +2,7 @@
 
 #include "Input.h"
 #include "Render.h"
+#include "AssetsManager.h"
 #include "Textures.h"
 #include "GuiManager.h"
 #include "Window.h"
@@ -31,6 +32,7 @@ SceneTitle::SceneTitle()
     this->name = "scenetitle";
 
     // The pointers
+    assetsManager = nullptr;
     guiManager = nullptr;
     win = nullptr;
     easing = nullptr;
@@ -75,10 +77,11 @@ SceneTitle::~SceneTitle()
 {
 }
 
-bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, Easing* easing, Render* render, Transitions* transitions)
+bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, Easing* easing, Render* render, Transitions* transitions, AssetsManager* assetsManager)
 {
     LOG("Loading Scene Title");
 
+    this->assetsManager = assetsManager;
     this->guiManager = guiManager;
     this->win = win;
     this->render = render;
@@ -89,18 +92,18 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
     uint width, height;
     win->GetWindowSize(width, height);
 
-    backgroundTex = tex->Load("Assets/Textures/Scenes/main_menu.png");
+    backgroundTex = tex->Load("Textures/Scenes/main_menu.png");
 
-    guiAtlasTex = tex->Load("Assets/Textures/UI/ui_spritesheet.png");
-    titlesTex = tex->Load("Assets/Textures/Scenes/titles.png");
+    guiAtlasTex = tex->Load("Textures/UI/ui_spritesheet.png");
+    titlesTex = tex->Load("Textures/Scenes/titles.png");
 
-    titleFont = new Font("Assets/Fonts/shojumaru.xml", tex);
-    buttonFont = new Font("Assets/Fonts/showg.xml", tex);
+    titleFont = new Font("Fonts/shojumaru.xml", tex, assetsManager);
+    buttonFont = new Font("Fonts/SHOWG.xml", tex, assetsManager);
 
-    hoverFx = audio->LoadFx("Assets/Audio/Fx/bong.ogg");
-    clickFx = audio->LoadFx("Assets/Audio/Fx/click.ogg");
-    titleFx = audio->LoadFx("Assets/Audio/Fx/title.ogg");
-    returnFx = audio->LoadFx("Assets/Audio/Fx/back.ogg");
+    hoverFx = audio->LoadFx("Audio/Fx/bong.ogg");
+    clickFx = audio->LoadFx("Audio/Fx/click.ogg");
+    titleFx = audio->LoadFx("Audio/Fx/title.ogg");
+    returnFx = audio->LoadFx("Audio/Fx/back.ogg");
 
     screenMainMenu = new ScreenMainMenu();
     screenMainMenu->Load(0, 4, this, win, guiManager, NULL, audio, easing, guiAtlasTex, titlesTex, buttonFont, hoverFx, clickFx);
@@ -125,7 +128,7 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
     screenCredits = new ScreenCredits();
     screenCredits->Load(0, 0, this, win, guiManager, NULL, audio, easing, guiAtlasTex, titlesTex, buttonFont, hoverFx, clickFx);
 
-    audio->PlayMusic("Assets/Audio/Music/menu.ogg", 0.5f);
+    audio->PlayMusic("Audio/Music/menu.ogg", 0.5f);
     ScreenMainMenu* tempTitle = (ScreenMainMenu*)screenMainMenu;
     tempTitle->titlePosition = { (int)width + tempTitle->mainTitlesRect.w * 2, (int)((float)height / 2) - (int)((float)height / 2.5f) };
 
@@ -287,6 +290,7 @@ bool SceneTitle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManag
     RELEASE(screenCredits);
     screenCredits = nullptr;
 
+    this->assetsManager = nullptr;
     this->guiManager = nullptr;
     this->win = nullptr;
     this->render = nullptr;
@@ -332,7 +336,7 @@ bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
             screenMainMenu->isActive = false;
 
             audio->StopMusic();
-            audio->PlayMusic("Assets/Audio/Music/menu_settings.ogg");
+            audio->PlayMusic("Audio/Music/menu_settings.ogg");
         }
         else if (control->id == 3)
         {
@@ -358,7 +362,7 @@ bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
                 screenMainMenu->isActive = true;
             }
             audio->StopMusic();
-            audio->PlayMusic("Assets/Audio/Music/menu.ogg");
+            audio->PlayMusic("Audio/Music/menu.ogg");
         }
         break;
     }

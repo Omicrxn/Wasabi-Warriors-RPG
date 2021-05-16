@@ -41,7 +41,11 @@ public:
     {
         return true;
     }
-    virtual bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, Easing* easing, Render* render, Transitions* transitions)
+    virtual bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, Easing* easing, AssetsManager* assetsManager)
+    {
+        return true;
+    }
+    virtual bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, Easing* easing, Render* render, Transitions* transitions, AssetsManager* assetsManager)
     {
         return true;
     }

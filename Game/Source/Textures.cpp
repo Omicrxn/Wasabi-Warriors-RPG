@@ -68,9 +68,8 @@ SDL_Texture* const Textures::Load(const char* path)
 {
 	SDL_Texture* texture = NULL;
 
-	SDL_Surface* surface = IMG_Load(path);
-	//SDL_RWops* rw = assetsManager->LoadAsset(path);
-	//SDL_Surface* surface = IMG_Load_RW(rw, 0);
+	SDL_RWops* rw = assetsManager->LoadAsset(path);
+	SDL_Surface* surface = IMG_Load_RW(rw, 0);
 
 	if(surface == NULL)
 	{
@@ -82,7 +81,7 @@ SDL_Texture* const Textures::Load(const char* path)
 		SDL_FreeSurface(surface);
 	}
 
-	//SDL_RWclose(rw);
+	SDL_RWclose(rw);
 
 	return texture;
 }

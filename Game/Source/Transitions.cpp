@@ -39,7 +39,7 @@ bool Transitions::Start()
 	curtainTransRect2 = { (int)win->GetWidth(), 0, (int)win->GetWidth() / 2,720 };
 
 	// Load textures
-	wipe = tex->Load("Assets/Textures/Scenes/wipe.png");
+	wipe = tex->Load("Textures/Scenes/wipe.png");
 
 	return true;
 }

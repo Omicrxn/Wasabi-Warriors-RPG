@@ -72,11 +72,15 @@ bool SceneManager::Start()
 	}
 	else if (current->type == SceneType::TITLE)
 	{
-		current->Load(tex, win, audio, guiManager, easing, render, transitions);
+		current->Load(tex, win, audio, guiManager, easing, render, transitions, assetsManager);
+	}
+	else if (current->type == SceneType::LOGO)
+	{
+		current->Load(tex, win, audio, guiManager, easing);
 	}
 	else
 	{
-		current->Load(tex, win, audio, guiManager, easing);
+		current->Load(tex, win, audio, guiManager, easing, assetsManager);
 	}
 
 	next = nullptr;
@@ -116,11 +120,11 @@ bool SceneManager::Update(float dt)
 				}
 				else if (next->type == SceneType::TITLE)
 				{
-					next->Load(tex, win, audio, guiManager, easing, render, transitions);
+					next->Load(tex, win, audio, guiManager, easing, render, transitions, assetsManager);
 				}
 				else
 				{
-					next->Load(tex, win, audio, guiManager, easing); // Load next screen
+					next->Load(tex, win, audio, guiManager, easing, assetsManager); // Load next screen
 				}
 
 				RELEASE(current); // Free current pointer

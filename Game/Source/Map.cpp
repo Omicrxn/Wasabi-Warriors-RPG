@@ -9,7 +9,7 @@ Map::Map(Textures* texture, AssetsManager* assetsManager) : Entity(EntityType::M
 {
 	mapLoaded = false;
 
-	folder.Create("Assets/Maps/");
+	folder.Create("Maps/");
 
 	name = "Map";
 
@@ -254,15 +254,14 @@ bool Map::Load(const char* subfolder,const char* filename)
 {
 	CleanUp();
     bool ret = true;
-	folder = "Assets/Maps/";
+	folder = "Maps/";
 	folder += subfolder;
     SString tmp("%s/%s",folder.GetString(),filename);
 
-    pugi::xml_parse_result result = mapFile.load_file(tmp.GetString());
-	//char* buffer = nullptr;
-	//size_t size = assetsManager->LoadXML(tmp.GetString(), &buffer);
-	//pugi::xml_parse_result result = mapFile.load_buffer(buffer, size);
-	//RELEASE_ARRAY(buffer);
+	char* buffer = nullptr;
+	size_t size = assetsManager->LoadXML(tmp.GetString(), &buffer);
+	pugi::xml_parse_result result = mapFile.load_buffer(buffer, size);
+	RELEASE_ARRAY(buffer);
 
     if(result == NULL)
     {

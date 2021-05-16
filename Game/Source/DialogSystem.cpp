@@ -39,18 +39,18 @@ bool DialogSystem::Awake(pugi::xml_node& config)
 bool DialogSystem::Start()
 {
 	// Random dialogs
-	LoadDialog("Assets/Dialog/1.xml");
-	LoadDialog("Assets/Dialog/2.xml");
-	LoadDialog("Assets/Dialog/3.xml");
-	LoadDialog("Assets/Dialog/4.xml");
-	LoadDialog("Assets/Dialog/5.xml");
+	LoadDialog("Dialog/1.xml");
+	LoadDialog("Dialog/2.xml");
+	LoadDialog("Dialog/3.xml");
+	LoadDialog("Dialog/4.xml");
+	LoadDialog("Dialog/5.xml");
 
 	// Defined dialogs
-	LoadDialog("Assets/Dialog/7.xml");
-	LoadDialog("Assets/Dialog/8.xml");
+	LoadDialog("Dialog/7.xml");
+	LoadDialog("Dialog/8.xml");
 
 	// Needed textures
-	dialogBackground = tex->Load("Assets/Textures/Dialog/dialog_background.png");
+	dialogBackground = tex->Load("Textures/Dialog/dialog_background.png");
 	backgroundRect = { 0,0,1240,220 };
 
 	// Register a callback function with the name say_hello. This is just an example.
@@ -207,11 +207,10 @@ bool DialogSystem::LoadDialog(const char* filename)
 	std::string path = folder + filename;
 
 	// Load the file.
-	pugi::xml_parse_result result = dialogFile.load_file(path.c_str());
-	//char* buffer = nullptr;
-	//size_t size = assetsManager->LoadXML(path.c_str(), &buffer);
-	//pugi::xml_parse_result result = dialogFile.load_buffer(buffer, size);
-	//RELEASE_ARRAY(buffer);
+	char* buffer = nullptr;
+	size_t size = assetsManager->LoadXML(path.c_str(), &buffer);
+	pugi::xml_parse_result result = dialogFile.load_buffer(buffer, size);
+	RELEASE_ARRAY(buffer);
 
 	if (result == NULL) {
 		LOG("Could not load map xml file %s. pugi error: %s", filename, result.description());

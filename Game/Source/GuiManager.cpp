@@ -75,7 +75,7 @@ bool GuiManager::Start()
 	if (guiAtlasTex != nullptr)
 		tex->UnLoad(guiAtlasTex);
 
-	guiAtlasTex = tex->Load("Assets/Textures/UI/ui_spritesheet.png");
+	guiAtlasTex = tex->Load("Textures/UI/ui_spritesheet.png");
 	mouseRect[0] = { 30,482,30,30 };
 	mouseRect[1] = { 60,482,30,30 };
 	return true;

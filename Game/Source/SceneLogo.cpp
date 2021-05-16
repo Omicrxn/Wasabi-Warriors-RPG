@@ -45,9 +45,9 @@ bool SceneLogo::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager
     this->audio = audio;
     this->easing = easing;
 
-    logoTex = tex->Load("Assets/Textures/Scenes/logo_logo.png");
-    backgroundTex = tex->Load("Assets/Textures/Scenes/logo_background.png");
-    logoFx = audio->LoadFx("Assets/Audio/Fx/logo.wav");
+    logoTex = tex->Load("Textures/Scenes/logo_logo.png");
+    backgroundTex = tex->Load("Textures/Scenes/logo_background.png");
+    logoFx = audio->LoadFx("Audio/Fx/logo.wav");
 
     logoFxTimer.Start();
     win->GetWindowSize(width, height);

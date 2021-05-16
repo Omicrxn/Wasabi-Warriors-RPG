@@ -16,6 +16,7 @@
 AudioManager::AudioManager(AssetsManager* assetsManager) : Module()
 {
 	music = NULL;
+
 	name.Create("audio");
 
 	this->assetsManager = assetsManager;
@@ -149,9 +150,8 @@ bool AudioManager::PlayMusic(const char* path, float fadeTime)
 
 	}
 
-	music = Mix_LoadMUS(path);
-	//SDL_RWops* rw = assetsManager->LoadAsset(path);
-	//music = Mix_LoadMUS_RW(rw, 0);
+	SDL_RWops* rw = assetsManager->LoadAsset(path);
+	music = Mix_LoadMUS_RW(rw, 0);
 
 	if(music == NULL)
 	{
@@ -192,9 +192,8 @@ unsigned int AudioManager::LoadFx(const char* path)
 	if(!active)
 		return 0;
 
-	Mix_Chunk* chunk = Mix_LoadWAV(path);
-	//SDL_RWops* rw = assetsManager->LoadAsset(path);
-	//Mix_Chunk* chunk = Mix_LoadWAV_RW(rw, 0);
+	SDL_RWops* rw = assetsManager->LoadAsset(path);
+	Mix_Chunk* chunk = Mix_LoadWAV_RW(rw, 0);
 
 	if(chunk == NULL)
 	{
@@ -206,7 +205,7 @@ unsigned int AudioManager::LoadFx(const char* path)
 		ret = fx.Count();
 	}
 
-	//SDL_RWclose(rw);
+	SDL_RWclose(rw);
 
 	return ret;
 }
@@ -274,7 +273,9 @@ bool AudioManager::StopMusic()
 {
 	Mix_FreeMusic(music);
 	music = nullptr;
+
 	Mix_HaltMusic();
+
 	return true;
 }
 

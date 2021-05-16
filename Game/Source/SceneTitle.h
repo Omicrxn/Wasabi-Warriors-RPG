@@ -34,7 +34,7 @@ public:
     SceneTitle();
     virtual ~SceneTitle();
 
-    bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, Easing* easing, Render* render, Transitions* transitions);
+    bool Load(Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, Easing* easing, Render* render, Transitions* transitions, AssetsManager* assetsManager);
 
     bool Update(Input* input, float dt);
 
@@ -52,6 +52,7 @@ public:
 private:
 
     // Needed modules
+    AssetsManager* assetsManager;
     GuiManager* guiManager;
     Window* win;
     Render* render;
