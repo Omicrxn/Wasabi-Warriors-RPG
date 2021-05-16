@@ -6,6 +6,67 @@
 	<audio musicVolume="32" fxVolume="128" />
 	<scene />
 	<renderer>
-		<camera x="26" y="148" />
+		<camera x="512" y="1048" />
 	</renderer>
+	<collisions collisionsCount="10" />
+	<entitymanager />
+	<scenemanager>
+		<scenegameplay lastMap="4">
+			<gameProgress xp="0" gold="0" hasSpoken="false" numKilledOfficers="0" hasKilledOfficers="false" hasActivated="false" />
+			<map currentMap="0" hasVisitedCemetery="true" hasVisitedHouse="false" hasVisitedMediumCity="false" hasVisitedRestaurant="false" hasVisitedTown="true" hasVisitedBigCity="false" hasVisitedSkyScraper="false" hasVisitedSecretRoom="false">
+				<town>
+					<entitiesCount Num="11" />
+					<playerList playerCount="2">
+						<player id="4294967295" spritePos="3" name="B. Willies" posX="640" posY="55" isActive="true" isRenderable="false" entitySubType="0" level="1" damage="120" maxHP="120" currentHP="100" strength="10" defense="15" attackSpeed="5" criticalRate="10" statsName="B. Willies" />
+						<player id="1752440946" spritePos="6" name="B. Dickinson" posX="640" posY="55" isActive="false" isRenderable="false" entitySubType="1" level="1" damage="115" maxHP="150" currentHP="120" strength="7" defense="10" attackSpeed="15" criticalRate="15" statsName="B. Dickinson" />
+					</playerList>
+					<enemyList enemyCount="0" />
+					<npcList npcCount="0" />
+					<teleportList teleportCount="2">
+						<teleport id="0" spritePos="0" nameTeleport="" name="" destination="0" posX="640" posY="32" isActive="true" isRenderable="false" />
+						<teleport id="0" spritePos="0" nameTeleport="" name="" destination="2" posX="1440" posY="288" isActive="true" isRenderable="false" />
+					</teleportList>
+					<itemList itemCount="6">
+						<item id="0" spritePos="0" entitySubType="5" name="potion" posX="900" posY="1050" isActive="true" isRenderable="false" />
+						<item id="0" spritePos="0" entitySubType="6" name="bigPotion" posX="1200" posY="1050" isActive="true" isRenderable="false" />
+						<item id="0" spritePos="0" entitySubType="7" name="megaPotion" posX="1500" posY="1050" isActive="true" isRenderable="false" />
+						<item id="0" spritePos="0" entitySubType="8" name="wasabi" posX="1800" posY="1050" isActive="true" isRenderable="false" />
+						<item id="0" spritePos="0" entitySubType="9" name="pan" posX="2100" posY="1050" isActive="true" isRenderable="false" />
+						<item id="0" spritePos="0" entitySubType="10" name="fork" posX="2400" posY="1050" isActive="true" isRenderable="false" />
+					</itemList>
+					<activatorList activatorCount="0" leverCount="0" />
+					<leverList />
+				</town>
+				<cemetery>
+					<entitiesCount Num="11" />
+					<playerList playerCount="2">
+						<player id="4294967295" spritePos="3" name="B. Willies" posX="384" posY="456" isActive="true" isRenderable="false" entitySubType="0" level="1" damage="120" maxHP="120" currentHP="100" strength="10" defense="15" attackSpeed="5" criticalRate="10" statsName="B. Willies" />
+						<player id="1752440946" spritePos="6" name="B. Dickinson" posX="384" posY="456" isActive="false" isRenderable="false" entitySubType="1" level="1" damage="115" maxHP="150" currentHP="120" strength="7" defense="10" attackSpeed="15" criticalRate="15" statsName="B. Dickinson" />
+					</playerList>
+					<enemyList enemyCount="1">
+						<enemy id="0" spritePos="9" name="Boss" posX="224" posY="192" isActive="true" isRenderable="false" entitySubType="4" level="1" damage="8" maxHP="150" currentHP="120" strength="5" defense="15" attackSpeed="3" criticalRate="8" statsName="Boss" />
+					</enemyList>
+					<npcList npcCount="3">
+						<npc id="0" spritePos="2" stop="false" name="" posX="640" posY="301" isActive="true" isRenderable="false" />
+						<npc id="0" spritePos="4" stop="false" name="" posX="640" posY="301" isActive="true" isRenderable="false" />
+						<npc id="0" spritePos="6" stop="false" name="" posX="214" posY="256" isActive="true" isRenderable="false" />
+					</npcList>
+					<teleportList teleportCount="1">
+						<teleport id="0" spritePos="0" nameTeleport="" name="" destination="4" posX="384" posY="480" isActive="true" isRenderable="false" />
+					</teleportList>
+					<itemList itemCount="3">
+						<item id="0" spritePos="0" entitySubType="8" name="wasabi" posX="1248" posY="672" isActive="true" isRenderable="false" />
+						<item id="0" spritePos="0" entitySubType="9" name="pan" posX="1248" posY="1260" isActive="true" isRenderable="false" />
+						<item id="0" spritePos="0" entitySubType="10" name="fork" posX="2592" posY="384" isActive="true" isRenderable="false" />
+					</itemList>
+					<activatorList activatorCount="0" leverCount="0" />
+					<leverList />
+				</cemetery>
+			</map>
+		</scenegameplay>
+	</scenemanager>
+	<screen>
+		<screensettings sliderVolume="539" sliderAudio="539" fullScreen="false" vsync="false" />
+		<screeninventory inventoryCount="0" />
+	</screen>
 </game_state>
