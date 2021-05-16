@@ -91,6 +91,7 @@ public:
 	SDL_Texture* itemsTexture = nullptr;
 	SDL_Texture* secretWallTexture = nullptr;
 	SDL_Texture* entitiesTexture = nullptr;
+	SDL_Texture* leversTexture = nullptr;
 
 	float accumulatedTime = 0.0f;
 	float updateMsCycle = 0.0f;

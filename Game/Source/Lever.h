@@ -6,6 +6,7 @@
 
 class Input;
 class SecretWall;
+
 class Lever : public Interactive
 {
 public:
@@ -20,6 +21,7 @@ public:
 	void SetNumber(uint number);
 	uint GetNumber();
 	void Reset();
+
 private:
 
 	void Interact();
@@ -28,10 +30,12 @@ private:
 
 private:
 
-	
 	SecretWall* secretWall;
 	uint number = 0;
 	Input* input = nullptr;
+	Animation leverAnim;
+
 public:
+
 	SDL_Rect rect;
 };

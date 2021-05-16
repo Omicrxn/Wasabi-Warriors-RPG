@@ -62,6 +62,8 @@ bool EntityManager::Start()
 		entitiesTexture = tex->Load("Assets/Textures/Characters/characters_spritesheet.png");
 	if (secretWallTexture == nullptr)
 		secretWallTexture = tex->Load("Assets/Textures/secret_wall_texture.png");
+	if (leversTexture == nullptr)
+		secretWallTexture = tex->Load("Assets/Textures/Effects/magic_008.png");
 
 	consumeFx = audio->LoadFx("Assets/Audio/Fx/consume.ogg");
 	pickUpFx = audio->LoadFx("Assets/Audio/Fx/pickup.ogg");

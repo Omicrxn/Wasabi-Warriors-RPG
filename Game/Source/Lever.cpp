@@ -1,21 +1,39 @@
 #include "Lever.h"
 #include "SecretWall.h"
 #include "Input.h"
+
 Lever::Lever(SString name, Collisions* collisions, Input* input, Textures* tex, EntityManager* entityManager, EntityType type, iPoint position)
 {
+	this->name = name;
+	this->tex = tex;
+	this->entityManager = entityManager;
+	this->type = type;
+	this->subtype = subtype;
+	this->position = position;
+	this->secretWall = secretWall;
+	this->number = number;
+	this->input = input;
+	width = 32;
+	height = 32;
+	collider = collisions->AddCollider({ position.x,position.y , width, height }, Collider::Type::LEVER, (Module*)entityManager);
 
-		this->name = name;
-		this->tex = tex;
-		this->entityManager = entityManager;
-		this->type = type;
-		this->subtype = subtype;
-		this->position = position;
-		this->secretWall = secretWall;
-		this->number = number;
-		this->input = input;
-		width = 32;
-		height = 32;
-		collider = collisions->AddCollider({ position.x,position.y , width, height }, Collider::Type::LEVER, (Module*)entityManager);
+	// Lever animation
+	for (int j = 0; j < 3; j++)
+	{
+		for (int i = 0; i < 5; i++)
+		{
+			leverAnim.PushBack({ i * 192, j * 192, 192, 192 });
+		}
+	}
+	for (int j = 2; j >= 0; j--)
+	{
+		for (int i = 4; i >= 0; i--)
+		{
+			leverAnim.PushBack({ i * 192, j * 192, 192, 192 });
+		}
+	}
+	leverAnim.speed = 1.0f;
+	leverAnim.loop = true;
 }
 
 Lever::~Lever()
@@ -33,7 +51,9 @@ bool Lever::Update(float dt)
 
 bool Lever::Draw(Render* render)
 {
-	render->DrawTexture(entityManager->itemsTexture, position.x, position.y, &rect);
+	if(!hasInteracted)
+		render->DrawTexture(entityManager->leversTexture, position.x, position.y, &leverAnim.GetCurrentFrame());
+
 	return true;
 }
 
@@ -67,13 +87,10 @@ void Lever::OnCollision(Collider* collider)
 {
 	if (!hasInteracted)
 	{
-	if (input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
-	{
-		
+		if (input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
+		{
 			Interact();
-		
-
-	}
+		}
 	}
 	
 }
