@@ -7,7 +7,7 @@ class SecretWall : public Interactive
 {
 public:
 
-	SecretWall(SString name, Textures* tex, EntityManager* entityManager, EntityType type, iPoint position);
+	SecretWall(SString name,Collisions* collisions, Textures* tex, EntityManager* entityManager, EntityType type, iPoint position);
 	~SecretWall();
 
 	bool Update(float dt);
@@ -30,5 +30,5 @@ private:
 	List<uint> sequence;
 public:
 	bool reset = false;
-
+	Input* input = nullptr;
 };

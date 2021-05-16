@@ -6,23 +6,37 @@
 	<audio musicVolume="32" fxVolume="128" />
 	<scene />
 	<renderer>
+<<<<<<< Updated upstream
 		<camera x="-103" y="964" />
+=======
+		<camera x="1646" y="631" />
+>>>>>>> Stashed changes
 	</renderer>
-	<collisions collisionsCount="10" />
+	<collisions collisionsCount="7" />
 	<entitymanager />
 	<scenemanager>
 		<scenegameplay lastMap="4">
 			<gameProgress xp="0" gold="0" hasSpoken="false" numKilledOfficers="0" hasKilledOfficers="false" hasActivated="false" />
+<<<<<<< Updated upstream
 			<map currentMap="3" hasVisitedCemetery="false" hasVisitedHouse="false" hasVisitedMediumCity="true" hasVisitedRestaurant="true" hasVisitedTown="true" hasVisitedBigCity="false" hasVisitedSkyScraper="false" hasVisitedSecretRoom="true">
 				<town>
 					<entitiesCount Num="11" />
 					<playerList playerCount="2">
 						<player id="1864368176" spritePos="3" name="B. Willies" posX="1422" posY="328" isActive="true" isRenderable="false" entitySubType="0" level="1" damage="120" maxHP="120" currentHP="100" strength="10" defense="15" attackSpeed="5" criticalRate="10" statsName="B. Willies" />
 						<player id="1752440946" spritePos="6" name="B. Dickinson" posX="1422" posY="328" isActive="false" isRenderable="false" entitySubType="1" level="1" damage="115" maxHP="150" currentHP="120" strength="7" defense="10" attackSpeed="15" criticalRate="15" statsName="B. Dickinson" />
+=======
+			<map currentMap="5" hasVisitedCemetery="false" hasVisitedHouse="false" hasVisitedMediumCity="false" hasVisitedRestaurant="false" hasVisitedTown="false" hasVisitedBigCity="true" hasVisitedSkyScraper="false" hasVisitedSecretRoom="false">
+				<bigCity>
+					<entitiesCount Num="8" />
+					<playerList playerCount="2">
+						<player id="1734963823" spritePos="3" name="B. Willies" posX="762" posY="317" isActive="true" isRenderable="false" entitySubType="0" level="1" damage="120" maxHP="120" currentHP="100" strength="10" defense="15" attackSpeed="5" criticalRate="10" statsName="B. Willies" />
+						<player id="1752440946" spritePos="6" name="B. Dickinson" posX="762" posY="317" isActive="false" isRenderable="false" entitySubType="1" level="1" damage="115" maxHP="150" currentHP="120" strength="7" defense="10" attackSpeed="15" criticalRate="15" statsName="B. Dickinson" />
+>>>>>>> Stashed changes
 					</playerList>
 					<enemyList enemyCount="0" />
 					<npcList npcCount="0" />
 					<teleportList teleportCount="2">
+<<<<<<< Updated upstream
 						<teleport id="0" spritePos="0" nameTeleport="" name="" destination="0" posX="640" posY="32" isActive="true" isRenderable="false" />
 						<teleport id="0" spritePos="0" nameTeleport="" name="" destination="2" posX="1440" posY="288" isActive="true" isRenderable="false" />
 					</teleportList>
@@ -102,14 +116,31 @@
 						<activator id="6422620" spritePos="6357079" entitySubType="-1" name="" posX="0" posY="0" isActive="true" isRenderable="false" drawState="0" />
 					</activatorList>
 				</secretRoom>
+=======
+						<teleport id="0" spritePos="0" nameTeleport="" name="" destination="6" posX="768" posY="288" isActive="true" isRenderable="false" />
+						<teleport id="0" spritePos="0" nameTeleport="" name="" destination="2" posX="736" posY="1152" isActive="true" isRenderable="false" />
+					</teleportList>
+					<itemList itemCount="3">
+						<item id="0" spritePos="0" entitySubType="5" name="potion" posX="2496" posY="1080" isActive="true" isRenderable="false" />
+						<item id="0" spritePos="0" entitySubType="6" name="bigPotion" posX="2016" posY="1248" isActive="true" isRenderable="false" />
+						<item id="0" spritePos="0" entitySubType="7" name="megaPotion" posX="2520" posY="1248" isActive="true" isRenderable="false" />
+					</itemList>
+					<activatorList activatorCount="0" leverCount="0" />
+					<leverList />
+				</bigCity>
+>>>>>>> Stashed changes
 			</map>
 		</scenegameplay>
 	</scenemanager>
 	<screen>
 		<screensettings sliderVolume="539" sliderAudio="539" fullScreen="false" vsync="false" />
+<<<<<<< Updated upstream
 		<screeninventory inventoryCount="2">
 			<invSlot entitySubType="10" count="1" />
 			<invSlot entitySubType="10" count="1" />
 		</screeninventory>
+=======
+		<screeninventory inventoryCount="0" />
+>>>>>>> Stashed changes
 	</screen>
 </game_state>

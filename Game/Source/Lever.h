@@ -3,12 +3,14 @@
 #include "Textures.h"
 #include "EntityManager.h"
 #include "Render.h"
+
+class Input;
 class SecretWall;
 class Lever : public Interactive
 {
 public:
 
-	Lever(SString name, Textures* tex, EntityManager* entityManager, EntityType type, iPoint position);
+	Lever(SString name,Collisions* collisions, Input* input, Textures* tex, EntityManager* entityManager, EntityType type, iPoint position);
 	~Lever();
 
 	bool Update(float dt);
@@ -16,6 +18,7 @@ public:
 	void SetName(SString name);
 	void SetSecretWall(SecretWall* secretWall);
 	void SetNumber(uint number);
+	uint GetNumber();
 	void Reset();
 private:
 
@@ -25,7 +28,10 @@ private:
 
 private:
 
-	SDL_Rect rect;
+	
 	SecretWall* secretWall;
 	uint number = 0;
+	Input* input = nullptr;
+public:
+	SDL_Rect rect;
 };

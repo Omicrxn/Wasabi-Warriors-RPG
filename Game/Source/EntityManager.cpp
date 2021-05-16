@@ -96,6 +96,14 @@ bool EntityManager::CleanUp()
 		{
 			activatorList.Del(activatorList.At(activatorList.Find((Activator*)entityList.At(i)->data)));
 		}
+		else if (entityList.At(i)->data->type == EntityType::SECRET_WALL)
+		{
+			//secretWallList.Del(activatorList.At(activatorList.Find((Activator*)entityList.At(i)->data)));
+		}
+		else if (entityList.At(i)->data->type == EntityType::LEVER)
+		{
+			leverList.Del(leverList.At(leverList.Find((Lever*)leverList.At(i)->data)));
+		}
 
 		this->DestroyEntity(entityList.At(i)->data);
 	}
@@ -159,10 +167,10 @@ Entity* EntityManager::CreateEntity(EntityType type, SString name, EntitySubtype
 		activatorList.Add((Activator*)ret);
 		break;
 	case EntityType::SECRET_WALL:
-		ret = new SecretWall(name,tex, this, type, position);
+		ret = new SecretWall(name,collisions,tex, this, type, position);
 		break;
 	case EntityType::LEVER:
-		ret = new Lever(name, tex, this, type, position);
+		ret = new Lever(name,collisions, input,tex, this, type, position);
 		leverList.Add((Lever*)ret);
 		break;
 	default:
@@ -875,6 +883,10 @@ bool EntityManager::LoadStateInfo(pugi::xml_node& scenegameplay, MapType current
 		{
 			activatorList.Del(activatorList.At(activatorList.Find((Activator*)list1->data)));
 		}
+		else if (list1->data->type == EntityType::LEVER)
+		{
+			leverList.Del(leverList.At(leverList.Find((Lever*)list1->data)));
+		}
 	
 		// Delete all entities except the map
 		if (list1->data->type != EntityType::MAP)
@@ -889,6 +901,7 @@ bool EntityManager::LoadStateInfo(pugi::xml_node& scenegameplay, MapType current
 	teleportList.Clear();
 	itemList.Clear();
 	activatorList.Clear();
+	leverList.Clear();
 	
 	RELEASE(list1);
 	
@@ -1072,6 +1085,30 @@ bool EntityManager::LoadStateInfo(pugi::xml_node& scenegameplay, MapType current
 	
 		activator = nullptr;
 		activatorNode = activatorNode.next_sibling();
+	}
+
+
+	LOG("LOADING LEVERS");
+	/* ---------- EIGHT LOAD ACTIVATORS FROM THE SAVE FILE ----------*/
+	pugi::xml_node leverListNode;
+	leverListNode = mapNode.child("leverList");
+	int leverCount = leverListNode.attribute("leverCount").as_int();
+
+	pugi::xml_node leverNode = leverListNode.child("lever");
+	Lever* lever = nullptr;
+	for (int i = 0; i < leverCount; ++i)
+	{
+		LOG("LOADING lever NUMBER: %i", i);
+		EntitySubtype subtype = (EntitySubtype)leverNode.attribute("entitySubType").as_int();
+		iPoint pos = { leverNode.attribute("posX").as_int(), leverNode.attribute("posY").as_int() };
+		lever = (Lever*)CreateEntity(EntityType::ACTIVATOR, leverNode.attribute("name").as_string(), subtype, pos);
+
+		lever->id = leverNode.attribute("id").as_uint();
+		lever->spritePos = leverNode.attribute("spritePos").as_int();
+		lever->renderable = leverNode.attribute("renderable").as_bool();
+
+		lever = nullptr;
+		leverNode = leverNode.next_sibling();
 	}
 
 	return true;
@@ -1559,6 +1596,66 @@ bool EntityManager::SaveStateInfo(pugi::xml_node& scenegameplay, MapType current
 		newActivatorNode.append_attribute("isRenderable").set_value(list6->data->renderable);
 
 		newActivatorNode.append_attribute("drawState").set_value((int)list6->data->GetDrawState());
+	}
+
+	/* ---------- SEVENTH SAVE THE ACTIVATOR ----------*/
+	// Erase the Items in the XML
+	pugi::xml_node leverListNode;
+
+	tempName = mapNode.child("leverList").name();
+	if (tempName == "leverList")
+	{
+		// Node ItemsList exists
+		leverListNode = mapNode.child("leverList");
+	}
+	else
+	{
+		// Node ItemsList does not exist
+		leverListNode = mapNode.append_child("leverList");
+	}
+
+	for (int i = 0; i < leverListNode.attribute("leverCount").as_int(); ++i)
+	{
+		bool remove = leverListNode.remove_child("lever");
+		if (remove == false)
+			break;
+	}
+
+	/* ---------- CHECKS IF THE NODE WE WANT OVERWRITE EXISTS OR NOT  ----------*/
+	tempName = leverListNode.attribute("leverCount").name();
+	if (tempName == "leverCount")
+	{
+		// Node Items exists
+		activatorListNode.attribute("leverCount").set_value(leverList.Count());
+	}
+	else
+	{
+		// Node Items does not exist
+		activatorListNode.append_attribute("leverCount").set_value(leverList.Count());
+	}
+
+	// Add the Items in the XML
+	ListItem<Lever*>* list7;
+	for (list7 = leverList.start; list7 != NULL; list7 = list7->next)
+	{
+		// The load of items in the inventory will be done in the scenegameplay
+		// Creates a new node for the Items
+		pugi::xml_node newLeverNode = leverListNode;
+		newLeverNode = newLeverNode.append_child("lever");
+
+		// Fill in the info in order to save
+		newLeverNode.append_attribute("id").set_value(list7->data->id);
+		newLeverNode.append_attribute("spritePos").set_value(list7->data->spritePos);
+		newLeverNode.append_attribute("entitySubType").set_value((int)list7->data->subtype);
+		newLeverNode.append_attribute("name").set_value(list7->data->name.GetString());
+
+		newLeverNode.append_attribute("posX").set_value(list7->data->position.x);
+		newLeverNode.append_attribute("posY").set_value(list7->data->position.y);
+		newLeverNode.append_attribute("isActive").set_value(list7->data->IsActive());
+		newLeverNode.append_attribute("isRenderable").set_value(list7->data->renderable);
+		newLeverNode.append_attribute("number").set_value(list7->data->GetNumber());
+		newLeverNode.append_attribute("width").set_value(list7->data->rect.w);
+		newLeverNode.append_attribute("width").set_value(list7->data->rect.h);
 	}
 	return true;
 }

@@ -1,7 +1,7 @@
 #include "Lever.h"
 #include "SecretWall.h"
-
-Lever::Lever(SString name, Textures* tex, EntityManager* entityManager, EntityType type, iPoint position)
+#include "Input.h"
+Lever::Lever(SString name, Collisions* collisions, Input* input, Textures* tex, EntityManager* entityManager, EntityType type, iPoint position)
 {
 
 		this->name = name;
@@ -12,7 +12,10 @@ Lever::Lever(SString name, Textures* tex, EntityManager* entityManager, EntityTy
 		this->position = position;
 		this->secretWall = secretWall;
 		this->number = number;
-
+		this->input = input;
+		width = 32;
+		height = 32;
+		collider = collisions->AddCollider({ position.x,position.y , width, height }, Collider::Type::LEVER, (Module*)entityManager);
 }
 
 Lever::~Lever()
@@ -21,6 +24,10 @@ Lever::~Lever()
 
 bool Lever::Update(float dt)
 {
+	if (collider != nullptr)
+	{
+		collider->SetPos(position.x, position.y);
+	}
 	return true;
 }
 
@@ -45,16 +52,33 @@ void Lever::SetNumber(uint number)
 	this->number = number;
 }
 
+uint Lever::GetNumber()
+{
+	return uint();
+}
+
 void Lever::Interact()
 {
 	secretWall->SetLever(number);
+	hasInteracted = true;
 }
 
 void Lever::OnCollision(Collider* collider)
 {
-	Interact();
+	if (!hasInteracted)
+	{
+	if (input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
+	{
+		
+			Interact();
+		
+
+	}
+	}
+	
 }
 
 void Lever::Reset()
 {
+	hasInteracted = false;
 }

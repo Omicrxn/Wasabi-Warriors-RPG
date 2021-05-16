@@ -21,6 +21,8 @@ Collisions::Collisions(Input* input, Render* render) : Module()
 	matrix[Collider::Type::PLAYER][Collider::Type::SIGN] = false;
 	matrix[Collider::Type::PLAYER][Collider::Type::ITEM] = false;
 	matrix[Collider::Type::PLAYER][Collider::Type::ACTIVATOR] = false;
+	matrix[Collider::Type::PLAYER][Collider::Type::SECRET_WALL] = false;
+	matrix[Collider::Type::PLAYER][Collider::Type::LEVER] = false;
 
 	matrix[Collider::Type::ENEMY][Collider::Type::ENEMY] = false;
 	matrix[Collider::Type::ENEMY][Collider::Type::PLAYER] = true;
@@ -29,6 +31,8 @@ Collisions::Collisions(Input* input, Render* render) : Module()
 	matrix[Collider::Type::ENEMY][Collider::Type::SIGN] = false;
 	matrix[Collider::Type::ENEMY][Collider::Type::ITEM] = false;
 	matrix[Collider::Type::ENEMY][Collider::Type::ACTIVATOR] = false;
+	matrix[Collider::Type::ENEMY][Collider::Type::SECRET_WALL] = false;
+	matrix[Collider::Type::ENEMY][Collider::Type::LEVER] = false;
 
 	matrix[Collider::Type::NPC][Collider::Type::ENEMY] = false;
 	matrix[Collider::Type::NPC][Collider::Type::PLAYER] = true;
@@ -37,6 +41,8 @@ Collisions::Collisions(Input* input, Render* render) : Module()
 	matrix[Collider::Type::NPC][Collider::Type::SIGN] = false;
 	matrix[Collider::Type::NPC][Collider::Type::ITEM] = false;
 	matrix[Collider::Type::NPC][Collider::Type::ACTIVATOR] = false;
+	matrix[Collider::Type::ENEMY][Collider::Type::SECRET_WALL] = false;
+	matrix[Collider::Type::ENEMY][Collider::Type::LEVER] = false;
 
 	matrix[Collider::Type::TELEPORT][Collider::Type::ENEMY] = false;
 	matrix[Collider::Type::TELEPORT][Collider::Type::PLAYER] = true;
@@ -45,6 +51,8 @@ Collisions::Collisions(Input* input, Render* render) : Module()
 	matrix[Collider::Type::TELEPORT][Collider::Type::SIGN] = false;
 	matrix[Collider::Type::TELEPORT][Collider::Type::ITEM] = false;
 	matrix[Collider::Type::TELEPORT][Collider::Type::ACTIVATOR] = false;
+	matrix[Collider::Type::TELEPORT][Collider::Type::SECRET_WALL] = false;
+	matrix[Collider::Type::TELEPORT][Collider::Type::LEVER] = false;
 
 	matrix[Collider::Type::ITEM][Collider::Type::PLAYER] = true;
 	matrix[Collider::Type::ITEM][Collider::Type::NPC] = false;
@@ -53,6 +61,8 @@ Collisions::Collisions(Input* input, Render* render) : Module()
 	matrix[Collider::Type::ITEM][Collider::Type::SIGN] = false;
 	matrix[Collider::Type::ITEM][Collider::Type::ITEM] = false;
 	matrix[Collider::Type::ITEM][Collider::Type::ACTIVATOR] = false;
+	matrix[Collider::Type::ITEM][Collider::Type::SECRET_WALL] = false;
+	matrix[Collider::Type::ITEM][Collider::Type::LEVER] = false;
 
 	matrix[Collider::Type::SIGN][Collider::Type::ENEMY] = false;
 	matrix[Collider::Type::SIGN][Collider::Type::PLAYER] = true;
@@ -61,6 +71,8 @@ Collisions::Collisions(Input* input, Render* render) : Module()
 	matrix[Collider::Type::SIGN][Collider::Type::SIGN] = false;
 	matrix[Collider::Type::SIGN][Collider::Type::ITEM] = false;
 	matrix[Collider::Type::SIGN][Collider::Type::ACTIVATOR] = false;
+	matrix[Collider::Type::SIGN][Collider::Type::SECRET_WALL] = false;
+	matrix[Collider::Type::SIGN][Collider::Type::LEVER] = false;
 
 	matrix[Collider::Type::ACTIVATOR][Collider::Type::ACTIVATOR] = false;
 	matrix[Collider::Type::ACTIVATOR][Collider::Type::ENEMY] = false;
@@ -69,6 +81,28 @@ Collisions::Collisions(Input* input, Render* render) : Module()
 	matrix[Collider::Type::ACTIVATOR][Collider::Type::TELEPORT] = false;
 	matrix[Collider::Type::ACTIVATOR][Collider::Type::SIGN] = false;
 	matrix[Collider::Type::ACTIVATOR][Collider::Type::ITEM] = false;
+	matrix[Collider::Type::ACTIVATOR][Collider::Type::SECRET_WALL] = false;
+	matrix[Collider::Type::ACTIVATOR][Collider::Type::LEVER] = false;
+
+	matrix[Collider::Type::SECRET_WALL][Collider::Type::PLAYER] = false;
+	matrix[Collider::Type::SECRET_WALL][Collider::Type::NPC] = false;
+	matrix[Collider::Type::SECRET_WALL][Collider::Type::ENEMY] = false;
+	matrix[Collider::Type::SECRET_WALL][Collider::Type::TELEPORT] = false;
+	matrix[Collider::Type::SECRET_WALL][Collider::Type::SIGN] = false;
+	matrix[Collider::Type::SECRET_WALL][Collider::Type::ITEM] = false;
+	matrix[Collider::Type::SECRET_WALL][Collider::Type::ACTIVATOR] = false;
+	matrix[Collider::Type::SECRET_WALL][Collider::Type::SECRET_WALL] = false;
+	matrix[Collider::Type::SECRET_WALL][Collider::Type::LEVER] = false;
+
+	matrix[Collider::Type::LEVER][Collider::Type::PLAYER] = true;
+	matrix[Collider::Type::LEVER][Collider::Type::NPC] = false;
+	matrix[Collider::Type::LEVER][Collider::Type::ENEMY] = false;
+	matrix[Collider::Type::LEVER][Collider::Type::TELEPORT] = false;
+	matrix[Collider::Type::LEVER][Collider::Type::SIGN] = false;
+	matrix[Collider::Type::LEVER][Collider::Type::ITEM] = false;
+	matrix[Collider::Type::LEVER][Collider::Type::ACTIVATOR] = false;
+	matrix[Collider::Type::LEVER][Collider::Type::SECRET_WALL] = false;
+	matrix[Collider::Type::LEVER][Collider::Type::LEVER] = false;
 }
 
 Collisions::~Collisions() {}
@@ -177,6 +211,12 @@ void Collisions::DebugDraw()
 			break;
 		case Collider::Type::ACTIVATOR:
 			render->DrawRectangle(colliders[i]->rect, { 255, 127, 80, alpha });
+			break;
+		case Collider::Type::SECRET_WALL:
+			render->DrawRectangle(colliders[i]->rect, { 69, 237, 223, alpha });
+			break;
+		case Collider::Type::LEVER:
+			render->DrawRectangle(colliders[i]->rect, { 240, 208, 64, alpha });
 			break;
 		}
 		render->scale = 1;

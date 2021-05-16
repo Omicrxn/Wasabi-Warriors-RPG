@@ -24,6 +24,8 @@ struct Collider
 		SIGN,
 		ITEM,
 		ACTIVATOR,
+		SECRET_WALL,
+		LEVER,
 		MAX
 	};
 

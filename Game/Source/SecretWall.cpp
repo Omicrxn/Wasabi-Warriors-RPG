@@ -1,7 +1,7 @@
 #include "SecretWall.h"
 #include "Lever.h"
-
-SecretWall::SecretWall(SString name, Textures* tex, EntityManager* entityManager, EntityType type, iPoint position) : Interactive()
+#include "Collisions.h"
+SecretWall::SecretWall(SString name,Collisions* collisions, Textures* tex, EntityManager* entityManager, EntityType type, iPoint position) : Interactive()
 {
 	this->name = name;
 	this->tex = tex;
@@ -9,7 +9,11 @@ SecretWall::SecretWall(SString name, Textures* tex, EntityManager* entityManager
 	this->type = type;
 	this->subtype = subtype;
 	this->position = position;
-	
+	width = 32;
+	height = 96;
+	this->rect = { 0,0,width,height };
+	collider = collisions->AddCollider({ position.x,position.y , width, height }, Collider::Type::SECRET_WALL, (Module*)entityManager);
+
 }
 
 SecretWall::~SecretWall()
@@ -40,13 +44,13 @@ void SecretWall::SetLever(int leverNumber)
 		break;
 
 
-	case2:
+	case 2:
 
 		lever2 = true;
 		sequence.Add(leverNumber);
 
 		break;
-	case3:
+	case 3:
 
 		lever3 = true;
 		sequence.Add(leverNumber);
@@ -62,9 +66,13 @@ void SecretWall::OnCollision(Collider* collider)
 
 bool SecretWall::Update(float dt)
 {
+	if (collider != nullptr)
+	{
+		collider->SetPos(position.x, position.y);
+	}
 	if (lever1 == true && lever2 == true && lever3 == true)
 	{
-		if (sequence[0] == 2 && sequence[1] == 3 && sequence[2] == 1)
+		if (sequence.At(0)->data == 2 && sequence.At(1)->data == 3 && sequence.At(2)->data == 1)
 		{
 			this->destroy = true;
 		}
@@ -83,7 +91,8 @@ bool SecretWall::Update(float dt)
 		lever1 = false;
 		lever2 = false;
 		lever3 = false;
-		this->reset == false;
+		sequence.Clear();
+		reset = false;
 		
 	}
 

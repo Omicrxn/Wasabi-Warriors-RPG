@@ -25,6 +25,7 @@
 
 #include "Item.h"
 #include "Activator.h"
+#include "Lever.h"
 #include "Stats.h"
 
 SceneGameplay::SceneGameplay(bool hasStartedFromContinue)
@@ -271,7 +272,7 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 		player = nullptr;
 
 		// LOAD FROM MAP_XML
-		notifier->NotifyMapChange(MapType::TOWN);
+		notifier->NotifyMapChange(MapType::BIG_CITY);
 		SetUpTp();
 	}
 
@@ -1419,20 +1420,33 @@ void SceneGameplay::SetUpTp()
 				activatorNode = activatorNode.next_sibling("activator");
 			}
 
-			// LOAD Levers && Secret Wall
-			/*int activatorCount = mapNode.attribute("activatorCount").as_int();
+			//LOAD secretWall
+			int secretWallCount = mapNode.attribute("secretWallCount").as_int();
 
-			pugi::xml_node activatorNode = mapNode.child("activator");
-			Activator* activator = nullptr;
-			for (int i = 0; i < activatorCount; ++i)
+			pugi::xml_node secretWallNode = mapNode.child("secretwall");
+			SecretWall* secretWall = nullptr;
+
+			for (int i = 0; i < secretWallCount; ++i)
 			{
-				iPoint position = { activatorNode.attribute("posX").as_int(), activatorNode.attribute("posY").as_int() };
-				activator = (Activator*)entityManager->CreateEntity(EntityType::ACTIVATOR, activatorNode.attribute("name").as_string(), EntitySubtype::UNKNOWN, position);
-				if (activatorNode.attribute("drawState").as_int() != -1) activator->SetDrawState((DrawState)activatorNode.attribute("drawState").as_int());
-				activator = nullptr;
-				activatorNode = activatorNode.next_sibling("activator");
-			}*/
+				iPoint position = { secretWallNode.attribute("posX").as_int(), secretWallNode.attribute("posY").as_int() };
+				secretWall = (SecretWall*)entityManager->CreateEntity(EntityType::SECRET_WALL, secretWallNode.attribute("name").as_string(), EntitySubtype::UNKNOWN, position);
+				secretWallNode = secretWallNode.next_sibling("secretWall");
+			}
+			// LOAD Levers
+			int leverCount = mapNode.attribute("leverCount").as_int();
 
+			pugi::xml_node leverNode = mapNode.child("lever");
+			Lever* lever = nullptr;
+			for (int i = 0; i < leverCount; ++i)
+			{
+				iPoint position = { leverNode.attribute("posX").as_int(), leverNode.attribute("posY").as_int() };
+				lever = (Lever*)entityManager->CreateEntity(EntityType::LEVER, leverNode.attribute("name").as_string(), EntitySubtype::UNKNOWN, position);
+				lever->SetSecretWall(secretWall);
+				lever->SetNumber(i + 1);
+				lever = nullptr;
+				leverNode = leverNode.next_sibling("lever");
+			}
+			secretWall = nullptr;
 			// Change the booleans of progress
 			switch (currentMap)
 			{
