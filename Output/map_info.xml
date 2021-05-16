@@ -13,7 +13,7 @@
 	<item posX="416" posY="420" class="item" name="pan" subtype="9"/>
 	<item posX="864" posY="128" class="item" name="fork" subtype="10"/>
   </cemetery>
-  <mediumCity enemyCount ="2" npcCount ="1" teleportCount ="3" itemCount="3">
+  <mediumCity enemyCount ="2" npcCount ="1" teleportCount ="3" itemCount="3" activatorCount="1">
 	  <prevTown>
 		  <player posX="128" posY="256"/>
 	  </prevTown>
@@ -29,9 +29,10 @@
     <teleport posX="32" posY="224" width="32" height="64" destination="4"/>
     <teleport posX="832" posY="32" width="64" height="32" destination="5"/>
     <teleport posX="416" posY="416" width="32" height="32" destination="3"/>
-	<item posX="512" posY="256" class="item" name="wasabi" subtype="8"/>
-	<item posX="256" posY="256" class="item" name="pan" subtype="9"/>
-	<item posX="320" posY="416" class="item" name="fork" subtype="10"/>
+	  <item posX="512" posY="256" class="item" name="wasabi" subtype="8"/>
+	  <item posX="256" posY="256" class="item" name="pan" subtype="9"/>
+	  <item posX="320" posY="416" class="item" name="fork" subtype="10"/>
+    <activator name="key" posX="64" posY="640" width="32" height="32" drawState="0"/>
   </mediumCity>
   <town enemyCount ="0" npcCount ="0" teleportCount ="2" itemCount="6">
     <prevCemetery>
@@ -90,7 +91,6 @@
     <teleport posX="160" posY="416" width="64" height="32" destination="2"/>
     <!--<teleport posX="224" posY="128" width="32" height="32" destination="7"/>-->
     <activator name="secretRoom" posX="224" posY="160" width="32" height="32" drawState="-1"/>
-    <activator name="key" posX="224" posY="192" width="32" height="32" drawState="0"/>
 	<item posX="64" posY="256" class="item" name="wasabi" subtype="8"/>
 	<item posX="64" posY="320" class="item" name="wasabi" subtype="8"/>
 	<item posX="256" posY="320" class="item" name="wasabi" subtype="8"/>
