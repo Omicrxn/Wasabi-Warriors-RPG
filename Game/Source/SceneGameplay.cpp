@@ -226,6 +226,9 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 	clickFx = audio->LoadFx("Assets/Audio/Fx/click.ogg");
 	returnFx = audio->LoadFx("Assets/Audio/Fx/back.ogg");
 
+	// Load other fx
+	doorOpenFx = audio->LoadFx("Assets/Audio/Fx/door_open.ogg");
+
 	// Gui id goes from 0 to 2
 	screenRoaming = new ScreenRoaming();
 	screenRoaming->Load(0, 2, this, win, guiManager, entityManager, audio, easing, guiAtlasTex, buttonFont, hoverFx, clickFx);
@@ -275,7 +278,7 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 		player = nullptr;
 
 		// LOAD FROM MAP_XML
-		notifier->NotifyMapChange(MapType::BIG_CITY);
+		notifier->NotifyMapChange(MapType::TOWN);
 		SetUpTp();
 	}
 
@@ -454,6 +457,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 			notifier->GetActivator()->ChangeInteraction();
 			if (gameProgress.hasPickedKey)
 			{
+				audio->PlayFx(doorOpenFx);
 				notifier->NotifyMapChange(MapType::SECRET_ROOM);
 				/*((Activator*)entityManager->SearchEntity("key"))->SetDrawState(DrawState::NONE);*/
 			}
@@ -610,7 +614,7 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 	audio->UnloadFx(clickFx);
 	audio->UnloadFx(hoverFx);
 	audio->UnloadFx(returnFx);
-
+	audio->UnloadFx(doorOpenFx);
 
 	// Destory GUI Controls
 	guiManager->DestroyGuiControl(btnAttack);
