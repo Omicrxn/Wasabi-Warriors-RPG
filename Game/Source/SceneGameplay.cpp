@@ -1419,6 +1419,20 @@ void SceneGameplay::SetUpTp()
 				activatorNode = activatorNode.next_sibling("activator");
 			}
 
+			// LOAD Levers && Secret Wall
+			/*int activatorCount = mapNode.attribute("activatorCount").as_int();
+
+			pugi::xml_node activatorNode = mapNode.child("activator");
+			Activator* activator = nullptr;
+			for (int i = 0; i < activatorCount; ++i)
+			{
+				iPoint position = { activatorNode.attribute("posX").as_int(), activatorNode.attribute("posY").as_int() };
+				activator = (Activator*)entityManager->CreateEntity(EntityType::ACTIVATOR, activatorNode.attribute("name").as_string(), EntitySubtype::UNKNOWN, position);
+				if (activatorNode.attribute("drawState").as_int() != -1) activator->SetDrawState((DrawState)activatorNode.attribute("drawState").as_int());
+				activator = nullptr;
+				activatorNode = activatorNode.next_sibling("activator");
+			}*/
+
 			// Change the booleans of progress
 			switch (currentMap)
 			{

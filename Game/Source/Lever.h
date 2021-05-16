@@ -3,48 +3,25 @@
 #include "Textures.h"
 #include "EntityManager.h"
 #include "Render.h"
-#include "SecretWall.h"
+class SecretWall;
 class Lever : public Interactive
 {
 public:
 
-	Lever(SString name, Textures* tex, EntityManager* entityManager, EntityType type, iPoint position)
-	{
-		this->name = name;
-		this->tex = tex;
-		this->entityManager = entityManager;
-		this->type = type;
-		this->subtype = subtype;
-		this->position = position;
-		this->secretWall = secretWall;
-		this->number = number;
-	}
-	~Lever() {}
+	Lever(SString name, Textures* tex, EntityManager* entityManager, EntityType type, iPoint position);
+	~Lever();
 
-	bool Update(float dt) 
-	{
-		return true;
-	}
-	bool Draw(Render* render)
-	{
-		render->DrawTexture(entityManager->itemsTexture, position.x, position.y, &rect);
-		return true;
-	}
+	bool Update(float dt);
+	bool Draw(Render* render);
 	void SetName(SString name);
-	void SetSecretWall(SecretWall* secretWall) { this->secretWall = secretWall; }
-	void SetNumber(uint number) { this->number = number; }
-
+	void SetSecretWall(SecretWall* secretWall);
+	void SetNumber(uint number);
+	void Reset();
 private:
 
-	void Interact() 
-	{
-		secretWall->SetLever(number);
-	};
-	void OnCollision(Collider* collider) override { Interact(); }
-	void Reset()
-	{
+	void Interact();
+	void OnCollision(Collider* collider) override;
 
-	}
 
 private:
 

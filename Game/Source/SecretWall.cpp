@@ -1,4 +1,5 @@
 #include "SecretWall.h"
+#include "Lever.h"
 
 SecretWall::SecretWall(SString name, Textures* tex, EntityManager* entityManager, EntityType type, iPoint position) : Interactive()
 {

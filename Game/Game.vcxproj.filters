@@ -132,7 +132,9 @@
     <ClCompile Include="Source\SecretWall.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Lever.cpp" />
+    <ClCompile Include="Source\Lever.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\App.h" />

@@ -22,6 +22,7 @@ class Collisions;
 class Transitions;
 class Item;
 class Activator;
+class Lever;
 class AudioManager;
 
 
