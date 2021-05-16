@@ -167,11 +167,11 @@ bool ScreenInventory::Draw(Render* render)
 				slotRect.x = slotRect.x + slotRect.w + spacing;
 
 			if (itemHovering.x == j && itemHovering.y == i && itemHovering != itemSelected)
-				render->DrawRectangle(slotRect, { 0,255,0,255 }, true, false);
+				render->DrawRectangle(slotRect, { 191,195,204,255 }, true, false);
 			else if (itemSelected.x == j && itemSelected.y == i)
-				render->DrawRectangle(slotRect, { 255,255,0,255 }, true, false);
+				render->DrawRectangle(slotRect, { 255,255,0,127 }, true, false);
 			else
-				render->DrawRectangle(slotRect, { 255,0,0,255 }, true, false);
+				render->DrawRectangle(slotRect, { 73,79,95,255 }, true, false);
 
 			// Draw item stats
 			if (listInvItems.Count() > 0 && (listInvItems.Count() - 1) >= (itemSelected.y * INVENTORY_ROWS) + itemSelected.x)
