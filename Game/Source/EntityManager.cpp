@@ -1139,7 +1139,7 @@ bool EntityManager::LoadStateInfo(pugi::xml_node& scenegameplay, MapType current
 		LOG("LOADING lever NUMBER: %i", i);
 		EntitySubtype subtype = (EntitySubtype)leverNode.attribute("entitySubType").as_int();
 		iPoint pos = { leverNode.attribute("posX").as_int(), leverNode.attribute("posY").as_int() };
-		lever = (Lever*)CreateEntity(EntityType::ACTIVATOR, leverNode.attribute("name").as_string(), subtype, pos);
+		lever = (Lever*)CreateEntity(EntityType::LEVER, leverNode.attribute("name").as_string(), subtype, pos);
 		lever->SetSecretWall(secretWall);
 		lever->SetNumber(leverNode.attribute("number").as_uint());
 		lever->id = leverNode.attribute("id").as_uint();

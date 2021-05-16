@@ -72,6 +72,10 @@ bool SecretWall::Update(float dt)
 	}
 	if (lever1 == true && lever2 == true && lever3 == true)
 	{
+		if (sequence.Count() == 0)
+		{
+			return true;
+		}
 		if (sequence.At(0)->data == 2 && sequence.At(1)->data == 3 && sequence.At(2)->data == 1)
 		{
 			this->destroy = true;
