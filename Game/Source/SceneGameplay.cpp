@@ -1113,7 +1113,7 @@ void SceneGameplay::SetUpTp()
 		}
 		break;
 	case MapType::HOUSE:
-		if (map->Load("House", "house.tmx") == true)
+		if (map->Load("House", "House.tmx") == true)
 		{
 			int w, h;
 			uchar* data = NULL;
