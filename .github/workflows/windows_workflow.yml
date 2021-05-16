@@ -1,0 +1,71 @@
+name: Windows
+
+on: 
+  push:
+  pull_request:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    env:
+      RELEASE_NAME: Bat_Cat_Studios-Wasabi_Warriors_RPG
+      GNUTARGET: default
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+    
+    - name: Setup Release Version
+      run: |
+        echo "RELEASE_NAME=Bat_Cat_Studios-Wasabi_Warriors_RPG_${{ github.event.release.tag_name }}" >> $GITHUB_ENV
+      shell: bash
+      if: github.event_name == 'release' && github.event.action == 'published'
+
+    - name: Setup Environment
+      run: | 
+        dir
+        mkdir build
+        cd build
+        mkdir ${{ env.RELEASE_NAME }}
+        cd ../../Wasabi-Warriors-RPG
+        dir
+        
+    # Setup MSBuild.exe path if required
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    - name: Build Solution (MSVC16)
+      run: |
+        msbuild.exe Development.sln  /property:Configuration=Release
+        copy /Y build\Release\Game.exe build\${{ env.RELEASE_NAME }}\Game.exe
+      shell: cmd
+      
+    - name: Generate Artifacts
+      run: |
+        robocopy .\Output .\build\${{ env.RELEASE_NAME }}\Output /S
+        robocopy .\build\${{ env.RELEASE_NAME }} .\build\${{ env.RELEASE_NAME }}\Output Game.exe /MOVE
+        copy /Y .\README.md .\build\${{ env.RELEASE_NAME }}\README.md
+        copy /Y .\LICENSE .\build\${{ env.RELEASE_NAME }}\LICENSE
+        cd build
+        7z a ./${{ env.RELEASE_NAME }}.zip ./${{ env.RELEASE_NAME }}
+        dir
+      shell: cmd
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ env.RELEASE_NAME }}.zip
+        path: ./build/${{ env.RELEASE_NAME }}.zip
+        
+    - name: Upload Artifact to Release
+      uses: actions/upload-release-asset@v1.0.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./build/${{ env.RELEASE_NAME }}.zip
+          asset_name: ${{ env.RELEASE_NAME }}.zip
+          asset_content_type: application/zip
+      if: github.event_name == 'release' && github.event.action == 'published'
