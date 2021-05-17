@@ -134,6 +134,7 @@ void BattleSystem::PlayerTurn()
 			// Play animation
 			// Substract life points to the enemy
 			enemy->stats.currentHP -= currentPlayer->stats.damage;
+			if (enemy->stats.currentHP < 0) enemy->stats.currentHP = 0;
 			break;
 		case PlayerState::DEFEND:
 			// Add life points to the player
@@ -196,7 +197,10 @@ void BattleSystem::EnemyTurn()
 
 			// Substract life points to the player
 			if (turnCounter == 0 && currentPlayer->isGod == false) // Player won't lose health if godmode is true
+			{
 				currentPlayer->stats.currentHP -= enemy->stats.damage;
+				if (currentPlayer->stats.currentHP < 0) currentPlayer->stats.currentHP = 0;
+			}
 		}
 		else
 		{
