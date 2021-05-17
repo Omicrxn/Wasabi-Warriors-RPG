@@ -1886,6 +1886,11 @@ void EntityManager::DeleteAllEntitiesExceptPlayer()
 		{
 			itemList.Del(itemList.At(itemList.Find((Item*)list1->data)));
 		}
+		else if (list1->data->type == EntityType::ACTIVATOR)
+		{
+			if (!(((Activator*)list1->data)->GetDrawState() == DrawState::HUD))
+			activatorList.Del(activatorList.At(activatorList.Find((Activator*)list1->data)));
+		}
 		else if (list1->data->type == EntityType::LEVER)
 		{
 			leverList.Del(leverList.At(leverList.Find((Lever*)list1->data)));
