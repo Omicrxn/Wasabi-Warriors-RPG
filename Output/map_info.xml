@@ -85,7 +85,7 @@
     <lever name="secretWall" posX="384" posY="1502" width="32" height="32" number="2"/>
     <lever name="secretWall" posX="416" posY="1472" width="32" height="32" number="3"/>
   </dungeon>
-  <restaurant enemyCount="0" npcCount="0" teleportCount="2" activatorCount="2" itemCount="3" secretWallCount="0" leverCount="0">
+  <restaurant enemyCount="0" npcCount="0" teleportCount="2" activatorCount="1" itemCount="3" secretWallCount="0" leverCount="0">
     <prevMediumCity>
       <player posX="160" posY="384"/>
     </prevMediumCity>
@@ -104,9 +104,9 @@
       <player posX="64" posY="128"/>
     </prevRestaurant>
     <teleport posX="64" posY="192" width="32" height="32" destination="3"/>
-	<item posX="64" posY="64" class="item" name="megaPotion" subtype="7"/>
-	<item posX="64" posY="96" class="item" name="megaPotion" subtype="7"/>
-	<item posX="96" posY="64" class="item" name="megaPotion" subtype="7"/>
-	<item posX="96" posY="96" class="item" name="megaPotion" subtype="7"/>
+	<item posX="72" posY="72" class="item" name="megaPotion" subtype="7"/>
+	<item posX="72" posY="104" class="item" name="megaPotion" subtype="7"/>
+	<item posX="104" posY="72" class="item" name="megaPotion" subtype="7"/>
+	<item posX="104" posY="104" class="item" name="megaPotion" subtype="7"/>
   </secretRoom>
 </map>

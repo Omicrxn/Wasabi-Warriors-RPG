@@ -11,7 +11,7 @@ class Lever : public Interactive
 {
 public:
 
-	Lever(SString name,Collisions* collisions, Input* input, Textures* tex, EntityManager* entityManager, EntityType type, iPoint position);
+	Lever(SString name, Input* input, Textures* tex, AudioManager* audio, Collisions* collisions, EntityManager* entityManager, EntityType type, iPoint position);
 	~Lever();
 
 	bool Update(float dt);

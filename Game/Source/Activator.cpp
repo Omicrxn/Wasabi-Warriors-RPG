@@ -3,17 +3,18 @@
 #include "Render.h"
 #include "Input.h"
 #include "EntityManager.h"
+#include "Audio.h"
 
-Activator::Activator(SString name, Input* input, Textures* tex, Collisions* collisions, EntityManager* entityManager, EntityType type, EntitySubtype subtype, iPoint position) : Interactive()
+Activator::Activator(SString name, Input* input, Textures* tex, AudioManager* audio, Collisions* collisions, EntityManager* entityManager, EntityType type, EntitySubtype subtype, iPoint position) : Interactive()
 {
     this->name = name;
     this->input = input;
     this->tex = tex;
     texture = nullptr;
+    this->audio = audio;
     this->entityManager = entityManager;
     this->position = position;
     this->type = type;
-    this->name = name;
     this->subtype = subtype;
     width = 32;
     height = 32;
@@ -105,7 +106,10 @@ void Activator::OnCollision(Collider* collider)
         if (collider->type == Collider::Type::PLAYER)
         {
             if (input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
+            {
+                if (name == "key") audio->PlayFx(entityManager->keyFx);
                 Interact();
+            }
         }
     }
 }

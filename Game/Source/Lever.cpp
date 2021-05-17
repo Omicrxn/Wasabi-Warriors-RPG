@@ -1,11 +1,14 @@
 #include "Lever.h"
 #include "SecretWall.h"
-#include "Input.h"
 
-Lever::Lever(SString name, Collisions* collisions, Input* input, Textures* tex, EntityManager* entityManager, EntityType type, iPoint position)
+#include "Input.h"
+#include "Audio.h"
+
+Lever::Lever(SString name, Input* input, Textures* tex, AudioManager* audio, Collisions* collisions, EntityManager* entityManager, EntityType type, iPoint position)
 {
 	this->name = name;
 	this->tex = tex;
+	this->audio = audio;
 	this->entityManager = entityManager;
 	this->type = type;
 	this->subtype = subtype;
@@ -89,6 +92,7 @@ void Lever::OnCollision(Collider* collider)
 	{
 		if (input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
 		{
+			audio->PlayFx(entityManager->leverFx);
 			Interact();
 		}
 	}

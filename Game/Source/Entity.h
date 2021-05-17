@@ -12,7 +12,7 @@ struct Render;
 struct Input;
 struct Textures;
 class EntityManager;
-
+class AudioManager;
 
 enum class EntityType
 {
@@ -112,6 +112,7 @@ protected:
     Textures* tex = nullptr;
     Input* input = nullptr;
     EntityManager* entityManager = nullptr;
+    AudioManager* audio = nullptr;
 
 public:
 

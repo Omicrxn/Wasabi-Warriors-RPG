@@ -1,10 +1,14 @@
 #include "Player.h"
+
+#include "Audio.h"
+
 #include "Map.h"
 #include "Log.h"
 
-Player::Player(SString name, Textures* tex, Collisions* collisions, EntityManager* entityManager, EntityType type, EntitySubtype subtype, iPoint position) : Being()
+Player::Player(SString name, Textures* tex, AudioManager* audio, Collisions* collisions, EntityManager* entityManager, EntityType type, EntitySubtype subtype, iPoint position) : Being()
 {
     this->tex = tex;
+    this->audio = audio;
     this->entityManager = entityManager;
     this->position = position;
     this->type = type;
@@ -42,6 +46,9 @@ Player::Player(SString name, Textures* tex, Collisions* collisions, EntityManage
         SetUpClass("wizard");
         SetTexture(6);
     }
+
+    // Start timer
+    footstepTimer.Start();
 }
 
 Player::~Player()
@@ -101,6 +108,16 @@ bool Player::Update(Input* input, float dt)
         collisions->DetectTilemapCollision(collider, (Map*)entityManager->SearchEntity("Map"), tempPosition, position);
     }
     transitioning = false;
+
+    if (direction.x != 0 || direction.y != 0)
+    {
+        if (footstepTimer.ReadSec() > 0.5f)
+        {
+            footstepTimer.Start();
+            audio->PlayFx(entityManager->footstepPlayerFx);
+        }
+    }
+
     return true;
 }
 

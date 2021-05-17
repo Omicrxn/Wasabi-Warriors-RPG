@@ -18,7 +18,7 @@ class Activator : public Interactive
 {
 public:
 
-	Activator(SString name, Input* input, Textures* tex, Collisions* collisions, EntityManager* entityManager, EntityType type, EntitySubtype subtype, iPoint position);
+	Activator(SString name, Input* input, Textures* tex, AudioManager* audio, Collisions* collisions, EntityManager* entityManager, EntityType type, EntitySubtype subtype, iPoint position);
 	~Activator();
 
 	bool Update(Input* input, float dt);

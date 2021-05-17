@@ -9,6 +9,7 @@
 
 #include "Point.h"
 #include "SString.h"
+#include "Timer.h"
 
 #include "SDL/include/SDL.h"
 
@@ -18,7 +19,7 @@ class Player: public Being
 {
 public:
 
-    Player(SString name,Textures* tex, Collisions* collisions, EntityManager* entityManager,EntityType type, EntitySubtype subtype, iPoint position);
+    Player(SString name, Textures* tex, AudioManager* audio, Collisions* collisions, EntityManager* entityManager,EntityType type, EntitySubtype subtype, iPoint position);
     ~Player();
 
     bool Update(Input* input, float dt);
@@ -42,11 +43,16 @@ private:
     void Walk(iPoint direction, float dt);
 
 public:
+
     iPoint tempPosition = { 0,0 };
     Animations currentAnim;
     bool stopPlayer = false;
     bool transitioning = false;
     bool isGod = false;
+
+private:
+
+    Timer footstepTimer;
 };
 
 #endif // __PLAYER_H__

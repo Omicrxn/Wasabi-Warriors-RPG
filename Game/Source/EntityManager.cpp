@@ -67,6 +67,9 @@ bool EntityManager::Start()
 
 	consumeFx = audio->LoadFx("Audio/Fx/consume.ogg");
 	pickUpFx = audio->LoadFx("Audio/Fx/pickup.ogg");
+	footstepPlayerFx = audio->LoadFx("Audio/Fx/footstepPlayer.ogg");
+	keyFx = audio->LoadFx("Audio/Fx/key.ogg");
+	leverFx = audio->LoadFx("Audio/Fx/bong.ogg");
 
 	return true;
 }
@@ -103,7 +106,7 @@ bool EntityManager::CleanUp()
 		}
 		else if (entityList.At(i)->data->type == EntityType::LEVER)
 		{
-			leverList.Del(leverList.At(leverList.Find((Lever*)leverList.At(i)->data)));
+			/*leverList.Del(leverList.At(leverList.Find((Lever*)leverList.At(i)->data)));*/
 		}
 		else if (entityList.At(i)->data->type == EntityType::SECRET_WALL)
 		{
@@ -135,6 +138,9 @@ bool EntityManager::CleanUp()
 
 	audio->UnloadFx(consumeFx);
 	audio->UnloadFx(pickUpFx);
+	audio->UnloadFx(footstepPlayerFx);
+	audio->UnloadFx(keyFx);
+	audio->UnloadFx(leverFx);
 
 	return true;
 }
@@ -147,7 +153,7 @@ Entity* EntityManager::CreateEntity(EntityType type, SString name, EntitySubtype
 	{
 		// L13: Create the corresponding type entity
 	case EntityType::PLAYER:
-		ret = new Player(name, tex, collisions, this,type, subtype,position);
+		ret = new Player(name, tex, audio, collisions, this, type, subtype,position);
 		playerList.Add((Player*)ret);
 		break;
 	case EntityType::ENEMY:
@@ -173,7 +179,7 @@ Entity* EntityManager::CreateEntity(EntityType type, SString name, EntitySubtype
 		itemList.Add((Item*)ret);
 		break;
 	case EntityType::ACTIVATOR:
-		ret = new Activator(name, input, tex, collisions, this, type, subtype, position);
+		ret = new Activator(name, input, tex, audio, collisions, this, type, subtype, position);
 		activatorList.Add((Activator*)ret);
 		break;
 	case EntityType::SECRET_WALL:
@@ -181,7 +187,7 @@ Entity* EntityManager::CreateEntity(EntityType type, SString name, EntitySubtype
 		secretWallList.Add((SecretWall*)ret);
 		break;
 	case EntityType::LEVER:
-		ret = new Lever(name,collisions, input,tex, this, type, position);
+		ret = new Lever(name, input, tex, audio, collisions, this, type, position);
 		leverList.Add((Lever*)ret);
 		break;
 	default:

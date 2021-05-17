@@ -27,7 +27,6 @@ class Lever;
 class SecretWall;
 class AudioManager;
 
-
 class EntityManager : public Module
 {
 public:
@@ -101,6 +100,7 @@ public:
 
 	// Audio Fx for items
 	int consumeFx, pickUpFx;
+	int keyFx, footstepPlayerFx, leverFx;
 };
 
 #endif // __ENTITYMANAGER_H__
