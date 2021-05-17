@@ -209,7 +209,6 @@ bool ScreenInventory::Draw(Render* render)
 				render->scale = 2;
 				render->DrawTexture(entityManager->itemsTexture, (slotRect.x + ((slotRect.w - listItem->data->item->GetSection().w)/2))/render->scale - 9, (slotRect.y + ((slotRect.h - listItem->data->item->GetSection().h) / 2))/ render->scale - 9, &listItem->data->item->GetSection(), 0.0f);
 				render->scale = 1;
-				float akjsdakjsdb = ((slotRect.w - listItem->data->item->GetSection().w) / 5);
 				// Draw item
 				char itemType[24] = { 0 };
 				/*sprintf_s(itemType, 24, "item type is %i", (int)listItem->data->item->subtype);
