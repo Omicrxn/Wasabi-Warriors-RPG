@@ -348,6 +348,8 @@ bool ScreenInventory::SaveState(pugi::xml_node& screenNode) const
 		itemNode = itemNode.append_child("invSlot");
 		itemNode.append_attribute("entitySubType").set_value((int)list->data->item->subtype);
 		itemNode.append_attribute("count").set_value(list->data->count);
+		itemNode.append_attribute("name").set_value(list->data->item->name.GetString());
+		itemNode.append_attribute("description").set_value(list->data->item->GetDescription());
 	}
 
 	LOG("INVENTORY SAVED");

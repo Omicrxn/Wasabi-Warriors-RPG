@@ -76,15 +76,21 @@ public:
 
     bool Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager);
 
-    // Load / Save
+    // Loads / Saves
+    // Called from app
     bool LoadState(pugi::xml_node&);
     bool SaveState(pugi::xml_node&) const;
 
+    // Called to save / load booleans of progress
     void SaveGameProgress(pugi::xml_node&) const;
     void LoadGameProgress(pugi::xml_node&);
 
-    void Save(pugi::xml_node&) const;
-    void Load(pugi::xml_node&);
+    // Called to save / load map entities from save_game.xml
+    void SaveEntities(pugi::xml_node&) const;
+    void LoadEntities(pugi::xml_node&);
+
+    // Called to load inventory items from save_game.xml
+    void LoadInventory(pugi::xml_node&);
 
     // Returns the current player
     Player* GetCurrentPlayer();

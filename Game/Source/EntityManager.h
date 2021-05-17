@@ -101,6 +101,8 @@ public:
 	// Audio Fx for items
 	int consumeFx, pickUpFx;
 	int keyFx, footstepPlayerFx, leverFx;
+
+	uint32 totalId = 0;
 };
 
 #endif // __ENTITYMANAGER_H__

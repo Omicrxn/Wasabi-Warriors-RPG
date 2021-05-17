@@ -80,10 +80,10 @@
     <teleport name ="floor3_2" posX="1440" posY="32" width="32" height="32" destination="-1" nextPosX="1312" nextPosY="1152"/>
     <teleport name ="floor4" posX="1312" posY="1088" width="32" height="32" destination="-1" nextPosX="1216" nextPosY="96"/>
     <activator name ="pc" posX="1408" posY="64" width="32" height="32" catchable="false"/>
-    <secretwall name="secretWall" posX="384" posY="1344" width="32" height="93"/>
-    <lever name="secretWall" posX="352" posY="1472" width="32" height="32" number="1"/>
-    <lever name="secretWall" posX="384" posY="1502" width="32" height="32" number="2"/>
-    <lever name="secretWall" posX="416" posY="1472" width="32" height="32" number="3"/>
+    <secretwall name="secretWallPuzzle1" posX="384" posY="1344" width="32" height="93"/>
+    <lever name="secretWallPuzzle1Lever1" posX="352" posY="1472" width="32" height="32" number="1"/>
+    <lever name="secretWallPuzzle1Lever2" posX="384" posY="1502" width="32" height="32" number="2"/>
+    <lever name="secretWallPuzzle1Lever3" posX="416" posY="1472" width="32" height="32" number="3"/>
   </dungeon>
   <restaurant enemyCount="0" npcCount="0" teleportCount="2" activatorCount="1" itemCount="3" secretWallCount="0" leverCount="0">
     <prevMediumCity>

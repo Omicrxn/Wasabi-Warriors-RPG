@@ -38,13 +38,20 @@ SceneGameplay::SceneGameplay(bool hasStartedFromContinue)
 	else
 	{
 		type = SceneType::GAMEPLAY;
-		// Delete map node from save file has we have started a new game!!
+		
 		pugi::xml_document docData;
-		pugi::xml_node mapNode;
-
 		pugi::xml_parse_result result = docData.load_file("save_game.xml");
+
+		// Delete map node from save file has we have started a new game!!
+		pugi::xml_node mapNode;
 		mapNode = docData.first_child().child("scenemanager").child("scenegameplay");
 		mapNode.remove_child("map");
+
+		// Delete inventory node
+		pugi::xml_node inventoryNode;
+		inventoryNode = docData.first_child().child("screen");
+		inventoryNode.remove_child("screeninventory");
+		
 		docData.save_file("save_game.xml");
 	}
 		
@@ -288,14 +295,45 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 
 bool SceneGameplay::Update(Input* input, float dt)
 {
-	if (entityManager->secretWallList.Count() > 0)
+	/*	TO CHANGE PROGRESS BOLEANS 
+	*	CHECK MAP TYPE
+	*	CHECK ALL LEVERS/WALLS/ACTIVATORS IN THAT MAP BY NAME STRING
+	*	IF THEY DON'T EXIST (DESTROYED) SET BOOLEAN TO TRUE
+	*	AND FINALLY SAVE GAME PROGESS
+	*/
+	switch (currentMap)
 	{
-		SecretWall* tempWall = nullptr;
-		tempWall = entityManager->secretWallList.At(0)->data;
-		if (tempWall->destroy == true)
+	case MapType::NONE:
+		break;
+	case MapType::CEMETERY:
+		break;
+	case MapType::HOUSE:
+		break;
+	case MapType::MEDIUM_CITY:
+		break;
+	case MapType::RESTAURANT:
+		break;
+	case MapType::TOWN:
+		break;
+	case MapType::BIG_CITY:
+		break;
+	case MapType::SKYSCRAPER:
+		if (gameProgress.hasFinishedPuzzle1 == false)
 		{
-			gameProgress.hasFinishedPuzzle1 = true;
+			if (entityManager->SearchEntity("secretWallPuzzle1") == nullptr)
+			{
+				pugi::xml_document docData;
+				pugi::xml_parse_result result = docData.load_file("save_game.xml");
+				gameProgress.hasFinishedPuzzle1 = true;
+				SaveGameProgress(docData.first_child().child("scenemanager").child("scenegameplay").child("gameProgress"));
+				docData.save_file("save_game.xml");
+			}
 		}
+		break;
+	case MapType::SECRET_ROOM:
+		break;
+	default:
+		break;
 	}
 
 	if (input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN)
@@ -665,6 +703,7 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 
 bool SceneGameplay::LoadState(pugi::xml_node& scenegameplay)
 {
+	/* If different map then change map*/
 	if ((int)currentMap != scenegameplay.attribute("lastMap").as_int())
 	{
 		MapType nextMap = (MapType)scenegameplay.attribute("lastMap").as_int();
@@ -674,45 +713,14 @@ bool SceneGameplay::LoadState(pugi::xml_node& scenegameplay)
 	pugi::xml_node screenNode = scenegameplay.parent().parent().child("screen");
 	screenSettings->LoadState(screenNode);
 
-	//---------------------------------//
-	LOG("LOADING INVENTORY");
-	for (ListItem<InvItem*>* invItem = ((ScreenInventory*)screenInventory)->listInvItems.start; invItem; invItem = invItem->next)
-	{
-		((ScreenInventory*)screenInventory)->listInvItems.Del(invItem);
-	}
-	((ScreenInventory*)screenInventory)->listInvItems.Clear();
-
-	pugi::xml_node screenInventoryNode;
-	screenInventoryNode = screenNode.child("screeninventory");
-	int invCount = screenInventoryNode.attribute("inventoryCount").as_int();
-
-	pugi::xml_node invSlotNode = screenInventoryNode.child("invSlot");
-	Item* item = nullptr;
-	for (int i = 0; i <= invCount; ++i)
-	{
-		EntitySubtype subtype = (EntitySubtype)invSlotNode.attribute("entitySubType").as_int();
-		if ((int)subtype >= 5 && (int)subtype <= 10)
-		{
-			item = (Item*)entityManager->CreateEntity(EntityType::ITEM, invSlotNode.attribute("name").as_string(), subtype);
-			item->onMap = false;
-			if (item->collider != nullptr)
-			{
-				item->collider->pendingToDelete = true;
-				item->collider = nullptr;
-			}
-			AddItemToInvItemsList(item);
-			item = nullptr;
-		}
-		invSlotNode = invSlotNode.next_sibling("invSlot");
-	}
-	LOG("INVENTORY LOADED");
-	//---------------------------------//
-	hasStartedFromContinue = true;
-
+	/*Load inventory*/
+	LoadInventory(screenNode.child("screeninventory"));
+	/*Load game progress data */
 	LOG("LOADING GAME PROGRESS");
 	pugi::xml_node gameProgressNode = scenegameplay.child("gameProgress");
 	LoadGameProgress(gameProgressNode);
 
+	/*Restart quests*/
 	questManager->CleanUp();
 	questManager->Start();
 
@@ -742,7 +750,7 @@ bool SceneGameplay::SaveState(pugi::xml_node& scenegameplay) const
 		gameProgressNode = scenegameplay.append_child("gameProgress");
 	}
 
-	Save(scenegameplay);
+	SaveEntities(scenegameplay);
 	SaveGameProgress(gameProgressNode);
 
 	return true;
@@ -792,6 +800,12 @@ void SceneGameplay::SaveGameProgress(pugi::xml_node& data)const
 		data.attribute("hasPickedKey").set_value(this->gameProgress.hasPickedKey);
 	else
 		data.append_attribute("hasPickedKey").set_value(this->gameProgress.hasPickedKey);
+
+	tempName = data.attribute("hasFinishedPuzzle1").name();
+	if (tempName == "hasFinishedPuzzle1")
+		data.attribute("hasFinishedPuzzle1").set_value(this->gameProgress.hasFinishedPuzzle1);
+	else
+		data.append_attribute("hasFinishedPuzzle1").set_value(this->gameProgress.hasFinishedPuzzle1);
 
 	// Save map booleans
 	data = data.next_sibling("map");
@@ -843,12 +857,6 @@ void SceneGameplay::SaveGameProgress(pugi::xml_node& data)const
 		data.attribute("hasVisitedSecretRoom").set_value(this->gameProgress.hasVisitedSecretRoom);
 	else
 		data.append_attribute("hasVisitedSecretRoom").set_value(this->gameProgress.hasVisitedSecretRoom);
-
-	tempName = data.attribute("hasFinishedPuzzle1").name();
-	if (tempName == "hasFinishedPuzzle1")
-		data.attribute("hasFinishedPuzzle1").set_value(this->gameProgress.hasFinishedPuzzle1);
-	else
-		data.append_attribute("hasFinishedPuzzle1").set_value(this->gameProgress.hasFinishedPuzzle1);
 }
 
 void SceneGameplay::LoadGameProgress(pugi::xml_node& data)
@@ -860,6 +868,7 @@ void SceneGameplay::LoadGameProgress(pugi::xml_node& data)
 	this->gameProgress.hasKilledOfficers = data.attribute("hasKilledOfficers").as_bool();
 	this->gameProgress.hasActivated = data.attribute("hasActivated").as_bool();
 	this->gameProgress.hasPickedKey = data.attribute("hasPickedKey").as_bool();
+	this->gameProgress.hasFinishedPuzzle1 = data.attribute("hasFinishedPuzzle1").as_bool();
 
 	data = data.next_sibling("map");
 	this->gameProgress.hasVisitedCemetery = data.attribute("hasVisitedCemetery").as_bool();
@@ -870,17 +879,56 @@ void SceneGameplay::LoadGameProgress(pugi::xml_node& data)
 	this->gameProgress.hasVisitedBigCity = data.attribute("hasVisitedBigCity").as_bool();
 	this->gameProgress.hasVisitedSkyScraper = data.attribute("hasVisitedSkyScraper").as_bool();
 	this->gameProgress.hasVisitedSecretRoom = data.attribute("hasVisitedSecretRoom").as_bool();
-	this->gameProgress.hasFinishedPuzzle1 = data.attribute("hasFinishedPuzzle1").as_bool();
-
 }
 
-void SceneGameplay::Save(pugi::xml_node& scenegameplay) const
+void SceneGameplay::SaveEntities(pugi::xml_node& scenegameplay) const
 {
 	entityManager->SaveStateInfo(scenegameplay, currentMap);
 }
 
-void SceneGameplay::Load(pugi::xml_node& scenegameplay)
+void SceneGameplay::LoadEntities(pugi::xml_node& scenegameplay)
 {
+}
+
+void SceneGameplay::LoadInventory(pugi::xml_node& screeninventory)
+{
+	//---------------------------------//
+	/*Delete inventory items*/
+	LOG("LOADING INVENTORY");
+	for (ListItem<InvItem*>* invItem = ((ScreenInventory*)screenInventory)->listInvItems.start; invItem; invItem = invItem->next)
+	{
+		((ScreenInventory*)screenInventory)->listInvItems.Del(invItem);
+	}
+	((ScreenInventory*)screenInventory)->listInvItems.Clear();
+
+	pugi::xml_node screenInventoryNode;
+	screenInventoryNode = screeninventory;
+	int invCount = screenInventoryNode.attribute("inventoryCount").as_int();
+
+	/*Load inventory items*/
+	pugi::xml_node invSlotNode = screenInventoryNode.child("invSlot");
+	Item* item = nullptr;
+	for (int i = 0; i <= invCount; ++i)
+	{
+		EntitySubtype subtype = (EntitySubtype)invSlotNode.attribute("entitySubType").as_int();
+		if ((int)subtype >= 5 && (int)subtype <= 10)
+		{
+			item = (Item*)entityManager->CreateEntity(EntityType::ITEM, invSlotNode.attribute("name").as_string(), subtype);
+			item->onMap = false;
+			item->name = invSlotNode.attribute("name").as_string();
+			item->SetDescription(invSlotNode.attribute("description").as_string());
+			if (item->collider != nullptr)
+			{
+				item->collider->pendingToDelete = true;
+				item->collider = nullptr;
+			}
+			AddItemToInvItemsList(item);
+			item = nullptr;
+		}
+		invSlotNode = invSlotNode.next_sibling("invSlot");
+	}
+	LOG("INVENTORY LOADED");
+	//---------------------------------//
 }
 
 Player* SceneGameplay::GetCurrentPlayer()
@@ -1336,7 +1384,6 @@ void SceneGameplay::SetUpTp()
 				int subtype = enemyNode.attribute("subtype").as_int();
 				iPoint position = { enemyNode.attribute("posX").as_int(),enemyNode.attribute("posY").as_int() };
 				enemy = (Enemy*)entityManager->CreateEntity(EntityType::ENEMY, enemyNode.attribute("name").as_string(), (EntitySubtype)subtype, position);
-				enemy->id = 0;
 				enemy->spritePos = enemyNode.attribute("spritePos").as_int();
 
 				enemy = nullptr;
@@ -1353,8 +1400,6 @@ void SceneGameplay::SetUpTp()
 				iPoint position = { npcNode.attribute("posX").as_int(), npcNode.attribute("posY").as_int() };
 				npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, npcNode.attribute("name").as_string(), EntitySubtype::UNKNOWN, position);
 
-				npc->id = 0;
-				npc->id = npcNode.attribute("id").as_uint();
 				npc->spritePos = npcNode.attribute("spritePos").as_int();
 				npc->position.x = npcNode.attribute("posX").as_int();
 				npc->position.y = npcNode.attribute("posY").as_int();
@@ -1374,8 +1419,6 @@ void SceneGameplay::SetUpTp()
 			{
 				teleport = (Teleport*)entityManager->CreateEntity(EntityType::TELEPORT, teleportNode.attribute("name").as_string(), EntitySubtype::UNKNOWN);
 
-				teleport->id = 0;
-				teleport->id = teleportNode.attribute("id").as_uint();
 				teleport->spritePos = teleportNode.attribute("spritePos").as_int();
 				teleport->position.x = teleportNode.attribute("posX").as_int();
 				teleport->position.y = teleportNode.attribute("posY").as_int();
@@ -1408,9 +1451,7 @@ void SceneGameplay::SetUpTp()
 
 				item = (Item*)entityManager->CreateEntity(EntityType::ITEM, itemNode.attribute("name").as_string(), (EntitySubtype)subtype, position);
 
-				item->id = 0;
 				item->spritePos = 0;
-				item->id = itemNode.attribute("id").as_uint();
 
 				item = nullptr;
 				itemNode = itemNode.next_sibling("item");
@@ -1510,8 +1551,10 @@ void SceneGameplay::SetUpTp()
 			delete [] playerStats;
 			playerStats = nullptr;
 		}
-		//this->app->SaveGameRequest();
-		
+		/*LOAD FROM SAVE GAME*/
+		pugi::xml_document docSaveFileData;
+		pugi::xml_parse_result result = docSaveFileData.load_file("save_game.xml");
+		LoadInventory(docSaveFileData.first_child().child("screen").child("screeninventory"));
 	}
 }
 

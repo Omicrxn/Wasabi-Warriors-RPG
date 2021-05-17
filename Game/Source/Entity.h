@@ -86,7 +86,10 @@ public:
 
     virtual void OnCollision(Collider* collider) {};
     virtual SDL_Rect GetBounds() const { return { collider->rect.x, collider->rect.y, width, height }; };
-
+    void SetId(uint32 newId)
+    {
+        id = newId;
+    }
 public:
 
     EntityType type;

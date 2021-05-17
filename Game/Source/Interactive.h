@@ -11,6 +11,11 @@ public:
 	Interactive() : Entity(EntityType::UNKNOWN) {}
 	~Interactive(){}
 
+	void SetDescription(const char* string)
+	{
+		description = string;
+	}
+
 	const char* GetDescription()
 	{
 		return description.GetString();
