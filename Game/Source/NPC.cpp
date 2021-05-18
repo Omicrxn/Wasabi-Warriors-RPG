@@ -90,7 +90,7 @@ bool NPC::Update(Input* input, float dt)
     }
 
     if (stop == true && !Notifier::GetInstance()->OnDialog()) stop = false;
-    collisions->DetectTilemapCollision(collider, (Map*)entityManager->SearchEntity("Map"), tempPosition, position);
+    collisions->DetectTilemapCollision(collider, (Map*)entityManager->SearchEntity("map"), tempPosition, position);
 
     return true;
 }

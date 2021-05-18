@@ -6,11 +6,12 @@
 #include "Collisions.h"
 #include "Notifier.h"
 #include "Animation.h"
+#include "Textures.h"
 
 struct SDL_Texture;
 struct Render;
 struct Input;
-struct Textures;
+//class Textures;
 class EntityManager;
 class AudioManager;
 
@@ -25,7 +26,8 @@ enum class EntityType
     TELEPORT,
     ACTIVATOR,
     SECRET_WALL,
-    LEVER
+    LEVER,
+    STATIC
 };
  
 enum class EntitySubtype
@@ -44,6 +46,79 @@ enum class EntitySubtype
     ITEM_FORK
 
 };
+
+struct TileSetEntity
+{
+    //Functions to help loading data in xml-------------------------------------
+    //Get the rect info of an id of tileset
+    SDL_Rect TileSetEntity::GetTileRect(int id) const
+    {
+        SDL_Rect rect;
+        rect.w = tileWidth;
+        rect.h = tileHeight;
+        rect.x = margin + ((rect.w + spacing) * (id % columns));
+        rect.y = margin + ((rect.h + spacing) * (id / columns));
+        return rect;
+    }
+
+    std::string name;
+    uint tileWidth = 0;
+    uint tileHeight = 0;
+    uint spacing = 0;
+    uint margin = 0;
+    uint tileCount = 0;
+    uint columns = 0;
+    std::string imagePath;
+    SDL_Texture* texture = nullptr;
+    uint width = 0;
+    uint height = 0;
+};
+
+enum class EntityState
+{
+	IDLE = 0,
+	WALKING,
+
+	UNKNOWN
+};
+
+struct EntityAnim
+{
+    uint id = 0;
+    uint numFrames = 0;
+    SDL_Rect* frames = nullptr;
+    EntityState animType;
+
+    //Return how many frames are in one animation
+    uint EntityAnim::FrameCount(pugi::xml_node& n)
+    {
+        numFrames = 0;
+        pugi::xml_node node = n;
+        for (; node != NULL; node = node.next_sibling("frame"))
+        {
+            numFrames++;
+        }
+
+        return numFrames;
+    }
+};
+
+struct EntityInfo
+{
+    TileSetEntity tileset;
+    EntityAnim* animations = nullptr;
+    uint numAnimations = 0;
+};
+
+struct ColliderInfo
+{
+    Collider* collider = nullptr;
+    iPoint offset;
+    int width = 0;
+    int height = 0;
+    Collider::Type type;
+};
+
 class Entity
 {
 public:
@@ -90,10 +165,31 @@ public:
     {
         id = newId;
     }
+
+    // Set ivot for the sprite sorting
+    void Entity::SetPivot(const int& x, const int& y)
+    {
+        pivot.Create(x, y);
+    }
+
+    bool CleanUp()
+    {
+        bool ret = false;
+
+        ret = tex->UnLoad(data.tileset.texture);
+        if (/*collider.collider*/collider != nullptr)
+            /*collider.collider*/collider->pendingToDelete = true;
+        currentAnim = nullptr;
+
+        return ret;
+    }
+
 public:
 
     EntityType type;
     EntitySubtype subtype;
+    EntityInfo data;
+    /*ColliderInfo collider;*/
     SString name;         // Entity name identifier?
     uint32 id;            // Entity identifier?
     Collider* collider = nullptr;
@@ -107,6 +203,9 @@ public:
     bool destroy = false;
     int spritePos;
     Collisions* collisions;
+    iPoint pivot = { 0,0 };
+    iPoint size = { 0,0 };
+    Animation* currentAnim = nullptr;
 
 protected:
 

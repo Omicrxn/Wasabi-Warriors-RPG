@@ -7,6 +7,8 @@
 #include "Point.h"
 #include "Notifier.h"
 
+#include <vector>
+
 class Render;
 class AssetsManager;
 class Textures;
@@ -70,6 +72,12 @@ public:
 	void TooglePlayerGodMode();
 	void DeleteAllEntitiesExceptPlayer();
 
+	// Draws the debug quad of an entity
+	void DrawDebugQuad(Entity*);
+
+	// Function that defines which sprite has to be rendered first
+	static bool SortByYPos(const Entity* ent1, const Entity* ent2);
+
 public:
 
 	Render* render;
@@ -103,6 +111,11 @@ public:
 	int keyFx, footstepPlayerFx, leverFx;
 
 	uint32 totalId = 0;
+
+	// Vector to keep track of the order of the entities
+	std::vector<Entity*> entities;
+	// Bool for the entities debug
+	bool entitiesBox = false;
 };
 
 #endif // __ENTITYMANAGER_H__

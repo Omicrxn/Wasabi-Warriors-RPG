@@ -1631,3 +1631,29 @@ void SceneGameplay::SetMapTransitionState()
 	readyToChangeMap = true;
 }
 
+// Create entities from the map (For now ww are only creating static entities)
+void SceneGameplay::CreateEntities()
+{
+	//Iterate all objects of the map made with Tiled to find entities
+	for (std::list<ColliderObject*>::iterator position = map->data.colliders.begin(); position != map->data.colliders.end(); position++)
+	{
+		iPoint coll = { (*position)->collX, (*position)->collY };
+
+		/*if ((*position)->name == "player")
+		{
+			app->entities->CreateEntity(Entity::Types::PLAYER, (*position)->collX, (*position)->collY, (*position)->name);
+		}*/
+		if ((*position)->entType == "static")
+		{
+			entityManager->CreateEntity(EntityType::STATIC, (*position)->name.c_str(), EntitySubtype::UNKNOWN, coll);
+		}
+		/*else if ((*position)->entType == "NPC")
+		{
+			app->entities->CreateEntity(Entity::Types::NPC, (*position)->collX, (*position)->collY, (*position)->name);
+		}*/
+		else
+		{
+			LOG("There isn't any entity with name %s and type %s", (*position)->name.data(), (*position)->entType.data());
+		}
+	}
+}

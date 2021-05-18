@@ -11,7 +11,7 @@ Map::Map(Textures* texture, AssetsManager* assetsManager) : Entity(EntityType::M
 
 	folder.Create("Maps/");
 
-	name = "Map";
+	name = "map";
 
 	tex = texture;
 	this->assetsManager = assetsManager;
@@ -301,6 +301,23 @@ bool Map::Load(const char* subfolder,const char* filename)
 
 		if (ret == true) data.layers.Add(lay);
 	}
+
+	//Load Object data ------------------------------------------------
+	pugi::xml_node objectGroup;
+	pugi::xml_node object;
+
+	for (objectGroup = mapFile.child("map").child("objectgroup"); objectGroup && ret; objectGroup = objectGroup.next_sibling("objectgroup"))
+	{
+		for (object = objectGroup.child("object"); object; object = object.next_sibling("object")) {
+
+			ColliderObject* obj = new ColliderObject();
+
+			if (ret == true && object != NULL)
+				ret = LoadObject(object, obj);
+
+			data.colliders.push_back(obj);
+		}
+	}
     
     if(ret == true)
     {
@@ -539,6 +556,36 @@ bool Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 
 		break;
 	}
+
+	return ret;
+}
+
+bool Map::LoadObject(pugi::xml_node& nodeObject, ColliderObject* obj) {
+
+	bool ret = true;
+	if (nodeObject.empty())	ret = false;
+
+	//Load Collider / Entity data
+	obj->name = nodeObject.attribute("name").as_string();
+	obj->entType = nodeObject.attribute("type").as_string();
+	obj->tileId = nodeObject.attribute("id").as_uint();
+	obj->collX = nodeObject.attribute("x").as_int();
+	obj->collY = nodeObject.attribute("y").as_int();
+	obj->collHeight = nodeObject.attribute("height").as_uint();
+	obj->collWidth = nodeObject.attribute("width").as_uint();
+
+	//Load Collider type from ObjectGroup
+	pugi::xml_node objGroup = nodeObject.parent();
+	std::string type(objGroup.child("properties").child("property").attribute("value").as_string());
+
+	/*if (type == "COLLIDER_NONE")
+	{
+		obj->type = COLLIDER_NONE;
+	}
+	else if (type == "COLLIDER_FLOOR")
+	{
+		obj->type = COLLIDER_FLOOR;
+	}*/
 
 	return ret;
 }

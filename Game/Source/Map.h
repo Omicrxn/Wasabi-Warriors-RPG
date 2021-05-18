@@ -5,6 +5,7 @@
 #include "Render.h"
 #include "Textures.h"
 #include "AssetsManager.h"
+#include "Collisions.h"
 
 #include "List.h"
 #include "PQueue.h"
@@ -14,7 +15,22 @@
 #include "SDL/include/SDL.h"
 #include "PugiXml/src/pugixml.hpp"
 
+#include <list>
+
 #define COST_MAP_SIZE	100
+
+struct ColliderObject
+{
+	std::string name;
+	std::string entType;
+
+	Collider::Type type;
+	uint tileId;
+	int	collX;
+	int	collY;
+	int collWidth = 0;
+	int collHeight = 0;
+};
 
 // L03: DONE 2: Create a struct to hold information for a TileSet
 // Ignore Terrain Types and Tile Types for now, but we want the image!
@@ -103,6 +119,11 @@ struct MapLayer
 	}
 };
 
+struct MapProperties
+{
+	std::string objectsPath;
+};
+
 // L03: DONE 1: Create a struct needed to hold the information to Map node
 struct MapData
 {
@@ -112,10 +133,15 @@ struct MapData
 	int	tileHeight;
 	SDL_Color backgroundColor;
 	MapTypes type;
+	MapProperties properties;
+
 	List<TileSet*> tilesets;
 
 	// L04: DONE 2: Add a list/array of layers to the map
 	List<MapLayer*> layers;
+
+	// Static objects list
+	std::list<ColliderObject*>	colliders;
 };
 
 class Map : public Entity
@@ -187,6 +213,9 @@ private:
 
 	// L06: DONE 3: Pick the right Tileset based on a tile id
 	TileSet* GetTilesetFromTileId(int id) const;
+
+	// Load an static object and its properties
+	bool LoadObject(pugi::xml_node& tilesetNode, ColliderObject* obj);
 
 public:
 

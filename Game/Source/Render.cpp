@@ -305,3 +305,13 @@ bool Render::DrawText(Font* font, const char* text, int x, int y, int size, int 
 
 	return ret;
 }
+
+bool Render::IsOnCamera(const int& x, const int& y, const int& w, const int& h) const
+{
+	int scale = win->GetScale();
+
+	SDL_Rect cam = { -camera.x, -camera.y, camera.w, camera.h };
+	SDL_Rect r = { x * scale, y * scale, w * scale, h * scale };
+
+	return SDL_HasIntersection(&r, &cam);
+}

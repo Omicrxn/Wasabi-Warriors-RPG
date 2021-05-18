@@ -110,6 +110,7 @@
     <ClCompile Include="Source\ScreenBattle.cpp" />
     <ClCompile Include="Source\ScreenInventory.cpp" />
     <ClCompile Include="Source\SecretWall.cpp" />
+    <ClCompile Include="Source\Static.cpp" />
     <ClCompile Include="Source\Transitions.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\App.cpp" />
@@ -162,6 +163,7 @@
     <ClInclude Include="Source\ScreenBattle.h" />
     <ClInclude Include="Source\ScreenInventory.h" />
     <ClInclude Include="Source\SecretWall.h" />
+    <ClInclude Include="Source\Static.h" />
     <ClInclude Include="Source\Stats.h" />
     <ClInclude Include="Source\Transitions.h" />
     <ClInclude Include="Source\Map.h" />

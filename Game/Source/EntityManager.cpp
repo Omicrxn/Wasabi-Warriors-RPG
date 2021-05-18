@@ -10,6 +10,7 @@
 #include "Activator.h"
 #include "SecretWall.h"
 #include "Lever.h"
+#include "Static.h"
 
 #include "Render.h"
 #include "AssetsManager.h"
@@ -20,6 +21,8 @@
 
 #include "Defs.h"
 #include "Log.h"
+
+#include <algorithm>
 
 EntityManager::EntityManager(Input* input, Render* render, Textures* tex, AudioManager* audio, Collisions* collisions, Transitions* transitions, AssetsManager* assetsManager) : Module()
 {
@@ -144,6 +147,17 @@ bool EntityManager::CleanUp()
 	audio->UnloadFx(keyFx);
 	audio->UnloadFx(leverFx);
 
+	LOG("Freeing all enemies");
+
+	for (std::vector<Entity*>::iterator item = entities.begin(); item != entities.end(); ++item)
+	{
+		if ((*item) != nullptr) {
+			(*item)->CleanUp();
+			RELEASE(*item);
+		}
+	}
+	entities.clear();
+
 	return true;
 }
 
@@ -159,7 +173,7 @@ Entity* EntityManager::CreateEntity(EntityType type, SString name, EntitySubtype
 		playerList.Add((Player*)ret);
 		break;
 	case EntityType::ENEMY:
-		ret = new Enemy(name, tex, collisions, this, transitions, type, subtype,position);
+		ret = new Enemy(name, tex, collisions, this, transitions, type, subtype, position);
 		enemyList.Add((Enemy*)ret);
 		break;
 		//case EntityType::ITEM: ret = new Item(); break;
@@ -175,7 +189,7 @@ Entity* EntityManager::CreateEntity(EntityType type, SString name, EntitySubtype
 		teleportList.Add((Teleport*)ret);
 		break;
 	case EntityType::ITEM:
-		ret = new Item(name, tex, audio, collisions, this, type, subtype,position);
+		ret = new Item(name, tex, audio, collisions, this, type, subtype, position);
 		((Item*)ret)->pickUpFx = pickUpFx;
 		((Item*)ret)->consumeFx = consumeFx;
 		itemList.Add((Item*)ret);
@@ -192,6 +206,9 @@ Entity* EntityManager::CreateEntity(EntityType type, SString name, EntitySubtype
 		ret = new Lever(name, input, tex, audio, collisions, this, type, position);
 		leverList.Add((Lever*)ret);
 		break;
+	case EntityType::STATIC:
+		ret = new Static(name.GetString(), this, position);
+		break;
 	default:
 		break;
 	}
@@ -200,6 +217,7 @@ Entity* EntityManager::CreateEntity(EntityType type, SString name, EntitySubtype
 	if (ret != nullptr)
 	{
 		entityList.Add((Entity*)ret);
+		entities.push_back(ret);
 		((Entity*)ret)->SetId(totalId);
 		totalId = totalId + 1;
 	}
@@ -1168,6 +1186,20 @@ void EntityManager::DestroyEntity(Entity* entity)
 		entity->collider = nullptr;
 	}
 	entityList.Del(entityList.At(entityList.Find(entity)));
+	
+	if (entity != nullptr)
+	{
+		/*entity->CleanUp();*/
+		for (int i = 0; i < entities.size(); ++i)
+		{
+			if (entities[i] == entity)
+			{
+				/*delete entities[i];*/
+				entities[i] = nullptr;
+			}
+		}
+	}
+
 	RELEASE(entity);
 }
 
@@ -1225,18 +1257,63 @@ bool EntityManager::Update(float dt)
 
 bool EntityManager::UpdateAll(float dt, bool doLogic)
 {
+	bool ret = true;
+
 	if (doLogic)
 	{
+		std::vector<Entity*> drawEntities;
+		uint entitiesDrawn = 0;
+
+		for (std::vector<Entity*>::iterator item = entities.begin(); item != entities.end(); ++item)
+		{
+			if (*item != nullptr && (*item)->type != EntityType::MAP && (*item)->name.GetString() != "map")
+			{
+				ret = (*item)->Update(dt);
+				ret = (*item)->Update(input, dt);
+
+				/*if (render->IsOnCamera((*item)->position.x, (*item)->position.y, (*item)->size.x, (*item)->size.y))*/
+				{
+					drawEntities.push_back(*item);
+				}
+			}
+		}
+
+		std::sort(drawEntities.begin(), drawEntities.end(), EntityManager::SortByYPos);
+
+		// Draw map first
+		SearchEntity("map")->Draw(render);
+
+		for (std::vector<Entity*>::iterator item = drawEntities.begin(); item != drawEntities.end(); ++item)
+		{
+			if (*item != nullptr && (*item)->type != EntityType::MAP && (*item)->name.GetString() != "map")
+			{
+				(*item)->Draw(render);
+				entitiesDrawn++;
+
+				if (entitiesBox)
+				{
+					DrawDebugQuad(*item);
+				}
+			}
+		}
+
+		drawEntities.clear();
+
+		/*static char title[30];
+		sprintf_s(title, 30, " | Entities drawn: %u", entitiesDrawn);
+
+		app->win->AddStringToTitle(title);*/
+
 		// TODO: Update all entities
-		for (int i = 0; i < entityList.Count(); i++)
+		/*for (int i = 0; i < entityList.Count(); i++)
 		{
 			entityList.At(i)->data->Update(dt);
 			entityList.At(i)->data->Update(input, dt);
 			entityList.At(i)->data->Draw(render);
-		}
+		}*/
 	}
 
-	return true;
+	return ret;
 }
 
 Entity* EntityManager::SearchEntity(SString name, uint32 id)
@@ -1320,4 +1397,50 @@ void EntityManager::DeleteAllEntitiesExceptPlayer()
 		}
 	}
 	RELEASE(list1);
+}
+
+// Draws the debug quad of an entity
+void EntityManager::DrawDebugQuad(Entity* entity)
+{
+	SDL_Rect section = { entity->position.x, entity->position.y, entity->size.x, entity->size.y };
+	Uint8 alpha = 80;
+
+	switch (entity->type)
+	{
+	/*case EntityType::PLAYER:
+		render->DrawRectangle(section, { 0, 255, 0, alpha });
+		break;
+	case EntityType::NPC:
+		render->DrawRectangle(section, { 255, 0, 0, alpha });
+		break;*/
+	case EntityType::STATIC:
+		/*if (entity->name == "pilar")
+			render->DrawRectangle(section, { 0, 255, 0, alpha });
+		else if (entity->name == "corner" || entity->name == "door")
+			render->DrawRectangle(section, { 255, 255, 0, alpha });
+		else if (entity->name == "wall_d_l")
+			render->DrawRectangle(section, { 255, 255, 0, alpha });
+		else if (entity->name == "wall_d_r")
+			render->DrawRectangle(section, { 255, 255, 0, alpha });
+		else if (entity->name == "wall_u_l")
+			render->DrawRectangle(section, { 255, 255, 0, alpha });
+		else if (entity->name == "wall_u_r")
+			render->DrawRectangle(section, { 255, 255, 0, alpha });
+		else
+		{*/
+			render->DrawRectangle(section, { 255, 255, 255, alpha });
+		/*}*/
+		break;
+	default:
+		render->DrawRectangle(section, { 255, 255, 255, alpha });
+		break;
+	}
+
+	render->DrawCircle(section.x + entity->pivot.x, section.y + entity->pivot.y, 3, { 0, 255, 0 });
+}
+
+// Defines which sprite has to be rendered first
+bool EntityManager::SortByYPos(const Entity* ent1, const Entity* ent2)
+{
+	return ent1->pivot.y + ent1->position.y < ent2->position.y + ent2->pivot.y;
 }

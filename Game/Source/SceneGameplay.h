@@ -118,6 +118,9 @@ public:
 
     void SetMapTransitionState();
 
+    // Create entities from the map (For now ww are only creating static entities)
+    void CreateEntities();
+
 private:
 
     // Needed modules

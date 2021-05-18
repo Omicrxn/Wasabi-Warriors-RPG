@@ -43,6 +43,7 @@ public:
 	iPoint ScreenToWorld(int x, int y) const;
 	void CameraFollow(int objectX, int objectY);
 	Window* GetWindowPtr();
+
 	// Drawing
 	bool DrawTexture(SDL_Texture* texture, int x, int y, const SDL_Rect* section = NULL, float speed = 1.0f, double angle = 0, int pivotX = INT_MAX, int pivotY = INT_MAX, SDL_RendererFlip flip = SDL_FLIP_NONE) const;
 	bool DrawRectangle(const SDL_Rect& rect, SDL_Color color, bool filled = true, bool useCamera = true) const;
@@ -53,6 +54,9 @@ public:
 
 	// Set background color
 	void SetBackgroundColor(SDL_Color color);
+
+	// Blit
+	bool IsOnCamera(const int& x, const int& y, const int& w, const int& h) const;
 
 public:
 
