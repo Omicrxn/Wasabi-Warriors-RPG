@@ -20,6 +20,10 @@ public:
 	{
 		return description.GetString();
 	}
+	void SetDescription(SString description)
+	{
+		this->description = description;
+	}
 
 	void ChangeInteraction()
 	{
