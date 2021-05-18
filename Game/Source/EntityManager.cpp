@@ -453,7 +453,6 @@ bool EntityManager::LoadStateInfo(pugi::xml_node& scenegameplay, MapType current
 		item->spritePos = 0;
 		item->spritePos = itemNode.attribute("spritePos").as_int();
 		item->renderable = itemNode.attribute("renderable").as_bool();
-		item->SetDescription(itemNode.attribute("description").as_string());
 		if (itemNode.attribute("onMap"))
 	
 		item = nullptr;
@@ -966,7 +965,7 @@ bool EntityManager::SaveStateInfo(pugi::xml_node& scenegameplay, MapType current
 		newItemNode.append_attribute("spritePos").set_value(list5->data->spritePos);
 		newItemNode.append_attribute("entitySubType").set_value((int)list5->data->subtype);
 		newItemNode.append_attribute("name").set_value(list5->data->name.GetString());
-		newItemNode.append_attribute("description").set_value(list5->data->GetDescription());
+
 		newItemNode.append_attribute("posX").set_value(list5->data->position.x);
 		newItemNode.append_attribute("posY").set_value(list5->data->position.y);
 		newItemNode.append_attribute("isActive").set_value(list5->data->IsActive());

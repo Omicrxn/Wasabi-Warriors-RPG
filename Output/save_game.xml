@@ -6,9 +6,9 @@
 	<audio musicVolume="32" fxVolume="128" />
 	<scene />
 	<renderer>
-		<camera x="3623" y="682" />
+		<camera x="3626" y="616" />
 	</renderer>
-	<collisions collisionsCount="7" />
+	<collisions collisionsCount="10" />
 	<entitymanager />
 	<scenemanager>
 		<scenegameplay lastMap="2">
@@ -17,8 +17,8 @@
 				<town>
 					<entitiesCount Num="11" />
 					<playerList playerCount="2">
-						<player id="0" spritePos="3" name="B. Willies" posX="1421" posY="334" isActive="true" isRenderable="false" entitySubType="0" level="1" damage="25" maxHP="120" currentHP="100" strength="10" defense="15" attackSpeed="5" criticalRate="10" statsName="B. Willies" />
-						<player id="0" spritePos="6" name="B. Dickinson" posX="1421" posY="334" isActive="false" isRenderable="false" entitySubType="1" level="1" damage="20" maxHP="150" currentHP="120" strength="7" defense="10" attackSpeed="15" criticalRate="15" statsName="B. Dickinson" />
+						<player id="0" spritePos="3" name="B. Willies" posX="1422" posY="312" isActive="true" isRenderable="false" entitySubType="0" level="1" damage="25" maxHP="120" currentHP="100" strength="10" defense="15" attackSpeed="5" criticalRate="10" statsName="B. Willies" />
+						<player id="0" spritePos="6" name="B. Dickinson" posX="1422" posY="312" isActive="false" isRenderable="false" entitySubType="1" level="1" damage="20" maxHP="150" currentHP="120" strength="7" defense="10" attackSpeed="15" criticalRate="15" statsName="B. Dickinson" />
 					</playerList>
 					<enemyList enemyCount="0" />
 					<npcList npcCount="0" />
@@ -26,10 +26,13 @@
 						<teleport id="0" spritePos="0" nameTeleport="" name="" destination="0" posX="640" posY="32" isActive="true" isRenderable="false" />
 						<teleport id="0" spritePos="0" nameTeleport="" name="" destination="2" posX="1440" posY="288" isActive="true" isRenderable="false" />
 					</teleportList>
-					<itemList itemCount="3">
-						<item id="0" spritePos="0" entitySubType="5" name="potion" description="Just a potion" posX="900" posY="1050" isActive="true" isRenderable="false" />
-						<item id="0" spritePos="0" entitySubType="6" name="bigPotion" description="Like a potion but better" posX="1200" posY="1050" isActive="true" isRenderable="false" />
-						<item id="0" spritePos="0" entitySubType="7" name="megaPotion" description="Like a big potion but better" posX="1500" posY="1050" isActive="true" isRenderable="false" />
+					<itemList itemCount="6">
+						<item id="0" spritePos="0" entitySubType="5" name="potion" posX="900" posY="1050" isActive="true" isRenderable="false" />
+						<item id="0" spritePos="0" entitySubType="6" name="bigPotion" posX="1200" posY="1050" isActive="true" isRenderable="false" />
+						<item id="0" spritePos="0" entitySubType="7" name="megaPotion" posX="1500" posY="1050" isActive="true" isRenderable="false" />
+						<item id="0" spritePos="0" entitySubType="8" name="wasabi" posX="1800" posY="1050" isActive="true" isRenderable="false" />
+						<item id="0" spritePos="0" entitySubType="9" name="pan" posX="2100" posY="1050" isActive="true" isRenderable="false" />
+						<item id="0" spritePos="0" entitySubType="10" name="fork" posX="2400" posY="1050" isActive="true" isRenderable="false" />
 					</itemList>
 					<activatorList activatorCount="0" />
 					<secretWallList secretWallCount="0" />
@@ -40,10 +43,6 @@
 	</scenemanager>
 	<screen>
 		<screensettings sliderVolume="539" sliderAudio="539" fullScreen="false" vsync="false" />
-		<screeninventory inventoryCount="3">
-			<invSlot entitySubType="10" count="1" />
-			<invSlot entitySubType="9" count="1" />
-			<invSlot entitySubType="8" count="1" />
-		</screeninventory>
+		<screeninventory inventoryCount="0" />
 	</screen>
 </game_state>
