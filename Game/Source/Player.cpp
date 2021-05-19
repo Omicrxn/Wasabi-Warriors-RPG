@@ -40,11 +40,13 @@ Player::Player(SString name, Textures* tex, AudioManager* audio, Collisions* col
     {
         SetUpClass("hunter");
         SetTexture(3);
+        SetPivot(8, 30);
     }
     else if (subtype == EntitySubtype::PLAYER_WIZARD)
     {
         SetUpClass("wizard");
         SetTexture(6);
+        SetPivot(8, 30);
     }
 
     // Start timer

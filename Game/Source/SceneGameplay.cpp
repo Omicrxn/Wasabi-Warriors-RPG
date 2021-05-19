@@ -371,7 +371,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 	{
 		entityManager->TooglePlayerGodMode();
 		map->drawColliders = !map->drawColliders;
-
+		entityManager->entitiesBox = !entityManager->entitiesBox;
 	}
 
 	// Checking if we have to change the map
@@ -1555,6 +1555,8 @@ void SceneGameplay::SetUpTp()
 		pugi::xml_document docSaveFileData;
 		pugi::xml_parse_result result = docSaveFileData.load_file("save_game.xml");
 		LoadInventory(docSaveFileData.first_child().child("screen").child("screeninventory"));
+
+		CreateEntities();
 	}
 }
 

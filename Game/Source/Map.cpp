@@ -385,9 +385,25 @@ bool Map::LoadMap()
 		else if (orientation == "isometric") data.type = MAPTYPE_ISOMETRIC;
 		else if (orientation == "staggered") data.type = MAPTYPE_STAGGERED;
 		else data.type = MAPTYPE_UNKNOWN;
+
+		LoadMapProperties(map.child("properties"));
 	}
 
 	return ret;
+}
+
+bool Map::LoadMapProperties(pugi::xml_node& node)
+{
+	for (node = node.child("property"); node != NULL; node = node.next_sibling())
+	{
+		std::string prop = node.attribute("name").as_string();
+
+		if (prop == "Object texture")
+		{
+			data.properties.objectsPath = node.attribute("value").as_string();
+		}
+	}
+	return true;
 }
 
 // L03: DONE: Load Tileset attributes

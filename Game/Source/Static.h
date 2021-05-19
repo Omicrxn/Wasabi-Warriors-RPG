@@ -10,27 +10,16 @@ class Static : public Entity
 
 public:
 
-	enum class Type {
-		BUILDING,
-		ROCK,
-		CACTUS,
-		PALM_TREE,
-		MOUNTAIN,
-
-		PILAR,
-		CORNER,
-		WALL_UP_RIGHT,
-		WALL_UP_LEFT,
-		WALL_DOWN_RIGHT,
-		WALL_DOWN_LEFT,
-		DOOR,
+	enum class Type
+	{
+		TREE,
 
 		UNKNOWN
 	};
 
 public:
 
-	Static(std::string name, EntityManager* entityManager, iPoint position);
+	Static(std::string name, Textures* tex, EntityManager* entityManager, iPoint position);
 
 	~Static();
 

@@ -28,6 +28,7 @@ class Activator;
 class Lever;
 class SecretWall;
 class AudioManager;
+class Static;
 
 class EntityManager : public Module
 {

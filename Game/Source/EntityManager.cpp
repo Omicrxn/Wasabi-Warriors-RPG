@@ -207,7 +207,7 @@ Entity* EntityManager::CreateEntity(EntityType type, SString name, EntitySubtype
 		leverList.Add((Lever*)ret);
 		break;
 	case EntityType::STATIC:
-		ret = new Static(name.GetString(), this, position);
+		ret = new Static(name.GetString(), tex, this, position);
 		break;
 	default:
 		break;
