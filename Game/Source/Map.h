@@ -217,6 +217,7 @@ private:
 
 	// Load an static object and its properties
 	bool LoadObject(pugi::xml_node& tilesetNode, ColliderObject* obj);
+	bool LoadObjectData();
 
 public:
 

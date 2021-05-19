@@ -1402,6 +1402,8 @@ void EntityManager::DeleteAllEntitiesExceptPlayer()
 // Draws the debug quad of an entity
 void EntityManager::DrawDebugQuad(Entity* entity)
 {
+	render->scale = 3;
+
 	SDL_Rect section = { entity->position.x, entity->position.y, entity->size.x, entity->size.y };
 	Uint8 alpha = 80;
 
@@ -1437,6 +1439,8 @@ void EntityManager::DrawDebugQuad(Entity* entity)
 	}
 
 	render->DrawCircle(section.x + entity->pivot.x, section.y + entity->pivot.y, 3, { 0, 255, 0 });
+
+	render->scale = 1;
 }
 
 // Defines which sprite has to be rendered first

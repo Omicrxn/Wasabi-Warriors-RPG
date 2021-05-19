@@ -275,7 +275,7 @@ bool Render::DrawCircle(int x, int y, int radius, SDL_Color color) const
 
 	if(result != 0)
 	{
-		LOG("Cannot draw quad to screen. SDL_RenderFillRect error: %s", SDL_GetError());
+		LOG("Cannot draw circle to screen. SDL_RenderFillRect error: %s", SDL_GetError());
 		ret = false;
 	}
 

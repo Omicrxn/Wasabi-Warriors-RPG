@@ -303,21 +303,7 @@ bool Map::Load(const char* subfolder,const char* filename)
 	}
 
 	//Load Object data ------------------------------------------------
-	pugi::xml_node objectGroup;
-	pugi::xml_node object;
-
-	for (objectGroup = mapFile.child("map").child("objectgroup"); objectGroup && ret; objectGroup = objectGroup.next_sibling("objectgroup"))
-	{
-		for (object = objectGroup.child("object"); object; object = object.next_sibling("object")) {
-
-			ColliderObject* obj = new ColliderObject();
-
-			if (ret == true && object != NULL)
-				ret = LoadObject(object, obj);
-
-			data.colliders.push_back(obj);
-		}
-	}
+	LoadObjectData();
     
     if(ret == true)
     {
@@ -602,6 +588,32 @@ bool Map::LoadObject(pugi::xml_node& nodeObject, ColliderObject* obj) {
 	{
 		obj->type = COLLIDER_FLOOR;
 	}*/
+
+	return ret;
+}
+
+bool Map::LoadObjectData()
+{
+	bool ret = true;
+
+	data.colliders.clear();
+
+	//Load Object data ------------------------------------------------
+	pugi::xml_node objectGroup;
+	pugi::xml_node object;
+
+	for (objectGroup = mapFile.child("map").child("objectgroup"); objectGroup && ret; objectGroup = objectGroup.next_sibling("objectgroup"))
+	{
+		for (object = objectGroup.child("object"); object; object = object.next_sibling("object")) {
+
+			ColliderObject* obj = new ColliderObject();
+
+			if (ret == true && object != NULL)
+				ret = LoadObject(object, obj);
+
+			data.colliders.push_back(obj);
+		}
+	}
 
 	return ret;
 }
