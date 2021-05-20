@@ -229,6 +229,7 @@ bool SceneTitle::Draw(Render* render)
     win->GetWindowSize(width, height);
 
     render->DrawTexture(backgroundTex, 0, 0, &backgroundRect, 0.0f);
+    render->DrawRectangle({ 0,0,1280,720 }, { 0, 0, 0, 100 }, true, false);
 
     // Main title FX sounds just at title appearing
     if (titleFxTimer.ReadSec() >= 1.9f && titleFxTimer.ReadSec() < 2.0f)
