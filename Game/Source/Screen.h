@@ -81,6 +81,19 @@ public:
             this->guiManager->FindById(i)->state = GuiControlState::NORMAL;
         }
     }
+
+    virtual void Enable()
+    {
+        this->isActive = true;
+        ShowButtons();
+    }
+
+    virtual void Disable()
+    {
+        this->isActive = false;
+        HideButtons();
+    }
+
     void UpdateControllerSelection(int focusedButtonId)
     {
         for (int i = minIndex; i <= maxIndex; ++i)

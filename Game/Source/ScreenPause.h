@@ -12,9 +12,15 @@ public:
 	bool Draw(Render* render);
 	bool Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager);
 
+	void Enable();
+	void Disable();
+
+	int position;
+
 	GuiIcon* iconResume;
 	GuiIcon* iconSettings;
 	GuiIcon* iconExit;
 
 	SDL_Rect pauseTitleRect;
+	SDL_Rect mobileRect;
 };

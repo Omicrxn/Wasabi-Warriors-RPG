@@ -165,6 +165,8 @@ private:
     SDL_Texture* backgroundTex;
     SDL_Texture* titlesTex;
     SDL_Texture* guiAtlasTex;
+    SDL_Texture* guiAtlasTex2;
+    SDL_Texture* guiAtlasOut;
     SDL_Texture* aura;
     SDL_Texture* cast1;
     SDL_Texture* enemyCast;

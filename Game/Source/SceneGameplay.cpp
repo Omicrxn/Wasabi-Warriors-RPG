@@ -157,6 +157,8 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 	// Load battle system textures
 	backgroundTex = tex->Load("Textures/Scenes/battle_scene.jpg");
 	guiAtlasTex = tex->Load("Textures/UI/ui_spritesheet.png");
+	guiAtlasTex2 = tex->Load("Textures/UI/guiTextureSpritesheet.png");
+	guiAtlasOut = tex->Load("Textures/UI/outsideGUI.png");
 	aura = tex->Load("Textures/Scenes/aura.png");
 	cast1 = tex->Load("Textures/Effects/cast_001.png");
 	enemyCast = tex->Load("Textures/Effects/cast_008.png");
@@ -239,13 +241,13 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 
 	// Gui id goes from 0 to 2
 	screenRoaming = new ScreenRoaming();
-	screenRoaming->Load(0, 2, this, win, guiManager, entityManager, audio, easing, guiAtlasTex, buttonFont, hoverFx, clickFx);
+	screenRoaming->Load(0, 2, this, win, guiManager, entityManager, audio, easing, guiAtlasOut, buttonFont, hoverFx, clickFx);
 	screenRoaming->isActive = true;
 	screenRoaming->ShowButtons();
 
 	// Gui id goes from 3 to 5
 	screenPause = new ScreenPause();
-	screenPause->Load(3, 5, this, win, guiManager, NULL, audio, easing, guiAtlasTex, titlesTex, buttonFont, hoverFx, clickFx);
+	screenPause->Load(3, 5, this, win, guiManager, NULL, audio, easing, guiAtlasTex2, titlesTex, buttonFont, hoverFx, clickFx);
 	screenPause->isActive = false;
 	screenPause->HideButtons();
 
@@ -651,6 +653,7 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 	tex->UnLoad(charactersSpritesheet);
 	tex->UnLoad(backgroundTex);
 	tex->UnLoad(guiAtlasTex);
+	tex->UnLoad(guiAtlasTex2);
 	tex->UnLoad(titlesTex);
 	
 	tex->UnLoad(aura);
@@ -959,8 +962,7 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 			screenRoaming->isActive = false;
 			screenRoaming->HideButtons();
 
-			screenPause->isActive = true;
-			screenPause->ShowButtons();
+			screenPause->Enable();
 
 			for (int i = 0; i < entityManager->playerList.Count(); i++)
 			{
@@ -986,8 +988,7 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 			{
 				currentState = GameState::ROAMING;
 
-				screenPause->isActive = false;
-				screenPause->HideButtons();
+				screenPause->Disable();
 				
 				screenRoaming->isActive = true;
 				screenRoaming->ShowButtons();
@@ -1005,8 +1006,7 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 			// Entering settings from pause
 			currentState = GameState::SETTINGS;
 
-			screenPause->isActive = false;
-			screenPause->HideButtons();
+			screenPause->Disable();
 
 			screenSettings->isActive = true;
 			screenSettings->ShowButtons();
@@ -1026,16 +1026,14 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 			screenRoaming->isActive = false;
 			screenRoaming->HideButtons();
 
-			screenPause->isActive = false;
-			screenPause->HideButtons();
+			screenPause->Disable();
 		}
 		else if (control->id == 10)
 		{
 			// Returning from settings to pause
 			currentState = GameState::PAUSE;
 
-			screenPause->isActive = true;
-			screenPause->ShowButtons();
+			screenPause->Enable();
 
 			screenSettings->isActive = false;
 			screenSettings->HideButtons();

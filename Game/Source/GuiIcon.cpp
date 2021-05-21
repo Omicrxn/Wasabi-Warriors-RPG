@@ -12,15 +12,13 @@ GuiIcon::GuiIcon(uint32 id, SDL_Rect bounds) : GuiControl(GuiControlType::ICON, 
     hoverFx = -1;
     clickFx = -1;
 
-    arrowWhiteRight = { 259,486,22,21 };
-
-    iconPause = { 870, 220, 52, 55 };
-    iconInventory = { 1000, 220, 56, 55 };
+    //arrowWhiteRight = { 160,50,18,18 };
+    iconPause = { 20, 14, 52, 66 };
+    iconInventory = { 84, 16, 60, 62 };
     iconPhone = { 1117, 220, 41, 55 };
-    iconReturn = { 1117, 29, 65, 55 };
-    iconSettings = { 870, 125, 58, 55 };
-    iconExit = { 1000, 125, 46, 55 };
-
+    iconReturn = { 540, 870, 54, 54 };
+    iconSettings = { 102, 402, 40, 39 };
+    iconExit = { 165, 402, 36, 39 };
     iconA = { 684, 8, 57, 57 };
     iconX = { 684, 196, 57, 57 };
     iconB = { 684, 101, 57, 57 };
