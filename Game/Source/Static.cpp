@@ -141,6 +141,69 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 		SetPivot(6, 18);
 	}
 
+	if (name == "roof_10")
+	{
+		type = Static::Type::ROOF;
+		SetRect(32, 544, 32, 32);
+		SetPivot(16, 32);
+	}
+
+	if (name == "statue_0")
+	{
+		type = Static::Type::STATUE;
+		SetRect(486, 147, 20, 40);
+		SetPivot(20, 40);
+	}
+
+	if (name == "tree_1")
+	{
+		type = Static::Type::TREE;
+		SetRect(68, 193, 25, 31);
+		SetPivot(13, 31);
+	}
+
+	if (name == "tree_2")
+	{
+		type = Static::Type::TREE;
+		SetRect(194, 160, 62, 38);
+		SetPivot(31, 38);
+	}
+
+	if (name == "light_1")
+	{
+		type = Static::Type::TREE;
+		SetRect(115, 145, 11, 23);
+		SetPivot(6, 23);
+	}
+
+	if (name == "stone_0")
+	{
+		type = Static::Type::STONE;
+		SetRect(236, 21, 8, 25);
+		SetPivot(4, 25);
+	}
+
+	if (name == "light_2")
+	{
+		type = Static::Type::LIGHT;
+		SetRect(168, 130, 16, 25);
+		SetPivot(8, 25);
+	}
+
+	if (name == "stone_2")
+	{
+		type = Static::Type::STONE;
+		SetRect(194, 25, 28, 14);
+		SetPivot(14, 14);
+	}
+
+	if (name == "stone_3")
+	{
+		type = Static::Type::STONE;
+		SetRect(256, 143, 32, 17);
+		SetPivot(16, 17);
+	}
+
 	else {
 		LOG("There isn't any type assigned to %s name entity", name.data());
 	}
