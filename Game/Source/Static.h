@@ -13,7 +13,13 @@ public:
 	enum class Type
 	{
 		TREE,
-
+		ROOF,
+		CUP,
+		SIGNE,
+		MACHINE,
+		WINDOW,
+		LIGHT,
+		BIN,
 		UNKNOWN
 	};
 

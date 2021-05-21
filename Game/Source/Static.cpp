@@ -22,6 +22,125 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 		SetPivot(16, 46);
 	}
 
+	if (name == "roof_0")
+	{
+		type = Static::Type::ROOF;
+		SetRect(32, 320, 32, 32);
+		SetPivot(16, 64);
+	}
+
+	if (name == "roof_1")
+	{
+		type = Static::Type::ROOF;
+		SetRect(224, 544, 32, 32);
+		SetPivot(16, 64);
+	}
+
+	if (name == "roof_2")
+	{
+		type = Static::Type::ROOF;
+		SetRect(224, 320, 32, 32);
+		SetPivot(16, 64);
+	}
+
+	if (name == "cup_0")
+	{
+		type = Static::Type::CUP;
+		SetRect(299, 493, 10, 9);
+		SetPivot(10, 36);
+	}
+
+	if (name == "roof_3")
+	{
+		type = Static::Type::ROOF;
+		SetRect(352, 320, 32, 32);
+		SetPivot(16, 64);
+	}
+
+	if (name == "roof_4")
+	{
+		type = Static::Type::ROOF;
+		SetRect(320, 544, 32, 32);
+		SetPivot(16, 64);
+	}
+
+	if (name == "roof_5")
+	{
+		type = Static::Type::ROOF;
+		SetRect(32, 352, 32, 32);
+		SetPivot(32, 64);
+	}
+
+	if (name == "roof_6")
+	{
+		type = Static::Type::ROOF;
+		SetRect(352, 352, 32, 32);
+		SetPivot(16, 64);
+	}
+
+	if (name == "roof_7")
+	{
+		type = Static::Type::ROOF;
+		SetRect(160, 640, 32, 32);
+		SetPivot(16, 64);
+	}
+
+	if (name == "roof_8")
+	{
+		type = Static::Type::ROOF;
+		SetRect(160, 416, 32, 32);
+		SetPivot(16, 64);
+	}
+
+	if (name == "signe_0")
+	{
+		type = Static::Type::SIGNE;
+		SetRect(614, 706, 15, 28);
+		SetPivot(8, 28);
+	}
+
+	if (name == "machine_0")
+	{
+		type = Static::Type::MACHINE;
+		SetRect(422, 597, 19, 26);
+		SetPivot(10, 26);
+	}
+
+	if (name == "roof_9")
+	{
+		type = Static::Type::ROOF;
+		SetRect(320, 576, 32, 32);
+		SetPivot(16, 64);
+	}
+
+	if (name == "window_0")
+	{
+		type = Static::Type::WINDOW;
+		SetRect(102, 116, 19, 34);
+		SetPivot(19, 136);
+	}
+
+	if (name == "light_0")
+	{
+		type == Static::Type::LIGHT;
+		SetRect(711, 309, 18, 105);
+		SetPivot(9, 105);
+	}
+
+	if (name == "bin_0")
+	{
+		type = Static::Type::BIN;
+		SetRect(458, 650, 12, 18);
+		SetPivot(6, 18);
+	}
+
+	if (name == "bin_1")
+	{
+		type = Static::Type::BIN;
+		SetRect(426, 649, 12, 18);
+		SetPivot(6, 18);
+	}
+
 	else {
 		LOG("There isn't any type assigned to %s name entity", name.data());
 	}
