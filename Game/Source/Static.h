@@ -20,6 +20,8 @@ public:
 		WINDOW,
 		LIGHT,
 		BIN,
+		STATUE,
+		STONE,
 		UNKNOWN
 	};
 
