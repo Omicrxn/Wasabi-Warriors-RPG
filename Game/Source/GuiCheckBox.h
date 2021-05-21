@@ -28,6 +28,9 @@ private:
 
     // Rects for box
     SDL_Rect whiteBox;
+    SDL_Rect grayBox;
+    SDL_Rect pinkBox;
+
     SDL_Rect whitePressedBox;
 
     // Rects for check

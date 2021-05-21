@@ -50,8 +50,6 @@ bool ScreenPause::Load(int minIndex, int maxIndex, Scene* currentScene, Window* 
 	iconExit->SetIconProperties(currentScene, atlas[0], font, hoverFx, clickFx, CONTROLLER_BUTTON_B, IconType::ICON_EXIT);
 	iconExit->state = GuiControlState::HIDDEN;
 
-	//iconResume->bounds.x
-
 	return true;
 }
 
@@ -63,7 +61,9 @@ bool ScreenPause::Update(Input* input, float dt, uint& focusedButtonId)
 bool ScreenPause::Draw(Render* render)
 {
 	// Draw pause background & title
-	render->DrawRectangle({ 0,0,1280,720 }, { 0, 0, 0, 100 }, true, false);
+	uint width, height;
+	win->GetWindowSize(width, height);
+	render->DrawRectangle({ 0,0, (int)width,(int)height }, { 0, 0, 0, 100 }, true, false);	
 	//render->DrawTexture(guiAtlasTex, 1280 / 2 - pauseBackgroundRect.w / 2, 720 / 2 - pauseBackgroundRect.h / 2, &pauseBackgroundRect, 0.0f);
 	// title : render->DrawTexture(atlas[1], 1280 / 2 - pauseTitleRect.w / 2, 100, &pauseTitleRect, 0.0f);
 	render->DrawTexture(atlas[0], (1280 / 2 - mobileRect.w / 2) / render->scale, position / render->scale , &mobileRect, 0.0f);

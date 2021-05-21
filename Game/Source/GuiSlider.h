@@ -29,12 +29,15 @@ private:
     // GuiSlider specific properties
     int value;
 
-    SDL_Rect bar;
+    SDL_Rect whiteBar;
+    SDL_Rect grayBar;
+    SDL_Rect pinkBar;
+
     SDL_Rect slider;
 
     SDL_Rect arrowWhiteRight;
 
-    SDL_Rect whiteCircle;
+    SDL_Rect grayCircle;
     SDL_Rect blueCircle;
     SDL_Rect yellowCircle;
 };

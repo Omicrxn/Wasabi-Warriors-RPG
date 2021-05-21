@@ -253,7 +253,7 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 
 	// Gui id goes from 6 to 10
 	screenSettings = new ScreenSettings();
-	screenSettings->Load(6, 10, this, win, guiManager, NULL, audio, easing, guiAtlasTex, titlesTex, buttonFont, hoverFx, clickFx);
+	screenSettings->Load(6, 10, this, win, guiManager, NULL, audio, easing, guiAtlasTex2, titlesTex, buttonFont, hoverFx, clickFx);
 	screenSettings->isActive = false;
 	screenSettings->HideButtons();
 
@@ -654,6 +654,7 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 	tex->UnLoad(backgroundTex);
 	tex->UnLoad(guiAtlasTex);
 	tex->UnLoad(guiAtlasTex2);
+	tex->UnLoad(guiAtlasOut);
 	tex->UnLoad(titlesTex);
 	
 	tex->UnLoad(aura);

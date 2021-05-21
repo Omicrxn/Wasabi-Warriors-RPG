@@ -45,6 +45,8 @@ SceneTitle::SceneTitle()
 
     // Texture
     guiAtlasTex = nullptr;
+    guiAtlasTex2 = nullptr;
+
     titlesTex = nullptr;
 
     // More backgound
@@ -95,6 +97,7 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
     backgroundTex = tex->Load("Textures/Scenes/main_menu.png");
 
     guiAtlasTex = tex->Load("Textures/UI/ui_spritesheet.png");
+    guiAtlasTex2 = tex->Load("Textures/UI/guiTextureSpritesheet.png");
     titlesTex = tex->Load("Textures/Scenes/titles.png");
 
     titleFont = new Font("Fonts/shojumaru.xml", tex, assetsManager);
@@ -109,7 +112,7 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
     screenMainMenu->Load(0, 4, this, win, guiManager, NULL, audio, easing, guiAtlasTex, titlesTex, buttonFont, hoverFx, clickFx);
     screenMainMenu->isActive = true;
     screenSettings = new ScreenSettings();
-    screenSettings->Load(5, 9, this, win, guiManager, NULL, audio, easing, guiAtlasTex, titlesTex, buttonFont, hoverFx, clickFx);
+    screenSettings->Load(5, 9, this, win, guiManager, NULL, audio, easing, guiAtlasTex2, titlesTex, buttonFont, hoverFx, clickFx);
 
     pugi::xml_document docData;
     pugi::xml_node screenNode;
@@ -263,7 +266,11 @@ bool SceneTitle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManag
     tex->UnLoad(backgroundTex);
     backgroundTex = nullptr;
     tex->UnLoad(guiAtlasTex);
-    guiAtlasTex = nullptr;
+    guiAtlasTex = nullptr;  
+
+    tex->UnLoad(guiAtlasTex2);
+    guiAtlasTex2 = nullptr;
+
     tex->UnLoad(titlesTex);
     titlesTex = nullptr;
 

@@ -14,14 +14,13 @@ GuiCheckBox::GuiCheckBox(uint32 id, SDL_Rect bounds, const char* text) : GuiCont
     hoverFx = -1;
     clickFx = -1;
 
-    whiteBox = { 293,437,45,49 };
-    whitePressedBox = { 290,49,45,45 };
+    whiteBox = { 36, 30, 49, 48 };
+    grayBox = { 399, 30, 49, 48 };
+    pinkBox = { 36, 87, 49, 48 };
 
-    greyTick = { 370,30,16,15 };
-    whiteTick = { 370,75,16,15 };
-    yellowTick = { 369,184,16,15 };
+    greyTick = { 42, 402, 36, 36 };
 
-    arrowWhiteRight = { 259,486,22,21 };
+    arrowWhiteRight = { 534, 112, 25, 25 };
 }
 
 GuiCheckBox::~GuiCheckBox()
@@ -131,34 +130,34 @@ bool GuiCheckBox::Draw(Render* render, bool debugDraw)
         render->DrawTexture(texture, bounds.x, bounds.y, &whiteBox, 0.0f);
         if (checked)
         {
-            render->DrawTexture(texture, bounds.x + bounds.w / 2 - greyTick.w / 2, bounds.y + bounds.h / 2 - greyTick.h / 2, &greyTick, 0.0f);
+            render->DrawTexture(texture, bounds.x + bounds.w / 2 - greyTick.w / 2 + 2, bounds.y + bounds.h / 2 - greyTick.h / 2, &greyTick, 0.0f);
         }
 
-        render->DrawText(font, text.GetString(), bounds.x + bounds.h + 20, bounds.y + 14, 25, 3, { 255,255,255,255 });
+        render->DrawText(font, text.GetString(), bounds.x, bounds.y - 30, 25, 3, { 255,255,255,255 });
         break;
     case GuiControlState::FOCUSED:
-        render->DrawTexture(texture, bounds.x, bounds.y, &whiteBox, 0.0f);
+        render->DrawTexture(texture, bounds.x, bounds.y, &grayBox, 0.0f);
         if (checked)
         {
-            render->DrawTexture(texture, bounds.x + bounds.w / 2 - greyTick.w / 2, bounds.y + bounds.h / 2 - greyTick.h / 2, &greyTick, 0.0f);
+            render->DrawTexture(texture, bounds.x + bounds.w / 2 - greyTick.w / 2 + 2, bounds.y + bounds.h / 2 - greyTick.h / 2, &greyTick, 0.0f);
         }
 
         render->DrawTexture(texture, bounds.x - 30, bounds.y + bounds.h / 2 - arrowWhiteRight.h / 2, &arrowWhiteRight, 0.0f);
 
-        render->DrawText(font, text.GetString(), bounds.x + bounds.h + 22, bounds.y + 14, 25, 3, { 105,105,105,255 });
-        render->DrawText(font, text.GetString(), bounds.x + bounds.h + 20, bounds.y + 14, 25, 3, { 0,0,0,255 });
+        render->DrawText(font, text.GetString(), bounds.x, bounds.y - 30, 25, 3, { 105,105,105,255 });
+        render->DrawText(font, text.GetString(), bounds.x, bounds.y - 30, 25, 3, { 0,0,0,255 });
         break;
     case GuiControlState::PRESSED:
-        render->DrawTexture(texture, bounds.x, bounds.y + 4, &whitePressedBox, 0.0f);
+        render->DrawTexture(texture, bounds.x, bounds.y + 4, &pinkBox, 0.0f);
         if (checked)
         {
-            render->DrawTexture(texture, bounds.x + bounds.w / 2 - greyTick.w / 2, bounds.y + bounds.h / 2 - greyTick.h / 2 + 4, &greyTick, 0.0f);
+            render->DrawTexture(texture, bounds.x + bounds.w / 2 - greyTick.w / 2 + 2, bounds.y + bounds.h / 2 - greyTick.h / 2 + 4, &greyTick, 0.0f);
         }
 
         render->DrawTexture(texture, bounds.x - 30, bounds.y + bounds.h / 2 - arrowWhiteRight.h / 2 + 4, &arrowWhiteRight, 0.0f);
 
-        render->DrawText(font, text.GetString(), bounds.x + bounds.h + 22, bounds.y + 18, 25, 3, { 105,105,105,255 });
-        render->DrawText(font, text.GetString(), bounds.x + bounds.h + 20, bounds.y + 18, 25, 3, { 0,0,0,255 });
+        render->DrawText(font, text.GetString(), bounds.x, bounds.y - 30, 25, 3, { 105,105,105,255 });
+        render->DrawText(font, text.GetString(), bounds.x, bounds.y - 30, 25, 3, { 0,0,0,255 });
         break;
     default:
         break;

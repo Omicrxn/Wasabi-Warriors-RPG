@@ -33,4 +33,6 @@ private:
 	SDL_Rect iconARect;
 	SDL_Rect dpadRect;
 	SDL_Rect iconSTARTRect;
+
+	SDL_Rect mobileRect;
 };

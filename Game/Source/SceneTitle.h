@@ -68,6 +68,7 @@ private:
     SDL_Rect backgroundRect;
 
     SDL_Texture* guiAtlasTex;
+    SDL_Texture* guiAtlasTex2;
     SDL_Texture* titlesTex;
 
     SDL_Rect settingsTitleRect;

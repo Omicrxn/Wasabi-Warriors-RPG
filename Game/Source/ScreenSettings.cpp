@@ -13,6 +13,8 @@ ScreenSettings::ScreenSettings()
 	sliderFXVolume = nullptr;
 	iconReturnTitle = nullptr;
 
+	mobileRect = { 375, 339, 392, 603 };
+
 	settingsTitleRect = { 0, 149, 530, 81 };
 
 	settingsBackgroundColor1 = { 74,79,95,255 };
@@ -45,27 +47,27 @@ bool ScreenSettings::Load(int minIndex, int maxIndex, Scene* currentScene, Windo
 	this->maxIndex = maxIndex;
 	int counterId = minIndex;
 
-	checkFullScreen = (GuiCheckBox*)guiManager->CreateGuiControl(GuiControlType::CHECKBOX, counterId, { (int)width / 2 - (int)((float)width / 3.5f) - 20, 194, 45, 49 }, "FULLSCREEN");
+	checkFullScreen = (GuiCheckBox*)guiManager->CreateGuiControl(GuiControlType::CHECKBOX, counterId, { (int)width / 2 - (int)((float)width / 10), 150, 45, 49 }, "FULLSCREEN");
 	checkFullScreen->SetCheckBoxProperties(currentScene, atlas0, buttonFont, hoverFx, clickFx);
 	++counterId;
 
-	checkVsync = (GuiCheckBox*)guiManager->CreateGuiControl(GuiControlType::CHECKBOX, counterId, { (int)width / 2 - (int)((float)width / 3.5f) - 20, 294, 45, 49 }, "VSYNC");
+	checkVsync = (GuiCheckBox*)guiManager->CreateGuiControl(GuiControlType::CHECKBOX, counterId, { (int)width / 2 - (int)((float)width / 10), 250, 45, 49 }, "VSYNC");
 	checkVsync->SetCheckBoxProperties(currentScene, atlas0, buttonFont, hoverFx, clickFx);
 	++counterId;
 
-	sliderMusicVolume = (GuiSlider*)guiManager->CreateGuiControl(GuiControlType::SLIDER, counterId, { (int)width / 2 - (int)((float)width / 12) + 5, 200, 300, 30 }, "MUSIC VOLUME");
+	sliderMusicVolume = (GuiSlider*)guiManager->CreateGuiControl(GuiControlType::SLIDER, counterId, { (int)width / 2 - (int)((float)width / 10), 350, 261, 51 }, "MUSIC VOLUME");
 	sliderMusicVolume->SetSliderProperties(currentScene, atlas0, buttonFont, hoverFx, clickFx);
 	sliderMusicVolume->minValue = 0;
 	sliderMusicVolume->maxValue = SDL_MIX_MAXVOLUME;
 	++counterId;
 
-	sliderFXVolume = (GuiSlider*)guiManager->CreateGuiControl(GuiControlType::SLIDER, counterId, { (int)width / 2 - (int)((float)width / 12) + 5, 300, 300, 30 }, "FX VOLUME");
+	sliderFXVolume = (GuiSlider*)guiManager->CreateGuiControl(GuiControlType::SLIDER, counterId, { (int)width / 2 - (int)((float)width / 10), 450, 261, 51 }, "FX VOLUME");
 	sliderFXVolume->SetSliderProperties(currentScene, atlas0, buttonFont, hoverFx, clickFx);
 	sliderFXVolume->minValue = 0;
 	sliderFXVolume->maxValue = SDL_MIX_MAXVOLUME;
 	++counterId;
 
-	iconReturnTitle = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { (int)width / 2 + (int)((float)width / 4), 570, 70, 55 });
+	iconReturnTitle = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 609, 580, 70, 55 });
 	iconReturnTitle->SetIconProperties(currentScene, atlas0, buttonFont, hoverFx, clickFx, CONTROLLER_BUTTON_B, IconType::ICON_RETURN);
 
 	return true;
@@ -116,11 +118,14 @@ bool ScreenSettings::Draw(Render* render)
 	{
 		uint width, height;
 		win->GetWindowSize(width, height);
+		render->DrawRectangle({ 0,0,(int)width,(int)height }, { 0, 0, 0, 100 }, true, false);
 
 		//render->scale = 3;
 		//render->DrawTexture(atlas[0], 60, 25, &settingsBackgroundRect, 0.0f);
 		//render->scale = 1;
-		render->DrawRectangle(settingsBackgroundRect1, settingsBackgroundColor1, true, false);
+		render->DrawTexture(atlas[0], (1280 / 2 - mobileRect.w / 2) / render->scale, 50 / render->scale, &mobileRect, 0.0f);
+
+		/*render->DrawRectangle(settingsBackgroundRect1, settingsBackgroundColor1, true, false);
 		render->DrawRectangle(settingsBackgroundRect2, settingsBackgroundColor2, true, false);
 
 		render->DrawTexture(atlas[1], width / 2 - settingsTitleRect.w / 2, 40, &settingsTitleRect, 0.0f);
@@ -130,7 +135,7 @@ bool ScreenSettings::Draw(Render* render)
 		render->DrawTexture(atlas[0], 633, 400, &iconARect, 0.0f);
 		render->DrawText(font, "Interact", 633 + iconARect.w + 15, 415, 25, 3, { 255,255,255,255 });
 		render->DrawTexture(atlas[0], 633, 505, &iconSTARTRect, 0.0f);
-		render->DrawText(font, "Pause", 633 + iconSTARTRect.w + 17, 520, 25, 3, { 255,255,255,255 });
+		render->DrawText(font, "Pause", 633 + iconSTARTRect.w + 17, 520, 25, 3, { 255,255,255,255 });*/
 	}
 	
 	return true;
