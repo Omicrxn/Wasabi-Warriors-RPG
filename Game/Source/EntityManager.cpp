@@ -69,6 +69,10 @@ bool EntityManager::Start()
 		secretWallTexture = tex->Load("Textures/secret_wall_texture.png");
 	if (leversTexture == nullptr)
 		leversTexture = tex->Load("Textures/Effects/magic_008.png");
+	if (townTexture == nullptr)
+		townTexture = tex->Load("Maps/Town/Tilemap.png");
+	/*if (cemeteryTexture == nullptr)
+		cemeteryTexture = tex->Load("Maps/Town/GK_FG_B_2.png");*/
 
 	consumeFx = audio->LoadFx("Audio/Fx/consume.ogg");
 	pickUpFx = audio->LoadFx("Audio/Fx/pickup.ogg");
@@ -140,6 +144,10 @@ bool EntityManager::CleanUp()
 	secretWallTexture = nullptr;
 	tex->UnLoad(leversTexture);
 	leversTexture = nullptr;
+	tex->UnLoad(townTexture);
+	townTexture = nullptr;
+	tex->UnLoad(cemeteryTexture);
+	cemeteryTexture = nullptr;
 
 	audio->UnloadFx(consumeFx);
 	audio->UnloadFx(pickUpFx);

@@ -219,7 +219,17 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 		position.Create(pos.x, pos.y);
 	}
 
-	data.tileset.texture = tex->Load(((Map*)entityManager->SearchEntity("map"))->data.properties.objectsPath.data());
+	SString mapTexturePath;
+	mapTexturePath.Create(((Map*)entityManager->SearchEntity("map"))->data.properties.objectsPath.data());
+
+	if (mapTexturePath == "Maps/Town/Tilemap.png")
+	{
+		data.tileset.texture = entityManager->townTexture;
+	}
+	else if (mapTexturePath == "Maps/Cemetery/GK_FG_B_2.png")
+	{
+		data.tileset.texture = entityManager->cemeteryTexture;
+	}
 }
 
 Static::~Static()

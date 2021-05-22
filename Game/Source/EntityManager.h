@@ -102,6 +102,9 @@ public:
 	SDL_Texture* secretWallTexture = nullptr;
 	SDL_Texture* entitiesTexture = nullptr;
 	SDL_Texture* leversTexture = nullptr;
+	// Maps textures
+	SDL_Texture* townTexture = nullptr;
+	SDL_Texture* cemeteryTexture = nullptr;
 
 	float accumulatedTime = 0.0f;
 	float updateMsCycle = 0.0f;
