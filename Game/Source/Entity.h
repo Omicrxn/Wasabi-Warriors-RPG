@@ -176,7 +176,8 @@ public:
     {
         bool ret = false;
 
-        ret = tex->UnLoad(data.tileset.texture);
+        if (data.tileset.texture != nullptr)
+            ret = tex->UnLoad(data.tileset.texture);
         if (/*collider.collider*/collider != nullptr)
             /*collider.collider*/collider->pendingToDelete = true;
         currentAnim = nullptr;

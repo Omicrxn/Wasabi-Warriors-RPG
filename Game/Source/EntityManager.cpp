@@ -71,8 +71,8 @@ bool EntityManager::Start()
 		leversTexture = tex->Load("Textures/Effects/magic_008.png");
 	if (townTexture == nullptr)
 		townTexture = tex->Load("Maps/Town/Tilemap.png");
-	/*if (cemeteryTexture == nullptr)
-		cemeteryTexture = tex->Load("Maps/Town/GK_FG_B_2.png");*/
+	if (cemeteryTexture == nullptr)
+		cemeteryTexture = tex->Load("Maps/Cemetery/GK_FG_B_2.png");
 
 	consumeFx = audio->LoadFx("Audio/Fx/consume.ogg");
 	pickUpFx = audio->LoadFx("Audio/Fx/pickup.ogg");
