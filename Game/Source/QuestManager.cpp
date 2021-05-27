@@ -141,48 +141,44 @@ bool QuestManager::DrawActiveQuests()
 		{
 		case 1: // new quest chain 1
 			// Title Drawing
-			render->DrawText(font, L->data->title.GetString(), 53, 223, 50, 3, { 0,0,0,255 });
-			render->DrawText(font, L->data->title.GetString(), 50, 220, 50, 3, { 255,255,255,255 });
+			render->DrawText(font, L->data->title.GetString(), 480, 223, 50, 3, { 0,0,0,255 });
+			render->DrawText(font, L->data->title.GetString(), 480, 220, 50, 3, { 255,255,255,255 });
 
 			// Description Drawing if pressed L
 			///////////////////////////////////////////////////////////////////////////
-			if (input->GetKey(SDL_SCANCODE_L) == KEY_REPEAT)
-				render->DrawText(font, L->data->description.GetString(), 350, 230, 35, 3, { 200,200,200,255 });
+			render->DrawText(font, L->data->description.GetString(), 480, 300, 35, 3, { 200,200,200,255 });
 			///////////////////////////////////////////////////////////////////////////
 
 			break;
 		case 2: // quest chain 1 (quest 2)
 			// Title Drawing
-			render->DrawText(font, L->data->title.GetString(), 53, 223, 50, 3, { 0,0,0,255 });
-			render->DrawText(font, L->data->title.GetString(), 50, 220, 50, 3, { 255,255,255,255 });
+			render->DrawText(font, L->data->title.GetString(), 480, 223, 50, 3, { 0,0,0,255 });
+			render->DrawText(font, L->data->title.GetString(), 480, 220, 50, 3, { 255,255,255,255 });
 
 			// Description Drawing if pressed L
 			///////////////////////////////////////////////////////////////////////////
-			if (input->GetKey(SDL_SCANCODE_L) == KEY_REPEAT)
-				render->DrawText(font, L->data->description.GetString(), 350, 230, 35, 3, { 200,200,200,255 });
+			render->DrawText(font, L->data->description.GetString(), 480, 300, 35, 3, { 200,200,200,255 });
 			///////////////////////////////////////////////////////////////////////////
 			break;
 
 		case 3: // new quest chain 1
 			// Title Drawing
-			render->DrawText(font, L->data->title.GetString(), 53, 223, 50, 3, { 0,0,0,255 });
-			render->DrawText(font, L->data->title.GetString(), 50, 220, 50, 3, { 255,255,255,255 });
+			render->DrawText(font, L->data->title.GetString(), 480, 223, 50, 3, { 0,0,0,255 });
+			render->DrawText(font, L->data->title.GetString(), 480, 220, 50, 3, { 255,255,255,255 });
 
 			// Description Drawing if pressed L
 			///////////////////////////////////////////////////////////////////////////
-			if (input->GetKey(SDL_SCANCODE_L) == KEY_REPEAT)
-				render->DrawText(font, L->data->description.GetString(), 350, 230, 35, 3, { 200,200,200,255 });
+			render->DrawText(font, L->data->description.GetString(), 480, 300, 35, 3, { 200,200,200,255 });
 			///////////////////////////////////////////////////////////////////////////
 			break;
 		case 4: // new quest chain 1
 			// Title Drawing
-			render->DrawText(font, L->data->title.GetString(), 53, 223, 50, 3, { 0,0,0,255 });
-			render->DrawText(font, L->data->title.GetString(), 50, 220, 50, 3, { 255,255,255,255 });
+			render->DrawText(font, L->data->title.GetString(), 480, 223, 50, 3, { 0,0,0,255 });
+			render->DrawText(font, L->data->title.GetString(), 480, 220, 50, 3, { 255,255,255,255 });
 
 			// Description Drawing if pressed L
 			///////////////////////////////////////////////////////////////////////////
-			if (input->GetKey(SDL_SCANCODE_L) == KEY_REPEAT)
-				render->DrawText(font, L->data->description.GetString(), 350, 230, 35, 3, { 200,200,200,255 });
+			render->DrawText(font, L->data->description.GetString(), 480, 300, 35, 3, { 200,200,200,255 });
 			///////////////////////////////////////////////////////////////////////////
 			break;
 		default:

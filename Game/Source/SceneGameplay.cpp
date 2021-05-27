@@ -241,30 +241,32 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 
 	// Gui id goes from 0 to 2
 	screenRoaming = new ScreenRoaming();
-	screenRoaming->Load(0, 2, this, win, guiManager, entityManager, audio, easing, guiAtlasOut, buttonFont, hoverFx, clickFx);
+	screenRoaming->Load(0, 1, this, win, guiManager, entityManager, audio, easing, guiAtlasOut, buttonFont, hoverFx, clickFx);
 	screenRoaming->isActive = true;
 	screenRoaming->ShowButtons();
 
-	// Gui id goes from 3 to 5
+	// Gui id goes from 2 to 7
 	screenPause = new ScreenPause();
-	screenPause->Load(3, 5, this, win, guiManager, NULL, audio, easing, guiAtlasTex2, titlesTex, buttonFont, hoverFx, clickFx);
+	screenPause->Load(2, 7, this, win, guiManager, entityManager, audio, easing, guiAtlasTex2, titlesTex, buttonFont, hoverFx, clickFx);
 	screenPause->isActive = false;
 	screenPause->HideButtons();
+	((ScreenPause*)screenPause)->SetMenuFont(menuFont);
+	((ScreenPause*)screenPause)->SetQuestManager(questManager);
 
-	// Gui id goes from 6 to 10
+	// Gui id goes from 8 to 12
 	screenSettings = new ScreenSettings();
-	screenSettings->Load(6, 10, this, win, guiManager, NULL, audio, easing, guiAtlasTex2, titlesTex, buttonFont, hoverFx, clickFx);
+	screenSettings->Load(8, 12, this, win, guiManager, NULL, audio, easing, guiAtlasTex2, titlesTex, buttonFont, hoverFx, clickFx);
 	screenSettings->isActive = false;
 	screenSettings->HideButtons();
 
-	// Gui id goes from 11 to 14
+	// Gui id goes from 13 to 16
 	screenBattle = new ScreenBattle();
-	screenBattle->Load(11, 14, this, battleSystem, tex, win, audio, guiManager, entityManager, charactersSpritesheet, guiAtlasTex, titleFont, buttonFont, menuFont, hoverFx, clickFx, returnFx);
+	screenBattle->Load(13, 16, this, battleSystem, tex, win, audio, guiManager, entityManager, charactersSpritesheet, guiAtlasTex, titleFont, buttonFont, menuFont, hoverFx, clickFx, returnFx);
 	screenBattle->isActive = false;
 
-	// Gui id goes from 15 to 16
+	// Gui id goes from 17 to 18
 	screenInventory = new ScreenInventory();
-	screenInventory->Load(15, 16, this, win, guiManager, entityManager, audio, easing, guiAtlasTex, buttonFont, hoverFx, clickFx);
+	screenInventory->Load(17, 18, this, win, guiManager, entityManager, audio, easing, guiAtlasTex, buttonFont, hoverFx, clickFx);
 	screenInventory->isActive = false;
 	screenInventory->HideButtons();
 
@@ -278,13 +280,13 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 	{
 		// Create party member 1
 		Player* player;
-		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "B. Willies", EntitySubtype::PLAYER_HUNTER, iPoint(20 * 32, 5 * 32));
+		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "Kenzo", EntitySubtype::PLAYER_HUNTER, iPoint(20 * 32, 5 * 32));
 		player->SetState(true);
 		player = nullptr;
 		currentPlayer = entityManager->playerList.At(0)->data;
 
 		// Create party member 2
-		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "B. Dickinson", EntitySubtype::PLAYER_WIZARD, iPoint(20 * 32, 5 * 32));
+		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "Eiken", EntitySubtype::PLAYER_WIZARD, iPoint(20 * 32, 5 * 32));
 		player = nullptr;
 
 		// LOAD FROM MAP_XML
@@ -443,7 +445,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 		currentState = GameState::BATTLE;
 		screenBattle->isActive = true;
 
-		focusedButtonId = 6;
+		focusedButtonId = 13;
 
 		audio->StopMusic();
 		audio->PlayMusic("Audio/Music/battle.ogg");
@@ -466,7 +468,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 		currentState = GameState::BATTLE;
 		screenBattle->isActive = true;
 
-		focusedButtonId = 6;
+		focusedButtonId = 13;
 
 		audio->StopMusic();
 		audio->PlayMusic("Audio/Music/battle.ogg");
@@ -606,23 +608,7 @@ bool SceneGameplay::Draw(Render* render)
 		!screenBattle->isActive &&
 		!screenInventory->isActive)
 	{
-		questManager->PostUpdate();
-
-		// Gold HUD
-		render->DrawText(menuFont, "$:", 53, 143, 50, 3, { 0,0,0,255 });
-		render->DrawText(menuFont, "$:", 50, 140, 50, 3, { 249,215,28,255 });
-		string s = to_string(gameProgress.gold);
-		const char* s2 = s.c_str();
-		render->DrawText(menuFont, s2, 133, 143, 50, 3, { 0,0,0,255 });
-		render->DrawText(menuFont, s2, 130, 140, 50, 3, { 255,255,255,255 });
-
-		// XP HUD
-		render->DrawText(menuFont, "XP:", 53, 183, 50, 3, { 0,0,0,255 });
-		render->DrawText(menuFont, "XP:", 50, 180, 50, 3, { 60,179,113,255 });
-		s = to_string(gameProgress.xp);
-		s2 = s.c_str();
-		render->DrawText(menuFont, s2, 133, 183, 50, 3, { 0,0,0,255 });
-		render->DrawText(menuFont, s2, 130, 180, 50, 3, { 255,255,255,255 });
+		/*questManager->PostUpdate();*/
 
 		if (gameProgress.hasKilledOfficers && !gameProgress.hasActivated)
 		{
@@ -727,7 +713,6 @@ bool SceneGameplay::LoadState(pugi::xml_node& scenegameplay)
 	/*Restart quests*/
 	questManager->CleanUp();
 	questManager->Start();
-
 
 	return true;
 }
@@ -982,10 +967,15 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 			screenInventory->isActive = true;
 			screenInventory->ShowButtons();
 		}
-		else if (control->id == 2) {} //currentState = GameState::PHONE;
-		else if (control->id == 3)
+		else if (control->id == 2)
 		{
-			if (pauseTimer.ReadSec() > 0.5f)
+			if (((ScreenPause*)screenPause)->state != MobileState::MAIN)
+			{
+				((ScreenPause*)screenPause)->state = MobileState::MAIN;
+				for (int i = 3; i <= 7; ++i)
+					guiManager->controls.At(i)->data->state = GuiControlState::NORMAL;
+			}
+			else if (pauseTimer.ReadSec() > 0.5f)
 			{
 				currentState = GameState::ROAMING;
 
@@ -1002,7 +992,7 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 				PlayMapMusic();
 			}
 		}
-		else if (control->id == 4) 
+		else if (control->id == 3) 
 		{
 			// Entering settings from pause
 			currentState = GameState::SETTINGS;
@@ -1013,13 +1003,13 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 			screenSettings->ShowButtons();
 
 			// Fullscreen and vsync controls are disabled if you acces from gameplay
-			this->guiManager->controls.At(6)->data->state = GuiControlState::DISABLED;
-			this->guiManager->controls.At(7)->data->state = GuiControlState::DISABLED;
+			this->guiManager->controls.At(8)->data->state = GuiControlState::DISABLED;
+			this->guiManager->controls.At(9)->data->state = GuiControlState::DISABLED;
 
 			audio->StopMusic();
 			audio->PlayMusic("Audio/Music/menu_settings.ogg");
 		}
-		else if (control->id == 5)
+		else if (control->id == 4)
 		{
 			// Exiting to menu
 			currentState = GameState::EXIT;
@@ -1029,7 +1019,28 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 
 			screenPause->Disable();
 		}
-		else if (control->id == 10)
+		else if (control->id == 5) 
+		{
+			// From Main Screen of the mobile to Quest Screen
+			((ScreenPause*)screenPause)->state = MobileState::QUEST;
+			for (int i = 3; i <= 7; ++i)
+				guiManager->controls.At(i)->data->state = GuiControlState::DISABLED;
+		}
+		else if (control->id == 6)
+		{
+			// From Main Screen of the mobile to Team Screen
+			((ScreenPause*)screenPause)->state = MobileState::TEAM;
+			for (int i = 3; i <= 7; ++i)
+				guiManager->controls.At(i)->data->state = GuiControlState::DISABLED;
+		}
+		else if (control->id == 7)
+		{
+			// From Main Screen of the mobile to Map Screen
+			((ScreenPause*)screenPause)->state = MobileState::MAIN;
+			for (int i = 3; i <= 7; ++i)
+				guiManager->controls.At(i)->data->state = GuiControlState::DISABLED;
+		}
+		else if (control->id == 12)
 		{
 			// Returning from settings to pause
 			currentState = GameState::PAUSE;
@@ -1044,19 +1055,19 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 	}
 	case GuiControlType::BUTTON:
 	{
-		if (control->id == 11) battleSystem->playerState = PlayerState::ATTACK;
-		else if (control->id == 12) battleSystem->playerState = PlayerState::DEFEND;
-		else if (control->id == 13) battleSystem->playerState = PlayerState::ITEM;
-		else if (control->id == 14)
+		if (control->id == 13) battleSystem->playerState = PlayerState::ATTACK;
+		else if (control->id == 14) battleSystem->playerState = PlayerState::DEFEND;
+		else if (control->id == 15) battleSystem->playerState = PlayerState::ITEM;
+		else if (control->id == 16)
 		{
 			battleSystem->playerState = PlayerState::RUN;
 			ExitBattle();
 		}
-		else if (control->id == 15) 
+		else if (control->id == 17) 
 		{
 			((ScreenInventory*)screenInventory)->SetHasClickedConsume(true);
 		}
-		else if(control->id == 16)
+		else if(control->id == 18)
 		{
 			if (currentState == GameState::BATTLE)
 			{
@@ -1087,15 +1098,15 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 	}
 	case GuiControlType::SLIDER:
 	{
-		if (control->id == 8)
+		if (control->id == 10)
 		{
-			GuiSlider* tempSlider = (GuiSlider*)this->guiManager->controls.At(8)->data;
+			GuiSlider* tempSlider = (GuiSlider*)this->guiManager->controls.At(10)->data;
 			int value = tempSlider->GetValue();
 			audio->ChangeMusicVolume(value);
 		}
-		else if (control->id == 9)
+		else if (control->id == 11)
 		{
-			GuiSlider* tempSlider = (GuiSlider*)this->guiManager->controls.At(9)->data;
+			GuiSlider* tempSlider = (GuiSlider*)this->guiManager->controls.At(11)->data;
 			int value = tempSlider->GetValue();
 			audio->ChangeFxVolume(value);
 		}
@@ -1110,7 +1121,7 @@ void SceneGameplay::ExitBattle()
 {
 	PlayMapMusic();
 
-	for (int i = 11; i <= 14; ++i)
+	for (int i = 13; i <= 16; ++i)
 	{
 		guiManager->controls.At(i)->data->state = GuiControlState::HIDDEN;
 	}
@@ -1620,11 +1631,19 @@ GameProgress* SceneGameplay::GetGameProgress()
 void SceneGameplay::RewardXP(int xp)
 {
 	gameProgress.xp += xp;
+	pugi::xml_document docData;
+	pugi::xml_parse_result result = docData.load_file("save_game.xml");
+	SaveGameProgress(docData.first_child().child("scenemanager").child("scenegameplay").child("gameProgress"));
+	docData.save_file("save_game.xml");
 }
 
 void SceneGameplay::RewardGold(int gold)
 {
 	gameProgress.gold += gold;
+	pugi::xml_document docData;
+	pugi::xml_parse_result result = docData.load_file("save_game.xml");
+	SaveGameProgress(docData.first_child().child("scenemanager").child("scenegameplay").child("gameProgress"));
+	docData.save_file("save_game.xml");
 }
 
 void SceneGameplay::SetMapTransitionState()

@@ -133,21 +133,26 @@ bool ScreenBattle::Load(int minIndex, int maxIndex, Scene* currentScene, BattleS
 	this->clickFx = clickFx;
 	this->returnFx = returnFx;
 
-	// Gui id goes from 11 to 14
+	// Gui id goes from 13 to 16
 	// Load buttons for the battle system
-	btnAttack = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 11, { 730, 500, 190, 49 }, "ATTACK");
+	int counterId = minIndex;
+
+	btnAttack = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { 730, 500, 190, 49 }, "ATTACK");
 	btnAttack->SetButtonProperties(currentScene, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::WHITE);
 	btnAttack->state = GuiControlState::HIDDEN;
+	++counterId;
 
-	btnDefend = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 12, { 730, 600, 190, 49 }, "DEFEND");
+	btnDefend = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { 730, 600, 190, 49 }, "DEFEND");
 	btnDefend->SetButtonProperties(currentScene, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::WHITE);
 	btnDefend->state = GuiControlState::HIDDEN;
+	++counterId;
 
-	btnItem = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 13, { 1030, 500, 190, 49 }, "ITEM");
+	btnItem = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { 1030, 500, 190, 49 }, "ITEM");
 	btnItem->SetButtonProperties(currentScene, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::WHITE);
 	btnItem->state = GuiControlState::HIDDEN;
+	++counterId;
 
-	btnRun = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, 14, { 1030, 600, 190, 49 }, "RUN");
+	btnRun = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { 1030, 600, 190, 49 }, "RUN");
 	btnRun->SetButtonProperties(currentScene, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::WHITE);
 	btnRun->state = GuiControlState::HIDDEN;
 
@@ -167,44 +172,44 @@ bool ScreenBattle::Update(Input* input, float dt, uint& focusedButtonId)
 	{
 		if (input->GetControllerState())
 		{
-			//11 = 6
+			// minIndex = 11
 			// GAMEPAD INPUT
-			if (focusedButtonId == 11)
+			if (focusedButtonId == minIndex)
 			{
 				if (input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN)
-					focusedButtonId = 12;
+					focusedButtonId = minIndex + 1;
 				else if (input->GetControllerButton(CONTROLLER_BUTTON_RIGHT) == KEY_DOWN)
-					focusedButtonId = 13;
+					focusedButtonId = minIndex + 2;
 			}
-			else if (focusedButtonId == 12)
+			else if (focusedButtonId == minIndex + 1)
 			{
 				if (input->GetControllerButton(CONTROLLER_BUTTON_UP) == KEY_DOWN)
-					focusedButtonId = 11;
+					focusedButtonId = minIndex;
 				else if (input->GetControllerButton(CONTROLLER_BUTTON_RIGHT) == KEY_DOWN)
-					focusedButtonId = 14;
+					focusedButtonId = minIndex + 3;
 			}
-			else if (focusedButtonId == 13)
+			else if (focusedButtonId == minIndex + 2)
 			{
 				if (input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN)
-					focusedButtonId = 14;
+					focusedButtonId = minIndex + 3;
 				else if (input->GetControllerButton(CONTROLLER_BUTTON_LEFT) == KEY_DOWN)
-					focusedButtonId = 11;
+					focusedButtonId = minIndex;
 			}
-			else if (focusedButtonId == 14)
+			else if (focusedButtonId == minIndex + 3)
 			{
 				if (input->GetControllerButton(CONTROLLER_BUTTON_UP) == KEY_DOWN)
-					focusedButtonId = 13;
+					focusedButtonId = minIndex + 2;
 				else if (input->GetControllerButton(CONTROLLER_BUTTON_LEFT) == KEY_DOWN)
-					focusedButtonId = 12;
+					focusedButtonId = minIndex + 1;
 			}
 
 			bool isHovering = false;
-			for (int i = 11; i <= 14; ++i)
+			for (int i = minIndex; i <= maxIndex; ++i)
 			{
 				if (guiManager->controls.At(i)->data->mouseFocus)
 					isHovering = true;
 			}
-			for (int i = 11; i <= 14; ++i)
+			for (int i = minIndex; i <= maxIndex; ++i)
 			{
 				if (i != focusedButtonId || isHovering)
 				{
@@ -456,12 +461,12 @@ bool ScreenBattle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMan
 
 void ScreenBattle::EnableBattleButtons()
 {
-	for (int i = 11; i <= 14; ++i)
+	for (int i = minIndex; i <= maxIndex; ++i)
 	{
 		guiManager->controls.At(i)->data->state = GuiControlState::NORMAL;
 	}
 
-	for (int i = 0; i <= 10; ++i)
+	for (int i = 0; i <= minIndex - 1; ++i)
 	{
 		guiManager->controls.At(i)->data->state = GuiControlState::HIDDEN;
 	}
@@ -469,7 +474,7 @@ void ScreenBattle::EnableBattleButtons()
 
 void ScreenBattle::DisableBattleButtons()
 {
-	for (int i = 11; i <= 14; ++i)
+	for (int i = minIndex; i <= maxIndex; ++i)
 	{
 		guiManager->controls.At(i)->data->state = GuiControlState::HIDDEN;
 	}

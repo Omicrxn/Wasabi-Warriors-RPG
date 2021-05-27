@@ -8,12 +8,14 @@ enum class IconType
 {
     NONE,
     ICON_RETURN,
-    ICON_PAUSE,
     ICON_INVENTORY,
     ICON_PHONE,
     ICON_RESUME,
     ICON_SETTINGS,
-    ICON_EXIT
+    ICON_EXIT,
+    ICON_TEAM,
+    ICON_QUEST,
+    ICON_MAP
 };
 
 class GuiIcon : public GuiControl
@@ -36,12 +38,16 @@ private:
 
     SDL_Rect arrowWhiteRight;
 
-    SDL_Rect iconReturn;
+    SDL_Rect iconPhone;
+    SDL_Rect iconInventory;
+
     SDL_Rect iconSettings;
     SDL_Rect iconExit;
-    SDL_Rect iconPause;
-    SDL_Rect iconInventory;
-    SDL_Rect iconPhone;
+    SDL_Rect iconReturn;
+
+    SDL_Rect iconTeam;
+    SDL_Rect iconQuest;
+    SDL_Rect iconMap;
 
     SDL_Rect iconA;
     SDL_Rect iconX;

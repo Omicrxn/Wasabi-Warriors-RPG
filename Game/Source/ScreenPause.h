@@ -1,4 +1,12 @@
 #include "Screen.h"
+#include "Animation.h"
+#include "Font.h"
+
+class QuestManager;
+enum MobileState
+{
+	MAIN, QUEST, TEAM, MAP
+};
 
 class ScreenPause : public Screen
 {
@@ -15,12 +23,30 @@ public:
 	void Enable();
 	void Disable();
 
+	void SetMenuFont(Font*);
+	void SetQuestManager(QuestManager*);
+
 	int position;
 
 	GuiIcon* iconResume;
 	GuiIcon* iconSettings;
 	GuiIcon* iconExit;
 
+	GuiIcon* iconQuest;
+	GuiIcon* iconTeam;
+	GuiIcon* iconMap;
+
 	SDL_Rect pauseTitleRect;
 	SDL_Rect mobileRect;
+
+	Animation* currentAnimation;
+	Animation kenzoAnim;
+	Animation reiAnim;
+	Animation eikenAnim;
+
+	Font* menuFont;
+
+	MobileState state = MobileState::MAIN;
+
+	QuestManager* questManager;
 };

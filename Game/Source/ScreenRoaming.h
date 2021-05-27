@@ -18,7 +18,6 @@ public:
 
 	GuiIcon* iconPause;
 	GuiIcon* iconInventory;
-	GuiIcon* iconPhone;
 
 	Player* currentPlayer;
 

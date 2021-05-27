@@ -13,12 +13,17 @@ GuiIcon::GuiIcon(uint32 id, SDL_Rect bounds) : GuiControl(GuiControlType::ICON, 
     clickFx = -1;
 
     //arrowWhiteRight = { 160,50,18,18 };
-    iconPause = { 20, 14, 52, 66 };
+    iconPhone = { 20, 14, 52, 66 };
     iconInventory = { 84, 16, 60, 62 };
-    iconPhone = { 1117, 220, 41, 55 };
-    iconReturn = { 540, 870, 54, 54 };
+
     iconSettings = { 102, 402, 40, 39 };
     iconExit = { 165, 402, 36, 39 };
+    iconReturn = { 540, 870, 54, 54 };
+    
+    iconTeam = { 387, 234, 90, 88 };
+    iconQuest = { 519, 234, 87, 88 };
+    iconMap = { 651, 234, 72, 88 };
+
     iconA = { 684, 8, 57, 57 };
     iconX = { 684, 196, 57, 57 };
     iconB = { 684, 101, 57, 57 };
@@ -79,7 +84,7 @@ bool GuiIcon::Update(Input* input, AudioManager* audio, float dt)
                 audio->PlayFx(clickFx);
             }
         }
-        else if ((iconType == IconType::ICON_PAUSE || iconType == IconType::ICON_RESUME) && input->GetKey(SDL_SCANCODE_ESCAPE) == KeyState::KEY_DOWN)
+        else if ((iconType == IconType::ICON_PHONE || iconType == IconType::ICON_RESUME) && input->GetKey(SDL_SCANCODE_ESCAPE) == KeyState::KEY_DOWN)
         {
             NotifyObserver();
             // Audio Fx when clicked
@@ -115,8 +120,8 @@ bool GuiIcon::Draw(Render* render, bool debugDraw)
             if (controller)
                 render->DrawTexture(texture, bounds.x + bounds.w, bounds.y + bounds.h, &iconB, 0.0f);
             break;
-        case IconType::ICON_PAUSE:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconPause, 0.0f);
+        case IconType::ICON_PHONE:
+            render->DrawTexture(texture, bounds.x, bounds.y, &iconPhone, 0.0f);
             if (controller)
                 render->DrawTexture(texture, bounds.x + bounds.w, bounds.y + bounds.h, &iconSTART, 0.0f);
             break;
@@ -124,11 +129,6 @@ bool GuiIcon::Draw(Render* render, bool debugDraw)
             render->DrawTexture(texture, bounds.x, bounds.y, &iconInventory, 0.0f);
             if (controller)
                 render->DrawTexture(texture, bounds.x + bounds.w, bounds.y + bounds.h, &iconX, 0.0f);
-            break;
-        case IconType::ICON_PHONE:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconPhone, 0.0f);
-            if (controller)
-                render->DrawTexture(texture, bounds.x + bounds.w, bounds.y + bounds.h, &iconB, 0.0f);
             break;
         case IconType::ICON_RESUME:
             render->DrawTexture(texture, bounds.x, bounds.y, &iconReturn, 0.0f);
@@ -142,6 +142,21 @@ bool GuiIcon::Draw(Render* render, bool debugDraw)
             break;
         case IconType::ICON_EXIT:
             render->DrawTexture(texture, bounds.x, bounds.y, &iconExit, 0.0f);
+            if (controller)
+                render->DrawTexture(texture, bounds.x + bounds.w, bounds.y + bounds.h, &iconB, 0.0f);
+            break;
+        case IconType::ICON_TEAM:
+            render->DrawTexture(texture, bounds.x, bounds.y, &iconTeam, 0.0f);
+            if (controller)
+                render->DrawTexture(texture, bounds.x + bounds.w, bounds.y + bounds.h, &iconB, 0.0f);
+            break;
+        case IconType::ICON_QUEST:
+            render->DrawTexture(texture, bounds.x, bounds.y, &iconQuest, 0.0f);
+            if (controller)
+                render->DrawTexture(texture, bounds.x + bounds.w, bounds.y + bounds.h, &iconB, 0.0f);
+            break;
+        case IconType::ICON_MAP:
+            render->DrawTexture(texture, bounds.x, bounds.y, &iconMap, 0.0f);
             if (controller)
                 render->DrawTexture(texture, bounds.x + bounds.w, bounds.y + bounds.h, &iconB, 0.0f);
             break;

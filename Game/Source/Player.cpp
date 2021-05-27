@@ -39,13 +39,13 @@ Player::Player(SString name, Textures* tex, AudioManager* audio, Collisions* col
     if (subtype == EntitySubtype::PLAYER_HUNTER)
     {
         SetUpClass("hunter");
-        SetTexture(3);
+        SetTexture(8);
         SetPivot(8, 30);
     }
     else if (subtype == EntitySubtype::PLAYER_WIZARD)
     {
         SetUpClass("wizard");
-        SetTexture(6);
+        SetTexture(12);
         SetPivot(8, 30);
     }
 

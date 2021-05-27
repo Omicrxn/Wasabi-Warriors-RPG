@@ -11,7 +11,6 @@ ScreenRoaming::ScreenRoaming()
 {
 	iconPause = nullptr;
 	iconInventory = nullptr;
-	iconPhone = nullptr;
 	currentPlayer = nullptr;
 
 	posRight = { 1096 + 50, 78 + 22 };
@@ -51,15 +50,12 @@ bool ScreenRoaming::Load(int minIndex, int maxIndex, Scene* currentScene, Window
 	int counterId = minIndex; 
 
 	iconPause = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 50, 50, 52, 55 });
-	iconPause->SetIconProperties(currentScene, atlas[0], font, hoverFx, clickFx, CONTROLLER_BUTTON_START, IconType::ICON_PAUSE);
+	iconPause->SetIconProperties(currentScene, atlas[0], font, hoverFx, clickFx, CONTROLLER_BUTTON_START, IconType::ICON_PHONE);
 	++counterId;
 
 	iconInventory = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 170, 50, 56, 55 });
 	iconInventory->SetIconProperties(currentScene, atlas[0], font, hoverFx, clickFx, CONTROLLER_BUTTON_X, IconType::ICON_INVENTORY);
 	++counterId;
-
-	iconPhone = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 290, 50, 41, 55 });
-	iconPhone->SetIconProperties(currentScene, atlas[0], font, hoverFx, clickFx, CONTROLLER_BUTTON_B, IconType::ICON_PHONE);
 
 	return true;
 }
@@ -122,8 +118,6 @@ bool ScreenRoaming::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 	iconPause = nullptr;
 	guiManager->DestroyGuiControl(iconInventory);
 	iconInventory = nullptr;
-	guiManager->DestroyGuiControl(iconPhone);
-	iconPhone = nullptr;
 	return true;
 }
 
