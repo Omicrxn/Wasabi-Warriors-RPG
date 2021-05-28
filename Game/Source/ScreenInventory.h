@@ -53,6 +53,8 @@ private:
 	SDL_Rect inventoryBackgroundRect2;
 	SDL_Color inventoryBackgroundColor1;
 	SDL_Color inventoryBackgroundColor2;
+
+	SDL_Rect bagRect;
 };
 
 #endif // __SCREENINVENTORY_H__

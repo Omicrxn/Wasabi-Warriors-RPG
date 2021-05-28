@@ -266,7 +266,7 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 
 	// Gui id goes from 17 to 18
 	screenInventory = new ScreenInventory();
-	screenInventory->Load(17, 18, this, win, guiManager, entityManager, audio, easing, guiAtlasTex, buttonFont, hoverFx, clickFx);
+	screenInventory->Load(17, 18, this, win, guiManager, entityManager, audio, easing, guiAtlasTex2, buttonFont, hoverFx, clickFx);
 	screenInventory->isActive = false;
 	screenInventory->HideButtons();
 
