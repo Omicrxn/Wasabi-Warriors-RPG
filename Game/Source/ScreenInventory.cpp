@@ -48,8 +48,8 @@ bool ScreenInventory::Load(int minIndex, int maxIndex, Scene* currentScene, Wind
 	uint width, height;
 	win->GetWindowSize(width, height);
 
-	inventoryBackgroundRect1 = { int(width) / 2 - 550, 40, 1100, 650 };
-	inventoryBackgroundRect2 = { inventoryBackgroundRect1.x + 25, inventoryBackgroundRect1.y + 25, inventoryBackgroundRect1.w - 50, inventoryBackgroundRect1.h - 50 };
+	//inventoryBackgroundRect1 = { int(width) / 2 - 550, 40, 1100, 650 };
+	//inventoryBackgroundRect2 = { inventoryBackgroundRect1.x + 25, inventoryBackgroundRect1.y + 25, inventoryBackgroundRect1.w - 50, inventoryBackgroundRect1.h - 50 };
 
 	this->minIndex = minIndex;
 	this->maxIndex = maxIndex;

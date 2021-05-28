@@ -194,6 +194,7 @@ private:
 
     // Audio fx for sound effects
     int doorOpenFx;
+    int bagOpenFx;
 
     // Buttons to manage the battle system
     GuiButton* btnAttack;

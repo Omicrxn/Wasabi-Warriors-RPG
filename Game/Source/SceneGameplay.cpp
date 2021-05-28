@@ -238,6 +238,7 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 
 	// Load other fx
 	doorOpenFx = audio->LoadFx("Audio/Fx/door_open.ogg");
+	bagOpenFx = audio->LoadFx("Audio/Fx/bag_open.ogg");
 
 	// Gui id goes from 0 to 2
 	screenRoaming = new ScreenRoaming();
