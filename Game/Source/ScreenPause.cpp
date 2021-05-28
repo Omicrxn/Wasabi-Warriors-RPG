@@ -199,37 +199,37 @@ bool ScreenPause::Draw(Render* render)
 
 				// Draw Player Stats
 				int offsetB = 50;
-				render->DrawText(font, "LVL:", 500, 290 + offsetB, 18, 2, { 255,165,0,255 });
-				render->DrawText(font, "Damage:", 500, 310 + offsetB, 18, 2, { 255,165,0,255 });
-				render->DrawText(font, "Max HP:", 500, 330 + offsetB, 18, 2, { 255,165,0,255 });
-				render->DrawText(font, "HP:", 500, 350 + offsetB, 18, 2, { 255,165,0,255 });
-				render->DrawText(font, "Strength:", 500, 370 + offsetB, 18, 2, { 255,165,0,255 });
-				render->DrawText(font, "Defense:", 500, 390 + offsetB, 18, 2, { 255,165,0,255 });
-				render->DrawText(font, "Atk Speed:", 500, 410 + offsetB, 18, 2, { 255,165,0,255 });
-				render->DrawText(font, "CritRate:", 500, 430 + offsetB, 18, 2, { 255,165,0,255 });
+				render->DrawText(font, "LVL:", 500, 290 + offsetB, 15, 2, { 255,165,0,255 });
+				render->DrawText(font, "Damage:", 500, 310 + offsetB, 15, 2, { 255,165,0,255 });
+				render->DrawText(font, "Max HP:", 500, 330 + offsetB, 15, 2, { 255,165,0,255 });
+				render->DrawText(font, "HP:", 500, 350 + offsetB, 15, 2, { 255,165,0,255 });
+				render->DrawText(font, "Strength:", 500, 370 + offsetB, 15, 2, { 255,165,0,255 });
+				render->DrawText(font, "Defense:", 500, 390 + offsetB, 15, 2, { 255,165,0,255 });
+				render->DrawText(font, "Atk Speed:", 500, 410 + offsetB, 15, 2, { 255,165,0,255 });
+				render->DrawText(font, "CritRate:", 500, 430 + offsetB, 15, 2, { 255,165,0,255 });
 
 				int posStatsNum = 630;
 				char statsString[30] = { 0 };
 				sprintf_s(statsString, 30, "%i  ", entityManager->playerList.At(i)->data->stats.level);
-				render->DrawText(font, statsString, posStatsNum, 290 + offsetB, 18, 2, { 0,0,0,255 });
+				render->DrawText(font, statsString, posStatsNum, 290 + offsetB, 15, 2, { 0,0,0,255 });
 
 				sprintf_s(statsString, 30, "%i  ", entityManager->playerList.At(i)->data->stats.damage);
-				render->DrawText(font, statsString, posStatsNum, 310 + offsetB, 18, 2, { 0,0,0,255 });
+				render->DrawText(font, statsString, posStatsNum, 310 + offsetB, 15, 2, { 0,0,0,255 });
 
 				sprintf_s(statsString, 30, "%i  ", entityManager->playerList.At(i)->data->stats.maxHP);
-				render->DrawText(font, statsString, posStatsNum, 330 + offsetB, 18, 2, { 0,0,0,255 });
+				render->DrawText(font, statsString, posStatsNum, 330 + offsetB, 15, 2, { 0,0,0,255 });
 
 				sprintf_s(statsString, 30, "%i  ", entityManager->playerList.At(i)->data->stats.currentHP);
-				render->DrawText(font, statsString, posStatsNum, 350 + offsetB, 18, 2, { 0,0,0,255 });
+				render->DrawText(font, statsString, posStatsNum, 350 + offsetB, 15, 2, { 0,0,0,255 });
 
 				sprintf_s(statsString, 30, "%i  ", entityManager->playerList.At(i)->data->stats.strength);
-				render->DrawText(font, statsString, posStatsNum, 370 + offsetB, 18, 2, { 0,0,0,255 });
+				render->DrawText(font, statsString, posStatsNum, 370 + offsetB, 15, 2, { 0,0,0,255 });
 
 				sprintf_s(statsString, 30, "%i  ", entityManager->playerList.At(i)->data->stats.defense);
-				render->DrawText(font, statsString, posStatsNum, 390 + offsetB, 18, 2, { 0,0,0,255 });
+				render->DrawText(font, statsString, posStatsNum, 390 + offsetB, 15, 2, { 0,0,0,255 });
 
 				sprintf_s(statsString, 30, "%i  ", entityManager->playerList.At(i)->data->stats.attackSpeed);
-				render->DrawText(font, statsString, posStatsNum, 410 + offsetB, 18, 2, { 0,0,0,255 });
+				render->DrawText(font, statsString, posStatsNum, 410 + offsetB, 15, 2, { 0,0,0,255 });
 
 				sprintf_s(statsString, 30, "%.1f  ", entityManager->playerList.At(i)->data->stats.criticalRate);
 				render->DrawText(font, statsString, posStatsNum, 430 + offsetB, 15, 2, { 0,0,0,255 });
