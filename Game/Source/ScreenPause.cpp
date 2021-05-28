@@ -31,12 +31,12 @@ ScreenPause::ScreenPause()
 	eikenAnim.PushBack({ 795, 732, 162, 192 });
 	eikenAnim.PushBack({ 987, 732, 162, 192 });
 	eikenAnim.loop = true;
-	eikenAnim.speed = 0.01f;
+	eikenAnim.speed = 0.005f;
 
 	reiAnim.PushBack({ 795, 308, 162, 188 });
 	reiAnim.PushBack({ 987, 308, 162, 188 });
 	reiAnim.loop = true;
-	reiAnim.speed = 0.01f;
+	reiAnim.speed = 0.005f;
 
 	state = MobileState::MAIN;
 }
@@ -169,7 +169,28 @@ bool ScreenPause::Draw(Render* render)
 	}
 	else if (state == MobileState::TEAM)
 	{
+		for (int i = 0; i < entityManager->playerList.Count(); ++i)
+		{
+			if (entityManager->playerList.At(i)->data->IsActive())
+			{
+				// Draw player name
+				render->DrawText(menuFont, entityManager->playerList.At(i)->data->name.GetString(), 500, position + 123, 50, 3, { 0,0,0,255 });
 
+				// Draw player description from the wiki
+				if (entityManager->playerList.At(i)->data->name == "Kenzo")
+				{
+					render->DrawText(menuFont, "blablablabalbal", 500, position + 163, 50, 3, { 0,0,0,255 });
+				}
+				else if (entityManager->playerList.At(i)->data->name == "Eiken")
+				{
+					render->DrawText(menuFont, "blablablabalbal", 500, position + 163, 50, 3, { 0,0,0,255 });
+				}
+				else if (entityManager->playerList.At(i)->data->name == "Rei")
+				{
+					render->DrawText(menuFont, "blablablabalbal", 500, position + 163, 50, 3, { 0,0,0,255 });
+				}
+			}
+		}
 	}
 	
 	return true;

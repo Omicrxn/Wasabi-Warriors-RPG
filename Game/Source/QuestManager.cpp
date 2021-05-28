@@ -146,7 +146,9 @@ bool QuestManager::DrawActiveQuests()
 
 			// Description Drawing if pressed L
 			///////////////////////////////////////////////////////////////////////////
-			render->DrawText(font, L->data->description.GetString(), 480, 300, 35, 3, { 200,200,200,255 });
+			//render->DrawText(font, L->data->description.GetString(), 480, 300, 35, 3, { 200,200,200,255 });
+			render->DrawText(font, "Go to the Takada offices", 480, 300, 35, 3, { 200,200,200,255 });
+			render->DrawText(font, "and talk with the receptionist.", 480, 350, 35, 3, { 200,200,200,255 });
 			///////////////////////////////////////////////////////////////////////////
 
 			break;
