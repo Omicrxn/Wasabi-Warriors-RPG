@@ -174,21 +174,57 @@ bool ScreenPause::Draw(Render* render)
 			if (entityManager->playerList.At(i)->data->IsActive())
 			{
 				// Draw player name
-				render->DrawText(menuFont, entityManager->playerList.At(i)->data->name.GetString(), 500, position + 123, 50, 3, { 0,0,0,255 });
+				render->DrawText(menuFont, entityManager->playerList.At(i)->data->name.GetString(), 500, position + 50, 30, 3, { 0,0,0,255 });
 
 				// Draw player description from the wiki
 				if (entityManager->playerList.At(i)->data->name == "Kenzo")
 				{
-					render->DrawText(menuFont, "blablablabalbal", 500, position + 163, 50, 3, { 0,0,0,255 });
+					render->DrawText(menuFont, "blablablabalbal", 500, position + 90, 15, 3, { 0,0,0,255 });
 				}
 				else if (entityManager->playerList.At(i)->data->name == "Eiken")
 				{
-					render->DrawText(menuFont, "blablablabalbal", 500, position + 163, 50, 3, { 0,0,0,255 });
+					render->DrawText(menuFont, "blablablabalbal", 500, position + 90, 15, 3, { 0,0,0,255 });
 				}
 				else if (entityManager->playerList.At(i)->data->name == "Rei")
 				{
-					render->DrawText(menuFont, "blablablabalbal", 500, position + 163, 50, 3, { 0,0,0,255 });
+					render->DrawText(menuFont, "blablablabalbal", 500, position + 90, 15, 3, { 0,0,0,255 });
 				}
+
+				// Draw Player Stats
+				render->DrawText(font, "LVL:", 500, 210, 15, 2, { 255,255,255,255 });
+				render->DrawText(font, "Damage:", 500, 250, 15, 2, { 255,255,255,255 });
+				render->DrawText(font, "Max HP:", 500, 290, 15, 2, { 255,255,255,255 });
+				render->DrawText(font, "HP:", 500, 330, 15, 2, { 255,255,255,255 });
+				render->DrawText(font, "Strength:", 500, 370, 15, 2, { 255,255,255,255 });
+				render->DrawText(font, "Defense:", 500, 410, 15, 2, { 255,255,255,255 });
+				render->DrawText(font, "Atk Speed:", 500, 450, 15, 2, { 255,255,255,255 });
+				render->DrawText(font, "CritRate:", 500, 490, 15, 2, { 255,255,255,255 });
+
+				int posStatsNum = 600;
+				char statsString[30] = { 0 };
+				sprintf_s(statsString, 30, "%i  ", entityManager->playerList.At(i)->data->stats.level);
+				render->DrawText(font, statsString, posStatsNum, 210, 15, 2, { 255,255,255,255 });
+
+				sprintf_s(statsString, 30, "%i  ", entityManager->playerList.At(i)->data->stats.damage);
+				render->DrawText(font, statsString, posStatsNum, 250, 15, 2, { 255,255,255,255 });
+
+				sprintf_s(statsString, 30, "%i  ", entityManager->playerList.At(i)->data->stats.maxHP);
+				render->DrawText(font, statsString, posStatsNum, 290, 15, 2, { 255,255,255,255 });
+
+				sprintf_s(statsString, 30, "%i  ", entityManager->playerList.At(i)->data->stats.currentHP);
+				render->DrawText(font, statsString, posStatsNum, 330, 15, 2, { 255,255,255,255 });
+
+				sprintf_s(statsString, 30, "%i  ", entityManager->playerList.At(i)->data->stats.strength);
+				render->DrawText(font, statsString, posStatsNum, 370, 15, 2, { 255,255,255,255 });
+
+				sprintf_s(statsString, 30, "%i  ", entityManager->playerList.At(i)->data->stats.defense);
+				render->DrawText(font, statsString, posStatsNum, 410, 15, 2, { 255,255,255,255 });
+
+				sprintf_s(statsString, 30, "%i  ", entityManager->playerList.At(i)->data->stats.attackSpeed);
+				render->DrawText(font, statsString, posStatsNum, 450, 15, 2, { 255,255,255,255 });
+
+				sprintf_s(statsString, 30, "%.1f  ", entityManager->playerList.At(i)->data->stats.criticalRate);
+				render->DrawText(font, statsString, posStatsNum, 490, 15, 2, { 255,255,255,255 });
 			}
 		}
 	}
