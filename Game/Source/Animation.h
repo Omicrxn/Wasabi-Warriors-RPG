@@ -16,11 +16,11 @@ private:
 	float currentFrame = 0.0f;
 	int lastFrame = 0;
 	int loops = 0;
-	enum flow 
+	enum class FLOW 
 	{
 		FORWARDS,
 		BACKWARDS
-	} direction = FORWARDS;
+	} direction = FLOW::FORWARDS;
 
 public:
 	Animation() {}
@@ -39,24 +39,24 @@ public:
 	{
 		switch (direction)
 		{
-		case flow::FORWARDS:
+		case FLOW::FORWARDS:
 		{
 			currentFrame += speed;
 			if (currentFrame >= lastFrame)
 			{
 				currentFrame = (loop || flow) ? 0.0f : lastFrame - 1;
-				direction = flow ? flow::BACKWARDS : flow::FORWARDS;
+				direction = flow ? FLOW::BACKWARDS : FLOW::FORWARDS;
 				loops++;
 			}
 		}
 		break;
-		case flow::BACKWARDS:
+		case FLOW::BACKWARDS:
 		{
 			currentFrame -= speed;
 			if (currentFrame <= 0.0f)
 			{
 				currentFrame = 0.0f;
-				direction = flow::FORWARDS;
+				direction = FLOW::FORWARDS;
 				loops++;
 			}
 		}
