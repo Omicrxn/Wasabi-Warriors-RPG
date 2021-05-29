@@ -13,7 +13,7 @@ ScreenInventory::ScreenInventory()
 	itemHovering = { 0,0 };
 	itemSelected = { -1,-1 };
 
-	invMatrixPos = { 120,110 };
+	invMatrixPos = { 385, 110 };
 
 	LBButton = { 434, 253, 90, 62 };
 	RBButton = { 534, 253, 90, 62 };
@@ -31,10 +31,12 @@ ScreenInventory::ScreenInventory()
 
 ScreenInventory::~ScreenInventory() {}
 
-bool ScreenInventory::Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, Font* font, int hoverFx, int clickFx)
+bool ScreenInventory::Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* font, int hoverFx, int clickFx)
 {
 	this->currentScene = currentScene;
 	this->atlas[0] = atlas0;
+	this->atlas[1] = atlas1;
+
 	this->font = font;
 
 	this->guiManager = guiManager;
@@ -56,11 +58,11 @@ bool ScreenInventory::Load(int minIndex, int maxIndex, Scene* currentScene, Wind
 	int counterId = minIndex;
 
 	btnConfirm = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { int(width) / 2 - 250, 580, 190, 49 }, "CONFIRM");
-	btnConfirm->SetButtonProperties(currentScene, atlas[0], font, hoverFx, clickFx, Style::WHITE);
+	btnConfirm->SetButtonProperties(currentScene, atlas[1], font, hoverFx, clickFx, Style::WHITE);
 	++counterId;
 
 	btnCancel = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { int(width) / 2 + 60, 580, 190, 49 }, "CANCEL");
-	btnCancel->SetButtonProperties(currentScene, atlas[0], font, hoverFx, clickFx, Style::WHITE);
+	btnCancel->SetButtonProperties(currentScene, atlas[1], font, hoverFx, clickFx, Style::WHITE);
 
 	return true;
 }
@@ -93,9 +95,9 @@ bool ScreenInventory::Update(Input* input, float dt, uint& focusedButtonId)
 		for (int j = 0; j < INVENTORY_COLUMNS; ++j)
 		{
 			if (j == 0)
-				slotRect.x = slotRect.x + slotRect.w;
+				slotRect.x = slotRect.x + slotRect.w - 5;
 			else
-				slotRect.x = slotRect.x + slotRect.w + spacing;
+				slotRect.x = slotRect.x + slotRect.w + spacing - 5;
 
 			if ((mouseX > slotRect.x) && (mouseX < (slotRect.x + slotRect.w)) &&
 				(mouseY > slotRect.y) && (mouseY < (slotRect.y + slotRect.h)))
@@ -108,7 +110,7 @@ bool ScreenInventory::Update(Input* input, float dt, uint& focusedButtonId)
 				}
 			}
 		}
-		slotRect.y = slotRect.y + spacing + slotRect.h;
+		slotRect.y = slotRect.y + 30 + slotRect.h;
 	}
 
 	// Accept button has been clicked
@@ -166,9 +168,9 @@ bool ScreenInventory::Draw(Render* render)
 		for (int j = 0; j < INVENTORY_COLUMNS; ++j)
 		{
 			if (j == 0)
-				slotRect.x = slotRect.x + slotRect.w;
+				slotRect.x = slotRect.x + slotRect.w - 5;
 			else
-				slotRect.x = slotRect.x + slotRect.w + spacing;
+				slotRect.x = slotRect.x + slotRect.w + spacing - 5;
 
 			if (itemHovering.x == j && itemHovering.y == i && itemHovering != itemSelected)
 				render->DrawRectangle(slotRect, { 191,195,204,255 }, true, false);
@@ -184,28 +186,28 @@ bool ScreenInventory::Draw(Render* render)
 
 				char statsString[30] = { 0 };
 				sprintf_s(statsString, 30, "%s", currentItem->item->name.GetString());
-				render->DrawText(font, statsString, invMatrixPos.x + 100, 390, 30, 2, { 255,255,255,255 });
+				render->DrawText(font, statsString, invMatrixPos.x + 250, 60, 30, 2, { 255,255,255,255 });
 
-				render->DrawText(font, currentItem->item->GetDescription(), invMatrixPos.x + 100, 440, 22, 2, { 255,255,255,255 });
+				render->DrawText(font, currentItem->item->GetDescription(), invMatrixPos.x + 85, 375, 22, 2, { 255,255,255,255 });
 
-				int posIncreaseX = 1060;
+				int posIncreaseX = 620;
 				// Items stats increase for player draw
 				sprintf_s(statsString, 30, "+%i  ", currentItem->item->stats.level);
-				render->DrawText(font, statsString, posIncreaseX, 210, 30, 2, { 0,255,0,255 });
+				render->DrawText(font, statsString, posIncreaseX, 460, 18, 2, { 0,255,0,255 });
 				sprintf_s(statsString, 30, "+%i  ", currentItem->item->stats.damage);
-				render->DrawText(font, statsString, posIncreaseX, 250, 30, 2, { 0,255,0,255 });
+				render->DrawText(font, statsString, posIncreaseX, 490, 18, 2, { 0,255,0,255 });
 				sprintf_s(statsString, 30, "+%i  ", currentItem->item->stats.maxHP);
-				render->DrawText(font, statsString, posIncreaseX, 290, 30, 2, { 0,255,0,255 });
+				render->DrawText(font, statsString, posIncreaseX, 520, 18, 2, { 0,255,0,255 });
 				sprintf_s(statsString, 30, "+%i  ", currentItem->item->stats.currentHP);
-				render->DrawText(font, statsString, posIncreaseX, 330, 30, 2, { 0,255,0,255 });
+				render->DrawText(font, statsString, posIncreaseX, 550, 18, 2, { 0,255,0,255 });
 				sprintf_s(statsString, 30, "+%i  ", currentItem->item->stats.strength);
-				render->DrawText(font, statsString, posIncreaseX, 370, 30, 2, { 0,255,0,255 });
+				render->DrawText(font, statsString, posIncreaseX + 210, 460, 18, 2, { 0,255,0,255 });
 				sprintf_s(statsString, 30, "+%i  ", currentItem->item->stats.defense);
-				render->DrawText(font, statsString, posIncreaseX, 410, 30, 2, { 0,255,0,255 });
+				render->DrawText(font, statsString, posIncreaseX + 210, 490, 18, 2, { 0,255,0,255 });
 				sprintf_s(statsString, 30, "+%i  ", currentItem->item->stats.attackSpeed);
-				render->DrawText(font, statsString, posIncreaseX, 450, 30, 2, { 0,255,0,255 });
+				render->DrawText(font, statsString, posIncreaseX + 210, 520, 18, 2, { 0,255,0,255 });
 				sprintf_s(statsString, 30, "+%.1f  ", currentItem->item->stats.criticalRate);
-				render->DrawText(font, statsString, posIncreaseX, 490, 30, 2, { 0,255,0,255 });
+				render->DrawText(font, statsString, posIncreaseX + 210, 550, 18, 2, { 0,255,0,255 });
 			}
 
 			if (listItem != NULL)
@@ -226,7 +228,7 @@ bool ScreenInventory::Draw(Render* render)
 				continue;
 
 		}
-		slotRect.y = slotRect.y + spacing + slotRect.h;
+		slotRect.y = slotRect.y + 30 + slotRect.h;
 	}
 
 	int posPlayerStatsX = 485;

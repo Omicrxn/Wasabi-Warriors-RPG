@@ -213,7 +213,7 @@ unsigned int AudioManager::LoadFx(const char* path)
 // Play WAV
 bool AudioManager::PlayFx(unsigned int id, int repeat)
 {
-	bool ret = false;
+	bool ret = true;
 
 	if(!active)
 		return false;

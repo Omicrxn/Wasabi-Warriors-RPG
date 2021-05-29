@@ -267,7 +267,7 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 
 	// Gui id goes from 17 to 18
 	screenInventory = new ScreenInventory();
-	screenInventory->Load(17, 18, this, win, guiManager, entityManager, audio, easing, guiAtlasTex2, buttonFont, hoverFx, clickFx);
+	screenInventory->Load(17, 18, this, win, guiManager, entityManager, audio, easing, guiAtlasTex2, guiAtlasTex, buttonFont, hoverFx, clickFx);
 	screenInventory->isActive = false;
 	screenInventory->HideButtons();
 
@@ -677,6 +677,7 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 	audio->UnloadFx(hoverFx);
 	audio->UnloadFx(returnFx);
 	audio->UnloadFx(doorOpenFx);
+	audio->UnloadFx(bagOpenFx);
 
 	// Destory GUI Controls
 	guiManager->DestroyGuiControl(btnAttack);
@@ -989,6 +990,8 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 
 			screenInventory->isActive = true;
 			screenInventory->ShowButtons();
+
+			audio->PlayFx(bagOpenFx);
 		}
 		else if (control->id == 2)
 		{
