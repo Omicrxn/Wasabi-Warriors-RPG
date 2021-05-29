@@ -6,7 +6,7 @@
 	<audio musicVolume="32" fxVolume="128" />
 	<scene />
 	<renderer>
-		<camera x="3611" y="844" />
+		<camera x="3626" y="592" />
 	</renderer>
 	<collisions collisionsCount="10" />
 	<entitymanager />
@@ -17,8 +17,8 @@
 				<town>
 					<entitiesCount Num="54" />
 					<playerList playerCount="2">
-						<player id="1" spritePos="3" name="B. Willies" posX="1417" posY="388" isActive="true" isRenderable="false" entitySubType="0" level="1" damage="25" maxHP="120" currentHP="100" strength="10" defense="15" attackSpeed="5" criticalRate="10" statsName="B. Willies" />
-						<player id="2" spritePos="6" name="B. Dickinson" posX="1417" posY="388" isActive="false" isRenderable="false" entitySubType="1" level="1" damage="20" maxHP="150" currentHP="120" strength="7" defense="10" attackSpeed="15" criticalRate="15" statsName="B. Dickinson" />
+						<player id="1" spritePos="8" name="Kenzo" posX="1422" posY="304" isActive="true" isRenderable="false" entitySubType="0" level="1" damage="25" maxHP="120" currentHP="100" strength="10" defense="15" attackSpeed="5" criticalRate="10" statsName="Kenzo" />
+						<player id="2" spritePos="12" name="Eiken" posX="1422" posY="304" isActive="false" isRenderable="false" entitySubType="1" level="1" damage="20" maxHP="150" currentHP="120" strength="7" defense="10" attackSpeed="15" criticalRate="15" statsName="Eiken" />
 					</playerList>
 					<enemyList enemyCount="0" />
 					<npcList npcCount="0" />

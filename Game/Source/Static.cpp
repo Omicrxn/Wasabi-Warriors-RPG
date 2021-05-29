@@ -204,6 +204,20 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 		SetPivot(16, 17);
 	}
 
+	if (name == "roof_red")
+	{
+		type = Static::Type::ROOF;
+		SetRect(416, 236, 32, 20);
+		SetPivot(16, 40);
+	}
+
+	if (name == "roof_red2")
+	{
+		type = Static::Type::ROOF;
+		SetRect(448, 236, 32, 20);
+		SetPivot(16, 40);
+	}
+
 	else {
 		LOG("There isn't any type assigned to %s name entity", name.data());
 	}
@@ -225,6 +239,10 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 	if (mapTexturePath == "Maps/Town/Tilemap.png")
 	{
 		data.tileset.texture = entityManager->townTexture;
+	}
+	else if (mapTexturePath == "Maps/MediumCity/mediumcity2.png")
+	{
+		data.tileset.texture = entityManager->mediumCityTexture;
 	}
 	else if (mapTexturePath == "Maps/Cemetery/GK_FG_B_2.png")
 	{

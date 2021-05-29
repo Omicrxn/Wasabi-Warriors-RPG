@@ -105,6 +105,7 @@ public:
 	// Maps textures
 	SDL_Texture* townTexture = nullptr;
 	SDL_Texture* cemeteryTexture = nullptr;
+	SDL_Texture* mediumCityTexture = nullptr;
 
 	float accumulatedTime = 0.0f;
 	float updateMsCycle = 0.0f;
