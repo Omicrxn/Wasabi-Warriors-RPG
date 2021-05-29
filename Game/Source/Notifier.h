@@ -5,6 +5,7 @@
 
 class Item;
 class Activator;
+class Entity;
 
 enum class MapType
 {
@@ -27,7 +28,10 @@ public:
     ~Notifier() {RELEASE(instance)}
 
     // Battle management
-    void NotifyBattle() { battle = !battle; }
+    void NotifyBattle()
+    {
+        battle = !battle;
+    }
     bool GetBattle() { return battle; }
     SString GetEnemy()
     {
@@ -118,6 +122,26 @@ public:
         return requestActivator;
     }
 
+    // Interaction notifier
+    void NotifyInteraction()
+    {
+        interactionNotifier = !interactionNotifier;
+        if(!interactionNotifier)
+            this->interactingEntity = nullptr;
+    }
+    void SetInteractingEntity(Entity* interactingEntity)
+    {
+        this->interactingEntity = interactingEntity;
+    }
+    bool GetInteractionNotifier()
+    {
+        return interactionNotifier;
+    }
+    Entity* GetInteractingEntity()
+    {
+        return interactingEntity;
+    }
+
 private:
 
     Notifier() : battle(false) {}
@@ -143,4 +167,8 @@ private:
     // Activators
     bool requestActivator = false;
     Activator* activator = nullptr;
+
+    // Interaction notifier
+    bool interactionNotifier = false;
+    Entity* interactingEntity = nullptr;
 };

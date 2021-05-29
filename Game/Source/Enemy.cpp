@@ -3,13 +3,15 @@
 #include "EntityManager.h"
 #include "Pathfinding.h"
 #include "Transitions.h"
+#include "Input.h"
 
 #include "Log.h"
 
 #define DEFAULT_PATH_LENGTH 50
 
-Enemy::Enemy(SString name, Textures* tex, Collisions* collisions, EntityManager* entityManager, Transitions* transitions, EntityType type, EntitySubtype subtype, iPoint position) : Being()
+Enemy::Enemy(SString name, Input* input, Textures* tex, Collisions* collisions, EntityManager* entityManager, Transitions* transitions, EntityType type, EntitySubtype subtype, iPoint position) : Being()
 {
+    this->input = input;
     this->entityManager = entityManager;
     this->transitions = transitions;
     this->position = position;
@@ -31,17 +33,19 @@ Enemy::Enemy(SString name, Textures* tex, Collisions* collisions, EntityManager*
     {
         SetUpClass("henchman");
         SetTexture(3);
+        SetPivot(8, 30);
     }
     else if (subtype == EntitySubtype::ENEMY_BRUISER)
     {
         SetUpClass("bruiser");
         SetTexture(6);
-
+        SetPivot(8, 30);
     }
     else if (subtype == EntitySubtype::ENEMY_BOSS)
     {
         SetUpClass("bruiser");
         SetTexture(10);
+        SetPivot(8, 30);
     }
 }
 
@@ -126,11 +130,20 @@ void Enemy::SetName(SString name)
 
 void Enemy::OnCollision(Collider* collider)
 {
-    if (readyForCombat == true)
+    if (input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
     {
-        readyForCombat = false;
-        
-        transitions->TransitionCombat(WhichAnimation::WIPE, this);
+        if (readyForCombat == true)
+        {
+            readyForCombat = false;
+
+            transitions->TransitionCombat(WhichAnimation::WIPE, this);
+        }
+    }
+
+    if (readyForCombat && !Notifier::GetInstance()->GetInteractionNotifier())
+    {
+        Notifier::GetInstance()->NotifyInteraction();
+        Notifier::GetInstance()->SetInteractingEntity((Entity*)this);
     }
 }
 

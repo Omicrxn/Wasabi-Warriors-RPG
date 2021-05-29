@@ -20,7 +20,7 @@ class Enemy : public Being
 {
 public:
 
-    Enemy(SString name, Textures* tex, Collisions* collisions, EntityManager* entityManager, Transitions* transitions,EntityType type, EntitySubtype subtype, iPoint position);
+    Enemy(SString name, Input* input, Textures* tex, Collisions* collisions, EntityManager* entityManager, Transitions* transitions,EntityType type, EntitySubtype subtype, iPoint position);
     ~Enemy();
 
 public:
@@ -50,6 +50,8 @@ public:
 
     // Needed modules
     Transitions* transitions = nullptr;
+
+    bool inBattle = false;
 };
 
 #endif // __ENEMY_H__

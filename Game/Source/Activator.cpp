@@ -112,4 +112,10 @@ void Activator::OnCollision(Collider* collider)
             }
         }
     }
+
+    if (!Notifier::GetInstance()->GetInteractionNotifier())
+    {
+        Notifier::GetInstance()->NotifyInteraction();
+        Notifier::GetInstance()->SetInteractingEntity((Entity*)this);
+    }
 }

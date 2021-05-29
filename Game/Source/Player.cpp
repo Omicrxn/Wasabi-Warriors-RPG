@@ -148,7 +148,7 @@ bool Player::Draw(Render* render)
             break;
         }
         render->scale = 3;
-        render->CameraFollow(position.x, position.y);
+        render->CameraFollow(position.x + width, position.y);
 
         if (active) render->DrawTexture(entityManager->entitiesTexture, position.x, position.y, &animRec);
 

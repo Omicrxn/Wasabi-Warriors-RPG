@@ -23,6 +23,7 @@ NPC::NPC(SString name, Input* input, Textures* tex, Collisions* collisions, Enti
     collider = collisions->AddCollider({ position.x,position.y,width,height }, Collider::Type::NPC, (Module*)entityManager);
     collider->SetPos(position.x, position.y);
     SetTexture(4);
+    SetPivot(8, 30);
 
     // Index to keep track of the dialog of the NPC
     dialogIndex = -1;
@@ -197,12 +198,18 @@ void NPC::SetName(SString name)
 
 void NPC::OnCollision(Collider* collider)
 {
-    if (collider->type == Collider::Type::PLAYER && input->GetKey(SDL_SCANCODE_F) == KEY_DOWN
+    if (!Notifier::GetInstance()->OnDialog() && collider->type == Collider::Type::PLAYER && input->GetKey(SDL_SCANCODE_F) == KEY_DOWN
         /*|| input->GetControllerButton(CONTROLLER_BUTTON_A) == KeyState::KEY_DOWN*/)
     {
         stop = true;
         direction = { 0,0 };
         currentAnim = NPCAnimations::IDLE;
         Interact();
+    }
+
+    if (!Notifier::GetInstance()->OnDialog() && !Notifier::GetInstance()->GetInteractionNotifier())
+    {
+        Notifier::GetInstance()->NotifyInteraction();
+        Notifier::GetInstance()->SetInteractingEntity((Entity*)this);
     }
 }
