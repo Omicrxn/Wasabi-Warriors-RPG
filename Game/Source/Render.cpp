@@ -157,7 +157,7 @@ iPoint Render::ScreenToWorld(int x, int y) const
 void Render::CameraFollow(int objectX, int objectY)
 {
 	camera.x = objectX * scale - win->GetWidth()/2;
-	camera.y = objectY * scale - win->GetHeight()/2;
+	camera.y = objectY * scale - win->GetHeight()/4;
 }
 Window* Render::GetWindowPtr()
 {
