@@ -212,6 +212,7 @@ protected:
 
     bool active = true;
     Notifier* notifier;
+    Render* render;
     Textures* tex = nullptr;
     Input* input = nullptr;
     EntityManager* entityManager = nullptr;

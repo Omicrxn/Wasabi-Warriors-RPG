@@ -181,7 +181,7 @@ Entity* EntityManager::CreateEntity(EntityType type, SString name, EntitySubtype
 	{
 		// L13: Create the corresponding type entity
 	case EntityType::PLAYER:
-		ret = new Player(name, tex, audio, collisions, this, type, subtype, position);
+		ret = new Player(name, render, tex, audio, collisions, this, type, subtype, position);
 		playerList.Add((Player*)ret);
 		break;
 	case EntityType::ENEMY:

@@ -5,8 +5,9 @@
 #include "Map.h"
 #include "Log.h"
 
-Player::Player(SString name, Textures* tex, AudioManager* audio, Collisions* collisions, EntityManager* entityManager, EntityType type, EntitySubtype subtype, iPoint position) : Being()
+Player::Player(SString name, Render* render, Textures* tex, AudioManager* audio, Collisions* collisions, EntityManager* entityManager, EntityType type, EntitySubtype subtype, iPoint position) : Being()
 {
+    this->render = render;
     this->tex = tex;
     this->audio = audio;
     this->entityManager = entityManager;
@@ -30,8 +31,8 @@ Player::Player(SString name, Textures* tex, AudioManager* audio, Collisions* col
     animRec = {};
 
     currentAnim = Animations::IDLE;
-    width = 12;
-    height = 24;
+    width = 16;
+    height = 30;
     this->collisions = collisions;
     collider = collisions->AddCollider({ position.x,position.y , width, height }, Collider::Type::PLAYER, (Module*)entityManager);
     isGod = false;
@@ -120,12 +121,17 @@ bool Player::Update(Input* input, float dt)
         }
     }
 
+    render->scale = 3;
+    render->CameraFollow(position.x, position.y);
+    render->scale = 1;
+
     return true;
 }
 
 bool Player::Draw(Render* render)
 {
-    if (active) {
+    if (active)
+    {
         animRec;
         switch (currentAnim)
         {
@@ -147,11 +153,9 @@ bool Player::Draw(Render* render)
         default:
             break;
         }
+
         render->scale = 3;
-        render->CameraFollow(position.x + width, position.y);
-
         if (active) render->DrawTexture(entityManager->entitiesTexture, position.x, position.y, &animRec);
-
         render->scale = 1;
     }
     return true;

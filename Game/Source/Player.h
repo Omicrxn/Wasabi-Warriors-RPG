@@ -19,7 +19,7 @@ class Player: public Being
 {
 public:
 
-    Player(SString name, Textures* tex, AudioManager* audio, Collisions* collisions, EntityManager* entityManager,EntityType type, EntitySubtype subtype, iPoint position);
+    Player(SString name, Render* render, Textures* tex, AudioManager* audio, Collisions* collisions, EntityManager* entityManager,EntityType type, EntitySubtype subtype, iPoint position);
     ~Player();
 
     bool Update(Input* input, float dt);
