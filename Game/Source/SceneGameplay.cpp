@@ -267,7 +267,7 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 
 	// Gui id goes from 17 to 18
 	screenInventory = new ScreenInventory();
-	screenInventory->Load(17, 18, this, win, guiManager, entityManager, audio, easing, guiAtlasTex2, buttonFont, hoverFx, clickFx);
+	screenInventory->Load(17, 18, this, win, guiManager, entityManager, audio, easing, guiAtlasTex2, guiAtlasTex, buttonFont, hoverFx, clickFx);
 	screenInventory->isActive = false;
 	screenInventory->HideButtons();
 
@@ -475,29 +475,6 @@ bool SceneGameplay::Update(Input* input, float dt)
 		audio->PlayMusic("Audio/Music/battle.ogg");
 	}
 
-	if (notifier->OnDialog() && (input->GetKey(SDL_SCANCODE_F) == KeyState::KEY_DOWN /*|| input->GetControllerButton(CONTROLLER_BUTTON_A) == KeyState::KEY_DOWN*/))
-	{
-		for (int i = 0; i < entityManager->playerList.Count(); i++)
-		{
-			entityManager->playerList.At(i)->data->stopPlayer = true;
-		}
-		dialogSystem->NewDialog(notifier->GetDialogIndex());
-	}
-	if (dialogSystem->DialogHasFinished())
-	{
-		for (int i = 0; i < entityManager->playerList.Count(); i++)
-		{
-			entityManager->playerList.At(i)->data->stopPlayer = false;
-		}
-		notifier->SetDialogMode(false);
-		dialogSystem->SetDialogFinished(false);
-
-		if (notifier->GetDialogIndex() == 7)
-		{
-			gameProgress.hasSpoken = true;
-		}
-	}
-
 	if (notifier->OnActivator())
 	{
 		notifier->NotifyActivator();
@@ -524,6 +501,29 @@ bool SceneGameplay::Update(Input* input, float dt)
 				gameProgress.hasPickedKey = true;
 				notifier->GetActivator()->SetDrawState(DrawState::HUD);
 			}
+		}
+	}
+
+	if (notifier->OnDialog() && (input->GetKey(SDL_SCANCODE_F) == KeyState::KEY_DOWN /*|| input->GetControllerButton(CONTROLLER_BUTTON_A) == KeyState::KEY_DOWN*/))
+	{
+		for (int i = 0; i < entityManager->playerList.Count(); i++)
+		{
+			entityManager->playerList.At(i)->data->stopPlayer = true;
+		}
+		dialogSystem->NewDialog(notifier->GetDialogIndex());
+	}
+	if (dialogSystem->DialogHasFinished())
+	{
+		for (int i = 0; i < entityManager->playerList.Count(); i++)
+		{
+			entityManager->playerList.At(i)->data->stopPlayer = false;
+		}
+		notifier->SetDialogMode(false);
+		dialogSystem->SetDialogFinished(false);
+
+		if (notifier->GetDialogIndex() == 7)
+		{
+			gameProgress.hasSpoken = true;
 		}
 	}
 
@@ -617,6 +617,28 @@ bool SceneGameplay::Draw(Render* render)
 		}
 	}
 
+	// Draw interaction notifier label
+	if (notifier->GetInteractionNotifier() && !notifier->GetBattle() && !notifier->OnDialog())
+	{
+		SDL_Rect rect = { 102,27,261,51 };
+		render->DrawTexture(guiAtlasTex2, 640 - rect.w / 2, 500, &rect, 0);
+
+		if (notifier->GetInteractingEntity()->type == EntityType::ENEMY)
+		{
+			render->DrawText(menuFont, "Press F to fight", 640 - rect.w / 2 + 35, 500 + 5, 40, 1, { 127,127,127,255 });
+		}
+		else if (notifier->GetInteractingEntity()->type == EntityType::NPC)
+		{
+			render->DrawText(menuFont, "Press F to talk", 640 - rect.w / 2 + 40, 500 + 5, 40, 1, { 127,127,127,255 });
+		}
+		else
+		{
+			render->DrawText(menuFont, "Press F to interact", 640 - rect.w / 2 + 15, 500 + 5, 40, 1, { 127,127,127,255 });
+		}
+
+		notifier->NotifyInteraction();
+	}
+
 	return true;
 }
 
@@ -655,6 +677,7 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 	audio->UnloadFx(hoverFx);
 	audio->UnloadFx(returnFx);
 	audio->UnloadFx(doorOpenFx);
+	audio->UnloadFx(bagOpenFx);
 
 	// Destory GUI Controls
 	guiManager->DestroyGuiControl(btnAttack);
@@ -967,6 +990,8 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 
 			screenInventory->isActive = true;
 			screenInventory->ShowButtons();
+
+			audio->PlayFx(bagOpenFx);
 		}
 		else if (control->id == 2)
 		{

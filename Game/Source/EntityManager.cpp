@@ -185,7 +185,7 @@ Entity* EntityManager::CreateEntity(EntityType type, SString name, EntitySubtype
 		playerList.Add((Player*)ret);
 		break;
 	case EntityType::ENEMY:
-		ret = new Enemy(name, tex, collisions, this, transitions, type, subtype, position);
+		ret = new Enemy(name, input, tex, collisions, this, transitions, type, subtype, position);
 		enemyList.Add((Enemy*)ret);
 		break;
 		//case EntityType::ITEM: ret = new Item(); break;
