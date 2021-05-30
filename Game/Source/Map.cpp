@@ -90,7 +90,7 @@ void Map::DrawLayer(Render* render, int num)
 					SDL_Rect rec = tileset->GetTileRect(tileId);
 					iPoint pos = MapToWorld(x, y);
 
-					render->DrawTexture(tileset->texture, pos.x + tileset->offsetX, pos.y + tileset->offsetY, &rec);
+					render->DrawTexture(tileset->texture, pos.x, pos.y, &rec);
 				}
 			}
 		}

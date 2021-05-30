@@ -6,43 +6,16 @@
 	<audio musicVolume="12" fxVolume="128" />
 	<scene />
 	<renderer>
-		<camera x="1265" y="-152" />
+		<camera x="1682" y="631" />
 	</renderer>
-	<collisions collisionsCount="10" />
+	<collisions collisionsCount="7" />
 	<entitymanager />
 	<scenemanager>
 		<scenegameplay lastMap="2">
 			<gameProgress xp="0" gold="0" hasSpoken="false" numKilledOfficers="0" hasKilledOfficers="false" hasActivated="false" hasPickedKey="false" hasFinishedPuzzle1="false" />
-			<map currentMap="4" hasVisitedCemetery="false" hasVisitedHouse="false" hasVisitedMediumCity="false" hasVisitedRestaurant="false" hasVisitedTown="true" hasVisitedBigCity="false" hasVisitedSkyScraper="false" hasVisitedSecretRoom="false">
-				<town>
-					<entitiesCount Num="54" />
-					<playerList playerCount="2">
-						<player id="55" spritePos="8" name="Kenzo" posX="635" posY="56" isActive="true" isRenderable="false" entitySubType="0" level="1" damage="25" maxHP="120" currentHP="100" strength="10" defense="15" attackSpeed="5" criticalRate="10" statsName="Kenzo" />
-						<player id="56" spritePos="12" name="Eiken" posX="635" posY="56" isActive="false" isRenderable="false" entitySubType="1" level="1" damage="20" maxHP="150" currentHP="120" strength="7" defense="10" attackSpeed="15" criticalRate="15" statsName="Eiken" />
-					</playerList>
-					<enemyList enemyCount="0" />
-					<npcList npcCount="0" />
-					<teleportList teleportCount="2">
-						<teleport id="57" spritePos="0" nameTeleport="" name="" destination="0" posX="640" posY="32" isActive="true" isRenderable="false" />
-						<teleport id="58" spritePos="0" nameTeleport="" name="" destination="2" posX="1440" posY="288" isActive="true" isRenderable="false" />
-					</teleportList>
-					<itemList itemCount="6">
-						<item id="59" spritePos="0" entitySubType="0" name="" posX="0" posY="0" isActive="true" isRenderable="false" />
-						<item id="60" spritePos="0" entitySubType="0" name="" posX="0" posY="0" isActive="true" isRenderable="false" />
-						<item id="61" spritePos="0" entitySubType="0" name="" posX="0" posY="0" isActive="true" isRenderable="false" />
-						<item id="62" spritePos="0" entitySubType="0" name="" posX="0" posY="0" isActive="true" isRenderable="false" />
-						<item id="63" spritePos="0" entitySubType="0" name="" posX="0" posY="0" isActive="true" isRenderable="false" />
-						<item id="64" spritePos="0" entitySubType="0" name="" posX="0" posY="0" isActive="true" isRenderable="false" />
-					</itemList>
-					<activatorList activatorCount="0" />
-					<secretWallList secretWallCount="0" />
-					<leverList leverCount="0" />
-				</town>
-			</map>
 		</scenegameplay>
 	</scenemanager>
 	<screen>
 		<screensettings sliderVolume="512" sliderAudio="512" fullScreen="false" vsync="false" />
-		<screeninventory inventoryCount="0" />
 	</screen>
 </game_state>
