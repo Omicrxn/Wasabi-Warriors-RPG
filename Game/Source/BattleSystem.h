@@ -66,7 +66,9 @@ public:
 	Player* GetPlayer();
 	List<Player*>* BattleSystem::GetPlayersList();
 	Enemy* GetEnemy();
+
 	bool IsTurnChanging();
+	uint GetCounter();
 
 	// Battle state (Current attacker and defender)
 	BattleState battleState;

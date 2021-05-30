@@ -55,16 +55,18 @@ private:
     // Battle system textures
     SDL_Texture* backgroundTex;
     SDL_Texture* guiAtlasTex;
-    SDL_Texture* aura;
     SDL_Texture* cast1;
     SDL_Texture* enemyCast;
     SDL_Texture* indicator;
+    SDL_Texture* playerDefense;
+    SDL_Texture* enemyDefense;
 
     // Battle screen animations
-    Animation auraAnim;
     Animation cast1Anim;
     Animation enemyCastAnim;
     Animation indicatorAnim;
+    Animation playerDefenseAnim;
+    Animation enemyDefenseAnim;
 
     SDL_Rect backgroundRect;
 

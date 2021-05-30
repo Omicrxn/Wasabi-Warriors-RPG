@@ -76,23 +76,13 @@ bool ScreenBattle::Load(int minIndex, int maxIndex, Scene* currentScene, BattleS
 	this->charactersSpritesheet = charactersSpritesheet;
 	this->guiAtlasTex = guiAtlasTex;
 	backgroundTex = tex->Load("Textures/Scenes/battle_scene.jpg");
-	aura = tex->Load("Textures/Scenes/aura.png");
 	cast1 = tex->Load("Textures/Effects/cast_001.png");
 	enemyCast = tex->Load("Textures/Effects/cast_008.png");
 	indicator = tex->Load("Textures/Effects/fire_003.png");
+	playerDefense = tex->Load("Textures/Effects/heal_001.png");
+	enemyDefense = tex->Load("Textures/Effects/heal_002.png");
 
 	// Set battle animations
-	// Aura
-	for (int j = 0; j < 4; j++)
-	{
-		for (int i = 0; i < 8; i++)
-		{
-			auraAnim.PushBack({ i * 128, j * 128, 128, 128 });
-		}
-	}
-	auraAnim.speed = 1.0f;
-	auraAnim.loop = true;
-
 	// Cast 1
 	for (int j = 0; j < 4; j++)
 	{
@@ -123,6 +113,26 @@ bool ScreenBattle::Load(int minIndex, int maxIndex, Scene* currentScene, BattleS
 	}
 	indicatorAnim.speed = 1.0f;
 	indicatorAnim.loop = true;
+
+	// Player defense
+	for (int j = 0; j < 5; j++)
+	{
+		for (int i = 0; i < 5; i++)
+		{
+			playerDefenseAnim.PushBack({ i * 192, j * 192, 192, 192 });
+		}
+	}
+	playerDefenseAnim.speed = 0.5;
+
+	// Enemy defense
+	for (int j = 0; j < 5; j++)
+	{
+		for (int i = 0; i < 5; i++)
+		{
+			enemyDefenseAnim.PushBack({ i * 192, j * 192, 192, 192 });
+		}
+	}
+	enemyDefenseAnim.speed = 0.5;
 
 	// Create fonts
 	this->titleFont = titleFont;
@@ -291,20 +301,35 @@ bool ScreenBattle::Draw(Render* render)
 		uint width, height;
 		win->GetWindowSize(width, height);
 
+		char temp[64] = { 0 };
 		if (battleSystem->battleState == BattleState::PLAYER_TURN)
 		{
-			render->DrawText(titleFont, "Your turn", 50 + 3, 30 + 3, 100, 0, { 105, 105, 105, 255 });
-			render->DrawText(titleFont, "Your turn", 50, 30, 100, 0, { 255, 255, 255, 255 });
+			sprintf_s(temp, 64, "%s's turn", battleSystem->GetPlayer()->name.GetString());
+			render->DrawText(titleFont, temp, 50 + 3, 30 + 3, 100, 0, { 105, 105, 105, 255 });
+			render->DrawText(titleFont, temp, 50, 30, 100, 0, { 255, 255, 255, 255 });
 
 			if (battleSystem->playerState == PlayerState::ATTACK)
 			{
-				render->DrawText(titleFont, "You're attacking!", 50 + 3, 130 + 3, 50, 0, { 105, 105, 105, 255 });
-				render->DrawText(titleFont, "You're attacking!", 50, 130, 50, 0, { 255, 255, 255, 255 });
+				sprintf_s(temp, 64, "%s attacks %s", battleSystem->GetPlayer()->name.GetString(), battleSystem->GetEnemy()->name.GetString());
+				render->DrawText(titleFont, temp, 50 + 3, 130 + 3, 50, 0, { 105, 105, 105, 255 });
+				render->DrawText(titleFont, temp, 50, 130, 50, 0, { 255, 255, 255, 255 });
 			}
 			else if (battleSystem->playerState == PlayerState::DEFEND)
 			{
-				render->DrawText(titleFont, "You're defending!", 50 + 3, 130 + 3, 50, 0, { 105, 105, 105, 255 });
-				render->DrawText(titleFont, "You're defending!", 50, 130, 50, 0, { 255, 255, 255, 255 });
+				sprintf_s(temp, 64, "%s defends himself", battleSystem->GetPlayer()->name.GetString());
+				render->DrawText(titleFont, temp, 50 + 3, 130 + 3, 50, 0, { 105, 105, 105, 255 });
+				render->DrawText(titleFont, temp, 50, 130, 50, 0, { 255, 255, 255, 255 });
+
+				render->scale = 2;
+				for (int i = 0; i < battleSystem->GetPlayersList()->Count(); i++)
+				{
+					if (battleSystem->GetPlayer()->name == battleSystem->GetPlayersList()->At(i)->data->name)
+					{
+						if (battleSystem->GetCounter() > 50 && !playerDefenseAnim.Finished())
+							render->DrawTexture(playerDefense, 0 + 50 * i, 125, &playerDefenseAnim.GetCurrentFrame(), 0);
+					}
+				}
+				render->scale = 1;
 			}
 
 			if (!cast1Anim.Finished())
@@ -322,24 +347,30 @@ bool ScreenBattle::Draw(Render* render)
 		}
 		else if (battleSystem->battleState == BattleState::ENEMY_TURN)
 		{
-			render->DrawText(titleFont, "Enemy turn", 50 + 3, 30 + 3, 100, 0, { 105, 105, 105, 255 });
-			render->DrawText(titleFont, "Enemy turn", 50, 30, 100, 0, { 255, 255, 255, 255 });
+			sprintf_s(temp, 64, "%s's turn", battleSystem->GetEnemy()->name.GetString());
+			render->DrawText(titleFont, temp, 50 + 3, 30 + 3, 100, 0, { 105, 105, 105, 255 });
+			render->DrawText(titleFont, temp, 50, 30, 100, 0, { 255, 255, 255, 255 });
 
 			if (battleSystem->enemyState == EnemyState::ATTACK)
 			{
-				render->DrawText(titleFont, "Enemy is attacking!", 50 + 3, 130 + 3, 50, 0, { 105, 105, 105, 255 });
-				render->DrawText(titleFont, "Enemy is attacking!", 50, 130, 50, 0, { 255, 255, 255, 255 });
+				sprintf_s(temp, 64, "%s attacks %s", battleSystem->GetEnemy()->name.GetString(), battleSystem->GetPlayer()->name.GetString());
+				render->DrawText(titleFont, temp, 50 + 3, 130 + 3, 50, 0, { 105, 105, 105, 255 });
+				render->DrawText(titleFont, temp, 50, 130, 50, 0, { 255, 255, 255, 255 });
 			}
 			else if (battleSystem->enemyState == EnemyState::DEFEND)
 			{
-				render->DrawText(titleFont, "Enemy is defending!", 50 + 3, 130 + 3, 50, 0, { 105, 105, 105, 255 });
-				render->DrawText(titleFont, "Enemy is defending!", 50, 130, 50, 0, { 255, 255, 255, 255 });
+				sprintf_s(temp, 64, "%s defends himself", battleSystem->GetEnemy()->name.GetString());
+				render->DrawText(titleFont, temp, 50 + 3, 130 + 3, 50, 0, { 105, 105, 105, 255 });
+				render->DrawText(titleFont, temp, 50, 130, 50, 0, { 255, 255, 255, 255 });
+
+				render->scale = 2;
+				if (battleSystem->GetCounter() > 100 && !enemyDefenseAnim.Finished())
+					render->DrawTexture(enemyDefense, 350, 25, &enemyDefenseAnim.GetCurrentFrame(), 0);
+				render->scale = 1;
 			}
 
 			if (!enemyCastAnim.Finished())
-			{
 				render->DrawTexture(enemyCast, 675, 0, &enemyCastAnim.GetCurrentFrame(), 0);
-			}
 
 			render->DrawTexture(indicator, 835, 180, &indicatorAnim.GetCurrentFrame(), 0);
 		}
@@ -356,13 +387,12 @@ bool ScreenBattle::Draw(Render* render)
 			render->DrawText(menuFont, battleSystem->GetPlayer()->name.GetString(), 125, 265, 50, 3, { 255, 255, 255, 255 });
 
 			// Player level
-			char temp[16] = { 0 };
-			sprintf_s(temp, 16, "LVL: %03i", battleSystem->GetPlayer()->stats.level);
+			sprintf_s(temp, 64, "LVL: %03i", battleSystem->GetPlayer()->stats.level);
 			render->DrawText(menuFont, temp, 420 + 3, 265 + 3, 50, 3, { 105, 105, 105, 255 });
 			render->DrawText(menuFont, temp, 420, 265, 50, 3, { 255, 255, 255, 255 });
 
 			// Player life
-			sprintf_s(temp, 16, "HP: %03i", battleSystem->GetPlayer()->stats.currentHP);
+			sprintf_s(temp, 64, "HP: %03i", battleSystem->GetPlayer()->stats.currentHP);
 			render->DrawText(menuFont, temp, 125 + 3, 305 + 3, 35, 3, { 64, 128, 80, 255 });
 			render->DrawText(menuFont, temp, 125, 305, 35, 3, { 127, 255, 160, 255 });
 
@@ -374,40 +404,14 @@ bool ScreenBattle::Draw(Render* render)
 			render->DrawText(menuFont, battleSystem->GetEnemy()->name.GetString(), 730, 15, 50, 3, { 255, 255, 255, 255 });
 
 			// Enemy level
-			sprintf_s(temp, 16, "LVL: %03i", battleSystem->GetEnemy()->stats.level);
+			sprintf_s(temp, 64, "LVL: %03i", battleSystem->GetEnemy()->stats.level);
 			render->DrawText(menuFont, temp, 1020 + 3, 15 + 3, 50, 3, { 105, 105, 105, 255 });
 			render->DrawText(menuFont, temp, 1020, 15, 50, 3, { 255, 255, 255, 255 });
 
 			// Enemy life
-			sprintf_s(temp, 16, "HP: %03i", battleSystem->GetEnemy()->stats.currentHP);
+			sprintf_s(temp, 64, "HP: %03i", battleSystem->GetEnemy()->stats.currentHP);
 			render->DrawText(menuFont, temp, 730 + 3, 55 + 3, 35, 3, { 64, 128, 80, 255 });
 			render->DrawText(menuFont, temp, 730, 55, 35, 3, { 127, 255, 160, 255 });
-
-			// Draw party members textures
-			SDL_Rect rect = { 0,481,32,32 };
-			render->scale = 5;
-			for (int i = 0; i < battleSystem->GetPlayersList()->Count(); i++)
-			{
-				rect = battleSystem->GetPlayersList()->At(i)->data->idleAnim.GetFrame(0);
-				render->DrawTexture(charactersSpritesheet, 22.5 + 20 * i, 75, &rect, 0);
-			}
-			render->scale = 1;
-
-			// Draw Enemy textures
-			rect = battleSystem->GetEnemy()->animRec;
-			render->scale = 5;
-			render->DrawTexture(charactersSpritesheet, 170, 25, &rect, 0);
-			render->scale = 1;
-
-			render->scale = 2;
-			for (int i = 0; i < battleSystem->GetPlayersList()->Count(); i++)
-			{
-				if (battleSystem->GetPlayer()->name == battleSystem->GetPlayersList()->At(i)->data->name)
-				{
-					render->DrawTexture(aura, 29 + 50 * i, 165, &auraAnim.GetCurrentFrame(), 0);
-				}
-			}
-			render->scale = 1;
 		}
 		else if (battleSystem->battleState == BattleState::WON)
 		{
@@ -418,9 +422,23 @@ bool ScreenBattle::Draw(Render* render)
 		else if (battleSystem->battleState == BattleState::LOST)
 		{
 			// Display loser text
-			render->DrawText(titleFont, "You lose!", 50 + 3, 30 + 3, 125, 0, { 105, 105, 105, 255 });
-			render->DrawText(titleFont, "You lose!", 50, 30, 125, 0, { 255, 255, 255, 255 });
+			render->DrawText(titleFont, "You lose...", 50 + 3, 30 + 3, 125, 0, { 105, 105, 105, 255 });
+			render->DrawText(titleFont, "You lose...", 50, 30, 125, 0, { 255, 255, 255, 255 });
 		}
+
+		// Draw party members textures
+		render->scale = 5;
+		SDL_Rect rect = { 0,481,32,32 };
+		for (int i = 0; i < battleSystem->GetPlayersList()->Count(); i++)
+		{
+			rect = battleSystem->GetPlayersList()->At(i)->data->idleAnim.GetFrame(0);
+			render->DrawTexture(charactersSpritesheet, 22.5 + 20 * i, 75, &rect, 0);
+		}
+
+		// Draw Enemy textures
+		rect = battleSystem->GetEnemy()->animRec;
+		render->DrawTexture(charactersSpritesheet, 170, 25, &rect, 0);
+		render->scale = 1;
 	}
 
 	return true;
@@ -489,4 +507,6 @@ void ScreenBattle::ResetOneTimeAnimations()
 {
 	cast1Anim.Reset();
 	enemyCastAnim.Reset();
+	playerDefenseAnim.Reset();
+	enemyDefenseAnim.Reset();
 }

@@ -1,0 +1,18 @@
+<dialog id="2">
+  <options speaker="Pedestrian" value="Hi young man! What brings you to this place?">
+    <option value="Hi! I am learning to be a cook.">
+      <line speaker="Pedestrian" value="Wow! And how is it going?"></line>
+      <options id="cook" speaker="Pedestrian" value="It should be a really hard job!">
+        <option value="Yes, it does! But I am always pushing myself.">
+          <line speaker="Pedestrian" value="Impressive! I like your mindset." callback="say_hello"></line>
+        </option>
+        <option value="Absolutely, I am exhausted!">
+          <line speaker="Pedestrian" value="Keep working! I am sure you will succed!"></line>
+        </option>
+      </options>
+    </option>
+    <option value="Hey! I have to work, sorry I am late!">
+      <line speaker="Pedestrian" value="Have a nice day!"></line>
+    </option>
+  </options>
+</dialog>

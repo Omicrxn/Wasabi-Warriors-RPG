@@ -278,3 +278,8 @@ bool BattleSystem::IsTurnChanging()
 {
 	return turnChanged;
 }
+
+uint BattleSystem::GetCounter()
+{
+	return turnCounter;
+}
