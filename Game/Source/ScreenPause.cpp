@@ -259,19 +259,32 @@ bool ScreenPause::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMana
 	return true;
 }
 
-void ScreenPause::Enable()
+void ScreenPause::Enable(bool isFromSettings)
 {
 	/* The position when you open the mobile*/
-	easing->CreateSpline(&position, 50, 1500, SplineType::QUINT);
+	if (isFromSettings == false)
+	{
+		easing->CreateSpline(&position, 50, 1500, SplineType::QUINT);
 
-	easing->CreateSpline(&iconSettings->bounds.y, 108, 1500, SplineType::QUINT);
-	easing->CreateSpline(&iconExit->bounds.y, 108, 1500, SplineType::QUINT);
-	easing->CreateSpline(&iconResume->bounds.y, 580, 1500, SplineType::QUINT);
+		easing->CreateSpline(&iconSettings->bounds.y, 108, 1500, SplineType::QUINT);
+		easing->CreateSpline(&iconExit->bounds.y, 108, 1500, SplineType::QUINT);
+		easing->CreateSpline(&iconResume->bounds.y, 580, 1500, SplineType::QUINT);
 
-	easing->CreateSpline(&iconQuest->bounds.y, 435, 1500, SplineType::QUINT);
-	easing->CreateSpline(&iconTeam->bounds.y, 435, 1500, SplineType::QUINT);
-	easing->CreateSpline(&iconMap->bounds.y, 435, 1500, SplineType::QUINT);
-
+		easing->CreateSpline(&iconQuest->bounds.y, 435, 1500, SplineType::QUINT);
+		easing->CreateSpline(&iconTeam->bounds.y, 435, 1500, SplineType::QUINT);
+		easing->CreateSpline(&iconMap->bounds.y, 435, 1500, SplineType::QUINT);
+	}
+	else
+	{
+		position = 50;
+		iconSettings->bounds.y = 108;
+		iconExit->bounds.y = 108;
+		iconResume->bounds.y = 580;
+		iconQuest->bounds.y = 435;
+		iconTeam->bounds.y = 435;
+		iconMap->bounds.y = 435;
+	}
+	
 	Screen::Enable();
 }
 

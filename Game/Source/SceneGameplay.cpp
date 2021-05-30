@@ -972,7 +972,7 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 			screenRoaming->isActive = false;
 			screenRoaming->HideButtons();
 
-			screenPause->Enable();
+			((ScreenPause*)screenPause)->Enable();
 
 			for (int i = 0; i < entityManager->playerList.Count(); i++)
 			{
@@ -1062,7 +1062,7 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 		else if (control->id == 7)
 		{
 			// From Main Screen of the mobile to Map Screen
-			((ScreenPause*)screenPause)->state = MobileState::MAIN;
+			((ScreenPause*)screenPause)->state = MobileState::MAP;
 			for (int i = 3; i <= 7; ++i)
 				guiManager->controls.At(i)->data->state = GuiControlState::DISABLED;
 		}
@@ -1071,7 +1071,7 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 			// Returning from settings to pause
 			currentState = GameState::PAUSE;
 
-			screenPause->Enable();
+			((ScreenPause*)screenPause)->Enable(true);
 
 			screenSettings->isActive = false;
 			screenSettings->HideButtons();

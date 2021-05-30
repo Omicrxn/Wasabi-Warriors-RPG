@@ -109,7 +109,7 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
     returnFx = audio->LoadFx("Audio/Fx/back.ogg");
 
     screenMainMenu = new ScreenMainMenu();
-    screenMainMenu->Load(0, 4, this, win, guiManager, NULL, audio, easing, guiAtlasTex, titlesTex, buttonFont, hoverFx, clickFx);
+    screenMainMenu->Load(0, 4, this, win, guiManager, NULL, audio, easing, guiAtlasTex2, titlesTex, buttonFont, hoverFx, clickFx);
     screenMainMenu->isActive = true;
     screenSettings = new ScreenSettings();
     screenSettings->Load(5, 9, this, win, guiManager, NULL, audio, easing, guiAtlasTex2, titlesTex, buttonFont, hoverFx, clickFx);

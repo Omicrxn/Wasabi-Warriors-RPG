@@ -2,11 +2,15 @@
 #define __GUIBUTTON_H__
 
 #include "GuiControl.h"
+#include "Animation.h"
 
 enum class Style 
 {
     WHITE,
-    GREY
+    GREY,
+    ORANGE,
+    RED,
+    YELLOW
 };
 
 class GuiButton : public GuiControl
@@ -26,25 +30,14 @@ private:
     Style buttonStyle;
 
     SDL_Rect greyButton;
-
-    SDL_Rect yellowButton;
-    SDL_Rect yellowButtonPressed;
-
-    SDL_Rect arrowYellowLeft;
-    SDL_Rect arrowYellowRight;
-
     SDL_Rect whiteButton;
     SDL_Rect whiteButtonPressed;
 
     SDL_Rect arrowWhiteLeft;
     SDL_Rect arrowWhiteRight;
 
-    SDL_Rect iconReturn;
-    SDL_Rect iconSettings;
-    SDL_Rect iconExit;
-    SDL_Rect iconPause;
-    SDL_Rect iconInventory;
-    SDL_Rect iconPhone;
+    Animation buttonAnim;
+    SDL_Rect backgroundButtonAnim;
 };
 
 #endif // __GUIBUTTON_H__

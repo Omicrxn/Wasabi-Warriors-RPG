@@ -38,23 +38,23 @@ bool ScreenMainMenu::Load(int minIndex, int maxIndex, Scene* currentScene, Windo
     int counterId = minIndex;
 
     btnContinue = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { -350, 200, 190, 49 }, "CONTINUE");
-    btnContinue->SetButtonProperties(currentScene, atlas0, font, hoverFx, clickFx, Style::WHITE);
+    btnContinue->SetButtonProperties(currentScene, atlas0, font, hoverFx, clickFx, Style::ORANGE);
     ++counterId;
 
     btnStart = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { -350, 300, 190, 49 }, "START");
-    btnStart->SetButtonProperties(currentScene, atlas0, font, hoverFx, clickFx, Style::WHITE);
+    btnStart->SetButtonProperties(currentScene, atlas0, font, hoverFx, clickFx, Style::ORANGE);
     ++counterId;
 
     btnOptions = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { -350, 400, 190, 49 }, "OPTIONS");
-    btnOptions->SetButtonProperties(currentScene, atlas0, font, hoverFx, clickFx, Style::WHITE);
+    btnOptions->SetButtonProperties(currentScene, atlas0, font, hoverFx, clickFx, Style::ORANGE);
     ++counterId;
 
     btnCredits = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { -350, 500, 190, 49 }, "CREDITS");
-    btnCredits->SetButtonProperties(currentScene, atlas0, font, hoverFx, clickFx, Style::WHITE);
+    btnCredits->SetButtonProperties(currentScene, atlas0, font, hoverFx, clickFx, Style::ORANGE);
     ++counterId;
 
     btnExit = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { -350, 600, 190, 49 }, "EXIT");
-    btnExit->SetButtonProperties(currentScene, atlas0, font, hoverFx, clickFx, Style::WHITE);
+    btnExit->SetButtonProperties(currentScene, atlas0, font, hoverFx, clickFx, Style::ORANGE);
 
     
 	return true;

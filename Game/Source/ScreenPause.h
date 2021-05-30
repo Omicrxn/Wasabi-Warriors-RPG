@@ -20,7 +20,7 @@ public:
 	bool Draw(Render* render);
 	bool Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager);
 
-	void Enable();
+	void Enable(bool isFromSettings = false);
 	void Disable();
 
 	void SetMenuFont(Font*);
