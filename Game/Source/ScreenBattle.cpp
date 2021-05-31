@@ -39,6 +39,7 @@ ScreenBattle::ScreenBattle()
 	titleFont = nullptr;
 	buttonFont = nullptr;
 	menuFont = nullptr;
+	menuFont2 = nullptr;
 
 	// Audio Fx for buttons
 	hoverFx = -1;
@@ -151,22 +152,22 @@ bool ScreenBattle::Load(int minIndex, int maxIndex, Scene* currentScene, BattleS
 	// Load buttons for the battle system
 	int counterId = minIndex;
 
-	btnAttack = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { 730, 500, 190, 49 }, "Attack");
+	btnAttack = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { 800, 540, 190, 49 }, "Attack");
 	btnAttack->SetButtonProperties(currentScene, guiAtlasTex, menuFont2, hoverFx, clickFx, Style::WHITE);
 	btnAttack->state = GuiControlState::HIDDEN;
 	++counterId;
 
-	btnDefend = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { 730, 600, 190, 49 }, "Defend");
+	btnDefend = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { 800, 595, 190, 49 }, "Defend");
 	btnDefend->SetButtonProperties(currentScene, guiAtlasTex, menuFont2, hoverFx, clickFx, Style::WHITE);
 	btnDefend->state = GuiControlState::HIDDEN;
 	++counterId;
 
-	btnItem = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { 1030, 500, 190, 49 }, "Item");
+	btnItem = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { 1010, 540, 190, 49 }, "Item");
 	btnItem->SetButtonProperties(currentScene, guiAtlasTex, menuFont2, hoverFx, clickFx, Style::WHITE);
 	btnItem->state = GuiControlState::HIDDEN;
 	++counterId;
 
-	btnRun = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { 1030, 600, 190, 49 }, "Run");
+	btnRun = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { 1010, 595, 190, 49 }, "Run");
 	btnRun->SetButtonProperties(currentScene, guiAtlasTex, menuFont2, hoverFx, clickFx, Style::WHITE);
 	btnRun->state = GuiControlState::HIDDEN;
 
@@ -393,8 +394,8 @@ bool ScreenBattle::Draw(Render* render)
 
 			// Player level
 			sprintf_s(temp, 64, "LVL: %03i", battleSystem->GetPlayer()->stats.level);
-			render->DrawText(menuFont2, temp, 390 + 3, 155 + 3, 50, 3, { 105, 105, 105, 255 });
-			render->DrawText(menuFont2, temp, 390, 155, 50, 3, { 255, 255, 255, 255 });
+			render->DrawText(menuFont2, temp, 370 + 3, 155 + 3, 50, 3, { 105, 105, 105, 255 });
+			render->DrawText(menuFont2, temp, 370, 155, 50, 3, { 255, 255, 255, 255 });
 
 			// Player life
 			sprintf_s(temp, 64, "HP: %03i", battleSystem->GetPlayer()->stats.currentHP);
@@ -425,8 +426,8 @@ bool ScreenBattle::Draw(Render* render)
 
 			// Enemy level
 			sprintf_s(temp, 64, "LVL: %03i", battleSystem->GetEnemy()->stats.level);
-			render->DrawText(menuFont2, temp, 995 + 3, 15 + 3, 50, 3, { 105, 105, 105, 255 });
-			render->DrawText(menuFont2, temp, 995, 15, 50, 3, { 255, 255, 255, 255 });
+			render->DrawText(menuFont2, temp, 975 + 3, 15 + 3, 50, 3, { 105, 105, 105, 255 });
+			render->DrawText(menuFont2, temp, 975, 15, 50, 3, { 255, 255, 255, 255 });
 
 			// Enemy life
 			sprintf_s(temp, 64, "HP: %03i", battleSystem->GetEnemy()->stats.currentHP);
@@ -487,39 +488,23 @@ bool ScreenBattle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMan
 {
 	// Unload textures
 	tex->UnLoad(charactersSpritesheet);
-	charactersSpritesheet = nullptr;
 	tex->UnLoad(backgroundTex);
-	backgroundTex = nullptr;
 	tex->UnLoad(optionsBackgroundTex);
-	optionsBackgroundTex = nullptr;
 	tex->UnLoad(cast1);
-	cast1 = nullptr;
 	tex->UnLoad(enemyCast);
-	enemyCast = nullptr;
 	tex->UnLoad(indicator);
-	indicator = nullptr;
 
 	// Destory GUI Controls
 	guiManager->DestroyGuiControl(btnAttack);
-	btnAttack = nullptr;
 	guiManager->DestroyGuiControl(btnDefend);
-	btnDefend = nullptr;
 	guiManager->DestroyGuiControl(btnItem);
-	btnItem = nullptr;
 	guiManager->DestroyGuiControl(btnRun);
-	btnRun = nullptr;
 
 	// Removing used modules
 	this->entityManager = nullptr;
 	this->guiManager = nullptr;
 	this->win = nullptr;
 	this->audio = nullptr;
-
-	// Release fonts
-	RELEASE(titleFont);
-	RELEASE(buttonFont);
-	RELEASE(menuFont);
-	RELEASE(menuFont2);
 
 	return true;
 }

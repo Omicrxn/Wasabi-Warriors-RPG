@@ -875,6 +875,7 @@ bool EntityManager::SaveStateInfo(pugi::xml_node& scenegameplay, MapType current
 		newNPCNode.append_attribute("posY").set_value(list3->data->position.y);
 		newNPCNode.append_attribute("isActive").set_value(list3->data->IsActive());
 		newNPCNode.append_attribute("isRenderable").set_value(list3->data->renderable);
+		newNPCNode.append_attribute("dialogIndex").set_value(list3->data->dialogIndex);
 	}
 
 	/* ---------- FOURTH SAVE THE TELEPORTS ----------*/
