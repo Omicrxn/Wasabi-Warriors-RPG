@@ -188,6 +188,7 @@ private:
     Font* titleFont;
     Font* buttonFont;
     Font* menuFont;
+    Font* menuFont2;
 
     // Audio Fx for buttons
     int hoverFx, clickFx, returnFx;

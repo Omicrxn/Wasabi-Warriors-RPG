@@ -230,6 +230,7 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 	titleFont = new Font("Fonts/shojumaru.xml", tex, assetsManager);
 	buttonFont = new Font("Fonts/SHOWG.xml", tex, assetsManager);
 	menuFont = new Font("Fonts/poppins.xml", tex, assetsManager);
+	menuFont2 = new Font("Fonts/comic_serif.xml", tex, assetsManager);
 
 	// Load buttons Fx
 	hoverFx = audio->LoadFx("Audio/Fx/bong.ogg");
@@ -262,7 +263,7 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 
 	// Gui id goes from 13 to 16
 	screenBattle = new ScreenBattle();
-	screenBattle->Load(13, 16, this, battleSystem, tex, win, audio, guiManager, entityManager, charactersSpritesheet, guiAtlasTex, titleFont, buttonFont, menuFont, hoverFx, clickFx, returnFx);
+	screenBattle->Load(13, 16, this, battleSystem, tex, win, audio, guiManager, entityManager, charactersSpritesheet, guiAtlasTex, titleFont, buttonFont, menuFont, menuFont2, hoverFx, clickFx, returnFx);
 	screenBattle->isActive = false;
 
 	// Gui id goes from 17 to 18
@@ -651,12 +652,13 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 	// Remove map
 	map->CleanUp();
 
-	// Stop music (GitHub)
+	// Stop music
 
 	// Release fonts
 	RELEASE(titleFont);
 	RELEASE(buttonFont);
 	RELEASE(menuFont);
+	RELEASE(menuFont2);
 
 	// Unload textures
 	tex->UnLoad(charactersSpritesheet);

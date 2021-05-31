@@ -101,7 +101,7 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
     titlesTex = tex->Load("Textures/Scenes/titles.png");
 
     titleFont = new Font("Fonts/shojumaru.xml", tex, assetsManager);
-    buttonFont = new Font("Fonts/SHOWG.xml", tex, assetsManager);
+    buttonFont = new Font("Fonts/comic_serif.xml", tex, assetsManager);
 
     hoverFx = audio->LoadFx("Audio/Fx/bong.ogg");
     clickFx = audio->LoadFx("Audio/Fx/click.ogg");

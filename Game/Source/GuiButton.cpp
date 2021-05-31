@@ -153,43 +153,45 @@ bool GuiButton::Draw(Render* render, bool debugDraw)
         switch (buttonStyle)
         {
         case Style::WHITE:
-            render->DrawTexture(texture, bounds.x, bounds.y, &whiteButton, 0.0f);
+            render->DrawTexture(texture, bounds.x, bounds.y, &greyButton, 0.0f);
             break;
         default:
             render->DrawTexture(texture, bounds.x, bounds.y, &buttonAnim.frames[0], 0.0f);
             break;
         }
-        render->DrawText(font, text.GetString(), bounds.x + bounds.w / 5 - bounds.w / 6 + 10, bounds.y + bounds.h / 2 + 5, 22, 8, { 105,105,105,255 });
+        render->DrawText(font, text.GetString(), bounds.x + 10 + 3, bounds.y + 3 + 3, 40, 8, { 128,128,128,255 });
+        render->DrawText(font, text.GetString(), bounds.x + 10, bounds.y + 3, 40, 8, { 255,255,255,255 });
         break;
     case GuiControlState::FOCUSED:
-        render->DrawTexture(texture, bounds.x - 30, bounds.y + 14, &arrowWhiteRight, 0.0f);
+        /*render->DrawTexture(texture, bounds.x - 30, bounds.y + 14, &arrowWhiteRight, 0.0f);*/
         switch (buttonStyle)
         {
         case Style::WHITE:
             render->DrawTexture(texture, bounds.x, bounds.y, &whiteButton, 0.0f);
-            render->DrawTexture(texture, bounds.x + bounds.w + 8, bounds.y + 14, &arrowWhiteLeft, 0.0f);
+            /*render->DrawTexture(texture, bounds.x, bounds.y, &whiteButton, 0.0f);
+            render->DrawTexture(texture, bounds.x + bounds.w + 8, bounds.y + 14, &arrowWhiteLeft, 0.0f);*/
             break;
         default:
             render->DrawTexture(texture, bounds.x, bounds.y, &buttonAnim.frames[1], 0.0f);
             break;
         }
-        render->DrawText(font, text.GetString(), bounds.x + bounds.w / 5 - bounds.w / 6 + 7, bounds.y + bounds.h / 2 - bounds.h / 4 + 2, 22, 8, { 105,105,105,255 });
-        render->DrawText(font, text.GetString(), bounds.x + bounds.w / 5 - bounds.w / 6 + 5, bounds.y + bounds.h / 2 - bounds.h / 4, 22, 8, { 0,0,0,255 });
+        render->DrawText(font, text.GetString(), bounds.x + 7 + 3, bounds.y + 0 + 3, 40, 8, { 64,64,64,255 });
+        render->DrawText(font, text.GetString(), bounds.x + 7, bounds.y + 0, 40, 8, { 128,128,128,255 });
         break;
     case GuiControlState::PRESSED:
-        render->DrawTexture(texture, bounds.x - 30, bounds.y + 18, &arrowWhiteRight, 0.0f);
+        /*render->DrawTexture(texture, bounds.x - 30, bounds.y + 18, &arrowWhiteRight, 0.0f);*/
         switch (buttonStyle)
         {
         case Style::WHITE:
             render->DrawTexture(texture, bounds.x, bounds.y + 4, &whiteButtonPressed, 0.0f);
-            render->DrawTexture(texture, bounds.x + bounds.w + 8, bounds.y + 18, &arrowWhiteLeft, 0.0f);
+            /*render->DrawTexture(texture, bounds.x + bounds.w + 8, bounds.y + 18, &arrowWhiteLeft, 0.0f);*/
             break;
         default:
             render->DrawTexture(texture, bounds.x, bounds.y, &buttonAnim.frames[2], 0.0f);
             break;
         }
-        render->DrawText(font, text.GetString(), bounds.x + bounds.w / 5 - bounds.w / 6 + 7, bounds.y + bounds.h / 2 - bounds.h / 4 + 4 + 2, 22, 8, { 105,105,105,255 });
-        render->DrawText(font, text.GetString(), bounds.x + bounds.w / 5 - bounds.w / 6 + 5, bounds.y + bounds.h / 2 - bounds.h / 4 + 4, 22, 8, { 0,0,0,255 });
+        render->DrawText(font, text.GetString(), bounds.x + 10 + 3, bounds.y + 3 + 3, 40, 8, { 64,64,64,255 });
+        render->DrawText(font, text.GetString(), bounds.x + 10, bounds.y + 3, 40, 8, { 128,128,128,255 });
         break;
     default:
         break;

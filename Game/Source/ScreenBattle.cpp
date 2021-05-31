@@ -33,6 +33,7 @@ ScreenBattle::ScreenBattle()
 	guiAtlasTex = nullptr;
 
 	backgroundRect = { 0, 0, 1280, 720 };
+	optionsBackgroundRect = { 0,0,1240,220 };
 
 	// Fonts
 	titleFont = nullptr;
@@ -58,7 +59,7 @@ ScreenBattle::~ScreenBattle()
 {
 }
 
-bool ScreenBattle::Load(int minIndex, int maxIndex, Scene* currentScene, BattleSystem* battleSystem, Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, SDL_Texture* charactersSpritesheet, SDL_Texture* guiAtlasTex, Font* titleFont, Font* buttonFont, Font* menuFont, int hoverFx, int clickFx, int returnFx)
+bool ScreenBattle::Load(int minIndex, int maxIndex, Scene* currentScene, BattleSystem* battleSystem, Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, SDL_Texture* charactersSpritesheet, SDL_Texture* guiAtlasTex, Font* titleFont, Font* buttonFont, Font* menuFont, Font* menuFont2, int hoverFx, int clickFx, int returnFx)
 {
 	this->minIndex = minIndex;
 	this->maxIndex = maxIndex;
@@ -76,6 +77,7 @@ bool ScreenBattle::Load(int minIndex, int maxIndex, Scene* currentScene, BattleS
 	this->charactersSpritesheet = charactersSpritesheet;
 	this->guiAtlasTex = guiAtlasTex;
 	backgroundTex = tex->Load("Textures/Scenes/battle_scene.jpg");
+	optionsBackgroundTex = tex->Load("Textures/Dialog/dialog_background.png");
 	cast1 = tex->Load("Textures/Effects/cast_001.png");
 	enemyCast = tex->Load("Textures/Effects/cast_008.png");
 	indicator = tex->Load("Textures/Effects/fire_003.png");
@@ -136,7 +138,9 @@ bool ScreenBattle::Load(int minIndex, int maxIndex, Scene* currentScene, BattleS
 
 	// Create fonts
 	this->titleFont = titleFont;
+	this->buttonFont = buttonFont;
 	this->menuFont = menuFont;
+	this->menuFont2 = menuFont2;
 
 	// Load buttons Fx
 	this->hoverFx = hoverFx;
@@ -147,23 +151,23 @@ bool ScreenBattle::Load(int minIndex, int maxIndex, Scene* currentScene, BattleS
 	// Load buttons for the battle system
 	int counterId = minIndex;
 
-	btnAttack = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { 730, 500, 190, 49 }, "ATTACK");
-	btnAttack->SetButtonProperties(currentScene, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::WHITE);
+	btnAttack = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { 730, 500, 190, 49 }, "Attack");
+	btnAttack->SetButtonProperties(currentScene, guiAtlasTex, menuFont2, hoverFx, clickFx, Style::WHITE);
 	btnAttack->state = GuiControlState::HIDDEN;
 	++counterId;
 
-	btnDefend = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { 730, 600, 190, 49 }, "DEFEND");
-	btnDefend->SetButtonProperties(currentScene, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::WHITE);
+	btnDefend = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { 730, 600, 190, 49 }, "Defend");
+	btnDefend->SetButtonProperties(currentScene, guiAtlasTex, menuFont2, hoverFx, clickFx, Style::WHITE);
 	btnDefend->state = GuiControlState::HIDDEN;
 	++counterId;
 
-	btnItem = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { 1030, 500, 190, 49 }, "ITEM");
-	btnItem->SetButtonProperties(currentScene, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::WHITE);
+	btnItem = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { 1030, 500, 190, 49 }, "Item");
+	btnItem->SetButtonProperties(currentScene, guiAtlasTex, menuFont2, hoverFx, clickFx, Style::WHITE);
 	btnItem->state = GuiControlState::HIDDEN;
 	++counterId;
 
-	btnRun = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { 1030, 600, 190, 49 }, "RUN");
-	btnRun->SetButtonProperties(currentScene, guiAtlasTex, buttonFont, hoverFx, clickFx, Style::WHITE);
+	btnRun = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { 1030, 600, 190, 49 }, "Run");
+	btnRun->SetButtonProperties(currentScene, guiAtlasTex, menuFont2, hoverFx, clickFx, Style::WHITE);
 	btnRun->state = GuiControlState::HIDDEN;
 
 	return true;
@@ -297,6 +301,7 @@ bool ScreenBattle::Draw(Render* render)
 	if (this->isActive)
 	{
 		render->DrawTexture(backgroundTex, 0, 0, &backgroundRect, 0);
+		render->DrawTexture(optionsBackgroundTex, 20, 480, &optionsBackgroundRect, 0);
 
 		uint width, height;
 		win->GetWindowSize(width, height);
@@ -305,20 +310,20 @@ bool ScreenBattle::Draw(Render* render)
 		if (battleSystem->battleState == BattleState::PLAYER_TURN)
 		{
 			sprintf_s(temp, 64, "%s's turn", battleSystem->GetPlayer()->name.GetString());
-			render->DrawText(titleFont, temp, 50 + 3, 30 + 3, 100, 0, { 105, 105, 105, 255 });
-			render->DrawText(titleFont, temp, 50, 30, 100, 0, { 255, 255, 255, 255 });
+			render->DrawText(menuFont2, temp, 75 + 3, 520 + 3, 70, 0, { 105, 105, 105, 255 });
+			render->DrawText(menuFont2, temp, 75, 520, 70, 0, { 255, 255, 255, 255 });
 
 			if (battleSystem->playerState == PlayerState::ATTACK)
 			{
 				sprintf_s(temp, 64, "%s attacks %s", battleSystem->GetPlayer()->name.GetString(), battleSystem->GetEnemy()->name.GetString());
-				render->DrawText(titleFont, temp, 50 + 3, 130 + 3, 50, 0, { 105, 105, 105, 255 });
-				render->DrawText(titleFont, temp, 50, 130, 50, 0, { 255, 255, 255, 255 });
+				render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 105, 105, 105, 255 });
+				render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 255, 255, 255 });
 			}
 			else if (battleSystem->playerState == PlayerState::DEFEND)
 			{
 				sprintf_s(temp, 64, "%s defends himself", battleSystem->GetPlayer()->name.GetString());
-				render->DrawText(titleFont, temp, 50 + 3, 130 + 3, 50, 0, { 105, 105, 105, 255 });
-				render->DrawText(titleFont, temp, 50, 130, 50, 0, { 255, 255, 255, 255 });
+				render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 105, 105, 105, 255 });
+				render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 255, 255, 255 });
 
 				render->scale = 2;
 				for (int i = 0; i < battleSystem->GetPlayersList()->Count(); i++)
@@ -326,7 +331,7 @@ bool ScreenBattle::Draw(Render* render)
 					if (battleSystem->GetPlayer()->name == battleSystem->GetPlayersList()->At(i)->data->name)
 					{
 						if (battleSystem->GetCounter() > 50 && !playerDefenseAnim.Finished())
-							render->DrawTexture(playerDefense, 0 + 50 * i, 125, &playerDefenseAnim.GetCurrentFrame(), 0);
+							render->DrawTexture(playerDefense, 0 + 50 * i, 75, &playerDefenseAnim.GetCurrentFrame(), 0);
 					}
 				}
 				render->scale = 1;
@@ -334,34 +339,34 @@ bool ScreenBattle::Draw(Render* render)
 
 			if (!cast1Anim.Finished())
 			{
-				render->DrawTexture(cast1, 100, 200, &cast1Anim.GetCurrentFrame(), 0);
+				render->DrawTexture(cast1, 100, 90, &cast1Anim.GetCurrentFrame(), 0);
 			}
 
 			for (int i = 0; i < battleSystem->GetPlayersList()->Count(); i++)
 			{
 				if (battleSystem->GetPlayer()->name == battleSystem->GetPlayersList()->At(i)->data->name)
 				{
-					render->DrawTexture(indicator, 95 + 100 * i, 430, &indicatorAnim.GetCurrentFrame(), 0);
+					render->DrawTexture(indicator, 95 + 100 * i, 315, &indicatorAnim.GetCurrentFrame(), 0);
 				}
 			}
 		}
 		else if (battleSystem->battleState == BattleState::ENEMY_TURN)
 		{
 			sprintf_s(temp, 64, "%s's turn", battleSystem->GetEnemy()->name.GetString());
-			render->DrawText(titleFont, temp, 50 + 3, 30 + 3, 100, 0, { 105, 105, 105, 255 });
-			render->DrawText(titleFont, temp, 50, 30, 100, 0, { 255, 255, 255, 255 });
+			render->DrawText(menuFont2, temp, 75 + 3, 520 + 3, 70, 0, { 105, 105, 105, 255 });
+			render->DrawText(menuFont2, temp, 75, 520, 70, 0, { 255, 255, 255, 255 });
 
 			if (battleSystem->enemyState == EnemyState::ATTACK)
 			{
 				sprintf_s(temp, 64, "%s attacks %s", battleSystem->GetEnemy()->name.GetString(), battleSystem->GetPlayer()->name.GetString());
-				render->DrawText(titleFont, temp, 50 + 3, 130 + 3, 50, 0, { 105, 105, 105, 255 });
-				render->DrawText(titleFont, temp, 50, 130, 50, 0, { 255, 255, 255, 255 });
+				render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 105, 105, 105, 255 });
+				render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 255, 255, 255 });
 			}
 			else if (battleSystem->enemyState == EnemyState::DEFEND)
 			{
 				sprintf_s(temp, 64, "%s defends himself", battleSystem->GetEnemy()->name.GetString());
-				render->DrawText(titleFont, temp, 50 + 3, 130 + 3, 50, 0, { 105, 105, 105, 255 });
-				render->DrawText(titleFont, temp, 50, 130, 50, 0, { 255, 255, 255, 255 });
+				render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 105, 105, 105, 255 });
+				render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 255, 255, 255 });
 
 				render->scale = 2;
 				if (battleSystem->GetCounter() > 100 && !enemyDefenseAnim.Finished())
@@ -379,51 +384,85 @@ bool ScreenBattle::Draw(Render* render)
 			battleSystem->battleState != BattleState::LOST &&
 			battleSystem->battleState != BattleState::EXIT)
 		{
-			render->DrawRectangle({ 115,270,450,100 }, { 255,255,255,127 }, true, false);
-			render->DrawRectangle({ 115,270,450,100 }, { 255,255,255,255 }, false, false);
+			render->DrawRectangle({ 115,160,450,100 }, { 255,255,255,127 }, true, false);
+			render->DrawRectangle({ 115,160,450,100 }, { 255,255,255,255 }, false, false);
 
 			// Player name
-			render->DrawText(menuFont, battleSystem->GetPlayer()->name.GetString(), 125 + 3, 265 + 3, 50, 3, { 105, 105, 105, 255 });
-			render->DrawText(menuFont, battleSystem->GetPlayer()->name.GetString(), 125, 265, 50, 3, { 255, 255, 255, 255 });
+			render->DrawText(menuFont2, battleSystem->GetPlayer()->name.GetString(), 125 + 3, 155 + 3, 50, 3, { 105, 105, 105, 255 });
+			render->DrawText(menuFont2, battleSystem->GetPlayer()->name.GetString(), 125, 155, 50, 3, { 255, 255, 255, 255 });
 
 			// Player level
 			sprintf_s(temp, 64, "LVL: %03i", battleSystem->GetPlayer()->stats.level);
-			render->DrawText(menuFont, temp, 420 + 3, 265 + 3, 50, 3, { 105, 105, 105, 255 });
-			render->DrawText(menuFont, temp, 420, 265, 50, 3, { 255, 255, 255, 255 });
+			render->DrawText(menuFont2, temp, 390 + 3, 155 + 3, 50, 3, { 105, 105, 105, 255 });
+			render->DrawText(menuFont2, temp, 390, 155, 50, 3, { 255, 255, 255, 255 });
 
 			// Player life
 			sprintf_s(temp, 64, "HP: %03i", battleSystem->GetPlayer()->stats.currentHP);
-			render->DrawText(menuFont, temp, 125 + 3, 305 + 3, 35, 3, { 64, 128, 80, 255 });
-			render->DrawText(menuFont, temp, 125, 305, 35, 3, { 127, 255, 160, 255 });
+			render->DrawText(menuFont2, temp, 125 + 3, 195 + 3, 35, 3, { 64, 128, 80, 255 });
+			render->DrawText(menuFont2, temp, 125, 195, 35, 3, { 127, 255, 160, 255 });
+
+			// Player strength
+			sprintf_s(temp, 64, "Strength: %03i", battleSystem->GetPlayer()->stats.strength);
+			render->DrawText(menuFont2, temp, 125 + 3, 220 + 3, 35, 3, { 128, 64, 128, 255 });
+			render->DrawText(menuFont2, temp, 125, 220, 35, 3, { 255, 128, 0, 255 });
+
+			// Player damage
+			sprintf_s(temp, 64, "Damage: %03i", battleSystem->GetPlayer()->stats.strength);
+			render->DrawText(menuFont2, temp, 370 + 3, 195 + 3, 35, 3, { 103, 46, 46, 255 });
+			render->DrawText(menuFont2, temp, 370, 195, 35, 3, { 205, 92, 92, 255 });
+
+			// Player defense
+			sprintf_s(temp, 64, "Defense: %03i", battleSystem->GetPlayer()->stats.defense);
+			render->DrawText(menuFont2, temp, 370 + 3, 220 + 3, 35, 3, { 0, 64, 128, 255 });
+			render->DrawText(menuFont2, temp, 370, 220, 35, 3, { 0, 128, 255, 255 });
 
 			render->DrawRectangle({ 720,20,450,100 }, { 255,255,255,127 }, true, false);
 			render->DrawRectangle({ 720,20,450,100 }, { 255,255,255,255 }, false, false);
 
 			// Enemy name
-			render->DrawText(menuFont, battleSystem->GetEnemy()->name.GetString(), 730 + 3, 15 + 3, 50, 3, { 105, 105, 105, 255 });
-			render->DrawText(menuFont, battleSystem->GetEnemy()->name.GetString(), 730, 15, 50, 3, { 255, 255, 255, 255 });
+			render->DrawText(menuFont2, battleSystem->GetEnemy()->name.GetString(), 730 + 3, 15 + 3, 50, 3, { 105, 105, 105, 255 });
+			render->DrawText(menuFont2, battleSystem->GetEnemy()->name.GetString(), 730, 15, 50, 3, { 255, 255, 255, 255 });
 
 			// Enemy level
 			sprintf_s(temp, 64, "LVL: %03i", battleSystem->GetEnemy()->stats.level);
-			render->DrawText(menuFont, temp, 1020 + 3, 15 + 3, 50, 3, { 105, 105, 105, 255 });
-			render->DrawText(menuFont, temp, 1020, 15, 50, 3, { 255, 255, 255, 255 });
+			render->DrawText(menuFont2, temp, 995 + 3, 15 + 3, 50, 3, { 105, 105, 105, 255 });
+			render->DrawText(menuFont2, temp, 995, 15, 50, 3, { 255, 255, 255, 255 });
 
 			// Enemy life
 			sprintf_s(temp, 64, "HP: %03i", battleSystem->GetEnemy()->stats.currentHP);
-			render->DrawText(menuFont, temp, 730 + 3, 55 + 3, 35, 3, { 64, 128, 80, 255 });
-			render->DrawText(menuFont, temp, 730, 55, 35, 3, { 127, 255, 160, 255 });
+			render->DrawText(menuFont2, temp, 730 + 3, 55 + 3, 35, 3, { 64, 128, 80, 255 });
+			render->DrawText(menuFont2, temp, 730, 55, 35, 3, { 127, 255, 160, 255 });
+
+			// Enemy strength
+			sprintf_s(temp, 64, "Strength: %03i", battleSystem->GetEnemy()->stats.strength);
+			render->DrawText(menuFont2, temp, 730 + 3, 80 + 3, 35, 3, { 128, 64, 128, 255 });
+			render->DrawText(menuFont2, temp, 730, 80, 35, 3, { 255, 128, 0, 255 });
+
+			// Enemy damage
+			sprintf_s(temp, 64, "Damage: %03i", battleSystem->GetEnemy()->stats.strength);
+			render->DrawText(menuFont2, temp, 975 + 3, 55 + 3, 35, 3, { 103, 46, 46, 255 });
+			render->DrawText(menuFont2, temp, 975, 55, 35, 3, { 205, 92, 92, 255 });
+
+			// Enemy defense
+			sprintf_s(temp, 64, "Defense: %03i", battleSystem->GetEnemy()->stats.defense);
+			render->DrawText(menuFont2, temp, 975 + 3, 80 + 3, 35, 3, { 0, 64, 128, 255 });
+			render->DrawText(menuFont2, temp, 975, 80, 35, 3, { 0, 128, 255, 255 });
 		}
 		else if (battleSystem->battleState == BattleState::WON)
 		{
 			// Display winner text
-			render->DrawText(titleFont, "You win!", 50 + 3, 30 + 3, 125, 0, { 105, 105, 105, 255 });
-			render->DrawText(titleFont, "You win!", 50, 30, 125, 0, { 255, 255, 255, 255 });
+			render->DrawText(menuFont2, "You win!", 50 + 3, 30 + 3, 125, 0, { 105, 105, 105, 255 });
+			render->DrawText(menuFont2, "You win!", 50, 30, 125, 0, { 255, 255, 255, 255 });
 		}
 		else if (battleSystem->battleState == BattleState::LOST)
 		{
+			// Revise
+			SDL_Rect rect = { 0,0,1280,720 };
+			render->DrawRectangle(rect, { 127,127,127,255 }, true, false);
+
 			// Display loser text
-			render->DrawText(titleFont, "You lose...", 50 + 3, 30 + 3, 125, 0, { 105, 105, 105, 255 });
-			render->DrawText(titleFont, "You lose...", 50, 30, 125, 0, { 255, 255, 255, 255 });
+			render->DrawText(menuFont2, "You lose...", 50 + 3, 30 + 3, 700, 0, { 105, 105, 105, 255 });
+			render->DrawText(menuFont2, "You lose...", 50, 30, 700, 0, { 255, 255, 255, 255 });
 		}
 
 		// Draw party members textures
@@ -432,7 +471,7 @@ bool ScreenBattle::Draw(Render* render)
 		for (int i = 0; i < battleSystem->GetPlayersList()->Count(); i++)
 		{
 			rect = battleSystem->GetPlayersList()->At(i)->data->idleAnim.GetFrame(0);
-			render->DrawTexture(charactersSpritesheet, 22.5 + 20 * i, 75, &rect, 0);
+			render->DrawTexture(charactersSpritesheet, 22.5 + 20 * i, 52.5, &rect, 0);
 		}
 
 		// Draw Enemy textures
@@ -451,6 +490,8 @@ bool ScreenBattle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMan
 	charactersSpritesheet = nullptr;
 	tex->UnLoad(backgroundTex);
 	backgroundTex = nullptr;
+	tex->UnLoad(optionsBackgroundTex);
+	optionsBackgroundTex = nullptr;
 	tex->UnLoad(cast1);
 	cast1 = nullptr;
 	tex->UnLoad(enemyCast);
@@ -473,6 +514,12 @@ bool ScreenBattle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMan
 	this->guiManager = nullptr;
 	this->win = nullptr;
 	this->audio = nullptr;
+
+	// Release fonts
+	RELEASE(titleFont);
+	RELEASE(buttonFont);
+	RELEASE(menuFont);
+	RELEASE(menuFont2);
 
 	return true;
 }
