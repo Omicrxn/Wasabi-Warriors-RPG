@@ -967,7 +967,7 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 			if (((ScreenPause*)screenPause)->state != MobileState::MAIN)
 			{
 				((ScreenPause*)screenPause)->state = MobileState::MAIN;
-				for (int i = 3; i <= 7; ++i)
+				for (int i = 1; i <= 5; ++i)
 					guiManager->controls.At(i)->data->state = GuiControlState::NORMAL;
 			}
 			else if (pauseTimer.ReadSec() > 0.5f)
@@ -998,8 +998,8 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 			screenSettings->ShowButtons();
 
 			// Fullscreen and vsync controls are disabled if you acces from gameplay
-			this->guiManager->controls.At(8)->data->state = GuiControlState::DISABLED;
-			this->guiManager->controls.At(9)->data->state = GuiControlState::DISABLED;
+			this->guiManager->controls.At(6)->data->state = GuiControlState::DISABLED;
+			this->guiManager->controls.At(7)->data->state = GuiControlState::DISABLED;
 
 			audio->StopMusic();
 			audio->PlayMusic("Audio/Music/menu_settings.ogg");
@@ -1018,24 +1018,24 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 		{
 			// From Main Screen of the mobile to Quest Screen
 			((ScreenPause*)screenPause)->state = MobileState::QUEST;
-			for (int i = 3; i <= 7; ++i)
+			for (int i = 1; i <= 5; ++i)
 				guiManager->controls.At(i)->data->state = GuiControlState::DISABLED;
 		}
 		else if (control->id == 4)
 		{
 			// From Main Screen of the mobile to Team Screen
 			((ScreenPause*)screenPause)->state = MobileState::TEAM;
-			for (int i = 3; i <= 7; ++i)
+			for (int i = 1; i <= 5; ++i)
 				guiManager->controls.At(i)->data->state = GuiControlState::DISABLED;
 		}
 		else if (control->id == 5)
 		{
 			// From Main Screen of the mobile to Map Screen
 			((ScreenPause*)screenPause)->state = MobileState::MAP;
-			for (int i = 3; i <= 7; ++i)
+			for (int i = 1; i <= 5; ++i)
 				guiManager->controls.At(i)->data->state = GuiControlState::DISABLED;
 		}
-		else if (control->id == 12)
+		else if (control->id == 10)
 		{
 			// Returning from settings to pause
 			currentState = GameState::PAUSE;
@@ -1093,15 +1093,15 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 	}
 	case GuiControlType::SLIDER:
 	{
-		if (control->id == 10)
+		if (control->id == 8)
 		{
-			GuiSlider* tempSlider = (GuiSlider*)this->guiManager->controls.At(10)->data;
+			GuiSlider* tempSlider = (GuiSlider*)this->guiManager->controls.At(8)->data;
 			int value = tempSlider->GetValue();
 			audio->ChangeMusicVolume(value);
 		}
-		else if (control->id == 11)
+		else if (control->id == 9)
 		{
-			GuiSlider* tempSlider = (GuiSlider*)this->guiManager->controls.At(11)->data;
+			GuiSlider* tempSlider = (GuiSlider*)this->guiManager->controls.At(9)->data;
 			int value = tempSlider->GetValue();
 			audio->ChangeFxVolume(value);
 		}

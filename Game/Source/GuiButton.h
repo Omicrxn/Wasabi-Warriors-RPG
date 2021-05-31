@@ -8,9 +8,9 @@ enum class Style
 {
     WHITE,
     GREY,
-    ORANGE,
-    RED,
-    YELLOW
+    SUSHI_ORANGE,
+    SUSHI_RED, // We may use this red one for short strings, because it is centered
+    SUSHI_YELLOW
 };
 
 class GuiButton : public GuiControl

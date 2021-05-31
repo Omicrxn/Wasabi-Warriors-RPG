@@ -19,8 +19,8 @@ GuiButton::GuiButton(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(
     whiteButton = { 0,0,190,49 };
     whiteButtonPressed = { 0,331,190,45 };
 
-    arrowWhiteLeft = { 556, 120, 22, 21 };
-    arrowWhiteRight = { 534, 120, 22, 21 };
+    arrowWhiteLeft = { 537, 111, 27, 27 };
+    arrowWhiteRight = { 570, 111, 27, 27 };
     backgroundButtonAnim = { 0,0,0,0 };
 }
 
@@ -43,26 +43,28 @@ void GuiButton::SetButtonProperties(Scene* module, SDL_Texture* texture, Font* f
     {
         /*
         * [0] is the full sushi
-        * [1] is the eaten sushi
+        * [1] is the bitten sushi
         * [2] is the almost fully eaten sushi
         */
         switch (style)
         {
-        case Style::ORANGE:
-            buttonAnim.PushBack({ 792, 36, 190, 54 });
-            buttonAnim.PushBack({ 1005, 36, 124, 54 });
-            buttonAnim.PushBack({ 1164, 36, 78, 54 });
-            backgroundButtonAnim = {};
+        case Style::SUSHI_ORANGE:
+            buttonAnim.PushBack({ 768, 30, 204, 66 });
+            buttonAnim.PushBack({ 996, 30, 150, 66 });
+            buttonAnim.PushBack({ 1172, 30, 99, 66 });
+            backgroundButtonAnim = {1302, 30, 204, 66};
             break;
-        case Style::RED:
-            buttonAnim.PushBack({ 792, 108, 144, 54 });
-            buttonAnim.PushBack({ 1005, 108, 124, 54 });
-            buttonAnim.PushBack({ 1164, 108, 78, 54 });
+        case Style::SUSHI_RED:
+            buttonAnim.PushBack({ 768, 105, 204, 66 });
+            buttonAnim.PushBack({ 996, 105, 150, 66 });
+            buttonAnim.PushBack({ 1172, 105, 99, 66 });
+            backgroundButtonAnim = { 1302, 105, 204, 66 };
             break;
-        case Style::YELLOW:
-            buttonAnim.PushBack({ 792, 186, 190, 54 });
-            buttonAnim.PushBack({ 1005, 186, 124, 54 });
-            buttonAnim.PushBack({ 1164, 186, 78, 54 });
+        case Style::SUSHI_YELLOW:
+            buttonAnim.PushBack({ 768, 186, 204, 66 });
+            buttonAnim.PushBack({ 996, 186, 150, 66 });
+            buttonAnim.PushBack({ 1172, 186, 99, 66 });
+            backgroundButtonAnim = { 1302, 186, 204, 66 };
             break;
         default:
             break;
@@ -154,13 +156,20 @@ bool GuiButton::Draw(Render* render, bool debugDraw)
         {
         case Style::WHITE:
             render->DrawTexture(texture, bounds.x, bounds.y, &greyButton, 0.0f);
+            render->DrawText(font, text.GetString(), bounds.x + 10 + 3, bounds.y + 3 + 3, 40, 8, { 128,128,128,255 });
+            render->DrawText(font, text.GetString(), bounds.x + 10, bounds.y + 3, 40, 8, { 255,255,255,255 });
             break;
         default:
+            // Sushi styles
+            render->DrawTexture(texture, bounds.x, bounds.y, &backgroundButtonAnim, 0.0f);
             render->DrawTexture(texture, bounds.x, bounds.y, &buttonAnim.frames[0], 0.0f);
+            if (buttonStyle == Style::SUSHI_RED)
+                render->DrawText(font, text.GetString(), bounds.x + 50, bounds.y + 25, 30, 8, { 0,0,0,255 });
+            else
+                render->DrawText(font, text.GetString(), bounds.x + 20, bounds.y + 25, 30, 8, { 0,0,0,255 });
             break;
         }
-        render->DrawText(font, text.GetString(), bounds.x + 10 + 3, bounds.y + 3 + 3, 40, 8, { 128,128,128,255 });
-        render->DrawText(font, text.GetString(), bounds.x + 10, bounds.y + 3, 40, 8, { 255,255,255,255 });
+        
         break;
     case GuiControlState::FOCUSED:
         /*render->DrawTexture(texture, bounds.x - 30, bounds.y + 14, &arrowWhiteRight, 0.0f);*/
@@ -170,13 +179,20 @@ bool GuiButton::Draw(Render* render, bool debugDraw)
             render->DrawTexture(texture, bounds.x, bounds.y, &whiteButton, 0.0f);
             /*render->DrawTexture(texture, bounds.x, bounds.y, &whiteButton, 0.0f);
             render->DrawTexture(texture, bounds.x + bounds.w + 8, bounds.y + 14, &arrowWhiteLeft, 0.0f);*/
+            render->DrawText(font, text.GetString(), bounds.x + 7 + 3, bounds.y + 0 + 3, 40, 8, { 64,64,64,255 });
+            render->DrawText(font, text.GetString(), bounds.x + 7, bounds.y + 0, 40, 8, { 128,128,128,255 });
             break;
         default:
+            // Sushi styles
+            render->DrawTexture(texture, bounds.x, bounds.y, &backgroundButtonAnim, 0.0f);
             render->DrawTexture(texture, bounds.x, bounds.y, &buttonAnim.frames[1], 0.0f);
+            if (buttonStyle == Style::SUSHI_RED)
+                render->DrawText(font, text.GetString(), bounds.x + 50, bounds.y + 25, 30, 8, { 0,0,0,255 });
+            else
+                render->DrawText(font, text.GetString(), bounds.x + 20, bounds.y + 25, 30, 8, { 0,0,0,255 });
             break;
         }
-        render->DrawText(font, text.GetString(), bounds.x + 7 + 3, bounds.y + 0 + 3, 40, 8, { 64,64,64,255 });
-        render->DrawText(font, text.GetString(), bounds.x + 7, bounds.y + 0, 40, 8, { 128,128,128,255 });
+       
         break;
     case GuiControlState::PRESSED:
         /*render->DrawTexture(texture, bounds.x - 30, bounds.y + 18, &arrowWhiteRight, 0.0f);*/
@@ -185,13 +201,20 @@ bool GuiButton::Draw(Render* render, bool debugDraw)
         case Style::WHITE:
             render->DrawTexture(texture, bounds.x, bounds.y + 4, &whiteButtonPressed, 0.0f);
             /*render->DrawTexture(texture, bounds.x + bounds.w + 8, bounds.y + 18, &arrowWhiteLeft, 0.0f);*/
+            render->DrawText(font, text.GetString(), bounds.x + 10 + 3, bounds.y + 3 + 3, 40, 8, { 64,64,64,255 });
+            render->DrawText(font, text.GetString(), bounds.x + 10, bounds.y + 3, 40, 8, { 128,128,128,255 });
             break;
         default:
+            // Sushi styles
+            render->DrawTexture(texture, bounds.x, bounds.y, &backgroundButtonAnim, 0.0f);
             render->DrawTexture(texture, bounds.x, bounds.y, &buttonAnim.frames[2], 0.0f);
+            if (buttonStyle == Style::SUSHI_RED)
+                render->DrawText(font, text.GetString(), bounds.x + 50, bounds.y + 25, 30, 8, { 0,0,0,255 });
+            else
+                render->DrawText(font, text.GetString(), bounds.x + 20, bounds.y + 25, 30, 8, { 0,0,0,255 });
             break;
         }
-        render->DrawText(font, text.GetString(), bounds.x + 10 + 3, bounds.y + 3 + 3, 40, 8, { 64,64,64,255 });
-        render->DrawText(font, text.GetString(), bounds.x + 10, bounds.y + 3, 40, 8, { 128,128,128,255 });
+     
         break;
     default:
         break;
