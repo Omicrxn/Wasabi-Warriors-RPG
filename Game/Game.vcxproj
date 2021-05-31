@@ -136,6 +136,7 @@
     <ClCompile Include="Source\Teleport.cpp" />
     <ClCompile Include="Source\Textures.cpp" />
     <ClCompile Include="Source\Window.cpp" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Source\Activator.h" />
     <ClInclude Include="Source\Animation.h" />
     <ClInclude Include="Source\AssetsManager.h" />
@@ -207,6 +208,17 @@
     <ClInclude Include="Source\External\PugiXml\src\pugiconfig.hpp" />
     <ClInclude Include="Source\External\PugiXml\src\pugixml.hpp" />
     <ClCompile Include="Source\External\PugiXml\src\pugixml.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Game.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="C:\Users\alex0\Desktop\favicon.ico" />
+    <Image Include="C:\Users\alex0\Desktop\icon.ico" />
+    <Image Include="C:\Users\alex0\Desktop\icon.png" />
+    <Image Include="C:\Users\alex0\Desktop\pixil-frame-0_25.ico" />
+    <Image Include="C:\Users\alex0\Desktop\pixil-frame-0_25.png" />
+    <Image Include="icon1.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
