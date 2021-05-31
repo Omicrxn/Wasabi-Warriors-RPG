@@ -57,12 +57,12 @@ bool ScreenInventory::Load(int minIndex, int maxIndex, Scene* currentScene, Wind
 	this->maxIndex = maxIndex;
 	int counterId = minIndex;
 
-	btnConfirm = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { int(width) / 2 - 250, 580, 190, 49 }, "CONFIRM");
-	btnConfirm->SetButtonProperties(currentScene, atlas[1], font, hoverFx, clickFx, Style::WHITE);
+	btnConfirm = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { 1000, 480, 190, 49 }, "CONFIRM");
+	btnConfirm->SetButtonProperties(currentScene, atlas[0], font, hoverFx, clickFx, Style::SUSHI_YELLOW);
 	++counterId;
 
-	btnCancel = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { int(width) / 2 + 60, 580, 190, 49 }, "CANCEL");
-	btnCancel->SetButtonProperties(currentScene, atlas[1], font, hoverFx, clickFx, Style::WHITE);
+	btnCancel = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { 1000, 580, 190, 49 }, "CANCEL");
+	btnCancel->SetButtonProperties(currentScene, atlas[0], font, hoverFx, clickFx, Style::SUSHI_YELLOW);
 
 	return true;
 }
@@ -177,7 +177,7 @@ bool ScreenInventory::Draw(Render* render)
 			else if (itemSelected.x == j && itemSelected.y == i)
 				render->DrawRectangle(slotRect, { 255,255,0,127 }, true, false);
 			else
-				render->DrawRectangle(slotRect, { 73,79,95,255 }, true, false);
+				//render->DrawRectangle(slotRect, { 73,79,95,255 }, true, false);
 
 			// Draw item stats
 			if (listInvItems.Count() > 0 && (listInvItems.Count() - 1) >= (itemSelected.y * INVENTORY_ROWS) + itemSelected.x)
@@ -232,8 +232,8 @@ bool ScreenInventory::Draw(Render* render)
 	}
 
 	int posPlayerStatsX = 485;
-	render->DrawTexture(this->atlas[0], posPlayerStatsX, invMatrixPos.y, &playersIcons, 0.0f);
-	if (0)
+	render->DrawTexture(this->atlas[0], 1000, invMatrixPos.y, &playersIcons, 0.0f);
+	if (controller)
 	{
 		render->DrawTexture(this->atlas[0], 780 - 40, 70, &LBButton, 0.0f);
 		render->DrawTexture(this->atlas[0], 880 + 40, 70, &RBButton, 0.0f);
@@ -246,9 +246,9 @@ bool ScreenInventory::Draw(Render* render)
 			int y = entityManager->playerList.At(i)->data->spritePos * 32 * 5;
 			SDL_Rect rect = { 0, y , 32, 32 };
 			render->scale = 2;
-			render->DrawRectangle({ posPlayerStatsX + 100,  invMatrixPos.y - 5, 70, 70 }, { 255,255,255,127 }, true, false);
-			render->DrawRectangle({ posPlayerStatsX + 100,  invMatrixPos.y - 5, 70, 70 }, { 255,255,255,255 }, false, false);
-			render->DrawTexture(entityManager->texture, (posPlayerStatsX + 100) / 2 + 2, (invMatrixPos.y - 5) / 2 + 2, &rect, 0.0f);
+			render->DrawRectangle({ posPlayerStatsX + 550,  invMatrixPos.y - 5, 70, 70 }, { 255,255,255,127 }, true, false);
+			render->DrawRectangle({ posPlayerStatsX + 550,  invMatrixPos.y - 5, 70, 70 }, { 255,255,255,255 }, false, false);
+			render->DrawTexture(entityManager->texture, (posPlayerStatsX + 550) / 2 + 2, (invMatrixPos.y - 5) / 2 + 2, &rect, 0.0f);
 			render->scale = 1;
 
 			// Draw Player Stats
