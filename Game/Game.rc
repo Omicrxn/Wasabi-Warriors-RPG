@@ -13,26 +13,6 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// English (United Kingdom) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENG)
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
-#pragma code_page(1252)
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Icon
-//
-
-// Icon with lowest ID value placed first to ensure application icon
-// remains consistent on all systems.
-IDI_ICON2               ICON                    "C:\\Users\\alex0\\Desktop\\wasabi_warriors.ico"
-
-#endif    // English (United Kingdom) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
 // Spanish (Spain, International Sort) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ESN)

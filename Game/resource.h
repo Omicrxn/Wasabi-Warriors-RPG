@@ -3,7 +3,6 @@
 // Used by Game.rc
 //
 #define IDI_ICON1                       107
-#define IDI_ICON2                       108
 
 // Next default values for new objects
 // 
