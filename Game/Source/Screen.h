@@ -26,6 +26,7 @@ class GuiCheckBox;
 class GuiIcon;
 class Screen;
 class BattleSystem;
+class SceneGameplay;
 
 typedef unsigned int uint;
 
@@ -54,8 +55,15 @@ public:
     virtual bool Load(int minIndex, int maxIndex, Scene* currentScene, BattleSystem* battleSystem, Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* font0, Font* font1, Font* font2, Font* font3, int hoverFx, int clickFx, int returnFx) {
         return true;
     }
+    // Screen Roaming
+    virtual bool Load(SceneGameplay* gameplayScene, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, Font* font, int clickFx) {
+        return true;
+    }
 
     virtual bool Update(Input* input, float dt, uint& focusedButtonId) {
+        return true;
+    }
+    virtual bool Update(Input* input, float dt) {
         return true;
     }
     virtual bool Draw(Render* render){

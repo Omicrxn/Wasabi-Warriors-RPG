@@ -133,7 +133,7 @@ bool GuiCheckBox::Draw(Render* render, bool debugDraw)
             render->DrawTexture(texture, bounds.x + bounds.w / 2 - greyTick.w / 2 + 2, bounds.y + bounds.h / 2 - greyTick.h / 2, &greyTick, 0.0f);
         }
 
-        render->DrawText(font, text.GetString(), bounds.x, bounds.y - 30, 25, 3, { 255,255,255,255 });
+        render->DrawText(font, text.GetString(), bounds.x, bounds.y - 30, 25, 3, { 105,105,105,255 });
         break;
     case GuiControlState::FOCUSED:
         render->DrawTexture(texture, bounds.x, bounds.y, &grayBox, 0.0f);
@@ -144,7 +144,7 @@ bool GuiCheckBox::Draw(Render* render, bool debugDraw)
 
         render->DrawTexture(texture, bounds.x - 30, bounds.y + bounds.h / 2 - arrowWhiteRight.h / 2, &arrowWhiteRight, 0.0f);
 
-        render->DrawText(font, text.GetString(), bounds.x, bounds.y - 30, 25, 3, { 105,105,105,255 });
+        render->DrawText(font, text.GetString(), bounds.x + 2, bounds.y - 30, 25, 3, { 105,105,105,255 });
         render->DrawText(font, text.GetString(), bounds.x, bounds.y - 30, 25, 3, { 0,0,0,255 });
         break;
     case GuiControlState::PRESSED:
@@ -156,7 +156,7 @@ bool GuiCheckBox::Draw(Render* render, bool debugDraw)
 
         render->DrawTexture(texture, bounds.x - 30, bounds.y + bounds.h / 2 - arrowWhiteRight.h / 2 + 4, &arrowWhiteRight, 0.0f);
 
-        render->DrawText(font, text.GetString(), bounds.x, bounds.y - 30, 25, 3, { 105,105,105,255 });
+        render->DrawText(font, text.GetString(), bounds.x + 2, bounds.y - 30, 25, 3, { 105,105,105,255 });
         render->DrawText(font, text.GetString(), bounds.x, bounds.y - 30, 25, 3, { 0,0,0,255 });
         break;
     default:

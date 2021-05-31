@@ -42,6 +42,8 @@ public:
 
 	void ExitGame();
 
+	void ToggleMouse();
+
 	GuiControl* FindById(int id);
 
 public:
@@ -69,6 +71,7 @@ public:
 private:
 	
 	bool exitingGame;
+	bool activeMouse;
 };
 
 #endif // __GUIMANAGER_H__

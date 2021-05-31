@@ -8,8 +8,6 @@ enum class IconType
 {
     NONE,
     ICON_RETURN,
-    ICON_INVENTORY,
-    ICON_PHONE,
     ICON_RESUME,
     ICON_SETTINGS,
     ICON_EXIT,
@@ -37,9 +35,6 @@ private:
     ControllerButton assignedControl;
 
     SDL_Rect arrowWhiteRight;
-
-    SDL_Rect iconPhone;
-    SDL_Rect iconInventory;
 
     SDL_Rect iconSettings;
     SDL_Rect iconExit;

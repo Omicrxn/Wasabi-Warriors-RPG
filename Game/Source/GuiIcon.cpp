@@ -13,8 +13,6 @@ GuiIcon::GuiIcon(uint32 id, SDL_Rect bounds) : GuiControl(GuiControlType::ICON, 
     clickFx = -1;
 
     //arrowWhiteRight = { 160,50,18,18 };
-    iconPhone = { 20, 14, 52, 66 };
-    iconInventory = { 84, 16, 60, 62 };
 
     iconSettings = { 102, 402, 40, 39 };
     iconExit = { 165, 402, 36, 39 };
@@ -84,7 +82,7 @@ bool GuiIcon::Update(Input* input, AudioManager* audio, float dt)
                 audio->PlayFx(clickFx);
             }
         }
-        else if ((iconType == IconType::ICON_PHONE || iconType == IconType::ICON_RESUME) && input->GetKey(SDL_SCANCODE_ESCAPE) == KeyState::KEY_DOWN)
+        else if ((iconType == IconType::ICON_RESUME) && input->GetKey(SDL_SCANCODE_ESCAPE) == KeyState::KEY_DOWN)
         {
             NotifyObserver();
             // Audio Fx when clicked
@@ -119,16 +117,6 @@ bool GuiIcon::Draw(Render* render, bool debugDraw)
             render->DrawTexture(texture, bounds.x, bounds.y, &iconReturn, 0.0f);
             if (controller)
                 render->DrawTexture(texture, bounds.x + bounds.w, bounds.y + bounds.h, &iconB, 0.0f);
-            break;
-        case IconType::ICON_PHONE:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconPhone, 0.0f);
-            if (controller)
-                render->DrawTexture(texture, bounds.x + bounds.w, bounds.y + bounds.h, &iconSTART, 0.0f);
-            break;
-        case IconType::ICON_INVENTORY:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconInventory, 0.0f);
-            if (controller)
-                render->DrawTexture(texture, bounds.x + bounds.w, bounds.y + bounds.h, &iconX, 0.0f);
             break;
         case IconType::ICON_RESUME:
             render->DrawTexture(texture, bounds.x, bounds.y, &iconReturn, 0.0f);

@@ -78,7 +78,7 @@ bool ScreenSettings::Update(Input* input, float dt, uint& focusedButtonId)
 	if (isActive)
 	{
 		// Update
-		// MinIndex is 5
+		// MinIndex is 6
 		if (focusedButtonId == minIndex)
 		{
 			if (input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN)
@@ -144,16 +144,11 @@ bool ScreenSettings::Draw(Render* render)
 bool ScreenSettings::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager)
 {
 	guiManager->DestroyGuiControl(checkFullScreen);
-	checkFullScreen = nullptr;
 	guiManager->DestroyGuiControl(checkVsync);
-	checkVsync = nullptr;
 	guiManager->DestroyGuiControl(sliderMusicVolume);
-	sliderMusicVolume = nullptr;
 	guiManager->DestroyGuiControl(sliderFXVolume);
-	sliderFXVolume = nullptr;
 
 	guiManager->DestroyGuiControl(iconReturnTitle);
-	iconReturnTitle = nullptr;
 
 	return true;
 }

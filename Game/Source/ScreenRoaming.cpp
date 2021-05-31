@@ -6,12 +6,18 @@
 #include "Font.h"
 #include "EntityManager.h"
 #include "Player.h"
+#include "SceneGameplay.h"
 
 ScreenRoaming::ScreenRoaming()
 {
-	iconPause = nullptr;
-	iconInventory = nullptr;
+	//iconPause = nullptr;
+	//iconInventory = nullptr;
 	currentPlayer = nullptr;
+
+	gameplayScene = nullptr;
+
+	iconPhone = { 20, 14, 52, 66 };
+	iconInventory = { 84, 16, 60, 62 };
 
 	posRight = { 1096 + 50, 78 + 22 };
 	posLeft = { 1000 + 50, 78 + 22 };
@@ -34,46 +40,57 @@ ScreenRoaming::~ScreenRoaming()
 {
 }
 
-bool ScreenRoaming::Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, Font* font, int hoverFx, int clickFx)
+bool ScreenRoaming::Load(SceneGameplay* gameplayScene, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, Font* font, int clickFx)
 {
-	this->currentScene = currentScene;
 	this->atlas[0] = atlas0;
 	this->font = font;
 
+	this->gameplayScene = gameplayScene;
 	this->guiManager = guiManager;
+	this->audio = audio;
 	this->entityManager = entityManager;
-	this->win = win;
 	this->easing = easing;
 
-	this->minIndex = minIndex;
-	this->maxIndex = maxIndex;
-	int counterId = minIndex; 
+	//iconPause = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 50, 50, 52, 55 });
+	//iconPause->SetIconProperties(currentScene, atlas[0], font, hoverFx, clickFx, CONTROLLER_BUTTON_START, IconType::ICON_PHONE);
+	//++counterId;
 
-	iconPause = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 50, 50, 52, 55 });
-	iconPause->SetIconProperties(currentScene, atlas[0], font, hoverFx, clickFx, CONTROLLER_BUTTON_START, IconType::ICON_PHONE);
-	++counterId;
-
-	iconInventory = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 170, 50, 56, 55 });
-	iconInventory->SetIconProperties(currentScene, atlas[0], font, hoverFx, clickFx, CONTROLLER_BUTTON_X, IconType::ICON_INVENTORY);
-	++counterId;
+	//iconInventory = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 170, 50, 56, 55 });
+	//iconInventory->SetIconProperties(currentScene, atlas[0], font, hoverFx, clickFx, CONTROLLER_BUTTON_X, IconType::ICON_INVENTORY);
+	//++counterId;
 
 	return true;
 }
 
-bool ScreenRoaming::Update(Input* input, float dt, uint& focusedButtonId)
+bool ScreenRoaming::Update(Input* input, float dt)
 {
 	// Update anything extra in the hud like the party member change
 	controller = input->GetControllerState();
+
+	if (input->GetKey(SDL_SCANCODE_ESCAPE) == KeyState::KEY_DOWN)
+		gameplayScene->OpenPause();
+
+	if (input->GetKey(SDL_SCANCODE_Q) == KeyState::KEY_DOWN)
+		gameplayScene->OpenInventory();
+
 	return true;
 }
 
 bool ScreenRoaming::Draw(Render* render)
 {
+	// HUD Draw
+	render->DrawTexture(atlas[0], 50, 50, &iconPhone, 0.0f);
+	render->DrawText(font, "ESC", 50 + 52, 50 + 55, 30, 3, { 255,255,255,255 });
+
+	render->DrawTexture(atlas[0], 170, 50, &iconInventory, 0.0f);
+	render->DrawText(font, "Q", 170 + 56, 50 + 55, 30, 3, { 255,255,255,255 });
+
 	posRight = { 1096 + 50, 78 + 22 };
 	posLeft = { 1000 + 50, 78 + 22 };
 
 	// Draw anything extra needed in the hud
 	render->DrawTexture(this->atlas[0], posLeft.x + 50, posLeft.y - 70, &playersIcons, 0.0f);
+
 	// LB & RB buttons sprite draw
 	if (controller)
 	{
@@ -90,16 +107,17 @@ bool ScreenRoaming::Draw(Render* render)
 			int y = entityManager->playerList.At(i)->data->spritePos * 32 * 5;
 			SDL_Rect rect = { 0, y , 32, 32 };
 			render->scale = 2;
-			if (entityManager->playerList.At(i)->data == currentPlayer) {
-
+			if (entityManager->playerList.At(i)->data == currentPlayer)
+			{
 				// Draw current player with higlight
 				render->DrawRectangle({ playerMiniRectPos[i].x, playerMiniRectPos[i].y, 70, 70 }, { 255,255,255,127 }, true, false);
 
 				render->DrawRectangle({ playerMiniRectPos[i].x, playerMiniRectPos[i].y, 70, 70 }, { 255,255,255,255 }, false, false);
 				render->DrawTexture(entityManager->texture, playerMiniRectPos[i].x / 2 + 2, playerMiniRectPos[i].y / 2 + 2, &rect, 0.0f);
-				
+
 			}
-			else {
+			else
+			{
 				// Draw other players without higlight
 				render->DrawRectangle({ playerMiniRectPos[i].x + spacing, playerMiniRectPos[i].y, 70, 70 }, { 255,255,255,255 }, false, false);
 				render->DrawTexture(entityManager->texture, playerMiniRectPos[i].x / 2 + 2 + spacing, playerMiniRectPos[i].y / 2 + 2, &rect, 0.0f);
@@ -114,10 +132,9 @@ bool ScreenRoaming::Draw(Render* render)
 
 bool ScreenRoaming::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager)
 {
-	guiManager->DestroyGuiControl(iconPause);
-	iconPause = nullptr;
-	guiManager->DestroyGuiControl(iconInventory);
-	iconInventory = nullptr;
+	//guiManager->DestroyGuiControl(iconPause);
+	//guiManager->DestroyGuiControl(iconInventory);
+
 	return true;
 }
 
@@ -139,5 +156,4 @@ void ScreenRoaming::SetCurrentPlayer(Player* player)
 		easing->CreateSpline(&playerMiniRectPos[previousSelected].x, posRight.x, 1000, SplineType::BACK);
 		previousSelected = currentSelected;
 	}
-	
 }

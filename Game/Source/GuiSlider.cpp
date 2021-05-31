@@ -162,13 +162,13 @@ bool GuiSlider::Draw(Render* render, bool debugDraw)
     case GuiControlState::HIDDEN:
         break;
     case GuiControlState::NORMAL:
-        render->DrawText(font, text.GetString(), bounds.x, bounds.y - bounds.h / 2 - bounds.h / 4, 25, 3, { 255,255,255,255 });
+        render->DrawText(font, text.GetString(), bounds.x, bounds.y - bounds.h / 2 - bounds.h / 4, 25, 3, { 105,105,105,255 });
 
         render->DrawTexture(texture, bounds.x, bounds.y, &whiteBar, 0.0f);
         render->DrawTexture(texture, slider.x, slider.y + 8, &grayCircle, 0.0f);
         break;
     case GuiControlState::FOCUSED:
-        render->DrawText(font, text.GetString(), bounds.x, bounds.y - bounds.h / 2 - bounds.h / 4, 25, 3, { 105,105,105,255 });
+        render->DrawText(font, text.GetString(), bounds.x + 2, bounds.y - bounds.h / 2 - bounds.h / 4, 25, 3, { 105,105,105,255 });
         render->DrawText(font, text.GetString(), bounds.x, bounds.y - bounds.h / 2 - bounds.h / 4, 25, 3, { 0,0,0,255 });
 
         render->DrawTexture(texture, bounds.x - 30, bounds.y + 7, &arrowWhiteRight, 0.0f);
@@ -177,7 +177,7 @@ bool GuiSlider::Draw(Render* render, bool debugDraw)
         render->DrawTexture(texture, slider.x, slider.y + 8, &grayCircle, 0.0f);
         break;
     case GuiControlState::PRESSED:
-        render->DrawText(font, text.GetString(), bounds.x, bounds.y - bounds.h / 2 - bounds.h / 4, 25, 3, { 105,105,105,255 });
+        render->DrawText(font, text.GetString(), bounds.x + 2, bounds.y - bounds.h / 2 - bounds.h / 4, 25, 3, { 105,105,105,255 });
         render->DrawText(font, text.GetString(), bounds.x, bounds.y - bounds.h / 2 - bounds.h / 4, 25, 3, { 0,0,0,255 });
 
         render->DrawTexture(texture, bounds.x - 30, bounds.y + 7, &arrowWhiteRight, 0.0f);

@@ -101,6 +101,10 @@ public:
     // Declare on mouse click event
     bool OnGuiMouseClickEvent(GuiControl* control);
 
+    // Logic of Pause and Inventory Controls
+    void OpenPause();
+    void OpenInventory();
+    
     // To return to the gameplay and reset the battle elements and buttons
     void ExitBattle();
 
@@ -180,7 +184,6 @@ private:
     Animation signalAnim;
 
     SDL_Rect backgroundRect;
-    SDL_Rect pauseBackgroundRect;
    
     SDL_Rect settingsTitleRect;
 
