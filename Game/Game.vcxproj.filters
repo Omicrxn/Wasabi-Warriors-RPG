@@ -380,11 +380,7 @@
     <ResourceCompile Include="Game.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="C:\Users\alex0\Desktop\icon.png" />
-    <Image Include="icon1.ico" />
-    <Image Include="C:\Users\alex0\Desktop\icon.ico" />
-    <Image Include="C:\Users\alex0\Desktop\favicon.ico" />
-    <Image Include="C:\Users\alex0\Desktop\pixil-frame-0_25.png" />
-    <Image Include="C:\Users\alex0\Desktop\pixil-frame-0_25.ico" />
+    <Image Include="C:\Users\alex0\Desktop\wasabi_warriors.ico" />
+    <Image Include="wasabi_warriors.ico" />
   </ItemGroup>
 </Project>

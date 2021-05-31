@@ -45,10 +45,12 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)Build\$(Configuration)\</OutDir>
+    <TargetName>wasabi_warriors</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)Build\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)Build\$(Configuration)\Obj\</IntDir>
+    <TargetName>wasabi_warriors</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -213,12 +215,8 @@
     <ResourceCompile Include="Game.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="C:\Users\alex0\Desktop\favicon.ico" />
-    <Image Include="C:\Users\alex0\Desktop\icon.ico" />
-    <Image Include="C:\Users\alex0\Desktop\icon.png" />
-    <Image Include="C:\Users\alex0\Desktop\pixil-frame-0_25.ico" />
-    <Image Include="C:\Users\alex0\Desktop\pixil-frame-0_25.png" />
-    <Image Include="icon1.ico" />
+    <Image Include="C:\Users\alex0\Desktop\wasabi_warriors.ico" />
+    <Image Include="wasabi_warriors.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
