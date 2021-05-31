@@ -15,6 +15,7 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 
 	//Assign type of static entity, texture rect and pivot
 	//Orthogonal map ------------------------
+	// Town sorting
 	if (name == "tree_0")
 	{
 		type = Static::Type::TREE;
@@ -148,6 +149,8 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 		SetPivot(16, 32);
 	}
 
+	// Cemetery sorting
+
 	if (name == "statue_0")
 	{
 		type = Static::Type::STATUE;
@@ -204,6 +207,8 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 		SetPivot(16, 17);
 	}
 
+	// Medium city sorting
+
 	if (name == "roof_red")
 	{
 		type = Static::Type::ROOF;
@@ -244,6 +249,174 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 		type = Static::Type::ROOF;
 		SetRect(480, 256, 32, 32);
 		SetPivot(16, 64);
+	}
+
+	if (name == "antenna")
+	{
+		type = Static::Type::ANTENNA;
+		SetRect(195, 2, 27, 30);
+		SetPivot(14, 30);
+	}
+
+	if (name == "antenna_2")
+	{
+		type = Static::Type::ANTENNA;
+		SetRect(167, 14, 15, 18);
+		SetPivot(8, 18);
+	}
+
+	if (name == "roof_green")
+	{
+		type = Static::Type::ROOF;
+		SetRect(416, 12, 32, 20);
+		SetPivot(16, 20);
+	}
+
+	if (name == "roof_green2")
+	{
+		type = Static::Type::ROOF;
+		SetRect(448, 12, 32, 20);
+		SetPivot(16, 20);
+	}
+
+	if (name == "roof_green3")
+	{
+		type = Static::Type::ROOF;
+		SetRect(480, 12, 32, 20);
+		SetPivot(16, 20);
+	}
+
+	if (name == "roof_green4")
+	{
+		type = Static::Type::ROOF;
+		SetRect(448, 32, 32, 32);
+		SetPivot(16, 32);
+	}
+
+	if (name == "roof_green5")
+	{
+		type = Static::Type::ROOF;
+		SetRect(480, 32, 32, 32);
+		SetPivot(16, 32);
+	}
+
+	if (name == "roof_green6")
+	{
+		type = Static::Type::ROOF;
+		SetRect(416, 32, 32, 32);
+		SetPivot(16, 32);
+	}
+
+	if (name == "cup_city")
+	{
+		type = Static::Type::CUP;
+		SetRect(73, 203, 14, 11);
+		SetPivot(7, 22);
+	}
+
+	if (name == "machine_city")
+	{
+		type = Static::Type::MACHINE;
+		SetRect(210, 150, 14, 38);
+		SetPivot(7, 38);
+	}
+
+	if (name == "signal_city")
+	{
+		type = Static::Type::SIGNAL;
+		SetRect(169, 32, 15, 40);
+		SetPivot(8, 40);
+	}
+
+	if (name == "tree_city")
+	{
+		type = Static::Type::TREE;
+		SetRect(100, 70, 25, 41);
+		SetPivot(13, 41);
+	}
+
+	if (name == "roof_8")
+	{
+		type = Static::Type::ROOF;
+		SetRect(416, 160, 32, 32);
+		SetPivot(16, 64);
+	}
+
+	if (name == "roof_9")
+	{
+		type = Static::Type::ROOF;
+		SetRect(480, 160, 32, 32);
+		SetPivot(16, 64);
+	}
+
+	if (name == "roof_res")
+	{
+		type = Static::Type::ROOF;
+		SetRect(353, 322, 31, 30);
+		SetPivot(16, 30);
+	}
+
+	if (name == "roof_res2")
+	{
+		type = Static::Type::ROOF;
+		SetRect(385, 322, 32, 30);
+		SetPivot(16, 30);
+	}
+
+	if (name == "roof_res3")
+	{
+		type = Static::Type::ROOF;
+		SetRect(417, 322, 32, 30);
+		SetPivot(16, 30);
+	}
+
+	if (name == "roof_res4")
+	{
+		type = Static::Type::ROOF;
+		SetRect(449, 322, 32, 30);
+		SetPivot(16, 30);
+	}
+
+	if (name == "roof_res5")
+	{
+		type = Static::Type::ROOF;
+		SetRect(481, 321, 32, 31);
+		SetPivot(16, 30);
+	}
+
+	if (name == "roof_res6")
+	{
+		type = Static::Type::ROOF;
+		SetRect(353, 352, 32, 32);
+		SetPivot(16, 32);
+	}
+
+	if (name == "roof_res7")
+	{
+		type = Static::Type::ROOF;
+		SetRect(385, 352, 32, 32);
+		SetPivot(16, 32);
+	}
+
+	if (name == "roof_res8")
+	{
+		type = Static::Type::ROOF;
+		SetRect(417, 352, 32, 32);
+		SetPivot(16, 32);
+	}
+
+	if (name == "roof_res9")
+	{
+		type = Static::Type::ROOF;
+		SetRect(449, 352, 32, 32);
+		SetPivot(16, 32);
+	}
+
+	if (name == "roof_res10")
+	{
+		type = Static::Type::ROOF;
+		SetRect(481, 352, 32, 32);
+		SetPivot(16, 32);
 	}
 
 	else {

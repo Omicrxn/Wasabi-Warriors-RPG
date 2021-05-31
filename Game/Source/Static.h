@@ -22,6 +22,8 @@ public:
 		BIN,
 		STATUE,
 		STONE,
+		ANTENNA,
+		SIGNAL,
 		UNKNOWN
 	};
 
