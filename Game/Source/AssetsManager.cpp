@@ -59,6 +59,8 @@ SDL_RWops* AssetsManager::LoadAsset(const char* path)
 
 size_t AssetsManager::LoadXML(const char* path, char** buffer)
 {
+	PHYSFS_sint64 numBytesRead = 0;
+
 	if (PHYSFS_exists(path) == 0)
 		LOG("ERROR - FILE %s DOESNT EXIST IN THE SEARCH PATH: %s\n", path, PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
 
@@ -72,7 +74,7 @@ size_t AssetsManager::LoadXML(const char* path, char** buffer)
 
 		*buffer = new char[size];
 
-		PHYSFS_sint64 numBytesRead = PHYSFS_readBytes(file, *buffer, size);
+		numBytesRead = PHYSFS_readBytes(file, *buffer, size);
 		if (numBytesRead == -1)
 			LOG("ERROR READING FROM FILEHANDLE: %s\n", PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
 
@@ -90,6 +92,7 @@ size_t AssetsManager::LoadXML(const char* path, char** buffer)
 			return 0;
 		}
 	}
+	return numBytesRead;
 }
 
 // Called before quitting
