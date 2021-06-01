@@ -100,8 +100,8 @@ void Item::ConvertToInvItem()
     }
 }
 
-Stats Item::Interact(Stats stats) {
-     
+Stats Item::Interact(Stats stats)
+{
     return this->stats + stats;
 }
 
@@ -125,7 +125,6 @@ bool Item::SetUpClass(SString name)
     else
     {
         LOG("Loading item entity info");
-
         docNode = docData.child("entity").child("items");
         docNode = docNode.child(name.GetString());
         this->description = docNode.attribute("description").as_string();
@@ -137,7 +136,6 @@ bool Item::SetUpClass(SString name)
         this->stats.defense = docNode.attribute("defense").as_int(0);
         this->stats.attackSpeed = docNode.attribute("attack_speed").as_int(0);
         this->stats.criticalRate = docNode.attribute("critical_rate").as_int(0);
-
         LOG("Item entity info loaded");
     }
 

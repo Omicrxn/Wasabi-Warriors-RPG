@@ -12,6 +12,8 @@
 #include "GuiManager.h"
 #include "GuiButton.h"
 
+#include "Log.h"
+
 #define TITLE_FADE_SPEED 0.05f
 
 BattleSystem::BattleSystem()
@@ -199,8 +201,8 @@ void BattleSystem::EnemyTurn()
 	// Define randomly an action for the enemy (only the first time)
 	if (turnCounter == 0)
 	{
-		int num = rand() % 100;
-		if (num < 50)
+		int num = rand() % 150;
+		if (num <= 33)
 		{
 			// Player attack logic
 			enemyState = EnemyState::ATTACK;
@@ -212,7 +214,7 @@ void BattleSystem::EnemyTurn()
 				if (currentPlayer->stats.currentHP < 0) currentPlayer->stats.currentHP = 0;
 			}
 		}
-		else
+		else if (num > 33 && num <= 66)
 		{
 			// Player defense logic
 			enemyState = EnemyState::DEFEND;
@@ -225,6 +227,16 @@ void BattleSystem::EnemyTurn()
 				// Check if the enemy life has gone over their maximum
 				if (enemy->stats.currentHP > enemy->stats.maxHP)
 					enemy->stats.currentHP = enemy->stats.maxHP;
+			}
+		}
+		else if (num > 66)
+		{
+			// Player item logic
+			enemyState = EnemyState::ITEM;
+
+			if (turnCounter == 0)
+			{
+				ApplyEnemyItem();
 			}
 		}
 	}
@@ -337,4 +349,48 @@ void BattleSystem::SetHasClickedConsume(bool hasClickedConsume)
 bool BattleSystem::GetHasClickedConsume()
 {
 	return hasClickedConsume;
+}
+
+void BattleSystem::ApplyEnemyItem()
+{
+	pugi::xml_document docData;
+	pugi::xml_node enemyItemsNode;
+
+	pugi::xml_parse_result result = docData.load_file("entity_info.xml");
+	enemyItemsNode = docData.child("entity").child("enemy_items");
+	int itemCount = enemyItemsNode.attribute("item_count").as_int();
+
+	pugi::xml_node itemListNode;
+	itemListNode = enemyItemsNode.first_child();
+
+	// Random number for a random item
+	int num = rand() % itemCount;
+	for (int i = 0; i < num; i++)
+	{
+		itemListNode = itemListNode.next_sibling();
+	}
+
+	// Creating a temporal item
+	Item* item = new Item();
+	// Loading item properties
+	LOG("Loading enemy item entity info");
+	item->name = itemListNode.attribute("name").as_string();
+	item->SetDescription(itemListNode.attribute("description").as_string());
+	item->stats.level = itemListNode.attribute("level").as_int();
+	item->stats.damage = itemListNode.attribute("damage").as_int();
+	item->stats.maxHP = itemListNode.attribute("max_hp").as_int();
+	item->stats.currentHP = itemListNode.attribute("current_hp").as_int();
+	item->stats.strength = itemListNode.attribute("strength").as_int();
+	item->stats.defense = itemListNode.attribute("defense").as_int();
+	item->stats.attackSpeed = itemListNode.attribute("attack_speed").as_int();
+	item->stats.criticalRate = itemListNode.attribute("critical_rate").as_int();
+	LOG("Enemy item entity info loaded");
+
+	ConsumeItem(item);
+}
+
+void BattleSystem::ConsumeItem(Item* item)
+{
+	enemy->stats = item->Interact(enemy->stats);
+	itemName = item->name;
 }

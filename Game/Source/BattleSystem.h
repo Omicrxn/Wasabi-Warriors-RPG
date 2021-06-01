@@ -34,6 +34,7 @@ enum class EnemyState
 {
 	ATTACK,
 	DEFEND,
+	ITEM,
 	NONE
 };
 
@@ -86,6 +87,9 @@ public:
 	void SetHasClickedConsume(bool hasClickedConsume);
 	bool GetHasClickedConsume();
 
+	void ApplyEnemyItem();
+	void ConsumeItem(Item* inventoryItem);
+
 	// Battle state (Current attacker and defender)
 	BattleState battleState;
 	// Menu state when the player attacks
@@ -115,10 +119,10 @@ private:
 	bool battleInventory = false;
 	// Bool to know if we are done with the items
 	bool hasFinishedItems = false;
-	// Name of the used item that has to be displayed on screen
-	SString itemName;
 	// Bool to be aware of the consumption
 	bool hasClickedConsume = false;
+	// Name of the used item that has to be displayed on screen
+	SString itemName;
 };
 
 #endif // __BATTLESYSTEM_H__

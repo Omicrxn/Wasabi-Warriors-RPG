@@ -15,6 +15,7 @@ class Item : public Interactive
 {
 public:
 
+    Item() {}
     Item(SString name, Textures* tex, AudioManager* audio, Collisions* collisions, EntityManager* entityManager, EntityType type, EntitySubtype subtype, iPoint position);
     virtual ~Item();
     bool Update(float dt) { return true; };

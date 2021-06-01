@@ -458,6 +458,22 @@ bool ScreenBattle::Draw(Render* render)
 					render->DrawTexture(enemyDefense, 350, 25, &enemyDefenseAnim.GetCurrentFrame(), 0);
 				render->scale = 1;
 			}
+			else if (battleSystem->enemyState == EnemyState::ITEM)
+			{
+				if (timer.ReadSec() <= 0.25f)
+				{
+					sprintf_s(temp, 64, "%s used the item %s", battleSystem->GetEnemy()->name.GetString(), battleSystem->GetItem().GetString());
+					render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 105, 105, 105, 255 });
+					render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 255, 255, 255 });
+				}
+				else if (timer.ReadSec() > 0.25f)
+				{
+					sprintf_s(temp, 64, "%s used the item %s", battleSystem->GetEnemy()->name.GetString(), battleSystem->GetItem().GetString());
+					render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 128, 113, 27, 255 });
+					render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 225, 53, 255 });
+				}
+				if (timer.ReadSec() > 0.5f) timer.Start();
+			}
 
 			if (!enemyCastAnim.Finished())
 				render->DrawTexture(enemyCast, 675, 0, &enemyCastAnim.GetCurrentFrame(), 0);
