@@ -283,3 +283,8 @@ uint BattleSystem::GetCounter()
 {
 	return turnCounter;
 }
+
+bool BattleSystem::OnBattle()
+{
+	return currentPlayer != nullptr && enemy != nullptr;
+}

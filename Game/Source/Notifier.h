@@ -33,13 +33,18 @@ public:
         battle = !battle;
     }
     bool GetBattle() { return battle; }
-    SString GetEnemy()
-    {
-        return enemy;
-    }
+    SString GetEnemy() { return enemy; }
     void SetEnemy(SString enemy)
     {
         this->enemy = enemy;
+    }
+    void SetBattleState(bool isBattleActive)
+    {
+        this->isBattleActive = isBattleActive;
+    }
+    bool OnBattle()
+    {
+        return isBattleActive;
     }
 
     // Teleport functions
@@ -146,6 +151,7 @@ private:
 
     Notifier() : battle(false) {}
     bool battle = false;
+    bool isBattleActive = false;
 
     int dialogIndex = -1;
 

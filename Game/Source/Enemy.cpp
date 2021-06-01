@@ -151,6 +151,7 @@ void Enemy::StartCombat()
 {
     Notifier::GetInstance()->NotifyBattle();
     Notifier::GetInstance()->SetEnemy(this->name);
+    Notifier::GetInstance()->SetBattleState(true);
 }
 
 bool Enemy::SetUpClass(SString name)

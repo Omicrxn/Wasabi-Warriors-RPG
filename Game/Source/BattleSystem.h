@@ -70,6 +70,9 @@ public:
 	bool IsTurnChanging();
 	uint GetCounter();
 
+	// Function to know if we are still in the battle
+	bool OnBattle();
+
 	// Battle state (Current attacker and defender)
 	BattleState battleState;
 	// Menu state when the player attacks

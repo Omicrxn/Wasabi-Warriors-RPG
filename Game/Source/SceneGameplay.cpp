@@ -461,7 +461,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 
 		((ScreenBattle*)screenBattle)->EnableBattleButtons();
 
-		// Reset battle bool to false
+		// Reset battle bool to false in the notifier
 		notifier->NotifyBattle();
 
 		currentState = GameState::BATTLE;
@@ -1143,13 +1143,15 @@ void SceneGameplay::ExitBattle()
 {
 	PlayMapMusic();
 
-	for (int i = 13; i <= 16; ++i)
+	for (int i = 11; i <= 15; ++i)
 	{
 		guiManager->controls.At(i)->data->state = GuiControlState::HIDDEN;
 	}
 
 	screenBattle->isActive = false;
 	battleSystem->ResetBattle();
+	// Reset battle bool to false in the general battle state bool
+	notifier->SetBattleState(false);
 
 	// Change game state to roaming
 	currentState = GameState::ROAMING;

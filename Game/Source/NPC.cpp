@@ -207,7 +207,7 @@ void NPC::OnCollision(Collider* collider)
         Interact();
     }
 
-    if (!Notifier::GetInstance()->OnDialog() && !Notifier::GetInstance()->GetInteractionNotifier())
+    if (!Notifier::GetInstance()->OnBattle() && !Notifier::GetInstance()->OnDialog() && !Notifier::GetInstance()->GetInteractionNotifier())
     {
         Notifier::GetInstance()->NotifyInteraction();
         Notifier::GetInstance()->SetInteractingEntity((Entity*)this);
