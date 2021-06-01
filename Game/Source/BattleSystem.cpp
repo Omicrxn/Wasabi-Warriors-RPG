@@ -159,7 +159,14 @@ void BattleSystem::PlayerTurn()
 		}
 	}
 
-	if (playerState != PlayerState::NONE) turnCounter++;
+	if (playerState != PlayerState::NONE)
+	{
+		if (playerState == PlayerState::ITEM)
+		{
+			if (hasFinishedItems) turnCounter++;
+		}
+		else turnCounter++;
+	}
 
 	if (turnCounter > 300 && playerState != PlayerState::NONE)
 	{
@@ -287,4 +294,24 @@ uint BattleSystem::GetCounter()
 bool BattleSystem::OnBattle()
 {
 	return currentPlayer != nullptr && enemy != nullptr;
+}
+
+bool BattleSystem::HasOpenedInventory()
+{
+	return battleInventory;
+}
+
+void BattleSystem::SetInventoryOpening(bool InventoryOpeningState)
+{
+	battleInventory = InventoryOpeningState;
+}
+
+bool BattleSystem::HasClosedInventory()
+{
+	return hasFinishedItems;
+}
+
+void BattleSystem::SetInventoryClosure(bool InventoryClosureState)
+{
+	hasFinishedItems = InventoryClosureState;
 }

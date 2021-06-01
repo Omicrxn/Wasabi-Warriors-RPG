@@ -26,7 +26,6 @@ ScreenInventory::ScreenInventory()
 	hasClickedConsume = false;
 
 	bagRect = { 1195, 320, 800, 603 };
-
 }
 
 ScreenInventory::~ScreenInventory() {}
@@ -69,7 +68,6 @@ bool ScreenInventory::Load(int minIndex, int maxIndex, Scene* currentScene, Wind
 
 bool ScreenInventory::Update(Input* input, float dt, uint& focusedButtonId)
 {
-
 	if ((input->GetKey(SDL_SCANCODE_UP) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_UP) == KeyState::KEY_DOWN) && itemHovering.y > 0)
 		--itemHovering.y;
 	else if ((input->GetKey(SDL_SCANCODE_DOWN) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KeyState::KEY_DOWN) && itemHovering.y < INVENTORY_ROWS - 1)
@@ -134,7 +132,6 @@ bool ScreenInventory::Update(Input* input, float dt, uint& focusedButtonId)
 		
 		hasClickedConsume = false;
 	}
-	
 
 	controller = input->GetControllerState();
 

@@ -73,6 +73,12 @@ public:
 	// Function to know if we are still in the battle
 	bool OnBattle();
 
+	// Functions to keep track of the inventory state in battle
+	bool HasOpenedInventory();
+	void SetInventoryOpening(bool InventoryOpeningState);
+	bool HasClosedInventory();
+	void SetInventoryClosure(bool InventoryClosureState);
+
 	// Battle state (Current attacker and defender)
 	BattleState battleState;
 	// Menu state when the player attacks
@@ -98,6 +104,10 @@ private:
 	uint turnCounter;
 	// Bool to know if turn has been changed
 	bool turnChanged;
+	// Bool to keep track if inventory has been opened
+	bool battleInventory = false;
+	// Bool to know if we are done with the items
+	bool hasFinishedItems = false;
 };
 
 #endif // __BATTLESYSTEM_H__

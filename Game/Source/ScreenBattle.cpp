@@ -171,6 +171,9 @@ bool ScreenBattle::Load(int minIndex, int maxIndex, Scene* currentScene, BattleS
 	btnRun->SetButtonProperties(currentScene, guiAtlasTex, menuFont2, hoverFx, clickFx, Style::WHITE);
 	btnRun->state = GuiControlState::HIDDEN;
 
+	// Toggle mouse to keep testing before having keys logic
+	guiManager->ToggleMouse();
+
 	return true;
 }
 
@@ -289,6 +292,9 @@ bool ScreenBattle::Update(Input* input, float dt, uint& focusedButtonId)
 				}
 			}
 		}
+
+		battleSystem->SetInventoryOpening(false);
+		battleSystem->SetInventoryClosure(false);
 	}
 
 	if (sceneGameplay->GetGameProgress()->hasKilledBoss)
@@ -505,6 +511,9 @@ bool ScreenBattle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMan
 	this->guiManager = nullptr;
 	this->win = nullptr;
 	this->audio = nullptr;
+
+	// Toggle mouse to keep testing before having keys logic
+	guiManager->ToggleMouse();
 
 	return true;
 }

@@ -116,7 +116,6 @@ SceneGameplay::SceneGameplay(bool hasStartedFromContinue)
 
 	// Bools
 	readyToChangeMap = false;
-	battleInventory = false;
 
 	currentMap = MapType::NONE;
 }
@@ -542,11 +541,11 @@ bool SceneGameplay::Update(Input* input, float dt)
 	case GameState::BATTLE:
 		screenBattle->Update(input, dt, focusedButtonId);
 
-		if (battleInventory == false)
+		if (battleSystem->HasOpenedInventory() == false)
 		{
-			if (((ScreenBattle*)screenBattle)->GetBattleSystem()->playerState == PlayerState::ITEM)
+			if (((ScreenBattle*)screenBattle)->GetBattleSystem()->playerState == PlayerState::ITEM && !battleSystem->HasClosedInventory())
 			{
-				battleInventory = true;
+				battleSystem->SetInventoryOpening(true);
 				((ScreenBattle*)screenBattle)->DisableBattleButtons();
 				screenInventory->isActive = true;
 				screenInventory->ShowButtons();
@@ -592,7 +591,7 @@ bool SceneGameplay::Draw(Render* render)
 		break;
 	case GameState::BATTLE:
 		screenBattle->Draw(render);
-		if (battleInventory)
+		if (battleSystem->HasOpenedInventory())
 			screenInventory->Draw(render);
 		break;
 	case GameState::INVENTORY:
@@ -821,18 +820,28 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 		else if (control->id == 15)
 		{
 			((ScreenInventory*)screenInventory)->SetHasClickedConsume(true);
+
+			battleSystem->SetInventoryOpening(false);
+
+			screenInventory->isActive = false;
+			screenInventory->HideButtons();
+
+			((ScreenBattle*)screenBattle)->EnableBattleButtons();
+
+			battleSystem->SetInventoryClosure(true);
 		}
 		else if (control->id == 16)
 		{
 			if (currentState == GameState::BATTLE)
 			{
-				battleInventory = false;
+				battleSystem->SetInventoryOpening(false);
 
 				screenInventory->isActive = false;
 				screenInventory->HideButtons();
 
 				((ScreenBattle*)screenBattle)->EnableBattleButtons();
 
+				battleSystem->SetInventoryClosure(true);
 			}
 			else
 			{

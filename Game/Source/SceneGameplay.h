@@ -225,9 +225,6 @@ private:
 
     // Bool to keep track of the map change specific moment
     bool readyToChangeMap = false;
-
-    // Bool to keep track if inventory was opened from battle
-    bool battleInventory;
 };
 
 #endif // __SCENEGAMEPLAY_H__
