@@ -16,7 +16,7 @@ GuiIcon::GuiIcon(uint32 id, SDL_Rect bounds) : GuiControl(GuiControlType::ICON, 
 
     iconSettings = { 102, 402, 40, 39 };
     iconExit = { 165, 402, 36, 39 };
-    iconReturn = { 540, 870, 54, 54 };
+    iconReturn = { 534, 159, 53, 54 };
     
     iconTeam = { 387, 234, 90, 88 };
     iconQuest = { 519, 234, 87, 88 };

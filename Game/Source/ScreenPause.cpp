@@ -17,6 +17,10 @@ ScreenPause::ScreenPause()
 	pauseTitleRect = { 0, 73, 440, 75 };
 	mobileRect = { 375, 339, 392, 603 };
 
+	pinkBox = { 237, 315, 108, 108 };
+	pinkCircle = { 36, 87, 48, 48 };
+	grayCircle = { 534, 159, 53, 54 };
+
 	position = 700;
 
 	currentAnimation = nullptr;
@@ -81,7 +85,7 @@ bool ScreenPause::Load(int minIndex, int maxIndex, Scene* currentScene, Window* 
 	iconQuest->state = GuiControlState::HIDDEN;
 	++counterId;
 
-	iconTeam = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 595, position + 435, 90, 90 });
+	iconTeam = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 590, position + 435, 90, 90 });
 	iconTeam->SetIconProperties(currentScene, atlas[0], font, hoverFx, clickFx, CONTROLLER_BUTTON_START, IconType::ICON_TEAM);
 	iconTeam->state = GuiControlState::HIDDEN;
 	++counterId;
@@ -107,6 +111,37 @@ bool ScreenPause::Draw(Render* render)
 	//render->DrawTexture(guiAtlasTex, 1280 / 2 - pauseBackgroundRect.w / 2, 720 / 2 - pauseBackgroundRect.h / 2, &pauseBackgroundRect, 0.0f);
 	// title : render->DrawTexture(atlas[1], 1280 / 2 - pauseTitleRect.w / 2, 100, &pauseTitleRect, 0.0f);
 	render->DrawTexture(atlas[0], (1280 / 2 - mobileRect.w / 2) / render->scale, position / render->scale , &mobileRect, 0.0f);
+
+	for (int i = minIndex; i <= maxIndex; ++i)
+	{
+		if (guiManager->controls.At(i)->data->state != GuiControlState::FOCUSED)
+			continue;
+
+		if (i == 0)
+		{
+			//609
+			if (guiManager->controls.At(i)->data->bounds.x <= 609)
+			{
+				easing->CreateSpline(&guiManager->controls.At(i)->data->bounds.x, 619, 1500, SplineType::QUINT);
+			}
+			else if (guiManager->controls.At(i)->data->bounds.x >= 619)
+			{
+				easing->CreateSpline(&guiManager->controls.At(i)->data->bounds.x, 609, 1500, SplineType::QUINT);
+			}
+			
+		}
+		else if (i <= 2)
+			render->DrawTexture(atlas[0], guiManager->controls.At(i)->data->bounds.x - 5, guiManager->controls.At(i)->data->bounds.y - 7, &pinkCircle, 0.0f);
+		else
+		{
+			if (i == 5)
+			{
+				render->DrawTexture(atlas[0], guiManager->controls.At(i)->data->bounds.x - 17, guiManager->controls.At(i)->data->bounds.y - 10, &pinkBox, 0.0f);
+			}
+			else
+				render->DrawTexture(atlas[0], guiManager->controls.At(i)->data->bounds.x - 10, guiManager->controls.At(i)->data->bounds.y - 10, &pinkBox, 0.0f);
+		}
+	}
 
 	// Draw player profile anim
 	if (state == MobileState::MAIN)

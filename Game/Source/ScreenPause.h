@@ -39,6 +39,10 @@ public:
 	SDL_Rect pauseTitleRect;
 	SDL_Rect mobileRect;
 
+	SDL_Rect pinkBox;
+	SDL_Rect pinkCircle;
+	SDL_Rect grayCircle;
+
 	Animation* currentAnimation;
 	Animation kenzoAnim;
 	Animation reiAnim;

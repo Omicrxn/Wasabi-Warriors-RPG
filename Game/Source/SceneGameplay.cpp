@@ -292,6 +292,7 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 		SetUpTp();
 	}
 
+	guiManager->ToggleMouse();
 	return true;
 }
 
