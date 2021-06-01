@@ -735,8 +735,8 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 
 				screenPause->Disable();
 
-				screenRoaming->isActive = true;
-				screenRoaming->ShowButtons();
+				((ScreenRoaming*)screenRoaming)->Enable();
+				
 				guiManager->ToggleMouse();
 
 				for (int i = 0; i < entityManager->playerList.Count(); i++)
@@ -768,8 +768,7 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 			// Exiting to menu
 			currentState = GameState::EXIT;
 
-			screenRoaming->isActive = false;
-			screenRoaming->HideButtons();
+			((ScreenRoaming*)screenRoaming)->Disable();
 
 			screenPause->Disable();
 		}
@@ -856,8 +855,7 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 				/*screenInventory->isActive = false;
 				screenInventory->HideButtons();*/
 
-				screenRoaming->isActive = true;
-				screenRoaming->ShowButtons();
+				((ScreenRoaming*)screenRoaming)->Enable();
 				guiManager->ToggleMouse();
 
 				PlayMapMusic();
@@ -891,7 +889,7 @@ void SceneGameplay::OpenPause()
 	currentState = GameState::PAUSE;
 	audio->ChangeMusicVolume(SDL_MIX_MAXVOLUME / 10);
 
-	screenRoaming->isActive = false;
+	((ScreenRoaming*)screenRoaming)->Disable();
 
 	((ScreenPause*)screenPause)->Enable();
 
@@ -907,7 +905,7 @@ void SceneGameplay::OpenInventory()
 {
 	currentState = GameState::INVENTORY;
 
-	screenRoaming->isActive = false;
+	((ScreenRoaming*)screenRoaming)->Disable();
 
 	((ScreenInventory*)screenInventory)->Enable();
 	/*screenInventory->isActive = true;
@@ -1172,8 +1170,7 @@ void SceneGameplay::ExitBattle()
 	// Change game state to roaming
 	currentState = GameState::ROAMING;
 
-	screenRoaming->isActive = true;
-	screenRoaming->ShowButtons();
+	((ScreenRoaming*)screenRoaming)->Enable();
 
 	for (int i = 0; i < entityManager->playerList.Count(); i++)
 	{

@@ -34,6 +34,8 @@ ScreenRoaming::ScreenRoaming()
 	// Important for these to b1 -1
 	previousSelected = -1;
 	currentSelected = -1;
+
+	positionX = 50;
 }
 
 ScreenRoaming::~ScreenRoaming()
@@ -87,11 +89,11 @@ bool ScreenRoaming::Update(Input* input, float dt)
 bool ScreenRoaming::Draw(Render* render)
 {
 	// HUD Draw
-	render->DrawTexture(atlas[0], 50, 50, &iconPhone, 0.0f);
-	render->DrawText(font, "ESC", 50 + 52, 50 + 55, 30, 3, { 255,255,255,255 });
+	render->DrawTexture(atlas[0], positionX, 50, &iconPhone, 0.0f);
+	render->DrawText(font, "ESC", positionX + 52, 50 + 55, 30, 3, { 255,255,255,255 });
 
-	render->DrawTexture(atlas[0], 170, 50, &iconInventory, 0.0f);
-	render->DrawText(font, "Q", 170 + 56, 50 + 55, 30, 3, { 255,255,255,255 });
+	render->DrawTexture(atlas[0], positionX + 120, 50, &iconInventory, 0.0f);
+	render->DrawText(font, "Q", positionX + 120 + 56, 50 + 55, 30, 3, { 255,255,255,255 });
 
 	posRight = { 1096 + 50, 78 + 22 };
 	posLeft = { 1000 + 50, 78 + 22 };
@@ -165,3 +167,15 @@ void ScreenRoaming::SetCurrentPlayer(Player* player)
 		previousSelected = currentSelected;
 	}
 }
+
+void ScreenRoaming::Enable()
+{
+	isActive = true;
+	easing->CreateSpline(&positionX, 50, 1500, SplineType::BACK);
+}
+
+void ScreenRoaming::Disable()
+{
+	isActive = false;
+	positionX = 2000;
+}	

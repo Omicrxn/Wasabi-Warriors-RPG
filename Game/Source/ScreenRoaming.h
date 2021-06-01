@@ -16,6 +16,9 @@ public:
 
 	void SetCurrentPlayer(Player* player);
 
+	void Enable();
+	void Disable();
+
 	SceneGameplay* gameplayScene;
 	//GuiIcon* iconPause;
 	//GuiIcon* iconInventory;
@@ -37,4 +40,6 @@ public:
 
 	int previousSelected;
 	int currentSelected;
+
+	int positionX;
 };
