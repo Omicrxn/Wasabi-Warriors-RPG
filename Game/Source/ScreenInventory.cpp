@@ -3,6 +3,7 @@
 #include "EntityManager.h"
 #include "Window.h"
 #include "Player.h"
+#include "BattleSystem.h"
 #include "Log.h"
 
 ScreenInventory::ScreenInventory()
@@ -30,7 +31,7 @@ ScreenInventory::ScreenInventory()
 
 ScreenInventory::~ScreenInventory() {}
 
-bool ScreenInventory::Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* font, int hoverFx, int clickFx)
+bool ScreenInventory::Load(int minIndex, int maxIndex, Scene* currentScene, BattleSystem* battleSystem, Window* win, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* font, int hoverFx, int clickFx)
 {
 	this->currentScene = currentScene;
 	this->atlas[0] = atlas0;
@@ -43,6 +44,7 @@ bool ScreenInventory::Load(int minIndex, int maxIndex, Scene* currentScene, Wind
 	this->win = win;
 	this->easing = easing;
 	this->audio = audio;
+	this->battleSystem = battleSystem;
 
 	controller = false;
 
@@ -114,23 +116,7 @@ bool ScreenInventory::Update(Input* input, float dt, uint& focusedButtonId)
 	// Accept button has been clicked
 	if (hasClickedConsume)
 	{
-		for (int i = 0; i < entityManager->playerList.Count(); ++i)
-		{
-			if (entityManager->playerList.At(i)->data->IsActive())
-			{
-				// (y * width) + x
-				int index = (itemSelected.y * INVENTORY_ROWS) + itemSelected.x;
-				if (listInvItems.At(index) != nullptr)
-				{
-					// Play consume fx
-					audio->PlayFx(listInvItems.At(index)->data->item->consumeFx);
-					ConsumeItem(entityManager->playerList.At(i)->data, listInvItems.At(index)->data);
-					break;
-				}
-			}
-		}
-		
-		hasClickedConsume = false;
+		ManageItemConsumption();
 	}
 
 	controller = input->GetControllerState();
@@ -362,6 +348,35 @@ bool ScreenInventory::SaveState(pugi::xml_node& screenNode) const
 void ScreenInventory::SetHasClickedConsume(bool value)
 {
 	hasClickedConsume = value;
+}
+
+bool ScreenInventory::GetHasClickedConsume(bool value)
+{
+	return hasClickedConsume;
+}
+
+void ScreenInventory::ManageItemConsumption()
+{
+	for (int i = 0; i < entityManager->playerList.Count(); ++i)
+	{
+		if (entityManager->playerList.At(i)->data->IsActive())
+		{
+			// (y * width) + x
+			int index = (itemSelected.y * INVENTORY_ROWS) + itemSelected.x;
+			if (listInvItems.At(index) != nullptr)
+			{
+				battleSystem->SetItem(listInvItems.At(index)->data->item->name);
+
+				// Play consume fx
+				audio->PlayFx(listInvItems.At(index)->data->item->consumeFx);
+				ConsumeItem(entityManager->playerList.At(i)->data, listInvItems.At(index)->data);
+				break;
+			}
+		}
+	}
+
+	/*hasClickedConsume = false;*/
+	/*battleSystem->SetHasClickedConsume(false);*/
 }
 
 void ScreenInventory::ConsumeItem(Player* currentPlayer, InvItem* inventoryItem)

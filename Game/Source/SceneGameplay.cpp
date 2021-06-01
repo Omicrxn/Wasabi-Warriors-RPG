@@ -264,7 +264,7 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 
 	// Gui id goes from 15 to 16
 	screenInventory = new ScreenInventory();
-	screenInventory->Load(15, 16, this, win, guiManager, entityManager, audio, easing, guiAtlasTex2, guiAtlasTex, menuFont2, hoverFx, clickFx);
+	screenInventory->Load(15, 16, this, battleSystem, win, guiManager, entityManager, audio, easing, guiAtlasTex2, guiAtlasTex, menuFont2, hoverFx, clickFx);
 	screenInventory->isActive = false;
 	screenInventory->HideButtons();
 
@@ -563,8 +563,6 @@ bool SceneGameplay::Update(Input* input, float dt)
 		break;
 	}
 
-	if (battleSystem->IsTurnChanging()) ((ScreenBattle*)screenBattle)->ResetOneTimeAnimations();
-
 	if (!screenPause->isActive &&
 		!screenSettings->isActive &&
 		!screenBattle->isActive &&
@@ -819,8 +817,14 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 		}
 		else if (control->id == 15)
 		{
-			((ScreenInventory*)screenInventory)->SetHasClickedConsume(true);
+			if (((ScreenInventory*)screenInventory)->listInvItems.Count() != 0)
+			{
+				((ScreenInventory*)screenInventory)->SetHasClickedConsume(true);
+				battleSystem->SetHasClickedConsume(true);
 
+				((ScreenInventory*)screenInventory)->ManageItemConsumption();
+			}
+			
 			battleSystem->SetInventoryOpening(false);
 
 			screenInventory->isActive = false;

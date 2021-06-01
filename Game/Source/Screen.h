@@ -49,6 +49,9 @@ public:
     virtual bool Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* font, int hoverFx, int clickFx) {
         return true;
     }
+    virtual bool Load(int minIndex, int maxIndex, Scene* currentScene, BattleSystem* battleSystem, Window* win, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* font, int hoverFx, int clickFx) {
+        return true;
+    }
     virtual bool Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, SDL_Texture* atlas2, Font* font, int hoverFx, int clickFx) {
         return true;
     }
@@ -140,6 +143,7 @@ public:
     EntityManager* entityManager;
     Easing* easing;
     AudioManager* audio;
+    BattleSystem* battleSystem;
 
     SDL_Texture* atlas[5];
 };

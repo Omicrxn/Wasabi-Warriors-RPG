@@ -102,6 +102,9 @@ bool BattleSystem::ResetBattle()
 	// Time counter for each turn
 	turnCounter = 0;
 
+	SetInventoryOpening(false);
+	SetInventoryClosure(false);
+
 	return true;
 }
 
@@ -314,4 +317,24 @@ bool BattleSystem::HasClosedInventory()
 void BattleSystem::SetInventoryClosure(bool InventoryClosureState)
 {
 	hasFinishedItems = InventoryClosureState;
+}
+
+void BattleSystem::SetItem(SString itemName)
+{
+	this->itemName = itemName;
+}
+
+SString BattleSystem::GetItem()
+{
+	return itemName;
+}
+
+void BattleSystem::SetHasClickedConsume(bool hasClickedConsume)
+{
+	this->hasClickedConsume = hasClickedConsume;
+}
+
+bool BattleSystem::GetHasClickedConsume()
+{
+	return hasClickedConsume;
 }

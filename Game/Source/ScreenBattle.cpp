@@ -174,6 +174,8 @@ bool ScreenBattle::Load(int minIndex, int maxIndex, Scene* currentScene, BattleS
 	// Toggle mouse to keep testing before having keys logic
 	guiManager->ToggleMouse();
 
+	timer.Start();
+
 	return true;
 }
 
@@ -295,6 +297,7 @@ bool ScreenBattle::Update(Input* input, float dt, uint& focusedButtonId)
 
 		battleSystem->SetInventoryOpening(false);
 		battleSystem->SetInventoryClosure(false);
+		battleSystem->SetHasClickedConsume(false);
 	}
 
 	if (sceneGameplay->GetGameProgress()->hasKilledBoss)
@@ -322,15 +325,35 @@ bool ScreenBattle::Draw(Render* render)
 
 			if (battleSystem->playerState == PlayerState::ATTACK)
 			{
-				sprintf_s(temp, 64, "%s attacks %s", battleSystem->GetPlayer()->name.GetString(), battleSystem->GetEnemy()->name.GetString());
-				render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 105, 105, 105, 255 });
-				render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 255, 255, 255 });
+				if (timer.ReadSec() <= 0.25f)
+				{
+					sprintf_s(temp, 64, "%s attacks %s", battleSystem->GetPlayer()->name.GetString(), battleSystem->GetEnemy()->name.GetString());
+					render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 105, 105, 105, 255 });
+					render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 255, 255, 255 });
+				}
+				else if (timer.ReadSec() > 0.25f)
+				{
+					sprintf_s(temp, 64, "%s attacks %s", battleSystem->GetPlayer()->name.GetString(), battleSystem->GetEnemy()->name.GetString());
+					render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 128, 113, 27, 255 });
+					render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 225, 53, 255 });
+				}
+				if (timer.ReadSec() > 0.5f) timer.Start();
 			}
 			else if (battleSystem->playerState == PlayerState::DEFEND)
 			{
-				sprintf_s(temp, 64, "%s defends himself", battleSystem->GetPlayer()->name.GetString());
-				render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 105, 105, 105, 255 });
-				render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 255, 255, 255 });
+				if (timer.ReadSec() <= 0.25f)
+				{
+					sprintf_s(temp, 64, "%s defends himself", battleSystem->GetPlayer()->name.GetString());
+					render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 105, 105, 105, 255 });
+					render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 255, 255, 255 });
+				}
+				else if (timer.ReadSec() > 0.25f)
+				{
+					sprintf_s(temp, 64, "%s defends himself", battleSystem->GetPlayer()->name.GetString());
+					render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 128, 113, 27, 255 });
+					render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 225, 53, 255 });
+				}
+				if (timer.ReadSec() > 0.5f) timer.Start();
 
 				render->scale = 2;
 				for (int i = 0; i < battleSystem->GetPlayersList()->Count(); i++)
@@ -342,6 +365,41 @@ bool ScreenBattle::Draw(Render* render)
 					}
 				}
 				render->scale = 1;
+			}
+			else if (battleSystem->playerState == PlayerState::ITEM)
+			{
+				if (battleSystem->GetHasClickedConsume())
+				{
+					if (timer.ReadSec() <= 0.25f)
+					{
+						sprintf_s(temp, 64, "%s used the item %s", battleSystem->GetPlayer()->name.GetString(), battleSystem->GetItem().GetString());
+						render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 105, 105, 105, 255 });
+						render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 255, 255, 255 });
+					}
+					else if (timer.ReadSec() > 0.25f)
+					{
+						sprintf_s(temp, 64, "%s used the item %s", battleSystem->GetPlayer()->name.GetString(), battleSystem->GetItem().GetString());
+						render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 128, 113, 27, 255 });
+						render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 225, 53, 255 });
+					}
+					if (timer.ReadSec() > 0.5f) timer.Start();
+				}
+				else if (battleSystem->HasClosedInventory() && !battleSystem->GetHasClickedConsume())
+				{
+					if (timer.ReadSec() <= 0.25f)
+					{
+						sprintf_s(temp, 64, "%s didn't use any item...", battleSystem->GetPlayer()->name.GetString());
+						render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 105, 105, 105, 255 });
+						render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 255, 255, 255 });
+					}
+					else if (timer.ReadSec() > 0.25f)
+					{
+						sprintf_s(temp, 64, "%s didn't use any item...", battleSystem->GetPlayer()->name.GetString());
+						render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 128, 113, 27, 255 });
+						render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 225, 53, 255 });
+					}
+					if (timer.ReadSec() > 0.5f) timer.Start();
+				}
 			}
 
 			if (!cast1Anim.Finished())
@@ -365,15 +423,35 @@ bool ScreenBattle::Draw(Render* render)
 
 			if (battleSystem->enemyState == EnemyState::ATTACK)
 			{
-				sprintf_s(temp, 64, "%s attacks %s", battleSystem->GetEnemy()->name.GetString(), battleSystem->GetPlayer()->name.GetString());
-				render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 105, 105, 105, 255 });
-				render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 255, 255, 255 });
+				if (timer.ReadSec() <= 0.25f)
+				{
+					sprintf_s(temp, 64, "%s attacks %s", battleSystem->GetEnemy()->name.GetString(), battleSystem->GetPlayer()->name.GetString());
+					render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 105, 105, 105, 255 });
+					render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 255, 255, 255 });
+				}
+				else if (timer.ReadSec() > 0.25f)
+				{
+					sprintf_s(temp, 64, "%s attacks %s", battleSystem->GetEnemy()->name.GetString(), battleSystem->GetPlayer()->name.GetString());
+					render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 128, 113, 27, 255 });
+					render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 225, 53, 255 });
+				}
+				if (timer.ReadSec() > 0.5f) timer.Start();
 			}
 			else if (battleSystem->enemyState == EnemyState::DEFEND)
 			{
-				sprintf_s(temp, 64, "%s defends himself", battleSystem->GetEnemy()->name.GetString());
-				render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 105, 105, 105, 255 });
-				render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 255, 255, 255 });
+				if (timer.ReadSec() <= 0.25f)
+				{
+					sprintf_s(temp, 64, "%s defends himself", battleSystem->GetEnemy()->name.GetString());
+					render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 105, 105, 105, 255 });
+					render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 255, 255, 255 });
+				}
+				else if (timer.ReadSec() > 0.25f)
+				{
+					sprintf_s(temp, 64, "%s defends himself", battleSystem->GetEnemy()->name.GetString());
+					render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 128, 113, 27, 255 });
+					render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 225, 53, 255 });
+				}
+				if (timer.ReadSec() > 0.5f) timer.Start();
 
 				render->scale = 2;
 				if (battleSystem->GetCounter() > 100 && !enemyDefenseAnim.Finished())

@@ -15,7 +15,7 @@ public:
 	ScreenInventory();
 	~ScreenInventory();
 
-	bool Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* font, int hoverFx, int clickFx);
+	bool Load(int minIndex, int maxIndex, Scene* currentScene, BattleSystem* battleSystem, Window* win, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* font, int hoverFx, int clickFx);
 
 	bool Update(Input* input, float dt, uint& focusedButtonId);
 
@@ -27,6 +27,8 @@ public:
 	bool SaveState(pugi::xml_node&) const;
 	
 	void SetHasClickedConsume(bool value);
+	bool GetHasClickedConsume(bool value);
+	void ManageItemConsumption();
 	void ConsumeItem(Player* currentPlayer, InvItem* inventoryItem);
 
 	List<InvItem*> listInvItems;

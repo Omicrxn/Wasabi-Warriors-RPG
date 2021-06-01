@@ -79,6 +79,13 @@ public:
 	bool HasClosedInventory();
 	void SetInventoryClosure(bool InventoryClosureState);
 
+	// Functions to keep track of the item that is being used
+	void SetItem(SString itemName);
+	SString GetItem();
+
+	void SetHasClickedConsume(bool hasClickedConsume);
+	bool GetHasClickedConsume();
+
 	// Battle state (Current attacker and defender)
 	BattleState battleState;
 	// Menu state when the player attacks
@@ -108,6 +115,10 @@ private:
 	bool battleInventory = false;
 	// Bool to know if we are done with the items
 	bool hasFinishedItems = false;
+	// Name of the used item that has to be displayed on screen
+	SString itemName;
+	// Bool to be aware of the consumption
+	bool hasClickedConsume = false;
 };
 
 #endif // __BATTLESYSTEM_H__

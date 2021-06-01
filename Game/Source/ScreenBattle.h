@@ -4,6 +4,7 @@
 #include "Screen.h"
 
 #include "Animation.h"
+#include "Timer.h"
 
 class BattleSystem;
 class SceneGameplay;
@@ -49,9 +50,6 @@ private:
     // Scene gameplay textures
     SDL_Texture* charactersSpritesheet;
 
-    // Battle system module
-    BattleSystem* battleSystem;
-
     // Battle system textures
     SDL_Texture* backgroundTex;
     SDL_Texture* guiAtlasTex;
@@ -89,6 +87,8 @@ private:
 
     // Gamepad's menu focused button
     uint focusedButtonId;
+
+    Timer timer;
 };
 
 #endif // __SCENEBATTLE_H__
