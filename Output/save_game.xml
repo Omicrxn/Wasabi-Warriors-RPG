@@ -3,10 +3,10 @@
 	<input />
 	<window />
 	<textures />
-	<audio musicVolume="32" fxVolume="128" />
+	<audio musicVolume="12" fxVolume="128" />
 	<scene />
 	<renderer>
-		<camera x="1328" y="-200" />
+		<camera x="1328" y="-152" />
 	</renderer>
 	<collisions collisionsCount="10" />
 	<entitymanager />
@@ -17,8 +17,8 @@
 				<town>
 					<entitiesCount Num="54" />
 					<playerList playerCount="2">
-						<player id="1" spritePos="8" name="Kenzo" posX="640" posY="40" isActive="true" isRenderable="false" entitySubType="0" level="1" damage="25" maxHP="120" currentHP="100" strength="10" defense="15" attackSpeed="5" criticalRate="10" statsName="Kenzo" />
-						<player id="2" spritePos="12" name="Eiken" posX="640" posY="40" isActive="false" isRenderable="false" entitySubType="1" level="1" damage="20" maxHP="150" currentHP="120" strength="7" defense="10" attackSpeed="15" criticalRate="15" statsName="Eiken" />
+						<player id="1" spritePos="8" name="Kenzo" posX="640" posY="56" isActive="true" isRenderable="false" entitySubType="0" level="1" damage="25" maxHP="120" currentHP="100" strength="10" defense="15" attackSpeed="5" criticalRate="10" statsName="Kenzo" />
+						<player id="2" spritePos="12" name="Eiken" posX="640" posY="56" isActive="false" isRenderable="false" entitySubType="1" level="1" damage="20" maxHP="150" currentHP="120" strength="7" defense="10" attackSpeed="15" criticalRate="15" statsName="Eiken" />
 					</playerList>
 					<enemyList enemyCount="0" />
 					<npcList npcCount="0" />

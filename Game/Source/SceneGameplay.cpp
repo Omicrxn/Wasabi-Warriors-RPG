@@ -293,6 +293,7 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 	}
 
 	guiManager->ToggleMouse();
+
 	return true;
 }
 
@@ -471,6 +472,8 @@ bool SceneGameplay::Update(Input* input, float dt)
 
 		audio->StopMusic();
 		audio->PlayMusic("Audio/Music/battle.ogg");
+
+		guiManager->ToggleMouse();
 	}
 
 	if (notifier->OnActivator())
@@ -742,6 +745,7 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 				{
 					entityManager->playerList.At(i)->data->stopPlayer = false;
 				}
+
 				PlayMapMusic();
 			}
 		}
@@ -819,42 +823,40 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 			if (((ScreenInventory*)screenInventory)->listInvItems.Count() != 0)
 			{
 				((ScreenInventory*)screenInventory)->SetHasClickedConsume(true);
-				battleSystem->SetHasClickedConsume(true);
 
-				((ScreenInventory*)screenInventory)->ManageItemConsumption();
+				if (currentState == GameState::BATTLE)
+				{
+					battleSystem->SetHasClickedConsume(true);
+					((ScreenInventory*)screenInventory)->ManageItemConsumption();
+				}
 			}
-			
-			battleSystem->SetInventoryOpening(false);
 
-			screenInventory->isActive = false;
-			screenInventory->HideButtons();
+			if (currentState == GameState::BATTLE)
+			{
+				battleSystem->SetInventoryOpening(false);
+				battleSystem->SetInventoryClosure(true);
 
-			((ScreenBattle*)screenBattle)->EnableBattleButtons();
-
-			battleSystem->SetInventoryClosure(true);
+				screenInventory->Disable();
+				((ScreenBattle*)screenBattle)->EnableBattleButtons();
+			}
 		}
 		else if (control->id == 16)
 		{
 			if (currentState == GameState::BATTLE)
 			{
 				battleSystem->SetInventoryOpening(false);
-
-				screenInventory->isActive = false;
-				screenInventory->HideButtons();
-
-				((ScreenBattle*)screenBattle)->EnableBattleButtons();
-
 				battleSystem->SetInventoryClosure(true);
+
+				screenInventory->Disable();
+				((ScreenBattle*)screenBattle)->EnableBattleButtons();
 			}
 			else
 			{
 				currentState = GameState::ROAMING;
 
 				((ScreenInventory*)screenInventory)->Disable();
-				/*screenInventory->isActive = false;
-				screenInventory->HideButtons();*/
-
 				((ScreenRoaming*)screenRoaming)->Enable();
+
 				guiManager->ToggleMouse();
 
 				PlayMapMusic();
@@ -1173,6 +1175,8 @@ void SceneGameplay::ExitBattle()
 	{
 		entityManager->playerList.At(i)->data->stopPlayer = false;
 	}
+
+	guiManager->ToggleMouse();
 }
 
 void SceneGameplay::SetUpTp()
