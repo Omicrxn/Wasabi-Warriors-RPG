@@ -31,6 +31,9 @@ public:
 	void ManageItemConsumption();
 	void ConsumeItem(Player* currentPlayer, InvItem* inventoryItem);
 
+	void Enable();
+	void Disable();
+
 	List<InvItem*> listInvItems;
 
 private:
@@ -45,6 +48,8 @@ private:
 	SDL_Rect LBButton;
 	SDL_Rect RBButton;
 	SDL_Rect playersIcons;
+	SDL_Rect pinkBox;
+	SDL_Rect grayBox;
 
 	iPoint invMatrixPos;
 
@@ -57,6 +62,9 @@ private:
 	SDL_Color inventoryBackgroundColor2;
 
 	SDL_Rect bagRect;
+
+	int positionX;
+	int animIncrementY;
 };
 
 #endif // __SCREENINVENTORY_H__

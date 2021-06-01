@@ -851,8 +851,9 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 			{
 				currentState = GameState::ROAMING;
 
-				screenInventory->isActive = false;
-				screenInventory->HideButtons();
+				((ScreenInventory*)screenInventory)->Disable();
+				/*screenInventory->isActive = false;
+				screenInventory->HideButtons();*/
 
 				screenRoaming->isActive = true;
 				screenRoaming->ShowButtons();
@@ -907,8 +908,9 @@ void SceneGameplay::OpenInventory()
 
 	screenRoaming->isActive = false;
 
-	screenInventory->isActive = true;
-	screenInventory->ShowButtons();
+	((ScreenInventory*)screenInventory)->Enable();
+	/*screenInventory->isActive = true;
+	screenInventory->ShowButtons();*/
 
 	audio->PlayFx(bagOpenFx);
 }
