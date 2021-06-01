@@ -40,7 +40,7 @@ public:
             atlas[i] = nullptr;
         }
     }
-    ~Screen(){}
+    ~Screen() {}
 
     // Many overloads if we need more textures in the screen 
     virtual bool Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, Font* font, int hoverFx, int clickFx) {
@@ -73,7 +73,7 @@ public:
         return true;
     }
 
-    void HideButtons() 
+    void HideButtons()
     {
         for (int i = minIndex; i <= maxIndex; ++i)
         {
@@ -81,7 +81,7 @@ public:
             this->guiManager->FindById(i)->state = GuiControlState::HIDDEN;
         }
     }
-    void ShowButtons() 
+    void ShowButtons()
     {
         for (int i = minIndex; i <= maxIndex; ++i)
         {

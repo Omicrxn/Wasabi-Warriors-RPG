@@ -35,21 +35,21 @@ SceneTitle::SceneTitle()
     assetsManager = nullptr;
     guiManager = nullptr;
     win = nullptr;
+    render = nullptr;
     easing = nullptr;
     audio = nullptr;
-    this->transitions = transitions;
+    transitions = nullptr;
 
     // Background
     backgroundTex = nullptr;
     backgroundRect = { 0, 0, 1280, 720 };
 
-    // Texture
+    // Textures
     guiAtlasTex = nullptr;
     guiAtlasTex2 = nullptr;
-
     titlesTex = nullptr;
 
-    // More backgound
+    // Background Rects
     settingsTitleRect = { 0, 149, 530, 81 };
     settingsBackgroundRect = { 1228, 295, 300, 200 };
     creditsTitleRect = { 0, 238, 511, 84 };
@@ -109,7 +109,7 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
     returnFx = audio->LoadFx("Audio/Fx/back.ogg");
 
     screenMainMenu = new ScreenMainMenu();
-    screenMainMenu->Load(0, 4, this, win, guiManager, NULL, audio, easing, guiAtlasTex2, titlesTex, buttonFont, hoverFx, clickFx);
+    screenMainMenu->Load(0, 4, this, win, guiManager, NULL, NULL, NULL, guiAtlasTex2, titlesTex, buttonFont, hoverFx, clickFx);
     screenMainMenu->isActive = true;
 
     screenSettings = new ScreenSettings();
@@ -130,7 +130,7 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
     }
 
     screenCredits = new ScreenCredits();
-    screenCredits->Load(0, 0, this, win, guiManager, NULL, audio, easing, guiAtlasTex, titlesTex, buttonFont, hoverFx, clickFx);
+    screenCredits->Load(10, 10, this, win, guiManager, NULL, audio, easing, guiAtlasTex2, titlesTex, buttonFont, hoverFx, returnFx);
 
     audio->PlayMusic("Audio/Music/menu.ogg", 0.5f);
     ScreenMainMenu* tempTitle = (ScreenMainMenu*)screenMainMenu;
@@ -149,15 +149,15 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
 
     screenMainMenu->ShowButtons();
     screenSettings->HideButtons();
+    screenCredits->HideButtons();
 
     return true;
 }
 
 bool SceneTitle::Update(Input* input, float dt)
 {
-    // Debug purposes
-    //if (input->GetKey(SDL_SCANCODE_RETURN) == KeyState::KEY_DOWN) TransitionToScene(SceneType::GAMEPLAY);
-    // ---
+    // debug purposes
+    if (input->GetKey(SDL_SCANCODE_RETURN) == KeyState::KEY_DOWN) TransitionToScene(SceneType::GAMEPLAY);
 
     if (input->GetControllerState())
     {
@@ -189,7 +189,7 @@ bool SceneTitle::Update(Input* input, float dt)
         menuCurrentSelection = MenuSelection::NONE;
 
         // Hide credits icon and enable main title buttons
-        guiManager->controls.At(9)->data->state = GuiControlState::HIDDEN;
+        screenCredits->HideButtons();
         screenMainMenu->ShowButtons();
     }
 
@@ -216,7 +216,7 @@ bool SceneTitle::Update(Input* input, float dt)
     {
         // Hide main title buttons and enable credits return icon
         screenMainMenu->HideButtons();
-        guiManager->controls.At(9)->data->state = GuiControlState::NORMAL;
+        screenCredits->ShowButtons();
     }
     else if (menuCurrentSelection == MenuSelection::EXIT)
     {
@@ -233,7 +233,7 @@ bool SceneTitle::Draw(Render* render)
     win->GetWindowSize(width, height);
 
     render->DrawTexture(backgroundTex, 0, 0, &backgroundRect, 0.0f);
-    render->DrawRectangle({ 0,0,1280,720 }, { 0, 0, 0, 100 }, true, false);
+    render->DrawRectangle({ 0,0,1280,720 }, { 0, 0, 0, 70 }, true, false);
 
     // Main title FX sounds just at title appearing
     if (titleFxTimer.ReadSec() >= 1.9f && titleFxTimer.ReadSec() < 2.0f)
@@ -262,18 +262,14 @@ bool SceneTitle::Draw(Render* render)
 bool SceneTitle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager)
 {
     audio->StopMusic();
-    // Unload textures
+
     easing->CleanUp();
+
+    // Unload textures
     tex->UnLoad(backgroundTex);
-    backgroundTex = nullptr;
     tex->UnLoad(guiAtlasTex);
-    guiAtlasTex = nullptr;  
-
     tex->UnLoad(guiAtlasTex2);
-    guiAtlasTex2 = nullptr;
-
     tex->UnLoad(titlesTex);
-    titlesTex = nullptr;
 
     // Unload Fx
     audio->UnloadFx(clickFx);
@@ -283,9 +279,7 @@ bool SceneTitle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManag
 
     // Unload Fonts
     RELEASE(titleFont);
-    titleFont = nullptr;
     RELEASE(buttonFont);
-    buttonFont = nullptr;
 
     // Unload Screens
     screenSettings->Unload(tex, audio, guiManager);
@@ -293,11 +287,8 @@ bool SceneTitle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManag
     screenCredits->Unload(tex, audio, guiManager);
 
     RELEASE(screenSettings);
-    screenSettings = nullptr;
     RELEASE(screenMainMenu);
-    screenMainMenu = nullptr;
     RELEASE(screenCredits);
-    screenCredits = nullptr;
 
     this->assetsManager = nullptr;
     this->guiManager = nullptr;
@@ -305,6 +296,7 @@ bool SceneTitle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManag
     this->render = nullptr;
     this->easing = nullptr;
     this->audio = nullptr;
+
     return true;
 }
 
@@ -337,8 +329,6 @@ bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
         else if (control->id == 1) menuCurrentSelection = MenuSelection::START;
         else if (control->id == 2)
         {
-            prevFocusedButtonId = focusedButtonId;
-            focusedButtonId = 5;
             menuCurrentSelection = MenuSelection::SETTINGS;
 
             screenSettings->isActive = true;
@@ -346,10 +336,14 @@ bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
 
             audio->StopMusic();
             audio->PlayMusic("Audio/Music/menu_settings.ogg");
+
+            prevFocusedButtonId = focusedButtonId;
+            focusedButtonId = 5;
         }
         else if (control->id == 3)
         {
             menuCurrentSelection = MenuSelection::CREDITS;
+
             screenMainMenu->isActive = false;
             screenCredits->isActive = true;
         }
@@ -360,16 +354,17 @@ bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
     {
         if (control->id == 9)
         {
-            if (screenSettings->isActive)
-            {
-                screenSettings->isActive = false;
-                screenMainMenu->isActive = true;
-            }
-            else if (screenCredits->isActive)
-            {
-                screenCredits->isActive = false;
-                screenMainMenu->isActive = true;
-            }
+            screenSettings->isActive = false;
+            screenMainMenu->isActive = true;
+
+            audio->StopMusic();
+            audio->PlayMusic("Audio/Music/menu.ogg");
+        }
+        else if (control->id == 10)
+        {
+            screenCredits->isActive = false;
+            screenMainMenu->isActive = true;
+
             audio->StopMusic();
             audio->PlayMusic("Audio/Music/menu.ogg");
         }
@@ -393,14 +388,14 @@ bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
             ScreenSettings* temp = (ScreenSettings*)screenSettings;
             Uint32 windowFlags = SDL_GetWindowFlags(win->window);
             Uint32 rendererFlags = SDL_RENDERER_ACCELERATED;
-            
+
             if (temp->checkFullScreen->GetCheck())
 
 
-            if (temp->checkVsync->GetCheck())
-                rendererFlags |= SDL_RENDERER_PRESENTVSYNC;
-            else
-                rendererFlags = rendererFlags ^ SDL_RENDERER_PRESENTVSYNC;
+                if (temp->checkVsync->GetCheck())
+                    rendererFlags |= SDL_RENDERER_PRESENTVSYNC;
+                else
+                    rendererFlags = rendererFlags ^ SDL_RENDERER_PRESENTVSYNC;
 
             SDL_DestroyWindow(win->window);
             win->window = SDL_CreateWindow("", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1280, 720, windowFlags);
@@ -427,8 +422,6 @@ bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
             screenSettings->SaveState(screenNode);
             docData.save_file("save_game.xml");
         }
-
-
     }
     case GuiControlType::SLIDER:
     {
@@ -444,7 +437,6 @@ bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
             int value = tempSlider->GetValue();
             audio->ChangeFxVolume(value);
         }
-            
     }
     default: break;
     }

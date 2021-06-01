@@ -14,15 +14,6 @@ ScreenSettings::ScreenSettings()
 	iconReturnTitle = nullptr;
 
 	mobileRect = { 375, 339, 392, 603 };
-
-	settingsTitleRect = { 0, 149, 530, 81 };
-
-	settingsBackgroundColor1 = { 74,79,95,255 };
-	settingsBackgroundColor2 = { 128,137,154,255 };
-
-	iconARect = { 684, 8, 57, 57 };
-	dpadRect = { 665, 378, 96, 96 };
-	iconSTARTRect = { 685, 291, 55, 54 };
 }
 
 ScreenSettings::~ScreenSettings() {}
@@ -39,9 +30,6 @@ bool ScreenSettings::Load(int minIndex, int maxIndex, Scene* currentScene, Windo
 
 	uint width, height;
 	win->GetWindowSize(width, height);
-
-	settingsBackgroundRect1 = { int(width) / 2 - 500, 75, 1000, 600 };
-	settingsBackgroundRect2 = { settingsBackgroundRect1.x + 25, settingsBackgroundRect1.y + 25, settingsBackgroundRect1.w - 50, settingsBackgroundRect1.h - 50 };
 
 	this->minIndex = minIndex;
 	this->maxIndex = maxIndex;
@@ -78,7 +66,7 @@ bool ScreenSettings::Update(Input* input, float dt, uint& focusedButtonId)
 	if (isActive)
 	{
 		// Update
-		// MinIndex is 6
+		// MinIndex is 5
 		if (focusedButtonId == minIndex)
 		{
 			if (input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN)
@@ -114,30 +102,8 @@ bool ScreenSettings::Update(Input* input, float dt, uint& focusedButtonId)
 
 bool ScreenSettings::Draw(Render* render)
 {
-	if (isActive)
-	{
-		uint width, height;
-		win->GetWindowSize(width, height);
-		render->DrawRectangle({ 0,0,(int)width,(int)height }, { 0, 0, 0, 100 }, true, false);
+	render->DrawTexture(atlas[0], (1280 / 2 - mobileRect.w / 2) / render->scale, 50 / render->scale, &mobileRect, 0.0f);
 
-		//render->scale = 3;
-		//render->DrawTexture(atlas[0], 60, 25, &settingsBackgroundRect, 0.0f);
-		//render->scale = 1;
-		render->DrawTexture(atlas[0], (1280 / 2 - mobileRect.w / 2) / render->scale, 50 / render->scale, &mobileRect, 0.0f);
-
-		/*render->DrawRectangle(settingsBackgroundRect1, settingsBackgroundColor1, true, false);
-		render->DrawRectangle(settingsBackgroundRect2, settingsBackgroundColor2, true, false);
-
-		render->DrawTexture(atlas[1], width / 2 - settingsTitleRect.w / 2, 40, &settingsTitleRect, 0.0f);
-
-		render->DrawTexture(atlas[0], 339, 429, &dpadRect, 0.0f);
-		render->DrawText(font, "Movement", 339 + dpadRect.w + 15, 465, 25, 3, { 255,255,255,255 });
-		render->DrawTexture(atlas[0], 633, 400, &iconARect, 0.0f);
-		render->DrawText(font, "Interact", 633 + iconARect.w + 15, 415, 25, 3, { 255,255,255,255 });
-		render->DrawTexture(atlas[0], 633, 505, &iconSTARTRect, 0.0f);
-		render->DrawText(font, "Pause", 633 + iconSTARTRect.w + 17, 520, 25, 3, { 255,255,255,255 });*/
-	}
-	
 	return true;
 }
 
@@ -229,4 +195,3 @@ bool ScreenSettings::SaveState(pugi::xml_node& screen) const
 
 	return false;
 }
-

@@ -12,7 +12,11 @@ public:
 	bool Draw(Render* render);
 	bool Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager);
 
+	GuiIcon* iconReturnTitle;
+
 private:
+	SDL_Rect mobileRect;
+
 	SDL_Rect creditsTitleRect;
 	SDL_Rect creditsBackgroundRect1;
 	SDL_Rect creditsBackgroundRect2;

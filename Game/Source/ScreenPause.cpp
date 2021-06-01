@@ -243,18 +243,12 @@ bool ScreenPause::Draw(Render* render)
 bool ScreenPause::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager)
 {
 	guiManager->DestroyGuiControl(iconResume);
-	iconResume = nullptr;
 	guiManager->DestroyGuiControl(iconSettings);
-	iconSettings = nullptr;
 	guiManager->DestroyGuiControl(iconExit);
-	iconExit = nullptr;
 
 	guiManager->DestroyGuiControl(iconQuest);
-	iconQuest = nullptr;
 	guiManager->DestroyGuiControl(iconTeam);
-	iconTeam = nullptr;
 	guiManager->DestroyGuiControl(iconMap);
-	iconMap = nullptr;
 
 	return true;
 }

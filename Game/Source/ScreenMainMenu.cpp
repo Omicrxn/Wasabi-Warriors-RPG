@@ -26,7 +26,6 @@ bool ScreenMainMenu::Load(int minIndex, int maxIndex, Scene* currentScene, Windo
     this->atlas[0] = atlas0;
     this->atlas[1] = atlas1;
     this->font = font;
-
     this->guiManager = guiManager;
     this->win = win;
 
@@ -56,7 +55,6 @@ bool ScreenMainMenu::Load(int minIndex, int maxIndex, Scene* currentScene, Windo
     btnExit = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { -350, 600, 190, 49 }, "Exit");
     btnExit->SetButtonProperties(currentScene, atlas0, font, hoverFx, clickFx, Style::SUSHI_ORANGE);
 
-    
 	return true;
 }
 
@@ -76,22 +74,17 @@ bool ScreenMainMenu::Draw(Render* render)
     {
         render->DrawTexture(atlas[1], titlePosition.x, titlePosition.y, &mainTitlesRect, 0.0f);
     }
+
 	return true;
 }
 
 bool ScreenMainMenu::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager)
 {
     guiManager->DestroyGuiControl(btnStart);
-    btnStart = nullptr;
     guiManager->DestroyGuiControl(btnContinue);
-    btnContinue = nullptr;
     guiManager->DestroyGuiControl(btnOptions);
-    btnOptions = nullptr;
     guiManager->DestroyGuiControl(btnCredits);
-    btnCredits = nullptr;
     guiManager->DestroyGuiControl(btnExit);
-    btnExit = nullptr;
 
 	return true;
 }
-

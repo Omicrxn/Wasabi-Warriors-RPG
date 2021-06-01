@@ -51,6 +51,8 @@ bool ScreenRoaming::Load(SceneGameplay* gameplayScene, GuiManager* guiManager, E
 	this->entityManager = entityManager;
 	this->easing = easing;
 
+	guiManager->ToggleMouse();
+
 	//iconPause = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 50, 50, 52, 55 });
 	//iconPause->SetIconProperties(currentScene, atlas[0], font, hoverFx, clickFx, CONTROLLER_BUTTON_START, IconType::ICON_PHONE);
 	//++counterId;
@@ -68,10 +70,16 @@ bool ScreenRoaming::Update(Input* input, float dt)
 	controller = input->GetControllerState();
 
 	if (input->GetKey(SDL_SCANCODE_ESCAPE) == KeyState::KEY_DOWN)
+	{
+		guiManager->ToggleMouse();
 		gameplayScene->OpenPause();
+	}
 
 	if (input->GetKey(SDL_SCANCODE_Q) == KeyState::KEY_DOWN)
+	{
+		guiManager->ToggleMouse();
 		gameplayScene->OpenInventory();
+	}
 
 	return true;
 }

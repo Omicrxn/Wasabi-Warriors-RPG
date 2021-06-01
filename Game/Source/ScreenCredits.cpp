@@ -7,6 +7,10 @@
 
 ScreenCredits::ScreenCredits()
 {
+    iconReturnTitle = nullptr;
+
+    mobileRect = { 375, 339, 392, 603 };
+
 	creditsTitleRect = { 0, 238, 511, 84 };
 
     creditsBackgroundColor1 = { 74,79,95,255 };
@@ -33,22 +37,29 @@ bool ScreenCredits::Load(int minIndex, int maxIndex, Scene* currentScene, Window
     creditsBackgroundRect1 = { int(width) / 2 - 500, 75, 1000, 600 };
     creditsBackgroundRect2 = { creditsBackgroundRect1.x + 25, creditsBackgroundRect1.y + 25, creditsBackgroundRect1.w - 50, creditsBackgroundRect1.h - 50 };
 
+    this->minIndex = minIndex;
+    this->maxIndex = maxIndex;
+    int counterId = minIndex;
+
+    iconReturnTitle = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 609, 580, 70, 55 });
+    iconReturnTitle->SetIconProperties(currentScene, atlas0, font, hoverFx, clickFx, CONTROLLER_BUTTON_B, IconType::ICON_RETURN);
+
 	return true;
 }
 
 bool ScreenCredits::Update(Input* input, float dt, uint& focusedButtonId)
 {
+
 	return true;
 }
 
 bool ScreenCredits::Draw(Render* render)
 {
+    //render->DrawTexture(atlas[0], (1280 / 2 - mobileRect.w / 2) / render->scale, 50 / render->scale, &mobileRect, 0.0f);
+
     uint width, height;
     win->GetWindowSize(width, height);
 
-    //render->scale = 3;
-    //render->DrawTexture(atlas[0], 60, 25, &settingsBackgroundRect, 0.0f);
-    //render->scale = 1;
     render->DrawRectangle(creditsBackgroundRect1, creditsBackgroundColor1, true, false);
     render->DrawRectangle(creditsBackgroundRect2, creditsBackgroundColor2, true, false);
 
@@ -88,5 +99,7 @@ bool ScreenCredits::Draw(Render* render)
 
 bool ScreenCredits::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager)
 {
+    guiManager->DestroyGuiControl(iconReturnTitle);
+
 	return true;
 }

@@ -64,7 +64,7 @@ SceneGameplay::SceneGameplay(bool hasStartedFromContinue)
 	win = nullptr;
 	dialogSystem = nullptr;
 	audio = nullptr;
-	this->app = nullptr;
+	app = nullptr;
 
 	charactersSpritesheet = nullptr;
 
@@ -714,6 +714,192 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 	return true;
 }
 
+//----------------------------------------------------------
+// Manage GUI events for this screen
+//----------------------------------------------------------
+bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
+{
+	switch (control->type)
+	{
+	case GuiControlType::ICON:
+	{
+		if (control->id == 0)
+		{
+			if (((ScreenPause*)screenPause)->state != MobileState::MAIN)
+			{
+				((ScreenPause*)screenPause)->state = MobileState::MAIN;
+				for (int i = 1; i <= 5; ++i)
+					guiManager->controls.At(i)->data->state = GuiControlState::NORMAL;
+			}
+			else if (pauseTimer.ReadSec() > 0.5f)
+			{
+				currentState = GameState::ROAMING;
+
+				screenPause->Disable();
+
+				screenRoaming->isActive = true;
+				screenRoaming->ShowButtons();
+				guiManager->ToggleMouse();
+
+				for (int i = 0; i < entityManager->playerList.Count(); i++)
+				{
+					entityManager->playerList.At(i)->data->stopPlayer = false;
+				}
+				PlayMapMusic();
+			}
+		}
+		else if (control->id == 1)
+		{
+			// Entering settings from pause
+			currentState = GameState::SETTINGS;
+
+			screenPause->Disable();
+
+			screenSettings->isActive = true;
+			screenSettings->ShowButtons();
+
+			// Fullscreen and vsync controls are disabled if you acces from gameplay
+			this->guiManager->controls.At(6)->data->state = GuiControlState::DISABLED;
+			this->guiManager->controls.At(7)->data->state = GuiControlState::DISABLED;
+
+			audio->StopMusic();
+			audio->PlayMusic("Audio/Music/menu_settings.ogg");
+		}
+		else if (control->id == 2)
+		{
+			// Exiting to menu
+			currentState = GameState::EXIT;
+
+			screenRoaming->isActive = false;
+			screenRoaming->HideButtons();
+
+			screenPause->Disable();
+		}
+		else if (control->id == 3)
+		{
+			// From Main Screen of the mobile to Quest Screen
+			((ScreenPause*)screenPause)->state = MobileState::QUEST;
+			for (int i = 1; i <= 5; ++i)
+				guiManager->controls.At(i)->data->state = GuiControlState::DISABLED;
+		}
+		else if (control->id == 4)
+		{
+			// From Main Screen of the mobile to Team Screen
+			((ScreenPause*)screenPause)->state = MobileState::TEAM;
+			for (int i = 1; i <= 5; ++i)
+				guiManager->controls.At(i)->data->state = GuiControlState::DISABLED;
+		}
+		else if (control->id == 5)
+		{
+			// From Main Screen of the mobile to Map Screen
+			((ScreenPause*)screenPause)->state = MobileState::MAP;
+			for (int i = 1; i <= 5; ++i)
+				guiManager->controls.At(i)->data->state = GuiControlState::DISABLED;
+		}
+		else if (control->id == 10)
+		{
+			// Returning from settings to pause
+			currentState = GameState::PAUSE;
+
+			((ScreenPause*)screenPause)->Enable(true);
+
+			screenSettings->isActive = false;
+			screenSettings->HideButtons();
+		}
+		break;
+	}
+	case GuiControlType::BUTTON:
+	{
+		if (control->id == 11) battleSystem->playerState = PlayerState::ATTACK;
+		else if (control->id == 12) battleSystem->playerState = PlayerState::DEFEND;
+		else if (control->id == 13) battleSystem->playerState = PlayerState::ITEM;
+		else if (control->id == 14)
+		{
+			battleSystem->playerState = PlayerState::RUN;
+			ExitBattle();
+		}
+		else if (control->id == 15)
+		{
+			((ScreenInventory*)screenInventory)->SetHasClickedConsume(true);
+		}
+		else if (control->id == 16)
+		{
+			if (currentState == GameState::BATTLE)
+			{
+				battleInventory = false;
+
+				screenInventory->isActive = false;
+				screenInventory->HideButtons();
+
+				((ScreenBattle*)screenBattle)->EnableBattleButtons();
+
+			}
+			else
+			{
+				currentState = GameState::ROAMING;
+
+				screenInventory->isActive = false;
+				screenInventory->HideButtons();
+
+				screenRoaming->isActive = true;
+				screenRoaming->ShowButtons();
+				guiManager->ToggleMouse();
+
+				PlayMapMusic();
+			}
+		}
+		break;
+	}
+	case GuiControlType::SLIDER:
+	{
+		if (control->id == 8)
+		{
+			GuiSlider* tempSlider = (GuiSlider*)this->guiManager->controls.At(8)->data;
+			int value = tempSlider->GetValue();
+			audio->ChangeMusicVolume(value);
+		}
+		else if (control->id == 9)
+		{
+			GuiSlider* tempSlider = (GuiSlider*)this->guiManager->controls.At(9)->data;
+			int value = tempSlider->GetValue();
+			audio->ChangeFxVolume(value);
+		}
+	}
+	default: break;
+	}
+	return true;
+}
+
+void SceneGameplay::OpenPause()
+{
+	// Entering pause from roaming
+	currentState = GameState::PAUSE;
+	audio->ChangeMusicVolume(SDL_MIX_MAXVOLUME / 10);
+
+	screenRoaming->isActive = false;
+
+	((ScreenPause*)screenPause)->Enable();
+
+	for (int i = 0; i < entityManager->playerList.Count(); i++)
+	{
+		entityManager->playerList.At(i)->data->stopPlayer = true;
+	}
+
+	pauseTimer.Start();
+}
+
+void SceneGameplay::OpenInventory()
+{
+	currentState = GameState::INVENTORY;
+
+	screenRoaming->isActive = false;
+
+	screenInventory->isActive = true;
+	screenInventory->ShowButtons();
+
+	audio->PlayFx(bagOpenFx);
+}
+
 bool SceneGameplay::LoadState(pugi::xml_node& scenegameplay)
 {
 	/* If different map then change map*/
@@ -951,195 +1137,6 @@ Player* SceneGameplay::GetCurrentPlayer()
 MapType SceneGameplay::GetCurrentMap()
 {
 	return currentMap;
-}
-
-//----------------------------------------------------------
-// Manage GUI events for this screen
-//----------------------------------------------------------
-bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
-{
-	switch (control->type)
-	{
-	case GuiControlType::ICON:
-	{
-		if (control->id == 0)
-		{
-			if (((ScreenPause*)screenPause)->state != MobileState::MAIN)
-			{
-				((ScreenPause*)screenPause)->state = MobileState::MAIN;
-				for (int i = 1; i <= 5; ++i)
-					guiManager->controls.At(i)->data->state = GuiControlState::NORMAL;
-			}
-			else if (pauseTimer.ReadSec() > 0.5f)
-			{
-				currentState = GameState::ROAMING;
-
-				screenPause->Disable();
-				
-				screenRoaming->isActive = true;
-				screenRoaming->ShowButtons();
-
-				for (int i = 0; i < entityManager->playerList.Count(); i++)
-				{
-					entityManager->playerList.At(i)->data->stopPlayer = false;
-				}
-
-				PlayMapMusic();
-			}
-		}
-		else if (control->id == 1) 
-		{
-			// Entering settings from pause
-			currentState = GameState::SETTINGS;
-
-			screenPause->Disable();
-
-			screenSettings->isActive = true;
-			screenSettings->ShowButtons();
-
-			// Fullscreen and vsync controls are disabled if you acces from gameplay
-			this->guiManager->controls.At(6)->data->state = GuiControlState::DISABLED;
-			this->guiManager->controls.At(7)->data->state = GuiControlState::DISABLED;
-
-			audio->StopMusic();
-			audio->PlayMusic("Audio/Music/menu_settings.ogg");
-		}
-		else if (control->id == 2)
-		{
-			// Exiting to menu
-			currentState = GameState::EXIT;
-
-			screenRoaming->isActive = false;
-			screenRoaming->HideButtons();
-
-			screenPause->Disable();
-		}
-		else if (control->id == 3) 
-		{
-			// From Main Screen of the mobile to Quest Screen
-			((ScreenPause*)screenPause)->state = MobileState::QUEST;
-			for (int i = 1; i <= 5; ++i)
-				guiManager->controls.At(i)->data->state = GuiControlState::DISABLED;
-		}
-		else if (control->id == 4)
-		{
-			// From Main Screen of the mobile to Team Screen
-			((ScreenPause*)screenPause)->state = MobileState::TEAM;
-			for (int i = 1; i <= 5; ++i)
-				guiManager->controls.At(i)->data->state = GuiControlState::DISABLED;
-		}
-		else if (control->id == 5)
-		{
-			// From Main Screen of the mobile to Map Screen
-			((ScreenPause*)screenPause)->state = MobileState::MAP;
-			for (int i = 1; i <= 5; ++i)
-				guiManager->controls.At(i)->data->state = GuiControlState::DISABLED;
-		}
-		else if (control->id == 10)
-		{
-			// Returning from settings to pause
-			currentState = GameState::PAUSE;
-
-			((ScreenPause*)screenPause)->Enable(true);
-
-			screenSettings->isActive = false;
-			screenSettings->HideButtons();
-		}
-
-		break;
-	}
-	case GuiControlType::BUTTON:
-	{
-		if (control->id == 11) battleSystem->playerState = PlayerState::ATTACK;
-		else if (control->id == 12) battleSystem->playerState = PlayerState::DEFEND;
-		else if (control->id == 13) battleSystem->playerState = PlayerState::ITEM;
-		else if (control->id == 14)
-		{
-			battleSystem->playerState = PlayerState::RUN;
-			ExitBattle();
-		}
-		else if (control->id == 15) 
-		{
-			((ScreenInventory*)screenInventory)->SetHasClickedConsume(true);
-		}
-		else if(control->id == 16)
-		{
-			if (currentState == GameState::BATTLE)
-			{
-				battleInventory = false;
-
-				screenInventory->isActive = false;
-				screenInventory->HideButtons();
-
-				((ScreenBattle*)screenBattle)->EnableBattleButtons();
-				
-			}
-			else
-			{
-				currentState = GameState::ROAMING;
-
-				screenInventory->isActive = false;
-				screenInventory->HideButtons();
-
-				screenRoaming->isActive = true;
-				screenRoaming->ShowButtons();
-
-				PlayMapMusic();
-			}
-			
-		}
-
-		break;
-	}
-	case GuiControlType::SLIDER:
-	{
-		if (control->id == 8)
-		{
-			GuiSlider* tempSlider = (GuiSlider*)this->guiManager->controls.At(8)->data;
-			int value = tempSlider->GetValue();
-			audio->ChangeMusicVolume(value);
-		}
-		else if (control->id == 9)
-		{
-			GuiSlider* tempSlider = (GuiSlider*)this->guiManager->controls.At(9)->data;
-			int value = tempSlider->GetValue();
-			audio->ChangeFxVolume(value);
-		}
-	}
-	default: break;
-	}
-
-	return true;
-}
-
-void SceneGameplay::OpenPause()
-{
-	// Entering pause from roaming
-	currentState = GameState::PAUSE;
-	audio->ChangeMusicVolume(SDL_MIX_MAXVOLUME / 10);
-
-	screenRoaming->isActive = false;
-
-	((ScreenPause*)screenPause)->Enable();
-
-	for (int i = 0; i < entityManager->playerList.Count(); i++)
-	{
-		entityManager->playerList.At(i)->data->stopPlayer = true;
-	}
-
-	pauseTimer.Start();
-}
-
-void SceneGameplay::OpenInventory()
-{
-	currentState = GameState::INVENTORY;
-
-	screenRoaming->isActive = false;
-
-	screenInventory->isActive = true;
-	screenInventory->ShowButtons();
-
-	audio->PlayFx(bagOpenFx);
 }
 
 void SceneGameplay::ExitBattle()
