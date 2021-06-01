@@ -31,7 +31,7 @@ public:
 	void ManageItemConsumption();
 	void ConsumeItem(Player* currentPlayer, InvItem* inventoryItem);
 
-	void Enable();
+	void Enable(bool isFromBattle = false);
 	void Disable();
 
 	List<InvItem*> listInvItems;

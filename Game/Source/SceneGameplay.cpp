@@ -548,8 +548,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 			{
 				battleSystem->SetInventoryOpening(true);
 				((ScreenBattle*)screenBattle)->DisableBattleButtons();
-				screenInventory->isActive = true;
-				screenInventory->ShowButtons();
+				((ScreenInventory*)screenInventory)->Enable();
 			}
 		}
 		else
@@ -908,8 +907,6 @@ void SceneGameplay::OpenInventory()
 	((ScreenRoaming*)screenRoaming)->Disable();
 
 	((ScreenInventory*)screenInventory)->Enable();
-	/*screenInventory->isActive = true;
-	screenInventory->ShowButtons();*/
 
 	audio->PlayFx(bagOpenFx);
 }

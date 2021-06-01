@@ -404,13 +404,23 @@ void ScreenInventory::ConsumeItem(Player* currentPlayer, InvItem* inventoryItem)
 		listInvItems.Del(listInvItems.At(listInvItems.Find(inventoryItem)));
 }
 
-void ScreenInventory::Enable()
+void ScreenInventory::Enable(bool isFromBattle)
 {
-	easing->CreateSpline(&positionX, 1000, 2000, SplineType::QUINT);
-	easing->CreateSpline(&animIncrementY, 0, 2000, SplineType::QUINT);
-	easing->CreateSpline(&btnConfirm->bounds.x, 1000, 2000, SplineType::QUINT);
-	easing->CreateSpline(&btnCancel->bounds.x, 1000, 2000, SplineType::QUINT);
-
+	if (isFromBattle)
+	{
+		positionX = 1000;
+		animIncrementY = 0;
+		btnConfirm->bounds.x = 1000;
+		btnCancel->bounds.x = 1000;
+	}
+	else
+	{
+		easing->CreateSpline(&positionX, 1000, 2000, SplineType::QUINT);
+		easing->CreateSpline(&animIncrementY, 0, 2000, SplineType::QUINT);
+		easing->CreateSpline(&btnConfirm->bounds.x, 1000, 2000, SplineType::QUINT);
+		easing->CreateSpline(&btnCancel->bounds.x, 1000, 2000, SplineType::QUINT);
+	}
+	
 	Screen::Enable();
 }
 
