@@ -171,9 +171,6 @@ bool ScreenBattle::Load(int minIndex, int maxIndex, Scene* currentScene, BattleS
 	btnRun->SetButtonProperties(currentScene, guiAtlasTex, menuFont2, hoverFx, clickFx, Style::WHITE);
 	btnRun->state = GuiControlState::HIDDEN;
 
-	// Toggle mouse to keep testing before having keys logic
-	guiManager->ToggleMouse();
-
 	timer.Start();
 
 	return true;
@@ -606,8 +603,6 @@ bool ScreenBattle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMan
 	this->win = nullptr;
 	this->audio = nullptr;
 
-	// Toggle mouse to keep testing before having keys logic
-	guiManager->ToggleMouse();
 
 	return true;
 }

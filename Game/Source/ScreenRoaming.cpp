@@ -53,8 +53,6 @@ bool ScreenRoaming::Load(SceneGameplay* gameplayScene, GuiManager* guiManager, E
 	this->entityManager = entityManager;
 	this->easing = easing;
 
-	guiManager->ToggleMouse();
-
 	//iconPause = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 50, 50, 52, 55 });
 	//iconPause->SetIconProperties(currentScene, atlas[0], font, hoverFx, clickFx, CONTROLLER_BUTTON_START, IconType::ICON_PHONE);
 	//++counterId;
