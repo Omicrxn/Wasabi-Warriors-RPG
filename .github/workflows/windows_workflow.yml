@@ -39,6 +39,7 @@ jobs:
     - name: Build Solution (MSVC16)
       run: |
         msbuild.exe Development.sln  /property:Configuration=Release
+        dir
         copy /Y build\Release\Game.exe build\${{ env.RELEASE_NAME }}\Game.exe
       shell: cmd
       
