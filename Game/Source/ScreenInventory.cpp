@@ -132,7 +132,7 @@ bool ScreenInventory::Update(Input* input, float dt, uint& focusedButtonId)
 
 bool ScreenInventory::Draw(Render* render)
 {
-	//render->DrawRectangle({ 0,0,1280,720 }, { 0, 0, 0, 100 }, true, false);
+	render->DrawRectangle({ 0,0,1280,720 }, { 0, 0, 0, 70 }, true, false);
 
 	//render->DrawRectangle(inventoryBackgroundRect1, inventoryBackgroundColor1, true, false);
 	//render->DrawRectangle(inventoryBackgroundRect2, inventoryBackgroundColor2, true, false);

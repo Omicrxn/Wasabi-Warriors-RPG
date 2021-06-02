@@ -42,7 +42,7 @@ bool ScreenCredits::Load(int minIndex, int maxIndex, Scene* currentScene, Window
     int counterId = minIndex;
 
     iconReturnTitle = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 609, 580, 70, 55 });
-    iconReturnTitle->SetIconProperties(currentScene, atlas0, font, hoverFx, clickFx, CONTROLLER_BUTTON_B, IconType::ICON_RETURN);
+    iconReturnTitle->SetIconProperties(currentScene, atlas0, font, hoverFx, clickFx, IconType::ICON_RETURN);
 
 	return true;
 }

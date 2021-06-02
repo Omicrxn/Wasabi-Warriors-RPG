@@ -24,6 +24,7 @@ public:
 
     int minValue;
     int maxValue;
+
 private:
 
     // GuiSlider specific properties
@@ -41,5 +42,4 @@ private:
     SDL_Rect blueCircle;
     SDL_Rect yellowCircle;
 };
-
 #endif // __GUISLIDER_H__

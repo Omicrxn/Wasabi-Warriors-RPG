@@ -40,5 +40,4 @@ private:
 
     SDL_Rect arrowWhiteRight;
 };
-
 #endif // __GUICHECKBOX_H__

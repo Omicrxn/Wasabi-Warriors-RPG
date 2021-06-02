@@ -3,9 +3,13 @@
 #include "Font.h"
 
 class QuestManager;
+
 enum MobileState
 {
-	MAIN, QUEST, TEAM, MAP
+	MAIN,
+	QUEST,
+	TEAM,
+	MAP
 };
 
 class ScreenPause : public Screen
@@ -28,7 +32,7 @@ public:
 
 	int position;
 
-	GuiIcon* iconResume;
+	GuiIcon* iconReturn;
 	GuiIcon* iconSettings;
 	GuiIcon* iconExit;
 
@@ -36,12 +40,7 @@ public:
 	GuiIcon* iconTeam;
 	GuiIcon* iconMap;
 
-	SDL_Rect pauseTitleRect;
 	SDL_Rect mobileRect;
-
-	SDL_Rect pinkBox;
-	SDL_Rect pinkCircle;
-	SDL_Rect grayCircle;
 
 	Animation* currentAnimation;
 	Animation kenzoAnim;

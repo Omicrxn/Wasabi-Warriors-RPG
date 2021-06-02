@@ -808,7 +808,7 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 	}
 	case GuiControlType::BUTTON:
 	{
-		if (battleSystem->playerState != PlayerState::NONE)
+		if (battleSystem->playerState != PlayerState::NONE && battleSystem->battleState != BattleState::PLAYER_TURN)
 			break;
 
 		if (control->id == 11)
