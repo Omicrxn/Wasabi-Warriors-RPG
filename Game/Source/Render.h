@@ -66,7 +66,7 @@ public:
 	SDL_Color background;
 
 	Window* win;
-	uint scale;
+	float scale;
 };
 
 #endif // __RENDER_H__

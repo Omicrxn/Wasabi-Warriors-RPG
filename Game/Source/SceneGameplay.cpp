@@ -809,18 +809,33 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 	}
 	case GuiControlType::BUTTON:
 	{
-		if (battleSystem->playerState != PlayerState::NONE && battleSystem->battleState != BattleState::PLAYER_TURN)
-			break;
-
 		if (control->id == 11)
 		{
+			if (battleSystem->playerState != PlayerState::NONE && battleSystem->battleState != BattleState::PLAYER_TURN)
+				break;
+
 			battleSystem->playerState = PlayerState::ATTACK;
 			screenBattle->HideButtons();
 		}
-		else if (control->id == 12) battleSystem->playerState = PlayerState::DEFEND;
-		else if (control->id == 13) battleSystem->playerState = PlayerState::ITEM;
+		else if (control->id == 12)
+		{
+			if (battleSystem->playerState != PlayerState::NONE && battleSystem->battleState != BattleState::PLAYER_TURN)
+				break;
+
+			battleSystem->playerState = PlayerState::DEFEND;
+		}
+		else if (control->id == 13)
+		{
+			if (battleSystem->playerState != PlayerState::NONE && battleSystem->battleState != BattleState::PLAYER_TURN)
+				break;
+
+			battleSystem->playerState = PlayerState::ITEM;
+		}
 		else if (control->id == 14)
 		{
+			if (battleSystem->playerState != PlayerState::NONE && battleSystem->battleState != BattleState::PLAYER_TURN)
+				break;
+
 			battleSystem->playerState = PlayerState::RUN;
 			ExitBattle();
 		}
@@ -1316,6 +1331,7 @@ void SceneGameplay::SetUpTp()
 			RELEASE_ARRAY(data);
 			audio->StopMusic();
 		}
+		break;
 	case MapType::OSAKA:
 		if (map->Load("Osaka", "osaka.tmx") == true)
 		{
@@ -1328,6 +1344,7 @@ void SceneGameplay::SetUpTp()
 			audio->StopMusic();
 
 		}
+		break;
 	default:
 		break;
 	}

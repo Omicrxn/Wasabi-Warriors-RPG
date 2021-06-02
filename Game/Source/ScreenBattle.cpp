@@ -36,6 +36,10 @@ ScreenBattle::ScreenBattle()
 
 	backgroundRect = { 0, 0, 1280, 720 };
 	optionsBackgroundRect = { 0,0,1240,220 };
+	backRamen1 = { 405,1227,447,312 };
+	frontRamen1 = { 60,1218,276,93 };
+	backRamen2 = { 21,1320,369,216 };
+	frontRamen2 = { 1746,28,336,258 };
 
 	// Fonts
 	titleFont = nullptr;
@@ -57,7 +61,9 @@ ScreenBattle::ScreenBattle()
 	// Gamepad's menu focused button
 	focusedButtonId = 0;
 
+	// Variables to manage attack/defense menus
 	hover = { 0,0 };
+	pressed = false;
 }
 
 ScreenBattle::~ScreenBattle()
@@ -260,8 +266,12 @@ bool ScreenBattle::Update(Input* input, float dt, uint& focusedButtonId)
 				{
 					hover.x++;
 				}
+				if (input->GetKey(SDL_SCANCODE_F) == KEY_DOWN || input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN ||
+					(HoverUpdate(input) && input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN))
+					pressed = true;
 
-				if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_UP)
+				if (input->GetKey(SDL_SCANCODE_F) == KEY_UP || input->GetKey(SDL_SCANCODE_RETURN) == KEY_UP ||
+					(HoverUpdate(input) && input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP))
 				{
 					if (battleSystem->playerState == PlayerState::ATTACK)
 					{
@@ -300,8 +310,15 @@ bool ScreenBattle::Update(Input* input, float dt, uint& focusedButtonId)
 						}
 					}
 
+					pressed = false;
+
 					ShowButtons();
 				}
+
+				if (pressed && input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)
+					pressed = false;
+
+				HoverUpdate(input);
 			}
 		}
 		else if (battleSystem->battleState == BattleState::WON)
@@ -375,6 +392,12 @@ bool ScreenBattle::Draw(Render* render)
 	if (this->isActive)
 	{
 		render->DrawTexture(backgroundTex, 0, 0, &backgroundRect, 0);
+
+		render->scale = 1.5;
+		render->DrawTexture(guiAtlasTex2, 40, 180, &backRamen2, 0);
+		render->DrawTexture(guiAtlasTex2, 445, -5, &backRamen1, 0);
+		render->scale = 1;
+
 		render->DrawTexture(optionsBackgroundTex, 20, 480, &optionsBackgroundRect, 0);
 
 		uint width, height;
@@ -649,6 +672,11 @@ bool ScreenBattle::Draw(Render* render)
 		rect = battleSystem->GetEnemy()->animRec;
 		render->DrawTexture(charactersSpritesheet, 170, 25, &rect, 0);
 		render->scale = 1;
+
+		render->scale = 1.5;
+		render->DrawTexture(guiAtlasTex2, -30, 92, &frontRamen2, 0);
+		render->DrawTexture(guiAtlasTex2, 490, 167, &frontRamen1, 0);
+		render->scale = 1;
 	}
 
 	// Draw attack and defense submenus over the rest of the battle screen
@@ -662,23 +690,33 @@ bool ScreenBattle::Draw(Render* render)
 		render->DrawRectangle({ 0,0,1280,720 }, { 0,0,0,192 }, true, false);
 		
 		// Draw slots
-		SDL_Rect rect = { 240,171,102,108 };
-		SDL_Rect rect2 = { 396,108,102,108 };
-		SDL_Rect rect3 = { 642,180,87,27 };
-		SDL_Rect rect4 = { 642,138,87,27 };
-		SDL_Rect rect5 = { 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10, 720 / 2 - rect.h / 2 - 10, rect.w * 7 + 20, rect.h + 20 + rect3.h + 10};
-		render->DrawRectangle(rect5, { 255,255,255,128 }, true, false);
-		render->DrawRectangle(rect5, { 255,255,255,255 }, false, false);
+		SDL_Rect rect = { 237,171,108,108 };
+		SDL_Rect rect2 = { 393,108,108,108 };
+		SDL_Rect rect3 = { 237,315,108,108 };
+		SDL_Rect rect4 = { 642,99,87,27 };
+		SDL_Rect rect5 = { 642,180,87,27 };
+		SDL_Rect rect6 = { 642,138,87,27 };
+		SDL_Rect rect7 = { 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10, 720 / 2 - rect.h / 2 - 10, rect.w * 7 + 20, rect.h + 20 + rect4.h + 10};
+		render->DrawRectangle(rect7, { 255,255,255,128 }, true, false);
+		render->DrawRectangle(rect7, { 255,255,255,255 }, false, false);
 
 		for (int i = 0; i < 4; i++)
 		{
-			if (i == hover.x)
+			if (i == hover.x && pressed)
+			{
+				// Draw hover slot
+				render->DrawTexture(guiAtlasTex2, 1280 / 2 - rect.w / 2 - rect.w * 3 + (rect.w * 2) * i, 720 / 2 - rect.h / 2, &rect3, 0);
+
+				// Draw hover panel
+				render->DrawTexture(guiAtlasTex2, 1280 / 2 - rect.w / 2 - rect.w * 3 + (rect.w * 2) * i + 10, 720 / 2 + rect.h / 2 + 10, &rect6, 0);
+			}
+			else if (i == hover.x)
 			{
 				// Draw hover slot
 				render->DrawTexture(guiAtlasTex2, 1280 / 2 - rect.w / 2 - rect.w * 3 + (rect.w * 2) * i, 720 / 2 - rect.h / 2, &rect2, 0);
 
 				// Draw hover panel
-				render->DrawTexture(guiAtlasTex2, 1280 / 2 - rect.w / 2 - rect.w * 3 + (rect.w * 2) * i + 7, 720 / 2 + rect.h / 2 + 10, &rect4, 0);
+				render->DrawTexture(guiAtlasTex2, 1280 / 2 - rect.w / 2 - rect.w * 3 + (rect.w * 2) * i + 10, 720 / 2 + rect.h / 2 + 10, &rect5, 0);
 			}
 			else
 			{
@@ -686,7 +724,7 @@ bool ScreenBattle::Draw(Render* render)
 				render->DrawTexture(guiAtlasTex2, 1280 / 2 - rect.w / 2 - rect.w * 3 + (rect.w * 2) * i, 720 / 2 - rect.h / 2, &rect, 0);
 
 				// Draw panel
-				render->DrawTexture(guiAtlasTex2, 1280 / 2 - rect.w / 2 - rect.w * 3 + (rect.w * 2) * i + 7, 720 / 2 + rect.h / 2 + 10, &rect3, 0);
+				render->DrawTexture(guiAtlasTex2, 1280 / 2 - rect.w / 2 - rect.w * 3 + (rect.w * 2) * i + 10, 720 / 2 + rect.h / 2 + 10, &rect4, 0);
 			}
 		}
 
@@ -702,7 +740,7 @@ bool ScreenBattle::Draw(Render* render)
 				if ((Entity*)entityManager->activatorList.At(i) != nullptr && ((Entity*)entityManager->activatorList.At(i)->data)->subtype == EntitySubtype::ATTACK)
 				{
 					render->scale = 3;
-					render->DrawTexture(entityManager->itemsTexture, (1280 / 2 - rect.w / 2 - rect.w + (rect.w * 2) * position + 18) / 3, (720 / 2 - rect.h / 2 + 8) / 3, &(((Activator*)entityManager->activatorList.At(i)->data)->GetRect()), 0);
+					render->DrawTexture(entityManager->itemsTexture, (1280 / 2 - rect.w / 2 - rect.w + (rect.w * 2) * position + 20) / 3, (720 / 2 - rect.h / 2 + 8) / 3, &(((Activator*)entityManager->activatorList.At(i)->data)->GetRect()), 0);
 					render->scale = 1;
 
 					position++;
@@ -721,7 +759,7 @@ bool ScreenBattle::Draw(Render* render)
 				if ((Entity*)entityManager->activatorList.At(i) != nullptr && ((Entity*)entityManager->activatorList.At(i)->data)->subtype == EntitySubtype::DEFENSE)
 				{
 					render->scale = 3;
-					render->DrawTexture(entityManager->itemsTexture, (1280 / 2 - rect.w / 2 - rect.w + (rect.w * 2) * position + 18) / 3, (720 / 2 - rect.h / 2 + 8) / 3, &(((Activator*)entityManager->activatorList.At(i)->data)->GetRect()), 0);
+					render->DrawTexture(entityManager->itemsTexture, (1280 / 2 - rect.w / 2 - rect.w + (rect.w * 2) * position + 20) / 3, (720 / 2 - rect.h / 2 + 8) / 3, &(((Activator*)entityManager->activatorList.At(i)->data)->GetRect()), 0);
 					render->scale = 1;
 
 					position++;
@@ -790,4 +828,24 @@ void ScreenBattle::ResetOneTimeAnimations()
 	enemyCastAnim.Reset();
 	playerDefenseAnim.Reset();
 	enemyDefenseAnim.Reset();
+}
+
+bool ScreenBattle::HoverUpdate(Input* input)
+{
+	// Getting the mouse position
+	int mouseX, mouseY;
+	input->GetMousePosition(mouseX, mouseY);
+	SDL_Rect rect = { 237,171,108,108 };
+	for (int i = 0; i < 4; i++)
+	{
+		if (mouseX > (1280 / 2 - rect.w / 2 - rect.w * 3 + (rect.w * 2) * i) &&
+			mouseX < (1280 / 2 - rect.w / 2 - rect.w * 3 + (rect.w * 2) * i + rect.w) &&
+			mouseY >(720 / 2 - rect.h / 2) && mouseY < (720 / 2 - rect.h / 2 + rect.h))
+		{
+			hover.x = i;
+			return true;
+		}
+	}
+
+	return false;
 }

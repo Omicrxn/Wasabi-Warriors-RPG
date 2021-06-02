@@ -36,6 +36,8 @@ public:
 
     BattleSystem* GetBattleSystem();
 
+    bool HoverUpdate(Input* input);
+
 private:
 
     // Pointer to scene gameplay to get its info.
@@ -64,6 +66,10 @@ private:
 
     SDL_Rect backgroundRect;
     SDL_Rect optionsBackgroundRect;
+    SDL_Rect backRamen1;
+    SDL_Rect frontRamen1;
+    SDL_Rect backRamen2;
+    SDL_Rect frontRamen2;
 
     // Fonts
     Font* titleFont;
@@ -85,7 +91,9 @@ private:
 
     Timer timer;
 
+    // Variables to manage attack/defense menus
     iPoint hover;
+    bool pressed = false;
 };
 
 #endif // __SCENEBATTLE_H__
