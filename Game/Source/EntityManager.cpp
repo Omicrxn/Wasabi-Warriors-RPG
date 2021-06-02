@@ -428,6 +428,7 @@ bool EntityManager::LoadStateInfo(pugi::xml_node& scenegameplay, MapType current
 	
 		npc->id = npcNode.attribute("id").as_uint();
 		npc->spritePos = npcNode.attribute("spritePos").as_int();
+		npc->SetTexture(npc->spritePos);
 		npc->renderable = npcNode.attribute("renderable").as_bool();
 	
 		npc->stop = npcNode.attribute("stop").as_bool();

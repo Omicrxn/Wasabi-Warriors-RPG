@@ -22,7 +22,6 @@ NPC::NPC(SString name, Input* input, Textures* tex, Collisions* collisions, Enti
     stepsCounter = 0;
     collider = collisions->AddCollider({ position.x,position.y,width,height }, Collider::Type::NPC, (Module*)entityManager);
     collider->SetPos(position.x, position.y);
-    SetTexture(4);
     SetPivot(8, 30);
 
     // Index to keep track of the dialog of the NPC
@@ -154,6 +153,7 @@ void NPC::Walk(iPoint direction, float dt)
 
 void NPC::SetUpTexture()
 {
+
     // Define player textures / animations
     int textureStartYPos = spritePos * 32 * 5;
     for (int y = textureStartYPos; y < textureStartYPos + 160; y += 32)
@@ -164,7 +164,8 @@ void NPC::SetUpTexture()
                 break;
             if (y == textureStartYPos)
             {
-                idleAnim.PushBack({ x,y,32,32 });
+                SDL_Rect rect = { x,y,32,32 };
+                idleAnim.PushBack(rect);
                 idleAnim.speed = 0.2f;
             }
             else if (y == textureStartYPos + 32)

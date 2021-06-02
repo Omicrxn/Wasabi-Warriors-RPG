@@ -1451,6 +1451,7 @@ void SceneGameplay::SetUpTp()
 				npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, npcNode.attribute("name").as_string(), EntitySubtype::UNKNOWN, position);
 
 				npc->spritePos = npcNode.attribute("spritePos").as_int();
+				npc->SetTexture(npc->spritePos);
 				npc->position.x = npcNode.attribute("posX").as_int();
 				npc->position.y = npcNode.attribute("posY").as_int();
 				npc->stop = npcNode.attribute("stop").as_bool();

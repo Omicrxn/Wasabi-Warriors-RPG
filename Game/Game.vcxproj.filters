@@ -380,7 +380,6 @@
     <ResourceCompile Include="Game.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="C:\Users\alex0\Desktop\wasabi_warriors.ico" />
     <Image Include="wasabi_warriors.ico" />
   </ItemGroup>
 </Project>
