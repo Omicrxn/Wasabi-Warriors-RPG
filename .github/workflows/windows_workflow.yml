@@ -39,15 +39,13 @@ jobs:
     - name: Build Solution (MSVC16)
       run: |
         msbuild.exe Development.sln  /property:Configuration=Release
-        cd build\Release
-        dir
-        copy /Y build\Release\Game.exe build\${{ env.RELEASE_NAME }}\Game.exe
+        copy /Y build\Release\wasabi_warriors.exe build\${{ env.RELEASE_NAME }}\wasabi_warriors.exe
       shell: cmd
       
     - name: Generate Artifacts
       run: |
         robocopy .\Output .\build\${{ env.RELEASE_NAME }}\Output /S
-        robocopy .\build\${{ env.RELEASE_NAME }} .\build\${{ env.RELEASE_NAME }}\Output Game.exe /MOVE
+        robocopy .\build\${{ env.RELEASE_NAME }} .\build\${{ env.RELEASE_NAME }}\Output wasabi_warriors.exe /MOVE
         copy /Y .\README.md .\build\${{ env.RELEASE_NAME }}\README.md
         copy /Y .\LICENSE .\build\${{ env.RELEASE_NAME }}\LICENSE
         cd build
