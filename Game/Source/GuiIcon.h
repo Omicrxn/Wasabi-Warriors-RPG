@@ -6,7 +6,6 @@
 
 enum class IconType
 {
-    NONE,
     ICON_RETURN,
     ICON_SETTINGS,
     ICON_EXIT,
@@ -25,7 +24,7 @@ public:
     bool Update(Input* input, AudioManager* audio, float dt);
     bool Draw(Render* render, bool debugDraw);
 
-    void SetIconProperties(Scene* module, SDL_Texture* texture, Font* font, int hoverFx, int clickFx, IconType type = IconType::NONE);
+    void SetIconProperties(Scene* module, SDL_Texture* texture, Font* font, int hoverFx, int clickFx, IconType type);
 
 private:
 
@@ -37,13 +36,12 @@ private:
     SDL_Rect iconQuest;
     SDL_Rect iconMap;
 
-    SDL_Rect normalBox;
-    SDL_Rect focusedBox;
-    SDL_Rect pressedBox;
+    SDL_Rect grayBox;
+    SDL_Rect pinkBox;
 
-    SDL_Rect normalCircle;
-    SDL_Rect focusedCircle;
-    SDL_Rect pressedCircle;
+    SDL_Rect whiteCircle;
+    SDL_Rect grayCircle;
+    SDL_Rect pinkCircle;
 
     SDL_Rect normalReturn;
     SDL_Rect focusedReturn;

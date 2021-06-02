@@ -38,6 +38,6 @@ private:
     SDL_Rect whiteTick;
     SDL_Rect yellowTick;
 
-    SDL_Rect arrowWhiteRight;
+    //SDL_Rect arrowWhiteRight;
 };
 #endif // __GUICHECKBOX_H__
