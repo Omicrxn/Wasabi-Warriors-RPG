@@ -12,18 +12,18 @@ GuiSlider::GuiSlider(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(
     hoverFx = -1;
     clickFx = -1;
 
+    whiteBar = { 102, 27, 261, 51 };
+    grayBar = { 465, 27, 261, 51 };
+    pinkBar = { 102, 87, 261, 51 };
+
     slider.x = bounds.x;
     slider.y = bounds.y;
     slider.w = 36;
     slider.h = 36;
 
-    arrowWhiteRight = { 534, 112, 25, 25 };
-
     grayCircle = { 42, 402, 36, 36 };
 
-    whiteBar = { 102, 27, 261, 51 };
-    grayBar = { 465, 27, 261, 51};
-    pinkBar = { 102, 87, 261, 51};
+    //arrowWhiteRight = { 534, 112, 25, 25 };
 }
 
 GuiSlider::~GuiSlider()
@@ -165,29 +165,27 @@ bool GuiSlider::Draw(Render* render, bool debugDraw)
         render->DrawText(font, text.GetString(), bounds.x, bounds.y - bounds.h / 2 - bounds.h / 4, 25, 3, { 105,105,105,255 });
 
         render->DrawTexture(texture, bounds.x, bounds.y, &whiteBar, 0.0f);
-        render->DrawTexture(texture, slider.x, slider.y + 8, &grayCircle, 0.0f);
         break;
     case GuiControlState::FOCUSED:
-        render->DrawText(font, text.GetString(), bounds.x + 2, bounds.y - bounds.h / 2 - bounds.h / 4, 25, 3, { 105,105,105,255 });
         render->DrawText(font, text.GetString(), bounds.x, bounds.y - bounds.h / 2 - bounds.h / 4, 25, 3, { 0,0,0,255 });
-
-        render->DrawTexture(texture, bounds.x - 30, bounds.y + 7, &arrowWhiteRight, 0.0f);
 
         render->DrawTexture(texture, bounds.x, bounds.y, &grayBar, 0.0f);
-        render->DrawTexture(texture, slider.x, slider.y + 8, &grayCircle, 0.0f);
+
+        //render->DrawTexture(texture, bounds.x - 30, bounds.y + 7, &arrowWhiteRight, 0.0f);
         break;
     case GuiControlState::PRESSED:
-        render->DrawText(font, text.GetString(), bounds.x + 2, bounds.y - bounds.h / 2 - bounds.h / 4, 25, 3, { 105,105,105,255 });
         render->DrawText(font, text.GetString(), bounds.x, bounds.y - bounds.h / 2 - bounds.h / 4, 25, 3, { 0,0,0,255 });
 
-        render->DrawTexture(texture, bounds.x - 30, bounds.y + 7, &arrowWhiteRight, 0.0f);
-
         render->DrawTexture(texture, bounds.x, bounds.y, &pinkBar, 0.0f);
-        render->DrawTexture(texture, slider.x, slider.y + 8, &grayCircle, 0.0f);
+
+        //render->DrawTexture(texture, bounds.x - 30, bounds.y + 7, &arrowWhiteRight, 0.0f);
         break;
     default:
         break;
     }
+
+    if (state != GuiControlState::DISABLED && state != GuiControlState::HIDDEN)
+        render->DrawTexture(texture, slider.x, slider.y + 8, &grayCircle, 0.0f);
 
     if (debugDraw)
     {

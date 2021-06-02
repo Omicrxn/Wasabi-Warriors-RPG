@@ -4,8 +4,6 @@ GuiIcon::GuiIcon(uint32 id, SDL_Rect bounds) : GuiControl(GuiControlType::ICON, 
 {
     this->bounds = bounds;
 
-    iconType = IconType::NONE;
-
     isHovering = false;
     mouseFocus = false;
 
@@ -18,13 +16,12 @@ GuiIcon::GuiIcon(uint32 id, SDL_Rect bounds) : GuiControl(GuiControlType::ICON, 
     iconQuest = { 519, 234, 87, 88 };
     iconMap = { 651, 234, 72, 88 };
 
-    normalBox = { 237, 171, 108, 108 };
-    focusedBox = { 393, 108, 108, 108 };
-    pressedBox = { 237, 315, 108, 108 };
+    grayBox = { 393, 108, 108, 108 };
+    pinkBox = { 237, 315, 108, 108 };
 
-    normalCircle = { 36, 30, 48, 48 };
-    focusedCircle = { 399, 30, 48, 48 };
-    pressedCircle = { 36, 87, 48, 48 };
+    whiteCircle = { 36, 30, 48, 48 };
+    grayCircle = { 399, 30, 48, 48 };
+    pinkCircle = { 36, 87, 48, 48 };
 
     normalReturn = { 888, 972, 54, 54 };
     focusedReturn = { 825, 972, 54, 54 };
@@ -95,32 +92,42 @@ bool GuiIcon::Draw(Render* render, bool debugDraw)
     // Draw the right icon depending on state
     if (state == GuiControlState::NORMAL)
     {
-        if (iconType == IconType::ICON_RETURN)
+        switch (iconType)
+        {
+        case IconType::ICON_RETURN:
             render->DrawTexture(texture, bounds.x, bounds.y, &normalReturn, 0.0f);
+            break;
+        case IconType::ICON_SETTINGS:
+            render->DrawTexture(texture, bounds.x - 5, bounds.y - 7, &whiteCircle, 0.0f);
+            break;
+        case IconType::ICON_EXIT:
+            render->DrawTexture(texture, bounds.x - 5, bounds.y - 7, &whiteCircle, 0.0f);
+            break;
+        default:
+            break;
+        }
     }
     else if (state == GuiControlState::FOCUSED)
     {
         switch (iconType)
         {
-        case IconType::NONE:
-            break;
         case IconType::ICON_RETURN:
             render->DrawTexture(texture, bounds.x, bounds.y, &focusedReturn, 0.0f);
             break;
         case IconType::ICON_SETTINGS:
-            render->DrawTexture(texture, bounds.x - 5, bounds.y - 7, &focusedCircle, 0.0f);
+            render->DrawTexture(texture, bounds.x - 5, bounds.y - 7, &grayCircle, 0.0f);
             break;
         case IconType::ICON_EXIT:
-            render->DrawTexture(texture, bounds.x - 5, bounds.y - 7, &focusedCircle, 0.0f);
+            render->DrawTexture(texture, bounds.x - 5, bounds.y - 7, &grayCircle, 0.0f);
             break;
         case IconType::ICON_TEAM:
-            render->DrawTexture(texture, bounds.x - 10, bounds.y - 10, &focusedBox, 0.0f);
+            render->DrawTexture(texture, bounds.x - 10, bounds.y - 10, &grayBox, 0.0f);
             break;
         case IconType::ICON_QUEST:
-            render->DrawTexture(texture, bounds.x - 10, bounds.y - 10, &focusedBox, 0.0f);
+            render->DrawTexture(texture, bounds.x - 10, bounds.y - 10, &grayBox, 0.0f);
             break;
         case IconType::ICON_MAP:
-            render->DrawTexture(texture, bounds.x - 17, bounds.y - 10, &focusedBox, 0.0f);
+            render->DrawTexture(texture, bounds.x - 17, bounds.y - 10, &grayBox, 0.0f);
             break;
         default:
             break;
@@ -130,25 +137,23 @@ bool GuiIcon::Draw(Render* render, bool debugDraw)
     {
         switch (iconType)
         {
-        case IconType::NONE:
-            break;
         case IconType::ICON_RETURN:
             render->DrawTexture(texture, bounds.x, bounds.y, &pressedReturn, 0.0f);
             break;
         case IconType::ICON_SETTINGS:
-            render->DrawTexture(texture, bounds.x - 5, bounds.y - 7, &pressedCircle, 0.0f);
+            render->DrawTexture(texture, bounds.x - 5, bounds.y - 7, &pinkCircle, 0.0f);
             break;
         case IconType::ICON_EXIT:
-            render->DrawTexture(texture, bounds.x - 5, bounds.y - 7, &pressedCircle, 0.0f);
+            render->DrawTexture(texture, bounds.x - 5, bounds.y - 7, &pinkCircle, 0.0f);
             break;
         case IconType::ICON_TEAM:
-            render->DrawTexture(texture, bounds.x - 10, bounds.y - 10, &pressedBox, 0.0f);
+            render->DrawTexture(texture, bounds.x - 10, bounds.y - 10, &pinkBox, 0.0f);
             break;
         case IconType::ICON_QUEST:
-            render->DrawTexture(texture, bounds.x - 10, bounds.y - 10, &pressedBox, 0.0f);
+            render->DrawTexture(texture, bounds.x - 10, bounds.y - 10, &pinkBox, 0.0f);
             break;
         case IconType::ICON_MAP:
-            render->DrawTexture(texture, bounds.x - 17, bounds.y - 10, &pressedBox, 0.0f);
+            render->DrawTexture(texture, bounds.x - 17, bounds.y - 10, &pinkBox, 0.0f);
             break;
         default:
             break;
@@ -159,8 +164,6 @@ bool GuiIcon::Draw(Render* render, bool debugDraw)
     {
         switch (iconType)
         {
-        case IconType::NONE:
-            break;
         case IconType::ICON_SETTINGS:
             render->DrawTexture(texture, bounds.x, bounds.y, &iconSettings, 0.0f);
             break;

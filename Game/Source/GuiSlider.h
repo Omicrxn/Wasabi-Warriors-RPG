@@ -35,11 +35,8 @@ private:
     SDL_Rect pinkBar;
 
     SDL_Rect slider;
-
-    SDL_Rect arrowWhiteRight;
-
     SDL_Rect grayCircle;
-    SDL_Rect blueCircle;
-    SDL_Rect yellowCircle;
+
+    //SDL_Rect arrowWhiteRight;
 };
 #endif // __GUISLIDER_H__
