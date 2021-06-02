@@ -75,10 +75,6 @@ bool EntityManager::Start()
 		cemeteryTexture = tex->Load("Maps/Cemetery/GK_FG_B_2.png");
 	if (mediumCityTexture == nullptr)
 		mediumCityTexture = tex->Load("Maps/MediumCity/mediumcity2.png");
-	if (restaurantTexture == nullptr)
-		restaurantTexture = tex->Load("Maps/Restaurant/rest.png");
-	if (bigCityTexture == nullptr)
-		bigCityTexture = tex->Load("Maps/bigCity/MainTileMap.png");
 
 	consumeFx = audio->LoadFx("Audio/Fx/consume.ogg");
 	pickUpFx = audio->LoadFx("Audio/Fx/pickup.ogg");
@@ -156,10 +152,6 @@ bool EntityManager::CleanUp()
 	cemeteryTexture = nullptr;
 	tex->UnLoad(mediumCityTexture);
 	mediumCityTexture = nullptr;
-	tex->UnLoad(restaurantTexture);
-	restaurantTexture = nullptr;
-	tex->UnLoad(bigCityTexture);
-	bigCityTexture = nullptr;
 
 	audio->UnloadFx(consumeFx);
 	audio->UnloadFx(pickUpFx);

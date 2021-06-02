@@ -24,13 +24,6 @@ public:
 		STONE,
 		ANTENNA,
 		SIGNAL,
-		TABLE,
-		DOOR,
-		PLATE,
-		CASH,
-		FOOD,
-		LAMP,
-		FURNITURE,
 		UNKNOWN
 	};
 
