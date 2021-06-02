@@ -275,17 +275,18 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 	{
 		// Create party member 1
 		Player* player;
-		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "Kenzo", EntitySubtype::PLAYER_HUNTER, iPoint(20 * 32, 5 * 32));
+		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "Kenzo", EntitySubtype::PLAYER_HUNTER, iPoint(4 * 32, 6 * 32));
 		player->SetState(true);
 		player = nullptr;
 		currentPlayer = entityManager->playerList.At(0)->data;
 
 		// Create party member 2
-		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "Eiken", EntitySubtype::PLAYER_WIZARD, iPoint(20 * 32, 5 * 32));
+		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "Eiken", EntitySubtype::PLAYER_WIZARD, iPoint(4 * 32, 6 * 32));
 		player = nullptr;
 
 		// LOAD FROM MAP_XML
-		notifier->NotifyMapChange(MapType::TOWN);
+		notifier->NotifyMapChange(MapType::HOUSE);
+		//currentMap = MapType::HOUSE;
 		SetUpTp();
 	}
 
@@ -1205,7 +1206,7 @@ void SceneGameplay::SetUpTp()
 	switch (currentMap)
 	{
 	case MapType::CEMETERY:
-		if (map->Load("Cemetery", "Cemetery.tmx") == true)
+		if (map->Load("Cemetery", "cemetery.tmx") == true)
 		{
 			int w, h;
 			uchar* data = NULL;
@@ -1218,7 +1219,7 @@ void SceneGameplay::SetUpTp()
 		}
 		break;
 	case MapType::HOUSE:
-		if (map->Load("House", "House.tmx") == true)
+		if (map->Load("House", "house.tmx") == true)
 		{
 			int w, h;
 			uchar* data = NULL;

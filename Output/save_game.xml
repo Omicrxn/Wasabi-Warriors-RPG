@@ -6,75 +6,94 @@
 	<audio musicVolume="32" fxVolume="128" />
 	<scene />
 	<renderer>
-		<camera x="3674" y="592" />
+		<camera x="518" y="1018" />
 	</renderer>
-	<collisions collisionsCount="12" />
+	<collisions collisionsCount="10" />
 	<entitymanager />
 	<scenemanager>
 		<scenegameplay lastMap="2">
 			<gameProgress xp="0" gold="0" hasSpoken="false" numKilledOfficers="0" hasKilledOfficers="false" hasActivated="false" hasPickedKey="false" hasFinishedPuzzle1="false" />
-			<map currentMap="4" hasVisitedCemetery="false" hasVisitedHouse="false" hasVisitedMediumCity="true" hasVisitedRestaurant="false" hasVisitedTown="true" hasVisitedBigCity="false" hasVisitedSkyScraper="false" hasVisitedSecretRoom="false">
-				<town>
-					<entitiesCount Num="58" />
+			<map currentMap="0" hasVisitedCemetery="true" hasVisitedHouse="true" hasVisitedMediumCity="false" hasVisitedRestaurant="false" hasVisitedTown="true" hasVisitedBigCity="false" hasVisitedSkyScraper="false" hasVisitedSecretRoom="false">
+				<house>
+					<entitiesCount Num="4" />
 					<playerList playerCount="2">
-						<player id="1" spritePos="8" name="Kenzo" posX="1422" posY="304" isActive="true" isRenderable="false" entitySubType="0" level="1" damage="25" maxHP="120" currentHP="100" strength="10" defense="15" attackSpeed="5" criticalRate="10" statsName="Kenzo" />
-						<player id="2" spritePos="12" name="Eiken" posX="1422" posY="304" isActive="false" isRenderable="false" entitySubType="1" level="1" damage="20" maxHP="150" currentHP="120" strength="7" defense="10" attackSpeed="15" criticalRate="15" statsName="Eiken" />
+						<player id="1" spritePos="8" name="Kenzo" posX="266" posY="192" isActive="true" isRenderable="false" entitySubType="0" level="1" damage="25" maxHP="120" currentHP="100" strength="10" defense="15" attackSpeed="5" criticalRate="10" statsName="Kenzo" />
+						<player id="2" spritePos="12" name="Eiken" posX="266" posY="192" isActive="false" isRenderable="false" entitySubType="1" level="1" damage="20" maxHP="150" currentHP="120" strength="7" defense="10" attackSpeed="15" criticalRate="15" statsName="Eiken" />
 					</playerList>
 					<enemyList enemyCount="0" />
 					<npcList npcCount="0" />
-					<teleportList teleportCount="2">
-						<teleport id="3" spritePos="0" nameTeleport="" name="" destination="0" posX="640" posY="32" isActive="true" isRenderable="false" />
-						<teleport id="4" spritePos="0" nameTeleport="" name="" destination="2" posX="1440" posY="288" isActive="true" isRenderable="false" />
+					<teleportList teleportCount="1">
+						<teleport id="3" spritePos="0" nameTeleport="" name="" destination="4" posX="288" posY="160" width="32" height="64" isActive="true" isRenderable="false" />
 					</teleportList>
-					<itemList itemCount="2">
-						<item id="5" spritePos="0" entitySubType="0" name="" posX="0" posY="0" isActive="true" isRenderable="false" />
+					<itemList itemCount="0" />
+					<activatorList activatorCount="0" />
+					<secretWallList secretWallCount="0" />
+					<leverList leverCount="0" />
+				</house>
+				<town>
+					<entitiesCount Num="61" />
+					<playerList playerCount="2">
+						<player id="1" spritePos="8" name="Kenzo" posX="664" posY="55" isActive="true" isRenderable="false" entitySubType="0" level="1" damage="25" maxHP="120" currentHP="100" strength="10" defense="15" attackSpeed="5" criticalRate="10" statsName="Kenzo" />
+						<player id="2" spritePos="12" name="Eiken" posX="664" posY="55" isActive="false" isRenderable="false" entitySubType="1" level="1" damage="20" maxHP="150" currentHP="120" strength="7" defense="10" attackSpeed="15" criticalRate="15" statsName="Eiken" />
+					</playerList>
+					<enemyList enemyCount="0" />
+					<npcList npcCount="0" />
+					<teleportList teleportCount="3">
+						<teleport id="4" spritePos="0" nameTeleport="" name="" destination="0" posX="640" posY="32" width="64" height="32" isActive="true" isRenderable="false" />
+						<teleport id="5" spritePos="0" nameTeleport="" name="" destination="2" posX="1440" posY="288" width="32" height="224" isActive="true" isRenderable="false" />
+						<teleport id="6" spritePos="0" nameTeleport="" name="" destination="1" posX="1216" posY="224" width="32" height="32" isActive="true" isRenderable="false" />
+					</teleportList>
+					<itemList itemCount="6">
+						<item id="7" spritePos="0" entitySubType="0" name="" posX="0" posY="0" isActive="true" isRenderable="false" />
+						<item id="8" spritePos="0" entitySubType="0" name="" posX="0" posY="0" isActive="true" isRenderable="false" />
 						<item id="9" spritePos="0" entitySubType="0" name="" posX="0" posY="0" isActive="true" isRenderable="false" />
+						<item id="10" spritePos="0" entitySubType="0" name="" posX="0" posY="0" isActive="true" isRenderable="false" />
+						<item id="11" spritePos="0" entitySubType="0" name="" posX="0" posY="0" isActive="true" isRenderable="false" />
+						<item id="12" spritePos="0" entitySubType="0" name="" posX="0" posY="0" isActive="true" isRenderable="false" />
 					</itemList>
 					<activatorList activatorCount="6">
-						<activator id="11" spritePos="0" entitySubtype="11" name="attack_1" posX="32" posY="352" isActive="true" isRenderable="false" drawState="0" />
-						<activator id="12" spritePos="285282321" entitySubtype="11" name="attack_2" posX="96" posY="352" isActive="true" isRenderable="false" drawState="0" />
-						<activator id="13" spritePos="17830145" entitySubtype="11" name="attack_3" posX="160" posY="352" isActive="true" isRenderable="false" drawState="0" />
-						<activator id="14" spritePos="285282321" entitySubtype="12" name="defense_1" posX="224" posY="352" isActive="true" isRenderable="false" drawState="0" />
-						<activator id="15" spritePos="269549840" entitySubtype="12" name="defense_2" posX="288" posY="352" isActive="true" isRenderable="false" drawState="0" />
-						<activator id="16" spritePos="17830145" entitySubtype="12" name="defense_3" posX="352" posY="352" isActive="true" isRenderable="false" drawState="0" />
+						<activator id="13" spritePos="0" entitySubtype="11" name="attack_1" posX="32" posY="352" isActive="true" isRenderable="false" drawState="0" />
+						<activator id="14" spritePos="1964745590" entitySubtype="11" name="attack_2" posX="96" posY="352" isActive="true" isRenderable="false" drawState="0" />
+						<activator id="15" spritePos="-117687442" entitySubtype="11" name="attack_3" posX="160" posY="352" isActive="true" isRenderable="false" drawState="0" />
+						<activator id="16" spritePos="509525397" entitySubtype="12" name="defense_1" posX="224" posY="352" isActive="true" isRenderable="false" drawState="0" />
+						<activator id="17" spritePos="0" entitySubtype="12" name="defense_2" posX="288" posY="352" isActive="true" isRenderable="false" drawState="0" />
+						<activator id="18" spritePos="135023706" entitySubtype="12" name="defense_3" posX="352" posY="352" isActive="true" isRenderable="false" drawState="0" />
 					</activatorList>
 					<secretWallList secretWallCount="0" />
 					<leverList leverCount="0" />
 				</town>
-				<mediumCity>
-					<entitiesCount Num="105" />
+				<cemetery>
+					<entitiesCount Num="28" />
 					<playerList playerCount="2">
-						<player id="1" spritePos="8" name="Kenzo" posX="49" posY="254" isActive="true" isRenderable="false" entitySubType="0" level="1" damage="25" maxHP="120" currentHP="100" strength="10" defense="15" attackSpeed="5" criticalRate="10" statsName="Kenzo" />
-						<player id="2" spritePos="12" name="Eiken" posX="49" posY="254" isActive="false" isRenderable="false" entitySubType="1" level="1" damage="20" maxHP="150" currentHP="120" strength="7" defense="10" attackSpeed="15" criticalRate="15" statsName="Eiken" />
+						<player id="1" spritePos="8" name="Kenzo" posX="370" posY="446" isActive="true" isRenderable="false" entitySubType="0" level="1" damage="25" maxHP="120" currentHP="100" strength="10" defense="15" attackSpeed="5" criticalRate="10" statsName="Kenzo" />
+						<player id="2" spritePos="12" name="Eiken" posX="370" posY="446" isActive="false" isRenderable="false" entitySubType="1" level="1" damage="20" maxHP="150" currentHP="120" strength="7" defense="10" attackSpeed="15" criticalRate="15" statsName="Eiken" />
 					</playerList>
-					<enemyList enemyCount="2">
-						<enemy id="60" spritePos="10" name="Bruiser" posX="544" posY="192" isActive="true" isRenderable="false" entitySubType="3" level="1" damage="8" maxHP="150" currentHP="120" strength="5" defense="15" attackSpeed="3" criticalRate="8" statsName="Bruiser" />
-						<enemy id="61" spritePos="5" name="Henchman" posX="256" posY="256" isActive="true" isRenderable="false" entitySubType="2" level="1" damage="10" maxHP="120" currentHP="100" strength="10" defense="10" attackSpeed="5" criticalRate="5" statsName="Henchman" />
+					<enemyList enemyCount="1">
+						<enemy id="62" spritePos="9" name="Boss" posX="224" posY="192" isActive="true" isRenderable="false" entitySubType="4" level="1" damage="8" maxHP="150" currentHP="120" strength="5" defense="15" attackSpeed="3" criticalRate="8" statsName="Boss" />
 					</enemyList>
-					<npcList npcCount="1">
-						<npc id="62" spritePos="3" stop="false" name="" posX="659" posY="422" isActive="true" isRenderable="false" dialogIndex="-1" />
+					<npcList npcCount="3">
+						<npc id="63" spritePos="2" stop="false" name="" posX="640" posY="301" isActive="true" isRenderable="false" dialogIndex="-1" />
+						<npc id="64" spritePos="4" stop="false" name="" posX="640" posY="352" isActive="true" isRenderable="false" dialogIndex="-1" />
+						<npc id="65" spritePos="6" stop="false" name="" posX="307" posY="256" isActive="true" isRenderable="false" dialogIndex="-1" />
 					</npcList>
-					<teleportList teleportCount="3">
-						<teleport id="63" spritePos="0" nameTeleport="" name="" destination="4" posX="32" posY="224" isActive="true" isRenderable="false" />
-						<teleport id="64" spritePos="0" nameTeleport="" name="" destination="5" posX="832" posY="32" isActive="true" isRenderable="false" />
-						<teleport id="65" spritePos="0" nameTeleport="" name="" destination="3" posX="416" posY="416" isActive="true" isRenderable="false" />
+					<teleportList teleportCount="1">
+						<teleport id="66" spritePos="0" nameTeleport="" name="" destination="4" posX="384" posY="480" width="64" height="32" isActive="true" isRenderable="false" />
 					</teleportList>
-					<itemList itemCount="1">
-						<item id="66" spritePos="0" entitySubType="10" name="fork" posX="960" posY="1248" isActive="true" isRenderable="false" />
+					<itemList itemCount="3">
+						<item id="67" spritePos="0" entitySubType="8" name="wasabi" posX="2592" posY="1260" isActive="true" isRenderable="false" />
+						<item id="68" spritePos="0" entitySubType="0" name="" posX="0" posY="0" isActive="true" isRenderable="false" />
+						<item id="69" spritePos="0" entitySubType="0" name="" posX="0" posY="0" isActive="true" isRenderable="false" />
 					</itemList>
-					<activatorList activatorCount="1">
-						<activator id="69" spritePos="7197368" entitySubtype="0" name="key" posX="64" posY="640" isActive="true" isRenderable="false" drawState="0" />
-					</activatorList>
+					<activatorList activatorCount="0" />
 					<secretWallList secretWallCount="0" />
 					<leverList leverCount="0" />
-				</mediumCity>
+				</cemetery>
 			</map>
 		</scenegameplay>
+		<scenelogo />
 	</scenemanager>
 	<screen>
 		<screensettings sliderVolume="512" sliderAudio="512" fullScreen="false" vsync="false" />
-		<screeninventory inventoryCount="1">
-			<invSlot entitySubType="0" count="1" name="" description="" />
-		</screeninventory>
+		<screeninventory inventoryCount="0" />
 	</screen>
 </game_state>

@@ -1,5 +1,37 @@
 <?xml version="1.0"?>
 <map>
+  <house enemyCount ="0" npcCount ="0" teleportCount ="1" itemCount="0" leverCount="0">
+    <prevTown>
+      <player posX="256" posY="160"/>
+    </prevTown>
+    <teleport posX="288" posY="160" width="32" height="64" destination="4"/>
+  </house>
+  <town enemyCount ="0" npcCount ="0" teleportCount ="3" itemCount="6" activatorCount="6" secretWallCount="0" leverCount="0">
+    <prevCemetery>
+      <player posX="640" posY="64"/>
+    </prevCemetery>
+    <prevMediumCity>
+      <player posX="1408" posY="288"/>
+    </prevMediumCity>
+    <prevHouse>
+      <player posX="1216" posY="256"/>
+    </prevHouse>
+    <teleport posX="640" posY="32" width="64" height="32" destination="0"/>
+    <teleport posX="1440" posY="288" width="32" height="224" destination="2"/>
+    <teleport posX="1216" posY="224" width="32" height="32" destination="1"/>
+    <!--<item posX="300" posY="350" class="item" name="potion" subtype="5"/>
+    <item posX="400" posY="350" class="item" name="bigPotion" subtype="6"/>
+    <item posX="500" posY="350" class="item" name="megaPotion" subtype="7"/>
+    <item posX="600" posY="350" class="item" name="wasabi" subtype="8"/>
+    <item posX="700" posY="350" class="item" name="pan" subtype="9"/>
+    <item posX="800" posY="350" class="item" name="fork" subtype="10"/>-->
+    <activator name="attack_1" posX="32" posY="352" width="32" height="32" drawState="0" entitySubtype="11"/>
+    <activator name="attack_2" posX="96" posY="352" width="32" height="32" drawState="0" entitySubtype="11"/>
+    <activator name="attack_3" posX="160" posY="352" width="32" height="32" drawState="0" entitySubtype="11"/>
+    <activator name="defense_1" posX="224" posY="352" width="32" height="32" drawState="0" entitySubtype="12"/>
+    <activator name="defense_2" posX="288" posY="352" width="32" height="32" drawState="0" entitySubtype="12"/>
+    <activator name="defense_3" posX="352" posY="352" width="32" height="32" drawState="0" entitySubtype="12"/>
+  </town>
   <cemetery enemyCount ="1" npcCount ="3" teleportCount ="1" itemCount="3" secretWallCount="0" leverCount="0">
     <prevTown>
       <player posX="384" posY="224"/>
@@ -34,28 +66,7 @@
     <item posX="320" posY="416" class="item" name="fork" subtype="10"/>
     <activator name="key" posX="64" posY="640" width="32" height="32" drawState="0"/>
   </mediumCity>
-  <town enemyCount ="0" npcCount ="0" teleportCount ="2" itemCount="6" activatorCount="6" secretWallCount="0" leverCount="0">
-    <prevCemetery>
-      <player posX="640" posY="64"/>
-    </prevCemetery>
-    <prevMediumCity>
-      <player posX="1408" posY="288"/>
-    </prevMediumCity>
-    <teleport posX="640" posY="32" width="64" height="32" destination="0"/>
-    <teleport posX="1440" posY="288" width="32" height="224" destination="2"/>
-    <!--<item posX="300" posY="350" class="item" name="potion" subtype="5"/>
-    <item posX="400" posY="350" class="item" name="bigPotion" subtype="6"/>
-    <item posX="500" posY="350" class="item" name="megaPotion" subtype="7"/>
-    <item posX="600" posY="350" class="item" name="wasabi" subtype="8"/>
-    <item posX="700" posY="350" class="item" name="pan" subtype="9"/>
-    <item posX="800" posY="350" class="item" name="fork" subtype="10"/>-->
-    <activator name="attack_1" posX="32" posY="352" width="32" height="32" drawState="0" entitySubtype="11"/>
-    <activator name="attack_2" posX="96" posY="352" width="32" height="32" drawState="0" entitySubtype="11"/>
-    <activator name="attack_3" posX="160" posY="352" width="32" height="32" drawState="0" entitySubtype="11"/>
-    <activator name="defense_1" posX="224" posY="352" width="32" height="32" drawState="0" entitySubtype="12"/>
-    <activator name="defense_2" posX="288" posY="352" width="32" height="32" drawState="0" entitySubtype="12"/>
-    <activator name="defense_3" posX="352" posY="352" width="32" height="32" drawState="0" entitySubtype="12"/>
-  </town>
+ 
   <bigCity enemyCount="0" npcCount="0" teleportCount="2" itemCount="3" secretWallCount="0" leverCount="0">
     <prevMediumCity>
       <player posX="800" posY="1100"/>

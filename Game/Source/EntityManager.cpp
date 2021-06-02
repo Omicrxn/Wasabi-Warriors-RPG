@@ -456,6 +456,8 @@ bool EntityManager::LoadStateInfo(pugi::xml_node& scenegameplay, MapType current
 		teleport->id = teleportNode.attribute("id").as_uint();
 		teleport->spritePos = teleportNode.attribute("spritePos").as_int();
 		teleport->renderable = teleportNode.attribute("renderable").as_bool();
+		teleport->width = teleportNode.attribute("width").as_int();
+		teleport->height = teleportNode.attribute("height").as_int();
 	
 		teleport->name = teleportNode.attribute("name").as_string();
 	
@@ -948,6 +950,8 @@ bool EntityManager::SaveStateInfo(pugi::xml_node& scenegameplay, MapType current
 		
 		newTeleportNode.append_attribute("posX").set_value(list4->data->position.x);
 		newTeleportNode.append_attribute("posY").set_value(list4->data->position.y);
+		newTeleportNode.append_attribute("width").set_value(list4->data->width);
+		newTeleportNode.append_attribute("height").set_value(list4->data->height);
 		newTeleportNode.append_attribute("isActive").set_value(list4->data->IsActive());
 		newTeleportNode.append_attribute("isRenderable").set_value(list4->data->renderable);
 	}
