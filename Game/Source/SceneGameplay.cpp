@@ -805,10 +805,13 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 	}
 	case GuiControlType::BUTTON:
 	{
+		if (battleSystem->playerState != PlayerState::NONE)
+			break;
+
 		if (control->id == 11)
 		{
 			battleSystem->playerState = PlayerState::ATTACK;
-			/*screenBattle->HideButtons();*/
+			screenBattle->HideButtons();
 		}
 		else if (control->id == 12) battleSystem->playerState = PlayerState::DEFEND;
 		else if (control->id == 13) battleSystem->playerState = PlayerState::ITEM;

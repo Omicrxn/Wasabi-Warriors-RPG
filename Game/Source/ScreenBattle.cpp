@@ -74,6 +74,7 @@ bool ScreenBattle::Load(int minIndex, int maxIndex, Scene* currentScene, BattleS
 
 	// Needed modules
 	this->entityManager = entityManager;
+
 	this->guiManager = guiManager;
 	this->win = win;
 	this->audio = audio;
@@ -299,7 +300,7 @@ bool ScreenBattle::Update(Input* input, float dt, uint& focusedButtonId)
 						}
 					}
 
-					/*ShowButtons();*/
+					ShowButtons();
 				}
 			}
 		}

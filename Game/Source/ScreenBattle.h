@@ -38,12 +38,6 @@ public:
 
 private:
 
-    // Needed modules
-    EntityManager* entityManager;
-    GuiManager* guiManager;
-    Window* win;
-    AudioManager* audio;
-
     // Pointer to scene gameplay to get its info.
     SceneGameplay* sceneGameplay;
 
