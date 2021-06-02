@@ -675,6 +675,104 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 		SetPivot(16, 64);
 	}
 
+	if (name == "roof_city10")
+	{
+		type = Static::Type::ROOF;
+		SetRect(256, 128, 32, 32);
+		SetPivot(16, 64);
+	}
+
+	if (name == "roof_city11")
+	{
+		type = Static::Type::ROOF;
+		SetRect(289, 128, 32, 32);
+		SetPivot(16, 64);
+	}
+
+	if (name == "roof_city12")
+	{
+		type = Static::Type::ROOF;
+		SetRect(384, 128, 32, 32);
+		SetPivot(16, 64);
+	}
+
+	if (name == "roof_city13")
+	{
+		type = Static::Type::ROOF;
+		SetRect(256, 160, 32, 32);
+		SetPivot(16, 64);
+	}
+
+	if (name == "roof_city14")
+	{
+		type = Static::Type::ROOF;
+		SetRect(384, 192, 32, 32);
+		SetPivot(16, 64);
+	}
+
+	if (name == "roof_city15")
+	{
+		type = Static::Type::ROOF;
+		SetRect(256, 192, 32, 32);
+		SetPivot(16, 64);
+	}
+
+	if (name == "roof_city16")
+	{
+		type = Static::Type::ROOF;
+		SetRect(384, 192, 32, 32);
+		SetPivot(16, 64);
+	}
+
+	if (name == "roof_city17")
+	{
+		type = Static::Type::ROOF;
+		SetRect(512, 0, 32, 32);
+		SetPivot(32, 128);
+	}
+
+	if (name == "roof_city18")
+	{
+		type = Static::Type::ROOF;
+		SetRect(544, 0, 32, 32);
+		SetPivot(32, 128);
+	}
+
+	if (name == "roof_city19")
+	{
+		type = Static::Type::ROOF;
+		SetRect(576, 0, 32, 32);
+		SetPivot(32, 128);
+	}
+
+	if (name == "roof_city20")
+	{
+		type = Static::Type::ROOF;
+		SetRect(512, 64, 32, 32);
+		SetPivot(32, 128);
+	}
+
+	if (name == "roof_city21")
+	{
+		type = Static::Type::ROOF;
+		SetRect(544, 64, 32, 32);
+		SetPivot(32, 128);
+	}
+
+	if (name == "roof_city22")
+	{
+		type = Static::Type::ROOF;
+		SetRect(576, 64, 32, 32);
+		SetPivot(32, 128);
+	}
+
+	if (name == "roof_city23")
+	{
+		type = Static::Type::ROOF;
+		SetRect(384, 256, 32, 32);
+		SetPivot(16, 64);
+	}
+
 	else {
 		LOG("There isn't any type assigned to %s name entity", name.data());
 	}
