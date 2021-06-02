@@ -79,8 +79,35 @@ bool GuiButton::Update(Input* input, AudioManager* audio, float dt)
         int mouseX, mouseY;
         input->GetMousePosition(mouseX, mouseY);
 
+        // Check if gamepad is focusing the button
+        if (input->GetControllerState())
+        {
+            if (gamepadFocus)
+            {
+                state = GuiControlState::FOCUSED;
+
+                if (!isHovering)
+                {
+                    isHovering = true;
+                    audio->PlayFx(hoverFx);
+                }
+
+                if (input->GetControllerButton(CONTROLLER_BUTTON_A) == KeyState::KEY_REPEAT || input->GetControllerButton(CONTROLLER_BUTTON_A) == KeyState::KEY_DOWN)
+                {
+                    state = GuiControlState::PRESSED;
+                }
+
+                // If gamepad button pressed -> Generate event!
+                if (input->GetControllerButton(CONTROLLER_BUTTON_A) == KeyState::KEY_UP)
+                {
+                    NotifyObserver();
+                    // Audio Fx when pressed
+                    audio->PlayFx(clickFx);
+                }
+            }
+        }
         // Check collision between mouse and button bounds
-        if ((mouseX > bounds.x) && (mouseX < (bounds.x + bounds.w)) &&
+        else if ((mouseX > bounds.x) && (mouseX < (bounds.x + bounds.w)) &&
             (mouseY > bounds.y) && (mouseY < (bounds.y + bounds.h)))
         {
             state = GuiControlState::FOCUSED;
@@ -102,30 +129,6 @@ bool GuiButton::Update(Input* input, AudioManager* audio, float dt)
             {
                 NotifyObserver();
                 // Audio Fx when clicked
-                audio->PlayFx(clickFx);
-            }
-        }
-        // Check if gamepad is focusing the button
-        else if (gamepadFocus && input->GetControllerState())
-        {
-            state = GuiControlState::FOCUSED;
-
-            if (!isHovering)
-            {
-                isHovering = true;
-                audio->PlayFx(hoverFx);
-            }
-
-            if (input->GetControllerButton(CONTROLLER_BUTTON_A) == KeyState::KEY_REPEAT)
-            {
-                state = GuiControlState::PRESSED;
-            }
-
-            // If gamepad button pressed -> Generate event!
-            if (input->GetControllerButton(CONTROLLER_BUTTON_A) == KeyState::KEY_UP)
-            {
-                NotifyObserver();
-                // Audio Fx when pressed
                 audio->PlayFx(clickFx);
             }
         }

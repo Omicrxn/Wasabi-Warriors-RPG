@@ -246,16 +246,14 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 	// Gui id goes from 0 to 5
 	screenPause = new ScreenPause();
 	screenPause->Load(0, 5, this, win, guiManager, entityManager, audio, easing, guiAtlasTex2, titlesTex, buttonFont, hoverFx, clickFx);
-	screenPause->isActive = false;
-	screenPause->HideButtons();
 	((ScreenPause*)screenPause)->SetMenuFont(menuFont);
 	((ScreenPause*)screenPause)->SetQuestManager(questManager);
+	screenPause->Disable();
 
 	// Gui id goes from 6 to 10
 	screenSettings = new ScreenSettings();
 	screenSettings->Load(6, 10, this, win, guiManager, NULL, audio, easing, guiAtlasTex2, titlesTex, buttonFont, hoverFx, clickFx);
-	screenSettings->isActive = false;
-	screenSettings->HideButtons();
+	screenSettings->Disable();
 
 	// Gui id goes from 11 to 14
 	screenBattle = new ScreenBattle();
@@ -265,8 +263,7 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 	// Gui id goes from 15 to 16
 	screenInventory = new ScreenInventory();
 	screenInventory->Load(15, 16, this, battleSystem, win, guiManager, entityManager, audio, easing, guiAtlasTex2, guiAtlasTex, menuFont2, hoverFx, clickFx);
-	screenInventory->isActive = false;
-	screenInventory->HideButtons();
+	screenInventory->Disable();
 
 	if (hasStartedFromContinue)
 	{
@@ -736,7 +733,6 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 				currentState = GameState::ROAMING;
 
 				screenPause->Disable();
-
 				((ScreenRoaming*)screenRoaming)->Enable();
 				
 				guiManager->ToggleMouse();
@@ -755,9 +751,7 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 			currentState = GameState::SETTINGS;
 
 			screenPause->Disable();
-
-			screenSettings->isActive = true;
-			screenSettings->ShowButtons();
+			screenSettings->Enable();
 
 			// Fullscreen and vsync controls are disabled if you acces from gameplay
 			this->guiManager->controls.At(6)->data->state = GuiControlState::DISABLED;
@@ -772,7 +766,6 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 			currentState = GameState::EXIT;
 
 			((ScreenRoaming*)screenRoaming)->Disable();
-
 			screenPause->Disable();
 		}
 		else if (control->id == 3)
@@ -802,9 +795,7 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 			currentState = GameState::PAUSE;
 
 			((ScreenPause*)screenPause)->Enable(true);
-
-			screenSettings->isActive = false;
-			screenSettings->HideButtons();
+			screenSettings->Disable();
 		}
 		break;
 	}

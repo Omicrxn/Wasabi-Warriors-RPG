@@ -177,7 +177,6 @@ bool ScreenInventory::Draw(Render* render)
 				if (itemSelected.x == j && itemSelected.y == i)
 					render->DrawTexture(this->atlas[0], slotRect.x - 8, animIncrementY + slotRect.y - 3, &pinkBox, 0.0f);
 			}
-			
 
 			// Draw item stats
 			if (listInvItems.Count() > 0 && (listInvItems.Count() - 1) >= (itemSelected.y * INVENTORY_ROWS) + itemSelected.x)
@@ -294,9 +293,7 @@ bool ScreenInventory::Draw(Render* render)
 bool ScreenInventory::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager)
 {
 	guiManager->DestroyGuiControl(btnConfirm);
-	btnConfirm = nullptr;
 	guiManager->DestroyGuiControl(btnCancel);
-	btnCancel = nullptr;
 
 	for (int i = 0; i < listInvItems.Count(); ++i)
 	{
@@ -430,5 +427,6 @@ void ScreenInventory::Disable()
 	animIncrementY = 2000;
 	btnConfirm->bounds.x = 2000;
 	btnCancel->bounds.x = 2000;
+
 	Screen::Disable();
 }
