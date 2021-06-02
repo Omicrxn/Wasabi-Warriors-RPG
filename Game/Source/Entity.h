@@ -43,8 +43,9 @@ enum class EntitySubtype
     ITEM_MPOTION,
     ITEM_WASABI,
     ITEM_PAN,
-    ITEM_FORK
-
+    ITEM_FORK,
+    ATTACK,
+    DEFENSE
 };
 
 struct TileSetEntity

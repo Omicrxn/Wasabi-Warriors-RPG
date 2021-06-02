@@ -257,7 +257,7 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 
 	// Gui id goes from 11 to 14
 	screenBattle = new ScreenBattle();
-	screenBattle->Load(11, 14, this, battleSystem, tex, win, audio, guiManager, entityManager, charactersSpritesheet, guiAtlasTex, titleFont, buttonFont, menuFont, menuFont2, hoverFx, clickFx, returnFx);
+	screenBattle->Load(11, 14, this, battleSystem, tex, win, audio, guiManager, entityManager, charactersSpritesheet, guiAtlasTex, guiAtlasTex2, titleFont, buttonFont, menuFont, menuFont2, hoverFx, clickFx, returnFx);
 	screenBattle->isActive = false;
 
 	// Gui id goes from 15 to 16
@@ -497,6 +497,10 @@ bool SceneGameplay::Update(Input* input, float dt)
 			if (notifier->GetActivator()->name == "key")
 			{
 				gameProgress.hasPickedKey = true;
+				notifier->GetActivator()->SetDrawState(DrawState::HUD);
+			}
+			else
+			{
 				notifier->GetActivator()->SetDrawState(DrawState::HUD);
 			}
 		}
@@ -801,7 +805,11 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 	}
 	case GuiControlType::BUTTON:
 	{
-		if (control->id == 11) battleSystem->playerState = PlayerState::ATTACK;
+		if (control->id == 11)
+		{
+			battleSystem->playerState = PlayerState::ATTACK;
+			/*screenBattle->HideButtons();*/
+		}
 		else if (control->id == 12) battleSystem->playerState = PlayerState::DEFEND;
 		else if (control->id == 13) battleSystem->playerState = PlayerState::ITEM;
 		else if (control->id == 14)
@@ -1504,14 +1512,14 @@ void SceneGameplay::SetUpTp()
 			for (int i = 0; i < activatorCount; ++i)
 			{
 				iPoint position = { activatorNode.attribute("posX").as_int(), activatorNode.attribute("posY").as_int() };
-				activator = (Activator*)entityManager->CreateEntity(EntityType::ACTIVATOR, activatorNode.attribute("name").as_string(), EntitySubtype::UNKNOWN, position);
+				activator = (Activator*)entityManager->CreateEntity(EntityType::ACTIVATOR, activatorNode.attribute("name").as_string(), (EntitySubtype)activatorNode.attribute("entitySubtype").as_int(), position);
 				DrawState drawState = (DrawState)activatorNode.attribute("drawState").as_int();
 				activator->SetDrawState(drawState);
 				activator = nullptr;
 				activatorNode = activatorNode.next_sibling("activator");
 			}
 
-			//LOAD secretWall
+			// LOAD secretWall
 			int secretWallCount = mapNode.attribute("secretWallCount").as_int();
 
 			pugi::xml_node secretWallNode = mapNode.child("secretwall");

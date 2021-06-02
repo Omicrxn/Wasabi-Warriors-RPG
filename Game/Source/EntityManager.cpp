@@ -500,7 +500,7 @@ bool EntityManager::LoadStateInfo(pugi::xml_node& scenegameplay, MapType current
 	for (int i = 0; i < activatorCount; ++i)
 	{
 		LOG("LOADING ITEM NUMBER: %i", i);
-		EntitySubtype subtype = (EntitySubtype)activatorNode.attribute("entitySubType").as_int();
+		EntitySubtype subtype = (EntitySubtype)activatorNode.attribute("entitySubtype").as_int();
 		iPoint pos = { activatorNode.attribute("posX").as_int(), activatorNode.attribute("posY").as_int() };
 		activator = (Activator*)CreateEntity(EntityType::ACTIVATOR, activatorNode.attribute("name").as_string(), subtype, pos);
 	
@@ -1055,7 +1055,7 @@ bool EntityManager::SaveStateInfo(pugi::xml_node& scenegameplay, MapType current
 		// Fill in the info in order to save
 		newActivatorNode.append_attribute("id").set_value(list6->data->id);
 		newActivatorNode.append_attribute("spritePos").set_value(list6->data->spritePos);
-		newActivatorNode.append_attribute("entitySubType").set_value((int)list6->data->subtype);
+		newActivatorNode.append_attribute("entitySubtype").set_value((int)list6->data->subtype);
 		newActivatorNode.append_attribute("name").set_value(list6->data->name.GetString());
 
 		newActivatorNode.append_attribute("posX").set_value(list6->data->position.x);
@@ -1296,9 +1296,32 @@ bool EntityManager::UpdateAll(float dt, bool doLogic)
 		// Draw map first
 		SearchEntity("map")->Draw(render);
 
+		// Draw all the entities
 		for (std::vector<Entity*>::iterator item = drawEntities.begin(); item != drawEntities.end(); ++item)
 		{
 			if (*item != nullptr && (*item)->type != EntityType::MAP && (*item)->name.GetString() != "map")
+			{
+				if ((*item)->type == EntityType::ACTIVATOR && ((Activator*)(*item))->GetDrawState() == DrawState::HUD) // We will draw HUD activators at the end
+				{
+					continue;
+				}
+				else
+				{
+					(*item)->Draw(render);
+					entitiesDrawn++;
+
+					if (entitiesBox)
+					{
+						DrawDebugQuad(*item);
+					}
+				}
+			}
+		}
+
+		// Draw HUD activators at the end
+		for (std::vector<Entity*>::iterator item = drawEntities.begin(); item != drawEntities.end(); ++item)
+		{
+			if ((*item)->type == EntityType::ACTIVATOR && ((Activator*)(*item))->GetDrawState() == DrawState::HUD)
 			{
 				(*item)->Draw(render);
 				entitiesDrawn++;

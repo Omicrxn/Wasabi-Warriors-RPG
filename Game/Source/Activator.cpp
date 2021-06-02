@@ -58,9 +58,41 @@ bool Activator::Draw(Render* render)
             {
                 hudPosition = { 20,200 };
             }
-            render->scale = 3;
-            render->DrawTexture(entityManager->itemsTexture, hudPosition.x, hudPosition.y, &rect, 0);
-            render->scale = 1;
+            else if (name == "attack_1")
+            {
+                hudPosition = { 1140,50 };
+            }
+            else if (name == "attack_2")
+            {
+                hudPosition = { 1140,100 };
+            }
+            else if (name == "attack_3")
+            {
+                hudPosition = { 1140,150 };
+            }
+            else if (name == "defense_1")
+            {
+                hudPosition = { 1200,50 };
+            }
+            else if (name == "defense_2")
+            {
+                hudPosition = { 1200,100 };
+            }
+            else if (name == "defense_3")
+            {
+                hudPosition = { 1200,150 };
+            }
+
+            if (name == "key")
+            {
+                render->scale = 3;
+                render->DrawTexture(entityManager->itemsTexture, hudPosition.x, hudPosition.y, &rect, 0);
+                render->scale = 1;
+            }
+            else
+            {
+                render->DrawTexture(entityManager->itemsTexture, hudPosition.x, hudPosition.y, &rect, 0);
+            }
         }
     }
 
@@ -91,6 +123,30 @@ void Activator::SetDrawState(DrawState drawState)
     if (name == "key")
     {
         rect = { 296,346,30,28 };
+    }
+    else if (name == "attack_1")
+    {
+        rect = { 446,680,22,32 };
+    }
+    else if (name == "attack_2")
+    {
+        rect = { 494,680,22,32 };
+    }
+    else if (name == "attack_3")
+    {
+        rect = { 542,680,22,32 };
+    }
+    else if (name == "defense_1")
+    {
+        rect = { 590,680,22,32 };
+    }
+    else if (name == "defense_2")
+    {
+        rect = { 638,680,22,32 };
+    }
+    else if (name == "defense_3")
+    {
+        rect = { 686,680,22,32 };
     }
 }
 

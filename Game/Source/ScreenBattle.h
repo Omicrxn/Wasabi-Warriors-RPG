@@ -21,7 +21,7 @@ public:
     ScreenBattle();
     virtual ~ScreenBattle();
 
-    bool Load(int minIndex, int maxIndex, Scene* currentScene, BattleSystem* battleSystem, Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, SDL_Texture* charactersSpritesheet, SDL_Texture* uiSpritesheet, Font* titleFont, Font* buttonFont, Font* menuFont, Font* menuFont2, int hoverFx, int clickFx, int returnFx);
+    bool Load(int minIndex, int maxIndex, Scene* currentScene, BattleSystem* battleSystem, Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, SDL_Texture* charactersSpritesheet, SDL_Texture* guiAtlasTex, SDL_Texture* guiAtlasTex2, Font* titleFont, Font* buttonFont, Font* menuFont, Font* menuFont2, int hoverFx, int clickFx, int returnFx);
 
     bool Update(Input* input, float dt, uint& focusedButtonId);
 
@@ -53,6 +53,7 @@ private:
     // Battle system textures
     SDL_Texture* backgroundTex;
     SDL_Texture* guiAtlasTex;
+    SDL_Texture* guiAtlasTex2;
     SDL_Texture* optionsBackgroundTex;
     SDL_Texture* cast1;
     SDL_Texture* enemyCast;
@@ -89,6 +90,8 @@ private:
     uint focusedButtonId;
 
     Timer timer;
+
+    iPoint hover;
 };
 
 #endif // __SCENEBATTLE_H__

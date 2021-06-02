@@ -30,6 +30,8 @@ public:
 	void SetDrawState(DrawState drawState);
 	DrawState GetDrawState();
 
+	virtual SDL_Rect GetRect() const { return rect; };
+
 private:
 
 	void Interact();

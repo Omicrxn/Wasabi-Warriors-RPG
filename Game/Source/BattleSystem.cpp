@@ -28,6 +28,9 @@ BattleSystem::BattleSystem()
 	turnCounter = 0;
 
 	currentMusic = BattleMusic::NONE;
+
+	subAttack = SubAttack::NONE;
+	subDefense = SubDefense::NONE;
 }
 
 BattleSystem::~BattleSystem()
@@ -107,6 +110,9 @@ bool BattleSystem::ResetBattle()
 	SetInventoryOpening(false);
 	SetInventoryClosure(false);
 
+	subAttack = SubAttack::NONE;
+	subDefense = SubDefense::NONE;
+
 	return true;
 }
 
@@ -133,20 +139,43 @@ void BattleSystem::PlayerTurn()
 		switch (playerState)
 		{
 		case PlayerState::ATTACK:
-			// Enter the attack menu when we have it implemented
-			// At the moment:
-			// Display the player attack text
-			// Play animation
-			// Substract life points to the enemy
-			enemy->stats.currentHP -= currentPlayer->stats.damage;
-			if (enemy->stats.currentHP < 0) enemy->stats.currentHP = 0;
+			switch (subAttack)
+			{
+			case SubAttack::ATTACK_1:
+				break;
+			case SubAttack::ATTACK_2:
+				break;
+			case SubAttack::ATTACK_3:
+				break;
+			case SubAttack::DEFAULT:
+				// Substract life points to the enemy
+				enemy->stats.currentHP -= currentPlayer->stats.damage;
+				// Check if the enemy life has gone under 0 (death)
+				if (enemy->stats.currentHP < 0) enemy->stats.currentHP = 0;
+				break;
+			case SubAttack::NONE:
+				break;
+			}
 			break;
 		case PlayerState::DEFEND:
-			// Add life points to the player
-			currentPlayer->stats.currentHP += currentPlayer->stats.defense;
-			// Check if the player life has gone over their maximum HP
-			if (currentPlayer->stats.currentHP > currentPlayer->stats.maxHP)
-				currentPlayer->stats.currentHP = currentPlayer->stats.maxHP;
+			switch (subDefense)
+			{
+			case SubDefense::DEFENSE_1:
+				break;
+			case SubDefense::DEFENSE_2:
+				break;
+			case SubDefense::DEFENSE_3:
+				break;
+			case SubDefense::DEFAULT:
+				// Add life points to the player
+				currentPlayer->stats.currentHP += currentPlayer->stats.defense;
+				// Check if the player life has gone over their maximum HP
+				if (currentPlayer->stats.currentHP > currentPlayer->stats.maxHP)
+					currentPlayer->stats.currentHP = currentPlayer->stats.maxHP;
+				break;
+			case SubDefense::NONE:
+				break;
+			}
 			break;
 		case PlayerState::ITEM:
 			// Get into the items menu
@@ -169,6 +198,14 @@ void BattleSystem::PlayerTurn()
 		if (playerState == PlayerState::ITEM)
 		{
 			if (hasFinishedItems) turnCounter++;
+		}
+		else if (playerState == PlayerState::ATTACK)
+		{
+			if (subAttack != SubAttack::NONE) turnCounter++;
+		}
+		else if (playerState == PlayerState::DEFEND)
+		{
+			if (subDefense != SubDefense::NONE) turnCounter++;
 		}
 		else turnCounter++;
 	}

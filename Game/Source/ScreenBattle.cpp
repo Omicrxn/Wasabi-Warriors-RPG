@@ -9,6 +9,7 @@
 
 #include "Player.h"
 #include "Enemy.h"
+#include "Activator.h"
 
 #include "GuiButton.h"
 #include "GuiIcon.h"
@@ -31,6 +32,7 @@ ScreenBattle::ScreenBattle()
 	// Battle system textures
 	backgroundTex = nullptr;
 	guiAtlasTex = nullptr;
+	guiAtlasTex2 = nullptr;
 
 	backgroundRect = { 0, 0, 1280, 720 };
 	optionsBackgroundRect = { 0,0,1240,220 };
@@ -54,13 +56,15 @@ ScreenBattle::ScreenBattle()
 
 	// Gamepad's menu focused button
 	focusedButtonId = 0;
+
+	hover = { 0,0 };
 }
 
 ScreenBattle::~ScreenBattle()
 {
 }
 
-bool ScreenBattle::Load(int minIndex, int maxIndex, Scene* currentScene, BattleSystem* battleSystem, Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, SDL_Texture* charactersSpritesheet, SDL_Texture* guiAtlasTex, Font* titleFont, Font* buttonFont, Font* menuFont, Font* menuFont2, int hoverFx, int clickFx, int returnFx)
+bool ScreenBattle::Load(int minIndex, int maxIndex, Scene* currentScene, BattleSystem* battleSystem, Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, SDL_Texture* charactersSpritesheet, SDL_Texture* guiAtlasTex, SDL_Texture* guiAtlasTex2, Font* titleFont, Font* buttonFont, Font* menuFont, Font* menuFont2, int hoverFx, int clickFx, int returnFx)
 {
 	this->minIndex = minIndex;
 	this->maxIndex = maxIndex;
@@ -77,6 +81,7 @@ bool ScreenBattle::Load(int minIndex, int maxIndex, Scene* currentScene, BattleS
 	// Load battle system textures
 	this->charactersSpritesheet = charactersSpritesheet;
 	this->guiAtlasTex = guiAtlasTex;
+	this->guiAtlasTex2 = guiAtlasTex2;
 	backgroundTex = tex->Load("Textures/Scenes/battle_scene.jpg");
 	optionsBackgroundTex = tex->Load("Textures/Dialog/dialog_background.png");
 	cast1 = tex->Load("Textures/Effects/cast_001.png");
@@ -242,7 +247,63 @@ bool ScreenBattle::Update(Input* input, float dt, uint& focusedButtonId)
 		}
 		battleSystem->Update(input, dt);
 
-		if (battleSystem->battleState == BattleState::WON)
+		if (battleSystem->battleState == BattleState::PLAYER_TURN)
+		{
+			if (battleSystem->playerState == PlayerState::ATTACK || battleSystem->playerState == PlayerState::DEFEND)
+			{
+				if (input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN && hover.x > 0)
+				{
+					hover.x--;
+				}
+				if (input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN && hover.x < 3)
+				{
+					hover.x++;
+				}
+
+				if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_UP)
+				{
+					if (battleSystem->playerState == PlayerState::ATTACK)
+					{
+						switch (hover.x)
+						{
+						case 0:
+							battleSystem->subAttack = SubAttack::DEFAULT;
+							break;
+						case 1:
+							battleSystem->subAttack = SubAttack::ATTACK_1;
+							break;
+						case 2:
+							battleSystem->subAttack = SubAttack::ATTACK_2;
+							break;
+						case 3:
+							battleSystem->subAttack = SubAttack::ATTACK_3;
+							break;
+						}
+					}
+					else if (battleSystem->playerState == PlayerState::DEFEND)
+					{
+						switch (hover.x)
+						{
+						case 0:
+							battleSystem->subDefense = SubDefense::DEFAULT;
+							break;
+						case 1:
+							battleSystem->subDefense = SubDefense::DEFENSE_1;
+							break;
+						case 2:
+							battleSystem->subDefense = SubDefense::DEFENSE_2;
+							break;
+						case 3:
+							battleSystem->subDefense = SubDefense::DEFENSE_3;
+							break;
+						}
+					}
+
+					/*ShowButtons();*/
+				}
+			}
+		}
+		else if (battleSystem->battleState == BattleState::WON)
 		{
 			if (battleSystem->currentMusic == BattleMusic::WON)
 			{
@@ -295,6 +356,11 @@ bool ScreenBattle::Update(Input* input, float dt, uint& focusedButtonId)
 		battleSystem->SetInventoryOpening(false);
 		battleSystem->SetInventoryClosure(false);
 		battleSystem->SetHasClickedConsume(false);
+
+		battleSystem->subAttack = SubAttack::NONE;
+		battleSystem->subDefense = SubDefense::NONE;
+
+		hover.x = 0;
 	}
 
 	if (sceneGameplay->GetGameProgress()->hasKilledBoss)
@@ -322,35 +388,41 @@ bool ScreenBattle::Draw(Render* render)
 
 			if (battleSystem->playerState == PlayerState::ATTACK)
 			{
-				if (timer.ReadSec() <= 0.25f)
+				if (battleSystem->subAttack != SubAttack::NONE)
 				{
-					sprintf_s(temp, 64, "%s attacks %s", battleSystem->GetPlayer()->name.GetString(), battleSystem->GetEnemy()->name.GetString());
-					render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 105, 105, 105, 255 });
-					render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 255, 255, 255 });
+					if (timer.ReadSec() <= 0.25f)
+					{
+						sprintf_s(temp, 64, "%s attacks %s", battleSystem->GetPlayer()->name.GetString(), battleSystem->GetEnemy()->name.GetString());
+						render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 105, 105, 105, 255 });
+						render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 255, 255, 255 });
+					}
+					else if (timer.ReadSec() > 0.25f)
+					{
+						sprintf_s(temp, 64, "%s attacks %s", battleSystem->GetPlayer()->name.GetString(), battleSystem->GetEnemy()->name.GetString());
+						render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 128, 113, 27, 255 });
+						render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 225, 53, 255 });
+					}
+					if (timer.ReadSec() > 0.5f) timer.Start();
 				}
-				else if (timer.ReadSec() > 0.25f)
-				{
-					sprintf_s(temp, 64, "%s attacks %s", battleSystem->GetPlayer()->name.GetString(), battleSystem->GetEnemy()->name.GetString());
-					render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 128, 113, 27, 255 });
-					render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 225, 53, 255 });
-				}
-				if (timer.ReadSec() > 0.5f) timer.Start();
 			}
 			else if (battleSystem->playerState == PlayerState::DEFEND)
 			{
-				if (timer.ReadSec() <= 0.25f)
+				if (battleSystem->subDefense != SubDefense::NONE)
 				{
-					sprintf_s(temp, 64, "%s defends himself", battleSystem->GetPlayer()->name.GetString());
-					render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 105, 105, 105, 255 });
-					render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 255, 255, 255 });
+					if (timer.ReadSec() <= 0.25f)
+					{
+						sprintf_s(temp, 64, "%s defends himself", battleSystem->GetPlayer()->name.GetString());
+						render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 105, 105, 105, 255 });
+						render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 255, 255, 255 });
+					}
+					else if (timer.ReadSec() > 0.25f)
+					{
+						sprintf_s(temp, 64, "%s defends himself", battleSystem->GetPlayer()->name.GetString());
+						render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 128, 113, 27, 255 });
+						render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 225, 53, 255 });
+					}
+					if (timer.ReadSec() > 0.5f) timer.Start();
 				}
-				else if (timer.ReadSec() > 0.25f)
-				{
-					sprintf_s(temp, 64, "%s defends himself", battleSystem->GetPlayer()->name.GetString());
-					render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 128, 113, 27, 255 });
-					render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 225, 53, 255 });
-				}
-				if (timer.ReadSec() > 0.5f) timer.Start();
 
 				render->scale = 2;
 				for (int i = 0; i < battleSystem->GetPlayersList()->Count(); i++)
@@ -578,6 +650,85 @@ bool ScreenBattle::Draw(Render* render)
 		render->scale = 1;
 	}
 
+	// Draw attack and defense submenus over the rest of the battle screen
+	if (battleSystem->battleState == BattleState::PLAYER_TURN &&
+		(battleSystem->playerState == PlayerState::ATTACK ||
+		battleSystem->playerState == PlayerState::DEFEND) &&
+		(battleSystem->subAttack == SubAttack::NONE &&
+		battleSystem->subDefense == SubDefense::NONE))
+	{
+		// Draw dark background
+		render->DrawRectangle({ 0,0,1280,720 }, { 0,0,0,192 }, true, false);
+		
+		// Draw slots
+		SDL_Rect rect = { 240,171,102,108 };
+		SDL_Rect rect2 = { 396,108,102,108 };
+		SDL_Rect rect3 = { 642,180,87,27 };
+		SDL_Rect rect4 = { 642,138,87,27 };
+		SDL_Rect rect5 = { 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10, 720 / 2 - rect.h / 2 - 10, rect.w * 7 + 20, rect.h + 20 + rect3.h + 10};
+		render->DrawRectangle(rect5, { 255,255,255,128 }, true, false);
+		render->DrawRectangle(rect5, { 255,255,255,255 }, false, false);
+
+		for (int i = 0; i < 4; i++)
+		{
+			if (i == hover.x)
+			{
+				// Draw hover slot
+				render->DrawTexture(guiAtlasTex2, 1280 / 2 - rect.w / 2 - rect.w * 3 + (rect.w * 2) * i, 720 / 2 - rect.h / 2, &rect2, 0);
+
+				// Draw hover panel
+				render->DrawTexture(guiAtlasTex2, 1280 / 2 - rect.w / 2 - rect.w * 3 + (rect.w * 2) * i + 7, 720 / 2 + rect.h / 2 + 10, &rect4, 0);
+			}
+			else
+			{
+				// Draw slot
+				render->DrawTexture(guiAtlasTex2, 1280 / 2 - rect.w / 2 - rect.w * 3 + (rect.w * 2) * i, 720 / 2 - rect.h / 2, &rect, 0);
+
+				// Draw panel
+				render->DrawTexture(guiAtlasTex2, 1280 / 2 - rect.w / 2 - rect.w * 3 + (rect.w * 2) * i + 7, 720 / 2 + rect.h / 2 + 10, &rect3, 0);
+			}
+		}
+
+		if (battleSystem->playerState == PlayerState::ATTACK)
+		{
+			// Draw text
+			render->DrawText(menuFont2, "Choose an attack!", 400 + 3, 200 + 3, 70, 0, { 128,128,128,255 });
+			render->DrawText(menuFont2, "Choose an attack!", 400, 200, 70, 0, { 255,255,255,255 });
+
+			int position = 0;
+			for (int i = 0; i < entityManager->activatorList.Count(); i++)
+			{
+				if ((Entity*)entityManager->activatorList.At(i) != nullptr && ((Entity*)entityManager->activatorList.At(i)->data)->subtype == EntitySubtype::ATTACK)
+				{
+					render->scale = 3;
+					render->DrawTexture(entityManager->itemsTexture, (1280 / 2 - rect.w / 2 - rect.w + (rect.w * 2) * position + 18) / 3, (720 / 2 - rect.h / 2 + 8) / 3, &(((Activator*)entityManager->activatorList.At(i)->data)->GetRect()), 0);
+					render->scale = 1;
+
+					position++;
+				}
+			}
+		}
+		else if (battleSystem->playerState == PlayerState::DEFEND)
+		{
+			// Draw text
+			render->DrawText(menuFont2, "Choose a defense!", 400 + 3, 200 + 3, 70, 0, { 128,128,128,255 });
+			render->DrawText(menuFont2, "Choose a defense!", 400, 200, 70, 0, { 255,255,255,255 });
+
+			int position = 0;
+			for (int i = 0; i < entityManager->activatorList.Count(); i++)
+			{
+				if ((Entity*)entityManager->activatorList.At(i) != nullptr && ((Entity*)entityManager->activatorList.At(i)->data)->subtype == EntitySubtype::DEFENSE)
+				{
+					render->scale = 3;
+					render->DrawTexture(entityManager->itemsTexture, (1280 / 2 - rect.w / 2 - rect.w + (rect.w * 2) * position + 18) / 3, (720 / 2 - rect.h / 2 + 8) / 3, &(((Activator*)entityManager->activatorList.At(i)->data)->GetRect()), 0);
+					render->scale = 1;
+
+					position++;
+				}
+			}
+		}
+	}
+
 	return true;
 }
 
@@ -602,7 +753,6 @@ bool ScreenBattle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMan
 	this->guiManager = nullptr;
 	this->win = nullptr;
 	this->audio = nullptr;
-
 
 	return true;
 }

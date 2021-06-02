@@ -45,6 +45,24 @@ enum class BattleMusic
 	LOST
 };
 
+enum class SubAttack
+{
+	DEFAULT,
+	ATTACK_1,
+	ATTACK_2,
+	ATTACK_3,
+	NONE
+};
+
+enum class SubDefense
+{
+	DEFAULT,
+	DEFENSE_1,
+	DEFENSE_2,
+	DEFENSE_3,
+	NONE
+};
+
 class BattleSystem
 {
 public:
@@ -98,6 +116,9 @@ public:
 	EnemyState enemyState;
 
 	BattleMusic currentMusic;
+
+	SubAttack subAttack;
+	SubDefense subDefense;
 
 private:
 
