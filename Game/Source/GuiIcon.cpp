@@ -12,29 +12,30 @@ GuiIcon::GuiIcon(uint32 id, SDL_Rect bounds) : GuiControl(GuiControlType::ICON, 
     hoverFx = -1;
     clickFx = -1;
 
-    //arrowWhiteRight = { 160,50,18,18 };
-
     iconSettings = { 102, 402, 40, 39 };
     iconExit = { 165, 402, 36, 39 };
-    iconReturn = { 534, 159, 53, 54 };
-    
     iconTeam = { 387, 234, 90, 88 };
     iconQuest = { 519, 234, 87, 88 };
     iconMap = { 651, 234, 72, 88 };
 
-    iconA = { 684, 8, 57, 57 };
-    iconX = { 684, 196, 57, 57 };
-    iconB = { 684, 101, 57, 57 };
-    iconSTART = { 685, 291, 55, 54 };
+    normalBox = { 237, 171, 108, 108 };
+    focusedBox = { 393, 108, 108, 108 };
+    pressedBox = { 237, 315, 108, 108 };
 
-    controller = false;
+    normalCircle = { 36, 30, 48, 48 };
+    focusedCircle = { 399, 30, 48, 48 };
+    pressedCircle = { 36, 87, 48, 48 };
+
+    normalReturn = { 888, 972, 54, 54 };
+    focusedReturn = { 825, 972, 54, 54 };
+    pressedReturn = { 951, 972, 54, 54 };
 }
 
 GuiIcon::~GuiIcon()
 {
 }
 
-void GuiIcon::SetIconProperties(Scene* module, SDL_Texture* texture, Font* font, int hoverFx, int clickFx, ControllerButton control, IconType type)
+void GuiIcon::SetIconProperties(Scene* module, SDL_Texture* texture, Font* font, int hoverFx, int clickFx, IconType type)
 {
     SetObserver(module);
     SetTexture(texture);
@@ -43,7 +44,6 @@ void GuiIcon::SetIconProperties(Scene* module, SDL_Texture* texture, Font* font,
     this->hoverFx = hoverFx;
     this->clickFx = clickFx;
 
-    assignedControl = control;
     iconType = type;
 }
 
@@ -51,8 +51,6 @@ bool GuiIcon::Update(Input* input, AudioManager* audio, float dt)
 {
     if (state != GuiControlState::DISABLED && state != GuiControlState::HIDDEN)
     {
-        controller = input->GetControllerState();
-
         int mouseX, mouseY;
         input->GetMousePosition(mouseX, mouseY);
 
@@ -82,18 +80,6 @@ bool GuiIcon::Update(Input* input, AudioManager* audio, float dt)
                 audio->PlayFx(clickFx);
             }
         }
-        else if ((iconType == IconType::ICON_RESUME) && input->GetKey(SDL_SCANCODE_ESCAPE) == KeyState::KEY_DOWN)
-        {
-            NotifyObserver();
-            // Audio Fx when clicked
-            audio->PlayFx(clickFx);
-        }
-        else if (controller && input->GetControllerButton(assignedControl) == KeyState::KEY_DOWN)
-        {
-            NotifyObserver();
-            // Audio Fx when pressed
-            audio->PlayFx(clickFx);
-        }
         else
         {
             state = GuiControlState::NORMAL;
@@ -107,55 +93,93 @@ bool GuiIcon::Update(Input* input, AudioManager* audio, float dt)
 bool GuiIcon::Draw(Render* render, bool debugDraw)
 {
     // Draw the right icon depending on state
-    if (state == GuiControlState::NORMAL || state == GuiControlState::FOCUSED || state == GuiControlState::PRESSED)
+    if (state == GuiControlState::NORMAL)
+    {
+        if (iconType == IconType::ICON_RETURN)
+            render->DrawTexture(texture, bounds.x, bounds.y, &normalReturn, 0.0f);
+    }
+    else if (state == GuiControlState::FOCUSED)
     {
         switch (iconType)
         {
         case IconType::NONE:
             break;
         case IconType::ICON_RETURN:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconReturn, 0.0f);
-            if (controller)
-                render->DrawTexture(texture, bounds.x + bounds.w, bounds.y + bounds.h, &iconB, 0.0f);
-            break;
-        case IconType::ICON_RESUME:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconReturn, 0.0f);
-            if (controller)
-                render->DrawTexture(texture, bounds.x + bounds.w, bounds.y + bounds.h, &iconSTART, 0.0f);
+            render->DrawTexture(texture, bounds.x, bounds.y, &focusedReturn, 0.0f);
             break;
         case IconType::ICON_SETTINGS:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconSettings, 0.0f);
-            if (controller)
-                render->DrawTexture(texture, bounds.x + bounds.w, bounds.y + bounds.h, &iconX, 0.0f);
+            render->DrawTexture(texture, bounds.x - 5, bounds.y - 7, &focusedCircle, 0.0f);
             break;
         case IconType::ICON_EXIT:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconExit, 0.0f);
-            if (controller)
-                render->DrawTexture(texture, bounds.x + bounds.w, bounds.y + bounds.h, &iconB, 0.0f);
+            render->DrawTexture(texture, bounds.x - 5, bounds.y - 7, &focusedCircle, 0.0f);
             break;
         case IconType::ICON_TEAM:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconTeam, 0.0f);
-            if (controller)
-                render->DrawTexture(texture, bounds.x + bounds.w, bounds.y + bounds.h, &iconB, 0.0f);
+            render->DrawTexture(texture, bounds.x - 10, bounds.y - 10, &focusedBox, 0.0f);
             break;
         case IconType::ICON_QUEST:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconQuest, 0.0f);
-            if (controller)
-                render->DrawTexture(texture, bounds.x + bounds.w, bounds.y + bounds.h, &iconB, 0.0f);
+            render->DrawTexture(texture, bounds.x - 10, bounds.y - 10, &focusedBox, 0.0f);
             break;
         case IconType::ICON_MAP:
-            render->DrawTexture(texture, bounds.x, bounds.y, &iconMap, 0.0f);
-            if (controller)
-                render->DrawTexture(texture, bounds.x + bounds.w, bounds.y + bounds.h, &iconB, 0.0f);
+            render->DrawTexture(texture, bounds.x - 17, bounds.y - 10, &focusedBox, 0.0f);
             break;
         default:
             break;
         }
     }
-    if (state == GuiControlState::FOCUSED)
-        render->DrawTexture(texture, bounds.x - 45, bounds.y + 14, &arrowWhiteRight, 0.0f);
     else if (state == GuiControlState::PRESSED)
-        render->DrawTexture(texture, bounds.x - 25, bounds.y + 14, &arrowWhiteRight, 0.0f);
+    {
+        switch (iconType)
+        {
+        case IconType::NONE:
+            break;
+        case IconType::ICON_RETURN:
+            render->DrawTexture(texture, bounds.x, bounds.y, &pressedReturn, 0.0f);
+            break;
+        case IconType::ICON_SETTINGS:
+            render->DrawTexture(texture, bounds.x - 5, bounds.y - 7, &pressedCircle, 0.0f);
+            break;
+        case IconType::ICON_EXIT:
+            render->DrawTexture(texture, bounds.x - 5, bounds.y - 7, &pressedCircle, 0.0f);
+            break;
+        case IconType::ICON_TEAM:
+            render->DrawTexture(texture, bounds.x - 10, bounds.y - 10, &pressedBox, 0.0f);
+            break;
+        case IconType::ICON_QUEST:
+            render->DrawTexture(texture, bounds.x - 10, bounds.y - 10, &pressedBox, 0.0f);
+            break;
+        case IconType::ICON_MAP:
+            render->DrawTexture(texture, bounds.x - 17, bounds.y - 10, &pressedBox, 0.0f);
+            break;
+        default:
+            break;
+        }
+    }
+
+    if (state == GuiControlState::NORMAL || state == GuiControlState::FOCUSED || state == GuiControlState::PRESSED)
+    {
+        switch (iconType)
+        {
+        case IconType::NONE:
+            break;
+        case IconType::ICON_SETTINGS:
+            render->DrawTexture(texture, bounds.x, bounds.y, &iconSettings, 0.0f);
+            break;
+        case IconType::ICON_EXIT:
+            render->DrawTexture(texture, bounds.x, bounds.y, &iconExit, 0.0f);
+            break;
+        case IconType::ICON_TEAM:
+            render->DrawTexture(texture, bounds.x, bounds.y, &iconTeam, 0.0f);
+            break;
+        case IconType::ICON_QUEST:
+            render->DrawTexture(texture, bounds.x, bounds.y, &iconQuest, 0.0f);
+            break;
+        case IconType::ICON_MAP:
+            render->DrawTexture(texture, bounds.x, bounds.y, &iconMap, 0.0f);
+            break;
+        default:
+            break;
+        }
+    }
 
     if (debugDraw)
     {

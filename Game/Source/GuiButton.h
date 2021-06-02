@@ -7,7 +7,6 @@
 enum class Style 
 {
     WHITE,
-    GREY,
     SUSHI_ORANGE,
     SUSHI_RED, // We may use this red one for short strings, because it is centered
     SUSHI_YELLOW
@@ -32,9 +31,6 @@ private:
     SDL_Rect greyButton;
     SDL_Rect whiteButton;
     SDL_Rect whiteButtonPressed;
-
-    SDL_Rect arrowWhiteLeft;
-    SDL_Rect arrowWhiteRight;
 
     Animation buttonAnim;
     SDL_Rect backgroundButtonAnim;

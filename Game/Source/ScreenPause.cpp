@@ -10,16 +10,11 @@
 
 ScreenPause::ScreenPause()
 {
-	iconResume = nullptr;
+	iconReturn = nullptr;
 	iconSettings = nullptr;
 	iconExit = nullptr;
 
-	pauseTitleRect = { 0, 73, 440, 75 };
 	mobileRect = { 375, 339, 392, 603 };
-
-	pinkBox = { 237, 315, 108, 108 };
-	pinkCircle = { 36, 87, 48, 48 };
-	grayCircle = { 534, 159, 53, 54 };
 
 	position = 700;
 
@@ -65,33 +60,33 @@ bool ScreenPause::Load(int minIndex, int maxIndex, Scene* currentScene, Window* 
 	this->maxIndex = maxIndex;
 	int counterId = minIndex;
 
-	iconResume = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 609, position + 580, 65, 55 });
-	iconResume->SetIconProperties(currentScene, atlas[0], font, hoverFx, clickFx, CONTROLLER_BUTTON_START, IconType::ICON_RESUME);
-	iconResume->state = GuiControlState::HIDDEN;
+	iconReturn = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 609, position + 580, 65, 55 });
+	iconReturn->SetIconProperties(currentScene, atlas[0], font, hoverFx, clickFx, IconType::ICON_RETURN);
+	iconReturn->state = GuiControlState::HIDDEN;
 	++counterId;
 
 	iconSettings = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 490, position + 108, 58, 55 });
-	iconSettings->SetIconProperties(currentScene, atlas[0], font, hoverFx, clickFx, CONTROLLER_BUTTON_X, IconType::ICON_SETTINGS);
+	iconSettings->SetIconProperties(currentScene, atlas[0], font, hoverFx, clickFx, IconType::ICON_SETTINGS);
 	iconSettings->state = GuiControlState::HIDDEN;
 	++counterId;
 
 	iconExit = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 750, position + 108, 46, 55 });
-	iconExit->SetIconProperties(currentScene, atlas[0], font, hoverFx, clickFx, CONTROLLER_BUTTON_B, IconType::ICON_EXIT);
+	iconExit->SetIconProperties(currentScene, atlas[0], font, hoverFx, clickFx, IconType::ICON_EXIT);
 	iconExit->state = GuiControlState::HIDDEN;
 	++counterId;
 
 	iconQuest = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 490, position + 435, 90, 90 });
-	iconQuest->SetIconProperties(currentScene, atlas[0], font, hoverFx, clickFx, CONTROLLER_BUTTON_START, IconType::ICON_QUEST);
+	iconQuest->SetIconProperties(currentScene, atlas[0], font, hoverFx, clickFx, IconType::ICON_QUEST);
 	iconQuest->state = GuiControlState::HIDDEN;
 	++counterId;
 
 	iconTeam = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 590, position + 435, 90, 90 });
-	iconTeam->SetIconProperties(currentScene, atlas[0], font, hoverFx, clickFx, CONTROLLER_BUTTON_START, IconType::ICON_TEAM);
+	iconTeam->SetIconProperties(currentScene, atlas[0], font, hoverFx, clickFx, IconType::ICON_TEAM);
 	iconTeam->state = GuiControlState::HIDDEN;
 	++counterId;
 
 	iconMap = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 710, position + 435, 90, 90 });
-	iconMap->SetIconProperties(currentScene, atlas[0], font, hoverFx, clickFx, CONTROLLER_BUTTON_START, IconType::ICON_MAP);
+	iconMap->SetIconProperties(currentScene, atlas[0], font, hoverFx, clickFx, IconType::ICON_MAP);
 	iconMap->state = GuiControlState::HIDDEN;
 
 	return true;
@@ -107,40 +102,19 @@ bool ScreenPause::Draw(Render* render)
 	// Draw pause background & title
 	uint width, height;
 	win->GetWindowSize(width, height);
-	render->DrawRectangle({ 0,0, (int)width,(int)height }, { 0, 0, 0, 100 }, true, false);	
-	//render->DrawTexture(guiAtlasTex, 1280 / 2 - pauseBackgroundRect.w / 2, 720 / 2 - pauseBackgroundRect.h / 2, &pauseBackgroundRect, 0.0f);
-	// title : render->DrawTexture(atlas[1], 1280 / 2 - pauseTitleRect.w / 2, 100, &pauseTitleRect, 0.0f);
+
+	render->DrawRectangle({ 0,0, (int)width,(int)height }, { 0, 0, 0, 70 }, true, false);
+
 	render->DrawTexture(atlas[0], (1280 / 2 - mobileRect.w / 2) / render->scale, position / render->scale , &mobileRect, 0.0f);
 
-	for (int i = minIndex; i <= maxIndex; ++i)
+	// 609
+	if (guiManager->controls.At(0)->data->bounds.x <= 609)
 	{
-		if (guiManager->controls.At(i)->data->state != GuiControlState::FOCUSED)
-			continue;
-
-		if (i == 0)
-		{
-			//609
-			if (guiManager->controls.At(i)->data->bounds.x <= 609)
-			{
-				easing->CreateSpline(&guiManager->controls.At(i)->data->bounds.x, 619, 1500, SplineType::QUINT);
-			}
-			else if (guiManager->controls.At(i)->data->bounds.x >= 619)
-			{
-				easing->CreateSpline(&guiManager->controls.At(i)->data->bounds.x, 609, 1500, SplineType::QUINT);
-			}
-			
-		}
-		else if (i <= 2)
-			render->DrawTexture(atlas[0], guiManager->controls.At(i)->data->bounds.x - 5, guiManager->controls.At(i)->data->bounds.y - 7, &pinkCircle, 0.0f);
-		else
-		{
-			if (i == 5)
-			{
-				render->DrawTexture(atlas[0], guiManager->controls.At(i)->data->bounds.x - 17, guiManager->controls.At(i)->data->bounds.y - 10, &pinkBox, 0.0f);
-			}
-			else
-				render->DrawTexture(atlas[0], guiManager->controls.At(i)->data->bounds.x - 10, guiManager->controls.At(i)->data->bounds.y - 10, &pinkBox, 0.0f);
-		}
+		easing->CreateSpline(&guiManager->controls.At(0)->data->bounds.x, 619, 1500, SplineType::QUINT);
+	}
+	else if (guiManager->controls.At(0)->data->bounds.x >= 619)
+	{
+		easing->CreateSpline(&guiManager->controls.At(0)->data->bounds.x, 609, 1500, SplineType::QUINT);
 	}
 
 	// Draw player profile anim
@@ -277,7 +251,7 @@ bool ScreenPause::Draw(Render* render)
 
 bool ScreenPause::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager)
 {
-	guiManager->DestroyGuiControl(iconResume);
+	guiManager->DestroyGuiControl(iconReturn);
 	guiManager->DestroyGuiControl(iconSettings);
 	guiManager->DestroyGuiControl(iconExit);
 
@@ -297,7 +271,7 @@ void ScreenPause::Enable(bool isFromSettings)
 
 		easing->CreateSpline(&iconSettings->bounds.y, 108, 1500, SplineType::QUINT);
 		easing->CreateSpline(&iconExit->bounds.y, 108, 1500, SplineType::QUINT);
-		easing->CreateSpline(&iconResume->bounds.y, 580, 1500, SplineType::QUINT);
+		easing->CreateSpline(&iconReturn->bounds.y, 580, 1500, SplineType::QUINT);
 
 		easing->CreateSpline(&iconQuest->bounds.y, 435, 1500, SplineType::QUINT);
 		easing->CreateSpline(&iconTeam->bounds.y, 435, 1500, SplineType::QUINT);
@@ -308,7 +282,7 @@ void ScreenPause::Enable(bool isFromSettings)
 		position = 50;
 		iconSettings->bounds.y = 108;
 		iconExit->bounds.y = 108;
-		iconResume->bounds.y = 580;
+		iconReturn->bounds.y = 580;
 		iconQuest->bounds.y = 435;
 		iconTeam->bounds.y = 435;
 		iconMap->bounds.y = 435;
@@ -323,7 +297,7 @@ void ScreenPause::Disable()
 	position = 700;
 	iconSettings->bounds.y = position + 108;
 	iconExit->bounds.y = position + 108;
-	iconResume->bounds.y = position + 580;
+	iconReturn->bounds.y = position + 580;
 
 	iconQuest->bounds.y = position + 435;
 	iconTeam->bounds.y = position + 435;

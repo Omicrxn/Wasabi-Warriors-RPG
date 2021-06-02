@@ -73,7 +73,7 @@ bool SceneEnding::Load(Textures* tex, Window* win, AudioManager* audio, GuiManag
     clickFx = audio->LoadFx("Audio/Fx/click.ogg");
 
     iconReturnTitle = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, 1, { 2000, 570, 70, 55 });
-    iconReturnTitle->SetIconProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, CONTROLLER_BUTTON_B, IconType::ICON_RETURN);
+    iconReturnTitle->SetIconProperties(this, guiAtlasTex, buttonFont, hoverFx, clickFx, IconType::ICON_RETURN);
 
     easing->CreateSpline(&positionX, 200, 5000, SplineType::QUINT);
     easing->CreateSpline(&iconReturnTitle->bounds.x, (int)width / 2 + (int)((float)width / 4), 10000, SplineType::BACK);

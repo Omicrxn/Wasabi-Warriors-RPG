@@ -56,7 +56,7 @@ bool ScreenSettings::Load(int minIndex, int maxIndex, Scene* currentScene, Windo
 	++counterId;
 
 	iconReturnTitle = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 609, 580, 70, 55 });
-	iconReturnTitle->SetIconProperties(currentScene, atlas0, buttonFont, hoverFx, clickFx, CONTROLLER_BUTTON_B, IconType::ICON_RETURN);
+	iconReturnTitle->SetIconProperties(currentScene, atlas0, buttonFont, hoverFx, clickFx, IconType::ICON_RETURN);
 
 	return true;
 }
@@ -102,6 +102,8 @@ bool ScreenSettings::Update(Input* input, float dt, uint& focusedButtonId)
 
 bool ScreenSettings::Draw(Render* render)
 {
+	render->DrawRectangle({ 0,0,1280,720 }, { 0, 0, 0, 70 }, true, false);
+
 	render->DrawTexture(atlas[0], (1280 / 2 - mobileRect.w / 2) / render->scale, 50 / render->scale, &mobileRect, 0.0f);
 
 	return true;
