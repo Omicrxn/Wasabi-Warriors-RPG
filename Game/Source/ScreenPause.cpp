@@ -7,6 +7,7 @@
 #include "EntityManager.h"
 #include "Player.h"
 #include "QuestManager.h"
+#include "SceneGameplay.h"
 
 ScreenPause::ScreenPause()
 {
@@ -16,8 +17,11 @@ ScreenPause::ScreenPause()
 
 	mobileRect = { 375, 339, 392, 603 };
 
-	position = 700;
+	mapRect = { 24, 1602, 330, 477 };
+	redDot = { 756, 288, 24, 24 };
 
+	position = 700;
+	mobRelativePos = (1280 / 2 - mobileRect.w / 2);
 	currentAnimation = nullptr;
 	menuFont = nullptr;
 	questManager = nullptr;
@@ -37,6 +41,17 @@ ScreenPause::ScreenPause()
 	reiAnim.loop = true;
 	reiAnim.speed = 0.004f;
 
+	mapHoverPos[0] = {139, 77};
+	mapHoverPos[1] = {147, 273};
+	mapHoverPos[2] = {117, 406};
+	mapHoverPos[3] = {253, 406 };
+	mapHoverPos[4] = {276, 309 };
+
+	for (int i = 0; i < 5; ++i)
+		isMapHover[i] = false;
+	isMapHover[0] = true;
+
+	currentMap = MapType::NONE;
 	state = MobileState::MAIN;
 }
 
@@ -52,9 +67,12 @@ bool ScreenPause::Load(int minIndex, int maxIndex, Scene* currentScene, Window* 
 	this->font = font;
 	this->easing = easing;
 	this->entityManager = entityManager;
+	this->audio = audio;
 
 	this->guiManager = guiManager;
 	this->win = win;
+
+	this->hoverFx = hoverFx;
 
 	this->minIndex = minIndex;
 	this->maxIndex = maxIndex;
@@ -94,6 +112,40 @@ bool ScreenPause::Load(int minIndex, int maxIndex, Scene* currentScene, Window* 
 
 bool ScreenPause::Update(Input* input, float dt, uint& focusedButtonId)
 {
+	int mouseX, mouseY;
+	input->GetMousePosition(mouseX, mouseY);
+
+	isMapHover[hovering] = true;
+
+	for (int i = 0; i < 5; ++i) 
+	{
+		if (PointCircleCollCheck(mouseX, mouseY, mobRelativePos + 30 + mapHoverPos[i].x, position + 39 + mapHoverPos[i].y, 40))
+		{
+			if (isMapHover[i] == false)
+				audio->PlayFx(hoverFx);
+			isMapHover[i] = true;
+			hovering = i;
+		}
+		else
+		{
+			if (hovering == i)
+				continue;
+			isMapHover[i] = false;
+		}
+			
+	}
+
+	if ((input->GetKey(SDL_SCANCODE_UP) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_UP) == KeyState::KEY_DOWN) && hovering > 0) 
+	{
+		--hovering;
+		audio->PlayFx(hoverFx);
+	}
+	else if ((input->GetKey(SDL_SCANCODE_DOWN) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KeyState::KEY_DOWN) && hovering < 4)
+	{
+		++hovering;
+		audio->PlayFx(hoverFx);
+	}
+
 	return true;
 }
 
@@ -245,6 +297,76 @@ bool ScreenPause::Draw(Render* render)
 			}
 		}
 	}
+	else if (state == MobileState::MAP)
+	{
+		render->DrawTexture(atlas[0], mobRelativePos + 30 / render->scale, position + 39 / render->scale, &mapRect, 0.0f);
+		render->DrawText(font, "RESTAURANT", mobRelativePos + 155, position + 39 + 95, 10, 2, { 255,255,255,255 });
+		render->DrawText(font, "RESTAURANT", mobRelativePos + 209, position + 39 + 263, 10, 2, { 255,255,255,255 });
+		render->DrawText(font, "RESTAURANT", mobRelativePos + 205, position + 39 + 404, 10, 2, { 0,0,0,255 });
+
+		switch (currentMap)
+		{
+		case MapType::NONE:
+			break;
+		case MapType::CEMETERY: // CEMETERY
+			render->DrawTexture(atlas[0], mobRelativePos + mapHoverPos[4].x - redDot.w / 2 + 30, position + mapHoverPos[4].y - redDot.h / 2 + 30, &redDot, 0.0f);
+			break;
+		case MapType::HOUSE: // SHINSEKAI
+			render->DrawTexture(atlas[0], mobRelativePos + mapHoverPos[2].x - redDot.w / 2 + 30, position + mapHoverPos[2].y - redDot.h / 2 + 30, &redDot, 0.0f);
+			break;
+		case MapType::KANAGAWA: // KANAGAWA
+			render->DrawTexture(atlas[0], mobRelativePos + mapHoverPos[3].x - redDot.w / 2 + 30, position + mapHoverPos[3].y - redDot.h / 2 + 30, &redDot, 0.0f);
+			break;
+		case MapType::RESTAURANT:
+			break;
+		case MapType::TOWN: // SHINSEKAI
+			render->DrawTexture(atlas[0], mobRelativePos + mapHoverPos[2].x - redDot.w / 2 + 30, position + mapHoverPos[2].y - redDot.h / 2 + 30, &redDot, 0.0f);
+			break;
+		case MapType::DOTONBORI: // DOTONBORI
+			render->DrawTexture(atlas[0], mobRelativePos + mapHoverPos[0].x - redDot.w / 2 + 30, position + mapHoverPos[0].y - redDot.h / 2 + 30, &redDot, 0.0f);
+			break;
+		case MapType::SKYSCRAPER: // DOTONBORI
+			render->DrawTexture(atlas[0], mobRelativePos + mapHoverPos[0].x - redDot.w / 2 + 30, position + mapHoverPos[0].y - redDot.h / 2 + 30, &redDot, 0.0f);
+			break;
+		case MapType::SECRET_ROOM:
+			break;
+		case MapType::OSAKA: // OSAKA
+			render->DrawTexture(atlas[0], mobRelativePos + mapHoverPos[1].x - redDot.w / 2 + 30, position + mapHoverPos[1].y - redDot.h / 2 + 30, &redDot, 0.0f);
+			break;
+		default:
+			break;
+		}
+
+		for (int i = 0; i < 5; ++i)
+		{
+			if (isMapHover[i])
+			{
+				/*render->DrawCircle(mobRelativePos + 30 + mapHoverPos[i].x, position + 39 + mapHoverPos[i].y, 40, { 255, 0, 0, 255 });*/
+				switch (i)
+				{
+				case 0:
+					render->DrawText(font, "DOTONBORI", mobRelativePos - 70 + mapHoverPos[i].x, position + mapHoverPos[i].y, 30, 2, { 255,255,255,255 });
+					break;
+				case 1:
+					render->DrawText(font, "OSAKA", mobRelativePos - 70 + mapHoverPos[i].x, position + 15 + mapHoverPos[i].y, 30, 2, { 255,255,255,255 });
+					break;
+				case 2:
+					render->DrawText(font, "SHINSEKAI", mobRelativePos - 70 + mapHoverPos[i].x, position + 39 + mapHoverPos[i].y, 30, 2, { 255,255,255,255 });
+					break;
+				case 3:
+					render->DrawText(font, "KANAGAWA", mobRelativePos - 70 + mapHoverPos[i].x, position + 50 + mapHoverPos[i].y, 30, 2, { 255,255,255,255 });
+					break;
+				case 4:
+					render->DrawText(font, "CEMETERY", mobRelativePos - 75 + mapHoverPos[i].x, position + 39 + mapHoverPos[i].y, 30, 2, { 255,255,255,255 });
+					break;
+				default:
+					break;
+				}
+			}
+			/*else
+				render->DrawCircle(mobRelativePos + 30 + mapHoverPos[i].x, position + 39 + mapHoverPos[i].y, 40, { 0, 255, 0, 255 });*/
+		}
+	}
 	
 	return true;
 }
@@ -313,4 +435,25 @@ void ScreenPause::SetMenuFont(Font* font)
 void ScreenPause::SetQuestManager(QuestManager* questManager)
 {
 	this->questManager = questManager;
+}
+
+void ScreenPause::SetMap(MapType map)
+{
+	currentMap = map;
+}
+
+bool ScreenPause::PointCircleCollCheck(float px, float py, float cx, float cy, float r) {
+
+	// get distance between the point and circle's center
+	// using the Pythagorean Theorem
+	float distX = px - cx;
+	float distY = py - cy;
+	float distance = sqrt((distX * distX) + (distY * distY));
+
+	// if the distance is less than the circle's
+	// radius the point is inside!
+	if (distance <= r) {
+		return true;
+	}
+	return false;
 }

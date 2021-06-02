@@ -1,6 +1,7 @@
 #include "Screen.h"
 #include "Animation.h"
 #include "Font.h"
+#include "Notifier.h"
 
 class QuestManager;
 
@@ -30,7 +31,12 @@ public:
 	void SetMenuFont(Font*);
 	void SetQuestManager(QuestManager*);
 
+	void SetMap(MapType map);
+
+	bool PointCircleCollCheck(float px, float py, float cx, float cy, float r);
+
 	int position;
+	int mobRelativePos;
 
 	GuiIcon* iconReturn;
 	GuiIcon* iconSettings;
@@ -41,6 +47,14 @@ public:
 	GuiIcon* iconMap;
 
 	SDL_Rect mobileRect;
+	SDL_Rect redDot;
+
+	MapType currentMap;
+	SDL_Rect mapRect;
+	iPoint mapHoverPos[5] = {};
+	bool isMapHover[5];
+	int hoverFx = -1;
+	int hovering = 0;
 
 	Animation* currentAnimation;
 	Animation kenzoAnim;

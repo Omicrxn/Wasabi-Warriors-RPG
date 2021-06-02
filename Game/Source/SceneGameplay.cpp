@@ -248,6 +248,7 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 	screenPause->Load(0, 5, this, win, guiManager, entityManager, audio, easing, guiAtlasTex2, titlesTex, buttonFont, hoverFx, clickFx);
 	((ScreenPause*)screenPause)->SetMenuFont(menuFont);
 	((ScreenPause*)screenPause)->SetQuestManager(questManager);
+	((ScreenPause*)screenPause)->SetMap(currentMap);
 	screenPause->Disable();
 
 	// Gui id goes from 6 to 10
@@ -1639,6 +1640,9 @@ void SceneGameplay::SetUpTp()
 
 		CreateEntities();
 	}
+
+	PlayMapMusic();
+	((ScreenPause*)screenPause)->SetMap(currentMap);
 }
 
 void SceneGameplay::AddItemToInvItemsList(Item* item)
