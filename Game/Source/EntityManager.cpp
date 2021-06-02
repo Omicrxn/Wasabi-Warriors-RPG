@@ -260,7 +260,7 @@ bool EntityManager::LoadStateInfo(pugi::xml_node& scenegameplay, MapType current
 	case MapType::HOUSE:
 		mapNode = mapNode.child("house");
 		break;
-	case MapType::MEDIUM_CITY:
+	case MapType::KANAGAWA:
 		mapNode = mapNode.child("mediumCity");
 		break;
 	case MapType::RESTAURANT:
@@ -269,7 +269,7 @@ bool EntityManager::LoadStateInfo(pugi::xml_node& scenegameplay, MapType current
 	case MapType::TOWN:
 		mapNode = mapNode.child("town");
 		break;
-	case MapType::BIG_CITY:
+	case MapType::DOTONBORI:
 		mapNode = mapNode.child("bigCity");
 		break;
 	case MapType::SKYSCRAPER:
@@ -277,6 +277,9 @@ bool EntityManager::LoadStateInfo(pugi::xml_node& scenegameplay, MapType current
 		break;
 	case MapType::SECRET_ROOM:
 		mapNode = mapNode.child("secretRoom");
+		break;
+	case MapType::OSAKA:
+		mapNode = mapNode.child("osaka");
 		break;
 	default:
 		break;
@@ -633,7 +636,7 @@ bool EntityManager::SaveStateInfo(pugi::xml_node& scenegameplay, MapType current
 		else
 			mapNode = mapNode.append_child("house");
 		break;
-	case MapType::MEDIUM_CITY:
+	case MapType::KANAGAWA:
 		tempName = mapNode.child("mediumCity").name();
 		if (tempName == "mediumCity")
 			mapNode = mapNode.child("mediumCity");
@@ -654,7 +657,7 @@ bool EntityManager::SaveStateInfo(pugi::xml_node& scenegameplay, MapType current
 		else
 			mapNode = mapNode.append_child("town");
 		break;
-	case MapType::BIG_CITY:
+	case MapType::DOTONBORI:
 		tempName = mapNode.child("bigCity").name();
 		if (tempName == "bigCity")
 			mapNode = mapNode.child("bigCity");
@@ -674,6 +677,13 @@ bool EntityManager::SaveStateInfo(pugi::xml_node& scenegameplay, MapType current
 			mapNode = mapNode.child("secretRoom");
 		else
 			mapNode = mapNode.append_child("secretRoom");
+		break;
+	case MapType::OSAKA:
+		tempName = mapNode.child("osaka").name();
+		if (tempName == "osaka")
+			mapNode = mapNode.child("osaka");
+		else
+			mapNode = mapNode.append_child("osaka");
 		break;
 	default:
 		break;

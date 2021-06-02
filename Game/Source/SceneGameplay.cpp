@@ -311,13 +311,13 @@ bool SceneGameplay::Update(Input* input, float dt)
 		break;
 	case MapType::HOUSE:
 		break;
-	case MapType::MEDIUM_CITY:
+	case MapType::KANAGAWA:
 		break;
 	case MapType::RESTAURANT:
 		break;
 	case MapType::TOWN:
 		break;
-	case MapType::BIG_CITY:
+	case MapType::DOTONBORI:
 		break;
 	case MapType::SKYSCRAPER:
 		if (gameProgress.hasFinishedPuzzle1 == false)
@@ -333,6 +333,8 @@ bool SceneGameplay::Update(Input* input, float dt)
 		}
 		break;
 	case MapType::SECRET_ROOM:
+		break;
+	case MapType::OSAKA:
 		break;
 	default:
 		break;
@@ -489,7 +491,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 			{
 				audio->PlayFx(doorOpenFx);
 				notifier->NotifyMapChange(MapType::SECRET_ROOM);
-				/*((Activator*)entityManager->SearchEntity("key"))->SetDrawState(DrawState::NONE);*/
+				((Activator*)entityManager->SearchEntity("key"))->SetDrawState(DrawState::NONE);
 			}
 			else notifier->NotifyDialog(8);
 		}
@@ -1071,6 +1073,12 @@ void SceneGameplay::SaveGameProgress(pugi::xml_node& data)const
 		data.attribute("hasVisitedSecretRoom").set_value(this->gameProgress.hasVisitedSecretRoom);
 	else
 		data.append_attribute("hasVisitedSecretRoom").set_value(this->gameProgress.hasVisitedSecretRoom);
+
+	tempName = data.attribute("hasVisitedOsaka").name();
+	if (tempName == "hasVisitedOsaka")
+		data.attribute("hasVisitedOsaka").set_value(this->gameProgress.hasVisitedOsaka);
+	else
+		data.append_attribute("hasVisitedOsaka").set_value(this->gameProgress.hasVisitedOsaka);
 }
 
 void SceneGameplay::LoadGameProgress(pugi::xml_node& data)
@@ -1093,6 +1101,7 @@ void SceneGameplay::LoadGameProgress(pugi::xml_node& data)
 	this->gameProgress.hasVisitedBigCity = data.attribute("hasVisitedBigCity").as_bool();
 	this->gameProgress.hasVisitedSkyScraper = data.attribute("hasVisitedSkyScraper").as_bool();
 	this->gameProgress.hasVisitedSecretRoom = data.attribute("hasVisitedSecretRoom").as_bool();
+	this->gameProgress.hasVisitedOsaka = data.attribute("hasVisitedOsaka").as_bool();
 }
 
 void SceneGameplay::SaveEntities(pugi::xml_node& scenegameplay) const
@@ -1215,7 +1224,7 @@ void SceneGameplay::SetUpTp()
 
 			RELEASE_ARRAY(data);
 			audio->StopMusic();
-			audio->PlayMusic("Audio/Music/cemetery.ogg");
+
 		}
 		break;
 	case MapType::HOUSE:
@@ -1228,10 +1237,10 @@ void SceneGameplay::SetUpTp()
 
 			RELEASE_ARRAY(data);
 			audio->StopMusic();
-			audio->PlayMusic("Audio/Music/house.ogg");
+
 		}
 		break;
-	case MapType::MEDIUM_CITY:
+	case MapType::KANAGAWA:
 		if (map->Load("MediumCity", "mediumcity.tmx") == true)
 		{
 			int w, h;
@@ -1241,7 +1250,7 @@ void SceneGameplay::SetUpTp()
 
 			RELEASE_ARRAY(data);
 			audio->StopMusic();
-			audio->PlayMusic("Audio/Music/city_background.ogg");
+
 		}
 		break;
 	case MapType::RESTAURANT:
@@ -1254,7 +1263,7 @@ void SceneGameplay::SetUpTp()
 
 			RELEASE_ARRAY(data);
 			audio->StopMusic();
-			audio->PlayMusic("Audio/Music/restaurant.ogg");
+;
 		}
 		break;
 	case MapType::TOWN:
@@ -1267,10 +1276,10 @@ void SceneGameplay::SetUpTp()
 
 			RELEASE_ARRAY(data);
 			audio->StopMusic();
-			audio->PlayMusic("Audio/Music/city_background.ogg");
+
 		}
 		break;
-	case MapType::BIG_CITY:
+	case MapType::DOTONBORI:
 		if (map->Load("bigCity", "bigCity.tmx") == true)
 		{
 			int w, h;
@@ -1280,7 +1289,7 @@ void SceneGameplay::SetUpTp()
 
 			RELEASE_ARRAY(data);
 			audio->StopMusic();
-			audio->PlayMusic("Audio/Music/city_background.ogg");
+
 		}
 		break;
 	case MapType::SKYSCRAPER:
@@ -1292,7 +1301,7 @@ void SceneGameplay::SetUpTp()
 			//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
 			RELEASE_ARRAY(data);
 			audio->StopMusic();
-			audio->PlayMusic("Audio/Music/city_background.ogg");
+
 		}
 		break;
 	case MapType::SECRET_ROOM:
@@ -1305,7 +1314,18 @@ void SceneGameplay::SetUpTp()
 
 			RELEASE_ARRAY(data);
 			audio->StopMusic();
-			audio->PlayMusic("Audio/Music/city_background.ogg");
+		}
+	case MapType::OSAKA:
+		if (map->Load("Osaka", "osaka.tmx") == true)
+		{
+			int w, h;
+			uchar* data = NULL;
+
+			//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
+
+			RELEASE_ARRAY(data);
+			audio->StopMusic();
+
 		}
 	default:
 		break;
@@ -1338,7 +1358,7 @@ void SceneGameplay::SetUpTp()
 			mapNode = mapNode.child("house");
 			hasVisitedLocation = gameProgress.hasVisitedHouse;
 			break;
-		case MapType::MEDIUM_CITY:
+		case MapType::KANAGAWA:
 			mapNode = mapNode.child("mediumCity");
 			hasVisitedLocation = gameProgress.hasVisitedMediumCity;
 			break;
@@ -1350,7 +1370,7 @@ void SceneGameplay::SetUpTp()
 			mapNode = mapNode.child("town");
 			hasVisitedLocation = gameProgress.hasVisitedTown;
 			break;
-		case MapType::BIG_CITY:
+		case MapType::DOTONBORI:
 			mapNode = mapNode.child("bigCity");
 			hasVisitedLocation = gameProgress.hasVisitedBigCity;
 			break;
@@ -1361,6 +1381,10 @@ void SceneGameplay::SetUpTp()
 		case MapType::SECRET_ROOM:
 			mapNode = mapNode.child("secretRoom");
 			hasVisitedLocation = gameProgress.hasVisitedSecretRoom;
+			break;
+		case MapType::OSAKA:
+			mapNode = mapNode.child("osaka");
+			hasVisitedLocation = gameProgress.hasVisitedOsaka;
 			break;
 		default:
 			break;
@@ -1377,7 +1401,7 @@ void SceneGameplay::SetUpTp()
 		case MapType::HOUSE:
 			previousMapNode = mapNode.child("prevHouse");
 			break;
-		case MapType::MEDIUM_CITY:
+		case MapType::KANAGAWA:
 			previousMapNode = mapNode.child("prevMediumCity");
 			break;
 		case MapType::RESTAURANT:
@@ -1386,7 +1410,7 @@ void SceneGameplay::SetUpTp()
 		case MapType::TOWN:
 			previousMapNode = mapNode.child("prevTown");
 			break;
-		case MapType::BIG_CITY:
+		case MapType::DOTONBORI:
 			previousMapNode = mapNode.child("prevBigCity");
 			break;
 		case MapType::SKYSCRAPER:
@@ -1394,6 +1418,9 @@ void SceneGameplay::SetUpTp()
 			break;
 		case MapType::SECRET_ROOM:
 			previousMapNode = mapNode.child("prevSecretRoom");
+			break;
+		case MapType::OSAKA:
+			previousMapNode = mapNode.child("prevOsaka");
 			break;
 		default:
 			break;
@@ -1560,7 +1587,7 @@ void SceneGameplay::SetUpTp()
 			case MapType::HOUSE:
 				gameProgress.hasVisitedHouse = true;
 				break;
-			case MapType::MEDIUM_CITY:
+			case MapType::KANAGAWA:
 				gameProgress.hasVisitedMediumCity = true;
 				break;
 			case MapType::RESTAURANT:
@@ -1569,7 +1596,7 @@ void SceneGameplay::SetUpTp()
 			case MapType::TOWN:
 				gameProgress.hasVisitedTown = true;
 				break;
-			case MapType::BIG_CITY:
+			case MapType::DOTONBORI:
 				gameProgress.hasVisitedBigCity = true;
 				break;
 			case MapType::SKYSCRAPER:
@@ -1577,6 +1604,8 @@ void SceneGameplay::SetUpTp()
 				break;
 			case MapType::SECRET_ROOM:
 				gameProgress.hasVisitedSecretRoom = true;
+			case MapType::OSAKA:
+				gameProgress.hasVisitedOsaka = true;
 			default:
 				break;
 			}
@@ -1642,7 +1671,7 @@ void SceneGameplay::PlayMapMusic()
 	case MapType::HOUSE:
 		audio->PlayMusic("Audio/Music/house.ogg");
 		break;
-	case MapType::MEDIUM_CITY:
+	case MapType::KANAGAWA:
 		audio->PlayMusic("Audio/Music/city_background.ogg");
 		break;
 	case MapType::RESTAURANT:
@@ -1651,7 +1680,7 @@ void SceneGameplay::PlayMapMusic()
 	case MapType::TOWN:
 		audio->PlayMusic("Audio/Music/city_background.ogg");
 		break;
-	case MapType::BIG_CITY:
+	case MapType::DOTONBORI:
 		audio->PlayMusic("Audio/Music/city_background.ogg");
 		break;
 	case MapType::SKYSCRAPER:
@@ -1659,6 +1688,9 @@ void SceneGameplay::PlayMapMusic()
 		break;
 	case MapType::SECRET_ROOM:
 		audio->PlayMusic("Audio/Music/restaurant.ogg");
+		break;
+	case MapType::OSAKA:
+		audio->PlayMusic("Audio/Music/city_background.ogg");
 		break;
 	default:
 		break;

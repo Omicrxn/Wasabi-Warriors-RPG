@@ -12,12 +12,13 @@ enum class MapType
     NONE = -1,
     CEMETERY = 0,
     HOUSE,
-    MEDIUM_CITY,
+    KANAGAWA,
     RESTAURANT,
     TOWN,
-    BIG_CITY,
+    DOTONBORI,
     SKYSCRAPER,
-    SECRET_ROOM
+    SECRET_ROOM,
+    OSAKA
 };
 
 class Notifier

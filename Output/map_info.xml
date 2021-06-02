@@ -16,7 +16,7 @@
     <prevHouse>
       <player posX="1216" posY="256"/>
     </prevHouse>
-    <teleport posX="640" posY="32" width="64" height="32" destination="0"/>
+    <teleport posX="640" posY="32" width="64" height="32" destination="8"/>
     <teleport posX="1440" posY="288" width="32" height="224" destination="2"/>
     <teleport posX="1216" posY="224" width="32" height="32" destination="1"/>
     <!--<item posX="300" posY="350" class="item" name="potion" subtype="5"/>
@@ -32,15 +32,25 @@
     <activator name="defense_2" posX="288" posY="352" width="32" height="32" drawState="0" entitySubtype="12"/>
     <activator name="defense_3" posX="352" posY="352" width="32" height="32" drawState="0" entitySubtype="12"/>
   </town>
-  <cemetery enemyCount ="1" npcCount ="3" teleportCount ="1" itemCount="3" secretWallCount="0" leverCount="0">
+  <osaka enemyCount ="0" npcCount ="0" teleportCount ="2" itemCount="0" activatorCount="0" secretWallCount="0" leverCount="0">
+    <prevBigCity>
+      <player posX="480" posY="64"/>
+    </prevBigCity>
     <prevTown>
-      <player posX="384" posY="224"/>
+      <player posX="480" posY="736"/>
     </prevTown>
+    <teleport posX="480" posY="32" width="64" height="32" destination="5"/>
+    <teleport posX="480" posY="768" width="64" height="32" destination="4"/>
+  </osaka>
+  <cemetery enemyCount ="1" npcCount ="3" teleportCount ="1" itemCount="3" secretWallCount="0" leverCount="0">
+    <prevMediumCity>
+      <player posX="384" posY="448"/>
+    </prevMediumCity>
     <enemy posX="224" posY="192" class="boss" name="Boss" spritePos="9" subtype="4"/>
     <npc posX="640" posY="352" spritePos="2" stop="false" dialogIndex="-1"/>
     <npc posX="640" posY="256" spritePos="4" stop="false" dialogIndex="-1"/>
     <npc posX="256" posY="256" spritePos="6" stop="false" dialogIndex="-1"/>
-    <teleport posX="384" posY="480" width="64" height="32" destination="4"/>
+    <teleport posX="384" posY="480" width="64" height="32" destination="2"/>
     <item posX="864" posY="420" class="item" name="wasabi" subtype="8"/>
     <!--<item posX="416" posY="420" class="item" name="pan" subtype="9"/>-->
     <!--<item posX="864" posY="128" class="item" name="fork" subtype="10"/>-->
@@ -49,9 +59,9 @@
     <prevTown>
       <player posX="128" posY="256"/>
     </prevTown>
-    <prevBigCity>
+    <prevCemetery>
       <player posX="832" posY="32"/>
-    </prevBigCity>
+    </prevCemetery>
     <prevRestaurant>
       <player posX="416" posY="448"/>
     </prevRestaurant>
@@ -59,7 +69,7 @@
     <enemy posX="256" posY="256" class="henchman" name="Henchman" spritePos="5" subtype="2"/>
     <npc posX="608" posY="352" spritePos="3" stop="false" dialogIndex="-1"/>
     <teleport posX="32" posY="224" width="32" height="64" destination="4"/>
-    <teleport posX="832" posY="32" width="64" height="32" destination="5"/>
+    <teleport posX="832" posY="32" width="64" height="32" destination="0"/>
     <teleport posX="416" posY="416" width="32" height="32" destination="3"/>
     <!--<item posX="512" posY="256" class="item" name="wasabi" subtype="8"/>-->
     <!--<item posX="256" posY="256" class="item" name="pan" subtype="9"/>-->
@@ -68,12 +78,12 @@
   </mediumCity>
  
   <bigCity enemyCount="0" npcCount="0" teleportCount="2" itemCount="3" secretWallCount="0" leverCount="0">
-    <prevMediumCity>
-      <player posX="800" posY="1100"/>
-    </prevMediumCity>
     <prevSkyscraper>
       <player posX="768" posY="352"/>
     </prevSkyscraper>
+    <prevOsaka>
+      <player posX="800" posY="1100"/>
+    </prevOsaka>
     <teleport posX="768" posY="288" width="64" height="32" destination="6"/>
     <teleport posX="736" posY="1152" width="128" height="32" destination="2"/>
     <!--<item posX="832" posY="360" class="item" name="potion" subtype="5"/>-->
@@ -102,7 +112,7 @@
     <lever name="secretWallPuzzle1Lever2" posX="384" posY="1502" width="32" height="32" number="2"/>
     <lever name="secretWallPuzzle1Lever3" posX="416" posY="1472" width="32" height="32" number="3"/>
   </dungeon>
-  <restaurant enemyCount="0" npcCount="0" teleportCount="2" activatorCount="1" itemCount="3" secretWallCount="0" leverCount="0">
+  <restaurant enemyCount="0" npcCount="0" teleportCount="1" activatorCount="1" itemCount="3" secretWallCount="0" leverCount="0">
     <prevMediumCity>
       <player posX="160" posY="384"/>
     </prevMediumCity>

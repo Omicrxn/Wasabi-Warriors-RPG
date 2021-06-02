@@ -59,6 +59,7 @@ struct GameProgress
     bool hasVisitedBigCity = false;
     bool hasVisitedSkyScraper = false;
     bool hasVisitedSecretRoom = false;
+    bool hasVisitedOsaka = false;
 };
 
 class SceneGameplay : public Scene
