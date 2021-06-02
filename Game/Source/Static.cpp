@@ -419,6 +419,262 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 		SetPivot(16, 32);
 	}
 
+	// Restaurant sorting
+
+	if (name == "door_res")
+	{
+		type = Static::Type::DOOR;
+		SetRect(352, 192, 32, 32);
+		SetPivot(16, 16);
+	}
+
+	if (name == "door_res2")
+	{
+		type = Static::Type::DOOR;
+		SetRect(96, 122, 32, 6);
+		SetPivot(32, 24);
+	}
+
+	if (name == "door_res3")
+	{
+		type = Static::Type::DOOR;
+		SetRect(96, 192, 32, 32);
+		SetPivot(16, 32);
+	}
+
+	if (name == "door_res4")
+	{
+		type = Static::Type::DOOR;
+		SetRect(128, 192, 32, 32);
+		SetPivot(16, 32);
+	}
+
+	if (name == "table_res")
+	{
+		type = Static::Type::TABLE;
+		SetRect(0, 325, 32, 27);
+		SetPivot(16, 27);
+	}
+
+	if (name == "table_res2")
+	{
+		type = Static::Type::TABLE;
+		SetRect(32, 325, 32, 27);
+		SetPivot(16, 27);
+	}
+
+	if (name == "table_res3")
+	{
+		type = Static::Type::TABLE;
+		SetRect(64, 325, 32, 27);
+		SetPivot(16, 27);
+	}
+
+	if (name == "table_res4")
+	{
+		type = Static::Type::TABLE;
+		SetRect(0, 32, 32, 27);
+		SetPivot(16, 27);
+	}
+
+	if (name == "res_table")
+	{
+		type = Static::Type::TABLE;
+		SetRect(98, 34, 30, 29);
+		SetPivot(15, 29);
+	}
+
+	if (name == "res_table2")
+	{
+		type = Static::Type::TABLE;
+		SetRect(128, 37, 31, 26);
+		SetPivot(16, 52);
+	}
+
+	if (name == "res_cupboard")
+	{
+		type = Static::Type::ROOF;
+		SetRect(320, 272, 32, 16);
+		SetPivot(16, 16);
+	}
+
+	if (name == "cash")
+	{
+		type = Static::Type::CASH;
+		SetRect(256, 119, 32, 9);
+		SetPivot(16, 9);
+	}
+
+	if (name == "cash_2")
+	{
+		type = Static::Type::CASH;
+		SetRect(288, 110, 32, 18);
+		SetPivot(16, 18);
+	}
+
+	if (name == "cash_3")
+	{
+		type = Static::Type::CASH;
+		SetRect(256, 128, 32, 10);
+		SetPivot(16, 10);
+	}
+
+	if (name == "cash_4")
+	{
+		type = Static::Type::CASH;
+		SetRect(288, 128, 32, 10);
+		SetPivot(16, 10);
+	}
+
+	if (name == "plate")
+	{
+		type = Static::Type::PLATE;
+		SetRect(70, 358, 20, 14);
+		SetPivot(80, 56);
+	}
+
+	if (name == "plate_2")
+	{
+		type = Static::Type::PLATE;
+		SetRect(169, 363, 23, 9);
+		SetPivot(92, 36);
+	}
+
+	if (name == "plate_3")
+	{
+		type = Static::Type::PLATE;
+		SetRect(192, 363, 23, 9);
+		SetPivot(92, 36);
+	}
+
+	if (name == "food")
+	{
+		type = Static::Type::FOOD;
+		SetRect(168, 295, 18, 8);
+		SetPivot(144, 64);
+	}
+
+	if (name == "food_2")
+	{
+		type = Static::Type::FOOD;
+		SetRect(71, 0, 17, 19);
+		SetPivot(136, 152);
+	}
+
+	if (name == "food_3")
+	{
+		type = Static::Type::FOOD;
+		SetRect(236, 395, 20, 7);
+		SetPivot(160, 56);
+	}
+
+	if (name == "food_4")
+	{
+		type = Static::Type::FOOD;
+		SetRect(256, 395, 20, 7);
+		SetPivot(160, 56);
+	}
+
+	if (name == "food_5")
+	{
+		type = Static::Type::FOOD;
+		SetRect(171, 261, 10, 13);
+		SetPivot(80, 104);
+	}
+
+	// Big city sorting
+
+	if (name == "lamp_city")
+	{
+		type = Static::Type::LAMP;
+		SetRect(1130, 32, 12, 27);
+		SetPivot(6, 27);
+	}
+
+	if (name == "lamp_city2")
+	{
+		type = Static::Type::LAMP;
+		SetRect(1092, 64, 24, 32);
+		SetPivot(12, 64);
+	}
+
+	if (name == "lamp_city3")
+	{
+		type = Static::Type::LAMP;
+		SetRect(1098, 32, 12, 23);
+		SetPivot(6, 23);
+	}
+
+	if (name == "lamp_city4")
+	{
+		type = Static::Type::LAMP;
+		SetRect(1092, 0, 24, 32);
+		SetPivot(12, 32);
+	}
+
+	if (name == "roof_city")
+	{
+		type = Static::Type::ROOF;
+		SetRect(416, 192, 32, 32);
+		SetPivot(16, 64);
+	}
+
+	if (name == "roof_city2")
+	{
+		type = Static::Type::ROOF;
+		SetRect(448, 192, 32, 32);
+		SetPivot(16, 64);
+	}
+
+	if (name == "roof_city3")
+	{
+		type = Static::Type::ROOF;
+		SetRect(480, 192, 32, 32);
+		SetPivot(16, 64);
+	}
+
+	if (name == "roof_city4")
+	{
+		type = Static::Type::ROOF;
+		SetRect(416, 256, 32, 32);
+		SetPivot(16, 64);
+	}
+
+	if (name == "roof_city5")
+	{
+		type = Static::Type::ROOF;
+		SetRect(448, 256, 32, 32);
+		SetPivot(16, 64);
+	}
+
+	if (name == "roof_city6")
+	{
+		type = Static::Type::ROOF;
+		SetRect(480, 256, 32, 32);
+		SetPivot(16, 64);
+	}
+
+	if (name == "roof_city7")
+	{
+		type = Static::Type::ROOF;
+		SetRect(416, 224, 32, 32);
+		SetPivot(16, 64);
+	}
+
+	if (name == "roof_city8")
+	{
+		type = Static::Type::ROOF;
+		SetRect(448, 224, 32, 32);
+		SetPivot(16, 64);
+	}
+
+	if (name == "roof_city9")
+	{
+		type = Static::Type::ROOF;
+		SetRect(480, 224, 32, 32);
+		SetPivot(16, 64);
+	}
+
 	else {
 		LOG("There isn't any type assigned to %s name entity", name.data());
 	}
@@ -448,6 +704,14 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 	else if (mapTexturePath == "Maps/Cemetery/GK_FG_B_2.png")
 	{
 		data.tileset.texture = entityManager->cemeteryTexture;
+	}
+	else if (mapTexturePath == "Maps/Restaurant/rest.png")
+	{
+		data.tileset.texture = entityManager->restaurantTexture;
+	}
+	else if (mapTexturePath == "Maps/bigCity/MainTileMap.png")
+	{
+		data.tileset.texture = entityManager->bigCityTexture;
 	}
 }
 
