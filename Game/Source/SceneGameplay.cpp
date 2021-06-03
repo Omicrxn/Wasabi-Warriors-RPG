@@ -501,12 +501,32 @@ bool SceneGameplay::Update(Input* input, float dt)
 			if (notifier->GetActivator()->name == "key")
 			{
 				gameProgress.hasPickedKey = true;
-				notifier->GetActivator()->SetDrawState(DrawState::HUD);
 			}
-			else
+			else if (notifier->GetActivator()->name == "attack_1")
 			{
-				notifier->GetActivator()->SetDrawState(DrawState::HUD);
+				notifier->NotifyDialog(9);
 			}
+			else if (notifier->GetActivator()->name == "attack_2")
+			{
+				notifier->NotifyDialog(10);
+			}
+			else if (notifier->GetActivator()->name == "attack_3")
+			{
+				notifier->NotifyDialog(11);
+			}
+			else if (notifier->GetActivator()->name == "defense_1")
+			{
+				notifier->NotifyDialog(12);
+			}
+			else if (notifier->GetActivator()->name == "defense_2")
+			{
+				notifier->NotifyDialog(13);
+			}
+			else if (notifier->GetActivator()->name == "defense_3")
+			{
+				notifier->NotifyDialog(14);
+			}
+			notifier->GetActivator()->SetDrawState(DrawState::HUD);
 		}
 	}
 
@@ -621,7 +641,7 @@ bool SceneGameplay::Draw(Render* render)
 	}
 
 	// Draw interaction notifier label
-	if (notifier->GetInteractionNotifier() && !notifier->GetBattle() && !notifier->OnDialog())
+	if (notifier->GetInteractionNotifier())
 	{
 		SDL_Rect rect = { 102,27,261,51 };
 		render->DrawTexture(guiAtlasTex2, 640 - rect.w / 2, 500, &rect, 0);

@@ -48,6 +48,12 @@ bool DialogSystem::Start()
 	// Defined dialogs
 	LoadDialog("Dialog/7.xml");
 	LoadDialog("Dialog/8.xml");
+	LoadDialog("Dialog/9.xml");
+	LoadDialog("Dialog/10.xml");
+	LoadDialog("Dialog/11.xml");
+	LoadDialog("Dialog/12.xml");
+	LoadDialog("Dialog/13.xml");
+	LoadDialog("Dialog/14.xml");
 
 	// Needed textures
 	dialogBackground = tex->Load("Textures/Dialog/dialog_background.png");
@@ -135,6 +141,24 @@ bool DialogSystem::Update(float dt)
 			break;
 		case 8:
 			StartDialog("8");
+			break;
+		case 9:
+			StartDialog("9");
+			break;
+		case 10:
+			StartDialog("10");
+			break;
+		case 11:
+			StartDialog("11");
+			break;
+		case 12:
+			StartDialog("12");
+			break;
+		case 13:
+			StartDialog("13");
+			break;
+		case 14:
+			StartDialog("14");
 			break;
 		default:
 			break;
