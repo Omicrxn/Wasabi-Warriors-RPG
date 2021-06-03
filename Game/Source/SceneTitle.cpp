@@ -158,10 +158,13 @@ bool SceneTitle::Update(Input* input, float dt)
     // Debug purposes
     //if (input->GetKey(SDL_SCANCODE_RETURN) == KeyState::KEY_DOWN) TransitionToScene(SceneType::GAMEPLAY);
 
-    if (screenMainMenu->isActive)
-        screenMainMenu->Update(input, dt, focusedButtonId);
-    else if (screenSettings->isActive)
-        screenSettings->Update(input, dt, focusedButtonId);
+    if (input->GetControllerState())
+    {
+        if (screenMainMenu->isActive)
+            screenMainMenu->Update(input, dt, focusedButtonId);
+        else if (screenSettings->isActive)
+            screenSettings->Update(input, dt, focusedButtonId);
+    }
 
     if (menuCurrentSelection == MenuSelection::SETTINGS && screenSettings->isActive == false)
     {
