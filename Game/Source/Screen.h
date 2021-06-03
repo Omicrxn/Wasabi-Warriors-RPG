@@ -33,7 +33,7 @@ typedef unsigned int uint;
 class Screen
 {
 public:
-    Screen(): minIndex(0), maxIndex(0), currentScene(nullptr), win(nullptr), guiManager(nullptr),entityManager(nullptr), font(nullptr), audio(nullptr), easing(nullptr), isActive(false)
+    Screen(): minIndex(0), maxIndex(0), currentScene(nullptr), win(nullptr), guiManager(nullptr),entityManager(nullptr), font(nullptr), audio(nullptr), easing(nullptr), battleSystem(nullptr), isActive(false)
     {
         for (int i = 0; i < 5; ++i)
         {
@@ -48,37 +48,23 @@ public:
     {
         return true;
     }
-
-    ///////////////////////////////////////////////
-    virtual bool Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* font, int hoverFx, int clickFx)
-    {
-        return true;
-    }
-    virtual bool Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, SDL_Texture* atlas2, Font* font, int hoverFx, int clickFx)
-    {
-        return true;
-    }
-    ///////////////////////////////////////////////
-
     // Screen Inventory
     virtual bool Load(int minIndex, int maxIndex, Scene* currentScene, BattleSystem* battleSystem, Window* win, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, Font* font, int hoverFx, int clickFx)
     {
         return true;
     }
-
-    ///////////////////////////////////////////////
-    virtual bool Load(int minIndex, int maxIndex, Scene* currentScene, BattleSystem* battleSystem, Window* win, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* font, int hoverFx, int clickFx)
-    {
-        return true;
-    }
+    // Screen Battle
     virtual bool Load(int minIndex, int maxIndex, Scene* currentScene, BattleSystem* battleSystem, Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, SDL_Texture* atlas0, SDL_Texture* atlas1, SDL_Texture* atlas2, Font* font0, Font* font1, Font* font2, Font* font3, int hoverFx, int clickFx, int returnFx)
     {
         return true;
     }
-    ///////////////////////////////////////////////
-    
-    // Screen Main Menu & Credits
+    // Screen Main Menu
     virtual bool Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* font, int hoverFx, int clickFx)
+    {
+        return true;
+    }
+    // Screen Credits
+    virtual bool Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, SDL_Texture* atlas0, Font* font, int hoverFx, int returnFx)
     {
         return true;
     }
@@ -88,7 +74,7 @@ public:
         return true;
     }
     // Screen Roaming
-    virtual bool Load(SceneGameplay* gameplayScene, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, Font* font, int clickFx)
+    virtual bool Load(SceneGameplay* gameplayScene, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* font, int clickFx)
     {
         return true;
     }

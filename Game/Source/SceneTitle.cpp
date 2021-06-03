@@ -54,8 +54,7 @@ SceneTitle::SceneTitle()
     settingsBackgroundRect = { 1228, 295, 300, 200 };
     creditsTitleRect = { 0, 238, 511, 84 };
 
-    // Fonts
-    titleFont = nullptr;
+    // Font
     buttonFont = nullptr;
 
     // Fx
@@ -99,7 +98,6 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
     guiAtlasTex2 = tex->Load("Textures/UI/guiTextureSpritesheet.png");
     titlesTex = tex->Load("Textures/Scenes/titles.png");
 
-    titleFont = new Font("Fonts/shojumaru.xml", tex, assetsManager);
     buttonFont = new Font("Fonts/comic_serif.xml", tex, assetsManager);
 
     hoverFx = audio->LoadFx("Audio/Fx/bong.ogg");
@@ -129,7 +127,7 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
     }
 
     screenCredits = new ScreenCredits();
-    screenCredits->Load(10, 10, this, win, guiManager, guiAtlasTex2, titlesTex, buttonFont, hoverFx, returnFx);
+    screenCredits->Load(10, 10, this, win, guiManager, guiAtlasTex2, buttonFont, hoverFx, returnFx);
 
     audio->PlayMusic("Audio/Music/menu.ogg", 0.5f);
     ScreenMainMenu* tempTitle = (ScreenMainMenu*)screenMainMenu;
@@ -270,8 +268,7 @@ bool SceneTitle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManag
     audio->UnloadFx(titleFx);
     audio->UnloadFx(returnFx);
 
-    // Unload Fonts
-    RELEASE(titleFont);
+    // Unload Font
     RELEASE(buttonFont);
 
     // Unload Screens

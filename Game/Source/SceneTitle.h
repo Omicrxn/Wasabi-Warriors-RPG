@@ -78,7 +78,6 @@ private:
     SDL_Rect settingsBackgroundRect;
     SDL_Rect creditsTitleRect;
 
-    Font* titleFont;
     Font* buttonFont;
 
     // Audio Fx for gui controls

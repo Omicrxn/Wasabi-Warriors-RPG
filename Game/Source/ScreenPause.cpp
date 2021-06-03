@@ -26,7 +26,6 @@ ScreenPause::ScreenPause()
 	position = 700;
 	mobRelativePos = (1280 / 2 - mobileRect.w / 2);
 	currentAnimation = nullptr;
-	menuFont = nullptr;
 	questManager = nullptr;
 
 	kenzoAnim.PushBack({ 795, 519, 162, 186 });
@@ -80,7 +79,7 @@ bool ScreenPause::Load(int minIndex, int maxIndex, Scene* currentScene, Window* 
 	this->maxIndex = maxIndex;
 	int counterId = minIndex;
 
-	iconReturn = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 609, position + 580, 65, 55 });
+	iconReturn = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 609, position + 580, 54, 54 });
 	iconReturn->SetIconProperties(currentScene, atlas[0], font, hoverFx, clickFx, IconType::ICON_RETURN);
 	iconReturn->state = GuiControlState::HIDDEN;
 	++counterId;
@@ -161,16 +160,6 @@ bool ScreenPause::Draw(Render* render)
 
 	render->DrawTexture(atlas[0], (1280 / 2 - mobileRect.w / 2) / render->scale, position / render->scale , &mobileRect, 0.0f);
 
-	// 609
-	if (guiManager->controls.At(0)->data->bounds.x <= 609)
-	{
-		easing->CreateSpline(&guiManager->controls.At(0)->data->bounds.x, 619, 1500, SplineType::QUINT);
-	}
-	else if (guiManager->controls.At(0)->data->bounds.x >= 619)
-	{
-		easing->CreateSpline(&guiManager->controls.At(0)->data->bounds.x, 609, 1500, SplineType::QUINT);
-	}
-
 	// Draw player profile anim
 	if (state == MobileState::MAIN)
 	{
@@ -213,18 +202,18 @@ bool ScreenPause::Draw(Render* render)
 		char s[24] = { 0 };
 
 		// Gold HUD
-		render->DrawText(menuFont, "$:", 688, position + 143, 50, 3, { 0,0,0,255 });
-		render->DrawText(menuFont, "$:", 685, position + 140, 50, 3, { 249,215,28,255 });
+		render->DrawText(font, "$:", 688, position + 142, 50, 3, { 0,0,0,255 });
+		render->DrawText(font, "$:", 685, position + 140, 50, 3, { 249,215,28,255 });
 		sprintf_s(s, 24, "%i", docNode.attribute("gold").as_int());
-		render->DrawText(menuFont, s, 763, position + 143, 50, 3, { 0,0,0,255 });
-		render->DrawText(menuFont, s, 760, position + 140, 50, 3, { 255,255,255,255 });
+		render->DrawText(font, s, 763, position + 142, 50, 3, { 0,0,0,255 });
+		render->DrawText(font, s, 760, position + 140, 50, 3, { 255,255,255,255 });
 
 		// XP HUD
-		render->DrawText(menuFont, "XP:", 688, position + 188, 50, 3, { 0,0,0,255 });
-		render->DrawText(menuFont, "XP:", 685, position + 185, 50, 3, { 60,179,113,255 });
+		render->DrawText(font, "XP:", 688, position + 187, 50, 3, { 0,0,0,255 });
+		render->DrawText(font, "XP:", 685, position + 185, 50, 3, { 60,179,113,255 });
 		sprintf_s(s, 24, "%i", docNode.attribute("xp").as_int());
-		render->DrawText(menuFont, s, 763, position + 188, 50, 3, { 0,0,0,255 });
-		render->DrawText(menuFont, s, 760, position + 185, 50, 3, { 255,255,255,255 });
+		render->DrawText(font, s, 763, position + 187, 50, 3, { 0,0,0,255 });
+		render->DrawText(font, s, 760, position + 185, 50, 3, { 255,255,255,255 });
 	}
 	else if (state == MobileState::QUEST)
 	{
@@ -237,27 +226,27 @@ bool ScreenPause::Draw(Render* render)
 			if (entityManager->playerList.At(i)->data->IsActive())
 			{
 				// Draw player name
-				render->DrawText(menuFont, entityManager->playerList.At(i)->data->name.GetString(), 588, position + 53, 50, 3, { 255,165,0,255 });
+				render->DrawText(font, entityManager->playerList.At(i)->data->name.GetString(), 588, position + 53, 50, 3, { 255,165,0,255 });
 
 				// Draw player description from the wiki
 				int offsetA = 20;
 				if (entityManager->playerList.At(i)->data->name == "Kenzo")
 				{
-					render->DrawText(menuFont, "Young man from Osaka with passion", 490, position + 90 + offsetA, 19, 3, { 0,0,0,255 });
-					render->DrawText(menuFont, "for cooking, but no resources.", 490, position + 105 + offsetA, 19, 3, { 0,0,0,255 });
-					render->DrawText(menuFont, "Then he found Erika, the owner of the", 490, position + 120 + offsetA, 19, 3, { 0,0,0,255 });
-					render->DrawText(menuFont, "best restaurant in the region, who ", 490, position + 135 + offsetA, 19, 3, { 0,0,0,255 });
-					render->DrawText(menuFont, "gave Kenzo an opportunity.", 490, position + 150 + offsetA, 19, 3, { 0,0,0,255 });
-					render->DrawText(menuFont, "Now Kenzo is a grateful cook in her", 490, position + 165 + offsetA, 19, 3, { 0,0,0,255 });
-					render->DrawText(menuFont, "restaurant in Otaru.", 490, position + 180 + offsetA, 19, 3, { 0,0,0,255 });
+					render->DrawText(font, "Young man from Osaka with passion", 490, position + 90 + offsetA, 19, 3, { 0,0,0,255 });
+					render->DrawText(font, "for cooking, but no resources.", 490, position + 105 + offsetA, 19, 3, { 0,0,0,255 });
+					render->DrawText(font, "Then he found Erika, the owner of the", 490, position + 120 + offsetA, 19, 3, { 0,0,0,255 });
+					render->DrawText(font, "best restaurant in the region, who ", 490, position + 135 + offsetA, 19, 3, { 0,0,0,255 });
+					render->DrawText(font, "gave Kenzo an opportunity.", 490, position + 150 + offsetA, 19, 3, { 0,0,0,255 });
+					render->DrawText(font, "Now Kenzo is a grateful cook in her", 490, position + 165 + offsetA, 19, 3, { 0,0,0,255 });
+					render->DrawText(font, "restaurant in Otaru.", 490, position + 180 + offsetA, 19, 3, { 0,0,0,255 });
 				}
 				else if (entityManager->playerList.At(i)->data->name == "Eiken")
 				{
-					render->DrawText(menuFont, "blablablabalbal", 500, position + 90, 15, 3, { 0,0,0,255 });
+					render->DrawText(font, "blablablabalbal", 500, position + 90, 15, 3, { 0,0,0,255 });
 				}
 				else if (entityManager->playerList.At(i)->data->name == "Rei")
 				{
-					render->DrawText(menuFont, "blablablabalbal", 500, position + 90, 15, 3, { 0,0,0,255 });
+					render->DrawText(font, "blablablabalbal", 500, position + 90, 15, 3, { 0,0,0,255 });
 				}
 
 				// Draw Player Stats
@@ -430,11 +419,6 @@ void ScreenPause::Disable()
 	iconMap->bounds.y = position + 435;
 
 	Screen::Disable();
-}
-
-void ScreenPause::SetMenuFont(Font* font)
-{
-	this->menuFont = font;
 }
 
 void ScreenPause::SetQuestManager(QuestManager* questManager)

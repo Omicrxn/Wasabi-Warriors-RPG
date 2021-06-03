@@ -201,53 +201,53 @@ bool ScreenBattle::Update(Input* input, float dt, uint& focusedButtonId)
 {
 	if (this->isActive)
 	{
-		if (input->GetControllerState())
-		{
-			// minIndex = 11
-			// GAMEPAD INPUT
-			if (focusedButtonId == minIndex)
-			{
-				if (input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN)
-					focusedButtonId = minIndex + 1;
-				else if (input->GetControllerButton(CONTROLLER_BUTTON_RIGHT) == KEY_DOWN)
-					focusedButtonId = minIndex + 2;
-			}
-			else if (focusedButtonId == minIndex + 1)
-			{
-				if (input->GetControllerButton(CONTROLLER_BUTTON_UP) == KEY_DOWN)
-					focusedButtonId = minIndex;
-				else if (input->GetControllerButton(CONTROLLER_BUTTON_RIGHT) == KEY_DOWN)
-					focusedButtonId = minIndex + 3;
-			}
-			else if (focusedButtonId == minIndex + 2)
-			{
-				if (input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN)
-					focusedButtonId = minIndex + 3;
-				else if (input->GetControllerButton(CONTROLLER_BUTTON_LEFT) == KEY_DOWN)
-					focusedButtonId = minIndex;
-			}
-			else if (focusedButtonId == minIndex + 3)
-			{
-				if (input->GetControllerButton(CONTROLLER_BUTTON_UP) == KEY_DOWN)
-					focusedButtonId = minIndex + 2;
-				else if (input->GetControllerButton(CONTROLLER_BUTTON_LEFT) == KEY_DOWN)
-					focusedButtonId = minIndex + 1;
-			}
+		//if (input->GetControllerState())
+		//{
+		//	// minIndex = 11
+		//	// GAMEPAD INPUT
+		//	if (focusedButtonId == minIndex)
+		//	{
+		//		if (input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN)
+		//			focusedButtonId = minIndex + 1;
+		//		else if (input->GetControllerButton(CONTROLLER_BUTTON_RIGHT) == KEY_DOWN)
+		//			focusedButtonId = minIndex + 2;
+		//	}
+		//	else if (focusedButtonId == minIndex + 1)
+		//	{
+		//		if (input->GetControllerButton(CONTROLLER_BUTTON_UP) == KEY_DOWN)
+		//			focusedButtonId = minIndex;
+		//		else if (input->GetControllerButton(CONTROLLER_BUTTON_RIGHT) == KEY_DOWN)
+		//			focusedButtonId = minIndex + 3;
+		//	}
+		//	else if (focusedButtonId == minIndex + 2)
+		//	{
+		//		if (input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN)
+		//			focusedButtonId = minIndex + 3;
+		//		else if (input->GetControllerButton(CONTROLLER_BUTTON_LEFT) == KEY_DOWN)
+		//			focusedButtonId = minIndex;
+		//	}
+		//	else if (focusedButtonId == minIndex + 3)
+		//	{
+		//		if (input->GetControllerButton(CONTROLLER_BUTTON_UP) == KEY_DOWN)
+		//			focusedButtonId = minIndex + 2;
+		//		else if (input->GetControllerButton(CONTROLLER_BUTTON_LEFT) == KEY_DOWN)
+		//			focusedButtonId = minIndex + 1;
+		//	}
 
-			for (int i = minIndex; i <= maxIndex; ++i)
-			{
-				if (i != focusedButtonId)
-				{
-					// SET GAMEPAD FOCUS TO FALSE
-					guiManager->controls.At(i)->data->gamepadFocus = false;
-				}
-				else
-				{
-					// SET GAMEPAD FOCUS TO TRUE
-					guiManager->controls.At(i)->data->gamepadFocus = true;
-				}
-			}
-		}
+		//	for (int i = minIndex; i <= maxIndex; ++i)
+		//	{
+		//		if (i != focusedButtonId)
+		//		{
+		//			// SET GAMEPAD FOCUS TO FALSE
+		//			guiManager->controls.At(i)->data->gamepadFocus = false;
+		//		}
+		//		else
+		//		{
+		//			// SET GAMEPAD FOCUS TO TRUE
+		//			guiManager->controls.At(i)->data->gamepadFocus = true;
+		//		}
+		//	}
+		//}
 
 		battleSystem->Update(input, dt);
 
@@ -401,7 +401,7 @@ bool ScreenBattle::Draw(Render* render)
 	{
 		render->DrawTexture(backgroundTex, 0, 0, &backgroundRect, 0);
 
-		render->scale = 1.5;
+		render->scale = 1.5f;
 
 		render->DrawTexture(guiAtlasTex2, 45, 183, &backRamen1, 0);
 		render->DrawTexture(guiAtlasTex2, 445, 110, &backRamen2, 0);

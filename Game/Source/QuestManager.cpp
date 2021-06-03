@@ -35,7 +35,7 @@ QuestManager::~QuestManager()
 
 bool QuestManager::Start()
 {
-	font = new Font("Fonts/poppins.xml", tex, assetsManager);
+	font = new Font("Fonts/comic_serif.xml", tex, assetsManager);
 
 	// ToDo 2: Load the xml file, parse the result, and make a node pointing to quests parent
 	///////////////////////////////////////////////////////////////////////////
@@ -147,8 +147,8 @@ bool QuestManager::DrawActiveQuests()
 			// Description Drawing if pressed L
 			///////////////////////////////////////////////////////////////////////////
 			//render->DrawText(font, L->data->description.GetString(), 480, 300, 35, 3, { 200,200,200,255 });
-			render->DrawText(font, "Go to the Takada offices", 480, 300, 35, 3, { 200,200,200,255 });
-			render->DrawText(font, "and talk with the receptionist.", 480, 350, 35, 3, { 200,200,200,255 });
+			render->DrawText(font, "Go to the Takada offices", 480, 300, 35, 3, { 0,0,0,255 });
+			render->DrawText(font, "and talk with the receptionist.", 480, 350, 35, 3, { 0,0,0,255 });
 			///////////////////////////////////////////////////////////////////////////
 
 			break;
@@ -159,7 +159,7 @@ bool QuestManager::DrawActiveQuests()
 
 			// Description Drawing if pressed L
 			///////////////////////////////////////////////////////////////////////////
-			render->DrawText(font, L->data->description.GetString(), 480, 300, 35, 3, { 200,200,200,255 });
+			render->DrawText(font, L->data->description.GetString(), 480, 300, 35, 3, { 0,0,0,255 });
 			///////////////////////////////////////////////////////////////////////////
 			break;
 
@@ -170,7 +170,7 @@ bool QuestManager::DrawActiveQuests()
 
 			// Description Drawing if pressed L
 			///////////////////////////////////////////////////////////////////////////
-			render->DrawText(font, L->data->description.GetString(), 480, 300, 35, 3, { 200,200,200,255 });
+			render->DrawText(font, L->data->description.GetString(), 480, 300, 35, 3, { 0,0,0,255 });
 			///////////////////////////////////////////////////////////////////////////
 			break;
 		case 4: // new quest chain 1
@@ -180,7 +180,7 @@ bool QuestManager::DrawActiveQuests()
 
 			// Description Drawing if pressed L
 			///////////////////////////////////////////////////////////////////////////
-			render->DrawText(font, L->data->description.GetString(), 480, 300, 35, 3, { 200,200,200,255 });
+			render->DrawText(font, L->data->description.GetString(), 480, 300, 35, 3, { 0,0,0,255 });
 			///////////////////////////////////////////////////////////////////////////
 			break;
 		default:

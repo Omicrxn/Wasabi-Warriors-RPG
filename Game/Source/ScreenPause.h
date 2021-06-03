@@ -28,7 +28,6 @@ public:
 	void Enable(bool isFromSettings = false);
 	void Disable();
 
-	void SetMenuFont(Font*);
 	void SetQuestManager(QuestManager*);
 
 	void SetMap(MapType map);
@@ -60,8 +59,6 @@ public:
 	Animation kenzoAnim;
 	Animation reiAnim;
 	Animation eikenAnim;
-
-	Font* menuFont;
 
 	MobileState state = MobileState::MAIN;
 

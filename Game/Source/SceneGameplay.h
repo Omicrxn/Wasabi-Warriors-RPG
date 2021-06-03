@@ -28,7 +28,7 @@ class ScreenInventory;
 
 struct InvItem;
 
-enum GameState
+enum class GameState
 {
     ROAMING,
     INVENTORY,
@@ -195,9 +195,9 @@ private:
 
     // Fonts
     Font* titleFont;
-    Font* buttonFont;
+    Font* battleFont;
     Font* menuFont;
-    Font* menuFont2;
+    Font* buttonFont;
 
     // Audio Fx for buttons
     int hoverFx, clickFx, returnFx;

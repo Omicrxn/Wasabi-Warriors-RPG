@@ -14,6 +14,8 @@ ScreenRoaming::ScreenRoaming()
 
 	gameplayScene = nullptr;
 
+	controller = false;
+
 	iconPhone = { 20, 14, 52, 66 };
 	iconInventory = { 84, 16, 60, 62 };
 

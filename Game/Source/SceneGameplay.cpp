@@ -33,6 +33,7 @@
 SceneGameplay::SceneGameplay(bool hasStartedFromContinue)
 {
 	this->hasStartedFromContinue = hasStartedFromContinue;
+
 	if (this->hasStartedFromContinue)
 		type = SceneType::GAMEPLAY_LOAD;
 	else
@@ -89,7 +90,7 @@ SceneGameplay::SceneGameplay(bool hasStartedFromContinue)
 
 	// Fonts
 	titleFont = nullptr;
-	buttonFont = nullptr;
+	battleFont = nullptr;
 
 	// Audio Fx for buttons
 	hoverFx = -1;
@@ -154,10 +155,13 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 
 	// Load battle system textures
 	backgroundTex = tex->Load("Textures/Scenes/battle_scene.jpg");
+
 	guiAtlasTex = tex->Load("Textures/UI/ui_spritesheet.png");
 	guiAtlasTex2 = tex->Load("Textures/UI/guiTextureSpritesheet.png");
 	guiAtlasOut = tex->Load("Textures/UI/outsideGUI.png");
+
 	aura = tex->Load("Textures/Scenes/aura.png");
+
 	cast1 = tex->Load("Textures/Effects/cast_001.png");
 	enemyCast = tex->Load("Textures/Effects/cast_008.png");
 	indicator = tex->Load("Textures/Effects/fire_003.png");
@@ -226,9 +230,10 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 
 	// Create fonts
 	titleFont = new Font("Fonts/shojumaru.xml", tex, assetsManager);
-	buttonFont = new Font("Fonts/SHOWG.xml", tex, assetsManager);
+	battleFont = new Font("Fonts/SHOWG.xml", tex, assetsManager);
+
 	menuFont = new Font("Fonts/poppins.xml", tex, assetsManager);
-	menuFont2 = new Font("Fonts/comic_serif.xml", tex, assetsManager);
+	buttonFont = new Font("Fonts/comic_serif.xml", tex, assetsManager);
 
 	// Load buttons Fx
 	hoverFx = audio->LoadFx("Audio/Fx/bong.ogg");
@@ -240,13 +245,12 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 	bagOpenFx = audio->LoadFx("Audio/Fx/bag_open.ogg");
 
 	screenRoaming = new ScreenRoaming();
-	screenRoaming->Load(this, guiManager, entityManager, audio, easing, guiAtlasOut, guiAtlasTex2, menuFont2, clickFx);
+	screenRoaming->Load(this, guiManager, entityManager, audio, easing, guiAtlasOut, guiAtlasTex2, buttonFont, clickFx);
 	screenRoaming->isActive = true;
 
 	// Gui id goes from 0 to 5
 	screenPause = new ScreenPause();
 	screenPause->Load(0, 5, this, win, guiManager, entityManager, audio, easing, guiAtlasTex2, buttonFont, hoverFx, clickFx);
-	screenPause->SetMenuFont(menuFont);
 	screenPause->SetQuestManager(questManager);
 	screenPause->SetMap(currentMap);
 	screenPause->Disable();
@@ -258,12 +262,12 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 
 	// Gui id goes from 11 to 14
 	screenBattle = new ScreenBattle();
-	screenBattle->Load(11, 14, this, battleSystem, tex, win, audio, guiManager, entityManager, charactersSpritesheet, guiAtlasTex, guiAtlasTex2, titleFont, buttonFont, menuFont, menuFont2, hoverFx, clickFx, returnFx);
+	screenBattle->Load(11, 14, this, battleSystem, tex, win, audio, guiManager, entityManager, charactersSpritesheet, guiAtlasTex, guiAtlasTex2, titleFont, battleFont, menuFont, buttonFont, hoverFx, clickFx, returnFx);
 	screenBattle->isActive = false;
 
 	// Gui id goes from 15 to 16
 	screenInventory = new ScreenInventory();
-	screenInventory->Load(15, 16, this, battleSystem, win, guiManager, entityManager, audio, easing, guiAtlasTex2, menuFont2, hoverFx, clickFx);
+	screenInventory->Load(15, 16, this, battleSystem, win, guiManager, entityManager, audio, easing, guiAtlasTex2, buttonFont, hoverFx, clickFx);
 	screenInventory->Disable();
 
 	if (hasStartedFromContinue)
@@ -648,15 +652,15 @@ bool SceneGameplay::Draw(Render* render)
 
 		if (notifier->GetInteractingEntity()->type == EntityType::ENEMY)
 		{
-			render->DrawText(menuFont2, "Press F to fight", 640 - rect.w / 2 + 25, 500 + 7, 35, 1, { 128,128,128,255 });
+			render->DrawText(buttonFont, "Press F to fight", 640 - rect.w / 2 + 25, 500 + 7, 35, 1, { 128,128,128,255 });
 		}
 		else if (notifier->GetInteractingEntity()->type == EntityType::NPC)
 		{
-			render->DrawText(menuFont2, "Press F to talk", 640 - rect.w / 2 + 30, 500 + 7, 35, 1, { 128,128,128,255 });
+			render->DrawText(buttonFont, "Press F to talk", 640 - rect.w / 2 + 30, 500 + 7, 35, 1, { 128,128,128,255 });
 		}
 		else
 		{
-			render->DrawText(menuFont2, "Press F to interact", 640 - rect.w / 2 + 5, 500 + 7, 35, 1, { 128,128,128,255 });
+			render->DrawText(buttonFont, "Press F to interact", 640 - rect.w / 2 + 5, 500 + 7, 35, 1, { 128,128,128,255 });
 		}
 
 		notifier->NotifyInteraction();
@@ -678,9 +682,9 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 
 	// Release fonts
 	RELEASE(titleFont);
-	RELEASE(buttonFont);
+	RELEASE(battleFont);
 	RELEASE(menuFont);
-	RELEASE(menuFont2);
+	RELEASE(buttonFont);
 
 	// Unload textures
 	tex->UnLoad(charactersSpritesheet);

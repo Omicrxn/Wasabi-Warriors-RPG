@@ -32,7 +32,16 @@ class GuiControl
 {
 public:
 
-    GuiControl(GuiControlType type, uint32 id) : type(type), id(id), state(GuiControlState::NORMAL) {}
+    GuiControl(GuiControlType type, uint32 id) : type(type), id(id), state(GuiControlState::NORMAL)
+    {
+        texture = nullptr;
+        observer = nullptr;
+        font = nullptr;
+        isHovering = false;
+        gamepadFocus = false;
+        hoverFx = clickFx = -1;
+        bounds = { 0,0,0,0 };
+    }
 
     GuiControl(GuiControlType type, SDL_Rect bounds, const char* text) :
         type(type),
@@ -40,7 +49,13 @@ public:
         bounds(bounds),
         text(text)
     {
-        texture = NULL;
+        texture = nullptr;
+        observer = nullptr;
+        font = nullptr;
+        id = 0;
+        isHovering = false;
+        gamepadFocus = false;
+        hoverFx = clickFx = -1;
     }
 
     virtual bool Update(Input* input, AudioManager* audio, float dt)

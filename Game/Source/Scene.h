@@ -98,6 +98,7 @@ public:
 
     // Possible properties
     bool loaded = false;
+
     // TODO: Transition animation properties
     SceneType type;
     bool transitionRequired;

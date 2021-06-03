@@ -22,6 +22,9 @@ GuiManager::GuiManager(Input* input, Render* render, Textures* tex, AudioManager
 	mousePos = { 0,0 };
 	clicking = false;
 
+	mouseRect[0] = { 30,482,30,30 };
+	mouseRect[1] = { 60,482,30,30 };
+
 	exitingGame = false;
 	activeMouse = true;
 }
@@ -79,8 +82,6 @@ bool GuiManager::Start()
 		tex->UnLoad(guiAtlasTex);
 
 	guiAtlasTex = tex->Load("Textures/UI/ui_spritesheet.png");
-	mouseRect[0] = { 30,482,30,30 };
-	mouseRect[1] = { 60,482,30,30 };
 
 	return true;
 }
@@ -129,7 +130,7 @@ void GuiManager::UpdateAll(float dt, bool doLogic)
 {
 	if (doLogic == true)
 	{
-		for (int i = 0; i < controls.Count(); i++)
+		for (uint i = 0; i < controls.Count(); i++)
 		{
 			controls[i]->Update(this->input, this->audio, dt);
 		}
@@ -138,7 +139,7 @@ void GuiManager::UpdateAll(float dt, bool doLogic)
 
 void GuiManager::DrawAll()
 {
-	for (int i = 0; i < controls.Count(); i++)
+	for (uint i = 0; i < controls.Count(); i++)
 	{
 		controls[i]->Draw(this->render, debugDraw);
 	}
@@ -174,10 +175,12 @@ void GuiManager::ToggleMouse()
 GuiControl* GuiManager::FindById(int id)
 {
 	GuiControl* toReturn = nullptr;
-	for (int i = 0; i < controls.Count(); i++)
+
+	for (uint i = 0; i < controls.Count(); i++)
 	{
 		if (controls[i]->id == id)
 			return toReturn = controls[i];
 	}
+
 	return nullptr;
 }
