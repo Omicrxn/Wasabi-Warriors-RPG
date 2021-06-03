@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <!-- STEP 0 -->
+	<Product Id="*" Name="Wasabi Warriors" Language="1033" Version="1.0.0.0" Manufacturer="Bat Cat Studios" UpgradeCode="e557a0e1-d29e-4276-b9f6-0762bad0a17f">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of Wasabi Warriors is already installed." />
+		<MediaTemplate />
+    
+    <!-- STEP 5 -->
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+    <UIRef Id="WixUI_InstallDir" />
+    <!-- STEP 5 -->
+    <WixVariable Id="WixUIBannerBmp" Value="assets\TopBanner.bmp" />
+    <WixVariable Id="WixUIDialogBmp" Value="assets\BackgroundBanner.bmp" />
+    <!-- STEP 5 -->
+    <WixVariable Id="WixUILicenseRtf" Value="assets\MyLicense.rtf" />
+    
+    <!-- STEP 4 -->
+    <Icon Id="icon.ico" SourceFile="assets\wasabi_warriors.ico" />
+    <Property Id="ARPPRODUCTICON" Value="icon.ico" />
+
+    <!-- FEATURE FRAGMENT -->
+		<Feature Id="ProductFeature" Title="Wasabi Warriors" Level="1">
+      <!-- STEP 1 -->
+			<ComponentGroupRef Id="ProductComponents" />
+      <!-- STEP 2 -->
+      <ComponentRef Id="StartMenuShortcut" />
+      <!-- STEP 3 -->
+      <ComponentRef Id="DesktopShortcut" />
+      <!-- STEP 6 -->
+      <ComponentGroupRef Id="HeatGenerated" />
+		</Feature>
+	</Product>
+
+  <!-- SHORTCUTS FRAGMENT -->
+  <!-- STEP 2 -->
+  <Fragment>
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="StartMenuShortcut" Guid="ea2fc581-b635-4278-a8f1-1a81320d803a">
+        <Shortcut Id="ApplicationStartMenuShortcut"
+               Name="Wasabi Warriors"
+               Description="Wasabi Warriors is a Role-Playing Game with a theme-based on an urban Japanese environment and a story about power and corruption. "
+               Target="[#wasabi_warriors.exe]"
+               WorkingDirectory="INSTALLFOLDER"
+               Icon = "icon.ico"/><!-- STEP 4 -->
+        <RemoveFolder Id="RemoveProgramsFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\BatCatStudios\WasabiWarriors" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+
+    <!-- STEP 3 -->
+    <DirectoryRef Id="DesktopFolder">
+      <Component Id="DesktopShortcut" Guid="c0f4eeec-8988-4c58-8a0a-2ebac04e2a2a">
+        <Shortcut Id="ApplicationDesktopShortcut"
+               Name="Wasabi Warriors"
+               Description="Wasabi Warriors is a Role-Playing Game with a theme-based on an urban Japanese environment and a story about power and corruption. "
+               Target="[#wasabi_warriors.exe]"
+               WorkingDirectory="INSTALLFOLDER"
+               Icon = "icon.ico"/><!-- STEP 4 -->
+        <RemoveFolder Id="RemoveDesktopFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\BatCatStudios\MyApplicationName" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+    
+  </Fragment>
+  
+  
+  <!-- DIRECTORIES FRAGMENT -->
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+      
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="INSTALLFOLDER" Name="Wasabi Warriors" />
+			</Directory>
+
+      <!-- STEP 2 -->
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="Wasabi Warriors"/>
+      </Directory>
+      
+      <!-- STEP 3 -->
+      <Directory Id="DesktopFolder" Name="Wasabi Warriors" />
+
+    </Directory>
+  </Fragment>
+
+  <!-- COMPONENTS FRAGMENT -->
+	<Fragment>
+		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+			<!-- STEP 1 -->
+      <Component Id="wasabi_warriors.exe" Guid="4b886816-febd-4e5c-a87f-923960027d5c">
+                <File Id="wasabi_warriors.exe" Source="..\Build\Release\wasabi_warriors.exe" KeyPath="yes" Checksum="yes" />
+            </Component> 
+    </ComponentGroup>
+	</Fragment>
+</Wix>
