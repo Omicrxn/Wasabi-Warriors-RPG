@@ -19,15 +19,16 @@ ScreenRoaming::ScreenRoaming()
 
 	LBButton = { 434, 253, 90, 62 };
 	RBButton = { 534, 253, 90, 62 };
-	playersIcons = { 769,220, 81, 56};
+	playersIcons = { 387, 234, 90, 88 };
+
+	
+	posRight = { 1100, 40 };
+	posLeft = { 920, 40 };
 
 	for (int i = 0; i < 4; ++i)
 	{
 		playerMiniRectPos[i] = posRight;
 	}
-
-	posRight = { 1096 + 50, 78 + 22 };
-	posLeft = { 1000 + 50, 78 + 22 };
 
 	// Important for these to be -1
 	previousSelected = -1;
@@ -42,9 +43,11 @@ ScreenRoaming::~ScreenRoaming()
 {
 }
 
-bool ScreenRoaming::Load(SceneGameplay* gameplayScene, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, Font* font, int clickFx)
+bool ScreenRoaming::Load(SceneGameplay* gameplayScene, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* font, int clickFx)
 {
 	this->atlas[0] = atlas0;
+	this->atlas[1] = atlas1;
+
 	this->font = font;
 
 	this->gameplayScene = gameplayScene;
@@ -99,17 +102,17 @@ bool ScreenRoaming::Draw(Render* render)
 		render->DrawText(font, "X", positionX + 120 + 55, 20, 35, 3, { 0,0,255,255 });
 	}
 
-	posRight = { 1096 + 50, 78 + 22 };
-	posLeft = { 1000 + 50, 78 + 22 };
+	posRight = { 1100, 40 };
+	posLeft = { 920, 40 };
 
 	// Draw anything extra needed in the hud
-	render->DrawTexture(this->atlas[0], posLeft.x + 50, posLeft.y - 70, &playersIcons, 0.0f);
+	render->DrawTexture(this->atlas[1], 1000, 40, &playersIcons, 0.0f);
 
 	// LB & RB buttons sprite draw
 	if (controller)
 	{
-		render->DrawTexture(this->atlas[0], posLeft.x - 40, posLeft.y - 70, &LBButton, 0.0f);
-		render->DrawTexture(this->atlas[0], posRight.x + 40, posRight.y - 70, &RBButton, 0.0f);
+		render->DrawTexture(this->atlas[0], posLeft.x - 40, posLeft.y, &LBButton, 0.0f);
+		render->DrawTexture(this->atlas[0], posRight.x + 40, posRight.y, &RBButton, 0.0f);
 	}
 
 	// Player Selection
@@ -127,14 +130,14 @@ bool ScreenRoaming::Draw(Render* render)
 				render->DrawRectangle({ playerMiniRectPos[i].x, playerMiniRectPos[i].y, 70, 70 }, { 255,255,255,127 }, true, false);
 
 				render->DrawRectangle({ playerMiniRectPos[i].x, playerMiniRectPos[i].y, 70, 70 }, { 255,255,255,255 }, false, false);
-				render->DrawTexture(entityManager->texture, playerMiniRectPos[i].x / 2 + 2, playerMiniRectPos[i].y / 2 + 2, &rect, 0.0f);
+				render->DrawTexture(entityManager->texture, playerMiniRectPos[i].x / 2 + 2, (playerMiniRectPos[i].y) / 2 + 2, &rect, 0.0f);
 
 			}
 			else
 			{
 				// Draw other players without higlight
 				render->DrawRectangle({ playerMiniRectPos[i].x + spacing, playerMiniRectPos[i].y, 70, 70 }, { 255,255,255,255 }, false, false);
-				render->DrawTexture(entityManager->texture, playerMiniRectPos[i].x / 2 + 2 + spacing, playerMiniRectPos[i].y / 2 + 2, &rect, 0.0f);
+				render->DrawTexture(entityManager->texture, playerMiniRectPos[i].x / 2 + 2 + spacing, (playerMiniRectPos[i].y) / 2 + 2, &rect, 0.0f);
 				spacing += 4;
 			}
 			render->scale = 1;

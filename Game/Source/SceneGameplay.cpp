@@ -240,7 +240,7 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 	bagOpenFx = audio->LoadFx("Audio/Fx/bag_open.ogg");
 
 	screenRoaming = new ScreenRoaming();
-	screenRoaming->Load(this, guiManager, entityManager, audio, easing, guiAtlasOut, menuFont2, clickFx);
+	screenRoaming->Load(this, guiManager, entityManager, audio, easing, guiAtlasOut, guiAtlasTex2, menuFont2, clickFx);
 	screenRoaming->isActive = true;
 
 	// Gui id goes from 0 to 5
@@ -901,6 +901,11 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 
 				guiManager->ToggleMouse();
 
+				for (int i = 0; i < entityManager->playerList.Count(); i++)
+				{
+					entityManager->playerList.At(i)->data->stopPlayer = false;
+				}
+
 				PlayMapMusic();
 			}
 		}
@@ -945,10 +950,16 @@ void SceneGameplay::OpenPause()
 
 void SceneGameplay::OpenInventory()
 {
+	// Entering inventory from roaming
 	currentState = GameState::INVENTORY;
 
 	screenRoaming->Disable();
 	screenInventory->Enable();
+
+	for (int i = 0; i < entityManager->playerList.Count(); i++)
+	{
+		entityManager->playerList.At(i)->data->stopPlayer = true;
+	}
 
 	audio->PlayFx(bagOpenFx);
 }

@@ -15,18 +15,18 @@ ScreenInventory::ScreenInventory()
 	itemHovering = { 0,0 };
 	itemSelected = { -1,-1 };
 
-	invMatrixPos = { 385, 110 };
+	invMatrixPos = { 385 + 70, 110 };
 
 	LBButton = { 434, 253, 90, 62 };
 	RBButton = { 534, 253, 90, 62 };
-	playersIcons = { 769,220, 81, 56 };
+	playersIcons = { 387, 234, 90, 88 };
 	pinkBox = { 237, 315, 108, 108 };
 	grayBox = { 396, 108, 108, 108 };
 
 	controller = false;
 	hasClickedConsume = false;
 
-	bagRect = { 1195, 320, 800, 603 };
+	bagRect = { 1195, 320, 660, 603 };
 
 	positionX = 2000;
 	animIncrementY = 2000;
@@ -107,6 +107,11 @@ bool ScreenInventory::Update(Input* input, float dt, uint& focusedButtonId)
 				{
 					itemSelected = itemHovering;
 				}
+			}
+
+			if (input->GetControllerButton(ControllerButton::CONTROLLER_BUTTON_A) == KeyState::KEY_DOWN || input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN)
+			{
+				itemSelected = itemHovering;
 			}
 		}
 		slotRect.y = slotRect.y + 30 + slotRect.h;
@@ -220,8 +225,8 @@ bool ScreenInventory::Draw(Render* render)
 		slotRect.y = slotRect.y + 30 + slotRect.h;
 	}
 
-	int posPlayerStatsX = 485;
-	render->DrawTexture(this->atlas[0], 1000, animIncrementY + invMatrixPos.y, &playersIcons, 0.0f);
+	int posPlayerStatsX = 485 + 70;
+	render->DrawTexture(this->atlas[0], 1050, animIncrementY + 50, &playersIcons, 0.0f);
 	if (controller)
 	{
 		render->DrawTexture(this->atlas[0], 780 - 40, animIncrementY + 70, &LBButton, 0.0f);
@@ -235,9 +240,9 @@ bool ScreenInventory::Draw(Render* render)
 			int y = entityManager->playerList.At(i)->data->spritePos * 32 * 5;
 			SDL_Rect rect = { 0, y , 32, 32 };
 			render->scale = 2;
-			render->DrawRectangle({ positionX,  animIncrementY + invMatrixPos.y - 5, 70, 70 }, { 255,255,255,127 }, true, false);
-			render->DrawRectangle({ positionX, animIncrementY + invMatrixPos.y - 5, 70, 70 }, { 255,255,255,255 }, false, false);
-			render->DrawTexture(entityManager->texture, (positionX) / 2 + 2, (invMatrixPos.y - 5) / 2 + 2, &rect, 0.0f);
+			render->DrawRectangle({ positionX + 60,  animIncrementY + invMatrixPos.y + 30, 70, 70 }, { 255,255,255,127 }, true, false);
+			render->DrawRectangle({ positionX + 60, animIncrementY + invMatrixPos.y + 30, 70, 70 }, { 255,255,255,255 }, false, false);
+			render->DrawTexture(entityManager->texture, (positionX + 60) / 2 + 2, (invMatrixPos.y + 30) / 2 + 2, &rect, 0.0f);
 			render->scale = 1;
 
 			// Draw Player Stats
@@ -250,7 +255,7 @@ bool ScreenInventory::Draw(Render* render)
 			render->DrawText(font, "Atk Speed:", posPlayerStatsX + 180, animIncrementY + 520, 18, 2, { 19, 38, 57,255 });
 			render->DrawText(font, "CritRate:", posPlayerStatsX + 180, animIncrementY + 550, 18, 2, { 19, 38, 57,255 });
 
-			int posStatsNum = 580;
+			int posStatsNum = 580 + 70;
 			char statsString[30] = { 0 };
 			sprintf_s(statsString, 30, "%i  ", entityManager->playerList.At(i)->data->stats.level);
 			render->DrawText(font, statsString, posStatsNum, animIncrementY + 460, animIncrementY + 18, 2, { 255, 194, 102,255 });
@@ -404,8 +409,8 @@ void ScreenInventory::Enable(bool isFromBattle)
 	{
 		easing->CreateSpline(&positionX, 1000, 2000, SplineType::QUINT);
 		easing->CreateSpline(&animIncrementY, 0, 2000, SplineType::QUINT);
-		easing->CreateSpline(&btnConfirm->bounds.x, 1000, 2000, SplineType::QUINT);
-		easing->CreateSpline(&btnCancel->bounds.x, 1000, 2000, SplineType::QUINT);
+		easing->CreateSpline(&btnConfirm->bounds.x, 1040, 2000, SplineType::QUINT);
+		easing->CreateSpline(&btnCancel->bounds.x, 1040, 2000, SplineType::QUINT);
 	}
 	
 	Screen::Enable();

@@ -8,7 +8,7 @@ public:
 	ScreenRoaming();
 	~ScreenRoaming();
 
-	bool Load(SceneGameplay* gameplayScene, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, Font* font, int clickFx);
+	bool Load(SceneGameplay* gameplayScene, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* font, int clickFx);
 
 	bool Update(Input* input, float dt);
 	bool Draw(Render* render);
