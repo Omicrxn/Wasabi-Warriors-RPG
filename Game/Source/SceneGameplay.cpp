@@ -648,15 +648,15 @@ bool SceneGameplay::Draw(Render* render)
 
 		if (notifier->GetInteractingEntity()->type == EntityType::ENEMY)
 		{
-			render->DrawText(menuFont, "Press F to fight", 640 - rect.w / 2 + 35, 500 + 5, 40, 1, { 127,127,127,255 });
+			render->DrawText(menuFont2, "Press F to fight", 640 - rect.w / 2 + 25, 500 + 7, 35, 1, { 128,128,128,255 });
 		}
 		else if (notifier->GetInteractingEntity()->type == EntityType::NPC)
 		{
-			render->DrawText(menuFont, "Press F to talk", 640 - rect.w / 2 + 40, 500 + 5, 40, 1, { 127,127,127,255 });
+			render->DrawText(menuFont2, "Press F to talk", 640 - rect.w / 2 + 30, 500 + 7, 35, 1, { 128,128,128,255 });
 		}
 		else
 		{
-			render->DrawText(menuFont, "Press F to interact", 640 - rect.w / 2 + 15, 500 + 5, 40, 1, { 127,127,127,255 });
+			render->DrawText(menuFont2, "Press F to interact", 640 - rect.w / 2 + 5, 500 + 7, 35, 1, { 128,128,128,255 });
 		}
 
 		notifier->NotifyInteraction();
@@ -842,7 +842,8 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 			if (battleSystem->playerState != PlayerState::NONE && battleSystem->battleState != BattleState::PLAYER_TURN)
 				break;
 
-			battleSystem->playerState = PlayerState::DEFEND;
+			battleSystem->playerState = PlayerState::DEFENSE;
+			screenBattle->HideButtons();
 		}
 		else if (control->id == 13)
 		{

@@ -67,9 +67,11 @@ private:
     SDL_Rect backgroundRect;
     SDL_Rect optionsBackgroundRect;
     SDL_Rect backRamen1;
-    SDL_Rect frontRamen1;
     SDL_Rect backRamen2;
+    SDL_Rect frontRamen1;
     SDL_Rect frontRamen2;
+    SDL_Rect leftSticks;
+    SDL_Rect rightSticks;
 
     // Fonts
     Font* titleFont;

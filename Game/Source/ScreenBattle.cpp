@@ -36,10 +36,12 @@ ScreenBattle::ScreenBattle()
 
 	backgroundRect = { 0, 0, 1280, 720 };
 	optionsBackgroundRect = { 0,0,1240,220 };
-	backRamen1 = { 405,1227,447,312 };
-	frontRamen1 = { 60,1218,276,93 };
-	backRamen2 = { 21,1320,369,216 };
-	frontRamen2 = { 1746,28,336,258 };
+	backRamen1 = { 24,1323,363,210 };
+	backRamen2 = { 408,1344,363,192 };
+	frontRamen1 = { 1827,45,246,84 };
+	frontRamen2 = { 60,1218,276,93 };
+	leftSticks = { 1842,165,225,207 };
+	rightSticks = { 1869,402,225,207 };
 
 	// Fonts
 	titleFont = nullptr;
@@ -246,11 +248,12 @@ bool ScreenBattle::Update(Input* input, float dt, uint& focusedButtonId)
 				}
 			}
 		}
+
 		battleSystem->Update(input, dt);
 
 		if (battleSystem->battleState == BattleState::PLAYER_TURN)
 		{
-			if (battleSystem->playerState == PlayerState::ATTACK || battleSystem->playerState == PlayerState::DEFEND)
+			if (battleSystem->playerState == PlayerState::ATTACK || battleSystem->playerState == PlayerState::DEFENSE)
 			{
 				if (input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN && hover.x > 0)
 				{
@@ -267,41 +270,52 @@ bool ScreenBattle::Update(Input* input, float dt, uint& focusedButtonId)
 				if (input->GetKey(SDL_SCANCODE_F) == KEY_UP || input->GetKey(SDL_SCANCODE_RETURN) == KEY_UP ||
 					(HoverUpdate(input) && input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP))
 				{
-					if (battleSystem->playerState == PlayerState::ATTACK)
+					EntitySubtype entitySubtype;
+					if (battleSystem->playerState == PlayerState::ATTACK) entitySubtype = EntitySubtype::ATTACK;
+					else if (battleSystem->playerState == PlayerState::DEFENSE) entitySubtype = EntitySubtype::DEFENSE;
+
+					SString names[3] = { "null", "null", "null" };
+					int index = 0;
+					for (int i = 0; i < entityManager->activatorList.Count(); i++)
 					{
-						switch (hover.x)
+						if ((Entity*)entityManager->activatorList.At(i) != nullptr && ((Entity*)entityManager->activatorList.At(i)->data)->subtype == entitySubtype)
 						{
-						case 0:
-							battleSystem->subAttack = SubAttack::DEFAULT;
-							break;
-						case 1:
-							battleSystem->subAttack = SubAttack::ATTACK_1;
-							break;
-						case 2:
-							battleSystem->subAttack = SubAttack::ATTACK_2;
-							break;
-						case 3:
-							battleSystem->subAttack = SubAttack::ATTACK_3;
-							break;
+							names[index] = ((Activator*)entityManager->activatorList.At(i)->data)->name;
+							index++;
 						}
 					}
-					else if (battleSystem->playerState == PlayerState::DEFEND)
+
+					SString selectedItem;
+					selectedItem.Create("null");
+
+					switch (hover.x)
 					{
-						switch (hover.x)
-						{
-						case 0:
-							battleSystem->subDefense = SubDefense::DEFAULT;
-							break;
-						case 1:
-							battleSystem->subDefense = SubDefense::DEFENSE_1;
-							break;
-						case 2:
-							battleSystem->subDefense = SubDefense::DEFENSE_2;
-							break;
-						case 3:
-							battleSystem->subDefense = SubDefense::DEFENSE_3;
-							break;
-						}
+					case 0:
+						break;
+					case 1:
+						if (names[0] != "null") selectedItem = names[0];
+						break;
+					case 2:
+						if (names[1] != "null") selectedItem = names[1];
+						break;
+					case 3:
+						if (names[2] != "null") selectedItem = names[2];
+						break;
+					}
+
+					if (battleSystem->playerState == PlayerState::ATTACK)
+					{
+						if (selectedItem == "null") battleSystem->specialAttack = SpecialAttack::DEFAULT;
+						else if (selectedItem == "attack_1") battleSystem->specialAttack = SpecialAttack::ATTACK_1;
+						else if (selectedItem == "attack_2") battleSystem->specialAttack = SpecialAttack::ATTACK_2;
+						else if (selectedItem == "attack_3") battleSystem->specialAttack = SpecialAttack::ATTACK_3;
+					}
+					else if (battleSystem->playerState == PlayerState::DEFENSE)
+					{
+						if (selectedItem == "null") battleSystem->specialDefense = SpecialDefense::DEFAULT;
+						else if (selectedItem == "defense_1") battleSystem->specialDefense = SpecialDefense::DEFENSE_1;
+						else if (selectedItem == "defense_2") battleSystem->specialDefense = SpecialDefense::DEFENSE_2;
+						else if (selectedItem == "defense_3") battleSystem->specialDefense = SpecialDefense::DEFENSE_3;
 					}
 
 					pressed = false;
@@ -369,8 +383,8 @@ bool ScreenBattle::Update(Input* input, float dt, uint& focusedButtonId)
 		battleSystem->SetInventoryClosure(false);
 		battleSystem->SetHasClickedConsume(false);
 
-		battleSystem->subAttack = SubAttack::NONE;
-		battleSystem->subDefense = SubDefense::NONE;
+		battleSystem->specialAttack = SpecialAttack::NONE;
+		battleSystem->specialDefense = SpecialDefense::NONE;
 
 		hover.x = 0;
 	}
@@ -388,8 +402,15 @@ bool ScreenBattle::Draw(Render* render)
 		render->DrawTexture(backgroundTex, 0, 0, &backgroundRect, 0);
 
 		render->scale = 1.5;
-		render->DrawTexture(guiAtlasTex2, 40, 180, &backRamen2, 0);
-		render->DrawTexture(guiAtlasTex2, 445, -5, &backRamen1, 0);
+
+		render->DrawTexture(guiAtlasTex2, 45, 183, &backRamen1, 0);
+		render->DrawTexture(guiAtlasTex2, 445, 110, &backRamen2, 0);
+
+		if (battleSystem->battleState == BattleState::PLAYER_TURN)
+			render->DrawTexture(guiAtlasTex2, 0, 90, &leftSticks, 0);
+		else if (battleSystem->battleState == BattleState::ENEMY_TURN)
+			render->DrawTexture(guiAtlasTex2, 629, 0, &rightSticks, 0);
+
 		render->scale = 1;
 
 		render->DrawTexture(optionsBackgroundTex, 20, 480, &optionsBackgroundRect, 0);
@@ -406,7 +427,7 @@ bool ScreenBattle::Draw(Render* render)
 
 			if (battleSystem->playerState == PlayerState::ATTACK)
 			{
-				if (battleSystem->subAttack != SubAttack::NONE)
+				if (battleSystem->specialAttack != SpecialAttack::NONE)
 				{
 					if (timer.ReadSec() <= 0.25f)
 					{
@@ -423,9 +444,9 @@ bool ScreenBattle::Draw(Render* render)
 					if (timer.ReadSec() > 0.5f) timer.Start();
 				}
 			}
-			else if (battleSystem->playerState == PlayerState::DEFEND)
+			else if (battleSystem->playerState == PlayerState::DEFENSE)
 			{
-				if (battleSystem->subDefense != SubDefense::NONE)
+				if (battleSystem->specialDefense != SpecialDefense::NONE)
 				{
 					if (timer.ReadSec() <= 0.25f)
 					{
@@ -668,17 +689,17 @@ bool ScreenBattle::Draw(Render* render)
 		render->scale = 1;
 
 		render->scale = 1.5;
-		render->DrawTexture(guiAtlasTex2, -30, 92, &frontRamen2, 0);
-		render->DrawTexture(guiAtlasTex2, 490, 167, &frontRamen1, 0);
+		render->DrawTexture(guiAtlasTex2, 83, 263, &frontRamen1, 0);
+		render->DrawTexture(guiAtlasTex2, 488, 164, &frontRamen2, 0);
 		render->scale = 1;
 	}
 
 	// Draw attack and defense submenus over the rest of the battle screen
 	if (battleSystem->battleState == BattleState::PLAYER_TURN &&
 		(battleSystem->playerState == PlayerState::ATTACK ||
-		battleSystem->playerState == PlayerState::DEFEND) &&
-		(battleSystem->subAttack == SubAttack::NONE &&
-		battleSystem->subDefense == SubDefense::NONE))
+		battleSystem->playerState == PlayerState::DEFENSE) &&
+		(battleSystem->specialAttack == SpecialAttack::NONE &&
+		battleSystem->specialDefense == SpecialDefense::NONE))
 	{
 		// Draw dark background
 		render->DrawRectangle({ 0,0,1280,720 }, { 0,0,0,192 }, true, false);
@@ -691,6 +712,7 @@ bool ScreenBattle::Draw(Render* render)
 		SDL_Rect rect5 = { 642,180,87,27 };
 		SDL_Rect rect6 = { 642,138,87,27 };
 		SDL_Rect rect7 = { 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10, 720 / 2 - rect.h / 2 - 10, rect.w * 7 + 20, rect.h + 20 + rect4.h + 10};
+
 		render->DrawRectangle(rect7, { 255,255,255,128 }, true, false);
 		render->DrawRectangle(rect7, { 255,255,255,255 }, false, false);
 
@@ -728,35 +750,233 @@ bool ScreenBattle::Draw(Render* render)
 			render->DrawText(menuFont2, "Choose an attack!", 400 + 3, 200 + 3, 70, 0, { 128,128,128,255 });
 			render->DrawText(menuFont2, "Choose an attack!", 400, 200, 70, 0, { 255,255,255,255 });
 
-			int position = 0;
+			render->scale = 2;
+			SDL_Rect basicAttackRect = { 125,486,44,27 };
+			render->DrawTexture(entityManager->itemsTexture2, (1280 / 2 - rect.w * 2 - 10) / 3, (720 / 2 - rect.h / 2 + 25) / 2, &basicAttackRect, 0);
+			render->scale = 1;
+
+			render->DrawText(menuFont2, "Basic", 1280 / 2 - rect.w / 2 - rect.w * 3 + 18, 720 / 2 - rect.h / 2 + 117, 25, 0, { 128,128,128,255 });
+
+			int attackPosition = 0;
 			for (int i = 0; i < entityManager->activatorList.Count(); i++)
 			{
 				if ((Entity*)entityManager->activatorList.At(i) != nullptr && ((Entity*)entityManager->activatorList.At(i)->data)->subtype == EntitySubtype::ATTACK)
 				{
 					render->scale = 3;
-					render->DrawTexture(entityManager->itemsTexture, (1280 / 2 - rect.w / 2 - rect.w + (rect.w * 2) * position + 20) / 3, (720 / 2 - rect.h / 2 + 8) / 3, &(((Activator*)entityManager->activatorList.At(i)->data)->GetRect()), 0);
+					render->DrawTexture(entityManager->itemsTexture, (1280 / 2 - rect.w / 2 - rect.w + (rect.w * 2) * attackPosition + 20) / 3, (720 / 2 - rect.h / 2 + 8) / 3, &(((Activator*)entityManager->activatorList.At(i)->data)->GetRect()), 0);
 					render->scale = 1;
 
-					position++;
+					render->DrawText(menuFont2, ((Activator*)entityManager->activatorList.At(i)->data)->name.GetString(), 1280 / 2 - rect.w / 2 - rect.w + (rect.w * 2) * attackPosition + 18, 720 / 2 - rect.h / 2 + 117, 25, 0, { 128,128,128,255 });
+
+					attackPosition++;
+				}
+			}
+
+			if (attackPosition < 3)
+			{
+				SDL_Rect itemRect = { 12,344,22,30 };
+				int lockedNum = 3 - attackPosition;
+				for (int i = attackPosition; i < attackPosition + lockedNum; i++)
+				{
+					render->scale = 3;
+					render->DrawTexture(entityManager->itemsTexture, (1280 / 2 - rect.w / 2 - rect.w + (rect.w * 2) * i + 20) / 3, (720 / 2 - rect.h / 2 + 8) / 3, &itemRect, 0);
+					render->scale = 1;
+
+					render->DrawText(menuFont2, "Locked", 1280 / 2 - rect.w / 2 - rect.w + (rect.w * 2) * i + 18, 720 / 2 - rect.h / 2 + 117, 25, 0, { 128,0,0,255 });
+				}
+			}
+
+			SString attackNames[3] = { "null", "null", "null" };
+			int index = 0;
+			for (int i = 0; i < entityManager->activatorList.Count(); i++)
+			{
+				if ((Entity*)entityManager->activatorList.At(i) != nullptr && ((Entity*)entityManager->activatorList.At(i)->data)->subtype == EntitySubtype::ATTACK)
+				{
+					attackNames[index] = ((Activator*)entityManager->activatorList.At(i)->data)->name;
+					index++;
+				}
+			}
+
+			bool locked = false;
+			SString itemToPrint;
+			itemToPrint.Create("null");
+
+			switch (hover.x)
+			{
+			case 0:
+				render->DrawText(menuFont2, "Basic attack", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10 + 3, 475 + 3, 50, 3, { 128,128,128,255 });
+				render->DrawText(menuFont2, "Basic attack", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10, 475, 50, 3, { 255,255,255,255 });
+
+				render->DrawText(menuFont2, "Wasabi never stops itching.", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10 + 3, 525 + 3, 40, 3, { 128,128,128,255 });
+				render->DrawText(menuFont2, "Wasabi never stops itching.", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10, 525, 40, 3, { 255,255,255,255 });
+				break;
+			case 1:
+				if (attackNames[0] != "null") itemToPrint = attackNames[0];
+				else locked = true;
+				break;
+			case 2:
+				if (attackNames[1] != "null") itemToPrint = attackNames[1];
+				else locked = true;
+				break;
+			case 3:
+				if (attackNames[2] != "null") itemToPrint = attackNames[2];
+				else locked = true;
+				break;
+			}
+
+			if (locked)
+			{
+				render->DrawText(menuFont2, "Locked", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10 + 3, 475 + 3, 50, 3, { 64,0,0,255 });
+				render->DrawText(menuFont2, "Locked", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10, 475, 50, 3, { 128,0,0,255 });
+
+				render->DrawText(menuFont2, "This attack is still locked...", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10 + 3, 525 + 3, 40, 3, { 64,0,0,255 });
+				render->DrawText(menuFont2, "This attack is still locked...", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10, 525, 40, 3, { 128,0,0,255 });
+				render->DrawText(menuFont2, "You need to find it if you want to use it.", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10 + 3, 560 + 3, 40, 3, { 64,0,0,255 });
+				render->DrawText(menuFont2, "You need to find it if you want to use it.", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10, 560, 40, 3, { 128,0,0,255 });
+			}
+
+			if (itemToPrint != "null")
+			{
+				render->DrawText(menuFont2, itemToPrint.GetString(), 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10 + 3, 475 + 3, 50, 3, { 128,128,128,255 });
+				render->DrawText(menuFont2, itemToPrint.GetString(), 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10, 475, 50, 3, { 255,255,255,255 });
+
+				if (itemToPrint == "attack_1")
+				{
+					render->DrawText(menuFont2, "It substracts a big amount of your enemy", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10 + 3, 525 + 3, 40, 3, { 128,128,128,255 });
+					render->DrawText(menuFont2, "It substracts a big amount of your enemy", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10, 525, 40, 3, { 255,255,255,255 });
+					render->DrawText(menuFont2, "life at once.", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10 + 3, 560 + 3, 40, 3, { 128,128,128,255 });
+					render->DrawText(menuFont2, "life at once.", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10, 560, 40, 3, { 255,255,255,255 });
+				}
+				else if (itemToPrint == "attack_2")
+				{
+					render->DrawText(menuFont2, "It substracts a constant small amount of", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10 + 3, 525 + 3, 40, 3, { 128,128,128,255 });
+					render->DrawText(menuFont2, "It substracts a constant small amount of", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10, 525, 40, 3, { 255,255,255,255 });
+					render->DrawText(menuFont2, "your enemy life every turn.", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10 + 3, 560 + 3, 40, 3, { 128,128,128,255 });
+					render->DrawText(menuFont2, "your enemy life every turn.", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10, 560, 40, 3, { 255,255,255,255 });
+				}
+				else if (itemToPrint == "attack_3")
+				{
+					render->DrawText(menuFont2, "It increases by a 30 per cent your current", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10 + 3, 525 + 3, 40, 3, { 128,128,128,255 });
+					render->DrawText(menuFont2, "It increases by a 30 per cent your current", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10, 525, 40, 3, { 255,255,255,255 });
+					render->DrawText(menuFont2, "attack damage.", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10 + 3, 560 + 3, 40, 3, { 128,128,128,255 });
+					render->DrawText(menuFont2, "attack damage.", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10, 560, 40, 3, { 255,255,255,255 });
 				}
 			}
 		}
-		else if (battleSystem->playerState == PlayerState::DEFEND)
+		else if (battleSystem->playerState == PlayerState::DEFENSE)
 		{
 			// Draw text
 			render->DrawText(menuFont2, "Choose a defense!", 400 + 3, 200 + 3, 70, 0, { 128,128,128,255 });
 			render->DrawText(menuFont2, "Choose a defense!", 400, 200, 70, 0, { 255,255,255,255 });
 
-			int position = 0;
+			render->scale = 2;
+			SDL_Rect basicDefenseRect = { 342,54,34,32 };
+			render->DrawTexture(entityManager->itemsTexture, (1280 / 2 - rect.w * 2 - 0) / 3, (720 / 2 - rect.h / 2 + 25) / 2, &basicDefenseRect, 0);
+			render->scale = 1;
+
+			render->DrawText(menuFont2, "Basic", 1280 / 2 - rect.w / 2 - rect.w * 3 + 18, 720 / 2 - rect.h / 2 + 117, 25, 0, { 128,128,128,255 });
+
+			int defensePosition = 0;
 			for (int i = 0; i < entityManager->activatorList.Count(); i++)
 			{
 				if ((Entity*)entityManager->activatorList.At(i) != nullptr && ((Entity*)entityManager->activatorList.At(i)->data)->subtype == EntitySubtype::DEFENSE)
 				{
 					render->scale = 3;
-					render->DrawTexture(entityManager->itemsTexture, (1280 / 2 - rect.w / 2 - rect.w + (rect.w * 2) * position + 20) / 3, (720 / 2 - rect.h / 2 + 8) / 3, &(((Activator*)entityManager->activatorList.At(i)->data)->GetRect()), 0);
+					render->DrawTexture(entityManager->itemsTexture, (1280 / 2 - rect.w / 2 - rect.w + (rect.w * 2) * defensePosition + 20) / 3, (720 / 2 - rect.h / 2 + 8) / 3, &(((Activator*)entityManager->activatorList.At(i)->data)->GetRect()), 0);
 					render->scale = 1;
 
-					position++;
+					render->DrawText(menuFont2, ((Activator*)entityManager->activatorList.At(i)->data)->name.GetString(), 1280 / 2 - rect.w / 2 - rect.w + (rect.w * 2) * defensePosition + 18, 720 / 2 - rect.h / 2 + 117, 25, 0, { 128,128,128,255 });
+
+					defensePosition++;
+				}
+			}
+
+			if (defensePosition < 3)
+			{
+				SDL_Rect itemRect = { 12,344,22,30 };
+				int lockedNum = 3 - defensePosition;
+				for (int i = defensePosition; i < defensePosition + lockedNum; i++)
+				{
+					render->scale = 3;
+					render->DrawTexture(entityManager->itemsTexture, (1280 / 2 - rect.w / 2 - rect.w + (rect.w * 2) * i + 20) / 3, (720 / 2 - rect.h / 2 + 8) / 3, &itemRect, 0);
+					render->scale = 1;
+
+					render->DrawText(menuFont2, "Locked", 1280 / 2 - rect.w / 2 - rect.w + (rect.w * 2) * i + 18, 720 / 2 - rect.h / 2 + 117, 25, 0, { 128,0,0,255 });
+				}
+			}
+
+			SString defensesNames[3] = {"null", "null", "null"};
+			int index = 0;
+			for (int i = 0; i < entityManager->activatorList.Count(); i++)
+			{
+				if ((Entity*)entityManager->activatorList.At(i) != nullptr && ((Entity*)entityManager->activatorList.At(i)->data)->subtype == EntitySubtype::DEFENSE)
+				{
+					defensesNames[index] = ((Activator*)entityManager->activatorList.At(i)->data)->name;
+					index++;
+				}
+			}
+
+			bool locked = false;
+			SString itemToPrint;
+			itemToPrint.Create("null");
+
+			switch (hover.x)
+			{
+			case 0:
+				render->DrawText(menuFont2, "Basic defense", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10 + 3, 475 + 3, 50, 3, { 128,128,128,255 });
+				render->DrawText(menuFont2, "Basic defense", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10, 475, 50, 3, { 255,255,255,255 });
+
+				render->DrawText(menuFont2, "Sweet never hurts to alleviate the spiciness.", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10 + 3, 525 + 3, 40, 3, { 128,128,128,255 });
+				render->DrawText(menuFont2, "Sweet never hurts to alleviate the spiciness.", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10, 525, 40, 3, { 255,255,255,255 });
+				break;
+			case 1:
+				if (defensesNames[0] != "null") itemToPrint = defensesNames[0];
+				else locked = true;
+				break;
+			case 2:
+				if (defensesNames[1] != "null") itemToPrint = defensesNames[1];
+				else locked = true;
+				break;
+			case 3:
+				if (defensesNames[2] != "null") itemToPrint = defensesNames[2];
+				else locked = true;
+				break;
+			}
+
+			if (locked)
+			{
+				render->DrawText(menuFont2, "Locked", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10 + 3, 475 + 3, 50, 3, { 64,0,0,255 });
+				render->DrawText(menuFont2, "Locked", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10, 475, 50, 3, { 128,0,0,255 });
+
+				render->DrawText(menuFont2, "This defense is still locked...", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10 + 3, 525 + 3, 40, 3, { 64,0,0,255 });
+				render->DrawText(menuFont2, "This defense is still locked...", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10, 525, 40, 3, { 128,0,0,255 });
+				render->DrawText(menuFont2, "You need to find it if you want to use it.", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10 + 3, 560 + 3, 40, 3, { 64,0,0,255 });
+				render->DrawText(menuFont2, "You need to find it if you want to use it.", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10, 560, 40, 3, { 128,0,0,255 });
+			}
+
+			if (itemToPrint != "null")
+			{
+				render->DrawText(menuFont2, itemToPrint.GetString(), 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10 + 3, 475 + 3, 50, 3, { 128,128,128,255 });
+				render->DrawText(menuFont2, itemToPrint.GetString(), 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10, 475, 50, 3, { 255,255,255,255 });
+
+				if (itemToPrint == "defense_1")
+				{
+					render->DrawText(menuFont2, "It heals a big amount of your life at once.", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10 + 3, 525 + 3, 40, 3, { 128,128,128,255 });
+					render->DrawText(menuFont2, "It heals a big amount of your life at once.", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10, 525, 40, 3, { 255,255,255,255 });
+				}
+				else if (itemToPrint == "defense_2")
+				{
+					render->DrawText(menuFont2, "It heals a constant amount of your life", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10 + 3, 525 + 3, 40, 3, { 128,128,128,255 });
+					render->DrawText(menuFont2, "It heals a constant amount of your life", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10, 525, 40, 3, { 255,255,255,255 });
+					render->DrawText(menuFont2, "every turn.", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10 + 3, 560 + 3, 40, 3, { 128,128,128,255 });
+					render->DrawText(menuFont2, "every turn.", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10, 560, 40, 3, { 255,255,255,255 });
+				}
+				else if (itemToPrint == "defense_3")
+				{
+					render->DrawText(menuFont2, "It increases by a 30 per cent your current", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10 + 3, 525 + 3, 40, 3, { 128,128,128,255 });
+					render->DrawText(menuFont2, "It increases by a 30 per cent your current", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10, 525, 40, 3, { 255,255,255,255 });
+					render->DrawText(menuFont2, "defense amount.", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10 + 3, 560 + 3, 40, 3, { 128,128,128,255 });
+					render->DrawText(menuFont2, "defense amount.", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10, 560, 40, 3, { 255,255,255,255 });
 				}
 			}
 		}

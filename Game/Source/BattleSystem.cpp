@@ -29,8 +29,8 @@ BattleSystem::BattleSystem()
 
 	currentMusic = BattleMusic::NONE;
 
-	subAttack = SubAttack::NONE;
-	subDefense = SubDefense::NONE;
+	specialAttack = SpecialAttack::NONE;
+	specialDefense = SpecialDefense::NONE;
 }
 
 BattleSystem::~BattleSystem()
@@ -110,8 +110,14 @@ bool BattleSystem::ResetBattle()
 	SetInventoryOpening(false);
 	SetInventoryClosure(false);
 
-	subAttack = SubAttack::NONE;
-	subDefense = SubDefense::NONE;
+	specialAttack = SpecialAttack::NONE;
+	specialDefense = SpecialDefense::NONE;
+
+	for (int i = 0; i < 3; i++)
+	{
+		specialAttacks[i] = false;
+		specialDefenses[i] = false;
+	}
 
 	return true;
 }
@@ -131,7 +137,11 @@ bool BattleSystem::WinAndLose()
 
 void BattleSystem::PlayerTurn()
 {
-	if (turnChanged) turnChanged = false;
+	if (turnChanged)
+	{
+		turnChanged = false;
+		UpdateAttacksAndDefenses();
+	}
 
 	if (turnCounter == 0)
 	{
@@ -139,41 +149,72 @@ void BattleSystem::PlayerTurn()
 		switch (playerState)
 		{
 		case PlayerState::ATTACK:
-			switch (subAttack)
+			switch (specialAttack)
 			{
-			case SubAttack::ATTACK_1:
-				break;
-			case SubAttack::ATTACK_2:
-				break;
-			case SubAttack::ATTACK_3:
-				break;
-			case SubAttack::DEFAULT:
+			case SpecialAttack::ATTACK_1:
+				specialAttacks[0] = true;
 				// Substract life points to the enemy
-				enemy->stats.currentHP -= currentPlayer->stats.damage;
+				enemy->stats.currentHP -= currentPlayer->stats.damage * 5;
 				// Check if the enemy life has gone under 0 (death)
 				if (enemy->stats.currentHP < 0) enemy->stats.currentHP = 0;
 				break;
-			case SubAttack::NONE:
+			case SpecialAttack::ATTACK_2:
+				specialAttacks[1] = true;
+				break;
+			case SpecialAttack::ATTACK_3:
+				specialAttacks[2] = true;
+				break;
+			case SpecialAttack::DEFAULT:
+				if (specialAttacks[2])
+				{
+					// Substract life points to the enemy
+					enemy->stats.currentHP -= currentPlayer->stats.damage + (currentPlayer->stats.damage * 0.3);
+				}
+				else
+				{
+					// Substract life points to the enemy
+					enemy->stats.currentHP -= currentPlayer->stats.damage;
+				}
+				// Check if the enemy life has gone under 0 (death)
+				if (enemy->stats.currentHP < 0) enemy->stats.currentHP = 0;
+				break;
+			case SpecialAttack::NONE:
 				break;
 			}
 			break;
-		case PlayerState::DEFEND:
-			switch (subDefense)
+		case PlayerState::DEFENSE:
+			switch (specialDefense)
 			{
-			case SubDefense::DEFENSE_1:
-				break;
-			case SubDefense::DEFENSE_2:
-				break;
-			case SubDefense::DEFENSE_3:
-				break;
-			case SubDefense::DEFAULT:
+			case SpecialDefense::DEFENSE_1:
+				specialDefenses[0] = true;
 				// Add life points to the player
-				currentPlayer->stats.currentHP += currentPlayer->stats.defense;
+				currentPlayer->stats.currentHP += currentPlayer->stats.defense * 5;
 				// Check if the player life has gone over their maximum HP
 				if (currentPlayer->stats.currentHP > currentPlayer->stats.maxHP)
 					currentPlayer->stats.currentHP = currentPlayer->stats.maxHP;
 				break;
-			case SubDefense::NONE:
+			case SpecialDefense::DEFENSE_2:
+				specialDefenses[1] = true;
+				break;
+			case SpecialDefense::DEFENSE_3:
+				specialDefenses[2] = true;
+				break;
+			case SpecialDefense::DEFAULT:
+				if (specialDefenses[2])
+				{
+					// Add life points to the player
+					currentPlayer->stats.currentHP += currentPlayer->stats.defense + (currentPlayer->stats.defense * 0.3);
+				}
+				else
+				{
+					// Add life points to the player
+					currentPlayer->stats.currentHP += currentPlayer->stats.defense;
+				}
+				// Check if the player life has gone over their maximum HP
+				if (currentPlayer->stats.currentHP > currentPlayer->stats.maxHP)
+					currentPlayer->stats.currentHP = currentPlayer->stats.maxHP;
+				break;
+			case SpecialDefense::NONE:
 				break;
 			}
 			break;
@@ -201,11 +242,11 @@ void BattleSystem::PlayerTurn()
 		}
 		else if (playerState == PlayerState::ATTACK)
 		{
-			if (subAttack != SubAttack::NONE) turnCounter++;
+			if (specialAttack != SpecialAttack::NONE) turnCounter++;
 		}
-		else if (playerState == PlayerState::DEFEND)
+		else if (playerState == PlayerState::DEFENSE)
 		{
-			if (subDefense != SubDefense::NONE) turnCounter++;
+			if (specialDefense != SpecialDefense::NONE) turnCounter++;
 		}
 		else turnCounter++;
 	}
@@ -238,7 +279,7 @@ void BattleSystem::EnemyTurn()
 	// Define randomly an action for the enemy (only the first time)
 	if (turnCounter == 0)
 	{
-		int num = rand() % 150;
+		int num = rand() % 100;
 		if (num <= 33)
 		{
 			// Player attack logic
@@ -430,4 +471,24 @@ void BattleSystem::ConsumeItem(Item* item)
 {
 	enemy->stats = item->Interact(enemy->stats);
 	itemName = item->name;
+}
+
+void BattleSystem::UpdateAttacksAndDefenses()
+{
+	if (specialAttacks[2])
+	{
+		// Substract life points to the enemy
+		enemy->stats.currentHP -= currentPlayer->stats.damage / 5;
+		// Check if the enemy life has gone under 0 (death)
+		if (enemy->stats.currentHP < 0) enemy->stats.currentHP = 0;
+	}
+
+	if (specialDefenses[2])
+	{
+		// Add life points to the player
+		currentPlayer->stats.currentHP += currentPlayer->stats.defense / 5;
+		// Check if the player life has gone over their maximum HP
+		if (currentPlayer->stats.currentHP > currentPlayer->stats.maxHP)
+			currentPlayer->stats.currentHP = currentPlayer->stats.maxHP;
+	}
 }

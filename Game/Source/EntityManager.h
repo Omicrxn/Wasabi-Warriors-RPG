@@ -99,6 +99,7 @@ public:
 	List<SecretWall*> secretWallList;
 	SDL_Texture* texture = nullptr;
 	SDL_Texture* itemsTexture = nullptr;
+	SDL_Texture* itemsTexture2 = nullptr;
 	SDL_Texture* secretWallTexture = nullptr;
 	SDL_Texture* entitiesTexture = nullptr;
 	SDL_Texture* leversTexture = nullptr;

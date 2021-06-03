@@ -63,6 +63,8 @@ bool EntityManager::Start()
 
 	if (itemsTexture == nullptr)
 		itemsTexture = tex->Load("Textures/Items/items_equipment.png");
+	if (itemsTexture2 == nullptr)
+		itemsTexture2 = tex->Load("Textures/Items/items_food.png");
 	if (entitiesTexture == nullptr)
 		entitiesTexture = tex->Load("Textures/Characters/characters_spritesheet.png");
 	if (secretWallTexture == nullptr)

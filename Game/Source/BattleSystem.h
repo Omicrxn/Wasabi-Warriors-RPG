@@ -24,7 +24,7 @@ enum class BattleState
 enum class PlayerState
 {
 	ATTACK,
-	DEFEND,
+	DEFENSE,
 	ITEM,
 	RUN,
 	NONE
@@ -45,7 +45,7 @@ enum class BattleMusic
 	LOST
 };
 
-enum class SubAttack
+enum class SpecialAttack
 {
 	DEFAULT,
 	ATTACK_1,
@@ -54,7 +54,7 @@ enum class SubAttack
 	NONE
 };
 
-enum class SubDefense
+enum class SpecialDefense
 {
 	DEFAULT,
 	DEFENSE_1,
@@ -108,6 +108,9 @@ public:
 	void ApplyEnemyItem();
 	void ConsumeItem(Item* inventoryItem);
 
+	// Function to update the special attack/defense effects on each turn
+	void UpdateAttacksAndDefenses();
+
 	// Battle state (Current attacker and defender)
 	BattleState battleState;
 	// Menu state when the player attacks
@@ -117,8 +120,8 @@ public:
 
 	BattleMusic currentMusic;
 
-	SubAttack subAttack;
-	SubDefense subDefense;
+	SpecialAttack specialAttack;
+	SpecialDefense specialDefense;
 
 private:
 
@@ -142,6 +145,10 @@ private:
 	bool hasFinishedItems = false;
 	// Bool to be aware of the consumption
 	bool hasClickedConsume = false;
+	// Bool array for special attacks
+	bool specialAttacks[3];
+	// Bool array for special defenses
+	bool specialDefenses[3];
 	// Name of the used item that has to be displayed on screen
 	SString itemName;
 };
