@@ -108,11 +108,11 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
     returnFx = audio->LoadFx("Audio/Fx/back.ogg");
 
     screenMainMenu = new ScreenMainMenu();
-    screenMainMenu->Load(0, 4, this, win, guiManager, NULL, NULL, NULL, guiAtlasTex2, titlesTex, buttonFont, hoverFx, clickFx);
+    screenMainMenu->Load(0, 4, this, win, guiManager, guiAtlasTex2, titlesTex, buttonFont, hoverFx, clickFx);
     screenMainMenu->isActive = true;
 
     screenSettings = new ScreenSettings();
-    screenSettings->Load(5, 9, this, win, guiManager, NULL, audio, easing, guiAtlasTex2, titlesTex, buttonFont, hoverFx, clickFx);
+    screenSettings->Load(5, 9, this, win, guiManager, guiAtlasTex2, buttonFont, hoverFx, clickFx, returnFx);
 
     pugi::xml_document docData;
     pugi::xml_node screenNode;
@@ -129,7 +129,7 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
     }
 
     screenCredits = new ScreenCredits();
-    screenCredits->Load(10, 10, this, win, guiManager, NULL, audio, easing, guiAtlasTex2, titlesTex, buttonFont, hoverFx, returnFx);
+    screenCredits->Load(10, 10, this, win, guiManager, guiAtlasTex2, titlesTex, buttonFont, hoverFx, returnFx);
 
     audio->PlayMusic("Audio/Music/menu.ogg", 0.5f);
     ScreenMainMenu* tempTitle = (ScreenMainMenu*)screenMainMenu;
@@ -227,7 +227,6 @@ bool SceneTitle::Draw(Render* render)
     win->GetWindowSize(width, height);
 
     render->DrawTexture(backgroundTex, 0, 0, &backgroundRect, 0.0f);
-    render->DrawRectangle({ 0,0,1280,720 }, { 0, 0, 0, 70 }, true, false);
 
     // Main title FX sounds just at title appearing
     if (titleFxTimer.ReadSec() >= 1.9f && titleFxTimer.ReadSec() < 2.0f)
@@ -370,9 +369,7 @@ bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
         // Fullscreen
         if (control->id == 5)
         {
-            ScreenSettings* temp = (ScreenSettings*)screenSettings;
-
-            if (temp->checkFullScreen->GetCheck())
+            if (screenSettings->checkFullScreen->GetCheck())
                 SDL_SetWindowFullscreen(win->window, 1);
             else
                 SDL_SetWindowFullscreen(win->window, 0);
@@ -380,17 +377,17 @@ bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
         // Vsync
         if (control->id == 6)
         {
-            ScreenSettings* temp = (ScreenSettings*)screenSettings;
             Uint32 windowFlags = SDL_GetWindowFlags(win->window);
             Uint32 rendererFlags = SDL_RENDERER_ACCELERATED;
 
-            if (temp->checkFullScreen->GetCheck())
+            if (screenSettings->checkFullScreen->GetCheck())
+            {
+            }
 
-
-                if (temp->checkVsync->GetCheck())
-                    rendererFlags |= SDL_RENDERER_PRESENTVSYNC;
-                else
-                    rendererFlags = rendererFlags ^ SDL_RENDERER_PRESENTVSYNC;
+            if (screenSettings->checkVsync->GetCheck())
+                rendererFlags |= SDL_RENDERER_PRESENTVSYNC;
+            else
+                rendererFlags = rendererFlags ^ SDL_RENDERER_PRESENTVSYNC;
 
             SDL_DestroyWindow(win->window);
             win->window = SDL_CreateWindow("", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1280, 720, windowFlags);
@@ -398,6 +395,7 @@ bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
             SDL_DestroyRenderer(render->renderer);
             render->renderer = SDL_CreateRenderer(win->window, -1, rendererFlags);
             guiManager->Start();
+
             transitions->Transition(WhichAnimation::NONE, this, SceneType::TITLE);
         }
 

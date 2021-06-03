@@ -21,7 +21,7 @@ ScreenCredits::~ScreenCredits()
 {
 }
 
-bool ScreenCredits::Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* font, int hoverFx, int clickFx)
+bool ScreenCredits::Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* font, int hoverFx, int returnFx)
 {
     this->currentScene = currentScene;
     this->atlas[0] = atlas0;
@@ -42,7 +42,7 @@ bool ScreenCredits::Load(int minIndex, int maxIndex, Scene* currentScene, Window
     int counterId = minIndex;
 
     iconReturnTitle = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 609, 580, 54, 54 });
-    iconReturnTitle->SetIconProperties(currentScene, atlas0, font, hoverFx, clickFx, IconType::ICON_RETURN);
+    iconReturnTitle->SetIconProperties(currentScene, atlas0, font, hoverFx, returnFx, IconType::ICON_RETURN);
 
 	return true;
 }
@@ -55,6 +55,8 @@ bool ScreenCredits::Update(Input* input, float dt, uint& focusedButtonId)
 
 bool ScreenCredits::Draw(Render* render)
 {
+    render->DrawRectangle({ 0,0,1280,720 }, { 0, 0, 0, 70 }, true, false);
+
     //render->DrawTexture(atlas[0], (1280 / 2 - mobileRect.w / 2) / render->scale, 50 / render->scale, &mobileRect, 0.0f);
 
     uint width, height;

@@ -53,6 +53,7 @@ bool SceneLogo::Load(Textures* tex, Window* win, AudioManager* audio, GuiManager
     win->GetWindowSize(width, height);
 
     easing->CreateSpline(&posX, width / 2 - 861 / 2, 3000, SplineType::QUART);
+
     return true;
 }
 
@@ -102,8 +103,6 @@ bool SceneLogo::Update(Input* input, float dt)
     {
         easing->CreateSpline(&posX, 2000, 6000, SplineType::BACK);
     }
-    
-
 
     return true;
 }
@@ -112,8 +111,10 @@ bool SceneLogo::Draw(Render* render)
 {
     // Set texture alpha with the updated logoAlpha to accomplish fade in / fade out
     //SDL_SetTextureAlphaMod(logoTex, logoAlpha);
+
     render->DrawTexture(backgroundTex, 0, 0);
     render->DrawTexture(logoTex, posX, 200);
+
     return true;
 }
 
@@ -121,6 +122,8 @@ bool SceneLogo::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManage
 {
     tex->UnLoad(logoTex);
     tex->UnLoad(backgroundTex);
+
     audio->UnloadFx(logoFx);
+
     return true;
 }

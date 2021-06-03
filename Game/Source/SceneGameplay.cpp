@@ -216,7 +216,7 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 	}
 	for (int j = 6; j >= 0; j--)
 	{
-		for (int i = 4; i >=0; i--)
+		for (int i = 4; i >= 0; i--)
 		{
 			signalAnim.PushBack({ i * 192, j * 192, 192, 192 });
 		}
@@ -245,15 +245,15 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 
 	// Gui id goes from 0 to 5
 	screenPause = new ScreenPause();
-	screenPause->Load(0, 5, this, win, guiManager, entityManager, audio, easing, guiAtlasTex2, titlesTex, buttonFont, hoverFx, clickFx);
-	((ScreenPause*)screenPause)->SetMenuFont(menuFont);
-	((ScreenPause*)screenPause)->SetQuestManager(questManager);
-	((ScreenPause*)screenPause)->SetMap(currentMap);
+	screenPause->Load(0, 5, this, win, guiManager, entityManager, audio, easing, guiAtlasTex2, buttonFont, hoverFx, clickFx);
+	screenPause->SetMenuFont(menuFont);
+	screenPause->SetQuestManager(questManager);
+	screenPause->SetMap(currentMap);
 	screenPause->Disable();
 
 	// Gui id goes from 6 to 10
 	screenSettings = new ScreenSettings();
-	screenSettings->Load(6, 10, this, win, guiManager, NULL, audio, easing, guiAtlasTex2, titlesTex, buttonFont, hoverFx, clickFx);
+	screenSettings->Load(6, 10, this, win, guiManager, guiAtlasTex2, buttonFont, hoverFx, clickFx, returnFx);
 	screenSettings->Disable();
 
 	// Gui id goes from 11 to 14
@@ -263,7 +263,7 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 
 	// Gui id goes from 15 to 16
 	screenInventory = new ScreenInventory();
-	screenInventory->Load(15, 16, this, battleSystem, win, guiManager, entityManager, audio, easing, guiAtlasTex2, guiAtlasTex, menuFont2, hoverFx, clickFx);
+	screenInventory->Load(15, 16, this, battleSystem, win, guiManager, entityManager, audio, easing, guiAtlasTex2, menuFont2, hoverFx, clickFx);
 	screenInventory->Disable();
 
 	if (hasStartedFromContinue)
@@ -417,7 +417,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 		if (currentPlayer == nullptr)
 		{
 			currentPlayer = entityManager->playerList.At(0)->next->data;
-			((ScreenRoaming*)screenRoaming)->SetCurrentPlayer(currentPlayer);
+			screenRoaming->SetCurrentPlayer(currentPlayer);
 		}
 
 		if (entityManager->playerList.At(entityManager->playerList.Find(currentPlayer))->next != nullptr)
@@ -425,14 +425,14 @@ bool SceneGameplay::Update(Input* input, float dt)
 			currentPlayer->SetState(false);
 			currentPlayer = entityManager->playerList.At(entityManager->playerList.Find(currentPlayer))->next->data;
 			currentPlayer->SetState(true);
-			((ScreenRoaming*)screenRoaming)->SetCurrentPlayer(currentPlayer);
+			screenRoaming->SetCurrentPlayer(currentPlayer);
 		}
 		else 
 		{
 			currentPlayer->SetState(false);
 			currentPlayer = entityManager->playerList.At(0)->data;
 			currentPlayer->SetState(true);
-			((ScreenRoaming*)screenRoaming)->SetCurrentPlayer(currentPlayer);
+			screenRoaming->SetCurrentPlayer(currentPlayer);
 		}
 	}
 
@@ -576,7 +576,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 			{
 				battleSystem->SetInventoryOpening(true);
 				((ScreenBattle*)screenBattle)->DisableBattleButtons();
-				((ScreenInventory*)screenInventory)->Enable();
+				screenInventory->Enable();
 			}
 		}
 		else
@@ -750,9 +750,9 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 	{
 		if (control->id == 0)
 		{
-			if (((ScreenPause*)screenPause)->state != MobileState::MAIN)
+			if (screenPause->state != MobileState::MAIN)
 			{
-				((ScreenPause*)screenPause)->state = MobileState::MAIN;
+				screenPause->state = MobileState::MAIN;
 				for (int i = 1; i <= 5; ++i)
 					guiManager->controls.At(i)->data->state = GuiControlState::NORMAL;
 			}
@@ -761,7 +761,7 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 				currentState = GameState::ROAMING;
 
 				screenPause->Disable();
-				((ScreenRoaming*)screenRoaming)->Enable();
+				screenRoaming->Enable();
 				
 				guiManager->ToggleMouse();
 
@@ -793,27 +793,27 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 			// Exiting to menu
 			currentState = GameState::EXIT;
 
-			((ScreenRoaming*)screenRoaming)->Disable();
+			screenRoaming->Disable();
 			screenPause->Disable();
 		}
 		else if (control->id == 3)
 		{
 			// From Main Screen of the mobile to Quest Screen
-			((ScreenPause*)screenPause)->state = MobileState::QUEST;
+			screenPause->state = MobileState::QUEST;
 			for (int i = 1; i <= 5; ++i)
 				guiManager->controls.At(i)->data->state = GuiControlState::DISABLED;
 		}
 		else if (control->id == 4)
 		{
 			// From Main Screen of the mobile to Team Screen
-			((ScreenPause*)screenPause)->state = MobileState::TEAM;
+			screenPause->state = MobileState::TEAM;
 			for (int i = 1; i <= 5; ++i)
 				guiManager->controls.At(i)->data->state = GuiControlState::DISABLED;
 		}
 		else if (control->id == 5)
 		{
 			// From Main Screen of the mobile to Map Screen
-			((ScreenPause*)screenPause)->state = MobileState::MAP;
+			screenPause->state = MobileState::MAP;
 			for (int i = 1; i <= 5; ++i)
 				guiManager->controls.At(i)->data->state = GuiControlState::DISABLED;
 		}
@@ -822,7 +822,7 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 			// Returning from settings to pause
 			currentState = GameState::PAUSE;
 
-			((ScreenPause*)screenPause)->Enable(true);
+			screenPause->Enable(true);
 			screenSettings->Disable();
 		}
 		break;
@@ -861,14 +861,14 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 		}
 		else if (control->id == 15)
 		{
-			if (((ScreenInventory*)screenInventory)->listInvItems.Count() != 0)
+			if (screenInventory->listInvItems.Count() != 0)
 			{
-				((ScreenInventory*)screenInventory)->SetHasClickedConsume(true);
+				screenInventory->SetHasClickedConsume(true);
 
 				if (currentState == GameState::BATTLE)
 				{
 					battleSystem->SetHasClickedConsume(true);
-					((ScreenInventory*)screenInventory)->ManageItemConsumption();
+					screenInventory->ManageItemConsumption();
 				}
 			}
 
@@ -895,8 +895,8 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 			{
 				currentState = GameState::ROAMING;
 
-				((ScreenInventory*)screenInventory)->Disable();
-				((ScreenRoaming*)screenRoaming)->Enable();
+				screenInventory->Disable();
+				screenRoaming->Enable();
 
 				guiManager->ToggleMouse();
 
@@ -931,9 +931,8 @@ void SceneGameplay::OpenPause()
 	currentState = GameState::PAUSE;
 	audio->ChangeMusicVolume(SDL_MIX_MAXVOLUME / 10);
 
-	((ScreenRoaming*)screenRoaming)->Disable();
-
-	((ScreenPause*)screenPause)->Enable();
+	screenRoaming->Disable();
+	screenPause->Enable();
 
 	for (int i = 0; i < entityManager->playerList.Count(); i++)
 	{
@@ -947,9 +946,8 @@ void SceneGameplay::OpenInventory()
 {
 	currentState = GameState::INVENTORY;
 
-	((ScreenRoaming*)screenRoaming)->Disable();
-
-	((ScreenInventory*)screenInventory)->Enable();
+	screenRoaming->Disable();
+	screenInventory->Enable();
 
 	audio->PlayFx(bagOpenFx);
 }
@@ -968,6 +966,7 @@ bool SceneGameplay::LoadState(pugi::xml_node& scenegameplay)
 
 	/*Load inventory*/
 	LoadInventory(screenNode.child("screeninventory"));
+
 	/*Load game progress data */
 	LOG("LOADING GAME PROGRESS");
 	pugi::xml_node gameProgressNode = scenegameplay.child("gameProgress");
@@ -991,6 +990,7 @@ bool SceneGameplay::SaveState(pugi::xml_node& scenegameplay) const
 	/* ---------- CHECKS IF THE Child WE WANT OVERWRITE EXISTS OR NOT  ----------*/
 	pugi::xml_node gameProgressNode;
 	SString tempName = scenegameplay.child("gameProgress").name();
+
 	if (tempName == "gameProgress")
 	{
 		// Attribute currentMap exists
@@ -1154,11 +1154,11 @@ void SceneGameplay::LoadInventory(pugi::xml_node& screeninventory)
 	//---------------------------------//
 	/*Delete inventory items*/
 	LOG("LOADING INVENTORY");
-	for (ListItem<InvItem*>* invItem = ((ScreenInventory*)screenInventory)->listInvItems.start; invItem; invItem = invItem->next)
+	for (ListItem<InvItem*>* invItem = screenInventory->listInvItems.start; invItem; invItem = invItem->next)
 	{
-		((ScreenInventory*)screenInventory)->listInvItems.Del(invItem);
+		screenInventory->listInvItems.Del(invItem);
 	}
-	((ScreenInventory*)screenInventory)->listInvItems.Clear();
+	screenInventory->listInvItems.Clear();
 
 	pugi::xml_node screenInventoryNode;
 	screenInventoryNode = screeninventory;
@@ -1211,13 +1211,14 @@ void SceneGameplay::ExitBattle()
 
 	screenBattle->isActive = false;
 	battleSystem->ResetBattle();
+
 	// Reset battle bool to false in the general battle state bool
 	notifier->SetBattleState(false);
 
 	// Change game state to roaming
 	currentState = GameState::ROAMING;
 
-	((ScreenRoaming*)screenRoaming)->Enable();
+	screenRoaming->Enable();
 
 	for (int i = 0; i < entityManager->playerList.Count(); i++)
 	{
@@ -1237,8 +1238,10 @@ void SceneGameplay::SetUpTp()
 
 	// Save player stats
 	int size = entityManager->playerList.Count();
+
 	Stats *playerStats = new Stats[size];
 	ListItem<Player*>* list1;
+
 	int i = 0;
 	for (list1 = entityManager->playerList.start; list1 != NULL; list1 = list1->next)
 	{
@@ -1260,7 +1263,6 @@ void SceneGameplay::SetUpTp()
 
 			RELEASE_ARRAY(data);
 			audio->StopMusic();
-
 		}
 		break;
 	case MapType::HOUSE:
@@ -1273,7 +1275,6 @@ void SceneGameplay::SetUpTp()
 
 			RELEASE_ARRAY(data);
 			audio->StopMusic();
-
 		}
 		break;
 	case MapType::KANAGAWA:
@@ -1286,7 +1287,6 @@ void SceneGameplay::SetUpTp()
 
 			RELEASE_ARRAY(data);
 			audio->StopMusic();
-
 		}
 		break;
 	case MapType::RESTAURANT:
@@ -1299,7 +1299,6 @@ void SceneGameplay::SetUpTp()
 
 			RELEASE_ARRAY(data);
 			audio->StopMusic();
-;
 		}
 		break;
 	case MapType::TOWN:
@@ -1312,7 +1311,6 @@ void SceneGameplay::SetUpTp()
 
 			RELEASE_ARRAY(data);
 			audio->StopMusic();
-
 		}
 		break;
 	case MapType::DOTONBORI:
@@ -1325,7 +1323,6 @@ void SceneGameplay::SetUpTp()
 
 			RELEASE_ARRAY(data);
 			audio->StopMusic();
-
 		}
 		break;
 	case MapType::SKYSCRAPER:
@@ -1337,7 +1334,6 @@ void SceneGameplay::SetUpTp()
 			//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
 			RELEASE_ARRAY(data);
 			audio->StopMusic();
-
 		}
 		break;
 	case MapType::SECRET_ROOM:
@@ -1362,7 +1358,6 @@ void SceneGameplay::SetUpTp()
 
 			RELEASE_ARRAY(data);
 			audio->StopMusic();
-
 		}
 		break;
 	default:
@@ -1427,7 +1422,7 @@ void SceneGameplay::SetUpTp()
 		default:
 			break;
 		}
-		//FIRST CHANGE PLAYERS POSITION TO NEW POSITION BASED ON THE PREVIOUS MAP 
+		// FIRST CHANGE PLAYERS POSITION TO NEW POSITION BASED ON THE PREVIOUS MAP 
 		pugi::xml_node previousMapNode;
 		switch (previousMap)
 		{
@@ -1679,14 +1674,14 @@ void SceneGameplay::SetUpTp()
 	}
 
 	PlayMapMusic();
-	((ScreenPause*)screenPause)->SetMap(currentMap);
+	screenPause->SetMap(currentMap);
 }
 
 void SceneGameplay::AddItemToInvItemsList(Item* item)
 {
 	notifier->GetInstance()->SetItemAddition(false);
 
-	for (ListItem<InvItem*>* invItem = ((ScreenInventory*)screenInventory)->listInvItems.start; invItem; invItem = invItem->next)
+	for (ListItem<InvItem*>* invItem = screenInventory->listInvItems.start; invItem; invItem = invItem->next)
 	{
 		if (invItem->data->item->subtype == item->subtype)
 		{
@@ -1698,7 +1693,7 @@ void SceneGameplay::AddItemToInvItemsList(Item* item)
 	InvItem* invItem = new InvItem();
 	invItem->item = item;
 	invItem->count = 1;
-	((ScreenInventory*)screenInventory)->listInvItems.Add(invItem);
+	screenInventory->listInvItems.Add(invItem);
 }
 
 void SceneGameplay::PlayMapMusic()
@@ -1746,18 +1741,22 @@ GameProgress* SceneGameplay::GetGameProgress()
 void SceneGameplay::RewardXP(int xp)
 {
 	gameProgress.xp += xp;
+
 	pugi::xml_document docData;
 	pugi::xml_parse_result result = docData.load_file("save_game.xml");
 	SaveGameProgress(docData.first_child().child("scenemanager").child("scenegameplay").child("gameProgress"));
+	
 	docData.save_file("save_game.xml");
 }
 
 void SceneGameplay::RewardGold(int gold)
 {
 	gameProgress.gold += gold;
+
 	pugi::xml_document docData;
 	pugi::xml_parse_result result = docData.load_file("save_game.xml");
 	SaveGameProgress(docData.first_child().child("scenemanager").child("scenegameplay").child("gameProgress"));
+
 	docData.save_file("save_game.xml");
 }
 

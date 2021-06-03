@@ -14,6 +14,9 @@ ScreenPause::ScreenPause()
 	iconReturn = nullptr;
 	iconSettings = nullptr;
 	iconExit = nullptr;
+	iconQuest = nullptr;
+	iconTeam = nullptr;
+	iconMap = nullptr;
 
 	mobileRect = { 375, 339, 392, 603 };
 
@@ -59,16 +62,15 @@ ScreenPause::~ScreenPause()
 {
 }
 
-bool ScreenPause::Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* font, int hoverFx, int clickFx)
+bool ScreenPause::Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, Font* font, int hoverFx, int clickFx)
 {
 	this->currentScene = currentScene;
 	this->atlas[0] = atlas0;
-	this->atlas[1] = atlas1;
 	this->font = font;
 	this->easing = easing;
+
 	this->entityManager = entityManager;
 	this->audio = audio;
-
 	this->guiManager = guiManager;
 	this->win = win;
 
@@ -207,7 +209,7 @@ bool ScreenPause::Draw(Render* render)
 
 	if (state == MobileState::MAIN)
 	{
-		/*Draw gold and hud*/
+		/* Draw gold and hud */
 		char s[24] = { 0 };
 
 		// Gold HUD
@@ -402,6 +404,7 @@ void ScreenPause::Enable(bool isFromSettings)
 	else
 	{
 		position = 50;
+
 		iconSettings->bounds.y = 108;
 		iconExit->bounds.y = 108;
 		iconReturn->bounds.y = 580;
@@ -417,6 +420,7 @@ void ScreenPause::Disable()
 {
 	/* The position when you close the mobile*/
 	position = 700;
+
 	iconSettings->bounds.y = position + 108;
 	iconExit->bounds.y = position + 108;
 	iconReturn->bounds.y = position + 580;
@@ -424,6 +428,7 @@ void ScreenPause::Disable()
 	iconQuest->bounds.y = position + 435;
 	iconTeam->bounds.y = position + 435;
 	iconMap->bounds.y = position + 435;
+
 	Screen::Disable();
 }
 
@@ -452,8 +457,10 @@ bool ScreenPause::PointCircleCollCheck(float px, float py, float cx, float cy, f
 
 	// if the distance is less than the circle's
 	// radius the point is inside!
-	if (distance <= r) {
+	if (distance <= r) 
+	{
 		return true;
 	}
+
 	return false;
 }

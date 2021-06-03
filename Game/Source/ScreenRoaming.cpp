@@ -10,17 +10,12 @@
 
 ScreenRoaming::ScreenRoaming()
 {
-	//iconPause = nullptr;
-	//iconInventory = nullptr;
 	currentPlayer = nullptr;
 
 	gameplayScene = nullptr;
 
 	iconPhone = { 20, 14, 52, 66 };
 	iconInventory = { 84, 16, 60, 62 };
-
-	posRight = { 1096 + 50, 78 + 22 };
-	posLeft = { 1000 + 50, 78 + 22 };
 
 	LBButton = { 434, 253, 90, 62 };
 	RBButton = { 534, 253, 90, 62 };
@@ -31,11 +26,16 @@ ScreenRoaming::ScreenRoaming()
 		playerMiniRectPos[i] = posRight;
 	}
 
-	// Important for these to b1 -1
+	posRight = { 1096 + 50, 78 + 22 };
+	posLeft = { 1000 + 50, 78 + 22 };
+
+	// Important for these to be -1
 	previousSelected = -1;
 	currentSelected = -1;
 
 	positionX = 50;
+
+	clickFx = -1;
 }
 
 ScreenRoaming::~ScreenRoaming()
@@ -53,13 +53,7 @@ bool ScreenRoaming::Load(SceneGameplay* gameplayScene, GuiManager* guiManager, E
 	this->entityManager = entityManager;
 	this->easing = easing;
 
-	//iconPause = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 50, 50, 52, 55 });
-	//iconPause->SetIconProperties(currentScene, atlas[0], font, hoverFx, clickFx, CONTROLLER_BUTTON_START, IconType::ICON_PHONE);
-	//++counterId;
-
-	//iconInventory = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 170, 50, 56, 55 });
-	//iconInventory->SetIconProperties(currentScene, atlas[0], font, hoverFx, clickFx, CONTROLLER_BUTTON_X, IconType::ICON_INVENTORY);
-	//++counterId;
+	this->clickFx = clickFx;
 
 	return true;
 }
@@ -69,14 +63,18 @@ bool ScreenRoaming::Update(Input* input, float dt)
 	// Update anything extra in the hud like the party member change
 	controller = input->GetControllerState();
 
-	if (input->GetKey(SDL_SCANCODE_ESCAPE) == KeyState::KEY_DOWN)
+	if (input->GetKey(SDL_SCANCODE_ESCAPE) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_START) == KeyState::KEY_DOWN)
 	{
+		audio->PlayFx(clickFx);
+
 		guiManager->ToggleMouse();
 		gameplayScene->OpenPause();
 	}
 
-	if (input->GetKey(SDL_SCANCODE_Q) == KeyState::KEY_DOWN)
+	if (input->GetKey(SDL_SCANCODE_Q) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_X) == KeyState::KEY_DOWN)
 	{
+		audio->PlayFx(clickFx);
+
 		guiManager->ToggleMouse();
 		gameplayScene->OpenInventory();
 	}
@@ -88,10 +86,18 @@ bool ScreenRoaming::Draw(Render* render)
 {
 	// HUD Draw
 	render->DrawTexture(atlas[0], positionX, 50, &iconPhone, 0.0f);
-	render->DrawText(font, "ESC", positionX + 52, 50 + 55, 30, 3, { 255,255,255,255 });
-
 	render->DrawTexture(atlas[0], positionX + 120, 50, &iconInventory, 0.0f);
-	render->DrawText(font, "Q", positionX + 120 + 56, 50 + 55, 30, 3, { 255,255,255,255 });
+
+	if (!controller)
+	{
+		render->DrawText(font, "ESC", positionX + 3, 20, 30, 3, { 255,255,255,255 });
+		render->DrawText(font, "Q", positionX + 120 + 55, 20, 35, 3, { 255,255,255,255 });
+	}
+	else
+	{
+		render->DrawText(font, "START", positionX - 8, 20, 28, 2, { 255,255,255,255 });
+		render->DrawText(font, "X", positionX + 120 + 55, 20, 35, 3, { 0,0,255,255 });
+	}
 
 	posRight = { 1096 + 50, 78 + 22 };
 	posLeft = { 1000 + 50, 78 + 22 };
@@ -140,8 +146,6 @@ bool ScreenRoaming::Draw(Render* render)
 
 bool ScreenRoaming::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager)
 {
-	//guiManager->DestroyGuiControl(iconPause);
-	//guiManager->DestroyGuiControl(iconInventory);
 
 	return true;
 }
@@ -176,4 +180,4 @@ void ScreenRoaming::Disable()
 {
 	isActive = false;
 	positionX = 2000;
-}	
+}

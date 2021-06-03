@@ -18,11 +18,10 @@ ScreenSettings::ScreenSettings()
 
 ScreenSettings::~ScreenSettings() {}
 
-bool ScreenSettings::Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* buttonFont, int hoverFx, int clickFx)
+bool ScreenSettings::Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, SDL_Texture* atlas0, Font* buttonFont, int hoverFx, int clickFx, int returnFx)
 {
 	this->currentScene = currentScene;
 	this->atlas[0] = atlas0;
-	this->atlas[1] = atlas1;
 	this->font = buttonFont;
 
 	this->guiManager = guiManager;
@@ -56,7 +55,7 @@ bool ScreenSettings::Load(int minIndex, int maxIndex, Scene* currentScene, Windo
 	++counterId;
 
 	iconReturnTitle = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 609, 580, 54, 54 });
-	iconReturnTitle->SetIconProperties(currentScene, atlas0, buttonFont, hoverFx, clickFx, IconType::ICON_RETURN);
+	iconReturnTitle->SetIconProperties(currentScene, atlas0, buttonFont, hoverFx, returnFx, IconType::ICON_RETURN);
 
 	return true;
 }

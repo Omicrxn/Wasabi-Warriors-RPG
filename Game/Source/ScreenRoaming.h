@@ -20,8 +20,6 @@ public:
 	void Disable();
 
 	SceneGameplay* gameplayScene;
-	//GuiIcon* iconPause;
-	//GuiIcon* iconInventory;
 
 	Player* currentPlayer;
 
@@ -36,10 +34,14 @@ public:
 	SDL_Rect RBButton;
 	SDL_Rect playersIcons;
 
-	bool controller;
-
 	int previousSelected;
 	int currentSelected;
 
 	int positionX;
+
+private:
+
+	bool controller;
+
+	int clickFx;
 };

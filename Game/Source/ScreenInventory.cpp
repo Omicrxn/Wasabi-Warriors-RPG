@@ -23,9 +23,6 @@ ScreenInventory::ScreenInventory()
 	pinkBox = { 237, 315, 108, 108 };
 	grayBox = { 396, 108, 108, 108 };
 
-	inventoryBackgroundColor1 = { 74,79,95,255 };
-	inventoryBackgroundColor2 = { 128,137,154,255 };
-
 	controller = false;
 	hasClickedConsume = false;
 
@@ -37,11 +34,10 @@ ScreenInventory::ScreenInventory()
 
 ScreenInventory::~ScreenInventory() {}
 
-bool ScreenInventory::Load(int minIndex, int maxIndex, Scene* currentScene, BattleSystem* battleSystem, Window* win, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* font, int hoverFx, int clickFx)
+bool ScreenInventory::Load(int minIndex, int maxIndex, Scene* currentScene, BattleSystem* battleSystem, Window* win, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, Font* font, int hoverFx, int clickFx)
 {
 	this->currentScene = currentScene;
 	this->atlas[0] = atlas0;
-	this->atlas[1] = atlas1;
 
 	this->font = font;
 
@@ -56,9 +52,6 @@ bool ScreenInventory::Load(int minIndex, int maxIndex, Scene* currentScene, Batt
 
 	uint width, height;
 	win->GetWindowSize(width, height);
-
-	//inventoryBackgroundRect1 = { int(width) / 2 - 550, 40, 1100, 650 };
-	//inventoryBackgroundRect2 = { inventoryBackgroundRect1.x + 25, inventoryBackgroundRect1.y + 25, inventoryBackgroundRect1.w - 50, inventoryBackgroundRect1.h - 50 };
 
 	this->minIndex = minIndex;
 	this->maxIndex = maxIndex;
@@ -133,9 +126,6 @@ bool ScreenInventory::Update(Input* input, float dt, uint& focusedButtonId)
 bool ScreenInventory::Draw(Render* render)
 {
 	render->DrawRectangle({ 0,0,1280,720 }, { 0, 0, 0, 70 }, true, false);
-
-	//render->DrawRectangle(inventoryBackgroundRect1, inventoryBackgroundColor1, true, false);
-	//render->DrawRectangle(inventoryBackgroundRect2, inventoryBackgroundColor2, true, false);
 
 	render->DrawTexture(atlas[0], (1480 / 2 - bagRect.w / 2) / render->scale, animIncrementY + 50 / render->scale, &bagRect, 0.0f);
 

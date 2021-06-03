@@ -43,36 +43,72 @@ public:
     ~Screen() {}
 
     // Many overloads if we need more textures in the screen 
-    virtual bool Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, Font* font, int hoverFx, int clickFx) {
-        return true;
-    }
-    virtual bool Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* font, int hoverFx, int clickFx) {
-        return true;
-    }
-    virtual bool Load(int minIndex, int maxIndex, Scene* currentScene, BattleSystem* battleSystem, Window* win, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* font, int hoverFx, int clickFx) {
-        return true;
-    }
-    virtual bool Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, SDL_Texture* atlas2, Font* font, int hoverFx, int clickFx) {
-        return true;
-    }
-    virtual bool Load(int minIndex, int maxIndex, Scene* currentScene, BattleSystem* battleSystem, Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, SDL_Texture* atlas0, SDL_Texture* atlas1, SDL_Texture* atlas2, Font* font0, Font* font1, Font* font2, Font* font3, int hoverFx, int clickFx, int returnFx) {
-        return true;
-    }
-    // Screen Roaming
-    virtual bool Load(SceneGameplay* gameplayScene, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, Font* font, int clickFx) {
+    // Screen Pause
+    virtual bool Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, Font* font, int hoverFx, int clickFx)
+    {
         return true;
     }
 
-    virtual bool Update(Input* input, float dt, uint& focusedButtonId) {
+    ///////////////////////////////////////////////
+    virtual bool Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* font, int hoverFx, int clickFx)
+    {
         return true;
     }
-    virtual bool Update(Input* input, float dt) {
+    virtual bool Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, SDL_Texture* atlas2, Font* font, int hoverFx, int clickFx)
+    {
         return true;
     }
-    virtual bool Draw(Render* render){
+    ///////////////////////////////////////////////
+
+    // Screen Inventory
+    virtual bool Load(int minIndex, int maxIndex, Scene* currentScene, BattleSystem* battleSystem, Window* win, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, Font* font, int hoverFx, int clickFx)
+    {
         return true;
     }
-    virtual bool Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager) {
+
+    ///////////////////////////////////////////////
+    virtual bool Load(int minIndex, int maxIndex, Scene* currentScene, BattleSystem* battleSystem, Window* win, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* font, int hoverFx, int clickFx)
+    {
+        return true;
+    }
+    virtual bool Load(int minIndex, int maxIndex, Scene* currentScene, BattleSystem* battleSystem, Textures* tex, Window* win, AudioManager* audio, GuiManager* guiManager, EntityManager* entityManager, SDL_Texture* atlas0, SDL_Texture* atlas1, SDL_Texture* atlas2, Font* font0, Font* font1, Font* font2, Font* font3, int hoverFx, int clickFx, int returnFx)
+    {
+        return true;
+    }
+    ///////////////////////////////////////////////
+    
+    // Screen Main Menu & Credits
+    virtual bool Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* font, int hoverFx, int clickFx)
+    {
+        return true;
+    }
+    // Screen Settings
+    virtual bool Load(int minIndex, int maxIndex, Scene* currentScene, Window* win, GuiManager* guiManager, SDL_Texture* atlas0, Font* buttonFont, int hoverFx, int clickFx, int returnFx)
+    {
+        return true;
+    }
+    // Screen Roaming
+    virtual bool Load(SceneGameplay* gameplayScene, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, Font* font, int clickFx)
+    {
+        return true;
+    }
+
+    virtual bool Update(Input* input, float dt, uint& focusedButtonId) 
+    {
+        return true;
+    }
+    virtual bool Update(Input* input, float dt)
+    {
+        return true;
+    }
+
+    virtual bool Draw(Render* render)
+    {
+        return true;
+    }
+
+    virtual bool Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager)
+    {
         return true;
     }
 
@@ -112,22 +148,24 @@ public:
             if (i != focusedButtonId)
             {
                 // SET GAMEPAD FOCUS TO FALSE
-               /* this->guiManager->controls.At(i)->data->gamepadFocus = false;*/
+                /* this->guiManager->controls.At(i)->data->gamepadFocus = false;*/
                 this->guiManager->FindById(i)->gamepadFocus = false;
             }
             else
             {
                 // SET GAMEPAD FOCUS TO TRUE
-               /* this->guiManager->controls.At(i)->data->gamepadFocus = true;*/
+                /* this->guiManager->controls.At(i)->data->gamepadFocus = true;*/
                 this->guiManager->FindById(i)->gamepadFocus = true;
             }
         }
     }
 
-    virtual bool LoadState(pugi::xml_node&){
+    virtual bool LoadState(pugi::xml_node&)
+    {
         return true;
     }
-    virtual bool SaveState(pugi::xml_node&) const {
+    virtual bool SaveState(pugi::xml_node&) const
+    {
         return true;
     }
 
@@ -147,4 +185,4 @@ public:
 
     SDL_Texture* atlas[5];
 };
-#endif // __SCENE_H__
+#endif // __SCREEN_H__

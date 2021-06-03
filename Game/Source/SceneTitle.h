@@ -15,7 +15,10 @@ class GuiIcon;
 
 class Font;
 class Window;
-class Screen;
+
+class ScreenMainMenu;
+class ScreenCredits;
+class ScreenSettings;
 
 enum class MenuSelection
 {
@@ -60,9 +63,9 @@ private:
     AudioManager* audio;
     Transitions* transitions;
 
-    Screen* screenSettings;
-    Screen* screenMainMenu;
-    Screen* screenCredits;
+    ScreenSettings* screenSettings;
+    ScreenMainMenu* screenMainMenu;
+    ScreenCredits* screenCredits;
 
     SDL_Texture* backgroundTex;
     SDL_Rect backgroundRect;

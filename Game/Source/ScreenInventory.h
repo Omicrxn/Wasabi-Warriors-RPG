@@ -15,7 +15,7 @@ public:
 	ScreenInventory();
 	~ScreenInventory();
 
-	bool Load(int minIndex, int maxIndex, Scene* currentScene, BattleSystem* battleSystem, Window* win, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, SDL_Texture* atlas1, Font* font, int hoverFx, int clickFx);
+	bool Load(int minIndex, int maxIndex, Scene* currentScene, BattleSystem* battleSystem, Window* win, GuiManager* guiManager, EntityManager* entityManager, AudioManager* audio, Easing* easing, SDL_Texture* atlas0, Font* font, int hoverFx, int clickFx);
 
 	bool Update(Input* input, float dt, uint& focusedButtonId);
 
@@ -37,7 +37,6 @@ public:
 	List<InvItem*> listInvItems;
 
 private:
-	//InventorySlot inventory[INVENTORY_ROWS][INVENTORY_COLUMNS];
 
 	iPoint itemHovering;
 	iPoint itemSelected;
@@ -55,11 +54,6 @@ private:
 
 	bool controller;
 	bool hasClickedConsume;
-
-	SDL_Rect inventoryBackgroundRect1;
-	SDL_Rect inventoryBackgroundRect2;
-	SDL_Color inventoryBackgroundColor1;
-	SDL_Color inventoryBackgroundColor2;
 
 	SDL_Rect bagRect;
 

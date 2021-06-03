@@ -62,7 +62,7 @@ bool GuiSlider::Update(Input* input, AudioManager* audio, float dt)
         input->GetMousePosition(mouseX, mouseY);
 
         // Check if gamepad is focusing the slider
-        if (gamepadFocus && input->GetControllerState())
+        if (gamepadFocus)
         {
             state = GuiControlState::FOCUSED;
 

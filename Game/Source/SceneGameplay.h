@@ -19,7 +19,12 @@ class DialogSystem;
 
 class GuiButton;
 class GuiIcon;
-class Screen;
+
+class ScreenRoaming;
+class ScreenPause;
+class ScreenSettings;
+class ScreenBattle;
+class ScreenInventory;
 
 struct InvItem;
 
@@ -140,15 +145,15 @@ private:
     App* app;
 
     // The screen for the HUD
-    Screen* screenRoaming;
+    ScreenRoaming* screenRoaming;
     // The screen for the Pause
-    Screen* screenPause;
+    ScreenPause* screenPause;
     // The screen for the settings
-    Screen* screenSettings;
+    ScreenSettings* screenSettings;
     // The screen for the battle
-    Screen* screenBattle;
+    ScreenBattle* screenBattle;
     // The screen for the inventory
-    Screen* screenInventory;
+    ScreenInventory* screenInventory;
 
     // Scene gameplay textures
     SDL_Texture* charactersSpritesheet;
