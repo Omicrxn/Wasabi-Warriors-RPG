@@ -41,7 +41,7 @@ bool ScreenCredits::Load(int minIndex, int maxIndex, Scene* currentScene, Window
     this->maxIndex = maxIndex;
     int counterId = minIndex;
 
-    iconReturnTitle = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 609, 580, 70, 55 });
+    iconReturnTitle = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 609, 580, 54, 54 });
     iconReturnTitle->SetIconProperties(currentScene, atlas0, font, hoverFx, clickFx, IconType::ICON_RETURN);
 
 	return true;
@@ -50,7 +50,7 @@ bool ScreenCredits::Load(int minIndex, int maxIndex, Scene* currentScene, Window
 bool ScreenCredits::Update(Input* input, float dt, uint& focusedButtonId)
 {
 
-	return true;
+    return true;
 }
 
 bool ScreenCredits::Draw(Render* render)

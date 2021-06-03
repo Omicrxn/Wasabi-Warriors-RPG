@@ -5,7 +5,9 @@ GuiIcon::GuiIcon(uint32 id, SDL_Rect bounds) : GuiControl(GuiControlType::ICON, 
     this->bounds = bounds;
 
     isHovering = false;
-    mouseFocus = false;
+    gamepadFocus = false;
+
+    controller = false;
 
     hoverFx = -1;
     clickFx = -1;
@@ -46,17 +48,44 @@ void GuiIcon::SetIconProperties(Scene* module, SDL_Texture* texture, Font* font,
 
 bool GuiIcon::Update(Input* input, AudioManager* audio, float dt)
 {
+    controller = input->GetControllerState();
+
     if (state != GuiControlState::DISABLED && state != GuiControlState::HIDDEN)
     {
         int mouseX, mouseY;
         input->GetMousePosition(mouseX, mouseY);
 
-        // Check collision between mouse and button bounds
-        if ((mouseX > bounds.x) && (mouseX < (bounds.x + bounds.w)) &&
-            (mouseY > bounds.y) && (mouseY < (bounds.y + bounds.h)))
+        // Check if gamepad is focusing the icon
+        if (gamepadFocus && input->GetControllerState())
         {
             state = GuiControlState::FOCUSED;
-            mouseFocus = true;
+
+            if (!isHovering)
+            {
+                isHovering = true;
+                audio->PlayFx(hoverFx);
+            }
+
+            if (input->GetControllerButton(CONTROLLER_BUTTON_A) == KeyState::KEY_REPEAT || input->GetControllerButton(CONTROLLER_BUTTON_A) == KeyState::KEY_DOWN
+                || input->GetKey(SDL_SCANCODE_RETURN) == KeyState::KEY_REPEAT || input->GetKey(SDL_SCANCODE_RETURN) == KeyState::KEY_DOWN)
+            {
+                state = GuiControlState::PRESSED;
+            }
+
+            // If gamepad button pressed -> Generate event!
+            if (input->GetControllerButton(CONTROLLER_BUTTON_A) == KeyState::KEY_UP || input->GetKey(SDL_SCANCODE_RETURN) == KeyState::KEY_UP)
+            {
+                NotifyObserver();
+                // Audio Fx when pressed
+                audio->PlayFx(clickFx);
+            }
+        }
+        // Check collision between mouse and icon bounds
+        else if ((mouseX > bounds.x) && (mouseX < (bounds.x + bounds.w))
+            && (mouseY > bounds.y) && (mouseY < (bounds.y + bounds.h))
+            && !input->GetControllerState())
+        {
+            state = GuiControlState::FOCUSED;
 
             if (!isHovering)
             {
@@ -77,11 +106,30 @@ bool GuiIcon::Update(Input* input, AudioManager* audio, float dt)
                 audio->PlayFx(clickFx);
             }
         }
+        else if (iconType == IconType::ICON_RETURN)
+        {
+            if (input->GetControllerButton(CONTROLLER_BUTTON_B) == KeyState::KEY_REPEAT || input->GetControllerButton(CONTROLLER_BUTTON_B) == KeyState::KEY_DOWN
+                || input->GetControllerButton(CONTROLLER_BUTTON_START) == KeyState::KEY_REPEAT || input->GetControllerButton(CONTROLLER_BUTTON_START) == KeyState::KEY_DOWN
+                || input->GetKey(SDL_SCANCODE_ESCAPE) == KeyState::KEY_REPEAT || input->GetKey(SDL_SCANCODE_ESCAPE) == KeyState::KEY_DOWN)
+            {
+                state = GuiControlState::PRESSED;
+            }
+
+            // If gamepad button pressed -> Generate event!
+            if (input->GetControllerButton(CONTROLLER_BUTTON_B) == KeyState::KEY_UP
+                || input->GetControllerButton(CONTROLLER_BUTTON_START) == KeyState::KEY_UP
+                || input->GetKey(SDL_SCANCODE_ESCAPE) == KeyState::KEY_UP)
+            {
+                NotifyObserver();
+                // Audio Fx when pressed
+                audio->PlayFx(clickFx);
+            }
+        }
         else
         {
             state = GuiControlState::NORMAL;
             isHovering = false;
-            mouseFocus = false;
+            gamepadFocus = false;
         }
     }
     return true;
@@ -96,6 +144,10 @@ bool GuiIcon::Draw(Render* render, bool debugDraw)
         {
         case IconType::ICON_RETURN:
             render->DrawTexture(texture, bounds.x, bounds.y, &normalReturn, 0.0f);
+            if (controller)
+                render->DrawText(font, "B", bounds.x + bounds.w + 5, bounds.y + 12, 28, 3, { 0,0,0,255 });
+            else
+                render->DrawText(font, "ESC", bounds.x + bounds.w + 5, bounds.y + 12, 28, 3, { 0,0,0,255 });
             break;
         case IconType::ICON_SETTINGS:
             render->DrawTexture(texture, bounds.x - 5, bounds.y - 7, &whiteCircle, 0.0f);

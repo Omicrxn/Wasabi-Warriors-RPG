@@ -46,6 +46,8 @@ private:
     SDL_Rect normalReturn;
     SDL_Rect focusedReturn;
     SDL_Rect pressedReturn;
+
+    bool controller;
 };
 
 #endif // __GUIICON_H__

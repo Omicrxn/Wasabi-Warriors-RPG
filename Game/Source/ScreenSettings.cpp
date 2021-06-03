@@ -55,7 +55,7 @@ bool ScreenSettings::Load(int minIndex, int maxIndex, Scene* currentScene, Windo
 	sliderFXVolume->maxValue = SDL_MIX_MAXVOLUME;
 	++counterId;
 
-	iconReturnTitle = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 609, 580, 70, 55 });
+	iconReturnTitle = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 609, 580, 54, 54 });
 	iconReturnTitle->SetIconProperties(currentScene, atlas0, buttonFont, hoverFx, clickFx, IconType::ICON_RETURN);
 
 	return true;
@@ -63,39 +63,12 @@ bool ScreenSettings::Load(int minIndex, int maxIndex, Scene* currentScene, Windo
 
 bool ScreenSettings::Update(Input* input, float dt, uint& focusedButtonId)
 {
-	if (isActive)
-	{
-		// Update
-		// MinIndex is 5
-		if (focusedButtonId == minIndex)
-		{
-			if (input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN)
-				focusedButtonId = minIndex + 1;
-			else if (input->GetControllerButton(CONTROLLER_BUTTON_RIGHT) == KEY_DOWN)
-				focusedButtonId = minIndex + 2;
-		}
-		else if (focusedButtonId == minIndex + 1)
-		{
-			if (input->GetControllerButton(CONTROLLER_BUTTON_UP) == KEY_DOWN)
-				focusedButtonId = minIndex;
-			else if (input->GetControllerButton(CONTROLLER_BUTTON_RIGHT) == KEY_DOWN)
-				focusedButtonId = minIndex + 3;
-		}
-		else if (focusedButtonId == minIndex + 2)
-		{
-			if (input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN)
-				focusedButtonId = minIndex + 3;
-			else if (input->GetControllerButton(CONTROLLER_BUTTON_LEFT) == KEY_DOWN)
-				focusedButtonId = minIndex;
-		}
-		else if (focusedButtonId == minIndex + 3)
-		{
-			if (input->GetControllerButton(CONTROLLER_BUTTON_UP) == KEY_DOWN)
-				focusedButtonId = minIndex + 2;
-			else if (input->GetControllerButton(CONTROLLER_BUTTON_LEFT) == KEY_DOWN)
-				focusedButtonId = minIndex + 1;
-		}
-	}
+	if ((input->GetControllerButton(CONTROLLER_BUTTON_UP) == KeyState::KEY_DOWN || input->GetKey(SDL_SCANCODE_UP) == KeyState::KEY_DOWN) && focusedButtonId > minIndex)
+		--focusedButtonId;
+	else if ((input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KeyState::KEY_DOWN || input->GetKey(SDL_SCANCODE_DOWN) == KeyState::KEY_DOWN) && focusedButtonId < maxIndex)
+		++focusedButtonId;
+
+	UpdateControllerSelection(focusedButtonId);
 
 	return true;
 }

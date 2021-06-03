@@ -88,7 +88,6 @@ private:
 
     // Gamepad's menu focused button ID
     uint focusedButtonId;
-    uint prevFocusedButtonId;
 };
 
 #endif // __SCENETITLE_H__

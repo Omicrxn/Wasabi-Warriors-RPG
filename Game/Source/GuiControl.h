@@ -81,7 +81,6 @@ protected:
 public:
 
     bool gamepadFocus;
-    bool mouseFocus;
 
     uint32 id;
     GuiControlType type;

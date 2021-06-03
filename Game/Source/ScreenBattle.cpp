@@ -232,15 +232,9 @@ bool ScreenBattle::Update(Input* input, float dt, uint& focusedButtonId)
 					focusedButtonId = minIndex + 1;
 			}
 
-			bool isHovering = false;
 			for (int i = minIndex; i <= maxIndex; ++i)
 			{
-				if (guiManager->controls.At(i)->data->mouseFocus)
-					isHovering = true;
-			}
-			for (int i = minIndex; i <= maxIndex; ++i)
-			{
-				if (i != focusedButtonId || isHovering)
+				if (i != focusedButtonId)
 				{
 					// SET GAMEPAD FOCUS TO FALSE
 					guiManager->controls.At(i)->data->gamepadFocus = false;

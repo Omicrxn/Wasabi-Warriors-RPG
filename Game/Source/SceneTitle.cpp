@@ -67,7 +67,6 @@ SceneTitle::SceneTitle()
     // Selections
     menuCurrentSelection = MenuSelection::NONE;
     focusedButtonId = 0;
-    prevFocusedButtonId = 0;
 
     // Screens
     screenCredits = nullptr;
@@ -156,29 +155,19 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
 
 bool SceneTitle::Update(Input* input, float dt)
 {
-    // debug purposes
-    if (input->GetKey(SDL_SCANCODE_RETURN) == KeyState::KEY_DOWN) TransitionToScene(SceneType::GAMEPLAY);
+    // Debug purposes
+    //if (input->GetKey(SDL_SCANCODE_RETURN) == KeyState::KEY_DOWN) TransitionToScene(SceneType::GAMEPLAY);
 
-    if (input->GetControllerState())
-    {
-        if (screenMainMenu->isActive)
-        {
-            screenMainMenu->Update(input, dt, focusedButtonId);
-            screenMainMenu->UpdateControllerSelection(focusedButtonId);
-        }
-
-        if (screenSettings->isActive)
-        {
-            screenSettings->Update(input, dt, focusedButtonId);
-            screenSettings->UpdateControllerSelection(focusedButtonId);
-        }
-    }
+    if (screenMainMenu->isActive)
+        screenMainMenu->Update(input, dt, focusedButtonId);
+    else if (screenSettings->isActive)
+        screenSettings->Update(input, dt, focusedButtonId);
 
     if (menuCurrentSelection == MenuSelection::SETTINGS && screenSettings->isActive == false)
     {
         menuCurrentSelection = MenuSelection::NONE;
 
-        focusedButtonId = prevFocusedButtonId;
+        focusedButtonId = 2;
 
         // Hide settings buttons and sliders and enable main title buttons
         screenSettings->HideButtons();
@@ -187,6 +176,8 @@ bool SceneTitle::Update(Input* input, float dt)
     if (menuCurrentSelection == MenuSelection::CREDITS && screenCredits->isActive == false)
     {
         menuCurrentSelection = MenuSelection::NONE;
+
+        focusedButtonId = 3;
 
         // Hide credits icon and enable main title buttons
         screenCredits->HideButtons();
@@ -337,7 +328,6 @@ bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
             audio->StopMusic();
             audio->PlayMusic("Audio/Music/menu_settings.ogg");
 
-            prevFocusedButtonId = focusedButtonId;
             focusedButtonId = 5;
         }
         else if (control->id == 3)
@@ -346,6 +336,8 @@ bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
 
             screenMainMenu->isActive = false;
             screenCredits->isActive = true;
+
+            focusedButtonId = 10;
         }
         else if (control->id == 4) menuCurrentSelection = MenuSelection::EXIT;
         break;

@@ -7,7 +7,6 @@ GuiSlider::GuiSlider(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(
 
     isHovering = false;
     gamepadFocus = false;
-    mouseFocus = false;
 
     hoverFx = -1;
     clickFx = -1;
@@ -62,12 +61,50 @@ bool GuiSlider::Update(Input* input, AudioManager* audio, float dt)
         int mouseX, mouseY;
         input->GetMousePosition(mouseX, mouseY);
 
-        // Check collision between mouse and button bounds
-        if ((mouseX > bounds.x) && (mouseX < (bounds.x + bounds.w)) &&
-            (mouseY > bounds.y) && (mouseY < (bounds.y + bounds.h)))
+        // Check if gamepad is focusing the slider
+        if (gamepadFocus && input->GetControllerState())
         {
             state = GuiControlState::FOCUSED;
-            mouseFocus = true;
+
+            if (!isHovering)
+            {
+                isHovering = true;
+                audio->PlayFx(hoverFx);
+            }
+
+            // If gamepad button pressed -> Generate event!
+            if (input->GetControllerButton(CONTROLLER_BUTTON_RB) == KeyState::KEY_DOWN)
+            {
+                state = GuiControlState::PRESSED;
+                slider.x += 10;
+                audio->PlayFx(clickFx);
+            }
+            else if (input->GetControllerButton(CONTROLLER_BUTTON_LB) == KeyState::KEY_DOWN)
+            {
+                state = GuiControlState::PRESSED;
+                slider.x -= 10;
+                audio->PlayFx(clickFx);
+            }
+
+            if (input->GetControllerButton(CONTROLLER_BUTTON_RB) == KeyState::KEY_UP || input->GetControllerButton(CONTROLLER_BUTTON_LB) == KeyState::KEY_UP)
+                NotifyObserver();
+
+            if (slider.x < bounds.x)
+                slider.x = bounds.x;
+
+            if (slider.x + slider.w >= bounds.x + bounds.w)
+                slider.x = bounds.x + bounds.w - slider.w;
+
+            float percentage = (100.0f / bounds.w) * (slider.x - bounds.x);
+            percentage = percentage / 100.0f;
+            value = maxValue * percentage;
+        }
+        // Check collision between mouse and slider bounds
+        else if ((mouseX > bounds.x) && (mouseX < (bounds.x + bounds.w))
+            && (mouseY > bounds.y) && (mouseY < (bounds.y + bounds.h))
+            && !input->GetControllerState())
+        {
+            state = GuiControlState::FOCUSED;
 
             if (!isHovering)
             {
@@ -103,50 +140,11 @@ bool GuiSlider::Update(Input* input, AudioManager* audio, float dt)
                 NotifyObserver();
             }
         }
-        // Check if gamepad is focusing the button
-        else if (gamepadFocus && input->GetControllerState())
-        {
-            state = GuiControlState::FOCUSED;
-
-            if (!isHovering)
-            {
-                isHovering = true;
-                audio->PlayFx(hoverFx);
-            }
-
-            //// If gamepad button pressed -> Generate event!
-            if (input->GetControllerButton(CONTROLLER_BUTTON_RB) == KeyState::KEY_DOWN)
-            {
-                state = GuiControlState::PRESSED;
-                slider.x += 10;
-                audio->PlayFx(clickFx);
-            }
-            else if (input->GetControllerButton(CONTROLLER_BUTTON_LB) == KeyState::KEY_DOWN)
-            {
-                state = GuiControlState::PRESSED;
-                slider.x -= 10;
-                audio->PlayFx(clickFx);
-            }
-
-            if (input->GetControllerButton(CONTROLLER_BUTTON_RB) == KeyState::KEY_UP || input->GetControllerButton(CONTROLLER_BUTTON_LB) == KeyState::KEY_UP)
-                NotifyObserver();
-
-            if (slider.x < bounds.x)
-                slider.x = bounds.x;
-
-            if (slider.x + slider.w >= bounds.x + bounds.w)
-                slider.x = bounds.x + bounds.w - slider.w;
-
-            float percentage = (100.0f / bounds.w) * (slider.x - bounds.x);
-            percentage = percentage / 100.0f;
-            value = maxValue * percentage;
-        }
         else
         {
             state = GuiControlState::NORMAL;
             isHovering = false;
             gamepadFocus = false;
-            mouseFocus = false;
         }
     }
 
@@ -162,19 +160,19 @@ bool GuiSlider::Draw(Render* render, bool debugDraw)
     case GuiControlState::HIDDEN:
         break;
     case GuiControlState::NORMAL:
-        render->DrawText(font, text.GetString(), bounds.x, bounds.y - bounds.h / 2 - bounds.h / 4, 25, 3, { 105,105,105,255 });
+        render->DrawText(font, text.GetString(), bounds.x, bounds.y - bounds.h / 2 - bounds.h / 4, 28, 3, { 105,105,105,255 });
 
         render->DrawTexture(texture, bounds.x, bounds.y, &whiteBar, 0.0f);
         break;
     case GuiControlState::FOCUSED:
-        render->DrawText(font, text.GetString(), bounds.x, bounds.y - bounds.h / 2 - bounds.h / 4, 25, 3, { 0,0,0,255 });
+        render->DrawText(font, text.GetString(), bounds.x, bounds.y - bounds.h / 2 - bounds.h / 4, 28, 3, { 0,0,0,255 });
 
         render->DrawTexture(texture, bounds.x, bounds.y, &grayBar, 0.0f);
 
         //render->DrawTexture(texture, bounds.x - 30, bounds.y + 7, &arrowWhiteRight, 0.0f);
         break;
     case GuiControlState::PRESSED:
-        render->DrawText(font, text.GetString(), bounds.x, bounds.y - bounds.h / 2 - bounds.h / 4, 25, 3, { 0,0,0,255 });
+        render->DrawText(font, text.GetString(), bounds.x, bounds.y - bounds.h / 2 - bounds.h / 4, 28, 3, { 0,0,0,255 });
 
         render->DrawTexture(texture, bounds.x, bounds.y, &pinkBar, 0.0f);
 

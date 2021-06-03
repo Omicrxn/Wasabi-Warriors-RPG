@@ -60,12 +60,14 @@ bool ScreenMainMenu::Load(int minIndex, int maxIndex, Scene* currentScene, Windo
 
 bool ScreenMainMenu::Update(Input* input, float dt, uint& focusedButtonId)
 {
-    if ((input->GetControllerButton(CONTROLLER_BUTTON_UP) == KeyState::KEY_DOWN) && focusedButtonId > minIndex)
+    if ((input->GetControllerButton(CONTROLLER_BUTTON_UP) == KeyState::KEY_DOWN || input->GetKey(SDL_SCANCODE_UP) == KeyState::KEY_DOWN) && focusedButtonId > minIndex)
         --focusedButtonId;
-    else if ((input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KeyState::KEY_DOWN) && focusedButtonId < maxIndex)
+    else if ((input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KeyState::KEY_DOWN || input->GetKey(SDL_SCANCODE_DOWN) == KeyState::KEY_DOWN) && focusedButtonId < maxIndex)
         ++focusedButtonId;
 
-	return true;
+    UpdateControllerSelection(focusedButtonId);
+
+    return true;
 }
 
 bool ScreenMainMenu::Draw(Render* render)
