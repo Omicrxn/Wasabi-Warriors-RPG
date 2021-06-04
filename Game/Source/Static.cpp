@@ -773,6 +773,209 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 		SetPivot(16, 64);
 	}
 
+	if (name == "furniture")
+	{
+		type = Static::Type::FURNITURE;
+		SetRect(992, 113, 32, 15);
+		SetPivot(16, 15);
+	}
+
+	if (name == "furniture_2")
+	{
+		type = Static::Type::FURNITURE;
+		SetRect(992, 160, 32, 32);
+		SetPivot(16, 32);
+	}
+
+	if (name == "furniture_3")
+	{
+		type = Static::Type::FURNITURE;
+		SetRect(992, 128, 32, 32);
+		SetPivot(16, 32);
+	}
+
+	if (name == "furniture_4")
+	{
+		type = Static::Type::FURNITURE;
+		SetRect(708, 68, 28, 28);
+		SetPivot(14, 28);
+	}
+
+	if (name == "furniture_5")
+	{
+		type = Static::Type::FURNITURE;
+		SetRect(736, 69, 22, 28);
+		SetPivot(11, 28);
+	}
+
+	if (name == "furniture_6")
+	{
+		type = Static::Type::FURNITURE;
+		SetRect(712, 97, 24, 28);
+		SetPivot(12, 28);
+	}
+
+	if (name == "furniture_7")
+	{
+		type = Static::Type::FURNITURE;
+		SetRect(736, 97, 20, 31);
+		SetPivot(10, 31);
+	}
+
+	if (name == "furniture_8")
+	{
+		type = Static::Type::FURNITURE;
+		SetRect(960, 113, 32, 15);
+		SetPivot(32, 60);
+	}
+
+	if (name == "furniture_9")
+	{
+		type = Static::Type::FURNITURE;
+		SetRect(960, 160, 32, 32);
+		SetPivot(32, 128);
+	}
+
+	if (name == "furniture_10")
+	{
+		type = Static::Type::FURNITURE;
+		SetRect(769, 265, 31, 19);
+		SetPivot(31, 152);
+	}
+
+	if (name == "furniture_11")
+	{
+		type = Static::Type::FURNITURE;
+		SetRect(960, 70, 32, 26);
+		SetPivot(32, 104);
+	}
+
+	if (name == "furniture_12")
+	{
+		type = Static::Type::FURNITURE;
+		SetRect(809, 256, 15, 30);
+		SetPivot(15, 240);
+	}
+
+	if (name == "furniture_13")
+	{
+		type = Static::Type::FURNITURE;
+		SetRect(963, 12, 27, 20);
+		SetPivot(27, 80);
+	}
+
+	if (name == "furniture_14")
+	{
+		type = Static::Type::FURNITURE;
+		SetRect(722, 4, 14, 28);
+		SetPivot(14, 112);
+	}
+
+	if (name == "furniture_15")
+	{
+		type = Static::Type::FURNITURE;
+		SetRect(724, 32, 12, 26);
+		SetPivot(12, 104);
+	}
+
+	if (name == "furniture_16")
+	{
+		type = Static::Type::FURNITURE;
+		SetRect(776, 393, 15, 19);
+		SetPivot(15, 76);
+	}
+
+	if (name == "furniture_17")
+	{
+		type = Static::Type::FURNITURE;
+		SetRect(864, 416, 32, 32);
+		SetPivot(32, 128);
+	}
+
+	if (name == "furniture_18")
+	{
+		type = Static::Type::FURNITURE;
+		SetRect(896, 416, 32, 32);
+		SetPivot(32, 128);
+	}
+
+	if (name == "furniture_19")
+	{
+		type = Static::Type::FURNITURE;
+		SetRect(864, 448, 32, 32);
+		SetPivot(32, 128);
+	}
+
+	if (name == "furniture_20")
+	{
+		type = Static::Type::FURNITURE;
+		SetRect(896, 448, 32, 32);
+		SetPivot(32, 128);
+	}
+
+	if (name == "furniture_21")
+	{
+		type = Static::Type::FURNITURE;
+		SetRect(898, 16, 28, 16);
+		SetPivot(28, 64);
+	}
+
+	if (name == "furniture_22")
+	{
+		type = Static::Type::FURNITURE;
+		SetRect(896, 32, 32, 32);
+		SetPivot(32, 128);
+	}
+
+	if (name == "furniture_23")
+	{
+		type = Static::Type::FURNITURE;
+		SetRect(864, 288, 32, 32);
+		SetPivot(32, 128);
+	}
+
+	if (name == "furniture_24")
+	{
+		type = Static::Type::FURNITURE;
+		SetRect(896, 288, 32, 32);
+		SetPivot(32, 128);
+	}
+
+	if (name == "furniture_25")
+	{
+		type = Static::Type::FURNITURE;
+		SetRect(874, 480, 22, 15);
+		SetPivot(22, 60);
+	}
+
+	if (name == "furniture_26")
+	{
+		type = Static::Type::FURNITURE;
+		SetRect(896, 480, 21, 15);
+		SetPivot(21, 60);
+	}
+
+	if (name == "furniture_27")
+	{
+		type = Static::Type::FURNITURE;
+		SetRect(768, 416, 32, 32);
+		SetPivot(32, 128);
+	}
+
+	if (name == "furniture_28")
+	{
+		type = Static::Type::FURNITURE;
+		SetRect(832, 416, 32, 32);
+		SetPivot(32, 128);
+	}
+
+	if (name == "furniture_29")
+	{
+		type = Static::Type::FURNITURE;
+		SetRect(968, 32, 17, 32);
+		SetPivot(17, 128);
+	}
+
 	else {
 		LOG("There isn't any type assigned to %s name entity", name.data());
 	}
