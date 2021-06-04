@@ -232,59 +232,76 @@ bool ScreenPause::Draw(Render* render)
 				int offsetA = 20;
 				if (entityManager->playerList.At(i)->data->name == "Kenzo")
 				{
-					render->DrawText(font, "Young man from Osaka with passion", 490, position + 90 + offsetA, 19, 3, { 0,0,0,255 });
-					render->DrawText(font, "for cooking, but no resources.", 490, position + 105 + offsetA, 19, 3, { 0,0,0,255 });
-					render->DrawText(font, "Then he found Erika, the owner of the", 490, position + 120 + offsetA, 19, 3, { 0,0,0,255 });
-					render->DrawText(font, "best restaurant in the region, who ", 490, position + 135 + offsetA, 19, 3, { 0,0,0,255 });
-					render->DrawText(font, "gave Kenzo an opportunity.", 490, position + 150 + offsetA, 19, 3, { 0,0,0,255 });
-					render->DrawText(font, "Now Kenzo is a grateful cook in her", 490, position + 165 + offsetA, 19, 3, { 0,0,0,255 });
-					render->DrawText(font, "restaurant in Otaru.", 490, position + 180 + offsetA, 19, 3, { 0,0,0,255 });
+					render->DrawText(font, "Young man from Osaka with", 490, position + 90 + offsetA, 20, 3, { 0,0,0,255 });
+					render->DrawText(font, "passion for cooking, but", 490, position + 105 + offsetA, 20, 3, { 0,0,0,255 });
+					render->DrawText(font, "no resources. Then he found", 490, position + 120 + offsetA, 20, 3, { 0,0,0,255 });
+					render->DrawText(font, "Erika, the owner of the best", 490, position + 135 + offsetA, 20, 3, { 0,0,0,255 });
+					render->DrawText(font, "restaurant in the region, who", 490, position + 150 + offsetA, 20, 3, { 0,0,0,255 });
+					render->DrawText(font, "gave Kenzo an opportunity. ", 490, position + 165 + offsetA, 20, 3, { 0,0,0,255 });
+					render->DrawText(font, "Now Kenzo is a grateful cook", 490, position + 180 + offsetA, 20, 3, { 0,0,0,255 });
+					render->DrawText(font, "in her Kanafawa restaurant.", 490, position + 195 + offsetA, 20, 3, { 0,0,0,255 });
 				}
 				else if (entityManager->playerList.At(i)->data->name == "Eiken")
 				{
-					render->DrawText(font, "blablablabalbal", 500, position + 90, 15, 3, { 0,0,0,255 });
+					render->DrawText(font, "Skilled and faithful chef", 490, position + 90 + offsetA, 20, 3, { 0,0,0,255 });
+					render->DrawText(font, "who was Erika's apprentice.", 490, position + 105 + offsetA, 20, 3, { 0,0,0,255 });
+					render->DrawText(font, "He keeps a key to open the", 490, position + 120 + offsetA, 20, 3, { 0,0,0,255 });
+					render->DrawText(font, "vault of the recipe that", 490, position + 135 + offsetA, 20, 3, { 0,0,0,255 });
+					render->DrawText(font, "Kenzo is searching for.", 490, position + 150 + offsetA, 20, 3, { 0,0,0,255 });
 				}
 				else if (entityManager->playerList.At(i)->data->name == "Rei")
 				{
-					render->DrawText(font, "blablablabalbal", 500, position + 90, 15, 3, { 0,0,0,255 });
+					render->DrawText(font, "Professional and brilliant previous", 490, position + 90 + offsetA, 20, 3, { 0,0,0,255 });
+					render->DrawText(font, "Erika's apprentice and head chef ", 490, position + 105 + offsetA, 20, 3, { 0,0,0,255 });
+					render->DrawText(font, "of the restaurant in Dotonbori.", 490, position + 120 + offsetA, 20, 3, { 0,0,0,255 });
+					render->DrawText(font, "He has the last key of the", 490, position + 135 + offsetA, 20, 3, { 0,0,0,255 });
+					render->DrawText(font, "receipe vault", 490, position + 150 + offsetA, 20, 3, { 0,0,0,255 });
+				}
+				else if (entityManager->playerList.At(i)->data->name == "Maki")
+				{
+					render->DrawText(font, "Kenzo's dog and best friend.", 490, position + 90 + offsetA, 20, 3, { 0,0,0,255 });
+					render->DrawText(font, "A very smart and faithful dog", 490, position + 105 + offsetA, 20, 3, { 0,0,0,255 });
+					render->DrawText(font, "that will follow Kenzo everywhere.", 490, position + 120 + offsetA, 20, 3, { 0,0,0,255 });
+					render->DrawText(font, "He is very well trained and loves", 490, position + 135 + offsetA, 20, 3, { 0,0,0,255 });
+					render->DrawText(font, "Kenzo like crazy.", 490, position + 150 + offsetA, 20, 3, { 0,0,0,255 });
 				}
 
 				// Draw Player Stats
 				int offsetB = 50;
-				render->DrawText(font, "LVL:", 500, 290 + offsetB, 15, 2, { 255,165,0,255 });
-				render->DrawText(font, "Damage:", 500, 310 + offsetB, 15, 2, { 255,165,0,255 });
-				render->DrawText(font, "Max HP:", 500, 330 + offsetB, 15, 2, { 255,165,0,255 });
-				render->DrawText(font, "HP:", 500, 350 + offsetB, 15, 2, { 255,165,0,255 });
-				render->DrawText(font, "Strength:", 500, 370 + offsetB, 15, 2, { 255,165,0,255 });
-				render->DrawText(font, "Defense:", 500, 390 + offsetB, 15, 2, { 255,165,0,255 });
-				render->DrawText(font, "Atk Speed:", 500, 410 + offsetB, 15, 2, { 255,165,0,255 });
-				render->DrawText(font, "CritRate:", 500, 430 + offsetB, 15, 2, { 255,165,0,255 });
+				render->DrawText(font, "LVL:", 500, 290 + offsetB, 25, 2, { 255,165,0,255 });
+				render->DrawText(font, "Damage:", 500, 310 + offsetB, 25, 2, { 255,165,0,255 });
+				render->DrawText(font, "Max HP:", 500, 330 + offsetB, 25, 2, { 255,165,0,255 });
+				render->DrawText(font, "HP:", 500, 350 + offsetB, 25, 2, { 255,165,0,255 });
+				render->DrawText(font, "Strength:", 500, 370 + offsetB, 25, 2, { 255,165,0,255 });
+				render->DrawText(font, "Defense:", 500, 390 + offsetB, 25, 2, { 255,165,0,255 });
+				render->DrawText(font, "Atk Speed:", 500, 410 + offsetB, 25, 2, { 255,165,0,255 });
+				render->DrawText(font, "CritRate:", 500, 430 + offsetB, 25, 2, { 255,165,0,255 });
 
 				int posStatsNum = 630;
 				char statsString[30] = { 0 };
 				sprintf_s(statsString, 30, "%i  ", entityManager->playerList.At(i)->data->stats.level);
-				render->DrawText(font, statsString, posStatsNum, 290 + offsetB, 15, 2, { 0,0,0,255 });
+				render->DrawText(font, statsString, posStatsNum, 290 + offsetB, 25, 2, { 0,0,0,255 });
 
 				sprintf_s(statsString, 30, "%i  ", entityManager->playerList.At(i)->data->stats.damage);
-				render->DrawText(font, statsString, posStatsNum, 310 + offsetB, 15, 2, { 0,0,0,255 });
+				render->DrawText(font, statsString, posStatsNum, 310 + offsetB, 25, 2, { 0,0,0,255 });
 
 				sprintf_s(statsString, 30, "%i  ", entityManager->playerList.At(i)->data->stats.maxHP);
-				render->DrawText(font, statsString, posStatsNum, 330 + offsetB, 15, 2, { 0,0,0,255 });
+				render->DrawText(font, statsString, posStatsNum, 330 + offsetB, 25, 2, { 0,0,0,255 });
 
 				sprintf_s(statsString, 30, "%i  ", entityManager->playerList.At(i)->data->stats.currentHP);
-				render->DrawText(font, statsString, posStatsNum, 350 + offsetB, 15, 2, { 0,0,0,255 });
+				render->DrawText(font, statsString, posStatsNum, 350 + offsetB, 25, 2, { 0,0,0,255 });
 
 				sprintf_s(statsString, 30, "%i  ", entityManager->playerList.At(i)->data->stats.strength);
-				render->DrawText(font, statsString, posStatsNum, 370 + offsetB, 15, 2, { 0,0,0,255 });
+				render->DrawText(font, statsString, posStatsNum, 370 + offsetB, 25, 2, { 0,0,0,255 });
 
 				sprintf_s(statsString, 30, "%i  ", entityManager->playerList.At(i)->data->stats.defense);
-				render->DrawText(font, statsString, posStatsNum, 390 + offsetB, 15, 2, { 0,0,0,255 });
+				render->DrawText(font, statsString, posStatsNum, 390 + offsetB, 25, 2, { 0,0,0,255 });
 
 				sprintf_s(statsString, 30, "%i  ", entityManager->playerList.At(i)->data->stats.attackSpeed);
-				render->DrawText(font, statsString, posStatsNum, 410 + offsetB, 15, 2, { 0,0,0,255 });
+				render->DrawText(font, statsString, posStatsNum, 410 + offsetB, 25, 2, { 0,0,0,255 });
 
 				sprintf_s(statsString, 30, "%.1f  ", entityManager->playerList.At(i)->data->stats.criticalRate);
-				render->DrawText(font, statsString, posStatsNum, 430 + offsetB, 15, 2, { 0,0,0,255 });
+				render->DrawText(font, statsString, posStatsNum, 430 + offsetB, 25, 2, { 0,0,0,255 });
 			}
 		}
 	}
