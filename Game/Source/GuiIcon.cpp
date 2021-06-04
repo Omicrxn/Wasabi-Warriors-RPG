@@ -55,6 +55,8 @@ bool GuiIcon::Update(Input* input, AudioManager* audio, float dt)
         int mouseX, mouseY;
         input->GetMousePosition(mouseX, mouseY);
 
+        bool mouseHover = false;
+
         // Check if gamepad is focusing the icon
         if (gamepadFocus)
         {
@@ -86,6 +88,7 @@ bool GuiIcon::Update(Input* input, AudioManager* audio, float dt)
             && !input->GetControllerState())
         {
             state = GuiControlState::FOCUSED;
+            mouseHover = true;
 
             if (!isHovering)
             {
@@ -111,10 +114,11 @@ bool GuiIcon::Update(Input* input, AudioManager* audio, float dt)
             state = GuiControlState::NORMAL;
             isHovering = false;
             gamepadFocus = false;
+            mouseHover = false;
         }
 
 
-        if (iconType == IconType::ICON_RETURN)
+        if (iconType == IconType::ICON_RETURN && !mouseHover && !gamepadFocus)
         {
             if (input->GetControllerButton(CONTROLLER_BUTTON_B) == KeyState::KEY_REPEAT || input->GetControllerButton(CONTROLLER_BUTTON_B) == KeyState::KEY_DOWN
                 || input->GetControllerButton(CONTROLLER_BUTTON_START) == KeyState::KEY_REPEAT || input->GetControllerButton(CONTROLLER_BUTTON_START) == KeyState::KEY_DOWN

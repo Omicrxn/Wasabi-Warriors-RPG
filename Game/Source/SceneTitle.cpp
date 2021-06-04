@@ -130,7 +130,8 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
     screenCredits->Load(10, 10, this, win, guiManager, guiAtlasTex2, buttonFont, hoverFx, returnFx);
 
     audio->PlayMusic("Audio/Music/menu.ogg", 0.5f);
-    ScreenMainMenu* tempTitle = (ScreenMainMenu*)screenMainMenu;
+
+    ScreenMainMenu* tempTitle = screenMainMenu;
     tempTitle->titlePosition = { (int)width + tempTitle->mainTitlesRect.w * 2, (int)((float)height / 2) - (int)((float)height / 2.5f) };
 
     titleFxTimer.Start();
@@ -153,67 +154,12 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
 
 bool SceneTitle::Update(Input* input, float dt)
 {
-    // Debug purposes
-    //if (input->GetKey(SDL_SCANCODE_RETURN) == KeyState::KEY_DOWN) TransitionToScene(SceneType::GAMEPLAY);
-
     if (input->GetControllerState())
     {
-        if (screenMainMenu->isActive)
+        if (menuCurrentSelection == MenuSelection::NONE)
             screenMainMenu->Update(input, dt, focusedButtonId);
-        else if (screenSettings->isActive)
+        else if (menuCurrentSelection == MenuSelection::SETTINGS)
             screenSettings->Update(input, dt, focusedButtonId);
-    }
-
-    if (menuCurrentSelection == MenuSelection::SETTINGS && screenSettings->isActive == false)
-    {
-        menuCurrentSelection = MenuSelection::NONE;
-
-        focusedButtonId = 2;
-
-        // Hide settings buttons and sliders and enable main title buttons
-        screenSettings->HideButtons();
-        screenMainMenu->ShowButtons();
-    }
-    if (menuCurrentSelection == MenuSelection::CREDITS && screenCredits->isActive == false)
-    {
-        menuCurrentSelection = MenuSelection::NONE;
-
-        focusedButtonId = 3;
-
-        // Hide credits icon and enable main title buttons
-        screenCredits->HideButtons();
-        screenMainMenu->ShowButtons();
-    }
-
-    if (menuCurrentSelection == MenuSelection::START)
-    {
-        audio->StopMusic();
-        screenMainMenu->HideButtons();
-        /*TransitionToScene(SceneType::GAMEPLAY);*/
-        transitions->Transition(WhichAnimation::FADE_TO_BLACK, (Scene*)this, SceneType::GAMEPLAY, 2);
-    }
-    else if (menuCurrentSelection == MenuSelection::CONTINUE)
-    {
-        audio->StopMusic();
-        screenMainMenu->HideButtons();
-        transitions->Transition(WhichAnimation::FADE_TO_BLACK, (Scene*)this, SceneType::GAMEPLAY_LOAD, 2);
-    }
-    else if (menuCurrentSelection == MenuSelection::SETTINGS)
-    {
-        // Hide main title buttons and enable the settings buttons and slider
-        screenMainMenu->HideButtons();
-        screenSettings->ShowButtons();
-    }
-    else if (menuCurrentSelection == MenuSelection::CREDITS)
-    {
-        // Hide main title buttons and enable credits return icon
-        screenMainMenu->HideButtons();
-        screenCredits->ShowButtons();
-    }
-    else if (menuCurrentSelection == MenuSelection::EXIT)
-    {
-        audio->StopMusic();
-        guiManager->ExitGame();
     }
 
     return true;
@@ -232,17 +178,17 @@ bool SceneTitle::Draw(Render* render)
         audio->PlayFx(titleFx);
     }
 
-    if (screenMainMenu->isActive)
+    if (menuCurrentSelection == MenuSelection::NONE)
     {
         screenMainMenu->Draw(render);
     }
 
-    if (screenSettings->isActive)
+    if (menuCurrentSelection == MenuSelection::SETTINGS)
     {
         screenSettings->Draw(render);
     }
 
-    if (screenCredits->isActive)
+    if (menuCurrentSelection == MenuSelection::CREDITS)
     {
         screenCredits->Draw(render);
     }
@@ -315,14 +261,32 @@ bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
     {
     case GuiControlType::BUTTON:
     {
-        if (control->id == 0) menuCurrentSelection = MenuSelection::CONTINUE;
-        else if (control->id == 1) menuCurrentSelection = MenuSelection::START;
+        if (control->id == 0)
+        {
+            menuCurrentSelection = MenuSelection::CONTINUE;
+
+            screenMainMenu->Disable();
+
+            audio->StopMusic();
+
+            transitions->Transition(WhichAnimation::FADE_TO_BLACK, (Scene*)this, SceneType::GAMEPLAY_LOAD, 2);
+        }
+        else if (control->id == 1)
+        {
+            menuCurrentSelection = MenuSelection::START;
+
+            screenMainMenu->Disable();
+
+            audio->StopMusic();
+
+            transitions->Transition(WhichAnimation::FADE_TO_BLACK, (Scene*)this, SceneType::GAMEPLAY, 2);
+        }
         else if (control->id == 2)
         {
             menuCurrentSelection = MenuSelection::SETTINGS;
 
-            screenSettings->isActive = true;
-            screenMainMenu->isActive = false;
+            screenMainMenu->Disable();
+            screenSettings->Enable();
 
             audio->StopMusic();
             audio->PlayMusic("Audio/Music/menu_settings.ogg");
@@ -333,31 +297,48 @@ bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
         {
             menuCurrentSelection = MenuSelection::CREDITS;
 
-            screenMainMenu->isActive = false;
-            screenCredits->isActive = true;
+            screenMainMenu->Disable();
+            screenCredits->Enable();
 
             focusedButtonId = 10;
         }
-        else if (control->id == 4) menuCurrentSelection = MenuSelection::EXIT;
+        else if (control->id == 4)
+        {
+            menuCurrentSelection = MenuSelection::EXIT;
+
+            audio->StopMusic();
+
+            guiManager->ExitGame();
+        }
         break;
     }
     case GuiControlType::ICON:
     {
         if (control->id == 9)
         {
-            screenSettings->isActive = false;
-            screenMainMenu->isActive = true;
+            menuCurrentSelection = MenuSelection::NONE;
+
+            // Hide settings buttons and sliders and enable main title buttons
+            screenSettings->Disable();
+            screenMainMenu->Enable();
 
             audio->StopMusic();
             audio->PlayMusic("Audio/Music/menu.ogg");
+
+            focusedButtonId = 2;
         }
         else if (control->id == 10)
         {
-            screenCredits->isActive = false;
-            screenMainMenu->isActive = true;
+            menuCurrentSelection = MenuSelection::NONE;
+
+            // Hide credits icon and enable main title buttons
+            screenCredits->Disable();
+            screenMainMenu->Enable();
 
             audio->StopMusic();
             audio->PlayMusic("Audio/Music/menu.ogg");
+
+            focusedButtonId = 3;
         }
         break;
     }
