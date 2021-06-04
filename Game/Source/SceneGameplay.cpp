@@ -445,7 +445,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 		screenBattle->isActive = true; 
 		battleSystem->SetupBattle(&entityManager->playerList, (Enemy*)entityManager->SearchEntity(notifier->GetEnemy()), &entityManager->itemList);
 
-		((ScreenBattle*)screenBattle)->EnableBattleButtons();
+		screenBattle->EnableBattleButtons();
 
 		currentState = GameState::BATTLE;
 		screenBattle->isActive = true;
@@ -465,7 +465,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 		screenBattle->isActive = true;
 		battleSystem->SetupBattle(&entityManager->playerList, (Enemy*)entityManager->SearchEntity(notifier->GetEnemy()), &entityManager->itemList);
 
-		((ScreenBattle*)screenBattle)->EnableBattleButtons();
+		screenBattle->EnableBattleButtons();
 
 		// Reset battle bool to false in the notifier
 		notifier->NotifyBattle();
@@ -569,17 +569,16 @@ bool SceneGameplay::Update(Input* input, float dt)
 		screenSettings->Update(input, dt, focusedButtonId);
 		break;
 	case GameState::EXIT:
-		TransitionToScene(SceneType::TITLE);
 		break;
 	case GameState::BATTLE:
 		screenBattle->Update(input, dt, focusedButtonId);
 
 		if (battleSystem->HasOpenedInventory() == false)
 		{
-			if (((ScreenBattle*)screenBattle)->GetBattleSystem()->playerState == PlayerState::ITEM && !battleSystem->HasClosedInventory())
+			if (screenBattle->GetBattleSystem()->playerState == PlayerState::ITEM && !battleSystem->HasClosedInventory())
 			{
 				battleSystem->SetInventoryOpening(true);
-				((ScreenBattle*)screenBattle)->DisableBattleButtons();
+				screenBattle->DisableBattleButtons();
 				screenInventory->Enable();
 			}
 		}
@@ -799,6 +798,8 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 
 			screenRoaming->Disable();
 			screenPause->Disable();
+
+			TransitionToScene(SceneType::TITLE);
 		}
 		else if (control->id == 3)
 		{
@@ -883,7 +884,7 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 				battleSystem->SetInventoryClosure(true);
 
 				screenInventory->Disable();
-				((ScreenBattle*)screenBattle)->EnableBattleButtons();
+				screenBattle->EnableBattleButtons();
 			}
 		}
 		else if (control->id == 16)
@@ -894,7 +895,7 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 				battleSystem->SetInventoryClosure(true);
 
 				screenInventory->Disable();
-				((ScreenBattle*)screenBattle)->EnableBattleButtons();
+				screenBattle->EnableBattleButtons();
 			}
 			else
 			{
