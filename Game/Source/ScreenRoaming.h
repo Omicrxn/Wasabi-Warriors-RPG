@@ -30,8 +30,8 @@ public:
 	SDL_Rect iconPhone;
 	SDL_Rect iconInventory;
 
-	SDL_Rect LBButton;
-	SDL_Rect RBButton;
+	//SDL_Rect LBButton;
+	//SDL_Rect RBButton;
 	SDL_Rect playersIcons;
 
 	int previousSelected;

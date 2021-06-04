@@ -296,7 +296,7 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 	}
 
 	guiManager->ToggleMouse();
-
+	screenRoaming->SetCurrentPlayer(currentPlayer);
 	return true;
 }
 

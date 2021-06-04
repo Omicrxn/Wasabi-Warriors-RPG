@@ -19,8 +19,8 @@ ScreenRoaming::ScreenRoaming()
 	iconPhone = { 20, 14, 52, 66 };
 	iconInventory = { 84, 16, 60, 62 };
 
-	LBButton = { 434, 253, 90, 62 };
-	RBButton = { 534, 253, 90, 62 };
+	/*LBButton = { 434, 253, 90, 62 };
+	RBButton = { 534, 253, 90, 62 };*/
 	playersIcons = { 387, 234, 90, 88 };
 
 	
@@ -113,8 +113,8 @@ bool ScreenRoaming::Draw(Render* render)
 	// LB & RB buttons sprite draw
 	if (controller)
 	{
-		render->DrawTexture(this->atlas[0], posLeft.x - 40, posLeft.y, &LBButton, 0.0f);
-		render->DrawTexture(this->atlas[0], posRight.x + 40, posRight.y, &RBButton, 0.0f);
+		/*render->DrawTexture(this->atlas[0], posLeft.x - 40, posLeft.y, &LBButton, 0.0f);
+		render->DrawTexture(this->atlas[0], posRight.x + 40, posRight.y, &RBButton, 0.0f);*/
 	}
 
 	// Player Selection
