@@ -294,6 +294,11 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 		notifier->NotifyMapChange(MapType::HOUSE);
 		//currentMap = MapType::HOUSE;
 		SetUpTp();
+		Activator* activator;
+		activator = (Activator*)entityManager->CreateEntity(EntityType::ACTIVATOR, "dialogTrigger", EntitySubtype::UNKNOWN, iPoint(5 * 32, 7 * 32));
+		DrawState drawState = DrawState::NONE;
+		activator->SetDrawState(drawState);
+		activator = nullptr;
 	}
 
 	guiManager->ToggleMouse();
@@ -532,7 +537,15 @@ bool SceneGameplay::Update(Input* input, float dt)
 			{
 				notifier->NotifyDialog(14);
 			}
+			
 			notifier->GetActivator()->SetDrawState(DrawState::HUD);
+		}
+		else
+		{
+			if (notifier->GetActivator()->name == "dialogTrigger")
+			{
+				notifier->NotifyDialog(15);
+			}
 		}
 	}
 
@@ -543,6 +556,16 @@ bool SceneGameplay::Update(Input* input, float dt)
 			entityManager->playerList.At(i)->data->stopPlayer = true;
 		}
 		dialogSystem->NewDialog(notifier->GetDialogIndex());
+	}
+	else if (notifier->OnDialog() && notifier->GetActivator() != nullptr && notifier->GetActivator()->name == "dialogTrigger")
+	{
+		for (int i = 0; i < entityManager->playerList.Count(); i++)
+		{
+			entityManager->playerList.At(i)->data->stopPlayer = true;
+		}
+		dialogSystem->NewDialog(notifier->GetDialogIndex());
+		notifier->GetActivator()->destroy = true;
+		notifier->SetActivator(nullptr);
 	}
 	if (dialogSystem->DialogHasFinished())
 	{

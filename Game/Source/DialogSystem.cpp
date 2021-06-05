@@ -54,6 +54,7 @@ bool DialogSystem::Start()
 	LoadDialog("Dialog/12.xml");
 	LoadDialog("Dialog/13.xml");
 	LoadDialog("Dialog/14.xml");
+	LoadDialog("Dialog/15.xml");
 
 	// Needed textures
 	dialogBackground = tex->Load("Textures/Dialog/dialog_background.png");
@@ -159,6 +160,9 @@ bool DialogSystem::Update(float dt)
 			break;
 		case 14:
 			StartDialog("14");
+			break;
+		case 15:
+			StartDialog("15");
 			break;
 		default:
 			break;

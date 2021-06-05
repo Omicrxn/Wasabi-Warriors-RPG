@@ -159,13 +159,16 @@ void Activator::OnCollision(Collider* collider)
 {
     if (!hasInteracted)
     {
-        if (collider->type == Collider::Type::PLAYER)
+        if (collider->type == Collider::Type::PLAYER && name != "dialogTrigger")
         {
             if (input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
             {
                 if (name == "key") audio->PlayFx(entityManager->keyFx);
                 Interact();
             }
+        }
+        else {
+            Interact();
         }
     }
 
