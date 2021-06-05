@@ -147,8 +147,8 @@ bool QuestManager::DrawActiveQuests()
 			// Description Drawing if pressed L
 			///////////////////////////////////////////////////////////////////////////
 			//render->DrawText(font, L->data->description.GetString(), 480, 300, 35, 3, { 200,200,200,255 });
-			render->DrawText(font, "Go to the Takada offices", 480, 300, 35, 3, { 0,0,0,255 });
-			render->DrawText(font, "and talk with the receptionist.", 480, 350, 35, 3, { 0,0,0,255 });
+			render->DrawText(font, "Go to the Takada offices and", 480, 300, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "talk with the receptionist.", 480, 350, 23, 3, { 0,0,0,255 });
 			///////////////////////////////////////////////////////////////////////////
 
 			break;
@@ -159,7 +159,7 @@ bool QuestManager::DrawActiveQuests()
 
 			// Description Drawing if pressed L
 			///////////////////////////////////////////////////////////////////////////
-			render->DrawText(font, L->data->description.GetString(), 480, 300, 35, 3, { 0,0,0,255 });
+			render->DrawText(font, L->data->description.GetString(), 480, 300, 23, 3, { 0,0,0,255 });
 			///////////////////////////////////////////////////////////////////////////
 			break;
 
@@ -170,7 +170,7 @@ bool QuestManager::DrawActiveQuests()
 
 			// Description Drawing if pressed L
 			///////////////////////////////////////////////////////////////////////////
-			render->DrawText(font, L->data->description.GetString(), 480, 300, 35, 3, { 0,0,0,255 });
+			render->DrawText(font, L->data->description.GetString(), 480, 300, 23, 3, { 0,0,0,255 });
 			///////////////////////////////////////////////////////////////////////////
 			break;
 		case 4: // new quest chain 1
@@ -180,7 +180,7 @@ bool QuestManager::DrawActiveQuests()
 
 			// Description Drawing if pressed L
 			///////////////////////////////////////////////////////////////////////////
-			render->DrawText(font, L->data->description.GetString(), 480, 300, 35, 3, { 0,0,0,255 });
+			render->DrawText(font, L->data->description.GetString(), 480, 300, 23, 3, { 0,0,0,255 });
 			///////////////////////////////////////////////////////////////////////////
 			break;
 		default:

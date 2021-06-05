@@ -31,6 +31,8 @@ public:
 		FOOD,
 		LAMP,
 		FURNITURE,
+		FENCE,
+		FLOATING,
 		UNKNOWN
 	};
 

@@ -109,6 +109,7 @@ public:
 	SDL_Texture* mediumCityTexture = nullptr;
 	SDL_Texture* restaurantTexture = nullptr;
 	SDL_Texture* bigCityTexture = nullptr;
+	SDL_Texture* osakaTexture = nullptr;
 
 	float accumulatedTime = 0.0f;
 	float updateMsCycle = 0.0f;

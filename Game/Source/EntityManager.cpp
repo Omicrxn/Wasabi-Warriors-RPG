@@ -81,6 +81,8 @@ bool EntityManager::Start()
 		restaurantTexture = tex->Load("Maps/Restaurant/rest.png");
 	if (bigCityTexture == nullptr)
 		bigCityTexture = tex->Load("Maps/bigCity/MainTileMap.png");
+	if (osakaTexture == nullptr)
+		osakaTexture = tex->Load("Maps/Osaka/osaka_tile.png");
 
 	consumeFx = audio->LoadFx("Audio/Fx/consume.ogg");
 	pickUpFx = audio->LoadFx("Audio/Fx/pickup.ogg");
@@ -162,6 +164,8 @@ bool EntityManager::CleanUp()
 	restaurantTexture = nullptr;
 	tex->UnLoad(bigCityTexture);
 	bigCityTexture = nullptr;
+	tex->UnLoad(osakaTexture);
+	osakaTexture = nullptr;
 
 	audio->UnloadFx(consumeFx);
 	audio->UnloadFx(pickUpFx);

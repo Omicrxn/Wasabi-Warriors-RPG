@@ -700,7 +700,7 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 	{
 		type = Static::Type::ROOF;
 		SetRect(256, 160, 32, 32);
-		SetPivot(16, 64);
+		SetPivot(16, 128);
 	}
 
 	if (name == "roof_city14")
@@ -713,7 +713,7 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 	if (name == "roof_city15")
 	{
 		type = Static::Type::ROOF;
-		SetRect(256, 192, 32, 32);
+		SetRect(320, 192, 32, 32);
 		SetPivot(16, 64);
 	}
 
@@ -966,7 +966,7 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 	{
 		type = Static::Type::FURNITURE;
 		SetRect(832, 416, 32, 32);
-		SetPivot(32, 128);
+		SetPivot(32, 256);
 	}
 
 	if (name == "furniture_29")
@@ -974,6 +974,176 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 		type = Static::Type::FURNITURE;
 		SetRect(968, 32, 17, 32);
 		SetPivot(17, 128);
+	}
+
+	if (name == "furniture_30")
+	{
+		type = Static::Type::FURNITURE;
+		SetRect(738, 149, 26, 11);
+		SetPivot(13, 11);
+	}
+
+	if (name == "fence")
+	{
+		type = Static::Type::FENCE;
+		SetRect(1120, 384, 32, 32);
+		SetPivot(32, 128);
+	}
+
+	if (name == "fence_2")
+	{
+		type = Static::Type::FENCE;
+		SetRect(1056, 366, 32, 18);
+		SetPivot(16, 18);
+	}
+
+	if (name == "fence_3")
+	{
+		type = Static::Type::FENCE;
+		SetRect(1088, 366, 32, 18);
+		SetPivot(16, 18);
+	}
+
+	if (name == "fence_4")
+	{
+		type = Static::Type::FENCE;
+		SetRect(1024, 366, 32, 18);
+		SetPivot(16, 18);
+	}
+
+	if (name == "fence_5")
+	{
+		type = Static::Type::FENCE;
+		SetRect(1216, 384, 32, 32);
+		SetPivot(16, 32);
+	}
+
+	if (name == "fence_6")
+	{
+		type = Static::Type::FENCE;
+		SetRect(1211, 398, 5, 18);
+		SetPivot(5, 18);
+	}
+
+	if (name == "floating")
+	{
+		type = Static::Type::FLOATING;
+		SetRect(1252, 17, 24, 23);
+		SetPivot(12, 46);
+	}
+
+	// Osaka sorting
+
+	if (name == "roof_osaka")
+	{
+		type = Static::Type::ROOF;
+		SetRect(32, 32, 32, 32);
+		SetPivot(32, 64);
+	}
+
+	if (name == "roof_osaka2")
+	{
+		type = Static::Type::ROOF;
+		SetRect(64, 32, 32, 32);
+		SetPivot(32, 64);
+	}
+
+	if (name == "roof_osaka3")
+	{
+		type = Static::Type::ROOF;
+		SetRect(32, 0, 32, 32);
+		SetPivot(32, 64);
+	}
+
+	if (name == "roof_osaka4")
+	{
+		type = Static::Type::ROOF;
+		SetRect(384, 0, 32, 32);
+		SetPivot(32, 64);
+	}
+
+	if (name == "roof_osaka5")
+	{
+		type = Static::Type::ROOF;
+		SetRect(416, 0, 32, 32);
+		SetPivot(32, 64);
+	}
+
+	if (name == "roof_osaka6")
+	{
+		type = Static::Type::ROOF;
+		SetRect(448, 0, 32, 32);
+		SetPivot(32, 64);
+	}
+
+	if (name == "roof_osaka7")
+	{
+		type = Static::Type::ROOF;
+		SetRect(544, 0, 32, 32);
+		SetPivot(32, 64);
+	}
+
+	if (name == "roof_osaka8")
+	{
+		type = Static::Type::ROOF;
+		SetRect(576, 0, 32, 32);
+		SetPivot(32, 64);
+	}
+
+	if (name == "roof_osaka9")
+	{
+		type = Static::Type::ROOF;
+		SetRect(608, 0, 32, 32);
+		SetPivot(32, 64);
+	}
+
+	if (name == "roof_osaka10")
+	{
+		type = Static::Type::ROOF;
+		SetRect(544, 64, 32, 32);
+		SetPivot(32, 64);
+	}
+
+	if (name == "roof_osaka11")
+	{
+		type = Static::Type::ROOF;
+		SetRect(577, 64, 32, 32);
+		SetPivot(32, 64);
+	}
+
+	if (name == "roof_osaka12")
+	{
+		type = Static::Type::ROOF;
+		SetRect(608, 64, 32, 32);
+		SetPivot(32, 64);
+	}
+
+	if (name == "roof_osaka13")
+	{
+		type = Static::Type::ROOF;
+		SetRect(128, 96, 32, 32);
+		SetPivot(32, 64);
+	}
+
+	if (name == "roof_osaka14")
+	{
+		type = Static::Type::ROOF;
+		SetRect(480, 0, 32, 32);
+		SetPivot(32, 64);
+	}
+
+	if (name == "roof_osaka15")
+	{
+		type = Static::Type::ROOF;
+		SetRect(96, 32, 32, 32);
+		SetPivot(32, 64);
+	}
+
+	if (name == "roof_osaka16")
+	{
+		type = Static::Type::ROOF;
+		SetRect(96, 64, 32, 32);
+		SetPivot(32, 64);
 	}
 
 	else {
@@ -1013,6 +1183,10 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 	else if (mapTexturePath == "Maps/bigCity/MainTileMap.png")
 	{
 		data.tileset.texture = entityManager->bigCityTexture;
+	}
+	else if (mapTexturePath == "Maps/Osaka/osaka_tile.png")
+	{
+		data.tileset.texture = entityManager->osakaTexture;
 	}
 }
 
