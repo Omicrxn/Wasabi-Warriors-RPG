@@ -296,6 +296,8 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 		SetUpTp();
 		Activator* activator;
 		activator = (Activator*)entityManager->CreateEntity(EntityType::ACTIVATOR, "dialogTrigger", EntitySubtype::UNKNOWN, iPoint(5 * 32, 7 * 32));
+		activator->width = 32;
+		activator->height = 64;
 		DrawState drawState = DrawState::NONE;
 		activator->SetDrawState(drawState);
 		activator = nullptr;

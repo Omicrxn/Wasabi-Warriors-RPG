@@ -36,6 +36,11 @@ void Activator::Interact()
 
 bool Activator::Update(Input* input, float dt)
 {
+    if (collider != NULL)
+    {
+        collider->rect.w = width;
+        collider->rect.h = height;
+    }
     return true;
 }
 
