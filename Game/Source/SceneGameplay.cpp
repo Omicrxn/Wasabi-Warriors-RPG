@@ -257,6 +257,7 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 
 	// Gui id goes from 6 to 10
 	screenSettings = new ScreenSettings();
+	screenSettings->SetGameplaySettings(true);
 	screenSettings->Load(6, 10, this, win, guiManager, guiAtlasTex2, buttonFont, hoverFx, clickFx, returnFx);
 	screenSettings->Disable();
 
@@ -297,6 +298,7 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 
 	guiManager->ToggleMouse();
 	screenRoaming->SetCurrentPlayer(currentPlayer);
+
 	return true;
 }
 
@@ -784,8 +786,7 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 			screenPause->Disable();
 			screenSettings->Enable();
 
-			// Fullscreen and vsync controls are disabled if you acces from gameplay
-			this->guiManager->controls.At(6)->data->state = GuiControlState::DISABLED;
+			// Vsync control is disabled if you acces from gameplay
 			this->guiManager->controls.At(7)->data->state = GuiControlState::DISABLED;
 
 			audio->StopMusic();
@@ -916,6 +917,34 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 		}
 		break;
 	}
+	case GuiControlType::CHECKBOX:
+	{
+		// Fullscreen
+		if (control->id == 6)
+		{
+			if (screenSettings->checkFullScreen->GetCheck())
+				SDL_SetWindowFullscreen(win->window, 1);
+			else
+				SDL_SetWindowFullscreen(win->window, 0);
+		}
+		pugi::xml_document docData;
+		pugi::xml_node screenNode;
+
+		pugi::xml_parse_result result = docData.load_file("save_game.xml");
+
+		// Check result for loading errors
+		if (result == NULL)
+		{
+			LOG("Could not load map info xml file map_info.xml. pugi error: %s", result.description());
+		}
+		else
+		{
+			screenNode = docData.child("game_state").child("screen");
+			screenSettings->SaveState(screenNode);
+			docData.save_file("save_game.xml");
+		}
+		break;
+	}
 	case GuiControlType::SLIDER:
 	{
 		if (control->id == 8)
@@ -930,8 +959,10 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 			int value = tempSlider->GetValue();
 			audio->ChangeFxVolume(value);
 		}
+		break;
 	}
-	default: break;
+	default:
+		break;
 	}
 	return true;
 }

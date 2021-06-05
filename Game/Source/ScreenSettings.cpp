@@ -14,6 +14,8 @@ ScreenSettings::ScreenSettings()
 	iconReturnTitle = nullptr;
 
 	mobileRect = { 375, 339, 392, 603 };
+
+	isGameplaySettings = false;
 }
 
 ScreenSettings::~ScreenSettings() {}
@@ -42,13 +44,19 @@ bool ScreenSettings::Load(int minIndex, int maxIndex, Scene* currentScene, Windo
 	checkVsync->SetCheckBoxProperties(currentScene, atlas0, buttonFont, hoverFx, clickFx);
 	++counterId;
 
-	sliderMusicVolume = (GuiSlider*)guiManager->CreateGuiControl(GuiControlType::SLIDER, counterId, { (int)width / 2 - (int)((float)width / 10), 350, 261, 51 }, "MUSIC VOLUME");
+	int positionY = 350;
+	if (isGameplaySettings)
+	{
+		positionY = 250;
+	}
+
+	sliderMusicVolume = (GuiSlider*)guiManager->CreateGuiControl(GuiControlType::SLIDER, counterId, { (int)width / 2 - (int)((float)width / 10), positionY, 261, 51 }, "MUSIC VOLUME");
 	sliderMusicVolume->SetSliderProperties(currentScene, atlas0, buttonFont, hoverFx, clickFx);
 	sliderMusicVolume->minValue = 0;
 	sliderMusicVolume->maxValue = SDL_MIX_MAXVOLUME;
 	++counterId;
 
-	sliderFXVolume = (GuiSlider*)guiManager->CreateGuiControl(GuiControlType::SLIDER, counterId, { (int)width / 2 - (int)((float)width / 10), 450, 261, 51 }, "FX VOLUME");
+	sliderFXVolume = (GuiSlider*)guiManager->CreateGuiControl(GuiControlType::SLIDER, counterId, { (int)width / 2 - (int)((float)width / 10), positionY + 100, 261, 51 }, "FX VOLUME");
 	sliderFXVolume->SetSliderProperties(currentScene, atlas0, buttonFont, hoverFx, clickFx);
 	sliderFXVolume->minValue = 0;
 	sliderFXVolume->maxValue = SDL_MIX_MAXVOLUME;
@@ -91,6 +99,11 @@ bool ScreenSettings::Unload(Textures* tex, AudioManager* audio, GuiManager* guiM
 	guiManager->DestroyGuiControl(iconReturnTitle);
 
 	return true;
+}
+
+void ScreenSettings::SetGameplaySettings(bool isGameplay)
+{
+	this->isGameplaySettings = isGameplay;
 }
 
 bool ScreenSettings::LoadState(pugi::xml_node& screen)

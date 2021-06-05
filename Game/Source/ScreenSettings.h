@@ -12,6 +12,8 @@ public:
 	bool Draw(Render* render);
 	bool Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager);
 
+	void SetGameplaySettings(bool isGameplay);
+
 	bool LoadState(pugi::xml_node&);
 	bool SaveState(pugi::xml_node&) const;
 
@@ -25,4 +27,6 @@ public:
 
 private:
 	SDL_Rect mobileRect;
+
+	bool isGameplaySettings;
 };

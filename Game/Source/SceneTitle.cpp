@@ -393,6 +393,7 @@ bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
             screenSettings->SaveState(screenNode);
             docData.save_file("save_game.xml");
         }
+        break;
     }
     case GuiControlType::SLIDER:
     {
@@ -408,8 +409,10 @@ bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
             int value = tempSlider->GetValue();
             audio->ChangeFxVolume(value);
         }
+        break;
     }
-    default: break;
+    default: 
+        break;
     }
 
     return true;
