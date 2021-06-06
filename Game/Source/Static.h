@@ -33,6 +33,7 @@ public:
 		FURNITURE,
 		FENCE,
 		FLOATING,
+		ROAD,
 		UNKNOWN
 	};
 

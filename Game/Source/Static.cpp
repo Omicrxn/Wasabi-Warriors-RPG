@@ -1122,7 +1122,7 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 	{
 		type = Static::Type::ROOF;
 		SetRect(128, 96, 32, 32);
-		SetPivot(32, 64);
+		SetPivot(64, 64);
 	}
 
 	if (name == "roof_osaka14")
@@ -1143,6 +1143,146 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 	{
 		type = Static::Type::ROOF;
 		SetRect(96, 64, 32, 32);
+		SetPivot(32, 64);
+	}
+
+	if (name == "osaka_furniture")
+	{
+		type = Static::Type::FURNITURE;
+		SetRect(363, 13, 15, 13);
+		SetPivot(15, 52);
+	}
+
+	if (name == "osaka_furniture2")
+	{
+		type = Static::Type::FURNITURE;
+		SetRect(289, 17, 30, 15);
+		SetPivot(30, 60);
+	}
+
+	if (name == "osaka_furniture3")
+	{
+		type = Static::Type::FURNITURE;
+		SetRect(289, 32, 30, 21);
+		SetPivot(30, 84);
+	}
+
+	if (name == "osaka_furniture4")
+	{
+		type = Static::Type::FURNITURE;
+		SetRect(263, 204, 17, 20);
+		SetPivot(9, 20);
+	}
+
+	if (name == "osaka_furniture5")
+	{
+		type = Static::Type::FURNITURE;
+		SetRect(42, 232, 13, 24);
+		SetPivot(13, 96);
+	}
+
+	if (name == "osaka_light")
+	{
+		type = Static::Type::LIGHT;
+		SetRect(525, 288, 6, 32);
+		SetPivot(6, 64);
+	}
+
+	if (name == "osaka_light2")
+	{
+		type = Static::Type::LIGHT;
+		SetRect(526, 256, 11, 32);
+		SetPivot(11, 64);
+	}
+
+	if (name == "osaka_light3")
+	{
+		type = Static::Type::LIGHT;
+		SetRect(519, 239, 18, 17);
+		SetPivot(18, 34);
+	}
+
+	if (name == "osaka_light4")
+	{
+		type = Static::Type::LIGHT;
+		SetRect(107, 256, 8, 27);
+		SetPivot(8, 54);
+	}
+
+	if (name == "osaka_light5")
+	{
+		type = Static::Type::LIGHT;
+		SetRect(107, 239, 19, 17);
+		SetPivot(19, 34);
+	}
+
+	if (name == "osaka_light6")
+	{
+		type = Static::Type::LIGHT;
+		SetRect(141, 256, 8, 27);
+		SetPivot(8, 54);
+	}
+
+	if (name == "osaka_light7")
+	{
+		type = Static::Type::LIGHT;
+		SetRect(130, 239, 19, 17);
+		SetPivot(19, 34);
+	}
+
+	if (name == "osaka_fence")
+	{
+		type = Static::Type::FENCE;
+		SetRect(161, 271, 30, 17);
+		SetPivot(30, 34);
+	}
+
+	if (name == "machine_osaka")
+	{
+		type = Static::Type::MACHINE;
+		SetRect(491, 137, 21, 23);
+		SetPivot(11, 23);
+	}
+
+	if (name == "machine_osaka2")
+	{
+		type = Static::Type::MACHINE;
+		SetRect(491, 160, 21, 7);
+		SetPivot(11, 7);
+	}
+
+	if (name == "machine_osaka3")
+	{
+		type = Static::Type::MACHINE;
+		SetRect(517, 139, 21, 21);
+		SetPivot(11, 21);
+	}
+
+	if (name == "machine_osaka4")
+	{
+		type = Static::Type::MACHINE;
+		SetRect(517, 160, 21, 7);
+		SetPivot(11, 7);
+	}
+
+	if (name == "road")
+	{
+		type = Static::Type::ROAD;
+		SetRect(768, 384, 32, 32);
+		SetPivot(32, 64);
+	}
+
+	if (name == "road_2")
+	{
+		type = Static::Type::ROAD;
+		SetRect(800, 384, 32, 32);
+		SetPivot(32, 64);
+	}
+
+	if (name == "road_3")
+	{
+		type = Static::Type::ROAD;
+		SetRect(832, 384, 32, 32);
 		SetPivot(32, 64);
 	}
 
