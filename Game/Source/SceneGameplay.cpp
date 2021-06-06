@@ -65,7 +65,16 @@ SceneGameplay::SceneGameplay(bool hasStartedFromContinue)
 	win = nullptr;
 	dialogSystem = nullptr;
 	audio = nullptr;
+	transitions = nullptr;
+	questManager = nullptr;
 	app = nullptr;
+
+	// Screens
+	screenPause = nullptr;
+	screenRoaming = nullptr;
+	screenSettings = nullptr;
+	screenBattle = nullptr;
+	screenInventory = nullptr;
 
 	charactersSpritesheet = nullptr;
 
@@ -74,7 +83,7 @@ SceneGameplay::SceneGameplay(bool hasStartedFromContinue)
 	map = nullptr;
 	currentPlayer = nullptr;
 
-	battleSystem = new BattleSystem();
+	battleSystem = nullptr;
 
 	currentState = GameState::ROAMING;
 
@@ -82,6 +91,13 @@ SceneGameplay::SceneGameplay(bool hasStartedFromContinue)
 	backgroundTex = nullptr;
 	titlesTex = nullptr;
 	guiAtlasTex = nullptr;
+	guiAtlasTex2 = nullptr;
+	guiAtlasOut = nullptr;
+	aura = nullptr;
+	cast1 = nullptr;
+	enemyCast = nullptr;
+	indicator = nullptr;
+	signal = nullptr;
 
 	backgroundRect = { 0, 0, 1280, 720 };
 
@@ -91,12 +107,16 @@ SceneGameplay::SceneGameplay(bool hasStartedFromContinue)
 	// Fonts
 	titleFont = nullptr;
 	battleFont = nullptr;
+	menuFont = nullptr;
+	buttonFont = nullptr;
 
 	// Audio Fx for buttons
 	hoverFx = -1;
 	clickFx = -1;
 	returnFx = -1;
-	
+	doorOpenFx = -1;
+	bagOpenFx = -1;
+
 	// Buttons
 	btnAttack = nullptr;
 	btnDefend = nullptr;
@@ -108,17 +128,10 @@ SceneGameplay::SceneGameplay(bool hasStartedFromContinue)
 
 	notifier = nullptr;
 
-	// Screens
-	screenPause = nullptr;
-	screenRoaming = nullptr;
-	screenSettings = nullptr;
-	screenBattle = nullptr;
-	screenInventory = nullptr;
+	currentMap = MapType::NONE;
 
 	// Bools
 	readyToChangeMap = false;
-
-	currentMap = MapType::NONE;
 }
 
 SceneGameplay::~SceneGameplay()
@@ -130,6 +143,8 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 	audio->StopMusic();
 
 	entityManager->Start();
+
+	battleSystem = new BattleSystem();
 
 	notifier = Notifier::GetInstance();
 
@@ -1005,6 +1020,8 @@ void SceneGameplay::OpenPause()
 	{
 		entityManager->playerList.At(i)->data->stopPlayer = true;
 	}
+
+	focusedButtonId = 1;
 
 	pauseTimer.Start();
 }

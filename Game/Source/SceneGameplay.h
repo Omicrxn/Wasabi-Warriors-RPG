@@ -201,8 +201,6 @@ private:
 
     // Audio Fx for buttons
     int hoverFx, clickFx, returnFx;
-
-    // Audio fx for sound effects
     int doorOpenFx;
     int bagOpenFx;
 
@@ -212,11 +210,12 @@ private:
     GuiButton* btnItem;
     GuiButton* btnRun;
 
-    // Gamepad's menu focused button
+    // Gamepad's menu focused button ID
     uint focusedButtonId;
 
     Notifier* notifier;
-    MapType currentMap = MapType::CEMETERY;
+
+    MapType currentMap;
 
     // To Know if this scene was created through a load
     bool hasStartedFromContinue;
@@ -230,7 +229,7 @@ private:
     GameProgress gameProgress;
 
     // Bool to keep track of the map change specific moment
-    bool readyToChangeMap = false;
+    bool readyToChangeMap;
 };
 
 #endif // __SCENEGAMEPLAY_H__

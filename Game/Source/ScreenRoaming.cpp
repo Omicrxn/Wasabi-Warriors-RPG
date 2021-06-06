@@ -70,8 +70,6 @@ bool ScreenRoaming::Update(Input* input, float dt)
 
 	if (input->GetKey(SDL_SCANCODE_ESCAPE) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_START) == KeyState::KEY_DOWN)
 	{
-		audio->PlayFx(clickFx);
-
 		guiManager->ToggleMouse();
 		gameplayScene->OpenPause();
 	}
