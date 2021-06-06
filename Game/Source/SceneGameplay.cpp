@@ -597,6 +597,10 @@ bool SceneGameplay::Update(Input* input, float dt)
 		{
 			gameProgress.hasSpoken = true;
 		}
+		else if (dialogSystem->GetDialogIndex() == 15)
+		{
+			gameProgress.hasCalledCook = true;
+		}
 	}
 
 	switch (currentState)

@@ -137,9 +137,8 @@ bool QuestManager::DrawActiveQuests()
 	ListItem<Quest*>* L = questsActive.start;
 	while (L != NULL)
 	{
-		switch (L->data->id)
+		if (L->data->id == 7)
 		{
-		case 1: // new quest chain 1
 			// Title Drawing
 			render->DrawText(font, L->data->title.GetString(), 480, 223, 50, 3, { 0,0,0,255 });
 			render->DrawText(font, L->data->title.GetString(), 480, 220, 50, 3, { 255,255,255,255 });
@@ -150,42 +149,66 @@ bool QuestManager::DrawActiveQuests()
 			render->DrawText(font, "Go to the Takada offices and", 480, 300, 23, 3, { 0,0,0,255 });
 			render->DrawText(font, "talk with the receptionist.", 480, 350, 23, 3, { 0,0,0,255 });
 			///////////////////////////////////////////////////////////////////////////
-
-			break;
-		case 2: // quest chain 1 (quest 2)
-			// Title Drawing
-			render->DrawText(font, L->data->title.GetString(), 480, 223, 50, 3, { 0,0,0,255 });
-			render->DrawText(font, L->data->title.GetString(), 480, 220, 50, 3, { 255,255,255,255 });
-
-			// Description Drawing if pressed L
-			///////////////////////////////////////////////////////////////////////////
-			render->DrawText(font, L->data->description.GetString(), 480, 300, 23, 3, { 0,0,0,255 });
-			///////////////////////////////////////////////////////////////////////////
-			break;
-
-		case 3: // new quest chain 1
-			// Title Drawing
-			render->DrawText(font, L->data->title.GetString(), 480, 223, 50, 3, { 0,0,0,255 });
-			render->DrawText(font, L->data->title.GetString(), 480, 220, 50, 3, { 255,255,255,255 });
-
-			// Description Drawing if pressed L
-			///////////////////////////////////////////////////////////////////////////
-			render->DrawText(font, L->data->description.GetString(), 480, 300, 23, 3, { 0,0,0,255 });
-			///////////////////////////////////////////////////////////////////////////
-			break;
-		case 4: // new quest chain 1
-			// Title Drawing
-			render->DrawText(font, L->data->title.GetString(), 480, 223, 50, 3, { 0,0,0,255 });
-			render->DrawText(font, L->data->title.GetString(), 480, 220, 50, 3, { 255,255,255,255 });
-
-			// Description Drawing if pressed L
-			///////////////////////////////////////////////////////////////////////////
-			render->DrawText(font, L->data->description.GetString(), 480, 300, 23, 3, { 0,0,0,255 });
-			///////////////////////////////////////////////////////////////////////////
-			break;
-		default:
-			break;
 		}
+		else {
+			// Title Drawing
+			render->DrawText(font, L->data->title.GetString(), 480, 223, 50, 3, { 0,0,0,255 });
+			render->DrawText(font, L->data->title.GetString(), 480, 220, 50, 3, { 255,255,255,255 });
+
+			// Description Drawing if pressed L
+			///////////////////////////////////////////////////////////////////////////
+			render->DrawText(font, L->data->description.GetString(), 480, 300, 23, 3, { 0,0,0,255 });
+			///////////////////////////////////////////////////////////////////////////
+		}
+		//switch (L->data->id)
+		//{
+		//case 7: // new quest chain 1
+		//	// Title Drawing
+		//	render->DrawText(font, L->data->title.GetString(), 480, 223, 50, 3, { 0,0,0,255 });
+		//	render->DrawText(font, L->data->title.GetString(), 480, 220, 50, 3, { 255,255,255,255 });
+
+		//	// Description Drawing if pressed L
+		//	///////////////////////////////////////////////////////////////////////////
+		//	//render->DrawText(font, L->data->description.GetString(), 480, 300, 35, 3, { 200,200,200,255 });
+		//	render->DrawText(font, "Go to the Takada offices and", 480, 300, 23, 3, { 0,0,0,255 });
+		//	render->DrawText(font, "talk with the receptionist.", 480, 350, 23, 3, { 0,0,0,255 });
+		//	///////////////////////////////////////////////////////////////////////////
+
+		//	break;
+		//case 2: // quest chain 1 (quest 2)
+		//	// Title Drawing
+		//	render->DrawText(font, L->data->title.GetString(), 480, 223, 50, 3, { 0,0,0,255 });
+		//	render->DrawText(font, L->data->title.GetString(), 480, 220, 50, 3, { 255,255,255,255 });
+
+		//	// Description Drawing if pressed L
+		//	///////////////////////////////////////////////////////////////////////////
+		//	render->DrawText(font, L->data->description.GetString(), 480, 300, 23, 3, { 0,0,0,255 });
+		//	///////////////////////////////////////////////////////////////////////////
+		//	break;
+
+		//case 3: // new quest chain 1
+		//	// Title Drawing
+		//	render->DrawText(font, L->data->title.GetString(), 480, 223, 50, 3, { 0,0,0,255 });
+		//	render->DrawText(font, L->data->title.GetString(), 480, 220, 50, 3, { 255,255,255,255 });
+
+		//	// Description Drawing if pressed L
+		//	///////////////////////////////////////////////////////////////////////////
+		//	render->DrawText(font, L->data->description.GetString(), 480, 300, 23, 3, { 0,0,0,255 });
+		//	///////////////////////////////////////////////////////////////////////////
+		//	break;
+		//case 4: // new quest chain 1
+		//	// Title Drawing
+		//	render->DrawText(font, L->data->title.GetString(), 480, 223, 50, 3, { 0,0,0,255 });
+		//	render->DrawText(font, L->data->title.GetString(), 480, 220, 50, 3, { 255,255,255,255 });
+
+		//	// Description Drawing if pressed L
+		//	///////////////////////////////////////////////////////////////////////////
+		//	render->DrawText(font, L->data->description.GetString(), 480, 300, 23, 3, { 0,0,0,255 });
+		//	///////////////////////////////////////////////////////////////////////////
+		//	break;
+		//default:
+		//	break;
+		//}
 
 		L = L->next;
 	}
@@ -205,10 +228,11 @@ bool QuestManager::CheckQuestsLogic()
 		if (activeQuestsList->data->isCompleted == true)
 		{
 			activeQuestsList->data->status = 2;
-			questsActive.Del(activeQuestsList);
+
 			questsFinished.Add(activeQuestsList->data);
 			sceneGameplay->RewardXP(activeQuestsList->data->rewardXP);
 			sceneGameplay->RewardGold(activeQuestsList->data->rewardGold);
+			questsActive.Del(activeQuestsList);
 		}
 
 		activeQuestsList = activeQuestsList->next;
@@ -230,8 +254,8 @@ bool QuestManager::CheckQuestsLogic()
 				if (inactiveQuestsList->data->requiredId == L2->data->id)
 				{
 					questsActive.Add(inactiveQuestsList->data);
-					questsInactive.Del(inactiveQuestsList);
 					inactiveQuestsList->data->status = 1;
+					questsInactive.Del(inactiveQuestsList);
 				}
 				L2 = L2->next;
 			}
@@ -263,48 +287,47 @@ bool QuestManager::CheckQuestsLogic()
 bool QuestManager::CheckObjectivesCompletion()
 {
 	// Debug: Complete quest with id selected
-	if (input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+	if (input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 	{
 		ListItem<Entity*>* L;
 		switch (debugId)
 		{
 		case 1: // Quest 1
-			sceneGameplay->GetGameProgress()->hasSpoken = true;
+			sceneGameplay->GetGameProgress()->hasCalledCook = true;
 			++debugId;
 			break;
 		case 2: // Quest 2
-			sceneGameplay->GetGameProgress()->hasKilledOfficers = true;
+			sceneGameplay->GetGameProgress()->hasVisitedRestaurantQuest = true;
 			++debugId;
 			break;
 		case 3: // Quest 3
-			sceneGameplay->GetGameProgress()->hasActivated = true;
+			sceneGameplay->GetGameProgress()->hasVisitedErikaTombstone = true;
 			++debugId;
 			break;
 		case 4: // Quest 4
+			sceneGameplay->GetGameProgress()->hasSavedFirstApprentice = true;
+			++debugId;
+			break;
+		case 5: // Quest 5
+			sceneGameplay->GetGameProgress()->hasSavedLastApprentice = true;
+			++debugId;
+			break;
+		case 6: // Quest 6
+			sceneGameplay->GetGameProgress()->hasSpoken = true;
+			++debugId;
+			break;
+		case 7: // Quest 7
+			sceneGameplay->GetGameProgress()->hasKilledOfficers = true;
+			++debugId;
+			break;
+		case 8: // Quest 8
+			sceneGameplay->GetGameProgress()->hasActivated = true;
+			++debugId;
+			break;
+		case 9: // Quest 9
 			sceneGameplay->GetGameProgress()->hasKilledBoss = true;
 			++debugId;
 			break;
-		case 5:
-			/*app->player->snailDelivered = true;
-			L = app->entities->entities.start;
-			while (L != NULL)
-			{
-				if (L->data->entityType == EntityType::ITEM_SNAIL)
-					app->entities->entities.Del(L);
-				L = L->next;
-			}
-			++debugId;*/
-			break;
-		case 6:
-			/*app->player->monsterKilled = true;
-			L = app->entities->entities.start;
-			while (L != NULL)
-			{
-				if (L->data->entityType == EntityType::MONSTER)
-					app->entities->entities.Del(L);
-				L = L->next;
-			}
-			++debugId;*/
 		default:
 			break;
 		}
@@ -313,17 +336,32 @@ bool QuestManager::CheckObjectivesCompletion()
 	// ToDo 8: Go to the xml and read about what the conditions of each quests is
 	// All variables are declared and managed by the ModulePlayer
 	/////////////////////////////////////////////////////////////////////////////
-	if (sceneGameplay->GetGameProgress()->hasSpoken == true)
+	if (sceneGameplay->GetGameProgress()->hasCalledCook == true && questsList.At(0)->data->isCompleted == false)
 		CompleteQuest(1);
 
-	if (sceneGameplay->GetGameProgress()->hasKilledOfficers == true)
+	if (sceneGameplay->GetGameProgress()->hasVisitedRestaurantQuest == true && questsList.At(1)->data->isCompleted == false)
 		CompleteQuest(2);
 
-	if (sceneGameplay->GetGameProgress()->hasActivated == true)
+	if (sceneGameplay->GetGameProgress()->hasVisitedErikaTombstone == true && questsList.At(2)->data->isCompleted == false)
 		CompleteQuest(3);
 
-	if (sceneGameplay->GetGameProgress()->hasKilledBoss == true)
+	if (sceneGameplay->GetGameProgress()->hasSavedFirstApprentice == true && questsList.At(3)->data->isCompleted == false)
 		CompleteQuest(4);
+
+	if (sceneGameplay->GetGameProgress()->hasSavedLastApprentice == true && questsList.At(4)->data->isCompleted == false)
+		CompleteQuest(5);
+
+	if (sceneGameplay->GetGameProgress()->hasSpoken == true && questsList.At(5)->data->isCompleted == false)
+		CompleteQuest(6);
+
+	if (sceneGameplay->GetGameProgress()->hasKilledOfficers == true && questsList.At(6)->data->isCompleted == false)
+		CompleteQuest(7);
+
+	if (sceneGameplay->GetGameProgress()->hasActivated == true && questsList.At(7)->data->isCompleted == false)
+		CompleteQuest(8);
+
+	if (sceneGameplay->GetGameProgress()->hasKilledBoss == true && questsList.At(8)->data->isCompleted == false)
+		CompleteQuest(9);
 
 	/*if (app->player->snailDelivered == true)
 		CompleteQuest(5);

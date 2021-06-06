@@ -277,6 +277,10 @@ bool DialogSystem::DialogHasFinished()
 	return dialogFinished;
 }
 
+int DialogSystem::GetDialogIndex()
+{
+	return dialogIndex;
+}
 void DialogSystem::SetDialogFinished(bool dialogFinished)
 {
 	this->dialogFinished = dialogFinished;

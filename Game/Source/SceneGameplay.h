@@ -46,6 +46,7 @@ struct GameProgress
 
     // Quests bools (for the quest manager to keep track of the quests state)
     bool hasCalledCook = false; //For quest id: 1
+    bool hasVisitedRestaurantQuest = false; //For quest id: 2
     bool hasSavedFirstApprentice = false; //For quest id: 4
     bool hasSavedLastApprentice = false; //For quest id: 5
     bool hasVisitedErikaTombstone = false; //For quest id: 3
@@ -63,7 +64,7 @@ struct GameProgress
     bool hasVisitedCemetery = false;
     bool hasVisitedHouse = false;
     bool hasVisitedMediumCity = false;
-    bool hasVisitedRestaurant = false; //For quest id: 2
+    bool hasVisitedRestaurant = false; 
     bool hasVisitedTown = false;
     bool hasVisitedBigCity = false;
     bool hasVisitedSkyScraper = false;

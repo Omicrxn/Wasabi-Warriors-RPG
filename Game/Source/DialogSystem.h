@@ -50,6 +50,7 @@ public:
 	void NextDialog();
 
 	bool DialogHasFinished();
+	int GetDialogIndex();
 	void SetDialogFinished(bool dialogFinished);
 
 	void NewDialog(int dialogIndex);

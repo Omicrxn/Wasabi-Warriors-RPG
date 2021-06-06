@@ -12,7 +12,7 @@
 	<entitymanager />
 	<scenemanager>
 		<scenegameplay lastMap="2">
-			<gameProgress xp="0" gold="0" hasSpoken="false" numKilledOfficers="0" hasKilledOfficers="false" hasActivated="false" hasPickedKey="true" hasFinishedPuzzle1="false" />
+			<gameProgress xp="605" gold="195" hasSpoken="true" numKilledOfficers="0" hasKilledOfficers="true" hasActivated="false" hasPickedKey="false" hasFinishedPuzzle1="false" />
 		</scenegameplay>
 		<scenelogo />
 	</scenemanager>
