@@ -45,15 +45,11 @@ struct GameProgress
     int gold = 0;
 
     // Quests bools (for the quest manager to keep track of the quests state)
-    bool hasCalledCook = false; //For quest id: 1
-    bool hasSavedFirstApprentice = false; //For quest id: 4
-    bool hasSavedLastApprentice = false; //For quest id: 5
-    bool hasVisitedErikaTombstone = false; //For quest id: 3
-    bool hasSpoken = false; //For quest id: 6
-    int numKilledOfficers = 0; //For quest id: 7
-    bool hasKilledOfficers = false;//For quest id: 7
-    bool hasActivated = false; //For quest id: 8
-    bool hasKilledBoss = false; //For quest id: 9
+    bool hasSpoken = false;
+    int numKilledOfficers = 0;
+    bool hasKilledOfficers = false;
+    bool hasActivated = false;
+    bool hasKilledBoss = false;
 
     // Puzzles bools
     bool hasPickedKey = false;
@@ -63,7 +59,7 @@ struct GameProgress
     bool hasVisitedCemetery = false;
     bool hasVisitedHouse = false;
     bool hasVisitedMediumCity = false;
-    bool hasVisitedRestaurant = false; //For quest id: 2
+    bool hasVisitedRestaurant = false;
     bool hasVisitedTown = false;
     bool hasVisitedBigCity = false;
     bool hasVisitedSkyScraper = false;
