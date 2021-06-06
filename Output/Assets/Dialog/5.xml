@@ -1,0 +1,24 @@
+<dialog id="5">
+	<options speaker="Cooker" value="Hello Kenzo...">
+		<option value=" I didn't know we closed today! Is it a special holiday?">
+			<options speaker="Cooker" value=" Kenzo... has nodoby told you? Haven't you seen the news?">
+				<option value=" What? What happened?">
+					<options speaker="Cooker" value=" Kenzo, Erika died yesterday.">
+						<option value=" ...">
+							<options speaker="Cooker" value=" It was an accident, she ate something bad... or at least that's what the police has told us. 
+	Since you are the head chef in this restaurant now, we closed but were waiting for you to decide the next step.">
+								<option value=" ...">
+									<options speaker="Cooker" value=" Are you ok? Do you need to sit down?">
+										<option value=" ...no. No, I'm ok. I will start preparin her funeral, and meanwhile let's close the restaurant a few days. We all need to rest. i will finish claning, go home, thank you.">
+											<line speaker="Cooker" value=" We count with you..."></line>
+										</option>
+									</options>
+								</option>
+							</options>
+						</option>
+					</options>
+				</option>
+			</options>
+		</option>
+	</options>
+</dialog>

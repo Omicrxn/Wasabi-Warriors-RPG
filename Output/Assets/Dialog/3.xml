@@ -1,0 +1,17 @@
+<dialog id="3">
+	<options speaker="Shopkeeper" value="Hello! How can I help you?">
+		<option value=" Where is the Dragon Breath Restaurant?">
+			<line speaker="Shopkeeper" value="It is the building with a big dragon head in the facade and bright light green roof. It is right around the corner."></line>
+			<option value="Thank you so much!">
+			</option>
+		</option>		
+		<option value=" Where is the cemetery?">
+			<line speaker="Shopkeeper" value="It is on the north east direction. You will see that the entrance is a street that goes straight north."></line>
+			<option value="Thank you so much!">
+			</option>
+		</option>
+		<option value=" Nothing, have a nice day!">
+			<line speaker="Shopkeeper" value=" Ok! You too!"></line>
+		</option>
+	</options>
+</dialog>
