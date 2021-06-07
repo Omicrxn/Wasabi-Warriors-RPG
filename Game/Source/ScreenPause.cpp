@@ -202,18 +202,18 @@ bool ScreenPause::Draw(Render* render)
 		char s[24] = { 0 };
 
 		// Gold HUD
-		render->DrawText(font, "$:", 688, position + 142, 50, 3, { 0,0,0,255 });
-		render->DrawText(font, "$:", 685, position + 140, 50, 3, { 249,215,28,255 });
+		render->DrawText(font, "$:", 683, position + 142, 50, 3, { 0,0,0,255 });
+		render->DrawText(font, "$:", 680, position + 140, 50, 3, { 249,215,28,255 });
 		sprintf_s(s, 24, "%i", docNode.attribute("gold").as_int());
-		render->DrawText(font, s, 763, position + 142, 50, 3, { 0,0,0,255 });
-		render->DrawText(font, s, 760, position + 140, 50, 3, { 255,255,255,255 });
+		render->DrawText(font, s, 743, position + 142, 50, 3, { 0,0,0,255 });
+		render->DrawText(font, s, 740, position + 140, 50, 3, { 255,255,255,255 });
 
 		// XP HUD
-		render->DrawText(font, "XP:", 688, position + 187, 50, 3, { 0,0,0,255 });
-		render->DrawText(font, "XP:", 685, position + 185, 50, 3, { 60,179,113,255 });
+		render->DrawText(font, "XP:", 673, position + 187, 50, 3, { 0,0,0,255 });
+		render->DrawText(font, "XP:", 670, position + 185, 50, 3, { 60,179,113,255 });
 		sprintf_s(s, 24, "%i", docNode.attribute("xp").as_int());
-		render->DrawText(font, s, 763, position + 187, 50, 3, { 0,0,0,255 });
-		render->DrawText(font, s, 760, position + 185, 50, 3, { 255,255,255,255 });
+		render->DrawText(font, s, 740, position + 187, 50, 3, { 0,0,0,255 });
+		render->DrawText(font, s, 737, position + 185, 50, 3, { 255,255,255,255 });
 	}
 	else if (state == MobileState::QUEST)
 	{

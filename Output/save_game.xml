@@ -6,13 +6,13 @@
 	<audio musicVolume="32" fxVolume="128" />
 	<scene />
 	<renderer>
-		<camera x="77" y="148" />
+		<camera x="1364" y="-152" />
 	</renderer>
-	<collisions collisionsCount="7" />
+	<collisions collisionsCount="17" />
 	<entitymanager />
 	<scenemanager>
 		<scenegameplay lastMap="2">
-			<gameProgress xp="605" gold="195" hasSpoken="true" numKilledOfficers="0" hasKilledOfficers="true" hasActivated="false" hasPickedKey="false" hasFinishedPuzzle1="false" />
+			<gameProgress xp="205" gold="45" hasSpoken="false" numKilledOfficers="0" hasKilledOfficers="false" hasActivated="false" hasPickedKey="false" hasFinishedPuzzle1="false" />
 		</scenegameplay>
 		<scenelogo />
 	</scenemanager>

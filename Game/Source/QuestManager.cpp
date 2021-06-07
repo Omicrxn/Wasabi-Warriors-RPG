@@ -137,19 +137,105 @@ bool QuestManager::DrawActiveQuests()
 	ListItem<Quest*>* L = questsActive.start;
 	while (L != NULL)
 	{
-		if (L->data->id == 7)
+
+		if (L->data->id == 2)
+		{
+			render->DrawText(font, "Go to the", 480, 193, 50, 3, { 0, 0, 0, 255 });
+			render->DrawText(font, "restaurant of", 480, 223, 50, 3, { 0, 0, 0, 255 });
+			render->DrawText(font, "Erika", 480, 253, 50, 3, { 0, 0, 0, 255 });
+			render->DrawText(font, "Go to the", 480, 190, 50, 3, { 255, 255, 255, 255 });
+			render->DrawText(font, "restaurant of", 480, 220, 50, 3, { 255, 255, 255, 255 });
+			render->DrawText(font, "Erika", 480, 250, 50, 3, { 255, 255, 255, 255 });
+
+			render->DrawText(font, "You just found out that", 480, 300, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "Erika and you need to check", 480, 330, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "the restaurant.", 480, 360, 23, 3, { 0,0,0,255 });
+		}
+
+		if (L->data->id == 3)
 		{
 			// Title Drawing
-			render->DrawText(font, L->data->title.GetString(), 480, 223, 50, 3, { 0,0,0,255 });
-			render->DrawText(font, L->data->title.GetString(), 480, 220, 50, 3, { 255,255,255,255 });
+			render->DrawText(font, "Visit the", 480, 193, 50, 3, { 0,0,0,255 });
+			render->DrawText(font, "Visit the", 480, 190, 50, 3, { 255,255,255,255 });
+			render->DrawText(font, "tombstone", 480, 223, 50, 3, { 0,0,0,255 });
+			render->DrawText(font, "tombstone", 480, 220, 50, 3, { 255,255,255,255 });
 
 			// Description Drawing if pressed L
 			///////////////////////////////////////////////////////////////////////////
 			//render->DrawText(font, L->data->description.GetString(), 480, 300, 35, 3, { 200,200,200,255 });
-			render->DrawText(font, "Go to the Takada offices and", 480, 300, 23, 3, { 0,0,0,255 });
-			render->DrawText(font, "talk with the receptionist.", 480, 350, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "After checking out her", 480, 270, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "restaurant, you should go", 480, 300, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "and pay respects to Erika on", 480, 330, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "the Cemetery.", 480, 360, 23, 3, { 0,0,0,255 });
 			///////////////////////////////////////////////////////////////////////////
 		}
+
+		if (L->data->id == 4)
+		{
+			render->DrawText(font, "Find the first", 480, 193, 50, 3, { 0,0,0,255 });
+			render->DrawText(font, "Find the first", 480, 190, 50, 3, { 255,255,255,255 });
+			render->DrawText(font, "Apprentice", 480, 223, 50, 3, { 0,0,0,255 });
+			render->DrawText(font, "Apprentice", 480, 220, 50, 3, { 255,255,255,255 });
+
+			render->DrawText(font, "You should rescue the first", 480, 270, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "Apprentice on the", 480, 300, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "restaurant in Osaka.", 480, 330, 23, 3, { 0,0,0,255 });
+		}
+
+		if (L->data->id == 5)
+		{
+			render->DrawText(font, "Find the last", 480, 193, 50, 3, { 0,0,0,255 });
+			render->DrawText(font, "Find the last", 480, 190, 50, 3, { 255,255,255,255 });
+			render->DrawText(font, "Apprentice", 480, 223, 50, 3, { 0,0,0,255 });
+			render->DrawText(font, "Apprentice", 480, 220, 50, 3, { 255,255,255,255 });
+
+			render->DrawText(font, "You should rescue the other", 480, 270, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "Apprentice on the", 480, 300, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "restaurant in Dotonbori.", 480, 330, 23, 3, { 0,0,0,255 });
+		}
+
+		if (L->data->id == 6)
+		{
+			// Title Drawing
+			render->DrawText(font, "Takada offices", 480, 223, 50, 3, { 0,0,0,255 });
+			render->DrawText(font, "Takada offices", 480, 220, 50, 3, { 255,255,255,255 });
+
+			// Description Drawing if pressed L
+			///////////////////////////////////////////////////////////////////////////
+			//render->DrawText(font, L->data->description.GetString(), 480, 300, 35, 3, { 200,200,200,255 });
+			render->DrawText(font, "Go to the Takada offices and", 480, 270, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "talk with the receptionist.", 480, 300, 23, 3, { 0,0,0,255 });
+			///////////////////////////////////////////////////////////////////////////
+		}
+
+		if (L->data->id == 7)
+		{
+			render->DrawText(font, "Get the code", 480, 223, 50, 3, { 0,0,0,255 });
+			render->DrawText(font, "Get the code", 480, 220, 50, 3, { 255,255,255,255 });
+
+			render->DrawText(font, "Defeat the clerks in order", 480, 270, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "to get the code boss door", 480, 300, 23, 3, { 0,0,0,255 });
+		}
+
+		if (L->data->id == 8)
+		{
+			render->DrawText(font, "Central signal", 480, 223, 50, 3, { 0,0,0,255 });
+			render->DrawText(font, "Central signal", 480, 220, 50, 3, { 255,255,255,255 });
+
+			render->DrawText(font, "Reactivat the central signal", 480, 270, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "from the president's", 480, 300, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "computer.", 480, 330, 23, 3, { 0,0,0,255 });
+		}
+
+		if (L->data->id == 9)
+		{
+			render->DrawText(font, "Defeat Takuda", 480, 223, 50, 3, { 0,0,0,255 });
+			render->DrawText(font, "Defeat Takuda", 480, 220, 50, 3, { 255,255,255,255 });
+
+			render->DrawText(font, "Face Takuda in a battle", 480, 270, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "and may the best win...", 480, 300, 23, 3, { 0,0,0,255 });
+		}
+
 		else {
 			// Title Drawing
 			render->DrawText(font, L->data->title.GetString(), 480, 223, 50, 3, { 0,0,0,255 });
