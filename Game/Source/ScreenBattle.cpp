@@ -66,6 +66,8 @@ ScreenBattle::ScreenBattle()
 	// Variables to manage attack/defense menus
 	hover = { 0,0 };
 	pressed = false;
+
+	lockedNotificationTimer = 0;
 }
 
 ScreenBattle::~ScreenBattle()
@@ -285,12 +287,12 @@ bool ScreenBattle::Update(Input* input, float dt, uint& focusedButtonId)
 						}
 					}
 
-					SString selectedItem;
 					selectedItem.Create("null");
 
 					switch (hover.x)
 					{
 					case 0:
+						selectedItem = "default";
 						break;
 					case 1:
 						if (names[0] != "null") selectedItem = names[0];
@@ -305,21 +307,37 @@ bool ScreenBattle::Update(Input* input, float dt, uint& focusedButtonId)
 
 					if (battleSystem->playerState == PlayerState::ATTACK)
 					{
-						if (selectedItem == "null") battleSystem->specialAttack = SpecialAttack::DEFAULT;
+						if (selectedItem == "default") battleSystem->specialAttack = SpecialAttack::DEFAULT;
 						else if (selectedItem == "attack_1") battleSystem->specialAttack = SpecialAttack::ATTACK_1;
 						else if (selectedItem == "attack_2") battleSystem->specialAttack = SpecialAttack::ATTACK_2;
 						else if (selectedItem == "attack_3") battleSystem->specialAttack = SpecialAttack::ATTACK_3;
+						else if (selectedItem == "null") battleSystem->specialAttack = SpecialAttack::LOCKED;
 					}
 					else if (battleSystem->playerState == PlayerState::DEFENSE)
 					{
-						if (selectedItem == "null") battleSystem->specialDefense = SpecialDefense::DEFAULT;
+						if (selectedItem == "default") battleSystem->specialDefense = SpecialDefense::DEFAULT;
 						else if (selectedItem == "defense_1") battleSystem->specialDefense = SpecialDefense::DEFENSE_1;
 						else if (selectedItem == "defense_2") battleSystem->specialDefense = SpecialDefense::DEFENSE_2;
 						else if (selectedItem == "defense_3") battleSystem->specialDefense = SpecialDefense::DEFENSE_3;
+						else if (selectedItem == "null") battleSystem->specialDefense = SpecialDefense::LOCKED;
+					}
+
+					if (((battleSystem->specialAttack == SpecialAttack::ATTACK_1 && battleSystem->GetSpecialAttack(0)) ||
+						(battleSystem->specialAttack == SpecialAttack::ATTACK_2 && battleSystem->GetSpecialAttack(1)) ||
+						(battleSystem->specialAttack == SpecialAttack::ATTACK_3 && battleSystem->GetSpecialAttack(2))) ||
+						((battleSystem->specialDefense == SpecialDefense::DEFENSE_1 && battleSystem->GetSpecialDefense(0)) ||
+							(battleSystem->specialDefense == SpecialDefense::DEFENSE_2 && battleSystem->GetSpecialDefense(1)) ||
+							(battleSystem->specialDefense == SpecialDefense::DEFENSE_3 && battleSystem->GetSpecialDefense(2))))
+					{
+						used = true;
+						battleSystem->specialAttack = SpecialAttack::NONE;
+						battleSystem->specialDefense = SpecialDefense::NONE;
 					}
 
 					pressed = false;
 
+					if (battleSystem->specialAttack != SpecialAttack::LOCKED &&
+						battleSystem->specialDefense != SpecialDefense::LOCKED && !used)
 					ShowButtons();
 				}
 
@@ -327,6 +345,24 @@ bool ScreenBattle::Update(Input* input, float dt, uint& focusedButtonId)
 					pressed = false;
 
 				HoverUpdate(input);
+
+				if (battleSystem->specialAttack == SpecialAttack::LOCKED ||
+					battleSystem->specialDefense == SpecialDefense::LOCKED)
+					lockedNotificationTimer++;
+
+				if (lockedNotificationTimer > 100)
+				{
+					lockedNotificationTimer = 0;
+					battleSystem->specialAttack = SpecialAttack::NONE;
+					battleSystem->specialDefense = SpecialDefense::NONE;
+				}
+
+				if (used) usedNotificationTimer++;
+				if (usedNotificationTimer > 100)
+				{
+					used = false;
+					usedNotificationTimer = 0;
+				}
 			}
 		}
 		else if (battleSystem->battleState == BattleState::WON)
@@ -427,17 +463,49 @@ bool ScreenBattle::Draw(Render* render)
 
 			if (battleSystem->playerState == PlayerState::ATTACK)
 			{
-				if (battleSystem->specialAttack != SpecialAttack::NONE)
+				if (battleSystem->specialAttack == SpecialAttack::DEFAULT)
 				{
 					if (timer.ReadSec() <= 0.25f)
 					{
-						sprintf_s(temp, 64, "%s attacks %s", battleSystem->GetPlayer()->name.GetString(), battleSystem->GetEnemy()->name.GetString());
+						sprintf_s(temp, 64, "%s attacks %s", battleSystem->GetPlayer()->name.GetString(), battleSystem->GetEnemy()->name.GetString(), selectedItem.GetString());
 						render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 105, 105, 105, 255 });
 						render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 255, 255, 255 });
 					}
 					else if (timer.ReadSec() > 0.25f)
 					{
-						sprintf_s(temp, 64, "%s attacks %s", battleSystem->GetPlayer()->name.GetString(), battleSystem->GetEnemy()->name.GetString());
+						sprintf_s(temp, 64, "%s attacks %s", battleSystem->GetPlayer()->name.GetString(), battleSystem->GetEnemy()->name.GetString(), selectedItem.GetString());
+						render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 128, 113, 27, 255 });
+						render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 225, 53, 255 });
+					}
+					if (timer.ReadSec() > 0.5f) timer.Start();
+				}
+				else if (battleSystem->specialAttack == SpecialAttack::LOCKED)
+				{
+					if (timer.ReadSec() <= 0.25f)
+					{
+						sprintf_s(temp, 64, "This attack is locked!", battleSystem->GetPlayer()->name.GetString(), battleSystem->GetEnemy()->name.GetString(), selectedItem.GetString());
+						render->DrawText(menuFont2, temp, 75 + 3, 190 + 3, 50, 0, { 64, 0, 0, 255 });
+						render->DrawText(menuFont2, temp, 75, 190, 50, 0, { 128, 0, 0, 255 });
+					}
+					else if (timer.ReadSec() > 0.25f)
+					{
+						sprintf_s(temp, 64, "This attack is locked!", battleSystem->GetPlayer()->name.GetString(), battleSystem->GetEnemy()->name.GetString(), selectedItem.GetString());
+						render->DrawText(menuFont2, temp, 75 + 3, 190 + 3, 50, 0, { 128, 0, 0, 255 });
+						render->DrawText(menuFont2, temp, 75, 190, 50, 0, { 255, 0, 0, 255 });
+					}
+					if (timer.ReadSec() > 0.5f) timer.Start();
+				}
+				else if (battleSystem->specialAttack != SpecialAttack::NONE)
+				{
+					if (timer.ReadSec() <= 0.25f)
+					{
+						sprintf_s(temp, 64, "%s attacks %s with %s", battleSystem->GetPlayer()->name.GetString(), battleSystem->GetEnemy()->name.GetString(), selectedItem.GetString());
+						render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 105, 105, 105, 255 });
+						render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 255, 255, 255 });
+					}
+					else if (timer.ReadSec() > 0.25f)
+					{
+						sprintf_s(temp, 64, "%s attacks %s with %s", battleSystem->GetPlayer()->name.GetString(), battleSystem->GetEnemy()->name.GetString(), selectedItem.GetString());
 						render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 128, 113, 27, 255 });
 						render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 225, 53, 255 });
 					}
@@ -446,17 +514,33 @@ bool ScreenBattle::Draw(Render* render)
 			}
 			else if (battleSystem->playerState == PlayerState::DEFENSE)
 			{
-				if (battleSystem->specialDefense != SpecialDefense::NONE)
+				if (battleSystem->specialDefense == SpecialDefense::DEFAULT)
 				{
 					if (timer.ReadSec() <= 0.25f)
 					{
-						sprintf_s(temp, 64, "%s defends himself", battleSystem->GetPlayer()->name.GetString());
+						sprintf_s(temp, 64, "%s defends", battleSystem->GetPlayer()->name.GetString(), battleSystem->GetEnemy()->name.GetString(), selectedItem.GetString());
 						render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 105, 105, 105, 255 });
 						render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 255, 255, 255 });
 					}
 					else if (timer.ReadSec() > 0.25f)
 					{
-						sprintf_s(temp, 64, "%s defends himself", battleSystem->GetPlayer()->name.GetString());
+						sprintf_s(temp, 64, "%s defends", battleSystem->GetPlayer()->name.GetString(), battleSystem->GetEnemy()->name.GetString(), selectedItem.GetString());
+						render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 128, 113, 27, 255 });
+						render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 225, 53, 255 });
+					}
+					if (timer.ReadSec() > 0.5f) timer.Start();
+				}
+				else if (battleSystem->specialDefense != SpecialDefense::NONE)
+				{
+					if (timer.ReadSec() <= 0.25f)
+					{
+						sprintf_s(temp, 64, "%s defends with %s", battleSystem->GetPlayer()->name.GetString(), selectedItem.GetString());
+						render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 105, 105, 105, 255 });
+						render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 255, 255, 255 });
+					}
+					else if (timer.ReadSec() > 0.25f)
+					{
+						sprintf_s(temp, 64, "%s defends with %s", battleSystem->GetPlayer()->name.GetString(), selectedItem.GetString());
 						render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 128, 113, 27, 255 });
 						render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 225, 53, 255 });
 					}
@@ -549,13 +633,13 @@ bool ScreenBattle::Draw(Render* render)
 			{
 				if (timer.ReadSec() <= 0.25f)
 				{
-					sprintf_s(temp, 64, "%s defends himself", battleSystem->GetEnemy()->name.GetString());
+					sprintf_s(temp, 64, "%s defends", battleSystem->GetEnemy()->name.GetString(), selectedItem.GetString());
 					render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 105, 105, 105, 255 });
 					render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 255, 255, 255 });
 				}
 				else if (timer.ReadSec() > 0.25f)
 				{
-					sprintf_s(temp, 64, "%s defends himself", battleSystem->GetEnemy()->name.GetString());
+					sprintf_s(temp, 64, "%s defends", battleSystem->GetEnemy()->name.GetString(), selectedItem.GetString());
 					render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 128, 113, 27, 255 });
 					render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 225, 53, 255 });
 				}
@@ -698,8 +782,10 @@ bool ScreenBattle::Draw(Render* render)
 	if (battleSystem->battleState == BattleState::PLAYER_TURN &&
 		(battleSystem->playerState == PlayerState::ATTACK ||
 		battleSystem->playerState == PlayerState::DEFENSE) &&
-		(battleSystem->specialAttack == SpecialAttack::NONE &&
-		battleSystem->specialDefense == SpecialDefense::NONE))
+		((battleSystem->specialAttack == SpecialAttack::NONE ||
+		battleSystem->specialAttack == SpecialAttack::LOCKED) &&
+		(battleSystem->specialDefense == SpecialDefense::NONE ||
+		battleSystem->specialDefense == SpecialDefense::LOCKED)))
 	{
 		// Draw dark background
 		render->DrawRectangle({ 0,0,1280,720 }, { 0,0,0,192 }, true, false);
@@ -746,6 +832,38 @@ bool ScreenBattle::Draw(Render* render)
 
 		if (battleSystem->playerState == PlayerState::ATTACK)
 		{
+			if (battleSystem->specialAttack == SpecialAttack::LOCKED)
+			{
+				char temp[64] = { 0 };
+				if (timer.ReadSec() <= 0.25f)
+				{
+					render->DrawText(menuFont2, "This attack is locked!", 350 + 3, 100 + 3, 70, 0, { 64,0,0,255 });
+					render->DrawText(menuFont2, "This attack is locked!", 350, 100, 70, 0, { 128,0,0,255 });
+				}
+				else if (timer.ReadSec() > 0.25f)
+				{
+					render->DrawText(menuFont2, "This attack is locked!", 350 + 3, 100 + 3, 70, 0, { 128,0,0,255 });
+					render->DrawText(menuFont2, "This attack is locked!", 350, 100, 70, 0, { 255,0,0,255 });
+				}
+				if (timer.ReadSec() > 0.5f) timer.Start();
+			}
+
+			if (used && battleSystem->specialAttack != SpecialAttack::LOCKED)
+			{
+				char temp[64] = { 0 };
+				if (timer.ReadSec() <= 0.25f)
+				{
+					render->DrawText(menuFont2, "You already used this attack!", 250 + 3, 100 + 3, 70, 0, { 64,0,0,255 });
+					render->DrawText(menuFont2, "You already used this attack!", 250, 100, 70, 0, { 128,0,0,255 });
+				}
+				else if (timer.ReadSec() > 0.25f)
+				{
+					render->DrawText(menuFont2, "You already used this attack!", 250 + 3, 100 + 3, 70, 0, { 128,0,0,255 });
+					render->DrawText(menuFont2, "You already used this attack!", 250, 100, 70, 0, { 255,0,0,255 });
+				}
+				if (timer.ReadSec() > 0.5f) timer.Start();
+			}
+
 			// Draw text
 			render->DrawText(menuFont2, "Choose an attack!", 400 + 3, 200 + 3, 70, 0, { 128,128,128,255 });
 			render->DrawText(menuFont2, "Choose an attack!", 400, 200, 70, 0, { 255,255,255,255 });
@@ -865,6 +983,38 @@ bool ScreenBattle::Draw(Render* render)
 		}
 		else if (battleSystem->playerState == PlayerState::DEFENSE)
 		{
+			if (battleSystem->specialDefense == SpecialDefense::LOCKED)
+			{
+				char temp[64] = { 0 };
+				if (timer.ReadSec() <= 0.25f)
+				{
+					render->DrawText(menuFont2, "This defense is locked!", 250 + 3, 100 + 3, 70, 0, { 64,0,0,255 });
+					render->DrawText(menuFont2, "This defense is locked!", 250, 100, 70, 0, { 128,0,0,255 });
+				}
+				else if (timer.ReadSec() > 0.25f)
+				{
+					render->DrawText(menuFont2, "This defense is locked!", 250 + 3, 100 + 3, 70, 0, { 128,0,0,255 });
+					render->DrawText(menuFont2, "This defense is locked!", 250, 100, 70, 0, { 255,0,0,255 });
+				}
+				if (timer.ReadSec() > 0.5f) timer.Start();
+			}
+
+			if (used && battleSystem->specialDefense != SpecialDefense::LOCKED)
+			{
+				char temp[64] = { 0 };
+				if (timer.ReadSec() <= 0.25f)
+				{
+					render->DrawText(menuFont2, "You already used this defense!", 350 + 3, 100 + 3, 70, 0, { 64,0,0,255 });
+					render->DrawText(menuFont2, "You already used this defense!", 350, 100, 70, 0, { 128,0,0,255 });
+				}
+				else if (timer.ReadSec() > 0.25f)
+				{
+					render->DrawText(menuFont2, "You already used this defense!", 350 + 3, 100 + 3, 70, 0, { 128,0,0,255 });
+					render->DrawText(menuFont2, "You already used this defense!", 350, 100, 70, 0, { 255,0,0,255 });
+				}
+				if (timer.ReadSec() > 0.5f) timer.Start();
+			}
+
 			// Draw text
 			render->DrawText(menuFont2, "Choose a defense!", 400 + 3, 200 + 3, 70, 0, { 128,128,128,255 });
 			render->DrawText(menuFont2, "Choose a defense!", 400, 200, 70, 0, { 255,255,255,255 });

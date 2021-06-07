@@ -51,6 +51,7 @@ enum class SpecialAttack
 	ATTACK_1,
 	ATTACK_2,
 	ATTACK_3,
+	LOCKED,
 	NONE
 };
 
@@ -60,6 +61,7 @@ enum class SpecialDefense
 	DEFENSE_1,
 	DEFENSE_2,
 	DEFENSE_3,
+	LOCKED,
 	NONE
 };
 
@@ -110,6 +112,9 @@ public:
 
 	// Function to update the special attack/defense effects on each turn
 	void UpdateAttacksAndDefenses();
+
+	bool GetSpecialAttack(int index);
+	bool GetSpecialDefense(int index);
 
 	// Battle state (Current attacker and defender)
 	BattleState battleState;

@@ -152,17 +152,14 @@ void BattleSystem::PlayerTurn()
 			switch (specialAttack)
 			{
 			case SpecialAttack::ATTACK_1:
-				specialAttacks[0] = true;
 				// Substract life points to the enemy
 				enemy->stats.currentHP -= currentPlayer->stats.damage * 5;
 				// Check if the enemy life has gone under 0 (death)
 				if (enemy->stats.currentHP < 0) enemy->stats.currentHP = 0;
 				break;
 			case SpecialAttack::ATTACK_2:
-				specialAttacks[1] = true;
 				break;
 			case SpecialAttack::ATTACK_3:
-				specialAttacks[2] = true;
 				break;
 			case SpecialAttack::DEFAULT:
 				if (specialAttacks[2])
@@ -186,7 +183,6 @@ void BattleSystem::PlayerTurn()
 			switch (specialDefense)
 			{
 			case SpecialDefense::DEFENSE_1:
-				specialDefenses[0] = true;
 				// Add life points to the player
 				currentPlayer->stats.currentHP += currentPlayer->stats.defense * 5;
 				// Check if the player life has gone over their maximum HP
@@ -194,10 +190,8 @@ void BattleSystem::PlayerTurn()
 					currentPlayer->stats.currentHP = currentPlayer->stats.maxHP;
 				break;
 			case SpecialDefense::DEFENSE_2:
-				specialDefenses[1] = true;
 				break;
 			case SpecialDefense::DEFENSE_3:
-				specialDefenses[2] = true;
 				break;
 			case SpecialDefense::DEFAULT:
 				if (specialDefenses[2])
@@ -242,17 +236,55 @@ void BattleSystem::PlayerTurn()
 		}
 		else if (playerState == PlayerState::ATTACK)
 		{
-			if (specialAttack != SpecialAttack::NONE) turnCounter++;
+			if (specialAttack != SpecialAttack::NONE && specialAttack != SpecialAttack::LOCKED) turnCounter++;
 		}
 		else if (playerState == PlayerState::DEFENSE)
 		{
-			if (specialDefense != SpecialDefense::NONE) turnCounter++;
+			if (specialDefense != SpecialDefense::NONE && specialDefense != SpecialDefense::LOCKED) turnCounter++;
 		}
 		else turnCounter++;
 	}
 
 	if (turnCounter > 300 && playerState != PlayerState::NONE)
 	{
+		switch (playerState)
+		{
+		case PlayerState::ATTACK:
+			switch (specialAttack)
+			{
+			case SpecialAttack::ATTACK_1:
+				specialAttacks[0] = true;
+				break;
+			case SpecialAttack::ATTACK_2:
+				specialAttacks[1] = true;
+				break;
+			case SpecialAttack::ATTACK_3:
+				specialAttacks[2] = true;
+				break;
+			default:
+				break;
+			}
+			break;
+		case PlayerState::DEFENSE:
+			switch (specialDefense)
+			{
+			case SpecialDefense::DEFENSE_1:
+				specialDefenses[0] = true;
+				break;
+			case SpecialDefense::DEFENSE_2:
+				specialDefenses[1] = true;
+				break;
+			case SpecialDefense::DEFENSE_3:
+				specialDefenses[2] = true;
+				break;
+			default:
+				break;
+			}
+			break;
+		default:
+			break;
+		}
+
 		// Reset variables for the next time
 		turnCounter = 0;
 		playerState = PlayerState::NONE;
@@ -491,4 +523,14 @@ void BattleSystem::UpdateAttacksAndDefenses()
 		if (currentPlayer->stats.currentHP > currentPlayer->stats.maxHP)
 			currentPlayer->stats.currentHP = currentPlayer->stats.maxHP;
 	}
+}
+
+bool BattleSystem::GetSpecialAttack(int index)
+{
+	return specialAttacks[index];
+}
+
+bool BattleSystem::GetSpecialDefense(int index)
+{
+	return specialDefenses[index];
 }

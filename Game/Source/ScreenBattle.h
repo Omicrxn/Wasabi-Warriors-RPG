@@ -91,11 +91,20 @@ private:
     // Gamepad's menu focused button
     uint focusedButtonId;
 
+    // String lighting timer
     Timer timer;
+    // Locked attack/defense notification timer
+    uint lockedNotificationTimer;
+    // Used attack/defense notification timer
+    uint usedNotificationTimer;
+    bool used;
 
     // Variables to manage attack/defense menus
     iPoint hover;
     bool pressed = false;
+
+    // Selected attack/defense
+    SString selectedItem;
 };
 
 #endif // __SCENEBATTLE_H__
