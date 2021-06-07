@@ -1117,6 +1117,37 @@ void SceneGameplay::SaveGameProgress(pugi::xml_node& data)const
 	else
 		data.append_attribute("gold").set_value(this->gameProgress.gold);
 
+	tempName = data.attribute("hasCalledCook").name();
+	if (tempName == "hasCalledCook")
+		data.attribute("hasCalledCook").set_value(this->gameProgress.hasCalledCook);
+	else
+		data.append_attribute("hasCalledCook").set_value(this->gameProgress.hasCalledCook);
+
+	tempName = data.attribute("hasVisitedRestaurantQuest").name();
+	if (tempName == "hasVisitedRestaurantQuest")
+		data.attribute("hasVisitedRestaurantQuest").set_value(this->gameProgress.hasVisitedRestaurantQuest);
+	else
+		data.append_attribute("hasVisitedRestaurantQuest").set_value(this->gameProgress.hasVisitedRestaurantQuest);
+
+	tempName = data.attribute("hasSavedFirstApprentice").name();
+	if (tempName == "hasSavedFirstApprentice")
+		data.attribute("hasSavedFirstApprentice").set_value(this->gameProgress.hasSavedFirstApprentice);
+	else
+		data.append_attribute("hasSavedFirstApprentice").set_value(this->gameProgress.hasSavedFirstApprentice);
+		
+	tempName = data.attribute("hasSavedLastApprentice").name();
+	if (tempName == "hasSavedLastApprentice")
+		data.attribute("hasSavedLastApprentice").set_value(this->gameProgress.hasSavedLastApprentice);
+	else
+		data.append_attribute("hasSavedLastApprentice").set_value(this->gameProgress.hasSavedLastApprentice);
+	
+	tempName = data.attribute("hasVisitedErikaTombstone").name();
+	if (tempName == "hasVisitedErikaTombstone")
+		data.attribute("hasVisitedErikaTombstone").set_value(this->gameProgress.hasVisitedErikaTombstone);
+	else
+		data.append_attribute("hasVisitedErikaTombstone").set_value(this->gameProgress.hasVisitedErikaTombstone);
+
+
 	tempName = data.attribute("hasSpoken").name();
 	if (tempName == "hasSpoken")
 		data.attribute("hasSpoken").set_value(this->gameProgress.hasSpoken);
@@ -1215,6 +1246,11 @@ void SceneGameplay::LoadGameProgress(pugi::xml_node& data)
 {
 	this->gameProgress.xp = data.attribute("xp").as_int();
 	this->gameProgress.gold = data.attribute("gold").as_int();
+	this->gameProgress.hasCalledCook = data.attribute("hasCalledCook").as_bool();
+	this->gameProgress.hasVisitedRestaurantQuest = data.attribute("hasVisitedRestaurantQuest").as_bool();
+	this->gameProgress.hasSavedFirstApprentice = data.attribute("hasSavedFirstApprentice").as_bool();
+	this->gameProgress.hasSavedLastApprentice = data.attribute("hasSavedLastApprentice").as_bool();
+	this->gameProgress.hasVisitedErikaTombstone = data.attribute("hasVisitedErikaTombstone").as_bool();
 	this->gameProgress.hasSpoken = data.attribute("hasSpoken").as_bool();
 	this->gameProgress.numKilledOfficers = data.attribute("numKilledOfficers").as_int();
 	this->gameProgress.hasKilledOfficers = data.attribute("hasKilledOfficers").as_bool();
@@ -1491,6 +1527,7 @@ void SceneGameplay::SetUpTp()
 			break;
 		case MapType::RESTAURANT:
 			mapNode = mapNode.child("restaurant");
+			hasVisitedLocation = gameProgress.hasVisitedRestaurantQuest;
 			hasVisitedLocation = gameProgress.hasVisitedRestaurant;
 			break;
 		case MapType::TOWN:
@@ -1718,6 +1755,7 @@ void SceneGameplay::SetUpTp()
 				gameProgress.hasVisitedMediumCity = true;
 				break;
 			case MapType::RESTAURANT:
+				gameProgress.hasVisitedRestaurantQuest = true;
 				gameProgress.hasVisitedRestaurant = true;
 				break;
 			case MapType::TOWN:
