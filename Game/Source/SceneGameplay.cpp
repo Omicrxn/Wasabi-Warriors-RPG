@@ -881,7 +881,7 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 	{
 		if (control->id == 11)
 		{
-			if (battleSystem->playerState != PlayerState::NONE && battleSystem->battleState != BattleState::PLAYER_TURN)
+			if (battleSystem->playerState != PlayerState::NONE || battleSystem->battleState != BattleState::PLAYER_TURN)
 				break;
 
 			battleSystem->playerState = PlayerState::ATTACK;
@@ -889,7 +889,7 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 		}
 		else if (control->id == 12)
 		{
-			if (battleSystem->playerState != PlayerState::NONE && battleSystem->battleState != BattleState::PLAYER_TURN)
+			if (battleSystem->playerState != PlayerState::NONE || battleSystem->battleState != BattleState::PLAYER_TURN)
 				break;
 
 			battleSystem->playerState = PlayerState::DEFENSE;
@@ -897,14 +897,14 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 		}
 		else if (control->id == 13)
 		{
-			if (battleSystem->playerState != PlayerState::NONE && battleSystem->battleState != BattleState::PLAYER_TURN)
+			if (battleSystem->playerState != PlayerState::NONE || battleSystem->battleState != BattleState::PLAYER_TURN)
 				break;
 
 			battleSystem->playerState = PlayerState::ITEM;
 		}
 		else if (control->id == 14)
 		{
-			if (battleSystem->playerState != PlayerState::NONE && battleSystem->battleState != BattleState::PLAYER_TURN)
+			if (battleSystem->playerState != PlayerState::NONE || battleSystem->battleState != BattleState::PLAYER_TURN)
 				break;
 
 			battleSystem->playerState = PlayerState::RUN;
