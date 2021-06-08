@@ -59,6 +59,7 @@ public:
 	Animation kenzoAnim;
 	Animation reiAnim;
 	Animation eikenAnim;
+	Animation makiAnim;
 
 	MobileState state = MobileState::MAIN;
 

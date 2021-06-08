@@ -6,6 +6,7 @@
 
 #include "Module.h"
 #include "SDL/include/SDL_rect.h"
+#include "Animation.h"
 
 class DialogNode;
 
@@ -50,10 +51,17 @@ public:
 	void NextDialog();
 
 	bool DialogHasFinished();
+
 	int GetDialogIndex();
+
 	void SetDialogFinished(bool dialogFinished);
 
 	void NewDialog(int dialogIndex);
+
+	const char* GetSpeaker();
+
+	// Draws faces on dialogs
+	void DrawDialogSpeaker();
 
 private:
 
@@ -87,4 +95,25 @@ private:
 
 	SDL_Texture* dialogBackground;
 	SDL_Rect backgroundRect;
+
+private:
+
+	// Texture for speakers
+	SDL_Texture* speakerTexture;
+
+	// Dialog speaker animations
+	Animation* currentDialogAnim;
+
+	Animation erikaDialogAnim;
+	Animation takadaDialogAnim;
+
+	Animation kenzoDialogAnim;
+	Animation reiDialogAnim;
+	Animation eikenDialogAnim;
+	Animation makiDialogAnim;
+
+	Animation oscarDialogAnim;
+	Animation shopKeeperDialogAnim;
+	Animation pedestrianrDialogAnim;
+	Animation receptionistDialogAnim;
 };
