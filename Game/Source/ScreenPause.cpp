@@ -42,6 +42,12 @@ ScreenPause::ScreenPause()
 	reiAnim.PushBack({ 987, 308, 162, 188 });
 	reiAnim.loop = true;
 	reiAnim.speed = 0.004f;
+	
+	makiAnim.PushBack({ 1428, 1305, 138, 156 });
+	makiAnim.PushBack({ 1581, 1305, 138, 156 });
+	makiAnim.PushBack({ 1734, 1305, 138, 156 });
+	makiAnim.loop = true;
+	makiAnim.speed = 0.004f;
 
 	mapHoverPos[0] = {139, 77};
 	mapHoverPos[1] = {147, 273};
@@ -180,6 +186,11 @@ bool ScreenPause::Draw(Render* render)
 				else if (entityManager->playerList.At(i)->data->name == "Rei" && currentAnimation != &reiAnim)
 				{
 					currentAnimation = &reiAnim;
+					currentAnimation->Reset();
+				}
+				else if (entityManager->playerList.At(i)->data->name == "Maki" && currentAnimation != &makiAnim)
+				{
+					currentAnimation = &makiAnim;
 					currentAnimation->Reset();
 				}
 			}

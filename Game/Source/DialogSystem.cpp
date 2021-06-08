@@ -22,6 +22,62 @@ DialogSystem::DialogSystem(Input* input, Render* render, Textures* tex, Fonts* f
 	this->fonts = fonts;
 	this->tex = tex;
 	this->assetsManager = assetsManager;
+
+	dialogBackground = nullptr;
+	speakerTexture = nullptr;
+
+	currentDialogAnim = nullptr;
+
+	erikaDialogAnim.PushBack({ 30, 981, 162, 209 });
+	erikaDialogAnim.PushBack({ 213, 981, 162, 209 });
+	erikaDialogAnim.loop = true;
+	erikaDialogAnim.speed = 0.004f;
+	
+	takadaDialogAnim.PushBack({ 417, 1008, 150, 183 });
+	takadaDialogAnim.PushBack({ 594, 1008, 150, 183 });
+	takadaDialogAnim.loop = true;
+	takadaDialogAnim.speed = 0.004f;
+
+	kenzoDialogAnim.PushBack({ 795, 519, 162, 186 });
+	kenzoDialogAnim.PushBack({ 987, 519, 162, 186 });
+	kenzoDialogAnim.loop = true;
+	kenzoDialogAnim.speed = 0.004f;
+
+	reiDialogAnim.PushBack({ 795, 308, 162, 188 });
+	reiDialogAnim.PushBack({ 987, 308, 162, 188 });
+	reiDialogAnim.loop = true;
+	reiDialogAnim.speed = 0.004f;
+
+	eikenDialogAnim.PushBack({ 795, 732, 162, 192 });
+	eikenDialogAnim.PushBack({ 987, 732, 162, 192 });
+	eikenDialogAnim.loop = true;
+	eikenDialogAnim.speed = 0.004f;
+
+	makiDialogAnim.PushBack({ 1428, 1305, 138, 156 });
+	makiDialogAnim.PushBack({ 1581, 1305, 138, 156 });
+	makiDialogAnim.PushBack({ 1734, 1305, 138, 156 });
+	makiDialogAnim.loop = true;
+	makiDialogAnim.speed = 0.004f;
+
+	oscarDialogAnim.PushBack({ 1389, 1700, 162, 189 });
+	oscarDialogAnim.PushBack({ 1389, 1482, 162, 189 });
+	oscarDialogAnim.loop = true;
+	oscarDialogAnim.speed = 0.004f;
+	
+	shopKeeperDialogAnim.PushBack({ 1563, 1491, 168, 183 });
+	shopKeeperDialogAnim.PushBack({ 1737, 1491, 168, 183 });
+	shopKeeperDialogAnim.loop = true;
+	shopKeeperDialogAnim.speed = 0.004f;
+	
+	pedestrianrDialogAnim.PushBack({ 1920, 1302, 150, 174 });
+	pedestrianrDialogAnim.PushBack({ 1923, 1488, 150, 171 });
+	pedestrianrDialogAnim.loop = true;
+	pedestrianrDialogAnim.speed = 0.004f;
+	
+	receptionistDialogAnim.PushBack({ 1563, 1896, 162, 180 });
+	receptionistDialogAnim.PushBack({ 1749, 1896, 162, 180 });
+	receptionistDialogAnim.loop = true;
+	receptionistDialogAnim.speed = 0.004f;
 }
 
 DialogSystem::~DialogSystem()
@@ -58,6 +114,7 @@ bool DialogSystem::Start()
 
 	// Needed textures
 	dialogBackground = tex->Load("Textures/Dialog/dialog_background.png");
+	speakerTexture = tex->Load("Textures/UI/guiTextureSpritesheet.png");
 	backgroundRect = { 0,0,1240,220 };
 
 	// Register a callback function with the name say_hello. This is just an example.
@@ -179,6 +236,7 @@ bool DialogSystem::PostUpdate()
 	if (currentDialog == nullptr) return true;
 
 	DrawDialog();
+	DrawDialogSpeaker();
 
 	return true;
 }
@@ -191,9 +249,9 @@ void DialogSystem::DrawDialog()
 
 	// Set the text to uppercase, since our font only supports uppercase.
 	std::string text = ToUpperCase(currentDialog->attributes->at("value"));
-
+	
 	// Write the dialog line.
-	fonts->BlitText(10 + 70, (render->camera.h / 3) * 2 + 10 + 50, 0, text.c_str());
+	fonts->BlitText(10 + 220, (render->camera.h / 3) * 2 + 10 + 50, 0, text.c_str());
 
 	// If the current node is a question, we should also draw the possible answers
 	if (currentDialog->type == DialogNode::NodeType::OPTIONS)
@@ -206,11 +264,11 @@ void DialogSystem::DrawDialog()
 			// Set them to uppercase.
 			text = ToUpperCase((*i)->attributes->at("value"));
 			// Draw them, increasing the y offset at every iteration.
-			fonts->BlitText(30 + 70, (render->camera.h / 3) * 2 + 30 + (18 * y) + 50, 0, text.c_str());
+			fonts->BlitText(30 + 220, (render->camera.h / 3) * 2 + 30 + (18 * y) + 50, 0, text.c_str());
 			y++;
 		}
 		// Draw a small black rectangle next to the selected option.
-		SDL_Rect selectedRectangle = SDL_Rect({ 20 + 70, (render->camera.h / 3) * 2 + 30 + (18 * selectedOption) + 50, 6, 6 });
+		SDL_Rect selectedRectangle = SDL_Rect({ 20 + 220, (render->camera.h / 3) * 2 + 30 + (18 * selectedOption) + 50, 6, 6 });
 		render->DrawRectangle(selectedRectangle, {255, 255, 255, 255}, true, false);
 	}
 }
@@ -223,6 +281,7 @@ bool DialogSystem::CleanUp()
 
 	// Unloading textures
 	tex->UnLoad(dialogBackground);
+	tex->UnLoad(speakerTexture);
 
 	return true;
 }
@@ -354,6 +413,15 @@ void DialogSystem::NewDialog(int dialogIndex)
 	this->dialogIndex = dialogIndex;
 }
 
+const char* DialogSystem::GetSpeaker()
+{
+	if (currentDialog != nullptr)
+	{
+		return currentDialog->attributes->at("speaker").c_str();
+	}
+	return nullptr;
+}
+
 DialogNode* DialogSystem::ParseDialogXML(pugi::xml_node currentNode)
 {
 	DialogNode* dialogNode = new DialogNode();
@@ -420,4 +488,66 @@ DialogNode* DialogSystem::ParseDialogXML(pugi::xml_node currentNode)
 	/* End TODO 2 */
 
 	return dialogNode;
+}
+
+void DialogSystem::DrawDialogSpeaker()
+{
+	if (currentDialog != nullptr && GetSpeaker() != nullptr)
+	{
+		SString speaker = GetSpeaker();
+
+		currentDialogAnim = nullptr;
+
+		if (speaker == "Erika") 
+		{
+			currentDialogAnim = &erikaDialogAnim;
+		}
+		else if (speaker == "Takada")
+		{
+			currentDialogAnim = &takadaDialogAnim;
+		}
+		else if (speaker == "Oscar")
+		{
+			currentDialogAnim = &oscarDialogAnim;
+		}
+		else if (speaker == "Kenzo")
+		{
+			currentDialogAnim = nullptr;
+		}
+		else if (speaker == "Eiken")
+		{
+			currentDialogAnim = &eikenDialogAnim;
+		}
+		else if (speaker == "Rei")
+		{
+			currentDialogAnim = &reiDialogAnim;
+		}
+		else if (speaker == "Maki")
+		{
+			currentDialogAnim = &makiDialogAnim;
+		}
+		else if (speaker == "Pedestrian")
+		{
+			currentDialogAnim = &pedestrianrDialogAnim;
+		}
+		else if (speaker == "Shopkeeper")
+		{
+			currentDialogAnim = &shopKeeperDialogAnim;
+		}
+		else if (speaker == "Receptionist")
+		{
+			currentDialogAnim = &receptionistDialogAnim;
+		}
+		else if (speaker == "None")
+		{
+			currentDialogAnim = nullptr;
+		}
+
+		render->DrawTexture(speakerTexture, 60, 485, &kenzoDialogAnim.GetCurrentFrame(), 0.0f);
+		if (currentDialogAnim != nullptr)
+		{
+			currentDialogAnim->Update();
+			render->DrawTexture(speakerTexture, 1055, 485, &currentDialogAnim->GetCurrentFrame(), 0.0f);
+		}
+	}
 }

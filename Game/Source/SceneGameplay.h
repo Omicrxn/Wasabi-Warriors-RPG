@@ -119,11 +119,13 @@ public:
     // To return to the gameplay and reset the battle elements and buttons
     void ExitBattle();
 
+    // Loads map
     void SetUpTp();
 
     // Adds an item to the inventory items list
     void AddItemToInvItemsList(Item* item);
 
+    // Plays map music
     void PlayMapMusic();
 
     // Functions to keep track of the game progress
@@ -188,6 +190,7 @@ private:
     SDL_Texture* indicator;
     SDL_Texture* signal;
 
+    // Particle Animations
     Animation auraAnim;
     Animation cast1Anim;
     Animation enemyCastAnim;
