@@ -94,10 +94,10 @@ bool Activator::Draw(Render* render)
                 render->DrawTexture(entityManager->itemsTexture, hudPosition.x, hudPosition.y, &rect, 0);
                 render->scale = 1;
             }
-            else
+            /*else
             {
                 render->DrawTexture(entityManager->itemsTexture, hudPosition.x, hudPosition.y, &rect, 0);
-            }
+            }*/
         }
     }
 
@@ -129,27 +129,27 @@ void Activator::SetDrawState(DrawState drawState)
     {
         rect = { 296,346,30,28 };
     }
-    else if (name == "attack_1")
+    else if (name == "Schichimi")
     {
         rect = { 446,680,22,32 };
     }
-    else if (name == "attack_2")
+    else if (name == "Karashi")
     {
         rect = { 494,680,22,32 };
     }
-    else if (name == "attack_3")
+    else if (name == "Rayu")
     {
         rect = { 542,680,22,32 };
     }
-    else if (name == "defense_1")
+    else if (name == "Sushi")
     {
         rect = { 590,680,22,32 };
     }
-    else if (name == "defense_2")
+    else if (name == "Oniguiri")
     {
         rect = { 638,680,22,32 };
     }
-    else if (name == "defense_3")
+    else if (name == "Sashimi")
     {
         rect = { 686,680,22,32 };
     }

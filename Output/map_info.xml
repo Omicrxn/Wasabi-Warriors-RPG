@@ -25,12 +25,12 @@
     <item posX="600" posY="350" class="item" name="wasabi" subtype="8"/>
     <item posX="700" posY="350" class="item" name="pan" subtype="9"/>
     <item posX="800" posY="350" class="item" name="fork" subtype="10"/>-->
-    <activator name="attack_1" posX="32" posY="352" width="32" height="32" drawState="0" entitySubtype="11"/>
-    <activator name="attack_2" posX="96" posY="352" width="32" height="32" drawState="0" entitySubtype="11"/>
-    <activator name="attack_3" posX="160" posY="352" width="32" height="32" drawState="0" entitySubtype="11"/>
-    <activator name="defense_1" posX="224" posY="352" width="32" height="32" drawState="0" entitySubtype="12"/>
-    <activator name="defense_2" posX="288" posY="352" width="32" height="32" drawState="0" entitySubtype="12"/>
-    <activator name="defense_3" posX="352" posY="352" width="32" height="32" drawState="0" entitySubtype="12"/>
+    <activator name="Schichimi" posX="32" posY="352" width="32" height="32" drawState="0" entitySubtype="11"/>
+    <activator name="Karashi" posX="96" posY="352" width="32" height="32" drawState="0" entitySubtype="11"/>
+    <activator name="Rayu" posX="160" posY="352" width="32" height="32" drawState="0" entitySubtype="11"/>
+    <activator name="Sushi" posX="224" posY="352" width="32" height="32" drawState="0" entitySubtype="12"/>
+    <activator name="Oniguiri" posX="288" posY="352" width="32" height="32" drawState="0" entitySubtype="12"/>
+    <activator name="Sashimi" posX="352" posY="352" width="32" height="32" drawState="0" entitySubtype="12"/>
   </town>
   <osaka enemyCount ="0" npcCount ="0" teleportCount ="2" itemCount="0" activatorCount="0" secretWallCount="0" leverCount="0">
     <prevBigCity>

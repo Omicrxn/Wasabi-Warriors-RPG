@@ -530,7 +530,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 			{
 				gameProgress.hasPickedKey = true;
 			}
-			else if (notifier->GetActivator()->name == "attack_1")
+			/*else if (notifier->GetActivator()->name == "attack_1")
 			{
 				notifier->NotifyDialog(9);
 			}
@@ -553,7 +553,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 			else if (notifier->GetActivator()->name == "defense_3")
 			{
 				notifier->NotifyDialog(14);
-			}
+			}*/
 			
 			notifier->GetActivator()->SetDrawState(DrawState::HUD);
 		}

@@ -42,6 +42,7 @@ ScreenBattle::ScreenBattle()
 	frontRamen2 = { 60,1218,276,93 };
 	leftSticks = { 1842,165,225,207 };
 	rightSticks = { 1869,402,225,207 };
+	crossRect = { 0,0,630,630 };
 
 	// Fonts
 	titleFont = nullptr;
@@ -100,6 +101,7 @@ bool ScreenBattle::Load(int minIndex, int maxIndex, Scene* currentScene, BattleS
 	indicator = tex->Load("Textures/Effects/fire_003.png");
 	playerDefense = tex->Load("Textures/Effects/heal_001.png");
 	enemyDefense = tex->Load("Textures/Effects/heal_002.png");
+	crossTex = tex->Load("Textures/Items/cross.png");
 
 	// Set battle animations
 	// Cast 1
@@ -308,37 +310,58 @@ bool ScreenBattle::Update(Input* input, float dt, uint& focusedButtonId)
 					if (battleSystem->playerState == PlayerState::ATTACK)
 					{
 						if (selectedItem == "default") battleSystem->specialAttack = SpecialAttack::DEFAULT;
-						else if (selectedItem == "attack_1") battleSystem->specialAttack = SpecialAttack::ATTACK_1;
-						else if (selectedItem == "attack_2") battleSystem->specialAttack = SpecialAttack::ATTACK_2;
-						else if (selectedItem == "attack_3") battleSystem->specialAttack = SpecialAttack::ATTACK_3;
-						else if (selectedItem == "null") battleSystem->specialAttack = SpecialAttack::LOCKED;
+						else if (selectedItem == "Schichimi") battleSystem->specialAttack = SpecialAttack::ATTACK_1;
+						else if (selectedItem == "Karashi") battleSystem->specialAttack = SpecialAttack::ATTACK_2;
+						else if (selectedItem == "Rayu") battleSystem->specialAttack = SpecialAttack::ATTACK_3;
+						else if (selectedItem == "null")
+						{
+							battleSystem->specialAttack = SpecialAttack::LOCKED;
+							lockedNotificationTimer = 0;
+						}
 					}
 					else if (battleSystem->playerState == PlayerState::DEFENSE)
 					{
 						if (selectedItem == "default") battleSystem->specialDefense = SpecialDefense::DEFAULT;
-						else if (selectedItem == "defense_1") battleSystem->specialDefense = SpecialDefense::DEFENSE_1;
-						else if (selectedItem == "defense_2") battleSystem->specialDefense = SpecialDefense::DEFENSE_2;
-						else if (selectedItem == "defense_3") battleSystem->specialDefense = SpecialDefense::DEFENSE_3;
-						else if (selectedItem == "null") battleSystem->specialDefense = SpecialDefense::LOCKED;
+						else if (selectedItem == "Sushi") battleSystem->specialDefense = SpecialDefense::DEFENSE_1;
+						else if (selectedItem == "Oniguiri") battleSystem->specialDefense = SpecialDefense::DEFENSE_2;
+						else if (selectedItem == "Sashimi") battleSystem->specialDefense = SpecialDefense::DEFENSE_3;
+						else if (selectedItem == "null")
+						{
+							battleSystem->specialDefense = SpecialDefense::LOCKED;
+							lockedNotificationTimer = 0;
+						}
 					}
 
 					if (((battleSystem->specialAttack == SpecialAttack::ATTACK_1 && battleSystem->GetSpecialAttack(0)) ||
 						(battleSystem->specialAttack == SpecialAttack::ATTACK_2 && battleSystem->GetSpecialAttack(1)) ||
 						(battleSystem->specialAttack == SpecialAttack::ATTACK_3 && battleSystem->GetSpecialAttack(2))) ||
-						((battleSystem->specialDefense == SpecialDefense::DEFENSE_1 && battleSystem->GetSpecialDefense(0)) ||
-							(battleSystem->specialDefense == SpecialDefense::DEFENSE_2 && battleSystem->GetSpecialDefense(1)) ||
-							(battleSystem->specialDefense == SpecialDefense::DEFENSE_3 && battleSystem->GetSpecialDefense(2))))
+					   ((battleSystem->specialDefense == SpecialDefense::DEFENSE_1 && battleSystem->GetSpecialDefense(0)) ||
+						(battleSystem->specialDefense == SpecialDefense::DEFENSE_2 && battleSystem->GetSpecialDefense(1)) ||
+						(battleSystem->specialDefense == SpecialDefense::DEFENSE_3 && battleSystem->GetSpecialDefense(2))))
 					{
 						used = true;
+						usedNotificationTimer = 0;
 						battleSystem->specialAttack = SpecialAttack::NONE;
 						battleSystem->specialDefense = SpecialDefense::NONE;
 					}
 
 					pressed = false;
 
-					if (battleSystem->specialAttack != SpecialAttack::LOCKED &&
-						battleSystem->specialDefense != SpecialDefense::LOCKED && !used)
-					ShowButtons();
+					switch (battleSystem->playerState)
+					{
+					case PlayerState::ATTACK:
+						if (battleSystem->specialAttack != SpecialAttack::LOCKED &&
+							battleSystem->specialAttack != SpecialAttack::NONE)
+							ShowButtons();
+						break;
+					case PlayerState::DEFENSE:
+						if (battleSystem->specialDefense != SpecialDefense::LOCKED &&
+							battleSystem->specialDefense != SpecialDefense::NONE)
+							ShowButtons();
+						break;
+					default:
+						break;
+					}
 				}
 
 				if (pressed && input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)
@@ -468,46 +491,30 @@ bool ScreenBattle::Draw(Render* render)
 					if (timer.ReadSec() <= 0.25f)
 					{
 						sprintf_s(temp, 64, "%s attacks %s", battleSystem->GetPlayer()->name.GetString(), battleSystem->GetEnemy()->name.GetString(), selectedItem.GetString());
-						render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 105, 105, 105, 255 });
-						render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 255, 255, 255 });
+						render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 40, 0, { 105, 105, 105, 255 });
+						render->DrawText(menuFont2, temp, 75, 590, 40, 0, { 255, 255, 255, 255 });
 					}
 					else if (timer.ReadSec() > 0.25f)
 					{
 						sprintf_s(temp, 64, "%s attacks %s", battleSystem->GetPlayer()->name.GetString(), battleSystem->GetEnemy()->name.GetString(), selectedItem.GetString());
-						render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 128, 113, 27, 255 });
-						render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 225, 53, 255 });
+						render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 40, 0, { 128, 113, 27, 255 });
+						render->DrawText(menuFont2, temp, 75, 590, 40, 0, { 255, 225, 53, 255 });
 					}
 					if (timer.ReadSec() > 0.5f) timer.Start();
 				}
-				else if (battleSystem->specialAttack == SpecialAttack::LOCKED)
-				{
-					if (timer.ReadSec() <= 0.25f)
-					{
-						sprintf_s(temp, 64, "This attack is locked!", battleSystem->GetPlayer()->name.GetString(), battleSystem->GetEnemy()->name.GetString(), selectedItem.GetString());
-						render->DrawText(menuFont2, temp, 75 + 3, 190 + 3, 50, 0, { 64, 0, 0, 255 });
-						render->DrawText(menuFont2, temp, 75, 190, 50, 0, { 128, 0, 0, 255 });
-					}
-					else if (timer.ReadSec() > 0.25f)
-					{
-						sprintf_s(temp, 64, "This attack is locked!", battleSystem->GetPlayer()->name.GetString(), battleSystem->GetEnemy()->name.GetString(), selectedItem.GetString());
-						render->DrawText(menuFont2, temp, 75 + 3, 190 + 3, 50, 0, { 128, 0, 0, 255 });
-						render->DrawText(menuFont2, temp, 75, 190, 50, 0, { 255, 0, 0, 255 });
-					}
-					if (timer.ReadSec() > 0.5f) timer.Start();
-				}
-				else if (battleSystem->specialAttack != SpecialAttack::NONE)
+				else if (battleSystem->specialAttack != SpecialAttack::NONE && battleSystem->specialAttack != SpecialAttack::LOCKED)
 				{
 					if (timer.ReadSec() <= 0.25f)
 					{
 						sprintf_s(temp, 64, "%s attacks %s with %s", battleSystem->GetPlayer()->name.GetString(), battleSystem->GetEnemy()->name.GetString(), selectedItem.GetString());
-						render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 105, 105, 105, 255 });
-						render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 255, 255, 255 });
+						render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 40, 0, { 105, 105, 105, 255 });
+						render->DrawText(menuFont2, temp, 75, 590, 40, 0, { 255, 255, 255, 255 });
 					}
 					else if (timer.ReadSec() > 0.25f)
 					{
 						sprintf_s(temp, 64, "%s attacks %s with %s", battleSystem->GetPlayer()->name.GetString(), battleSystem->GetEnemy()->name.GetString(), selectedItem.GetString());
-						render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 128, 113, 27, 255 });
-						render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 225, 53, 255 });
+						render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 40, 0, { 128, 113, 27, 255 });
+						render->DrawText(menuFont2, temp, 75, 590, 40, 0, { 255, 225, 53, 255 });
 					}
 					if (timer.ReadSec() > 0.5f) timer.Start();
 				}
@@ -519,30 +526,30 @@ bool ScreenBattle::Draw(Render* render)
 					if (timer.ReadSec() <= 0.25f)
 					{
 						sprintf_s(temp, 64, "%s defends", battleSystem->GetPlayer()->name.GetString(), battleSystem->GetEnemy()->name.GetString(), selectedItem.GetString());
-						render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 105, 105, 105, 255 });
-						render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 255, 255, 255 });
+						render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 40, 0, { 105, 105, 105, 255 });
+						render->DrawText(menuFont2, temp, 75, 590, 40, 0, { 255, 255, 255, 255 });
 					}
 					else if (timer.ReadSec() > 0.25f)
 					{
 						sprintf_s(temp, 64, "%s defends", battleSystem->GetPlayer()->name.GetString(), battleSystem->GetEnemy()->name.GetString(), selectedItem.GetString());
-						render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 128, 113, 27, 255 });
-						render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 225, 53, 255 });
+						render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 40, 0, { 128, 113, 27, 255 });
+						render->DrawText(menuFont2, temp, 75, 590, 40, 0, { 255, 225, 53, 255 });
 					}
 					if (timer.ReadSec() > 0.5f) timer.Start();
 				}
-				else if (battleSystem->specialDefense != SpecialDefense::NONE)
+				else if (battleSystem->specialDefense != SpecialDefense::NONE && battleSystem->specialDefense != SpecialDefense::LOCKED)
 				{
 					if (timer.ReadSec() <= 0.25f)
 					{
 						sprintf_s(temp, 64, "%s defends with %s", battleSystem->GetPlayer()->name.GetString(), selectedItem.GetString());
-						render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 105, 105, 105, 255 });
-						render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 255, 255, 255 });
+						render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 40, 0, { 105, 105, 105, 255 });
+						render->DrawText(menuFont2, temp, 75, 590, 40, 0, { 255, 255, 255, 255 });
 					}
 					else if (timer.ReadSec() > 0.25f)
 					{
 						sprintf_s(temp, 64, "%s defends with %s", battleSystem->GetPlayer()->name.GetString(), selectedItem.GetString());
-						render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 128, 113, 27, 255 });
-						render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 225, 53, 255 });
+						render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 40, 0, { 128, 113, 27, 255 });
+						render->DrawText(menuFont2, temp, 75, 590, 40, 0, { 255, 225, 53, 255 });
 					}
 					if (timer.ReadSec() > 0.5f) timer.Start();
 				}
@@ -565,14 +572,14 @@ bool ScreenBattle::Draw(Render* render)
 					if (timer.ReadSec() <= 0.25f)
 					{
 						sprintf_s(temp, 64, "%s used the item %s", battleSystem->GetPlayer()->name.GetString(), battleSystem->GetItem().GetString());
-						render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 105, 105, 105, 255 });
-						render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 255, 255, 255 });
+						render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 40, 0, { 105, 105, 105, 255 });
+						render->DrawText(menuFont2, temp, 75, 590, 40, 0, { 255, 255, 255, 255 });
 					}
 					else if (timer.ReadSec() > 0.25f)
 					{
 						sprintf_s(temp, 64, "%s used the item %s", battleSystem->GetPlayer()->name.GetString(), battleSystem->GetItem().GetString());
-						render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 128, 113, 27, 255 });
-						render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 225, 53, 255 });
+						render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 40, 0, { 128, 113, 27, 255 });
+						render->DrawText(menuFont2, temp, 75, 590, 40, 0, { 255, 225, 53, 255 });
 					}
 					if (timer.ReadSec() > 0.5f) timer.Start();
 				}
@@ -581,14 +588,14 @@ bool ScreenBattle::Draw(Render* render)
 					if (timer.ReadSec() <= 0.25f)
 					{
 						sprintf_s(temp, 64, "%s didn't use any item...", battleSystem->GetPlayer()->name.GetString());
-						render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 105, 105, 105, 255 });
-						render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 255, 255, 255 });
+						render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 40, 0, { 105, 105, 105, 255 });
+						render->DrawText(menuFont2, temp, 75, 590, 40, 0, { 255, 255, 255, 255 });
 					}
 					else if (timer.ReadSec() > 0.25f)
 					{
 						sprintf_s(temp, 64, "%s didn't use any item...", battleSystem->GetPlayer()->name.GetString());
-						render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 128, 113, 27, 255 });
-						render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 225, 53, 255 });
+						render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 40, 0, { 128, 113, 27, 255 });
+						render->DrawText(menuFont2, temp, 75, 590, 40, 0, { 255, 225, 53, 255 });
 					}
 					if (timer.ReadSec() > 0.5f) timer.Start();
 				}
@@ -618,14 +625,14 @@ bool ScreenBattle::Draw(Render* render)
 				if (timer.ReadSec() <= 0.25f)
 				{
 					sprintf_s(temp, 64, "%s attacks %s", battleSystem->GetEnemy()->name.GetString(), battleSystem->GetPlayer()->name.GetString());
-					render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 105, 105, 105, 255 });
-					render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 255, 255, 255 });
+					render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 40, 0, { 105, 105, 105, 255 });
+					render->DrawText(menuFont2, temp, 75, 590, 40, 0, { 255, 255, 255, 255 });
 				}
 				else if (timer.ReadSec() > 0.25f)
 				{
 					sprintf_s(temp, 64, "%s attacks %s", battleSystem->GetEnemy()->name.GetString(), battleSystem->GetPlayer()->name.GetString());
-					render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 128, 113, 27, 255 });
-					render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 225, 53, 255 });
+					render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 40, 0, { 128, 113, 27, 255 });
+					render->DrawText(menuFont2, temp, 75, 590, 40, 0, { 255, 225, 53, 255 });
 				}
 				if (timer.ReadSec() > 0.5f) timer.Start();
 			}
@@ -634,14 +641,14 @@ bool ScreenBattle::Draw(Render* render)
 				if (timer.ReadSec() <= 0.25f)
 				{
 					sprintf_s(temp, 64, "%s defends", battleSystem->GetEnemy()->name.GetString(), selectedItem.GetString());
-					render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 105, 105, 105, 255 });
-					render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 255, 255, 255 });
+					render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 40, 0, { 105, 105, 105, 255 });
+					render->DrawText(menuFont2, temp, 75, 590, 40, 0, { 255, 255, 255, 255 });
 				}
 				else if (timer.ReadSec() > 0.25f)
 				{
 					sprintf_s(temp, 64, "%s defends", battleSystem->GetEnemy()->name.GetString(), selectedItem.GetString());
-					render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 128, 113, 27, 255 });
-					render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 225, 53, 255 });
+					render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 40, 0, { 128, 113, 27, 255 });
+					render->DrawText(menuFont2, temp, 75, 590, 40, 0, { 255, 225, 53, 255 });
 				}
 				if (timer.ReadSec() > 0.5f) timer.Start();
 
@@ -655,14 +662,14 @@ bool ScreenBattle::Draw(Render* render)
 				if (timer.ReadSec() <= 0.25f)
 				{
 					sprintf_s(temp, 64, "%s used the item %s", battleSystem->GetEnemy()->name.GetString(), battleSystem->GetItem().GetString());
-					render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 105, 105, 105, 255 });
-					render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 255, 255, 255 });
+					render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 40, 0, { 105, 105, 105, 255 });
+					render->DrawText(menuFont2, temp, 75, 590, 40, 0, { 255, 255, 255, 255 });
 				}
 				else if (timer.ReadSec() > 0.25f)
 				{
 					sprintf_s(temp, 64, "%s used the item %s", battleSystem->GetEnemy()->name.GetString(), battleSystem->GetItem().GetString());
-					render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 50, 0, { 128, 113, 27, 255 });
-					render->DrawText(menuFont2, temp, 75, 590, 50, 0, { 255, 225, 53, 255 });
+					render->DrawText(menuFont2, temp, 75 + 3, 590 + 3, 40, 0, { 128, 113, 27, 255 });
+					render->DrawText(menuFont2, temp, 75, 590, 40, 0, { 255, 225, 53, 255 });
 				}
 				if (timer.ReadSec() > 0.5f) timer.Start();
 			}
@@ -847,8 +854,7 @@ bool ScreenBattle::Draw(Render* render)
 				}
 				if (timer.ReadSec() > 0.5f) timer.Start();
 			}
-
-			if (used && battleSystem->specialAttack != SpecialAttack::LOCKED)
+			else if (used)
 			{
 				char temp[64] = { 0 };
 				if (timer.ReadSec() <= 0.25f)
@@ -885,6 +891,15 @@ bool ScreenBattle::Draw(Render* render)
 					render->scale = 1;
 
 					render->DrawText(menuFont2, ((Activator*)entityManager->activatorList.At(i)->data)->name.GetString(), 1280 / 2 - rect.w / 2 - rect.w + (rect.w * 2) * attackPosition + 18, 720 / 2 - rect.h / 2 + 117, 25, 0, { 128,128,128,255 });
+
+					render->scale = 0.25;
+					if (((Activator*)entityManager->activatorList.At(i)->data)->name == "Schichimi" && battleSystem->GetSpecialAttack(0))
+						render->DrawTexture(crossTex, (1280 / 2 - rect.w / 2 - rect.w + (rect.w * 2) * attackPosition + 20) * 4 - 175, (720 / 2 - rect.h / 2 + 8) * 4 - 50, &crossRect, 0);
+					else if (((Activator*)entityManager->activatorList.At(i)->data)->name == "Karashi" && battleSystem->GetSpecialAttack(1))
+						render->DrawTexture(crossTex, (1280 / 2 - rect.w / 2 - rect.w + (rect.w * 2) * attackPosition + 20) * 4 - 175, (720 / 2 - rect.h / 2 + 8) * 4 - 50, &crossRect, 0);
+					else if (((Activator*)entityManager->activatorList.At(i)->data)->name == "Rayu" && battleSystem->GetSpecialAttack(2))
+						render->DrawTexture(crossTex, (1280 / 2 - rect.w / 2 - rect.w + (rect.w * 2) * attackPosition + 20) * 4 - 175, (720 / 2 - rect.h / 2 + 8) * 4 - 50, &crossRect, 0);
+					render->scale = 1;
 
 					attackPosition++;
 				}
@@ -958,21 +973,21 @@ bool ScreenBattle::Draw(Render* render)
 				render->DrawText(menuFont2, itemToPrint.GetString(), 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10 + 3, 475 + 3, 50, 3, { 128,128,128,255 });
 				render->DrawText(menuFont2, itemToPrint.GetString(), 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10, 475, 50, 3, { 255,255,255,255 });
 
-				if (itemToPrint == "attack_1")
+				if (itemToPrint == "Schichimi")
 				{
 					render->DrawText(menuFont2, "It substracts a big amount of your enemy", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10 + 3, 525 + 3, 40, 3, { 128,128,128,255 });
 					render->DrawText(menuFont2, "It substracts a big amount of your enemy", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10, 525, 40, 3, { 255,255,255,255 });
 					render->DrawText(menuFont2, "life at once.", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10 + 3, 560 + 3, 40, 3, { 128,128,128,255 });
 					render->DrawText(menuFont2, "life at once.", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10, 560, 40, 3, { 255,255,255,255 });
 				}
-				else if (itemToPrint == "attack_2")
+				else if (itemToPrint == "Karashi")
 				{
 					render->DrawText(menuFont2, "It substracts a constant small amount of", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10 + 3, 525 + 3, 40, 3, { 128,128,128,255 });
 					render->DrawText(menuFont2, "It substracts a constant small amount of", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10, 525, 40, 3, { 255,255,255,255 });
 					render->DrawText(menuFont2, "your enemy life every turn.", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10 + 3, 560 + 3, 40, 3, { 128,128,128,255 });
 					render->DrawText(menuFont2, "your enemy life every turn.", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10, 560, 40, 3, { 255,255,255,255 });
 				}
-				else if (itemToPrint == "attack_3")
+				else if (itemToPrint == "Rayu")
 				{
 					render->DrawText(menuFont2, "It increases by a 30 per cent your current", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10 + 3, 525 + 3, 40, 3, { 128,128,128,255 });
 					render->DrawText(menuFont2, "It increases by a 30 per cent your current", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10, 525, 40, 3, { 255,255,255,255 });
@@ -988,29 +1003,28 @@ bool ScreenBattle::Draw(Render* render)
 				char temp[64] = { 0 };
 				if (timer.ReadSec() <= 0.25f)
 				{
-					render->DrawText(menuFont2, "This defense is locked!", 250 + 3, 100 + 3, 70, 0, { 64,0,0,255 });
-					render->DrawText(menuFont2, "This defense is locked!", 250, 100, 70, 0, { 128,0,0,255 });
+					render->DrawText(menuFont2, "This defense is locked!", 330 + 3, 100 + 3, 70, 0, { 64,0,0,255 });
+					render->DrawText(menuFont2, "This defense is locked!", 330, 100, 70, 0, { 128,0,0,255 });
 				}
 				else if (timer.ReadSec() > 0.25f)
 				{
-					render->DrawText(menuFont2, "This defense is locked!", 250 + 3, 100 + 3, 70, 0, { 128,0,0,255 });
-					render->DrawText(menuFont2, "This defense is locked!", 250, 100, 70, 0, { 255,0,0,255 });
+					render->DrawText(menuFont2, "This defense is locked!", 330 + 3, 100 + 3, 70, 0, { 128,0,0,255 });
+					render->DrawText(menuFont2, "This defense is locked!", 330, 100, 70, 0, { 255,0,0,255 });
 				}
 				if (timer.ReadSec() > 0.5f) timer.Start();
 			}
-
-			if (used && battleSystem->specialDefense != SpecialDefense::LOCKED)
+			else if (used)
 			{
 				char temp[64] = { 0 };
 				if (timer.ReadSec() <= 0.25f)
 				{
-					render->DrawText(menuFont2, "You already used this defense!", 350 + 3, 100 + 3, 70, 0, { 64,0,0,255 });
-					render->DrawText(menuFont2, "You already used this defense!", 350, 100, 70, 0, { 128,0,0,255 });
+					render->DrawText(menuFont2, "You already used this defense!", 250 + 3, 100 + 3, 70, 0, { 64,0,0,255 });
+					render->DrawText(menuFont2, "You already used this defense!", 250, 100, 70, 0, { 128,0,0,255 });
 				}
 				else if (timer.ReadSec() > 0.25f)
 				{
-					render->DrawText(menuFont2, "You already used this defense!", 350 + 3, 100 + 3, 70, 0, { 128,0,0,255 });
-					render->DrawText(menuFont2, "You already used this defense!", 350, 100, 70, 0, { 255,0,0,255 });
+					render->DrawText(menuFont2, "You already used this defense!", 250 + 3, 100 + 3, 70, 0, { 128,0,0,255 });
+					render->DrawText(menuFont2, "You already used this defense!", 250, 100, 70, 0, { 255,0,0,255 });
 				}
 				if (timer.ReadSec() > 0.5f) timer.Start();
 			}
@@ -1036,6 +1050,15 @@ bool ScreenBattle::Draw(Render* render)
 					render->scale = 1;
 
 					render->DrawText(menuFont2, ((Activator*)entityManager->activatorList.At(i)->data)->name.GetString(), 1280 / 2 - rect.w / 2 - rect.w + (rect.w * 2) * defensePosition + 18, 720 / 2 - rect.h / 2 + 117, 25, 0, { 128,128,128,255 });
+
+					render->scale = 0.25;
+					if (((Activator*)entityManager->activatorList.At(i)->data)->name == "Sushi" && battleSystem->GetSpecialDefense(0))
+						render->DrawTexture(crossTex, (1280 / 2 - rect.w / 2 - rect.w + (rect.w * 2) * defensePosition + 20) * 4 - 175, (720 / 2 - rect.h / 2 + 8) * 4 - 50, &crossRect, 0);
+					else if (((Activator*)entityManager->activatorList.At(i)->data)->name == "Oniguiri" && battleSystem->GetSpecialDefense(1))
+						render->DrawTexture(crossTex, (1280 / 2 - rect.w / 2 - rect.w + (rect.w * 2) * defensePosition + 20) * 4 - 175, (720 / 2 - rect.h / 2 + 8) * 4 - 50, &crossRect, 0);
+					else if (((Activator*)entityManager->activatorList.At(i)->data)->name == "Sashimi" && battleSystem->GetSpecialDefense(2))
+						render->DrawTexture(crossTex, (1280 / 2 - rect.w / 2 - rect.w + (rect.w * 2) * defensePosition + 20) * 4 - 175, (720 / 2 - rect.h / 2 + 8) * 4 - 50, &crossRect, 0);
+					render->scale = 1;
 
 					defensePosition++;
 				}
@@ -1109,19 +1132,19 @@ bool ScreenBattle::Draw(Render* render)
 				render->DrawText(menuFont2, itemToPrint.GetString(), 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10 + 3, 475 + 3, 50, 3, { 128,128,128,255 });
 				render->DrawText(menuFont2, itemToPrint.GetString(), 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10, 475, 50, 3, { 255,255,255,255 });
 
-				if (itemToPrint == "defense_1")
+				if (itemToPrint == "Sushi")
 				{
 					render->DrawText(menuFont2, "It heals a big amount of your life at once.", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10 + 3, 525 + 3, 40, 3, { 128,128,128,255 });
 					render->DrawText(menuFont2, "It heals a big amount of your life at once.", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10, 525, 40, 3, { 255,255,255,255 });
 				}
-				else if (itemToPrint == "defense_2")
+				else if (itemToPrint == "Oniguiri")
 				{
 					render->DrawText(menuFont2, "It heals a constant amount of your life", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10 + 3, 525 + 3, 40, 3, { 128,128,128,255 });
 					render->DrawText(menuFont2, "It heals a constant amount of your life", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10, 525, 40, 3, { 255,255,255,255 });
 					render->DrawText(menuFont2, "every turn.", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10 + 3, 560 + 3, 40, 3, { 128,128,128,255 });
 					render->DrawText(menuFont2, "every turn.", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10, 560, 40, 3, { 255,255,255,255 });
 				}
-				else if (itemToPrint == "defense_3")
+				else if (itemToPrint == "Sashimi")
 				{
 					render->DrawText(menuFont2, "It increases by a 30 per cent your current", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10 + 3, 525 + 3, 40, 3, { 128,128,128,255 });
 					render->DrawText(menuFont2, "It increases by a 30 per cent your current", 1280 / 2 - rect.w / 2 - rect.w * 2 - rect.w - 10, 525, 40, 3, { 255,255,255,255 });
@@ -1138,12 +1161,14 @@ bool ScreenBattle::Draw(Render* render)
 bool ScreenBattle::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager)
 {
 	// Unload textures
-	tex->UnLoad(charactersSpritesheet);
 	tex->UnLoad(backgroundTex);
 	tex->UnLoad(optionsBackgroundTex);
 	tex->UnLoad(cast1);
 	tex->UnLoad(enemyCast);
 	tex->UnLoad(indicator);
+	tex->UnLoad(playerDefense);
+	tex->UnLoad(enemyDefense);
+	tex->UnLoad(crossTex);
 
 	// Destory GUI Controls
 	guiManager->DestroyGuiControl(btnAttack);

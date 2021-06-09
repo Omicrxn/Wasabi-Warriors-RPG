@@ -56,6 +56,7 @@ private:
     SDL_Texture* indicator;
     SDL_Texture* playerDefense;
     SDL_Texture* enemyDefense;
+    SDL_Texture* crossTex;
 
     // Battle screen animations
     Animation cast1Anim;
@@ -72,6 +73,7 @@ private:
     SDL_Rect frontRamen2;
     SDL_Rect leftSticks;
     SDL_Rect rightSticks;
+    SDL_Rect crossRect;
 
     // Fonts
     Font* titleFont;

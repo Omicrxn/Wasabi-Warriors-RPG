@@ -127,7 +127,7 @@ bool BattleSystem::WinAndLose()
 	if (turnChanged) turnChanged = false;
 
 	turnCounter++;
-	if (turnCounter > 300)
+	if (turnCounter > 200)
 	{
 		battleState = BattleState::EXIT;
 	}
@@ -153,7 +153,7 @@ void BattleSystem::PlayerTurn()
 			{
 			case SpecialAttack::ATTACK_1:
 				// Substract life points to the enemy
-				enemy->stats.currentHP -= currentPlayer->stats.damage * 5;
+				enemy->stats.currentHP -= currentPlayer->stats.damage * 3;
 				// Check if the enemy life has gone under 0 (death)
 				if (enemy->stats.currentHP < 0) enemy->stats.currentHP = 0;
 				break;
@@ -245,7 +245,7 @@ void BattleSystem::PlayerTurn()
 		else turnCounter++;
 	}
 
-	if (turnCounter > 300 && playerState != PlayerState::NONE)
+	if (turnCounter > 200 && playerState != PlayerState::NONE)
 	{
 		switch (playerState)
 		{
@@ -353,7 +353,7 @@ void BattleSystem::EnemyTurn()
 
 	turnCounter++;
 
-	if (turnCounter > 300)
+	if (turnCounter > 200)
 	{
 		// Reset variables for the next time
 		turnCounter = 0;
