@@ -533,13 +533,13 @@ bool SceneGameplay::Update(Input* input, float dt)
 		else if (notifier->GetActivator()->name == "secretRoom")
 		{
 			notifier->GetActivator()->ChangeInteraction();
-			if (gameProgress.hasPickedKey)
-			{
+			/*if (gameProgress.hasPickedKey)
+			{*/
 				audio->PlayFx(doorOpenFx);
 				notifier->NotifyMapChange(MapType::SECRET_ROOM);
-				((Activator*)entityManager->SearchEntity("key"))->SetDrawState(DrawState::NONE);
-			}
-			else notifier->NotifyDialog(8);
+				/*((Activator*)entityManager->SearchEntity("key"))->SetDrawState(DrawState::NONE);*/
+			/*}
+			else notifier->NotifyDialog(8);*/
 		}
 		else if (notifier->GetActivator()->name == "dialogTrigger")
 		{
@@ -565,11 +565,11 @@ bool SceneGameplay::Update(Input* input, float dt)
 		}
 		else if (notifier->GetActivator()->GetDrawState() == DrawState::MAP)
 		{
-			if (notifier->GetActivator()->name == "key")
+			/*if (notifier->GetActivator()->name == "key")
 			{
 				gameProgress.hasPickedKey = true;
-			}
-			else if (notifier->GetActivator()->name == "Schichimi")
+			}*/
+			if (notifier->GetActivator()->name == "Schichimi")
 			{
 				notifier->NotifyDialog(9);
 			}
@@ -1213,11 +1213,11 @@ void SceneGameplay::SaveGameProgress(pugi::xml_node& data)const
 	else
 		data.append_attribute("hasActivated").set_value(this->gameProgress.hasActivated);
 
-	tempName = data.attribute("hasPickedKey").name();
+	/*tempName = data.attribute("hasPickedKey").name();
 	if (tempName == "hasPickedKey")
 		data.attribute("hasPickedKey").set_value(this->gameProgress.hasPickedKey);
 	else
-		data.append_attribute("hasPickedKey").set_value(this->gameProgress.hasPickedKey);
+		data.append_attribute("hasPickedKey").set_value(this->gameProgress.hasPickedKey);*/
 
 	tempName = data.attribute("hasFinishedPuzzle1").name();
 	if (tempName == "hasFinishedPuzzle1")
@@ -1296,7 +1296,7 @@ void SceneGameplay::LoadGameProgress(pugi::xml_node& data)
 	this->gameProgress.numKilledOfficers = data.attribute("numKilledOfficers").as_int();
 	this->gameProgress.hasKilledOfficers = data.attribute("hasKilledOfficers").as_bool();
 	this->gameProgress.hasActivated = data.attribute("hasActivated").as_bool();
-	this->gameProgress.hasPickedKey = data.attribute("hasPickedKey").as_bool();
+	/*this->gameProgress.hasPickedKey = data.attribute("hasPickedKey").as_bool();*/
 	this->gameProgress.hasFinishedPuzzle1 = data.attribute("hasFinishedPuzzle1").as_bool();
 
 	data = data.next_sibling("map");

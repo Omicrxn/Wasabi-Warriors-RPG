@@ -74,7 +74,7 @@
     <!--<item posX="512" posY="256" class="item" name="wasabi" subtype="8"/>-->
     <!--<item posX="256" posY="256" class="item" name="pan" subtype="9"/>-->
     <item posX="320" posY="416" class="item" name="fork" subtype="10"/>
-    <activator name="key" posX="64" posY="640" width="32" height="32" drawState="0"/>
+    <!--<activator name="key" posX="64" posY="640" width="32" height="32" drawState="0"/>-->
   </mediumCity>
   <bigCity enemyCount="0" npcCount="0" teleportCount="2" itemCount="3" secretWallCount="0" leverCount="0">
     <prevSkyscraper>

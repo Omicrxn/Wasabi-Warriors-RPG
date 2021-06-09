@@ -58,7 +58,7 @@ struct GameProgress
     bool hasKilledBoss = false; //For quest id: 9
 
     // Puzzles bools
-    bool hasPickedKey = false;
+    /*bool hasPickedKey = false;*/
     bool hasFinishedPuzzle1 = false;
 
     // Map bools
