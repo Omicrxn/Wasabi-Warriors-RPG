@@ -313,12 +313,8 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 		notifier->NotifyMapChange(MapType::HOUSE);
 		//currentMap = MapType::HOUSE;
 		SetUpTp();
-		Activator* activator;
-		activator = (Activator*)entityManager->CreateEntity(EntityType::ACTIVATOR, "dialogTrigger", EntitySubtype::UNKNOWN, iPoint(8 * 32, 4 * 32));
-		activator->width = 64;
-		activator->height = 128;
 		NPC* npc;
-		npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, "makiNPC", EntitySubtype::UNKNOWN, iPoint((2 * 32), (6 * 32)-16));
+		npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, "makiNPC", EntitySubtype::UNKNOWN, iPoint((2 * 32), (6 * 32) - 16));
 		npc->name = "makiNPC";
 		npc->width = 32;
 		npc->height = 32;
@@ -328,9 +324,14 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 		npc->SetTexture(npc->spritePos);
 		if (npc->stop) npc->stopForever = true;
 		npc = nullptr;
-		DrawState drawState = DrawState::NONE;
-		activator->SetDrawState(drawState);
-		activator = nullptr;
+		Activator* activator;
+		activator = (Activator*)entityManager->CreateEntity(EntityType::ACTIVATOR, "dialogTrigger", EntitySubtype::UNKNOWN, iPoint(8 * 32, 4 * 32));
+		activator->width = 64;
+		activator->height = 128;
+		/*
+		drawstate drawstate = drawstate::none;
+		activator->setdrawstate(drawstate);
+		activator = nullptr;*/
 	}
 
 	guiManager->ToggleMouse();
