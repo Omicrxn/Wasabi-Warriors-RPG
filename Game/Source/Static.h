@@ -34,6 +34,7 @@ public:
 		FENCE,
 		FLOATING,
 		ROAD,
+		BUSH,
 		UNKNOWN
 	};
 

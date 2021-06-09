@@ -149,6 +149,27 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 		SetPivot(16, 32);
 	}
 
+	if (name == "bush")
+	{
+		type = Static::Type::BUSH;
+		SetRect(192, 513, 32, 28);
+		SetPivot(16, 28);
+	}
+
+	if (name == "bush_2")
+	{
+		type = Static::Type::BUSH;
+		SetRect(224, 515, 32, 28);
+		SetPivot(16, 28);
+	}
+
+	if (name == "bush")
+	{
+		type = Static::Type::BUSH;
+		SetRect(256, 513, 32, 28);
+		SetPivot(16, 28);
+	}
+
 	// Cemetery sorting
 
 	if (name == "statue_0")
