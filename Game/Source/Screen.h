@@ -103,6 +103,7 @@ public:
         for (int i = minIndex; i <= maxIndex; ++i)
         {
             /*this->guiManager->controls.At(i)->data->state = GuiControlState::HIDDEN;*/
+            this->guiManager->FindById(i)->gamepadFocus = false;
             this->guiManager->FindById(i)->state = GuiControlState::HIDDEN;
         }
     }

@@ -121,7 +121,6 @@ bool GuiIcon::Update(Input* input, AudioManager* audio, float dt)
         if (iconType == IconType::ICON_RETURN && !mouseHover && !gamepadFocus)
         {
             if (input->GetControllerButton(CONTROLLER_BUTTON_B) == KeyState::KEY_REPEAT || input->GetControllerButton(CONTROLLER_BUTTON_B) == KeyState::KEY_DOWN
-                || input->GetControllerButton(CONTROLLER_BUTTON_START) == KeyState::KEY_REPEAT || input->GetControllerButton(CONTROLLER_BUTTON_START) == KeyState::KEY_DOWN
                 || input->GetKey(SDL_SCANCODE_ESCAPE) == KeyState::KEY_REPEAT || input->GetKey(SDL_SCANCODE_ESCAPE) == KeyState::KEY_DOWN)
             {
                 state = GuiControlState::PRESSED;
@@ -129,7 +128,6 @@ bool GuiIcon::Update(Input* input, AudioManager* audio, float dt)
 
             // If gamepad button pressed -> Generate event!
             if (input->GetControllerButton(CONTROLLER_BUTTON_B) == KeyState::KEY_UP
-                || input->GetControllerButton(CONTROLLER_BUTTON_START) == KeyState::KEY_UP
                 || input->GetKey(SDL_SCANCODE_ESCAPE) == KeyState::KEY_UP)
             {
                 NotifyObserver();
@@ -152,7 +150,7 @@ bool GuiIcon::Draw(Render* render, bool debugDraw)
         case IconType::ICON_RETURN:
             render->DrawTexture(texture, bounds.x, bounds.y, &normalReturn, 0.0f);
             if (controller)
-                render->DrawText(font, "B", bounds.x + bounds.w + 5, bounds.y + 12, 28, 3, { 0,0,0,255 });
+                render->DrawText(font, "B", bounds.x + bounds.w + 5, bounds.y + 12, 28, 3, { 255,0,0,255 });
             else
                 render->DrawText(font, "ESC", bounds.x + bounds.w + 5, bounds.y + 12, 28, 3, { 0,0,0,255 });
             break;
@@ -172,6 +170,10 @@ bool GuiIcon::Draw(Render* render, bool debugDraw)
         {
         case IconType::ICON_RETURN:
             render->DrawTexture(texture, bounds.x, bounds.y, &focusedReturn, 0.0f);
+            if (controller)
+                render->DrawText(font, "B", bounds.x + bounds.w + 5, bounds.y + 12, 28, 3, { 255,0,0,255 });
+            else
+                render->DrawText(font, "ESC", bounds.x + bounds.w + 5, bounds.y + 12, 28, 3, { 0,0,0,255 });
             break;
         case IconType::ICON_SETTINGS:
             render->DrawTexture(texture, bounds.x - 5, bounds.y - 7, &grayCircle, 0.0f);
@@ -198,6 +200,10 @@ bool GuiIcon::Draw(Render* render, bool debugDraw)
         {
         case IconType::ICON_RETURN:
             render->DrawTexture(texture, bounds.x, bounds.y, &pressedReturn, 0.0f);
+            if (controller)
+                render->DrawText(font, "B", bounds.x + bounds.w + 5, bounds.y + 12, 28, 3, { 255,0,0,255 });
+            else
+                render->DrawText(font, "ESC", bounds.x + bounds.w + 5, bounds.y + 12, 28, 3, { 0,0,0,255 });
             break;
         case IconType::ICON_SETTINGS:
             render->DrawTexture(texture, bounds.x - 5, bounds.y - 7, &pinkCircle, 0.0f);

@@ -36,31 +36,31 @@ bool ScreenSettings::Load(int minIndex, int maxIndex, Scene* currentScene, Windo
 	this->maxIndex = maxIndex;
 	int counterId = minIndex;
 
-	checkFullScreen = (GuiCheckBox*)guiManager->CreateGuiControl(GuiControlType::CHECKBOX, counterId, { (int)width / 2 - (int)((float)width / 10), 150, 45, 49 }, "FULLSCREEN");
-	checkFullScreen->SetCheckBoxProperties(currentScene, atlas0, buttonFont, hoverFx, clickFx);
-	++counterId;
-
-	checkVsync = (GuiCheckBox*)guiManager->CreateGuiControl(GuiControlType::CHECKBOX, counterId, { (int)width / 2 - (int)((float)width / 10), 250, 45, 49 }, "VSYNC");
-	checkVsync->SetCheckBoxProperties(currentScene, atlas0, buttonFont, hoverFx, clickFx);
-	++counterId;
-
-	int positionY = 350;
-	if (isGameplaySettings)
-	{
-		positionY = 250;
-	}
-
-	sliderMusicVolume = (GuiSlider*)guiManager->CreateGuiControl(GuiControlType::SLIDER, counterId, { (int)width / 2 - (int)((float)width / 10), positionY, 261, 51 }, "MUSIC VOLUME");
+	sliderMusicVolume = (GuiSlider*)guiManager->CreateGuiControl(GuiControlType::SLIDER, counterId, { (int)width / 2 - (int)((float)width / 10), 150, 261, 51 }, "MUSIC VOLUME");
 	sliderMusicVolume->SetSliderProperties(currentScene, atlas0, buttonFont, hoverFx, clickFx);
 	sliderMusicVolume->minValue = 0;
 	sliderMusicVolume->maxValue = SDL_MIX_MAXVOLUME;
 	++counterId;
 
-	sliderFXVolume = (GuiSlider*)guiManager->CreateGuiControl(GuiControlType::SLIDER, counterId, { (int)width / 2 - (int)((float)width / 10), positionY + 100, 261, 51 }, "FX VOLUME");
+	sliderFXVolume = (GuiSlider*)guiManager->CreateGuiControl(GuiControlType::SLIDER, counterId, { (int)width / 2 - (int)((float)width / 10), 250, 261, 51 }, "FX VOLUME");
 	sliderFXVolume->SetSliderProperties(currentScene, atlas0, buttonFont, hoverFx, clickFx);
 	sliderFXVolume->minValue = 0;
 	sliderFXVolume->maxValue = SDL_MIX_MAXVOLUME;
 	++counterId;
+
+	checkFullScreen = (GuiCheckBox*)guiManager->CreateGuiControl(GuiControlType::CHECKBOX, counterId, { (int)width / 2 - (int)((float)width / 10), 350, 45, 49 }, "FULLSCREEN");
+	checkFullScreen->SetCheckBoxProperties(currentScene, atlas0, buttonFont, hoverFx, clickFx);
+	++counterId;
+
+	checkVsync = (GuiCheckBox*)guiManager->CreateGuiControl(GuiControlType::CHECKBOX, counterId, { (int)width / 2 - (int)((float)width / 10), 450, 45, 49 }, "VSYNC");
+	checkVsync->SetCheckBoxProperties(currentScene, atlas0, buttonFont, hoverFx, clickFx);
+	++counterId;
+
+	//int positionY = 350;
+	//if (isGameplaySettings)
+	//{
+	//	positionY = 250;
+	//}
 
 	iconReturnTitle = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 609, 580, 54, 54 });
 	iconReturnTitle->SetIconProperties(currentScene, atlas0, buttonFont, hoverFx, returnFx, IconType::ICON_RETURN);
