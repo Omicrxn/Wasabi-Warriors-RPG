@@ -46,7 +46,7 @@
     <prevMediumCity>
       <player posX="384" posY="448"/>
     </prevMediumCity>
-    <enemy posX="224" posY="192" class="boss" name="Boss" spritePos="9" subtype="6"/>
+    <enemy posX="224" posY="192" class="boss" name="Boss" spritePos="9" subtype="4"/>
     <npc posX="640" posY="352" spritePos="2" stop="false" dialogIndex="-1"/>
     <npc posX="640" posY="256" spritePos="4" stop="false" dialogIndex="-1"/>
     <npc posX="256" posY="256" spritePos="6" stop="false" dialogIndex="-1"/>
@@ -65,8 +65,8 @@
     <prevRestaurant>
       <player posX="416" posY="448"/>
     </prevRestaurant>
-    <enemy posX="544" posY="192" class="bruiser" name="Bruiser" spritePos="10" subtype="5"/>
-    <enemy posX="256" posY="256" class="henchman" name="Henchman" spritePos="5" subtype="4"/>
+    <enemy posX="544" posY="192" class="bruiser" name="Bruiser" spritePos="10" subtype="3"/>
+    <enemy posX="256" posY="256" class="henchman" name="Henchman" spritePos="5" subtype="2"/>
     <npc posX="608" posY="352" spritePos="3" stop="false" dialogIndex="-1"/>
     <teleport posX="32" posY="224" width="32" height="64" destination="4"/>
     <teleport posX="832" posY="32" width="64" height="32" destination="0"/>
@@ -95,10 +95,10 @@
       <player posX="256" posY="1504"/>
     </prevBigCity>
     <npc posX="256" posY="1432" spritePos="3" stop="true" dialogIndex="7"/>
-    <enemy posX="320" posY="64" class="bruiser" name="Ben" spritePos="4" subtype="5"/>
-    <enemy posX="96" posY="320" class="bruiser" name="John" spritePos="5" subtype="5"/>
-    <enemy posX="256" posY="416" class="bruiser" name="Robert" spritePos="6" subtype="5"/>
-    <enemy posX="1312" posY="1248" class="boss" name="Takuda" spritePos="7" subtype="5"/>
+    <enemy posX="320" posY="64" class="bruiser" name="Ben" spritePos="4" subtype="3"/>
+    <enemy posX="96" posY="320" class="bruiser" name="John" spritePos="5" subtype="3"/>
+    <enemy posX="256" posY="416" class="bruiser" name="Robert" spritePos="6" subtype="3"/>
+    <enemy posX="1312" posY="1248" class="boss" name="Takuda" spritePos="7" subtype="3"/>
     <teleport name ="floor1_1" posX="256" posY="1568" width="32" height="32" destination="5"/>
     <teleport name ="floor1_2" posX="160" posY="1184" width="32" height="32" destination="-1" nextPosX="160" nextPosY="96"/>
     <teleport name ="floor2_1" posX="160" posY="32" width="32" height="32" destination="-1" nextPosX="160" nextPosY="1248"/>
