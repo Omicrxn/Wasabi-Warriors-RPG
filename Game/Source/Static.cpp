@@ -537,14 +537,14 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 	{
 		type = Static::Type::TABLE;
 		SetRect(98, 34, 30, 29);
-		SetPivot(15, 29);
+		SetPivot(128, 116);
 	}
 
 	if (name == "res_table2")
 	{
 		type = Static::Type::TABLE;
 		SetRect(128, 37, 31, 26);
-		SetPivot(16, 52);
+		SetPivot(124, 104);
 	}
 
 	if (name == "res_cupboard")
@@ -636,6 +636,13 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 		type = Static::Type::FOOD;
 		SetRect(171, 261, 10, 13);
 		SetPivot(80, 104);
+	}
+
+	if (name == "floor")
+	{
+		type = Static::Type::FLOOR;
+		SetRect(288, 80, 32, 16);
+		SetPivot(16, 16);
 	}
 
 	// Big city sorting
