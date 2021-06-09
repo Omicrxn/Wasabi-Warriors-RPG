@@ -22,8 +22,6 @@ BattleSystem::BattleSystem()
 	playerState = PlayerState::NONE;
 	enemyState = EnemyState::NONE;
 
-	// Right now we only have one party member implemented
-	numPlayers = 2;
 	// Time for enemy to manage their actions
 	turnCounter = 0;
 
@@ -96,8 +94,6 @@ bool BattleSystem::ResetBattle()
 	// Enemy state (to keep track of the action)
 	enemyState = EnemyState::NONE;
 
-	// Total numbers of party members implemented
-	numPlayers = 2;
 	// List of players
 	/*List<Player*> players;*/
 	// Current player
@@ -373,18 +369,21 @@ void BattleSystem::EnemyTurn()
 		}
 
 		// Set as the current player the next party member (if it's available)
-		for (int i = 0; i < players->Count(); i++)
+		if (players->Count() > 1)
 		{
-			if (players->At(i)->data != nullptr)
+			for (int i = 0; i < players->Count(); i++)
 			{
-				if (players->At(i)->data->name == currentPlayer->name)
+				if (players->At(i)->data != nullptr)
 				{
-					if (i == numPlayers - 1)
-						currentPlayer = players->At(0)->data;
-					else if (players->At(i)->next->data != nullptr)
-						currentPlayer = players->At(i)->next->data;
+					if (players->At(i)->data->name == currentPlayer->name)
+					{
+						if (i == players->Count() - 1)
+							currentPlayer = players->At(0)->data;
+						else if (players->At(i)->next->data != nullptr)
+							currentPlayer = players->At(i)->next->data;
 
-					break;
+						break;
+					}
 				}
 			}
 		}

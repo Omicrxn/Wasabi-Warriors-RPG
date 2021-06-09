@@ -130,8 +130,6 @@ public:
 
 private:
 
-	// Total numbers of party members implemented
-	uint numPlayers;
 	// List of players
 	List<Player*>* players;
 	// Current player

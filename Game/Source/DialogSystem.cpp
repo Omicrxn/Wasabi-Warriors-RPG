@@ -31,53 +31,53 @@ DialogSystem::DialogSystem(Input* input, Render* render, Textures* tex, Fonts* f
 	erikaDialogAnim.PushBack({ 30, 981, 162, 209 });
 	erikaDialogAnim.PushBack({ 213, 981, 162, 209 });
 	erikaDialogAnim.loop = true;
-	erikaDialogAnim.speed = 0.004f;
+	erikaDialogAnim.speed = 0.01f;
 	
 	takadaDialogAnim.PushBack({ 417, 1008, 150, 183 });
 	takadaDialogAnim.PushBack({ 594, 1008, 150, 183 });
 	takadaDialogAnim.loop = true;
-	takadaDialogAnim.speed = 0.004f;
+	takadaDialogAnim.speed = 0.01f;
 
 	kenzoDialogAnim.PushBack({ 795, 519, 162, 186 });
 	kenzoDialogAnim.PushBack({ 987, 519, 162, 186 });
 	kenzoDialogAnim.loop = true;
-	kenzoDialogAnim.speed = 0.004f;
+	kenzoDialogAnim.speed = 0.01f;
 
 	reiDialogAnim.PushBack({ 795, 308, 162, 188 });
 	reiDialogAnim.PushBack({ 987, 308, 162, 188 });
 	reiDialogAnim.loop = true;
-	reiDialogAnim.speed = 0.004f;
+	reiDialogAnim.speed = 0.01f;
 
 	eikenDialogAnim.PushBack({ 795, 732, 162, 192 });
 	eikenDialogAnim.PushBack({ 987, 732, 162, 192 });
 	eikenDialogAnim.loop = true;
-	eikenDialogAnim.speed = 0.004f;
+	eikenDialogAnim.speed = 0.01f;
 
 	makiDialogAnim.PushBack({ 1428, 1305, 138, 156 });
 	makiDialogAnim.PushBack({ 1581, 1305, 138, 156 });
 	makiDialogAnim.PushBack({ 1734, 1305, 138, 156 });
 	makiDialogAnim.loop = true;
-	makiDialogAnim.speed = 0.004f;
+	makiDialogAnim.speed = 0.01f;
 
 	oscarDialogAnim.PushBack({ 1389, 1700, 162, 189 });
 	oscarDialogAnim.PushBack({ 1389, 1482, 162, 189 });
 	oscarDialogAnim.loop = true;
-	oscarDialogAnim.speed = 0.004f;
+	oscarDialogAnim.speed = 0.01f;
 	
 	shopKeeperDialogAnim.PushBack({ 1563, 1491, 168, 183 });
 	shopKeeperDialogAnim.PushBack({ 1737, 1491, 168, 183 });
 	shopKeeperDialogAnim.loop = true;
-	shopKeeperDialogAnim.speed = 0.004f;
+	shopKeeperDialogAnim.speed = 0.01f;
 	
 	pedestrianrDialogAnim.PushBack({ 1920, 1302, 150, 174 });
 	pedestrianrDialogAnim.PushBack({ 1923, 1488, 150, 171 });
 	pedestrianrDialogAnim.loop = true;
-	pedestrianrDialogAnim.speed = 0.004f;
+	pedestrianrDialogAnim.speed = 0.01f;
 	
 	receptionistDialogAnim.PushBack({ 1563, 1896, 162, 180 });
 	receptionistDialogAnim.PushBack({ 1749, 1896, 162, 180 });
 	receptionistDialogAnim.loop = true;
-	receptionistDialogAnim.speed = 0.004f;
+	receptionistDialogAnim.speed = 0.01f;
 }
 
 DialogSystem::~DialogSystem()

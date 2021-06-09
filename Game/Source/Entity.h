@@ -35,8 +35,6 @@ enum class EntitySubtype
     UNKNOWN = -1,
     PLAYER_KENZO,
     PLAYER_EIKEN,
-    PLAYER_REI,
-    PLAYER_DOG,
     ENEMY_HENCHMAN,
     ENEMY_BRUISER,
     ENEMY_BOSS,
@@ -47,7 +45,9 @@ enum class EntitySubtype
     ITEM_PAN,
     ITEM_FORK,
     ATTACK,
-    DEFENSE
+    DEFENSE,
+    PLAYER_REI,
+    PLAYER_DOG
 };
 
 struct TileSetEntity

@@ -63,30 +63,30 @@ bool Activator::Draw(Render* render)
             {
                 hudPosition = { 20,200 };
             }
-            else if (name == "attack_1")
+            /*else if (name == "Schichimi")
             {
                 hudPosition = { 1140,50 };
             }
-            else if (name == "attack_2")
+            else if (name == "Karashi")
             {
                 hudPosition = { 1140,100 };
             }
-            else if (name == "attack_3")
+            else if (name == "Rayu")
             {
                 hudPosition = { 1140,150 };
             }
-            else if (name == "defense_1")
+            else if (name == "Sushi")
             {
                 hudPosition = { 1200,50 };
             }
-            else if (name == "defense_2")
+            else if (name == "Oniguiri")
             {
                 hudPosition = { 1200,100 };
             }
-            else if (name == "defense_3")
+            else if (name == "Sashimi")
             {
                 hudPosition = { 1200,150 };
-            }
+            }*/
 
             if (name == "key")
             {
@@ -172,9 +172,7 @@ void Activator::OnCollision(Collider* collider)
                 Interact();
             }
         }
-        else {
-            Interact();
-        }
+        else Interact();
     }
 
     if (drawState == DrawState::MAP && !Notifier::GetInstance()->GetInteractionNotifier())
