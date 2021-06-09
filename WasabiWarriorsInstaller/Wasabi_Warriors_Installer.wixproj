@@ -20,7 +20,7 @@
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>HarvestPath=..\Output</DefineConstants>
-    <LeaveTemporaryFiles>True</LeaveTemporaryFiles>
+    <LeaveTemporaryFiles>False</LeaveTemporaryFiles>
     <SuppressPdbOutput>True</SuppressPdbOutput>
   </PropertyGroup>
   <ItemGroup>
