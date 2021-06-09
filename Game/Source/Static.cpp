@@ -207,6 +207,27 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 		SetPivot(16, 17);
 	}
 
+	if (name == "cemetery_door")
+	{
+		type = Static::Type::DOOR;
+		SetRect(0, 229, 32, 27);
+		SetPivot(16, 27);
+	}
+
+	if (name == "cemetery_door2")
+	{
+		type = Static::Type::DOOR;
+		SetRect(32, 234, 32, 22);
+		SetPivot(16, 22);
+	}
+
+	if (name == "cemetery_door3")
+	{
+		type = Static::Type::DOOR;
+		SetRect(65, 229, 32, 27);
+		SetPivot(16, 27);
+	}
+
 	// Medium city sorting
 
 	if (name == "roof_red")
@@ -255,14 +276,14 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 	{
 		type = Static::Type::ANTENNA;
 		SetRect(195, 2, 27, 30);
-		SetPivot(14, 30);
+		SetPivot(14, 90);
 	}
 
 	if (name == "antenna_2")
 	{
 		type = Static::Type::ANTENNA;
 		SetRect(167, 14, 15, 18);
-		SetPivot(8, 18);
+		SetPivot(8, 54);
 	}
 
 	if (name == "roof_green")
@@ -474,6 +495,20 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 	{
 		type = Static::Type::TABLE;
 		SetRect(0, 32, 32, 27);
+		SetPivot(16, 27);
+	}
+
+	if (name == "table_res5")
+	{
+		type = Static::Type::TABLE;
+		SetRect(0, 357, 32, 27);
+		SetPivot(16, 27);
+	}
+
+	if (name == "table_res6")
+	{
+		type = Static::Type::TABLE;
+		SetRect(32, 357, 32, 27);
 		SetPivot(16, 27);
 	}
 
