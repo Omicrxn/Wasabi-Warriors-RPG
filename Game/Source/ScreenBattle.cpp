@@ -94,7 +94,7 @@ bool ScreenBattle::Load(int minIndex, int maxIndex, Scene* currentScene, BattleS
 	this->charactersSpritesheet = charactersSpritesheet;
 	this->guiAtlasTex = guiAtlasTex;
 	this->guiAtlasTex2 = guiAtlasTex2;
-	backgroundTex = tex->Load("Textures/Scenes/battle_scene.jpg");
+	/*backgroundTex = tex->Load("Textures/Scenes/battle_scene.jpg");*/
 	optionsBackgroundTex = tex->Load("Textures/Dialog/dialog_background.png");
 	cast1 = tex->Load("Textures/Effects/cast_001.png");
 	enemyCast = tex->Load("Textures/Effects/cast_008.png");
@@ -1237,4 +1237,34 @@ bool ScreenBattle::HoverUpdate(Input* input)
 	}
 
 	return false;
+}
+
+void ScreenBattle::SetBackgroundMap(Textures* tex)
+{
+	if (backgroundTex != nullptr) tex->UnLoad(backgroundTex);
+
+	if (sceneGameplay->GetCurrentMap() == MapType::CEMETERY)
+	{
+		backgroundTex = tex->Load("Textures/Scenes/bg_cemetery.jpg");
+	}
+	else if (sceneGameplay->GetCurrentMap() == MapType::DOTONBORI)
+	{
+		backgroundTex = tex->Load("Textures/Scenes/bg_dotonbori.jpg");
+	}
+	else if (sceneGameplay->GetCurrentMap() == MapType::KANAGAWA)
+	{
+		backgroundTex = tex->Load("Textures/Scenes/bg_kanagawa.jpg");
+	}
+	else if (sceneGameplay->GetCurrentMap() == MapType::OSAKA)
+	{
+		backgroundTex = tex->Load("Textures/Scenes/bg_osaka.jpg");
+	}
+	else if (sceneGameplay->GetCurrentMap() == MapType::SKYSCRAPER)
+	{
+		backgroundTex = tex->Load("Textures/Scenes/bg_dungeon.jpg");
+	}
+	else if (sceneGameplay->GetCurrentMap() == MapType::TOWN)
+	{
+		backgroundTex = tex->Load("Textures/Scenes/bg_town.jpg");
+	}
 }

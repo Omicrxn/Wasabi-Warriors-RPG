@@ -93,7 +93,6 @@ SceneGameplay::SceneGameplay(bool hasStartedFromContinue)
 	guiAtlasTex = nullptr;
 	guiAtlasTex2 = nullptr;
 	guiAtlasOut = nullptr;
-	aura = nullptr;
 	cast1 = nullptr;
 	enemyCast = nullptr;
 	indicator = nullptr;
@@ -157,6 +156,7 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 	this->audio = audio;
 	this->transitions = transitions;
 	this->app = app;
+	this->tex = tex;
 
 	questManager = new QuestManager(input, render, tex, this, assetsManager);
 	questManager->Start();
@@ -174,8 +174,6 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 	guiAtlasTex = tex->Load("Textures/UI/ui_spritesheet.png");
 	guiAtlasTex2 = tex->Load("Textures/UI/guiTextureSpritesheet.png");
 	guiAtlasOut = tex->Load("Textures/UI/outsideGUI.png");
-
-	aura = tex->Load("Textures/Scenes/aura.png");
 
 	cast1 = tex->Load("Textures/Effects/cast_001.png");
 	enemyCast = tex->Load("Textures/Effects/cast_008.png");
@@ -493,6 +491,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 			entityManager->playerList.At(i)->data->stopPlayer = true;
 		}
 		screenBattle->isActive = true;
+		screenBattle->SetBackgroundMap(tex);
 		battleSystem->SetupBattle(&entityManager->playerList, (Enemy*)entityManager->SearchEntity(notifier->GetEnemy()), &entityManager->itemList);
 
 		screenBattle->EnableBattleButtons();
@@ -536,30 +535,30 @@ bool SceneGameplay::Update(Input* input, float dt)
 			{
 				gameProgress.hasPickedKey = true;
 			}
-			/*else if (notifier->GetActivator()->name == "attack_1")
+			else if (notifier->GetActivator()->name == "Schichimi")
 			{
 				notifier->NotifyDialog(9);
 			}
-			else if (notifier->GetActivator()->name == "attack_2")
+			else if (notifier->GetActivator()->name == "Karashi")
 			{
 				notifier->NotifyDialog(10);
 			}
-			else if (notifier->GetActivator()->name == "attack_3")
+			else if (notifier->GetActivator()->name == "Rayu")
 			{
 				notifier->NotifyDialog(11);
 			}
-			else if (notifier->GetActivator()->name == "defense_1")
+			else if (notifier->GetActivator()->name == "Sushi")
 			{
 				notifier->NotifyDialog(12);
 			}
-			else if (notifier->GetActivator()->name == "defense_2")
+			else if (notifier->GetActivator()->name == "Oniguiri")
 			{
 				notifier->NotifyDialog(13);
 			}
-			else if (notifier->GetActivator()->name == "defense_3")
+			else if (notifier->GetActivator()->name == "Sashimi")
 			{
 				notifier->NotifyDialog(14);
-			}*/
+			}
 			
 			notifier->GetActivator()->SetDrawState(DrawState::HUD);
 		}
@@ -745,7 +744,6 @@ bool SceneGameplay::Unload(Textures* tex, AudioManager* audio, GuiManager* guiMa
 	tex->UnLoad(guiAtlasOut);
 	tex->UnLoad(titlesTex);
 	
-	tex->UnLoad(aura);
 	tex->UnLoad(cast1);
 	tex->UnLoad(enemyCast);
 	tex->UnLoad(indicator);

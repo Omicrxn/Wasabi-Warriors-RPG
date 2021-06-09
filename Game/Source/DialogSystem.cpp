@@ -162,7 +162,7 @@ bool DialogSystem::Update(float dt)
 		dialogFinished = false;
 
 		// Generating a random number to pick a random dialog
-		uint randNum = rand() % 5 + 1; // randNum in the range 1 to 5
+		uint randNum = rand() % 4 + 1; // randNum in the range 1 to 4
 		char HP[8] = { 0 };
 		sprintf_s(HP, 8, "%03i", randNum);
 
@@ -179,9 +179,6 @@ bool DialogSystem::Update(float dt)
 			break;
 		case 4:
 			StartDialog("4");
-			break;
-		case 5:
-			StartDialog("5");
 			break;
 		default:
 			break;

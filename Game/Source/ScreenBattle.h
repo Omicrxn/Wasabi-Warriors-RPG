@@ -38,6 +38,8 @@ public:
 
     bool HoverUpdate(Input* input);
 
+    void SetBackgroundMap(Textures* tex);
+
 private:
 
     // Pointer to scene gameplay to get its info.

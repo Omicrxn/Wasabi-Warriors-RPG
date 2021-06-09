@@ -16,6 +16,7 @@ class BattleSystem;
 class GuiManager;
 class Window;
 class DialogSystem;
+class Textures;
 
 class GuiButton;
 class GuiIcon;
@@ -150,6 +151,7 @@ private:
     Transitions* transitions;
     QuestManager* questManager;
     App* app;
+    Textures* tex;
 
     // The screen for the HUD
     ScreenRoaming* screenRoaming;
@@ -184,7 +186,6 @@ private:
     SDL_Texture* guiAtlasTex;
     SDL_Texture* guiAtlasTex2;
     SDL_Texture* guiAtlasOut;
-    SDL_Texture* aura;
     SDL_Texture* cast1;
     SDL_Texture* enemyCast;
     SDL_Texture* indicator;
