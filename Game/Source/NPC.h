@@ -37,7 +37,6 @@ private:
 
 public:
 
-	SString name; // NPC name
 	fPoint velocity;
 	iPoint direction;
 	Animation idleAnim;
