@@ -26,7 +26,7 @@ DialogSystem::DialogSystem(Input* input, Render* render, Textures* tex, Fonts* f
 	dialogBackground = nullptr;
 	speakerTexture = nullptr;
 
-	currentDialogAnim = nullptr;
+	rightDialogAnim = nullptr;
 
 	erikaDialogAnim.PushBack({ 30, 981, 162, 209 });
 	erikaDialogAnim.PushBack({ 213, 981, 162, 209 });
@@ -413,11 +413,20 @@ void DialogSystem::NewDialog(int dialogIndex)
 	this->dialogIndex = dialogIndex;
 }
 
-const char* DialogSystem::GetSpeaker()
+const char* DialogSystem::GetRightSpeaker()
 {
 	if (currentDialog != nullptr)
 	{
-		return currentDialog->attributes->at("speaker").c_str();
+		return currentDialog->attributes->at("right-speaker").c_str();
+	}
+	return nullptr;
+}
+
+const char* DialogSystem::GetLeftSpeaker()
+{
+	if (currentDialog != nullptr)
+	{
+		return currentDialog->attributes->at("left-speaker").c_str();
 	}
 	return nullptr;
 }
@@ -492,62 +501,94 @@ DialogNode* DialogSystem::ParseDialogXML(pugi::xml_node currentNode)
 
 void DialogSystem::DrawDialogSpeaker()
 {
-	if (currentDialog != nullptr && GetSpeaker() != nullptr)
+	if (GetRightSpeaker() != nullptr)
 	{
-		SString speaker = GetSpeaker();
+		// Get the speakers strings
+		SString rightSpeaker = GetRightSpeaker();
+		SString leftSpeaker = GetLeftSpeaker();
 
-		currentDialogAnim = nullptr;
+		rightDialogAnim = nullptr;
+		leftDialogAnim = nullptr;
 
-		if (speaker == "Erika") 
+		// Compare and set the right speaker
+		if (rightSpeaker == "Erika") 
 		{
-			currentDialogAnim = &erikaDialogAnim;
+			rightDialogAnim = &erikaDialogAnim;
 		}
-		else if (speaker == "Takada")
+		else if (rightSpeaker == "Takada")
 		{
-			currentDialogAnim = &takadaDialogAnim;
+			rightDialogAnim = &takadaDialogAnim;
 		}
-		else if (speaker == "Oscar")
+		else if (rightSpeaker == "Oscar")
 		{
-			currentDialogAnim = &oscarDialogAnim;
+			rightDialogAnim = &oscarDialogAnim;
 		}
-		else if (speaker == "Kenzo")
+		else if (rightSpeaker == "Kenzo")
 		{
-			currentDialogAnim = nullptr;
+			rightDialogAnim = &kenzoDialogAnim;
 		}
-		else if (speaker == "Eiken")
+		else if (rightSpeaker == "Eiken")
 		{
-			currentDialogAnim = &eikenDialogAnim;
+			rightDialogAnim = &eikenDialogAnim;
 		}
-		else if (speaker == "Rei")
+		else if (rightSpeaker == "Rei")
 		{
-			currentDialogAnim = &reiDialogAnim;
+			rightDialogAnim = &reiDialogAnim;
 		}
-		else if (speaker == "Maki")
+		else if (rightSpeaker == "Maki")
 		{
-			currentDialogAnim = &makiDialogAnim;
+			rightDialogAnim = &makiDialogAnim;
 		}
-		else if (speaker == "Pedestrian")
+		else if (rightSpeaker == "Pedestrian")
 		{
-			currentDialogAnim = &pedestrianrDialogAnim;
+			rightDialogAnim = &pedestrianrDialogAnim;
 		}
-		else if (speaker == "Shopkeeper")
+		else if (rightSpeaker == "Shopkeeper")
 		{
-			currentDialogAnim = &shopKeeperDialogAnim;
+			rightDialogAnim = &shopKeeperDialogAnim;
 		}
-		else if (speaker == "Receptionist")
+		else if (rightSpeaker == "Receptionist")
 		{
-			currentDialogAnim = &receptionistDialogAnim;
+			rightDialogAnim = &receptionistDialogAnim;
 		}
-		else if (speaker == "None")
+		else if (rightSpeaker == "None")
 		{
-			currentDialogAnim = nullptr;
+			rightDialogAnim = nullptr;
 		}
 
-		render->DrawTexture(speakerTexture, 60, 485, &kenzoDialogAnim.GetCurrentFrame(), 0.0f);
-		if (currentDialogAnim != nullptr)
+		// Compare and set the left speaker
+		if (leftSpeaker == "Kenzo")
 		{
-			currentDialogAnim->Update();
-			render->DrawTexture(speakerTexture, 1055, 485, &currentDialogAnim->GetCurrentFrame(), 0.0f);
+			leftDialogAnim = &kenzoDialogAnim;
+		}
+		else if (leftSpeaker == "Eiken")
+		{
+			leftDialogAnim = &eikenDialogAnim;
+		}
+		else if (leftSpeaker == "Rei")
+		{
+			leftDialogAnim = &reiDialogAnim;
+		}
+		else if (leftSpeaker == "Maki")
+		{
+			leftDialogAnim = &makiDialogAnim;
+		}
+		else if (leftSpeaker == "None")
+		{
+			leftDialogAnim = nullptr;
+		}
+
+		// Draw speakers
+		if (leftDialogAnim != nullptr)
+		{
+			leftDialogAnim->Update();
+			render->DrawTexture(speakerTexture, 60, 485, &leftDialogAnim->GetCurrentFrame(), 0.0f);
+		}
+		//render->DrawTexture(speakerTexture, 60, 485, &leftDialogAnim->GetCurrentFrame(), 0.0f);
+		if (rightDialogAnim != nullptr)
+		{
+			rightDialogAnim->Update();
+			render->DrawTexture(speakerTexture, 1055, 485, &rightDialogAnim->GetCurrentFrame(), 0.0f);
 		}
 	}
 }

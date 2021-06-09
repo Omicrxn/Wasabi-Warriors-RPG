@@ -58,7 +58,8 @@ public:
 
 	void NewDialog(int dialogIndex);
 
-	const char* GetSpeaker();
+	const char* GetRightSpeaker();
+	const char* GetLeftSpeaker();
 
 	// Draws faces on dialogs
 	void DrawDialogSpeaker();
@@ -102,7 +103,8 @@ private:
 	SDL_Texture* speakerTexture;
 
 	// Dialog speaker animations
-	Animation* currentDialogAnim;
+	Animation* rightDialogAnim;
+	Animation* leftDialogAnim;
 
 	Animation erikaDialogAnim;
 	Animation takadaDialogAnim;
