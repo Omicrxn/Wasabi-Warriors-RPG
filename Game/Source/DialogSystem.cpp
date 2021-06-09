@@ -99,7 +99,7 @@ bool DialogSystem::Start()
 	LoadDialog("Dialog/2.xml");
 	LoadDialog("Dialog/3.xml");
 	LoadDialog("Dialog/4.xml");
-	LoadDialog("Dialog/5.xml");
+	//LoadDialog("Dialog/5.xml");
 
 	// Defined dialogs
 	LoadDialog("Dialog/7.xml");
