@@ -3,20 +3,66 @@
 	<input />
 	<window />
 	<textures />
-	<audio musicVolume="12" fxVolume="128" />
+	<audio musicVolume="32" fxVolume="128" />
 	<scene />
 	<renderer>
-		<camera x="1919" y="-155" />
+		<camera x="3662" y="550" />
 	</renderer>
 	<collisions collisionsCount="11" />
 	<entitymanager />
 	<scenemanager>
 		<scenegameplay lastMap="2">
 			<gameProgress xp="5" gold="5" hasSpoken="false" numKilledOfficers="0" hasKilledOfficers="false" hasActivated="false" hasPickedKey="false" hasFinishedPuzzle1="false" hasCalledCook="true" hasVisitedRestaurantQuest="false" hasSavedFirstApprentice="false" hasSavedLastApprentice="false" hasVisitedErikaTombstone="false" />
+			<map currentMap="4" hasVisitedCemetery="false" hasVisitedHouse="true" hasVisitedMediumCity="false" hasVisitedRestaurant="false" hasVisitedTown="true" hasVisitedBigCity="false" hasVisitedSkyScraper="false" hasVisitedSecretRoom="false" hasVisitedOsaka="false">
+				<house>
+					<entitiesCount Num="3" />
+					<playerList playerCount="1">
+						<player id="1" spritePos="8" name="Kenzo" posX="266" posY="168" isActive="true" isRenderable="false" entitySubType="0" level="1" damage="25" maxHP="120" currentHP="100" strength="10" defense="15" attackSpeed="5" criticalRate="10" statsName="Kenzo" />
+					</playerList>
+					<enemyList enemyCount="0" />
+					<npcList npcCount="0" />
+					<teleportList teleportCount="1">
+						<teleport id="2" spritePos="0" nameTeleport="" name="" destination="4" posX="288" posY="160" width="32" height="64" isActive="true" isRenderable="false" />
+					</teleportList>
+					<itemList itemCount="0" />
+					<activatorList activatorCount="0" />
+					<secretWallList secretWallCount="0" />
+					<leverList leverCount="0" />
+				</house>
+				<town>
+					<entitiesCount Num="60" />
+					<playerList playerCount="1">
+						<player id="1" spritePos="8" name="Kenzo" posX="1418" posY="290" isActive="true" isRenderable="false" entitySubType="0" level="1" damage="25" maxHP="120" currentHP="100" strength="10" defense="15" attackSpeed="5" criticalRate="10" statsName="Kenzo" />
+					</playerList>
+					<enemyList enemyCount="0" />
+					<npcList npcCount="0" />
+					<teleportList teleportCount="3">
+						<teleport id="4" spritePos="0" nameTeleport="" name="" destination="8" posX="640" posY="32" width="64" height="32" isActive="true" isRenderable="false" />
+						<teleport id="5" spritePos="0" nameTeleport="" name="" destination="2" posX="1440" posY="288" width="32" height="224" isActive="true" isRenderable="false" />
+						<teleport id="6" spritePos="0" nameTeleport="" name="" destination="1" posX="1216" posY="224" width="32" height="32" isActive="true" isRenderable="false" />
+					</teleportList>
+					<itemList itemCount="1">
+						<item id="9" spritePos="0" entitySubType="0" name="" posX="0" posY="0" isActive="true" isRenderable="false" />
+					</itemList>
+					<activatorList activatorCount="6">
+						<activator id="13" spritePos="0" entitySubtype="11" name="Schichimi" posX="32" posY="352" isActive="true" isRenderable="false" drawState="0" />
+						<activator id="14" spritePos="0" entitySubtype="11" name="Karashi" posX="96" posY="352" isActive="true" isRenderable="false" drawState="0" />
+						<activator id="15" spritePos="64" entitySubtype="11" name="Rayu" posX="160" posY="352" isActive="true" isRenderable="false" drawState="0" />
+						<activator id="16" spritePos="135021671" entitySubtype="12" name="Sushi" posX="224" posY="352" isActive="true" isRenderable="false" drawState="0" />
+						<activator id="17" spritePos="0" entitySubtype="12" name="Oniguiri" posX="288" posY="352" isActive="true" isRenderable="false" drawState="0" />
+						<activator id="18" spritePos="1330531104" entitySubtype="12" name="Sashimi" posX="352" posY="352" isActive="true" isRenderable="false" drawState="0" />
+					</activatorList>
+					<secretWallList secretWallCount="0" />
+					<leverList leverCount="0" />
+				</town>
+			</map>
 		</scenegameplay>
 		<scenelogo />
 	</scenemanager>
 	<screen>
 		<screensettings sliderVolume="512" sliderAudio="512" fullScreen="false" vsync="false" />
+		<screeninventory inventoryCount="1">
+			<invSlot entitySubType="0" count="1" name="" description="" />
+		</screeninventory>
 	</screen>
 </game_state>
