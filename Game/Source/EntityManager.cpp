@@ -250,7 +250,7 @@ Entity* EntityManager::CreateEntity(EntityType type, SString name, EntitySubtype
 	return ret;
 }
 
-bool EntityManager::LoadStateInfo(pugi::xml_node& scenegameplay, MapType currentMap)
+bool EntityManager::LoadStateInfo(pugi::xml_node& scenegameplay, MapType currentMap, bool ignorePlayers)
 {
 	/* ---------- CHECKS IF THE NODE WE WANT OVERWRITE EXISTS OR NOT  ----------*/
 	pugi::xml_node mapNode;
@@ -300,6 +300,8 @@ bool EntityManager::LoadStateInfo(pugi::xml_node& scenegameplay, MapType current
 		// Also delete them from their own lists
 		if (list1->data->type == EntityType::PLAYER)
 		{
+			if (ignorePlayers)
+				continue;
 			playerList.Del(playerList.At(playerList.Find((Player*)list1->data)));
 		}
 		else if (list1->data->type == EntityType::ENEMY)
@@ -343,7 +345,9 @@ bool EntityManager::LoadStateInfo(pugi::xml_node& scenegameplay, MapType current
 		}
 	}
 	
-	playerList.Clear();
+	if (ignorePlayers == false)
+		playerList.Clear();
+
 	enemyList.Clear();
 	npcList.Clear();
 	teleportList.Clear();
@@ -364,6 +368,9 @@ bool EntityManager::LoadStateInfo(pugi::xml_node& scenegameplay, MapType current
 	Player* player = nullptr;
 	for (int i = 0; i < playerCount; ++i)
 	{
+		if (ignorePlayers)
+			continue;
+
 		LOG("LOADING PLAYER NUMBER: %i", i);
 		EntitySubtype subtype = (EntitySubtype)playerNode.attribute("entitySubType").as_int();
 		iPoint pos = { playerNode.attribute("posX").as_int(), playerNode.attribute("posY").as_int() };

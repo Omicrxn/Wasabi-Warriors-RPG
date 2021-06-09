@@ -1822,7 +1822,7 @@ void SceneGameplay::SetUpTp()
 
 			pugi::xml_parse_result result = docData.load_file("save_game.xml");
 			loadNode = docData.first_child().child("scenemanager").child("scenegameplay");
-			entityManager->LoadStateInfo(loadNode, currentMap);
+			entityManager->LoadStateInfo(loadNode, currentMap, true);
 
 			// Old player stats
 			ListItem<Player*>* list1;

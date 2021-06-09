@@ -54,7 +54,7 @@ public:
 	//bool LoadState(pugi::xml_node&);
 	//bool SaveState(pugi::xml_node&) const;
 
-	bool LoadStateInfo(pugi::xml_node&, MapType currentMap);
+	bool LoadStateInfo(pugi::xml_node&, MapType currentMap, bool ignorePlayers = false);
 	bool SaveStateInfo(pugi::xml_node&, MapType currentMap) const;
 
 	// Additional methods
