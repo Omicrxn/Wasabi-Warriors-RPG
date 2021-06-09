@@ -1228,7 +1228,14 @@ void EntityManager::DestroyEntity(Entity* entity)
 		entity->collider = nullptr;
 	}
 	entityList.Del(entityList.At(entityList.Find(entity)));
-	
+	switch (entity->type)
+	{
+	case EntityType::NPC:
+		npcList.Del(npcList.At(npcList.Find((NPC*)entity)));
+		break;
+	default:
+		break;
+	}
 	if (entity != nullptr)
 	{
 		/*entity->CleanUp();*/

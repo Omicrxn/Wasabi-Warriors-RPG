@@ -342,7 +342,7 @@ bool QuestManager::CheckQuestsLogic()
 				if (inactiveQuestsList->data->requiredId == L2->data->id)
 				{
 					// Notify new quest
-					notifier->SendMobileNotification("New quest added!");
+					notifier->SendMobileNotification("New quest added! Check it on your phone.");
 					questsActive.Add(inactiveQuestsList->data);
 					inactiveQuestsList->data->status = 1;
 					questsInactive.Del(inactiveQuestsList);
