@@ -2,6 +2,7 @@
 #include "Defs.h"
 #include "SString.h"
 #include "Point.h"
+#include "Timer.h"
 
 class Item;
 class Activator;
@@ -148,6 +149,32 @@ public:
         return interactingEntity;
     }
 
+    // Mobile Notification
+    void SendMobileNotification(const char* text)
+    {
+        notificationTimer.Start();
+        newMobileNotification = true;
+        this->textStr = text;
+    }
+
+    void CloseMobileNotification()
+    {
+        newMobileNotification = false;
+    }
+
+    const char* GetMobileNotification()
+    {
+        if (newMobileNotification)
+            return this->textStr;
+        else
+            return nullptr;
+    }
+
+    Timer& GetNotificationTimer()
+    {
+        return this->notificationTimer;
+    }
+
 private:
 
     Notifier() : battle(false) {}
@@ -178,4 +205,9 @@ private:
     // Interaction notifier
     bool interactionNotifier = false;
     Entity* interactingEntity = nullptr;
+    Timer notificationTimer;
+
+    // Mobile notification
+    bool newMobileNotification = false;
+    const char* textStr = nullptr;
 };

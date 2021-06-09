@@ -94,6 +94,8 @@ bool QuestManager::Start()
 
 		questNode = questNode.next_sibling("quest");
 	}
+
+	notifier = Notifier::GetInstance();
 	return true;
 }
 
@@ -339,6 +341,8 @@ bool QuestManager::CheckQuestsLogic()
 			{
 				if (inactiveQuestsList->data->requiredId == L2->data->id)
 				{
+					// Notify new quest
+					notifier->SendMobileNotification("New quest added!");
 					questsActive.Add(inactiveQuestsList->data);
 					inactiveQuestsList->data->status = 1;
 					questsInactive.Del(inactiveQuestsList);

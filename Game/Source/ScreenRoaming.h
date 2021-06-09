@@ -1,5 +1,5 @@
 #include "Screen.h"
-
+#include "Timer.h"
 class Player;
 
 class ScreenRoaming : public Screen
@@ -29,6 +29,8 @@ public:
 
 	SDL_Rect iconPhone;
 	SDL_Rect iconInventory;
+
+	SDL_Rect notificationRect;
 
 	//SDL_Rect LBButton;
 	//SDL_Rect RBButton;

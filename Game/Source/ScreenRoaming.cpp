@@ -18,11 +18,11 @@ ScreenRoaming::ScreenRoaming()
 
 	iconPhone = { 20, 14, 52, 66 };
 	iconInventory = { 84, 16, 60, 62 };
+	notificationRect = { 278, 12, 102, 60 };
 
 	/*LBButton = { 434, 253, 90, 62 };
 	RBButton = { 534, 253, 90, 62 };*/
 	playersIcons = { 387, 234, 90, 88 };
-
 	
 	posRight = { 1100, 40 };
 	posLeft = { 920, 40 };
@@ -82,6 +82,15 @@ bool ScreenRoaming::Update(Input* input, float dt)
 		gameplayScene->OpenInventory();
 	}
 
+	if (input->GetKey(SDL_SCANCODE_1) == KeyState::KEY_DOWN)
+	{
+		Notifier::GetInstance()->SendMobileNotification("New party member added!");
+	}
+	if (input->GetKey(SDL_SCANCODE_2) == KeyState::KEY_DOWN)
+	{
+		Notifier::GetInstance()->SendMobileNotification("New quest and party member added!");
+	}
+
 	return true;
 }
 
@@ -100,6 +109,18 @@ bool ScreenRoaming::Draw(Render* render)
 	{
 		render->DrawText(font, "START", positionX - 8, 20, 28, 2, { 255,255,255,255 });
 		render->DrawText(font, "X", positionX + 120 + 55, 20, 35, 3, { 0,0,255,255 });
+	}
+
+	if (Notifier::GetInstance()->GetMobileNotification() != nullptr)
+	{
+		if (Notifier::GetInstance()->GetNotificationTimer().ReadSec() <= 5.0f)
+		{
+			SString not = Notifier::GetInstance()->GetMobileNotification();
+			render->scale = 2;
+			render->DrawTexture(atlas[0], (positionX + 20) / render->scale, (50 + 80) / render->scale, &notificationRect, 0.0f);
+			render->scale = 1;
+			render->DrawText(font, not.GetString(), positionX + 25, 50 + 130, 20, 2, { 255,0,0,255 });
+		}
 	}
 
 	posRight = { 1100, 40 };

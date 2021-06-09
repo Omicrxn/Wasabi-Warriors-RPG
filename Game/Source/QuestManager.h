@@ -6,6 +6,7 @@
 #include "SString.h"
 #include "App.h"
 #include "External/PugiXml/src/pugixml.hpp"
+#include "Notifier.h"
 
 #include <string>
 using namespace std;
@@ -78,6 +79,8 @@ private:
 
 	// Instance of scene gameplay to access its info.
 	SceneGameplay* sceneGameplay = nullptr;
+
+	Notifier* notifier;
 };
 
 #endif
