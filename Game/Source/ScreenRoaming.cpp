@@ -18,7 +18,7 @@ ScreenRoaming::ScreenRoaming()
 
 	iconPhone = { 20, 14, 52, 66 };
 	iconInventory = { 84, 16, 60, 62 };
-	notificationRect = { 278, 12, 102, 60 };
+	notificationRect = { 278, 12, 198, 34 };
 
 	/*LBButton = { 434, 253, 90, 62 };
 	RBButton = { 534, 253, 90, 62 };*/
@@ -39,6 +39,7 @@ ScreenRoaming::ScreenRoaming()
 	positionX = 50;
 
 	clickFx = -1;
+	mobileNotFx = -1;
 }
 
 ScreenRoaming::~ScreenRoaming()
@@ -59,6 +60,8 @@ bool ScreenRoaming::Load(SceneGameplay* gameplayScene, GuiManager* guiManager, E
 	this->easing = easing;
 
 	this->clickFx = clickFx;
+
+	this->mobileNotFx = audio->LoadFx("Audio/Fx/mobile_notification.ogg");
 
 	return true;
 }
@@ -113,13 +116,16 @@ bool ScreenRoaming::Draw(Render* render)
 
 	if (Notifier::GetInstance()->GetMobileNotification() != nullptr)
 	{
+		if (Notifier::GetInstance()->GetNotificationTimer().ReadSec() <= 0.5f)
+			audio->PlayFx(mobileNotFx);
+
 		if (Notifier::GetInstance()->GetNotificationTimer().ReadSec() <= 5.0f)
 		{
 			SString not = Notifier::GetInstance()->GetMobileNotification();
 			render->scale = 2;
 			render->DrawTexture(atlas[0], (positionX + 20) / render->scale, (50 + 80) / render->scale, &notificationRect, 0.0f);
 			render->scale = 1;
-			render->DrawText(font, not.GetString(), positionX + 25, 50 + 130, 20, 2, { 255,0,0,255 });
+			render->DrawText(font, not.GetString(), positionX + 30, 50 + 110, 20, 2, { 255,0,0,255 });
 		}
 	}
 

@@ -31,7 +31,6 @@ public:
 	SDL_Rect iconInventory;
 
 	SDL_Rect notificationRect;
-
 	//SDL_Rect LBButton;
 	//SDL_Rect RBButton;
 	SDL_Rect playersIcons;
@@ -45,5 +44,6 @@ private:
 
 	bool controller;
 
+	int mobileNotFx;
 	int clickFx;
 };
