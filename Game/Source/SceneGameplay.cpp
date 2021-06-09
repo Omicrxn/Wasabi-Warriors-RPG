@@ -621,7 +621,6 @@ bool SceneGameplay::Update(Input* input, float dt)
 			player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "Maki", EntitySubtype::PLAYER_DOG, currentPlayer->position);
 			player = nullptr;
 			gameProgress.hasCalledCook = true;
-			gameProgress.hasCalledCook = true;
 		}
 	}
 
