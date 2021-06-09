@@ -111,6 +111,10 @@ bool DialogSystem::Start()
 	LoadDialog("Dialog/13.xml");
 	LoadDialog("Dialog/14.xml");
 	LoadDialog("Dialog/15.xml");
+	LoadDialog("Dialog/16.xml");
+	LoadDialog("Dialog/17.xml");
+	LoadDialog("Dialog/18.xml");
+	LoadDialog("Dialog/19.xml");
 	LoadDialog("Dialog/20.xml");
 
 	// Needed textures
@@ -218,6 +222,18 @@ bool DialogSystem::Update(float dt)
 			break;
 		case 15:
 			StartDialog("15");
+			break;
+		case 16:
+			StartDialog("16");
+			break;
+		case 17:
+			StartDialog("17");
+			break;
+		case 18:
+			StartDialog("18");
+			break;
+		case 19:
+			StartDialog("19");
 			break;
 		case 20:
 			StartDialog("20");

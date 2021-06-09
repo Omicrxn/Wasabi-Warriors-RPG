@@ -555,7 +555,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 			npc->width = 32;
 			npc->height = 32;
 			npc->spritePos = 1;
-			npc->dialogIndex = 20;
+			npc->dialogIndex = 17;
 			npc->stop = true;
 			npc->SetTexture(npc->spritePos);
 			if (npc->stop) npc->stopForever = true;
@@ -1852,7 +1852,7 @@ void SceneGameplay::SetUpTp()
 	}
 	if (currentMap == MapType::CEMETERY)
 	{
-		if (gameProgress.hasVisitedErikaTombstone == false)
+		if (gameProgress.hasVisitedErikaTombstone == false && gameProgress.hasVisitedRestaurantQuest == true)
 		{
 			Activator* activator;
 			activator = (Activator*)entityManager->CreateEntity(EntityType::ACTIVATOR, "erikaTomb", EntitySubtype::UNKNOWN, iPoint(18 * 32, 4 * 32));
