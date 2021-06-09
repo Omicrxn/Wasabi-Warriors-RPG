@@ -1230,8 +1230,29 @@ void EntityManager::DestroyEntity(Entity* entity)
 	entityList.Del(entityList.At(entityList.Find(entity)));
 	switch (entity->type)
 	{
+	case EntityType::PLAYER:
+		playerList.Del(playerList.At(playerList.Find((Player*)entity)));
+		break;
+	case EntityType::ENEMY:
+		enemyList.Del(enemyList.At(enemyList.Find((Enemy*)entity)));
+		break;
+	case EntityType::ACTIVATOR:
+		activatorList.Del(activatorList.At(activatorList.Find((Activator*)entity)));
+		break;
 	case EntityType::NPC:
 		npcList.Del(npcList.At(npcList.Find((NPC*)entity)));
+		break;
+	case EntityType::TELEPORT:
+		teleportList.Del(teleportList.At(teleportList.Find((Teleport*)entity)));
+		break;
+	case EntityType::ITEM:
+		itemList.Del(itemList.At(itemList.Find((Item*)entity)));
+		break;
+	case EntityType::LEVER:
+		leverList.Del(leverList.At(leverList.Find((Lever*)entity)));
+		break;
+	case EntityType::SECRET_WALL:
+		secretWallList.Del(secretWallList.At(secretWallList.Find((SecretWall*)entity)));
 		break;
 	default:
 		break;
