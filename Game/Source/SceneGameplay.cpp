@@ -317,6 +317,17 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 		activator = (Activator*)entityManager->CreateEntity(EntityType::ACTIVATOR, "dialogTrigger", EntitySubtype::UNKNOWN, iPoint(5 * 32, 7 * 32));
 		activator->width = 32;
 		activator->height = 64;
+		NPC* npc;
+		npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, "makiNPC", EntitySubtype::UNKNOWN, iPoint(9 * 32, 6 * 32));
+		npc->name = "makiNPC";
+		npc->width = 32;
+		npc->height = 32;
+		npc->spritePos = 15;
+		npc->dialogIndex = -1;
+		npc->stop = true;
+		npc->SetTexture(npc->spritePos);
+		if (npc->stop) npc->stopForever = true;
+		npc = nullptr;
 		DrawState drawState = DrawState::NONE;
 		activator->SetDrawState(drawState);
 		activator = nullptr;
@@ -604,6 +615,12 @@ bool SceneGameplay::Update(Input* input, float dt)
 		}
 		else if (dialogSystem->GetDialogIndex() == 15)
 		{
+			entityManager->DestroyEntity(entityManager->SearchEntity("makiNPC"));
+			// Create party member 2
+			Player* player;
+			player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "Maki", EntitySubtype::PLAYER_DOG, currentPlayer->position);
+			player = nullptr;
+			gameProgress.hasCalledCook = true;
 			gameProgress.hasCalledCook = true;
 		}
 	}

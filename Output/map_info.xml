@@ -31,7 +31,6 @@
     <activator name="Sushi" posX="224" posY="352" width="32" height="32" drawState="0" entitySubtype="12"/>
     <activator name="Oniguiri" posX="288" posY="352" width="32" height="32" drawState="0" entitySubtype="12"/>
     <activator name="Sashimi" posX="352" posY="352" width="32" height="32" drawState="0" entitySubtype="12"/>
-    <npc posX="1216" posY="288" spritePos="15" stop="true" dialogIndex="-1"/>
   </town>
   <osaka enemyCount ="0" npcCount ="0" teleportCount ="2" itemCount="0" activatorCount="0" secretWallCount="0" leverCount="0">
     <prevBigCity>
