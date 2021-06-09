@@ -540,6 +540,28 @@ bool SceneGameplay::Update(Input* input, float dt)
 			}
 			else notifier->NotifyDialog(8);
 		}
+		else if (notifier->GetActivator()->name == "dialogTrigger")
+		{
+
+			notifier->NotifyDialog(15);
+
+		}
+		else if (notifier->GetActivator()->name == "erikaTomb")
+		{
+
+			NPC* npc;
+			npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, "Erika", EntitySubtype::UNKNOWN, iPoint((22 * 32), (5 * 32)));
+			npc->name = "Erika";
+			npc->width = 32;
+			npc->height = 32;
+			npc->spritePos = 1;
+			npc->dialogIndex = 20;
+			npc->stop = true;
+			npc->SetTexture(npc->spritePos);
+			if (npc->stop) npc->stopForever = true;
+			npc = nullptr;
+
+		}
 		else if (notifier->GetActivator()->GetDrawState() == DrawState::MAP)
 		{
 			if (notifier->GetActivator()->name == "key")
@@ -573,13 +595,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 			
 			notifier->GetActivator()->SetDrawState(DrawState::HUD);
 		}
-		else
-		{
-			if (notifier->GetActivator()->name == "dialogTrigger")
-			{
-				notifier->NotifyDialog(15);
-			}
-		}
+		
 	}
 
 	if (notifier->OnDialog() && (input->GetKey(SDL_SCANCODE_F) == KeyState::KEY_DOWN /*|| input->GetControllerButton(CONTROLLER_BUTTON_A) == KeyState::KEY_DOWN*/))
@@ -1409,6 +1425,7 @@ void SceneGameplay::SetUpTp()
 			int w, h;
 			uchar* data = NULL;
 
+			
 			//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
 
 			RELEASE_ARRAY(data);
@@ -1470,7 +1487,7 @@ void SceneGameplay::SetUpTp()
 			uchar* data = NULL;
 
 			//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
-
+			
 			RELEASE_ARRAY(data);
 			audio->StopMusic();
 		}
@@ -1823,10 +1840,19 @@ void SceneGameplay::SetUpTp()
 		pugi::xml_document docSaveFileData;
 		pugi::xml_parse_result result = docSaveFileData.load_file("save_game.xml");
 		LoadInventory(docSaveFileData.first_child().child("screen").child("screeninventory"));
-
+		
 		CreateEntities();
 	}
-
+	if (currentMap == MapType::CEMETERY)
+	{
+		if (gameProgress.hasVisitedErikaTombstone == false)
+		{
+			Activator* activator;
+			activator = (Activator*)entityManager->CreateEntity(EntityType::ACTIVATOR, "erikaTomb", EntitySubtype::UNKNOWN, iPoint(18 * 32, 4 * 32));
+			activator->width = 32;
+			activator->height = 32;
+		}
+	}
 	PlayMapMusic();
 	screenPause->SetMap(currentMap);
 }

@@ -164,15 +164,18 @@ void Activator::OnCollision(Collider* collider)
 {
     if (!hasInteracted)
     {
-        if (collider->type == Collider::Type::PLAYER && name != "dialogTrigger")
+
+        if (collider->type == Collider::Type::PLAYER && name == "dialogTrigger" || name == "erikaTomb")
         {
+            Interact();
+        }
+        else {
             if (input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
             {
                 if (name == "key") audio->PlayFx(entityManager->keyFx);
                 Interact();
             }
         }
-        else Interact();
     }
 
     if (drawState == DrawState::MAP && !Notifier::GetInstance()->GetInteractionNotifier())

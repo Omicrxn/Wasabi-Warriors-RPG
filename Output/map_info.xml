@@ -7,9 +7,9 @@
     <teleport posX="288" posY="160" width="32" height="64" destination="4"/>
   </house>
   <town enemyCount ="0" npcCount ="1" teleportCount ="3" itemCount="6" activatorCount="6" secretWallCount="0" leverCount="0">
-    <prevCemetery>
+    <prevOsaka>
       <player posX="640" posY="64"/>
-    </prevCemetery>
+    </prevOsaka>
     <prevMediumCity>
       <player posX="1408" posY="288"/>
     </prevMediumCity>
