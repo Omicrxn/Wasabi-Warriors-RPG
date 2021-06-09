@@ -1247,57 +1247,29 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 	if (name == "osaka_light")
 	{
 		type = Static::Type::LIGHT;
-		SetRect(525, 288, 6, 32);
-		SetPivot(6, 64);
+		SetRect(519, 229, 18, 81);
+		SetPivot(9, 81);
 	}
 
 	if (name == "osaka_light2")
 	{
 		type = Static::Type::LIGHT;
-		SetRect(526, 256, 11, 32);
-		SetPivot(11, 64);
+		SetRect(106, 239, 20, 44);
+		SetPivot(10, 44);
 	}
 
 	if (name == "osaka_light3")
 	{
 		type = Static::Type::LIGHT;
-		SetRect(519, 239, 18, 17);
-		SetPivot(18, 34);
-	}
-
-	if (name == "osaka_light4")
-	{
-		type = Static::Type::LIGHT;
-		SetRect(107, 256, 8, 27);
-		SetPivot(8, 54);
-	}
-
-	if (name == "osaka_light5")
-	{
-		type = Static::Type::LIGHT;
-		SetRect(107, 239, 19, 17);
-		SetPivot(19, 34);
-	}
-
-	if (name == "osaka_light6")
-	{
-		type = Static::Type::LIGHT;
-		SetRect(141, 256, 8, 27);
-		SetPivot(8, 54);
-	}
-
-	if (name == "osaka_light7")
-	{
-		type = Static::Type::LIGHT;
-		SetRect(130, 239, 19, 17);
-		SetPivot(19, 34);
+		SetRect(130, 239, 20, 44);
+		SetPivot(10, 44);
 	}
 
 	if (name == "osaka_fence")
 	{
 		type = Static::Type::FENCE;
 		SetRect(161, 271, 30, 17);
-		SetPivot(30, 34);
+		SetPivot(15, 17);
 	}
 
 	if (name == "machine_osaka")
