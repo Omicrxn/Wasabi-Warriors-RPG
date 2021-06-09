@@ -37,17 +37,30 @@ Player::Player(SString name, Render* render, Textures* tex, AudioManager* audio,
     collider = collisions->AddCollider({ position.x,position.y , width, height }, Collider::Type::PLAYER, (Module*)entityManager);
     isGod = false;
 
-    if (subtype == EntitySubtype::PLAYER_HUNTER)
+    switch (subtype)
     {
-        SetUpClass("hunter");
+    case EntitySubtype::PLAYER_KENZO:
+        SetUpClass("kenzo");
         SetTexture(8);
         SetPivot(8, 30);
-    }
-    else if (subtype == EntitySubtype::PLAYER_WIZARD)
-    {
-        SetUpClass("wizard");
+        break;
+    case EntitySubtype::PLAYER_EIKEN:
+        SetUpClass("eiken");
         SetTexture(12);
         SetPivot(8, 30);
+        break;
+    case EntitySubtype::PLAYER_REI:
+        SetUpClass("rei");
+        SetTexture(0);
+        SetPivot(8, 30);
+        break;
+    case EntitySubtype::PLAYER_DOG:
+        SetUpClass("dog");
+        SetTexture(15);
+        SetPivot(8, 30);
+        break;
+    default:
+        break;
     }
 
     // Start timer

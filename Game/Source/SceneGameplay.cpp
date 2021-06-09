@@ -296,14 +296,20 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 	{
 		// Create party member 1
 		Player* player;
-		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "Kenzo", EntitySubtype::PLAYER_HUNTER, iPoint(4 * 32, 6 * 32));
+		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "Kenzo", EntitySubtype::PLAYER_KENZO, iPoint(4 * 32, 6 * 32));
 		player->SetState(true);
 		player = nullptr;
 		currentPlayer = entityManager->playerList.At(0)->data;
 
-		// Create party member 2
-		player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "Eiken", EntitySubtype::PLAYER_WIZARD, iPoint(4 * 32, 6 * 32));
-		player = nullptr;
+		//// Create party member 2
+		//player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "Maki", EntitySubtype::PLAYER_DOG, iPoint(4 * 32, 6 * 32));
+		//player = nullptr;
+		//// Create party member 3
+		//player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "Rei", EntitySubtype::PLAYER_REI, iPoint(4 * 32, 6 * 32));
+		//player = nullptr;
+		//// Create party member 4
+		//player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "Eiken", EntitySubtype::PLAYER_EIKEN, iPoint(4 * 32, 6 * 32));
+		//player = nullptr;
 
 		// LOAD FROM MAP_XML
 		notifier->NotifyMapChange(MapType::HOUSE);
@@ -1527,7 +1533,7 @@ void SceneGameplay::SetUpTp()
 			break;
 		case MapType::RESTAURANT:
 			mapNode = mapNode.child("restaurant");
-			hasVisitedLocation = gameProgress.hasVisitedRestaurantQuest;
+
 			hasVisitedLocation = gameProgress.hasVisitedRestaurant;
 			break;
 		case MapType::TOWN:
@@ -1545,6 +1551,7 @@ void SceneGameplay::SetUpTp()
 		case MapType::SECRET_ROOM:
 			mapNode = mapNode.child("secretRoom");
 			hasVisitedLocation = gameProgress.hasVisitedSecretRoom;
+			hasVisitedLocation = gameProgress.hasVisitedRestaurantQuest;
 			break;
 		case MapType::OSAKA:
 			mapNode = mapNode.child("osaka");
@@ -1755,7 +1762,7 @@ void SceneGameplay::SetUpTp()
 				gameProgress.hasVisitedMediumCity = true;
 				break;
 			case MapType::RESTAURANT:
-				gameProgress.hasVisitedRestaurantQuest = true;
+
 				gameProgress.hasVisitedRestaurant = true;
 				break;
 			case MapType::TOWN:
@@ -1769,6 +1776,7 @@ void SceneGameplay::SetUpTp()
 				break;
 			case MapType::SECRET_ROOM:
 				gameProgress.hasVisitedSecretRoom = true;
+				gameProgress.hasVisitedRestaurantQuest = true;
 			case MapType::OSAKA:
 				gameProgress.hasVisitedOsaka = true;
 			default:
