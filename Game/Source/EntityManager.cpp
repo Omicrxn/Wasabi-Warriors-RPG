@@ -357,7 +357,7 @@ bool EntityManager::LoadStateInfo(pugi::xml_node& scenegameplay, MapType current
 	LOG("LOAD ALL PLAYERS");
 	/* ---------- SECOND LOAD PLAYERS FROM THE SAVE FILE ----------*/
 	pugi::xml_node playerListNode;
-	playerListNode = mapNode.child("playerList");
+	playerListNode = mapNode.parent().child("playerList");
 	int playerCount = playerListNode.attribute("playerCount").as_int();
 	
 	pugi::xml_node playerNode = playerListNode.child("player");
@@ -719,16 +719,16 @@ bool EntityManager::SaveStateInfo(pugi::xml_node& scenegameplay, MapType current
 	/* ---------- FIRST SAVE THE PLAYERS ----------*/
 	// Erase the players in the XML
 	pugi::xml_node playerListNode;
-	tempName = mapNode.child("playerList").name();
+	tempName = mapNode.parent().child("playerList").name();
 	if (tempName == "playerList")
 	{
 		// Node playerList exists
-		playerListNode = mapNode.child("playerList");
+		playerListNode = mapNode.parent().child("playerList");
 	}
 	else
 	{
 		// Node playerList does not exist
-		playerListNode = mapNode.append_child("playerList");
+		playerListNode = mapNode.parent().append_child("playerList");
 	}
 
 	for (int i = 0; i < playerListNode.attribute("playerCount").as_int(); ++i)
