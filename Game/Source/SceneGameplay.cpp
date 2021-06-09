@@ -638,6 +638,10 @@ bool SceneGameplay::Update(Input* input, float dt)
 			player = nullptr;
 			gameProgress.hasCalledCook = true;
 		}
+		else if (dialogSystem->GetDialogIndex() == 17)
+		{
+			gameProgress.hasVisitedErikaTombstone = true;
+		}
 	}
 
 	switch (currentState)
