@@ -134,12 +134,12 @@ bool ScreenInventory::Draw(Render* render)
 
 	render->DrawTexture(atlas[0], (1480 / 2 - bagRect.w / 2) / render->scale, animIncrementY + 50 / render->scale, &bagRect, 0.0f);
 
-	char pos[24] = { 0 };
+	/*char pos[24] = { 0 };
 	sprintf_s(pos, 24, "itemHovering %i,%i", itemHovering.x, itemHovering.y);
 	render->DrawText(font, pos, 0, animIncrementY + 10, 22, 4, { 255,255,255,255 });
 
 	sprintf_s(pos, 24, "itemSelected %i,%i", itemSelected.x, itemSelected.y);
-	render->DrawText(font, pos, 0, animIncrementY + 30, 22, 4, { 255,255,255,255 });
+	render->DrawText(font, pos, 0, animIncrementY + 30, 22, 4, { 255,255,255,255 });*/
 
 	SDL_Rect slotRect = { invMatrixPos.x, invMatrixPos.y, 100, 100 };
 	int spacing = slotRect.w / 2;
