@@ -6,6 +6,10 @@ Wasabi Warriors is a Role-Playing Game with a theme-based on an urban Japanese e
   <img width="900" height="600" src="Wiki/Layouts/main_menu.png">
 </p>
 
+## Synopsis
+Kenzo, a young man with passion for cooking, is very thankful to his mentor, Erika, since she gave him the oportunity to work in her very famous restaurant and become her apprentice and heir. 
+He lives a happy normal life until one day he finds out his mentor has been found dead in suspicious curcumstances and the secret recipe that makes her restaurants special has been stolen.
+Kenzo will have to go on a journey to protect his mentor's legacy and avenge her.
 
 ## Key Features
 
