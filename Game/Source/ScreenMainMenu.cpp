@@ -36,23 +36,23 @@ bool ScreenMainMenu::Load(int minIndex, int maxIndex, Scene* currentScene, Windo
     this->maxIndex = maxIndex;
     int counterId = minIndex;
 
-    btnContinue = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { -350, 200, 190, 49 }, "Continue");
+    btnContinue = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { -350, 200, 190, 49 }, "CONTINUE");
     btnContinue->SetButtonProperties(currentScene, atlas0, font, hoverFx, clickFx, Style::SUSHI_ORANGE);
     ++counterId;
 
-    btnStart = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { -350, 300, 190, 49 }, "Start");
+    btnStart = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { -350, 300, 190, 49 }, "START");
     btnStart->SetButtonProperties(currentScene, atlas0, font, hoverFx, clickFx, Style::SUSHI_RED);
     ++counterId;
 
-    btnOptions = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { -350, 400, 190, 49 }, "Options");
+    btnOptions = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { -350, 400, 190, 49 }, "OPTIONS");
     btnOptions->SetButtonProperties(currentScene, atlas0, font, hoverFx, clickFx, Style::SUSHI_YELLOW);
     ++counterId;
 
-    btnCredits = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { -350, 500, 190, 49 }, "Credits");
+    btnCredits = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { -350, 500, 190, 49 }, "CREDITS");
     btnCredits->SetButtonProperties(currentScene, atlas0, font, hoverFx, clickFx, Style::SUSHI_ORANGE);
     ++counterId;
 
-    btnExit = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { -350, 600, 190, 49 }, "Exit");
+    btnExit = (GuiButton*)guiManager->CreateGuiControl(GuiControlType::BUTTON, counterId, { -350, 600, 190, 49 }, "EXIT");
     btnExit->SetButtonProperties(currentScene, atlas0, font, hoverFx, clickFx, Style::SUSHI_ORANGE);
 
 	return true;

@@ -1,5 +1,7 @@
 #include "Render.h"
 #include "Window.h"
+#include "EntityManager.h"
+#include "Map.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -125,7 +127,6 @@ bool Render::SaveState(pugi::xml_node& data) const
 		cam.append_attribute("x") = camera.x;
 		cam.append_attribute("y") = camera.y;
 	}
-	
 
 	return true;
 }
@@ -154,11 +155,29 @@ iPoint Render::ScreenToWorld(int x, int y) const
 
 	return ret;
 }
-void Render::CameraFollow(int objectX, int objectY)
+void Render::CameraFollow(int objectX, int objectY, EntityManager* entityManager)
 {
+	SDL_Rect tempCamera = camera;
+	Map* currentMap = (Map*)entityManager->SearchEntity("map");
+	MapType currentMapType = Notifier::GetInstance()->GetCurrentMap();
+
 	camera.x = objectX * scale - win->GetWidth()/2;
 	camera.y = objectY * scale - win->GetHeight()/4;
+
+	if (camera.x < 0) camera.x = 0;
+	if (camera.y < 0) camera.y = 0;
+
+	if (currentMapType == tempMapType)
+	{
+		if (camera.x + win->GetWidth() > currentMap->data.width * 32 * scale)
+			camera.x = tempCamera.x;
+		if (camera.y + win->GetHeight()/2 > currentMap->data.height * 32 * scale)
+			camera.y = tempCamera.y;
+	}
+
+	tempMapType = Notifier::GetInstance()->GetCurrentMap();
 }
+
 Window* Render::GetWindowPtr()
 {
 	return this->win;

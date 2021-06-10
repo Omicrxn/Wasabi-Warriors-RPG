@@ -65,6 +65,9 @@ public:
     }
     MapType GetNextMap() { return nextMap; }
 
+    void SetCurrentMap(MapType mapType) { currentMap = mapType; }
+    MapType GetCurrentMap() {  return currentMap; }
+
     void NotifyPositionChange()
     {
         requestPositionChange = !requestPositionChange;
@@ -187,6 +190,8 @@ private:
 
     MapType nextMap = MapType::CEMETERY;
     bool requestMapChange = false;
+
+    MapType currentMap;
 
     iPoint nextPosition = {};
     bool requestPositionChange = false;

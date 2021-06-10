@@ -1457,6 +1457,7 @@ void SceneGameplay::SetUpTp()
 	MapType previousMap = MapType::NONE;
 	previousMap = currentMap;
 	currentMap = notifier->GetNextMap();
+	notifier->SetCurrentMap(currentMap);
 
 	// Save player stats
 	int size = entityManager->playerList.Count();

@@ -8,7 +8,10 @@
 
 #include "SDL/include/SDL.h"
 
+#include "Notifier.h"
+
 class Window;
+class EntityManager;
 
 class Render : public Module
 {
@@ -41,7 +44,7 @@ public:
 	void SetViewPort(const SDL_Rect& rect);
 	void ResetViewPort();
 	iPoint ScreenToWorld(int x, int y) const;
-	void CameraFollow(int objectX, int objectY);
+	void CameraFollow(int objectX, int objectY, EntityManager* entityManager);
 	Window* GetWindowPtr();
 
 	// Drawing
@@ -67,6 +70,10 @@ public:
 
 	Window* win;
 	float scale;
+
+private:
+
+	MapType tempMapType;
 };
 
 #endif // __RENDER_H__

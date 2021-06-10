@@ -158,9 +158,25 @@ bool GuiButton::Draw(Render* render, bool debugDraw)
             render->DrawTexture(texture, bounds.x, bounds.y, &backgroundButtonAnim, 0.0f);
             render->DrawTexture(texture, bounds.x, bounds.y, &buttonAnim.frames[0], 0.0f);
             if (buttonStyle == Style::SUSHI_RED)
-                render->DrawText(font, text.GetString(), bounds.x + 50, bounds.y + 25, 30, 8, { 0,0,0,255 });
+            {
+                render->DrawText(font, text.GetString(), bounds.x + 50 + 3, bounds.y + 25 + 3, 30, 8, { 169,169,169,255 });
+                render->DrawText(font, text.GetString(), bounds.x + 50, bounds.y + 25, 30, 8, { 50,50,50,255 });
+            }
+            else if (buttonStyle == Style::SUSHI_ORANGE)
+            {
+                render->DrawText(font, text.GetString(), bounds.x + 15 + 3 + (9 - text.Length()) * 10, bounds.y + 25 + 3, 30, 8, { 169,169,169,255 });
+                render->DrawText(font, text.GetString(), bounds.x + 15 + (9 - text.Length()) * 10, bounds.y + 25, 30, 8, { 50,50,50,255 });
+            }
+            else if (buttonStyle == Style::SUSHI_YELLOW)
+            {
+                render->DrawText(font, text.GetString(), bounds.x + 30 + 3, bounds.y + 25 + 3, 30, 8, { 169,169,169,255 });
+                render->DrawText(font, text.GetString(), bounds.x + 30, bounds.y + 25, 30, 8, { 50,50,50,255 });
+            }
             else
-                render->DrawText(font, text.GetString(), bounds.x + 20, bounds.y + 25, 30, 8, { 0,0,0,255 });
+            {
+                render->DrawText(font, text.GetString(), bounds.x + 20 + 3, bounds.y + 25, 30 + 3, 8, { 169,169,169,255 });
+                render->DrawText(font, text.GetString(), bounds.x + 20, bounds.y + 25, 30, 8, { 50,50,50,255 });
+            }
             break;
         }
         break;
@@ -177,9 +193,25 @@ bool GuiButton::Draw(Render* render, bool debugDraw)
             render->DrawTexture(texture, bounds.x, bounds.y, &backgroundButtonAnim, 0.0f);
             render->DrawTexture(texture, bounds.x, bounds.y, &buttonAnim.frames[1], 0.0f);
             if (buttonStyle == Style::SUSHI_RED)
-                render->DrawText(font, text.GetString(), bounds.x + 50, bounds.y + 25, 30, 8, { 0,0,0,255 });
+            {
+                render->DrawText(font, text.GetString(), bounds.x + 50 + 3, bounds.y + 25 + 3, 30, 8, { 169,169,169,255 });
+                render->DrawText(font, text.GetString(), bounds.x + 50, bounds.y + 25, 30, 8, { 50,50,50,255 });
+            }
+            else if (buttonStyle == Style::SUSHI_ORANGE)
+            {
+                render->DrawText(font, text.GetString(), bounds.x + 15 + 3 + (9 - text.Length()) * 10, bounds.y + 25 + 3, 30, 8, { 169,169,169,255 });
+                render->DrawText(font, text.GetString(), bounds.x + 15 + (9 - text.Length()) * 10, bounds.y + 25, 30, 8, { 50,50,50,255 });
+            }
+            else if (buttonStyle == Style::SUSHI_YELLOW)
+            {
+                render->DrawText(font, text.GetString(), bounds.x + 30 + 3, bounds.y + 25 + 3, 30, 8, { 169,169,169,255 });
+                render->DrawText(font, text.GetString(), bounds.x + 30, bounds.y + 25, 30, 8, { 50,50,50,255 });
+            }
             else
-                render->DrawText(font, text.GetString(), bounds.x + 20, bounds.y + 25, 30, 8, { 0,0,0,255 });
+            {
+                render->DrawText(font, text.GetString(), bounds.x + 20 + 3, bounds.y + 25, 30 + 3, 8, { 169,169,169,255 });
+                render->DrawText(font, text.GetString(), bounds.x + 20, bounds.y + 25, 30, 8, { 50,50,50,255 });
+            }
             break;
         }
         break;
@@ -196,9 +228,25 @@ bool GuiButton::Draw(Render* render, bool debugDraw)
             render->DrawTexture(texture, bounds.x, bounds.y, &backgroundButtonAnim, 0.0f);
             render->DrawTexture(texture, bounds.x, bounds.y, &buttonAnim.frames[2], 0.0f);
             if (buttonStyle == Style::SUSHI_RED)
-                render->DrawText(font, text.GetString(), bounds.x + 50, bounds.y + 25, 30, 8, { 0,0,0,255 });
+            {
+                render->DrawText(font, text.GetString(), bounds.x + 50 + 3, bounds.y + 25 + 3, 30, 8, { 169,169,169,255 });
+                render->DrawText(font, text.GetString(), bounds.x + 50, bounds.y + 25, 30, 8, { 50,50,50,255 });
+            }
+            else if (buttonStyle == Style::SUSHI_ORANGE)
+            {
+                render->DrawText(font, text.GetString(), bounds.x + 15 + 3 + (9 - text.Length()) * 10, bounds.y + 25 + 3, 30, 8, { 169,169,169,255 });
+                render->DrawText(font, text.GetString(), bounds.x + 15 + (9 - text.Length()) * 10, bounds.y + 25, 30, 8, { 50,50,50,255 });
+            }
+            else if (buttonStyle == Style::SUSHI_YELLOW)
+            {
+                render->DrawText(font, text.GetString(), bounds.x + 30 + 3, bounds.y + 25 + 3, 30, 8, { 169,169,169,255 });
+                render->DrawText(font, text.GetString(), bounds.x + 30, bounds.y + 25, 30, 8, { 50,50,50,255 });
+            }
             else
-                render->DrawText(font, text.GetString(), bounds.x + 20, bounds.y + 25, 30, 8, { 0,0,0,255 });
+            {
+                render->DrawText(font, text.GetString(), bounds.x + 20 + 3, bounds.y + 25, 30 + 3, 8, { 169,169,169,255 });
+                render->DrawText(font, text.GetString(), bounds.x + 20, bounds.y + 25, 30, 8, { 50,50,50,255 });
+            }
             break;
         }
         break;
