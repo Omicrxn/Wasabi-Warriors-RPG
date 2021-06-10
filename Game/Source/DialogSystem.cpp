@@ -37,6 +37,10 @@ DialogSystem::DialogSystem(Input* input, Render* render, Textures* tex, Fonts* f
 	takadaDialogAnim.PushBack({ 594, 1008, 150, 183 });
 	takadaDialogAnim.loop = true;
 	takadaDialogAnim.speed = 0.01f;
+	
+	mobileDialogAnim.PushBack({ 20, 14, 52, 66 });
+	mobileDialogAnim.loop = true;
+	mobileDialogAnim.speed = 0.01f;
 
 	kenzoDialogAnim.PushBack({ 795, 519, 162, 186 });
 	kenzoDialogAnim.PushBack({ 987, 519, 162, 186 });
@@ -120,6 +124,7 @@ bool DialogSystem::Start()
 	// Needed textures
 	dialogBackground = tex->Load("Textures/Dialog/dialog_background.png");
 	speakerTexture = tex->Load("Textures/UI/guiTextureSpritesheet.png");
+	speakerTexture2 = tex->Load("Textures/UI/outsideGUI.png");
 	backgroundRect = { 0,0,1240,220 };
 
 	// Register a callback function with the name say_hello. This is just an example.
@@ -316,6 +321,7 @@ bool DialogSystem::CleanUp()
 	// Unloading textures
 	tex->UnLoad(dialogBackground);
 	tex->UnLoad(speakerTexture);
+	tex->UnLoad(speakerTexture2);
 
 	return true;
 }
@@ -589,6 +595,10 @@ void DialogSystem::DrawDialogSpeaker()
 		{
 			rightDialogAnim = nullptr;
 		}
+		else if (rightSpeaker == "Phone")
+		{
+			rightDialogAnim = &mobileDialogAnim;
+		}
 
 		// Compare and set the left speaker
 		if (leftSpeaker == "Kenzo")
@@ -603,6 +613,10 @@ void DialogSystem::DrawDialogSpeaker()
 		{
 			leftDialogAnim = &reiDialogAnim;
 		}
+		else if (leftSpeaker == "Erika")
+		{
+			leftDialogAnim = &erikaDialogAnim;
+		}
 		else if (leftSpeaker == "Maki")
 		{
 			leftDialogAnim = &makiDialogAnim;
@@ -611,18 +625,36 @@ void DialogSystem::DrawDialogSpeaker()
 		{
 			leftDialogAnim = nullptr;
 		}
+		else if (leftSpeaker == "Phone")
+		{
+			leftDialogAnim = &mobileDialogAnim;
+		}
 
 		// Draw speakers
 		if (leftDialogAnim != nullptr)
 		{
 			leftDialogAnim->Update();
-			render->DrawTexture(speakerTexture, 60, 485, &leftDialogAnim->GetCurrentFrame(), 0.0f);
+			if (leftDialogAnim == &mobileDialogAnim)
+			{
+				render->scale = 2;
+				render->DrawTexture(speakerTexture2, 95/ render->scale, 520 / render->scale, &leftDialogAnim->GetCurrentFrame(), 0.0f);
+				render->scale = 1;
+			}
+			else
+				render->DrawTexture(speakerTexture, 60, 485, &leftDialogAnim->GetCurrentFrame(), 0.0f);
 		}
 		//render->DrawTexture(speakerTexture, 60, 485, &leftDialogAnim->GetCurrentFrame(), 0.0f);
 		if (rightDialogAnim != nullptr)
 		{
 			rightDialogAnim->Update();
-			render->DrawTexture(speakerTexture, 1055, 485, &rightDialogAnim->GetCurrentFrame(), 0.0f);
+			if (rightDialogAnim == &mobileDialogAnim)
+			{
+				render->scale = 2;
+				render->DrawTexture(speakerTexture2, 1075 / render->scale, 520 / render->scale, &rightDialogAnim->GetCurrentFrame(), 0.0f);
+				render->scale = 1;
+			}
+			else
+				render->DrawTexture(speakerTexture, 1055, 485, &rightDialogAnim->GetCurrentFrame(), 0.0f);
 		}
 	}
 }

@@ -105,6 +105,7 @@ private:
 
 	// Texture for speakers
 	SDL_Texture* speakerTexture;
+	SDL_Texture* speakerTexture2;
 
 	// Dialog speaker animations
 	Animation* rightDialogAnim;
@@ -112,6 +113,7 @@ private:
 
 	Animation erikaDialogAnim;
 	Animation takadaDialogAnim;
+	Animation mobileDialogAnim;
 
 	Animation kenzoDialogAnim;
 	Animation reiDialogAnim;
