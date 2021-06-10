@@ -467,14 +467,14 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 	{
 		type = Static::Type::DOOR;
 		SetRect(352, 192, 32, 32);
-		SetPivot(16, 16);
+		SetPivot(16, 32);
 	}
 
 	if (name == "door_res2")
 	{
 		type = Static::Type::DOOR;
 		SetRect(96, 122, 32, 6);
-		SetPivot(32, 24);
+		SetPivot(16, 24);
 	}
 
 	if (name == "door_res3")
@@ -491,46 +491,39 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 		SetPivot(16, 32);
 	}
 
-	if (name == "table_res")
+	if (name == "wall")
 	{
-		type = Static::Type::TABLE;
-		SetRect(0, 325, 32, 27);
-		SetPivot(16, 27);
+		type = Static::Type::DOOR;
+		SetRect(160, 32, 32, 32);
+		SetPivot(16, 32);
 	}
 
-	if (name == "table_res2")
+	if (name == "wall_2")
 	{
-		type = Static::Type::TABLE;
-		SetRect(32, 325, 32, 27);
-		SetPivot(16, 27);
+		type = Static::Type::DOOR;
+		SetRect(64, 160, 32, 32);
+		SetPivot(32, 32);
 	}
 
-	if (name == "table_res3")
+	if (name == "chair")
 	{
-		type = Static::Type::TABLE;
-		SetRect(64, 325, 32, 27);
-		SetPivot(16, 27);
+		type = Static::Type::FURNITURE;
+		SetRect(9, 64, 14, 16);
+		SetPivot(7, 16);
 	}
 
-	if (name == "table_res4")
+	if (name == "chair_2")
 	{
-		type = Static::Type::TABLE;
-		SetRect(0, 32, 32, 27);
-		SetPivot(16, 27);
+		type = Static::Type::FURNITURE;
+		SetRect(9, 10, 14, 21);
+		SetPivot(7, 21);
 	}
 
-	if (name == "table_res5")
+	if (name == "chair_3")
 	{
-		type = Static::Type::TABLE;
-		SetRect(0, 357, 32, 27);
-		SetPivot(16, 27);
-	}
-
-	if (name == "table_res6")
-	{
-		type = Static::Type::TABLE;
-		SetRect(32, 357, 32, 27);
-		SetPivot(16, 27);
+		type = Static::Type::FURNITURE;
+		SetRect(264, 232, 17, 22);
+		SetPivot(9, 22);
 	}
 
 	if (name == "res_table")
@@ -1328,6 +1321,14 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 		SetPivot(32, 64);
 	}
 
+	// Dungeon sorting
+	if (name == "roof_dungeon")
+	{
+		type = Static::Type::ROOF;
+		SetRect(2144, 40, 32, 24);
+		SetPivot(16, 24);
+	}
+
 	else {
 		LOG("There isn't any type assigned to %s name entity", name.data());
 	}
@@ -1369,6 +1370,10 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 	else if (mapTexturePath == "Maps/Osaka/osaka_tile.png")
 	{
 		data.tileset.texture = entityManager->osakaTexture;
+	}
+	else if (mapTexturePath == "Maps/Dungeon/dungeonTiles1.png")
+	{
+		data.tileset.texture = entityManager->dungeonTexture;
 	}
 }
 

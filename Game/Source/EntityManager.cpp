@@ -83,6 +83,8 @@ bool EntityManager::Start()
 		bigCityTexture = tex->Load("Maps/bigCity/MainTileMap.png");
 	if (osakaTexture == nullptr)
 		osakaTexture = tex->Load("Maps/Osaka/osaka_tile.png");
+	if (dungeonTexture == nullptr)
+		dungeonTexture = tex->Load("Maps/Dungeon/dungeonTiles1.png");
 
 	consumeFx = audio->LoadFx("Audio/Fx/consume.ogg");
 	pickUpFx = audio->LoadFx("Audio/Fx/pickup.ogg");
@@ -166,6 +168,8 @@ bool EntityManager::CleanUp()
 	bigCityTexture = nullptr;
 	tex->UnLoad(osakaTexture);
 	osakaTexture = nullptr;
+	tex->UnLoad(dungeonTexture);
+	dungeonTexture = nullptr;
 
 	audio->UnloadFx(consumeFx);
 	audio->UnloadFx(pickUpFx);
