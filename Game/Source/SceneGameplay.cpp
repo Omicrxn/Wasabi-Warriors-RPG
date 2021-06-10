@@ -1288,7 +1288,18 @@ void SceneGameplay::SaveGameProgress(pugi::xml_node& data)const
 	if (tempName == "hasVisitedRestaurant")
 		data.attribute("hasVisitedRestaurant").set_value(this->gameProgress.hasVisitedRestaurant);
 	else
-		data.append_attribute("hasVisitedRestaurant").set_value(this->gameProgress.hasVisitedCemetery);
+		data.append_attribute("hasVisitedRestaurant").set_value(this->gameProgress.hasVisitedRestaurant);
+
+	tempName = data.attribute("hasVisitedSecondRestaurant").name();
+	if (tempName == "hasVisitedSecondRestaurant")
+		data.attribute("hasVisitedSecondRestaurant").set_value(this->gameProgress.hasVisitedSecondRestaurant);
+	else
+		data.append_attribute("hasVisitedThirdRestaurant").set_value(this->gameProgress.hasVisitedThirdRestaurant);
+	tempName = data.attribute("hasVisitedThirdRestaurant").name();
+	if (tempName == "hasVisitedThirdRestaurant")
+		data.attribute("hasVisitedThirdRestaurant").set_value(this->gameProgress.hasVisitedThirdRestaurant);
+	else
+		data.append_attribute("hasVisitedThirdRestaurant").set_value(this->gameProgress.hasVisitedThirdRestaurant);
 
 	tempName = data.attribute("hasVisitedTown").name();
 	if (tempName == "hasVisitedTown")
