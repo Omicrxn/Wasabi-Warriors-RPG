@@ -246,19 +246,21 @@ bool ScreenBattle::Update(Input* input, float dt, uint& focusedButtonId)
 		{
 			if (battleSystem->playerState == PlayerState::ATTACK || battleSystem->playerState == PlayerState::DEFENSE)
 			{
-				if (input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN && hover.x > 0)
+				if ((input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_LEFT) == KEY_DOWN) && hover.x > 0)
 				{
 					hover.x--;
 				}
-				if (input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN && hover.x < 3)
+				if ((input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_RIGHT) == KEY_DOWN) && hover.x < 3)
 				{
 					hover.x++;
 				}
 				if (input->GetKey(SDL_SCANCODE_F) == KEY_DOWN || input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN ||
+					input->GetControllerButton(CONTROLLER_BUTTON_A) == KEY_DOWN ||
 					(HoverUpdate(input) && input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN))
 					pressed = true;
 
 				if (input->GetKey(SDL_SCANCODE_F) == KEY_UP || input->GetKey(SDL_SCANCODE_RETURN) == KEY_UP ||
+					input->GetControllerButton(CONTROLLER_BUTTON_A) == KEY_UP ||
 					(HoverUpdate(input) && input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP))
 				{
 					EntitySubtype entitySubtype;
@@ -1208,18 +1210,23 @@ void ScreenBattle::ResetOneTimeAnimations()
 
 bool ScreenBattle::HoverUpdate(Input* input)
 {
-	// Getting the mouse position
-	int mouseX, mouseY;
-	input->GetMousePosition(mouseX, mouseY);
-	SDL_Rect rect = { 237,171,108,108 };
-	for (int i = 0; i < 4; i++)
+	if (input->GetControllerState())
+		return false;
+	else
 	{
-		if (mouseX > (1280 / 2 - rect.w / 2 - rect.w * 3 + (rect.w * 2) * i) &&
-			mouseX < (1280 / 2 - rect.w / 2 - rect.w * 3 + (rect.w * 2) * i + rect.w) &&
-			mouseY >(720 / 2 - rect.h / 2) && mouseY < (720 / 2 - rect.h / 2 + rect.h))
+		// Getting the mouse position
+		int mouseX, mouseY;
+		input->GetMousePosition(mouseX, mouseY);
+		SDL_Rect rect = { 237,171,108,108 };
+		for (int i = 0; i < 4; i++)
 		{
-			hover.x = i;
-			return true;
+			if (mouseX > (1280 / 2 - rect.w / 2 - rect.w * 3 + (rect.w * 2) * i) &&
+				mouseX < (1280 / 2 - rect.w / 2 - rect.w * 3 + (rect.w * 2) * i + rect.w) &&
+				mouseY >(720 / 2 - rect.h / 2) && mouseY < (720 / 2 - rect.h / 2 + rect.h))
+			{
+				hover.x = i;
+				return true;
+			}
 		}
 	}
 

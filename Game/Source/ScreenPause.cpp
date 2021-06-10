@@ -119,6 +119,60 @@ bool ScreenPause::Load(int minIndex, int maxIndex, Scene* currentScene, Window* 
 
 bool ScreenPause::Update(Input* input, float dt, uint& focusedButtonId)
 {
+	if (input->GetControllerState())
+	{
+		if (focusedButtonId == minIndex)
+		{
+			if (input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN)
+				focusedButtonId = minIndex + 2;
+			else if (input->GetControllerButton(CONTROLLER_BUTTON_RIGHT) == KEY_DOWN)
+				focusedButtonId = minIndex + 1;
+		}
+		else if (focusedButtonId == minIndex + 1)
+		{
+			if (input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN)
+				focusedButtonId = minIndex + 4;
+			else if (input->GetControllerButton(CONTROLLER_BUTTON_LEFT) == KEY_DOWN)
+				focusedButtonId = minIndex;
+		}
+		else if (focusedButtonId == minIndex + 2)
+		{
+			if (input->GetControllerButton(CONTROLLER_BUTTON_UP) == KEY_DOWN)
+				focusedButtonId = minIndex;
+			else if (input->GetControllerButton(CONTROLLER_BUTTON_RIGHT) == KEY_DOWN)
+				focusedButtonId = minIndex + 3;
+			else if (input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN && state == MobileState::MAIN)
+				focusedButtonId = 5;
+		}
+		else if (focusedButtonId == minIndex + 3)
+		{
+			if (input->GetControllerButton(CONTROLLER_BUTTON_LEFT) == KEY_DOWN)
+				focusedButtonId = minIndex + 2;
+			else if (input->GetControllerButton(CONTROLLER_BUTTON_RIGHT) == KEY_DOWN)
+				focusedButtonId = minIndex + 4;
+			else if (input->GetControllerButton(CONTROLLER_BUTTON_UP) == KEY_DOWN)
+				focusedButtonId = minIndex;
+			else if (input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN && state == MobileState::MAIN)
+				focusedButtonId = 5;
+		}
+		else if (focusedButtonId == minIndex + 4)
+		{
+			if (input->GetControllerButton(CONTROLLER_BUTTON_UP) == KEY_DOWN)
+				focusedButtonId = minIndex + 1;
+			else if (input->GetControllerButton(CONTROLLER_BUTTON_LEFT) == KEY_DOWN)
+				focusedButtonId = minIndex + 3;
+			else if (input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KEY_DOWN && state == MobileState::MAIN)
+				focusedButtonId = 5;
+		}
+		else if (focusedButtonId == minIndex + 5 && state == MobileState::MAIN)
+		{
+			if (input->GetControllerButton(CONTROLLER_BUTTON_UP) == KEY_DOWN)
+				focusedButtonId = minIndex + 2;
+		}
+
+		UpdateControllerSelection(focusedButtonId);
+	}
+
 	if (state == MobileState::MAP)
 	{
 		int mouseX, mouseY;

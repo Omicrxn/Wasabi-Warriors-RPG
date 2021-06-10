@@ -26,7 +26,7 @@ GuiManager::GuiManager(Input* input, Render* render, Textures* tex, AudioManager
 	mouseRect[1] = { 60,482,30,30 };
 
 	exitingGame = false;
-	activeMouse = true;
+	activeMouse = false;
 }
 
 GuiManager::~GuiManager()
@@ -76,7 +76,7 @@ void GuiManager::DestroyGuiControl(GuiControl* control)
 
 bool GuiManager::Start()
 {
-	activeMouse = true;
+	activeMouse = false;
 
 	if (guiAtlasTex != nullptr)
 		tex->UnLoad(guiAtlasTex);
@@ -169,7 +169,8 @@ void GuiManager::ExitGame()
 
 void GuiManager::ToggleMouse()
 {
-	activeMouse = !activeMouse;
+	if (!input->GetControllerState())
+		activeMouse = !activeMouse;
 }
 
 GuiControl* GuiManager::FindById(int id)

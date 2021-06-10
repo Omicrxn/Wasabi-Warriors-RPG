@@ -149,6 +149,8 @@ bool SceneTitle::Load(Textures* tex, Window* win, AudioManager* audio, GuiManage
     screenSettings->HideButtons();
     screenCredits->HideButtons();
 
+    guiManager->ToggleMouse();
+
     return true;
 }
 
