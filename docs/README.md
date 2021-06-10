@@ -26,6 +26,16 @@ Kenzo will have to go on a journey to protect his mentor's legacy and avenge her
  - Quests & Progression: the player will have different challenges to complete in order to upgrade different items. The main quests are about collecting the keys mentioned in the storyline and reward the player with a new party member.
 
  - Social Interaction: cooperation between party members and what other non-playable characters (NPC) explain is important to know the plot and identify the path to solve the main conflict of the game.
+
+## Game trailer
+
+<object width="425" height="350">
+  <param name="movie" value="https://youtu.be/7f4P7SI7GmM" />
+  <param name="wmode" value="transparent" />
+  <embed src="https://youtu.be/7f4P7SI7GmM"
+         type="application/x-shockwave-flash"
+         wmode="transparent" width="425" height="350" />
+</object>
  
 ## Controls
 
