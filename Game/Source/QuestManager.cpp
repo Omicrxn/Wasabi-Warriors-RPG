@@ -142,100 +142,95 @@ bool QuestManager::DrawActiveQuests()
 
 		if (L->data->id == 2)
 		{
-			render->DrawText(font, "Go to the", 480, 193, 50, 3, { 0, 0, 0, 255 });
-			render->DrawText(font, "restaurant of", 480, 223, 50, 3, { 0, 0, 0, 255 });
-			render->DrawText(font, "Erika", 480, 253, 50, 3, { 0, 0, 0, 255 });
-			render->DrawText(font, "Go to the", 480, 190, 50, 3, { 255, 255, 255, 255 });
-			render->DrawText(font, "restaurant of", 480, 220, 50, 3, { 255, 255, 255, 255 });
-			render->DrawText(font, "Erika", 480, 250, 50, 3, { 255, 255, 255, 255 });
+			render->DrawText(font, "QUEST #1", 485, 120, 50, 3, { 252, 185, 109 });
+			render->DrawText(font, "Go to Erika's", 555, 193, 30, 3, { 0, 0, 0, 255 });
+			render->DrawText(font, "restaurant in", 555, 223, 30, 3, { 0, 0, 0, 255 });
+			render->DrawText(font, "Kanagawa", 565, 253, 30, 3, { 0, 0, 0, 255 });
 
-			render->DrawText(font, "You just found out that", 480, 300, 23, 3, { 0,0,0,255 });
-			render->DrawText(font, "Erika and you need to check", 480, 330, 23, 3, { 0,0,0,255 });
-			render->DrawText(font, "the restaurant.", 480, 360, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "You just found out that", 485, 300, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "Erika is dead.  ", 485, 330, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "The restaurants need you to", 485, 360, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "learn her secret recipe to ", 485, 390, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "keep working.", 485, 420, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "Go to the restaurant to", 485, 450, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "check the vault", 485, 480, 23, 3, { 0,0,0,255 });
 		}
 
 		if (L->data->id == 3)
 		{
-			// Title Drawing
-			render->DrawText(font, "Visit the", 480, 193, 50, 3, { 0,0,0,255 });
-			render->DrawText(font, "Visit the", 480, 190, 50, 3, { 255,255,255,255 });
-			render->DrawText(font, "tombstone", 480, 223, 50, 3, { 0,0,0,255 });
-			render->DrawText(font, "tombstone", 480, 220, 50, 3, { 255,255,255,255 });
+			render->DrawText(font, "QUEST #2", 485, 120, 50, 3, { 252, 185, 109 });
+			render->DrawText(font, "Visit Erika's", 555, 193, 30, 3, { 0, 0, 0, 255 });
+			render->DrawText(font, "tombstone", 555, 223, 30, 3, { 0, 0, 0, 255 });
 
-			// Description Drawing if pressed L
-			///////////////////////////////////////////////////////////////////////////
-			//render->DrawText(font, L->data->description.GetString(), 480, 300, 35, 3, { 200,200,200,255 });
-			render->DrawText(font, "After checking out her", 480, 270, 23, 3, { 0,0,0,255 });
-			render->DrawText(font, "restaurant, you should go", 480, 300, 23, 3, { 0,0,0,255 });
-			render->DrawText(font, "and pay respects to Erika on", 480, 330, 23, 3, { 0,0,0,255 });
-			render->DrawText(font, "the Cemetery.", 480, 360, 23, 3, { 0,0,0,255 });
-			///////////////////////////////////////////////////////////////////////////
+			render->DrawText(font, "You should go pay respects", 485, 273, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "to Erika.", 485, 303, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "Go to the cemetery.", 485, 333, 23, 3, { 0,0,0,255 });
 		}
 
 		if (L->data->id == 4)
 		{
-			render->DrawText(font, "Find the first", 480, 193, 50, 3, { 0,0,0,255 });
-			render->DrawText(font, "Find the first", 480, 190, 50, 3, { 255,255,255,255 });
-			render->DrawText(font, "Apprentice", 480, 223, 50, 3, { 0,0,0,255 });
-			render->DrawText(font, "Apprentice", 480, 220, 50, 3, { 255,255,255,255 });
+			render->DrawText(font, "QUEST #3", 485, 120, 50, 3, { 252, 185, 109 });
+			render->DrawText(font, "Find Erika's", 560, 193, 30, 3, { 0, 0, 0, 255 });
+			render->DrawText(font, "apprentice", 560, 223, 30, 3, { 0, 0, 0, 255 });
+			render->DrawText(font, "in Osaka", 565, 253, 30, 3, { 0, 0, 0, 255 });
 
-			render->DrawText(font, "You should rescue the first", 480, 270, 23, 3, { 0,0,0,255 });
-			render->DrawText(font, "Apprentice on the", 480, 300, 23, 3, { 0,0,0,255 });
-			render->DrawText(font, "restaurant in Osaka.", 480, 330, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "You need the next key to", 485, 300, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "the vault.", 485, 330, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "Go to Osaka to get it and", 485, 360, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "prepare to fight whatever", 485, 390, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "hitmen Takada sent there", 485, 420, 23, 3, { 0,0,0,255 });
+
 		}
 
 		if (L->data->id == 5)
 		{
-			render->DrawText(font, "Find the last", 480, 193, 50, 3, { 0,0,0,255 });
-			render->DrawText(font, "Find the last", 480, 190, 50, 3, { 255,255,255,255 });
-			render->DrawText(font, "Apprentice", 480, 223, 50, 3, { 0,0,0,255 });
-			render->DrawText(font, "Apprentice", 480, 220, 50, 3, { 255,255,255,255 });
+			render->DrawText(font, "QUEST #4", 485, 120, 50, 3, { 252, 185, 109 });
+			render->DrawText(font, "Find Erika's", 560, 193, 30, 3, { 0, 0, 0, 255 });
+			render->DrawText(font, "apprentice", 560, 223, 30, 3, { 0, 0, 0, 255 });
+			render->DrawText(font, "in Dotonbori", 565, 253, 30, 3, { 0, 0, 0, 255 });
 
-			render->DrawText(font, "You should rescue the other", 480, 270, 23, 3, { 0,0,0,255 });
-			render->DrawText(font, "Apprentice on the", 480, 300, 23, 3, { 0,0,0,255 });
-			render->DrawText(font, "restaurant in Dotonbori.", 480, 330, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "You need the next key to", 485, 300, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "the vault.", 485, 330, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "Go to Dotonbori to get it", 485, 360, 23, 3, { 0,0,0,255 });
 		}
 
 		if (L->data->id == 6)
 		{
-			// Title Drawing
-			render->DrawText(font, "Takada offices", 480, 223, 50, 3, { 0,0,0,255 });
-			render->DrawText(font, "Takada offices", 480, 220, 50, 3, { 255,255,255,255 });
+			render->DrawText(font, "QUEST #5", 485, 120, 50, 3, { 252, 185, 109 });
+			render->DrawText(font, "Takada Offices", 560, 193, 30, 3, { 0, 0, 0, 255 });
 
-			// Description Drawing if pressed L
-			///////////////////////////////////////////////////////////////////////////
-			//render->DrawText(font, L->data->description.GetString(), 480, 300, 35, 3, { 200,200,200,255 });
-			render->DrawText(font, "Go to the Takada offices and", 480, 270, 23, 3, { 0,0,0,255 });
-			render->DrawText(font, "talk with the receptionist.", 480, 300, 23, 3, { 0,0,0,255 });
-			///////////////////////////////////////////////////////////////////////////
+			render->DrawText(font, "Get past the recepcion", 485, 240, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "in Takada's building.", 485, 270, 23, 3, { 0,0,0,255 });
 		}
 
 		if (L->data->id == 7)
 		{
-			render->DrawText(font, "Get the code", 480, 223, 50, 3, { 0,0,0,255 });
-			render->DrawText(font, "Get the code", 480, 220, 50, 3, { 255,255,255,255 });
+			render->DrawText(font, "QUEST #6", 485, 120, 50, 3, { 252, 185, 109 });
+			render->DrawText(font, "Get the Key", 560, 193, 30, 3, { 0, 0, 0, 255 });
 
-			render->DrawText(font, "Defeat the clerks in order", 480, 270, 23, 3, { 0,0,0,255 });
-			render->DrawText(font, "to get the code boss door", 480, 300, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "Defeat the common workers.", 485, 240, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "One of them must have the", 485, 270, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "key to the higher floors", 485, 270, 23, 3, { 0,0,0,255 });
 		}
 
 		if (L->data->id == 8)
 		{
-			render->DrawText(font, "Central signal", 480, 223, 50, 3, { 0,0,0,255 });
-			render->DrawText(font, "Central signal", 480, 220, 50, 3, { 255,255,255,255 });
+			render->DrawText(font, "QUEST #7", 485, 120, 50, 3, { 252, 185, 109 });
+			render->DrawText(font, "Turn on the", 555, 193, 30, 3, { 0, 0, 0, 255 });
+			render->DrawText(font, "electricity", 555, 223, 30, 3, { 0, 0, 0, 255 });
 
-			render->DrawText(font, "Reactivat the central signal", 480, 270, 23, 3, { 0,0,0,255 });
-			render->DrawText(font, "from the president's", 480, 300, 23, 3, { 0,0,0,255 });
-			render->DrawText(font, "computer.", 480, 330, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "Defeat the workers and get", 485, 273, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "to the computers to ", 485, 303, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "reactivate the electricity.", 485, 333, 23, 3, { 0,0,0,255 });
 		}
 
 		if (L->data->id == 9)
 		{
-			render->DrawText(font, "Defeat Takuda", 480, 223, 50, 3, { 0,0,0,255 });
-			render->DrawText(font, "Defeat Takuda", 480, 220, 50, 3, { 255,255,255,255 });
+			render->DrawText(font, "QUEST #8", 485, 120, 50, 3, { 252, 185, 109 });
+			render->DrawText(font, "Defeat Takada", 560, 193, 30, 3, { 0, 0, 0, 255 });
 
-			render->DrawText(font, "Face Takuda in a battle", 480, 270, 23, 3, { 0,0,0,255 });
-			render->DrawText(font, "and may the best win...", 480, 300, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "Face Takada in a battle", 485, 240, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "and avenge Erika", 485, 270, 23, 3, { 0,0,0,255 });
 		}
 
 		else {
@@ -248,55 +243,6 @@ bool QuestManager::DrawActiveQuests()
 			render->DrawText(font, L->data->description.GetString(), 480, 300, 23, 3, { 0,0,0,255 });
 			///////////////////////////////////////////////////////////////////////////
 		}
-		//switch (L->data->id)
-		//{
-		//case 7: // new quest chain 1
-		//	// Title Drawing
-		//	render->DrawText(font, L->data->title.GetString(), 480, 223, 50, 3, { 0,0,0,255 });
-		//	render->DrawText(font, L->data->title.GetString(), 480, 220, 50, 3, { 255,255,255,255 });
-
-		//	// Description Drawing if pressed L
-		//	///////////////////////////////////////////////////////////////////////////
-		//	//render->DrawText(font, L->data->description.GetString(), 480, 300, 35, 3, { 200,200,200,255 });
-		//	render->DrawText(font, "Go to the Takada offices and", 480, 300, 23, 3, { 0,0,0,255 });
-		//	render->DrawText(font, "talk with the receptionist.", 480, 350, 23, 3, { 0,0,0,255 });
-		//	///////////////////////////////////////////////////////////////////////////
-
-		//	break;
-		//case 2: // quest chain 1 (quest 2)
-		//	// Title Drawing
-		//	render->DrawText(font, L->data->title.GetString(), 480, 223, 50, 3, { 0,0,0,255 });
-		//	render->DrawText(font, L->data->title.GetString(), 480, 220, 50, 3, { 255,255,255,255 });
-
-		//	// Description Drawing if pressed L
-		//	///////////////////////////////////////////////////////////////////////////
-		//	render->DrawText(font, L->data->description.GetString(), 480, 300, 23, 3, { 0,0,0,255 });
-		//	///////////////////////////////////////////////////////////////////////////
-		//	break;
-
-		//case 3: // new quest chain 1
-		//	// Title Drawing
-		//	render->DrawText(font, L->data->title.GetString(), 480, 223, 50, 3, { 0,0,0,255 });
-		//	render->DrawText(font, L->data->title.GetString(), 480, 220, 50, 3, { 255,255,255,255 });
-
-		//	// Description Drawing if pressed L
-		//	///////////////////////////////////////////////////////////////////////////
-		//	render->DrawText(font, L->data->description.GetString(), 480, 300, 23, 3, { 0,0,0,255 });
-		//	///////////////////////////////////////////////////////////////////////////
-		//	break;
-		//case 4: // new quest chain 1
-		//	// Title Drawing
-		//	render->DrawText(font, L->data->title.GetString(), 480, 223, 50, 3, { 0,0,0,255 });
-		//	render->DrawText(font, L->data->title.GetString(), 480, 220, 50, 3, { 255,255,255,255 });
-
-		//	// Description Drawing if pressed L
-		//	///////////////////////////////////////////////////////////////////////////
-		//	render->DrawText(font, L->data->description.GetString(), 480, 300, 23, 3, { 0,0,0,255 });
-		//	///////////////////////////////////////////////////////////////////////////
-		//	break;
-		//default:
-		//	break;
-		//}
 
 		L = L->next;
 	}
