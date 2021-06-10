@@ -73,17 +73,20 @@ bool ScreenInventory::Load(int minIndex, int maxIndex, Scene* currentScene, Batt
 
 bool ScreenInventory::Update(Input* input, float dt, uint& focusedButtonId)
 {
-	if ((input->GetKey(SDL_SCANCODE_UP) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_UP) == KeyState::KEY_DOWN) && itemHovering.y > 0)
-		--itemHovering.y;
-	else if ((input->GetKey(SDL_SCANCODE_DOWN) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KeyState::KEY_DOWN) && itemHovering.y < INVENTORY_ROWS - 1)
-		++itemHovering.y;
-	else if ((input->GetKey(SDL_SCANCODE_LEFT) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_LEFT) == KeyState::KEY_DOWN) && itemHovering.x > 0)
-		--itemHovering.x;
-	else if ((input->GetKey(SDL_SCANCODE_RIGHT) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_RIGHT) == KeyState::KEY_DOWN) && itemHovering.x < INVENTORY_COLUMNS - 1)
-		++itemHovering.x;
+	if (!hasSelectedItem)
+	{
+		if ((input->GetKey(SDL_SCANCODE_UP) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_UP) == KeyState::KEY_DOWN) && itemHovering.y > 0)
+			--itemHovering.y;
+		else if ((input->GetKey(SDL_SCANCODE_DOWN) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KeyState::KEY_DOWN) && itemHovering.y < INVENTORY_ROWS - 1)
+			++itemHovering.y;
+		else if ((input->GetKey(SDL_SCANCODE_LEFT) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_LEFT) == KeyState::KEY_DOWN) && itemHovering.x > 0)
+			--itemHovering.x;
+		else if ((input->GetKey(SDL_SCANCODE_RIGHT) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_RIGHT) == KeyState::KEY_DOWN) && itemHovering.x < INVENTORY_COLUMNS - 1)
+			++itemHovering.x;
+	}
 
-	if (input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
-		itemSelected = { -1,-1 };
+	//if (input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
+	//	itemSelected = { -1,-1 };
 
 	int mouseX, mouseY;
 	input->GetMousePosition(mouseX, mouseY);
@@ -116,9 +119,20 @@ bool ScreenInventory::Update(Input* input, float dt, uint& focusedButtonId)
 			if (input->GetControllerButton(ControllerButton::CONTROLLER_BUTTON_A) == KeyState::KEY_DOWN || input->GetKey(SDL_SCANCODE_SPACE) == KeyState::KEY_DOWN)
 			{
 				itemSelected = itemHovering;
+				hasSelectedItem = true;
 			}
 		}
 		slotRect.y = slotRect.y + 30 + slotRect.h;
+	}
+
+	if (input->GetControllerState() && hasSelectedItem)
+	{
+		if (input->GetControllerButton(CONTROLLER_BUTTON_UP) == KeyState::KEY_DOWN && focusedButtonId > minIndex)
+			--focusedButtonId;
+		if (input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KeyState::KEY_DOWN && focusedButtonId < maxIndex)
+			++focusedButtonId;
+
+		UpdateControllerSelection(focusedButtonId);
 	}
 
 	// Accept button has been clicked
