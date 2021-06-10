@@ -24,23 +24,25 @@ Wasabi Warriors is a Role-Playing Game with a theme-based on an urban Japanese e
 
 | Action | Key | Button |
 | :---: | :---: | :---: |
-| **Move Up** | ![](docs/Wiki/Controls/key_W.png) ![](docs/Wiki/Controls/key_up.png) | ![](docs/Wiki/Controls/button_up.png) |
-| **Move Down** | ![](docs/Wiki/Controls/key_S.png) ![](docs/Wiki/Controls/key_down.png) | ![](docs/Wiki/Controls/button_down.png) |
-| **Move Left** | ![](docs/Wiki/Controls/key_A.png) ![](docs/Wiki/Controls/key_left.png) | ![](docs/Wiki/Controls/button_left.png) |
-| **Move Right** | ![](docs/Wiki/Controls/key_D.png) ![](docs/Wiki/Controls/key_right.png) | ![](docs/Wiki/Controls/button_right.png) |
-| **Select / Interact** | ![](docs/Wiki/Controls/key_F.png) | ![](docs/Wiki/Controls/button_A.png) |
-| **Change between party members** | ![](docs/Wiki/Controls/key_E.png) | ![](docs/Wiki/Controls/button_Y.png) |
-| **Pause Menu** | ![](docs/Wiki/Controls/key_ESC.png) | ![](docs/Wiki/Controls/button_menu.png) |
+| **Move** | WASD | DPAD |
+| **Select / Interact** | F | A |
+| **Change between party members** | E | Y |
+| **Pause Menu** | ESC | START |
+| **Inventory** | Q | X |
+| **Return** | ESC | B |
 
 ### Debug Controls
 | Action | Key |
 | :---: | :---: |
-| **GUI Debug** | ![](docs/Wiki/Controls/key_F1.png) |
-| **Save** | ![](docs/Wiki/Controls/key_F5.png) |
-| **Load** | ![](docs/Wiki/Controls/key_F6.png) |
-| **Battle** | ![](docs/Wiki/Controls/key_F7.png) |
-| **God Mode & Debug Info** | ![](docs/Wiki/Controls/key_F10.png) |
-| **Fullscreen** | ![](docs/Wiki/Controls/key_F11.png) |
+| **GUI Debug** | F1 |
+| **Next Quest** | F2 |
+| **Save** | F5 |
+| **Load** | F6 |
+| **Battle** | F7 |
+| **Loss Screen** | F8 |
+| **Victory Screen** | F9 |
+| **God Mode & Debug Info** | F10 |
+| **Fullscreen** | F11 |
 
 ## Developers
 
