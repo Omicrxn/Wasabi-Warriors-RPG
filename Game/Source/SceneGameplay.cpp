@@ -547,13 +547,10 @@ bool SceneGameplay::Update(Input* input, float dt)
 		}
 		else if (notifier->GetActivator()->name == "dialogTrigger")
 		{
-
 			notifier->NotifyDialog(15);
-
 		}
 		else if (notifier->GetActivator()->name == "erikaTomb")
 		{
-
 			NPC* npc;
 			npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, "Erika", EntitySubtype::UNKNOWN, iPoint((22 * 32), (5 * 32)));
 			npc->name = "Erika";
@@ -565,7 +562,6 @@ bool SceneGameplay::Update(Input* input, float dt)
 			npc->SetTexture(npc->spritePos);
 			if (npc->stop) npc->stopForever = true;
 			npc = nullptr;
-
 		}
 		else if (notifier->GetActivator()->GetDrawState() == DrawState::MAP)
 		{
@@ -597,10 +593,13 @@ bool SceneGameplay::Update(Input* input, float dt)
 			{
 				notifier->NotifyDialog(14);
 			}
-			
-			notifier->GetActivator()->SetDrawState(DrawState::HUD);
+
+			// Right now we don't have any activator that we want to have on the HUD
+			/*notifier->GetActivator()->SetDrawState(DrawState::HUD);*/
 		}
-		
+
+		if (notifier->GetActivator()->name != "dialogTrigger")
+			notifier->SetActivator(nullptr);
 	}
 
 	if (notifier->OnDialog() && (input->GetKey(SDL_SCANCODE_F) == KeyState::KEY_DOWN /*|| input->GetControllerButton(CONTROLLER_BUTTON_A) == KeyState::KEY_DOWN*/))
@@ -611,15 +610,18 @@ bool SceneGameplay::Update(Input* input, float dt)
 		}
 		dialogSystem->NewDialog(notifier->GetDialogIndex());
 	}
-	else if (notifier->OnDialog() && notifier->GetActivator() != nullptr && notifier->GetActivator()->name == "dialogTrigger")
+	else if (notifier->OnDialog() && notifier->GetActivator() != nullptr)
 	{
-		for (int i = 0; i < entityManager->playerList.Count(); i++)
+		if (notifier->GetActivator()->name == "dialogTrigger")
 		{
-			entityManager->playerList.At(i)->data->stopPlayer = true;
+			for (int i = 0; i < entityManager->playerList.Count(); i++)
+			{
+				entityManager->playerList.At(i)->data->stopPlayer = true;
+			}
+			dialogSystem->NewDialog(notifier->GetDialogIndex());
+			notifier->GetActivator()->destroy = true;
+			notifier->SetActivator(nullptr);
 		}
-		dialogSystem->NewDialog(notifier->GetDialogIndex());
-		notifier->GetActivator()->destroy = true;
-		notifier->SetActivator(nullptr);
 	}
 	if (dialogSystem->DialogHasFinished())
 	{
