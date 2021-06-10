@@ -61,6 +61,8 @@ private:
 
 	int positionX;
 	int animIncrementY;
+
+	Timer selectionGamepadTimer;
 };
 
 #endif // __SCREENINVENTORY_H__

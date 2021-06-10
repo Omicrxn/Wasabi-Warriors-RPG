@@ -137,12 +137,10 @@ bool ScreenRoaming::Draw(Render* render)
 	// Draw anything extra needed in the hud
 	render->DrawTexture(this->atlas[1], 1000, 40, &playersIcons, 0.0f);
 
-	// LB & RB buttons sprite draw
 	if (controller)
-	{
-		/*render->DrawTexture(this->atlas[0], posLeft.x - 40, posLeft.y, &LBButton, 0.0f);
-		render->DrawTexture(this->atlas[0], posRight.x + 40, posRight.y, &RBButton, 0.0f);*/
-	}
+		render->DrawText(font, "Y", 950 + playersIcons.w, 25, 30, 2, { 255,255,0,255 });
+	else
+		render->DrawText(font, "E", 950 + playersIcons.w, 25, 30, 2, { 255,255,255,255 });
 
 	// Player Selection
 	if (currentPlayer != nullptr)

@@ -85,9 +85,6 @@ bool ScreenInventory::Update(Input* input, float dt, uint& focusedButtonId)
 			++itemHovering.x;
 	}
 
-	//if (input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
-	//	itemSelected = { -1,-1 };
-
 	int mouseX, mouseY;
 	input->GetMousePosition(mouseX, mouseY);
 
@@ -120,12 +117,13 @@ bool ScreenInventory::Update(Input* input, float dt, uint& focusedButtonId)
 			{
 				itemSelected = itemHovering;
 				hasSelectedItem = true;
+				selectionGamepadTimer.Start();
 			}
 		}
 		slotRect.y = slotRect.y + 30 + slotRect.h;
 	}
 
-	if (input->GetControllerState() && hasSelectedItem)
+	if (input->GetControllerState() && hasSelectedItem && selectionGamepadTimer.ReadSec() > 0.5f)
 	{
 		if (input->GetControllerButton(CONTROLLER_BUTTON_UP) == KeyState::KEY_DOWN && focusedButtonId > minIndex)
 			--focusedButtonId;
@@ -246,10 +244,10 @@ bool ScreenInventory::Draw(Render* render)
 	int posPlayerStatsX = 485 + 70;
 	render->DrawTexture(this->atlas[0], 1050, animIncrementY + 50, &playersIcons, 0.0f);
 	if (controller)
-	{
-		render->DrawTexture(this->atlas[0], 780 - 40, animIncrementY + 70, &LBButton, 0.0f);
-		render->DrawTexture(this->atlas[0], 880 + 40, animIncrementY + 70, &RBButton, 0.0f);
-	}
+		render->DrawText(font, "Y", 1050 + playersIcons.w, animIncrementY + 25, 30, 2, { 255,255,0,255 });
+	else
+		render->DrawText(font, "E", 1050 + playersIcons.w, animIncrementY + 25, 30, 2, { 255,255,255,255 });
+
 	// Draw Player member and stats
 	for (int i = 0; i < entityManager->playerList.Count(); ++i)
 	{
@@ -430,6 +428,11 @@ void ScreenInventory::Enable(bool isFromBattle)
 		easing->CreateSpline(&btnConfirm->bounds.x, 1040, 2000, SplineType::QUINT);
 		easing->CreateSpline(&btnCancel->bounds.x, 1040, 2000, SplineType::QUINT);
 	}
+
+	if (controller)
+		itemHovering = { 0,0 };
+	else
+		itemHovering = { -1,-1 };
 	
 	Screen::Enable();
 }
@@ -440,6 +443,9 @@ void ScreenInventory::Disable()
 	animIncrementY = 2000;
 	btnConfirm->bounds.x = 2000;
 	btnCancel->bounds.x = 2000;
+
+	itemSelected = { -1,-1 };
+	hasSelectedItem = false;
 
 	Screen::Disable();
 }
