@@ -131,6 +131,8 @@ SceneGameplay::SceneGameplay(bool hasStartedFromContinue)
 
 	// Bools
 	readyToChangeMap = false;
+
+	controller = false;
 }
 
 SceneGameplay::~SceneGameplay()
@@ -342,6 +344,8 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 
 bool SceneGameplay::Update(Input* input, float dt)
 {
+	controller = input->GetControllerState();
+
 	/*	TO CHANGE PROGRESS BOLEANS 
 	*	CHECK MAP TYPE
 	*	CHECK ALL LEVERS/WALLS/ACTIVATORS IN THAT MAP BY NAME STRING
@@ -602,7 +606,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 			notifier->SetActivator(nullptr);
 	}
 
-	if (!onDialog && notifier->OnDialog() && (input->GetKey(SDL_SCANCODE_F) == KeyState::KEY_DOWN /*|| input->GetControllerButton(CONTROLLER_BUTTON_A) == KeyState::KEY_DOWN*/))
+	if (!onDialog && notifier->OnDialog() && (input->GetKey(SDL_SCANCODE_F) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_A) == KeyState::KEY_DOWN))
 	{
 		for (int i = 0; i < entityManager->playerList.Count(); i++)
 		{
@@ -768,15 +772,24 @@ bool SceneGameplay::Draw(Render* render)
 
 		if (notifier->GetInteractingEntity()->type == EntityType::ENEMY)
 		{
-			render->DrawText(buttonFont, "Press F to fight", 640 - rect.w / 2 + 25, 500 + 7, 35, 1, { 128,128,128,255 });
+			if (!controller)
+				render->DrawText(buttonFont, "Press F to fight", 640 - rect.w / 2 + 25, 500 + 7, 35, 1, { 128,128,128,255 });
+			else
+				render->DrawText(buttonFont, "Press A to fight", 640 - rect.w / 2 + 25, 500 + 7, 35, 1, { 128,128,128,255 });
 		}
 		else if (notifier->GetInteractingEntity()->type == EntityType::NPC)
 		{
-			render->DrawText(buttonFont, "Press F to talk", 640 - rect.w / 2 + 30, 500 + 7, 35, 1, { 128,128,128,255 });
+			if (!controller)
+				render->DrawText(buttonFont, "Press F to talk", 640 - rect.w / 2 + 30, 500 + 7, 35, 1, { 128,128,128,255 });
+			else
+				render->DrawText(buttonFont, "Press A to talk", 640 - rect.w / 2 + 30, 500 + 7, 35, 1, { 128,128,128,255 });
 		}
 		else
 		{
-			render->DrawText(buttonFont, "Press F to interact", 640 - rect.w / 2 + 5, 500 + 7, 35, 1, { 128,128,128,255 });
+			if (!controller)
+				render->DrawText(buttonFont, "Press F to interact", 640 - rect.w / 2 + 5, 500 + 7, 35, 1, { 128,128,128,255 });
+			else
+				render->DrawText(buttonFont, "Press A to interact", 640 - rect.w / 2 + 5, 500 + 7, 35, 1, { 128,128,128,255 });
 		}
 
 		notifier->NotifyInteraction();

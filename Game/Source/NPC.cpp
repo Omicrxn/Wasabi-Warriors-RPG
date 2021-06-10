@@ -199,8 +199,8 @@ void NPC::SetName(SString name)
 
 void NPC::OnCollision(Collider* collider)
 {
-    if (!Notifier::GetInstance()->OnDialog() && collider->type == Collider::Type::PLAYER && input->GetKey(SDL_SCANCODE_F) == KEY_DOWN
-        /*|| input->GetControllerButton(CONTROLLER_BUTTON_A) == KeyState::KEY_DOWN*/)
+    if (!Notifier::GetInstance()->OnDialog() && collider->type == Collider::Type::PLAYER && (input->GetKey(SDL_SCANCODE_F) == KeyState::KEY_DOWN
+        || input->GetControllerButton(CONTROLLER_BUTTON_A) == KeyState::KEY_DOWN))
     {
         stop = true;
         direction = { 0,0 };

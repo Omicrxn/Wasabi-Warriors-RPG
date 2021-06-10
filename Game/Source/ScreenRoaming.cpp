@@ -71,6 +71,8 @@ bool ScreenRoaming::Update(Input* input, float dt)
 	// Update anything extra in the hud like the party member change
 	controller = input->GetControllerState();
 
+	guiManager->activeMouse = false;
+
 	if (input->GetKey(SDL_SCANCODE_ESCAPE) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_START) == KeyState::KEY_DOWN)
 	{
 		guiManager->ToggleMouse();

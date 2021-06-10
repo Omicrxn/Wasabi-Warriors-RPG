@@ -90,7 +90,7 @@ void Lever::OnCollision(Collider* collider)
 {
 	if (!hasInteracted)
 	{
-		if (input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
+		if (input->GetKey(SDL_SCANCODE_F) == KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_A) == KeyState::KEY_DOWN)
 		{
 			audio->PlayFx(entityManager->leverFx);
 			Interact();

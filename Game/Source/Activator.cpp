@@ -169,8 +169,9 @@ void Activator::OnCollision(Collider* collider)
         {
             Interact();
         }
-        else {
-            if (input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
+        else 
+        {
+            if (input->GetKey(SDL_SCANCODE_F) == KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_A) == KeyState::KEY_DOWN)
             {
                 if (name == "key") audio->PlayFx(entityManager->keyFx);
                 Interact();

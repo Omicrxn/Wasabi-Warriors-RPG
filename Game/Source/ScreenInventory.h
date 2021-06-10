@@ -55,6 +55,8 @@ private:
 	bool controller;
 	bool hasClickedConsume;
 
+	bool hasSelectedItem;
+
 	SDL_Rect bagRect;
 
 	int positionX;

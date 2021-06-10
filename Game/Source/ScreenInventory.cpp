@@ -26,6 +26,8 @@ ScreenInventory::ScreenInventory()
 	controller = false;
 	hasClickedConsume = false;
 
+	hasSelectedItem = false;
+
 	bagRect = { 1195, 320, 660, 603 };
 
 	positionX = 2000;
@@ -49,6 +51,8 @@ bool ScreenInventory::Load(int minIndex, int maxIndex, Scene* currentScene, Batt
 	this->battleSystem = battleSystem;
 
 	controller = false;
+
+	hasSelectedItem = false;
 
 	uint width, height;
 	win->GetWindowSize(width, height);

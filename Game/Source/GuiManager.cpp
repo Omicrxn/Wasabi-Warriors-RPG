@@ -76,7 +76,7 @@ void GuiManager::DestroyGuiControl(GuiControl* control)
 
 bool GuiManager::Start()
 {
-	activeMouse = false;
+	activeMouse = true;
 
 	if (guiAtlasTex != nullptr)
 		tex->UnLoad(guiAtlasTex);
@@ -104,7 +104,7 @@ bool GuiManager::Update(float dt)
 		doLogic = false;
 	}
 
-	if (activeMouse)
+	if (activeMouse && !input->GetControllerState())
 	{
 		// Mouse Cursor Update
 		input->GetMousePosition(mousePos.x, mousePos.y);
@@ -169,8 +169,7 @@ void GuiManager::ExitGame()
 
 void GuiManager::ToggleMouse()
 {
-	if (!input->GetControllerState())
-		activeMouse = !activeMouse;
+	activeMouse = !activeMouse;
 }
 
 GuiControl* GuiManager::FindById(int id)

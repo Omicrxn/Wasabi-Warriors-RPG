@@ -243,6 +243,8 @@ private:
     bool readyToChangeMap;
 
     bool onDialog = false;
+
+    bool controller;
 };
 
 #endif // __SCENEGAMEPLAY_H__

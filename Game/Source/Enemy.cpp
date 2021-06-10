@@ -130,7 +130,7 @@ void Enemy::SetName(SString name)
 
 void Enemy::OnCollision(Collider* collider)
 {
-    if (input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
+    if (input->GetKey(SDL_SCANCODE_F) == KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_A) == KeyState::KEY_DOWN)
     {
         if (readyForCombat == true)
         {

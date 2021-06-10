@@ -68,10 +68,11 @@ public:
 	iPoint mousePos;
 	bool clicking;
 
+	bool activeMouse;
+
 private:
 	
 	bool exitingGame;
-	bool activeMouse;
 };
 
 #endif // __GUIMANAGER_H__
