@@ -1,9 +1,0 @@
-<dialog id="25">
-	<line left-speaker="None" right-speaker="None" value="The lights just went out"></line>
-	<line left-speaker="Takada" right-speaker="None" value="I don't know who you are or why you are fighting my employees but I won't let you go any firther!"></line>
-	<line left-speaker="Kenzo" right-speaker="None" value="That was Takada through the elevator speaker! He cut the electricity of the building!"></line>
-	<line left-speaker="Rei" right-speaker="None" value="But wait guys, this is a control floor, there has to be a way to turn on the electricity with those computers!"></line>
-	<line left-speaker="Eiken" right-speaker="None" value="We will have to turn it on again."></line>
-</dialog>
-
-
