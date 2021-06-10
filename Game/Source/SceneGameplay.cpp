@@ -602,13 +602,15 @@ bool SceneGameplay::Update(Input* input, float dt)
 			notifier->SetActivator(nullptr);
 	}
 
-	if (notifier->OnDialog() && (input->GetKey(SDL_SCANCODE_F) == KeyState::KEY_DOWN /*|| input->GetControllerButton(CONTROLLER_BUTTON_A) == KeyState::KEY_DOWN*/))
+	if (!onDialog && notifier->OnDialog() && (input->GetKey(SDL_SCANCODE_F) == KeyState::KEY_DOWN /*|| input->GetControllerButton(CONTROLLER_BUTTON_A) == KeyState::KEY_DOWN*/))
 	{
 		for (int i = 0; i < entityManager->playerList.Count(); i++)
 		{
 			entityManager->playerList.At(i)->data->stopPlayer = true;
 		}
 		dialogSystem->NewDialog(notifier->GetDialogIndex());
+
+		onDialog = true;
 	}
 	else if (notifier->OnDialog() && notifier->GetActivator() != nullptr)
 	{
@@ -667,6 +669,8 @@ bool SceneGameplay::Update(Input* input, float dt)
 			player = nullptr;
 			gameProgress.hasSavedLastApprentice = true;
 		}
+
+		onDialog = false;
 	}
 
 	switch (currentState)

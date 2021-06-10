@@ -267,7 +267,6 @@ void DialogSystem::DrawDialog()
 	// Set the text to uppercase, since our font only supports uppercase.
 	std::string text = ToUpperCase(currentDialog->attributes->at("value"));
 	
-	
 	// Write the dialog line.
 	/*fonts->BlitText(10 + 220, (render->camera.h / 3) * 2 + 10 + 50, 0, text.c_str());*/
 	/*render->DrawText(font, text.c_str(), 10 + 220, (render->camera.h / 3) * 2 + 10 + 50, 25, 3, { 255,255,255,255 });*/

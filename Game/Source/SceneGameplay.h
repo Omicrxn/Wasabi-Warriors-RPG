@@ -241,6 +241,8 @@ private:
 
     // Bool to keep track of the map change specific moment
     bool readyToChangeMap;
+
+    bool onDialog = false;
 };
 
 #endif // __SCENEGAMEPLAY_H__
