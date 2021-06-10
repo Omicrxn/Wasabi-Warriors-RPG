@@ -102,7 +102,7 @@
       <player posX="256" posY="1504"/>
     </prevBigCity>
     <npc posX="256" posY="1432" spritePos="3" stop="true" dialogIndex="7"/>
-    <enemy posX="256" posY="256" class="henchman" name="Henchman" spritePos="5" subtype="2"/>
+    <enemy posX="256" posY="256" class="henchman" name="Ben" spritePos="5" subtype="2"/>
     <enemy posX="96" posY="320" class="bruiser" name="John" spritePos="10" subtype="3"/>
     <enemy posX="256" posY="416" class="bruiser" name="Robert" spritePos="6" subtype="3"/>
     <enemy posX="1312" posY="1248" class="boss" name="Takuda" spritePos="7" subtype="3"/>

@@ -1917,8 +1917,10 @@ void SceneGameplay::SetUpTp()
 			case MapType::SECRET_ROOM:
 				gameProgress.hasVisitedSecretRoom = true;
 				gameProgress.hasVisitedRestaurantQuest = true;
+				break;
 			case MapType::OSAKA:
 				gameProgress.hasVisitedOsaka = true;
+				break;
 			default:
 				break;
 			}
