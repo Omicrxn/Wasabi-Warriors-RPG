@@ -171,7 +171,19 @@ bool DialogSystem::Update(float dt)
 		char HP[8] = { 0 };
 		sprintf_s(HP, 8, "%03i", randNum);
 
-		switch (randNum)
+		/*switch (randNum)
+		{
+		
+		default:
+			break;
+		}*/
+	}
+	else if (newDialog == true)
+	{
+		newDialog = false;
+		dialogFinished = false;
+
+		switch (dialogIndex)
 		{
 		case 1:
 			StartDialog("1");
@@ -185,17 +197,6 @@ bool DialogSystem::Update(float dt)
 		case 4:
 			StartDialog("4");
 			break;
-		default:
-			break;
-		}
-	}
-	else if (newDialog == true)
-	{
-		newDialog = false;
-		dialogFinished = false;
-
-		switch (dialogIndex)
-		{
 		case 7:
 			StartDialog("7");
 			break;
