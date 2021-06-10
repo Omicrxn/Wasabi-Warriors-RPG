@@ -654,6 +654,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 		else if (dialogSystem->GetDialogIndex() == 17)
 		{
 			gameProgress.hasVisitedErikaTombstone = true;
+			entityManager->DestroyEntity(entityManager->SearchEntity("Erika"));
 		}
 		else if (dialogSystem->GetDialogIndex() == 18)
 		{
