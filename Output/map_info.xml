@@ -80,15 +80,19 @@
     <item posX="320" posY="416" class="item" name="fork" subtype="10"/>
     <!--<activator name="key" posX="64" posY="640" width="32" height="32" drawState="0"/>-->
   </mediumCity>
-  <bigCity enemyCount="0" npcCount="0" teleportCount="2" itemCount="3" secretWallCount="0" leverCount="0">
+  <bigCity enemyCount="0" npcCount="0" teleportCount="3" itemCount="3" secretWallCount="0" leverCount="0">
     <prevSkyscraper>
       <player posX="768" posY="352"/>
     </prevSkyscraper>
     <prevOsaka>
       <player posX="800" posY="1100"/>
     </prevOsaka>
+    <prevThirdRestaurant>
+      <player posX="544" posY="928"/>
+    </prevThirdRestaurant>
     <teleport posX="768" posY="288" width="64" height="32" destination="6"/>
     <teleport posX="736" posY="1152" width="128" height="32" destination="8"/>
+    <teleport posX="544" posY="896" width="32" height="32" destination="10"/>
     <!--<item posX="832" posY="360" class="item" name="potion" subtype="5"/>-->
     <!--<item posX="672" posY="416" class="item" name="bigPotion" subtype="6"/>-->
     <!--<item posX="840" posY="416" class="item" name="megaPotion" subtype="7"/>-->
@@ -158,12 +162,13 @@
     <!--<item posX="64" posY="320" class="item" name="wasabi" subtype="8"/>-->
     <!--<item posX="256" posY="320" class="item" name="wasabi" subtype="8"/>-->
   </second_restaurant>
-  <third_restaurant enemyCount="0" npcCount="0" teleportCount="1" activatorCount="0" itemCount="0" secretWallCount="0" leverCount="0">
-    <prevOsaka>
+  <third_restaurant enemyCount="2" npcCount="0" teleportCount="1" activatorCount="0" itemCount="0" secretWallCount="0" leverCount="0">
+    <prevBigCity>
       <player posX="160" posY="384"/>
-    </prevOsaka>
+    </prevBigCity>
     <teleport posX="160" posY="416" width="64" height="32" destination="5"/>
-
+    <enemy posX="128" posY="352" class="henchman" name="Henchman" spritePos="5" subtype="2"/>
+    <enemy posX="224" posY="352" class="bruiser" name="Bruiser" spritePos="5" subtype="3"/>
 
     <!--<teleport posX="224" posY="128" width="32" height="32" destination="7"/>-->
     <!--<item posX="64" posY="256" class="item" name="wasabi" subtype="8"/>-->
