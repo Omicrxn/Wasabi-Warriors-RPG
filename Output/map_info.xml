@@ -11,7 +11,7 @@
       <player posX="640" posY="64"/>
     </prevOsaka>
     <prevMediumCity>
-      <player posX="1408" posY="288"/>
+      <player posX="1440" posY="288"/>
     </prevMediumCity>
     <prevHouse>
       <player posX="1216" posY="256"/>
@@ -37,7 +37,7 @@
       <player posX="480" posY="64"/>
     </prevBigCity>
     <prevTown>
-      <player posX="480" posY="736"/>
+      <player posX="480" posY="768"/>
     </prevTown>
     <prevSecondRestaurant>
       <player posX="736" posY="416"/>
@@ -48,7 +48,7 @@
   </osaka>
   <cemetery enemyCount ="1" npcCount ="3" teleportCount ="1" itemCount="3" secretWallCount="0" leverCount="0">
     <prevMediumCity>
-      <player posX="384" posY="448"/>
+      <player posX="384" posY="416"/>
     </prevMediumCity>
     <enemy posX="224" posY="192" class="boss" name="Boss" spritePos="9" subtype="4"/>
     <npc posX="640" posY="352" spritePos="2" stop="false" dialogIndex="-1"/>
@@ -61,7 +61,7 @@
   </cemetery>
   <mediumCity enemyCount ="2" npcCount ="1" teleportCount ="3" itemCount="3" activatorCount="1" secretWallCount="0" leverCount="0">
     <prevTown>
-      <player posX="128" posY="256"/>
+      <player posX="32" posY="224"/>
     </prevTown>
     <prevCemetery>
       <player posX="832" posY="32"/>
@@ -82,10 +82,10 @@
   </mediumCity>
   <bigCity enemyCount="0" npcCount="0" teleportCount="3" itemCount="3" secretWallCount="0" leverCount="0">
     <prevSkyscraper>
-      <player posX="768" posY="352"/>
+      <player posX="768" posY="320"/>
     </prevSkyscraper>
     <prevOsaka>
-      <player posX="800" posY="1100"/>
+      <player posX="768" posY="1120"/>
     </prevOsaka>
     <prevThirdRestaurant>
       <player posX="544" posY="928"/>
@@ -99,7 +99,7 @@
   </bigCity>
   <dungeon enemyCount="4" npcCount="1" teleportCount="7" activatorCount="1" secretWallCount="1" leverCount="3">DDD
     <prevBigCity>
-      <player posX="256" posY="1504"/>
+      <player posX="256" posY="1536"/>
     </prevBigCity>
     <npc posX="256" posY="1432" spritePos="3" stop="true" dialogIndex="7"/>
     <enemy posX="256" posY="256" class="henchman" name="Ben" spritePos="5" subtype="2"/>
@@ -121,14 +121,8 @@
   </dungeon>
   <restaurant enemyCount="0" npcCount="0" teleportCount="1" activatorCount="1" itemCount="3" secretWallCount="0" leverCount="0">
     <prevMediumCity>
-      <player posX="160" posY="384"/>
+      <player posX="160" posY="374"/>
     </prevMediumCity>
-    <prevOsaka>
-      <player posX="160" posY="384"/>
-    </prevOsaka>
-    <prevBigCity>
-      <player posX="160" posY="384"/>
-    </prevBigCity>
     <prevSecretRoom>
       <player posX="224" posY="160"/>
     </prevSecretRoom>
@@ -141,7 +135,7 @@
   </restaurant>
   <secretRoom enemyCount="0" npcCount="0" teleportCount="1" itemCount="4" activatorCount="0" secretWallCount="0" leverCount="0">
     <prevRestaurant>
-      <player posX="64" posY="128"/>
+      <player posX="64" posY="160"/>
     </prevRestaurant>
     <teleport posX="64" posY="192" width="32" height="32" destination="3"/>
     <!--<item posX="72" posY="72" class="item" name="megaPotion" subtype="7"/>
@@ -152,8 +146,11 @@
 
   <second_restaurant enemyCount="2" npcCount="0" teleportCount="1" activatorCount="0" itemCount="0" secretWallCount="0" leverCount="0">
     <prevOsaka>
-      <player posX="160" posY="384"/>
+      <player posX="160" posY="374"/>
     </prevOsaka>
+    <prevSecretRoom>
+      <player posX="224" posY="160"/>
+    </prevSecretRoom>
     <teleport posX="160" posY="416" width="64" height="32" destination="8"/>
     <enemy posX="128" posY="352" class="henchman" name="Henchman" spritePos="5" subtype="2"/>
     <enemy posX="224" posY="352" class="bruiser" name="Bruiser" spritePos="5" subtype="3"/>
@@ -164,8 +161,11 @@
   </second_restaurant>
   <third_restaurant enemyCount="2" npcCount="0" teleportCount="1" activatorCount="0" itemCount="0" secretWallCount="0" leverCount="0">
     <prevBigCity>
-      <player posX="160" posY="384"/>
+      <player posX="160" posY="374"/>
     </prevBigCity>
+    <prevSecretRoom>
+      <player posX="224" posY="160"/>
+    </prevSecretRoom>
     <teleport posX="160" posY="416" width="64" height="32" destination="5"/>
     <enemy posX="128" posY="352" class="henchman" name="Henchman" spritePos="5" subtype="2"/>
     <enemy posX="224" posY="352" class="bruiser" name="Bruiser" spritePos="5" subtype="3"/>
