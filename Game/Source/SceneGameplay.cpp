@@ -595,7 +595,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 			}
 
 			// Right now we don't have any activator that we want to have on the HUD
-			/*notifier->GetActivator()->SetDrawState(DrawState::HUD);*/
+			notifier->GetActivator()->SetDrawState(DrawState::NONE);
 		}
 
 		if (notifier->GetActivator()->name != "dialogTrigger")
