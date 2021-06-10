@@ -271,17 +271,17 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 	// Gui id goes from 6 to 10
 	screenSettings = new ScreenSettings();
 	screenSettings->SetGameplaySettings(true);
-	screenSettings->Load(6, 10, this, win, guiManager, guiAtlasTex2, buttonFont, hoverFx, clickFx, returnFx);
+	screenSettings->Load(6, 9, this, win, guiManager, guiAtlasTex2, buttonFont, hoverFx, clickFx, returnFx);
 	screenSettings->Disable();
 
 	// Gui id goes from 11 to 14
 	screenBattle = new ScreenBattle();
-	screenBattle->Load(11, 14, this, battleSystem, tex, win, audio, guiManager, entityManager, charactersSpritesheet, guiAtlasTex, guiAtlasTex2, titleFont, battleFont, menuFont, buttonFont, hoverFx, clickFx, returnFx);
+	screenBattle->Load(10, 13, this, battleSystem, tex, win, audio, guiManager, entityManager, charactersSpritesheet, guiAtlasTex, guiAtlasTex2, titleFont, battleFont, menuFont, buttonFont, hoverFx, clickFx, returnFx);
 	screenBattle->isActive = false;
 
 	// Gui id goes from 15 to 16
 	screenInventory = new ScreenInventory();
-	screenInventory->Load(15, 16, this, battleSystem, win, guiManager, entityManager, audio, easing, guiAtlasTex2, buttonFont, hoverFx, clickFx);
+	screenInventory->Load(14, 15, this, battleSystem, win, guiManager, entityManager, audio, easing, guiAtlasTex2, buttonFont, hoverFx, clickFx);
 	screenInventory->Disable();
 
 	if (hasStartedFromContinue)
@@ -494,7 +494,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 		currentState = GameState::BATTLE;
 		screenBattle->isActive = true;
 
-		focusedButtonId = 13;
+		focusedButtonId = 10;
 
 		audio->StopMusic();
 		audio->PlayMusic("Audio/Music/battle.ogg");
@@ -518,7 +518,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 		currentState = GameState::BATTLE;
 		screenBattle->isActive = true;
 
-		focusedButtonId = 13;
+		focusedButtonId = 10;
 
 		audio->StopMusic();
 		audio->PlayMusic("Audio/Music/battle.ogg");
@@ -862,10 +862,63 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 	{
 		if (control->id == 0)
 		{
+			// Entering settings from pause
+			currentState = GameState::SETTINGS;
+
+			screenPause->Disable();
+			screenSettings->Enable();
+
+			// Vsync control is disabled if you acces from gameplay
+			//this->guiManager->controls.At(7)->data->state = GuiControlState::DISABLED;
+
+			audio->StopMusic();
+			audio->PlayMusic("Audio/Music/menu_settings.ogg");
+
+			focusedButtonId = 6;
+		}
+		else if (control->id == 1)
+		{
+			// Exiting to menu
+			currentState = GameState::EXIT;
+
+			screenRoaming->Disable();
+			screenPause->Disable();
+
+			focusedButtonId = 0;
+
+			TransitionToScene(SceneType::TITLE);
+		}
+		else if (control->id == 2)
+		{
+			// From Main Screen of the mobile to Quest Screen
+			screenPause->state = MobileState::QUEST;
+			focusedButtonId = 5;
+			for (int i = 0; i <= 4; ++i)
+				guiManager->controls.At(i)->data->state = GuiControlState::DISABLED;
+		}
+		else if (control->id == 3)
+		{
+			// From Main Screen of the mobile to Team Screen
+			screenPause->state = MobileState::TEAM;
+			focusedButtonId = 5;
+			for (int i = 0; i <= 4; ++i)
+				guiManager->controls.At(i)->data->state = GuiControlState::DISABLED;
+		}
+		else if (control->id == 4)
+		{
+			// From Main Screen of the mobile to Map Screen
+			screenPause->state = MobileState::MAP;
+			focusedButtonId = 5;
+			for (int i = 0; i <= 4; ++i)
+				guiManager->controls.At(i)->data->state = GuiControlState::DISABLED;
+		}
+		else if (control->id == 5)
+		{
 			if (screenPause->state != MobileState::MAIN)
 			{
 				screenPause->state = MobileState::MAIN;
-				for (int i = 1; i <= 5; ++i)
+				focusedButtonId = 0;
+				for (int i = 0; i <= 4; ++i)
 					guiManager->controls.At(i)->data->state = GuiControlState::NORMAL;
 			}
 			else if (pauseTimer.ReadSec() > 0.5f)
@@ -874,7 +927,7 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 
 				screenPause->Disable();
 				screenRoaming->Enable();
-				
+
 				guiManager->ToggleMouse();
 
 				for (int i = 0; i < entityManager->playerList.Count(); i++)
@@ -883,66 +936,25 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 				}
 
 				PlayMapMusic();
+
+				focusedButtonId = 0;
 			}
 		}
-		else if (control->id == 1)
-		{
-			// Entering settings from pause
-			currentState = GameState::SETTINGS;
-
-			screenPause->Disable();
-			screenSettings->Enable();
-
-			// Vsync control is disabled if you acces from gameplay
-			this->guiManager->controls.At(7)->data->state = GuiControlState::DISABLED;
-
-			audio->StopMusic();
-			audio->PlayMusic("Audio/Music/menu_settings.ogg");
-		}
-		else if (control->id == 2)
-		{
-			// Exiting to menu
-			currentState = GameState::EXIT;
-
-			screenRoaming->Disable();
-			screenPause->Disable();
-
-			TransitionToScene(SceneType::TITLE);
-		}
-		else if (control->id == 3)
-		{
-			// From Main Screen of the mobile to Quest Screen
-			screenPause->state = MobileState::QUEST;
-			for (int i = 1; i <= 5; ++i)
-				guiManager->controls.At(i)->data->state = GuiControlState::DISABLED;
-		}
-		else if (control->id == 4)
-		{
-			// From Main Screen of the mobile to Team Screen
-			screenPause->state = MobileState::TEAM;
-			for (int i = 1; i <= 5; ++i)
-				guiManager->controls.At(i)->data->state = GuiControlState::DISABLED;
-		}
-		else if (control->id == 5)
-		{
-			// From Main Screen of the mobile to Map Screen
-			screenPause->state = MobileState::MAP;
-			for (int i = 1; i <= 5; ++i)
-				guiManager->controls.At(i)->data->state = GuiControlState::DISABLED;
-		}
-		else if (control->id == 10)
+		else if (control->id == 9)
 		{
 			// Returning from settings to pause
 			currentState = GameState::PAUSE;
 
 			screenPause->Enable(true);
 			screenSettings->Disable();
+
+			focusedButtonId = 0;
 		}
 		break;
 	}
 	case GuiControlType::BUTTON:
 	{
-		if (control->id == 11)
+		if (control->id == 10)
 		{
 			if (battleSystem->playerState != PlayerState::NONE || battleSystem->battleState != BattleState::PLAYER_TURN)
 				break;
@@ -950,7 +962,7 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 			battleSystem->playerState = PlayerState::ATTACK;
 			screenBattle->HideButtons();
 		}
-		else if (control->id == 12)
+		else if (control->id == 11)
 		{
 			if (battleSystem->playerState != PlayerState::NONE || battleSystem->battleState != BattleState::PLAYER_TURN)
 				break;
@@ -958,14 +970,14 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 			battleSystem->playerState = PlayerState::DEFENSE;
 			screenBattle->HideButtons();
 		}
-		else if (control->id == 13)
+		else if (control->id == 12)
 		{
 			if (battleSystem->playerState != PlayerState::NONE || battleSystem->battleState != BattleState::PLAYER_TURN)
 				break;
 
 			battleSystem->playerState = PlayerState::ITEM;
 		}
-		else if (control->id == 14)
+		else if (control->id == 13)
 		{
 			if (battleSystem->playerState != PlayerState::NONE || battleSystem->battleState != BattleState::PLAYER_TURN)
 				break;
@@ -973,7 +985,7 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 			battleSystem->playerState = PlayerState::RUN;
 			ExitBattle();
 		}
-		else if (control->id == 15)
+		else if (control->id == 14)
 		{
 			if (screenInventory->listInvItems.Count() != 0)
 			{
@@ -995,7 +1007,7 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 				screenBattle->EnableBattleButtons();
 			}
 		}
-		else if (control->id == 16)
+		else if (control->id == 15)
 		{
 			if (currentState == GameState::BATTLE)
 			{
@@ -1020,6 +1032,8 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 				}
 
 				PlayMapMusic();
+
+				focusedButtonId = 0;
 			}
 		}
 		break;
@@ -1027,7 +1041,7 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 	case GuiControlType::CHECKBOX:
 	{
 		// Fullscreen
-		if (control->id == 6)
+		if (control->id == 8)
 		{
 			if (screenSettings->checkFullScreen->GetCheck())
 				SDL_SetWindowFullscreen(win->window, 1);
@@ -1054,13 +1068,13 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 	}
 	case GuiControlType::SLIDER:
 	{
-		if (control->id == 8)
+		if (control->id == 6)
 		{
 			GuiSlider* tempSlider = (GuiSlider*)this->guiManager->controls.At(8)->data;
 			int value = tempSlider->GetValue();
 			audio->ChangeMusicVolume(value);
 		}
-		else if (control->id == 9)
+		else if (control->id == 7)
 		{
 			GuiSlider* tempSlider = (GuiSlider*)this->guiManager->controls.At(9)->data;
 			int value = tempSlider->GetValue();
@@ -1088,7 +1102,7 @@ void SceneGameplay::OpenPause()
 		entityManager->playerList.At(i)->data->stopPlayer = true;
 	}
 
-	focusedButtonId = 1;
+	focusedButtonId = 0;
 
 	pauseTimer.Start();
 }
@@ -1107,6 +1121,8 @@ void SceneGameplay::OpenInventory()
 	}
 
 	audio->PlayFx(bagOpenFx);
+
+	focusedButtonId = 14;
 }
 
 bool SceneGameplay::LoadState(pugi::xml_node& scenegameplay)
@@ -1397,7 +1413,7 @@ void SceneGameplay::ExitBattle()
 {
 	PlayMapMusic();
 
-	for (int i = 11; i <= 15; ++i)
+	for (int i = 10; i <= 13; ++i)
 	{
 		guiManager->controls.At(i)->data->state = GuiControlState::HIDDEN;
 	}

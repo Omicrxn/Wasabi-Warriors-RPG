@@ -1179,7 +1179,7 @@ void ScreenBattle::EnableBattleButtons()
 		guiManager->controls.At(i)->data->state = GuiControlState::NORMAL;
 	}
 
-	for (int i = 0; i <= minIndex - 1; ++i)
+	for (int i = 0; i <= (minIndex - 1); ++i)
 	{
 		guiManager->controls.At(i)->data->state = GuiControlState::HIDDEN;
 	}

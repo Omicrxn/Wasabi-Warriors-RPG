@@ -85,11 +85,6 @@ bool ScreenPause::Load(int minIndex, int maxIndex, Scene* currentScene, Window* 
 	this->maxIndex = maxIndex;
 	int counterId = minIndex;
 
-	iconReturn = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 609, position + 580, 54, 54 });
-	iconReturn->SetIconProperties(currentScene, atlas[0], font, hoverFx, clickFx, IconType::ICON_RETURN);
-	iconReturn->state = GuiControlState::HIDDEN;
-	++counterId;
-
 	iconSettings = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 490, position + 108, 58, 55 });
 	iconSettings->SetIconProperties(currentScene, atlas[0], font, hoverFx, clickFx, IconType::ICON_SETTINGS);
 	iconSettings->state = GuiControlState::HIDDEN;
@@ -113,44 +108,52 @@ bool ScreenPause::Load(int minIndex, int maxIndex, Scene* currentScene, Window* 
 	iconMap = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 710, position + 435, 90, 90 });
 	iconMap->SetIconProperties(currentScene, atlas[0], font, hoverFx, clickFx, IconType::ICON_MAP);
 	iconMap->state = GuiControlState::HIDDEN;
+	++counterId;
+
+	iconReturn = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 609, position + 580, 54, 54 });
+	iconReturn->SetIconProperties(currentScene, atlas[0], font, hoverFx, clickFx, IconType::ICON_RETURN);
+	iconReturn->state = GuiControlState::HIDDEN;
 
 	return true;
 }
 
 bool ScreenPause::Update(Input* input, float dt, uint& focusedButtonId)
 {
-	int mouseX, mouseY;
-	input->GetMousePosition(mouseX, mouseY);
-
-	isMapHover[hovering] = true;
-
-	for (int i = 0; i < 5; ++i) 
+	if (state == MobileState::MAP)
 	{
-		if (PointCircleCollCheck(mouseX, mouseY, mobRelativePos + 30 + mapHoverPos[i].x, position + 39 + mapHoverPos[i].y, 40))
+		int mouseX, mouseY;
+		input->GetMousePosition(mouseX, mouseY);
+
+		isMapHover[hovering] = true;
+
+		for (int i = 0; i < 5; ++i)
 		{
-			if (isMapHover[i] == false)
-				audio->PlayFx(hoverFx);
-			isMapHover[i] = true;
-			hovering = i;
-		}
-		else
-		{
-			if (hovering == i)
-				continue;
-			isMapHover[i] = false;
-		}
-			
-	}
+			if (PointCircleCollCheck(mouseX, mouseY, mobRelativePos + 30 + mapHoverPos[i].x, position + 39 + mapHoverPos[i].y, 40))
+			{
+				if (isMapHover[i] == false)
+					audio->PlayFx(hoverFx);
+				isMapHover[i] = true;
+				hovering = i;
+			}
+			else
+			{
+				if (hovering == i)
+					continue;
+				isMapHover[i] = false;
+			}
 
-	if ((input->GetKey(SDL_SCANCODE_UP) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_UP) == KeyState::KEY_DOWN) && hovering > 0) 
-	{
-		--hovering;
-		audio->PlayFx(hoverFx);
-	}
-	else if ((input->GetKey(SDL_SCANCODE_DOWN) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KeyState::KEY_DOWN) && hovering < 4)
-	{
-		++hovering;
-		audio->PlayFx(hoverFx);
+		}
+
+		if ((input->GetKey(SDL_SCANCODE_UP) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_UP) == KeyState::KEY_DOWN) && hovering > 0)
+		{
+			--hovering;
+			audio->PlayFx(hoverFx);
+		}
+		else if ((input->GetKey(SDL_SCANCODE_DOWN) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KeyState::KEY_DOWN) && hovering < 4)
+		{
+			++hovering;
+			audio->PlayFx(hoverFx);
+		}
 	}
 
 	return true;

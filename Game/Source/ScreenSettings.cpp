@@ -52,15 +52,12 @@ bool ScreenSettings::Load(int minIndex, int maxIndex, Scene* currentScene, Windo
 	checkFullScreen->SetCheckBoxProperties(currentScene, atlas0, buttonFont, hoverFx, clickFx);
 	++counterId;
 
-	checkVsync = (GuiCheckBox*)guiManager->CreateGuiControl(GuiControlType::CHECKBOX, counterId, { (int)width / 2 - (int)((float)width / 10), 450, 45, 49 }, "VSYNC");
-	checkVsync->SetCheckBoxProperties(currentScene, atlas0, buttonFont, hoverFx, clickFx);
-	++counterId;
-
-	//int positionY = 350;
-	//if (isGameplaySettings)
-	//{
-	//	positionY = 250;
-	//}
+	if (!isGameplaySettings)
+	{
+		checkVsync = (GuiCheckBox*)guiManager->CreateGuiControl(GuiControlType::CHECKBOX, counterId, { (int)width / 2 - (int)((float)width / 10), 450, 45, 49 }, "VSYNC");
+		checkVsync->SetCheckBoxProperties(currentScene, atlas0, buttonFont, hoverFx, clickFx);
+		++counterId;
+	}
 
 	iconReturnTitle = (GuiIcon*)guiManager->CreateGuiControl(GuiControlType::ICON, counterId, { 609, 580, 54, 54 });
 	iconReturnTitle->SetIconProperties(currentScene, atlas0, buttonFont, hoverFx, returnFx, IconType::ICON_RETURN);
@@ -91,10 +88,12 @@ bool ScreenSettings::Draw(Render* render)
 
 bool ScreenSettings::Unload(Textures* tex, AudioManager* audio, GuiManager* guiManager)
 {
-	guiManager->DestroyGuiControl(checkFullScreen);
-	guiManager->DestroyGuiControl(checkVsync);
 	guiManager->DestroyGuiControl(sliderMusicVolume);
 	guiManager->DestroyGuiControl(sliderFXVolume);
+
+	guiManager->DestroyGuiControl(checkFullScreen);
+	if (!isGameplaySettings)
+		guiManager->DestroyGuiControl(checkVsync);
 
 	guiManager->DestroyGuiControl(iconReturnTitle);
 
@@ -116,8 +115,11 @@ bool ScreenSettings::LoadState(pugi::xml_node& screen)
 	bool fullscreen = screenSettingsNode.attribute("fullScreen").as_bool();
 	this->checkFullScreen->SetCheck(fullscreen);
 	
-	bool vsync = screenSettingsNode.attribute("vsync").as_bool();
-	this->checkVsync->SetCheck(vsync);
+	if (!isGameplaySettings)
+	{
+		bool vsync = screenSettingsNode.attribute("vsync").as_bool();
+		this->checkVsync->SetCheck(vsync);
+	}
 	
 	return false;
 }
@@ -169,15 +171,18 @@ bool ScreenSettings::SaveState(pugi::xml_node& screen) const
 		screenSettingsNode.append_attribute("fullScreen").set_value(this->checkFullScreen->GetCheck());
 	}
 
-	// Check vsync attribute
-	tempName = screenSettingsNode.attribute("vsync").name();
-	if (tempName == "vsync")
+	if (!isGameplaySettings)
 	{
-		screenSettingsNode.attribute("vsync").set_value(this->checkVsync->GetCheck());
-	}
-	else
-	{
-		screenSettingsNode.append_attribute("vsync").set_value(this->checkVsync->GetCheck());
+		// Check vsync attribute
+		tempName = screenSettingsNode.attribute("vsync").name();
+		if (tempName == "vsync")
+		{
+			screenSettingsNode.attribute("vsync").set_value(this->checkVsync->GetCheck());
+		}
+		else
+		{
+			screenSettingsNode.append_attribute("vsync").set_value(this->checkVsync->GetCheck());
+		}
 	}
 
 	return false;

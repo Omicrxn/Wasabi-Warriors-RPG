@@ -345,7 +345,7 @@ bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
     case GuiControlType::CHECKBOX:
     {
         // Fullscreen
-        if (control->id == 5)
+        if (control->id == 7)
         {
             if (screenSettings->checkFullScreen->GetCheck())
                 SDL_SetWindowFullscreen(win->window, 1);
@@ -353,7 +353,7 @@ bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
                 SDL_SetWindowFullscreen(win->window, 0);
         }
         // Vsync
-        if (control->id == 6)
+        if (control->id == 8)
         {
             Uint32 windowFlags = SDL_GetWindowFlags(win->window);
             Uint32 rendererFlags = SDL_RENDERER_ACCELERATED;
@@ -397,13 +397,13 @@ bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
     }
     case GuiControlType::SLIDER:
     {
-        if (control->id == 7)
+        if (control->id == 5)
         {
             GuiSlider* tempSlider = (GuiSlider*)this->guiManager->controls.At(7)->data;
             int value = tempSlider->GetValue();
             audio->ChangeMusicVolume(value);
         }
-        else if (control->id == 8)
+        else if (control->id == 6)
         {
             GuiSlider* tempSlider = (GuiSlider*)this->guiManager->controls.At(8)->data;
             int value = tempSlider->GetValue();
