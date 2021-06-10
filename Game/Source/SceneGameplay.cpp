@@ -678,7 +678,8 @@ bool SceneGameplay::Update(Input* input, float dt)
 		screenPause->Update(input, dt, focusedButtonId);
 		break;
 	case GameState::SETTINGS:
-		screenSettings->Update(input, dt, focusedButtonId);
+		if (input->GetControllerState())
+			screenSettings->Update(input, dt, focusedButtonId);
 		break;
 	case GameState::EXIT:
 		break;
@@ -894,7 +895,6 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 		{
 			// From Main Screen of the mobile to Quest Screen
 			screenPause->state = MobileState::QUEST;
-			focusedButtonId = 5;
 			for (int i = 0; i <= 4; ++i)
 				guiManager->controls.At(i)->data->state = GuiControlState::DISABLED;
 		}
@@ -902,7 +902,6 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 		{
 			// From Main Screen of the mobile to Team Screen
 			screenPause->state = MobileState::TEAM;
-			focusedButtonId = 5;
 			for (int i = 0; i <= 4; ++i)
 				guiManager->controls.At(i)->data->state = GuiControlState::DISABLED;
 		}
@@ -910,7 +909,6 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 		{
 			// From Main Screen of the mobile to Map Screen
 			screenPause->state = MobileState::MAP;
-			focusedButtonId = 5;
 			for (int i = 0; i <= 4; ++i)
 				guiManager->controls.At(i)->data->state = GuiControlState::DISABLED;
 		}
@@ -918,8 +916,14 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 		{
 			if (screenPause->state != MobileState::MAIN)
 			{
+				if (screenPause->state == MobileState::QUEST)
+					focusedButtonId = 2;
+				else if (screenPause->state == MobileState::TEAM)
+					focusedButtonId = 3;
+				else if (screenPause->state == MobileState::MAP)
+					focusedButtonId = 4;
+
 				screenPause->state = MobileState::MAIN;
-				focusedButtonId = 0;
 				for (int i = 0; i <= 4; ++i)
 					guiManager->controls.At(i)->data->state = GuiControlState::NORMAL;
 			}
@@ -947,8 +951,8 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 			// Returning from settings to pause
 			currentState = GameState::PAUSE;
 
-			screenPause->Enable(true);
 			screenSettings->Disable();
+			screenPause->Enable(true);
 
 			focusedButtonId = 0;
 		}
