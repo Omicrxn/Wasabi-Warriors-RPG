@@ -2,8 +2,9 @@
 
 Wasabi Warriors is a Role-Playing Game with a theme-based on an urban Japanese environment and a story about power and corruption. It is mainly played in top-down perspective combined with combat scenes and has different locations and areas to explore. The project aims to be a 30 minutes gameplay experience with a catching narrative to make the player experience a different journey.
 
-![Main Menu](Wiki/Layouts/main_menu.png)
-![Graveyard](Wiki/Scenarios/graveyard.gif)
+<p align="center">
+  <img width="460" height="300" src="Wiki/Layouts/main_menu.png">
+</p>
 <p align="center">
   <img width="460" height="300" src="Wiki/Scenarios/graveyard.gif">
 </p>
