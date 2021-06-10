@@ -29,11 +29,10 @@
 App::App(int argc, char* args[]) : argc(argc), args(args)
 {
 	PERF_START(ptimer);
-
-	win = new Window();
+	assetsManager = new AssetsManager();
+	win = new Window(assetsManager);
 	input = new Input(win);
 	render = new Render(win);
-	assetsManager = new AssetsManager();
 	tex = new Textures(render, assetsManager);
 	audio = new AudioManager(assetsManager);
 	collisions = new Collisions(input, render);
@@ -47,9 +46,9 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
+	AddModule(assetsManager);
 	AddModule(win);
 	AddModule(input);
-	AddModule(assetsManager);
 	AddModule(tex);
 	AddModule(audio);
 	AddModule(transitions);

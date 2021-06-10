@@ -2,7 +2,7 @@
 #define __WINDOW_H__
 
 #include "Module.h"
-
+#include "AssetsManager.h"
 struct SDL_Window;
 struct SDL_Surface;
 
@@ -10,7 +10,7 @@ class Window : public Module
 {
 public:
 
-	Window();
+	Window(AssetsManager* assetsManager);
 
 	// Destructor
 	virtual ~Window();
@@ -45,6 +45,8 @@ private:
 	uint width;
 	uint height;
 	uint scale;
+	AssetsManager* assetsManager;
+	SDL_Surface* windowIcon;
 };
 
 #endif // __WINDOW_H__

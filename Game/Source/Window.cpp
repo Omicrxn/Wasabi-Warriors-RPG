@@ -5,13 +5,15 @@
 #include "Log.h"
 
 #include "SDL/include/SDL.h"
+#include "SDL_image/include/SDL_image.h"
 
 
-Window::Window() : Module()
+Window::Window(AssetsManager* assetsManager) : Module()
 {
 	window = NULL;
 	screenSurface = NULL;
 	name.Create("window");
+	this->assetsManager = assetsManager;
 }
 
 // Destructor
@@ -32,6 +34,8 @@ bool Window::Awake(pugi::xml_node& config)
 	}
 	else
 	{
+		SDL_RWops* rw = assetsManager->LoadAsset("Textures/wasabi_warriors.bmp");
+		windowIcon = IMG_Load_RW(rw, 0);
 		// Create window
 		// L01: DONE 6: Load all required configurations from config.xml
 		Uint32 flags = SDL_WINDOW_SHOWN;
@@ -50,7 +54,7 @@ bool Window::Awake(pugi::xml_node& config)
 		if(fullscreen_window == true) flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 
 		window = SDL_CreateWindow("", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
-
+		SDL_SetWindowIcon(window, windowIcon);
 		if(window == NULL)
 		{
 			LOG("Window could not be created! SDL_Error: %s\n", SDL_GetError());
