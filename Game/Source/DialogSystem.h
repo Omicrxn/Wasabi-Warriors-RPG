@@ -9,12 +9,14 @@
 #include "Animation.h"
 
 class DialogNode;
+class Font;
 
 class Input;
 class Render;
 class AssetsManager;
 class Fonts;
 class Textures;
+
 struct SDL_Texture;
 
 class DialogSystem : public Module
@@ -63,6 +65,8 @@ public:
 
 	// Draws faces on dialogs
 	void DrawDialogSpeaker();
+
+	void SetFont(Font* font);
 
 private:
 
@@ -118,4 +122,6 @@ private:
 	Animation shopKeeperDialogAnim;
 	Animation pedestrianrDialogAnim;
 	Animation receptionistDialogAnim;
+
+	Font* font;
 };

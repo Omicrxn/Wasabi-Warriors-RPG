@@ -244,9 +244,9 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 	// Create fonts
 	titleFont = new Font("Fonts/shojumaru.xml", tex, assetsManager);
 	battleFont = new Font("Fonts/SHOWG.xml", tex, assetsManager);
-
 	menuFont = new Font("Fonts/poppins.xml", tex, assetsManager);
 	buttonFont = new Font("Fonts/comic_serif.xml", tex, assetsManager);
+	dialogSystem->SetFont(buttonFont);
 
 	// Load buttons Fx
 	hoverFx = audio->LoadFx("Audio/Fx/bong.ogg");
