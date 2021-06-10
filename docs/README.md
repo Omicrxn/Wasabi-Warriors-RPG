@@ -4,6 +4,9 @@ Wasabi Warriors is a Role-Playing Game with a theme-based on an urban Japanese e
 
 ![Main Menu](Wiki/Layouts/main_menu.png)
 ![Graveyard](Wiki/Scenarios/graveyard.gif)
+<p align="center">
+  <img width="460" height="300" src="Wiki/Scenarios/graveyard.gif">
+</p>
 
 ## Key Features
 
