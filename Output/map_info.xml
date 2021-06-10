@@ -41,6 +41,7 @@
     </prevTown>
     <teleport posX="480" posY="32" width="64" height="32" destination="5"/>
     <teleport posX="480" posY="768" width="64" height="32" destination="4"/>
+    <teleport posX="736" posY="384" width="32" height="32" destination="3"/>
   </osaka>
   <cemetery enemyCount ="1" npcCount ="3" teleportCount ="1" itemCount="3" secretWallCount="0" leverCount="0">
     <prevMediumCity>
