@@ -267,9 +267,24 @@ void DialogSystem::DrawDialog()
 	// Set the text to uppercase, since our font only supports uppercase.
 	std::string text = ToUpperCase(currentDialog->attributes->at("value"));
 	
+	
 	// Write the dialog line.
 	/*fonts->BlitText(10 + 220, (render->camera.h / 3) * 2 + 10 + 50, 0, text.c_str());*/
-	render->DrawText(font, text.c_str(), 10 + 220, (render->camera.h / 3) * 2 + 10 + 50, 25, 3, { 255,255,255,255 });
+	/*render->DrawText(font, text.c_str(), 10 + 220, (render->camera.h / 3) * 2 + 10 + 50, 25, 3, { 255,255,255,255 });*/
+	short int lenght = text.length();
+	LOG("SIZE IS %i", lenght);
+	if (lenght >= 70)
+	{
+		std::string newT = text.substr(0, lenght/2);
+		LOG("%s", newT);
+		render->DrawText(font, newT.c_str(), 10 + 220, (render->camera.h / 3) * 2 + 10 + 50, 25, 3, { 255,255,255,255 });
+		newT = text.substr(lenght / 2, lenght);
+		LOG("%s", newT);
+		render->DrawText(font, newT.c_str(), 10 + 220, (render->camera.h / 3) * 2 + 10 + 70, 25, 3, { 255,255,255,255 });
+	}
+	else {
+		render->DrawText(font, text.c_str(), 10 + 220, (render->camera.h / 3) * 2 + 10 + 50, 25, 3, { 255,255,255,255 });
+	}
 
 	// If the current node is a question, we should also draw the possible answers
 	if (currentDialog->type == DialogNode::NodeType::OPTIONS)
