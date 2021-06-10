@@ -22,9 +22,10 @@ ScreenRoaming::ScreenRoaming()
 
 	/*LBButton = { 434, 253, 90, 62 };
 	RBButton = { 534, 253, 90, 62 };*/
-	playersIcons = { 387, 234, 90, 88 };
+	/*playersIcons = { 387, 234, 90, 88 };*/
+	playersIcons = { 208, 28, 58, 38 };
 	
-	posRight = { 1100, 40 };
+	posRight = { 1130, 40 };
 	posLeft = { 920, 40 };
 
 	for (int i = 0; i < 4; ++i)
@@ -131,12 +132,12 @@ bool ScreenRoaming::Draw(Render* render)
 		}
 	}
 
-	posRight = { 1100, 40 };
-	posLeft = { 920, 40 };
 
 	// Draw anything extra needed in the hud
-	render->DrawTexture(this->atlas[1], 1000, 40, &playersIcons, 0.0f);
-
+	render->scale = 2;
+	render->DrawTexture(this->atlas[0], 1000 / render->scale, 40 / render->scale, &playersIcons, 0.0f);
+	render->scale = 1;
+	// LB & RB buttons sprite draw
 	if (controller)
 		render->DrawText(font, "Y", 950 + playersIcons.w, 25, 30, 2, { 255,255,0,255 });
 	else
