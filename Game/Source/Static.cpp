@@ -163,7 +163,7 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 		SetPivot(16, 28);
 	}
 
-	if (name == "bush")
+	if (name == "bush_3")
 	{
 		type = Static::Type::BUSH;
 		SetRect(256, 513, 32, 28);
@@ -331,21 +331,21 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 	if (name == "roof_green4")
 	{
 		type = Static::Type::ROOF;
-		SetRect(448, 32, 32, 32);
+		SetRect(416, 32, 32, 32);
 		SetPivot(16, 32);
 	}
 
 	if (name == "roof_green5")
 	{
 		type = Static::Type::ROOF;
-		SetRect(480, 32, 32, 32);
+		SetRect(448, 32, 32, 32);
 		SetPivot(16, 32);
 	}
 
 	if (name == "roof_green6")
 	{
 		type = Static::Type::ROOF;
-		SetRect(416, 32, 32, 32);
+		SetRect(480, 32, 32, 32);
 		SetPivot(16, 32);
 	}
 
@@ -408,7 +408,7 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 	if (name == "roof_res3")
 	{
 		type = Static::Type::ROOF;
-		SetRect(417, 322, 32, 30);
+		SetRect(417, 323, 32, 30);
 		SetPivot(16, 30);
 	}
 
