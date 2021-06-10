@@ -1095,6 +1095,13 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 		SetPivot(12, 46);
 	}
 
+	if (name == "res_city_roof")
+	{
+		type = Static::Type::ROOF;
+		SetRect(2100, 424, 160, 32);
+		SetPivot(80, 32);
+	}
+
 	// Osaka sorting
 
 	if (name == "roof_osaka")
