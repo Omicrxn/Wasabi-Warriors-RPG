@@ -617,9 +617,29 @@ void DialogSystem::DrawDialogSpeaker()
 		{
 			leftDialogAnim = &erikaDialogAnim;
 		}
+		else if (leftSpeaker == "Takada")
+		{
+			leftDialogAnim = &takadaDialogAnim;
+		}
+		else if (leftSpeaker == "Oscar")
+		{
+			leftDialogAnim = &oscarDialogAnim;
+		}
 		else if (leftSpeaker == "Maki")
 		{
 			leftDialogAnim = &makiDialogAnim;
+		}
+		else if (leftSpeaker == "Pedestrian")
+		{
+			leftDialogAnim = &pedestrianrDialogAnim;
+		}
+		else if (leftSpeaker == "Shopkeeper")
+		{
+			leftDialogAnim = &shopKeeperDialogAnim;
+		}
+		else if (leftSpeaker == "Receptionist")
+		{
+			leftDialogAnim = &receptionistDialogAnim;
 		}
 		else if (leftSpeaker == "None")
 		{
