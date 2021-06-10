@@ -1,0 +1,11 @@
+<dialog id="16">
+	<line left-speaker="Kenzo" right-speaker="None" value="What?! The vault with the receipe is not here! It has been stolen!"></line>
+	<line left-speaker="Maki" right-speaker="None" value="Woof!"></line>
+	<line left-speaker="Kenzo" right-speaker="None" value="Who could have done it? This has got to do with Erika's death, I knew it was suspicious!"></line>
+	<line left-speaker="Kenzo" right-speaker="None" value="Wait... Of course... It was Takada, he's been after Erika's receipe and restaurants since the beginning!"></line>
+	<line left-speaker="Maki" right-speaker="None" value="Woof woof!"></line>
+	<line left-speaker="Kenzo" right-speaker="None" value="He has threatened Erika before but I never believed he would actually..."></line>
+	<line left-speaker="Kenzo" right-speaker="None" value="His Head Quarters are in Dotonbori, in the city's biggest building"></line>
+	<line left-speaker="Kenzo" right-speaker="None" value="I need to go there looking for clues."></line>
+	<line left-speaker="Kenzo" right-speaker="None" value="But first, I need to go pay respects to Erika.></line>
+</dialog>

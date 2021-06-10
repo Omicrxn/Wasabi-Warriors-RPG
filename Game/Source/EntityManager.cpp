@@ -272,6 +272,12 @@ bool EntityManager::LoadStateInfo(pugi::xml_node& scenegameplay, MapType current
 	case MapType::RESTAURANT:
 		mapNode = mapNode.child("restaurant");
 		break;
+	case MapType::SECOND_RESTAURANT:
+		mapNode = mapNode.child("second_restaurant");
+		break;
+	case MapType::THIRD_RESTAURANT:
+		mapNode = mapNode.child("third_restaurant");
+		break;
 	case MapType::TOWN:
 		mapNode = mapNode.child("town");
 		break;
@@ -662,6 +668,20 @@ bool EntityManager::SaveStateInfo(pugi::xml_node& scenegameplay, MapType current
 			mapNode = mapNode.child("restaurant");
 		else
 			mapNode = mapNode.append_child("restaurant");
+		break;
+	case MapType::SECOND_RESTAURANT:
+		tempName = mapNode.child("second_restaurant").name();
+		if (tempName == "second_restaurant")
+			mapNode = mapNode.child("second_restaurant");
+		else
+			mapNode = mapNode.append_child("second_restaurant");
+		break;
+	case MapType::THIRD_RESTAURANT:
+		tempName = mapNode.child("third_restaurant").name();
+		if (tempName == "third_restaurant")
+			mapNode = mapNode.child("third_restaurant");
+		else
+			mapNode = mapNode.append_child("third_restaurant");
 		break;
 	case MapType::TOWN:
 		tempName = mapNode.child("town").name();

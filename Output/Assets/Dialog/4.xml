@@ -1,0 +1,17 @@
+<dialog id="4">
+	<options left-speaker="Kenzo" right-speaker="Shopkeeper" value="Hello youg man, how are you doing?">
+		<option left-speaker="Kenzo" right-speaker="Shopkeeper" value=" Very well thank you! Have a nice day!">
+			<line left-speaker="Kenzo" right-speaker="Shopkeeper" value="You too!"></line>
+		</option>		
+		<option left-speaker="Kenzo" right-speaker="Shopkeeper" value=" Very well! How is the business going?">
+			<line left-speaker="Kenzo" right-speaker="Shopkeeper" value="It's going fine, but you already know that this part of town is tough..."></line>
+			<option left-speaker="Kenzo" right-speaker="Shopkeeper" value="I'm sorry to hear that, I'm sure things will get better soon. Have a good day!">
+			</option>
+		</option>
+		<option left-speaker="Kenzo" right-speaker="Shopkeeper" value=" Very well! Are you selling ice?">
+			<line left-speaker="Kenzo" right-speaker="Shopkeeper" value="Not at the moment, sorry, it is very hot and our fridge is broken."></line>
+			<option left-speaker="Kenzo" right-speaker="Shopkeeper" value="Oh, that's a pity I really wanted to have some ice tea and I ran out of ice home. Have a nice day anyways!">
+			</option>
+		</option>
+	</options>
+</dialog>

@@ -1,0 +1,17 @@
+<dialog id="19">
+	<line left-speaker="Eiken" right-speaker="None" value="Who are you? Can somebody explain why are there hitmen at my restaurant's door? Is this a movie or what? I will sue all of you if you don't leave me alone!"></line>
+	<line left-speaker="Kenzo" right-speaker="None" value="The hitmen will not be a problem anymore. I'm Kenzo, head of the Kanagawa restaurant. Erika sends me."></line>
+	<line left-speaker="Eiken" right-speaker="None" value="Erika..? Oh, she told me about you once... red haired and very talented apparently."></line>
+	<line left-speaker="Kenzo" right-speaker="None" value="That's me. this is Rei, head of the Osaka restaurant, and this is Maki."></line>
+	<line right-speaker="Rei" right-speaker="None" value="Hello"></line>
+	<line left-speaker="Maki" right-speaker="None" value="Woof woof!"></line>
+	<line left-speaker="Kenzo" right-speaker="None" value="But there is no time to lose. Erika told me you have the one of the two keys of the Dragon's Breath vault. It has been stolen by Kurai Takada."></line>
+	<line left-speaker="Eiken" right-speaker="None" value="Let me guess, Takada had something to do with her death. I already suspected it. Who actually believes a five star chef wouldn't realize if a meal is expired?!"></line>
+	<line left-speaker="Kenzo" right-speaker="None" value="Yes. Now that we have both keys we are going to get into his building here in Dotonbori and get the vault back."></line>
+	<line left-speaker="Eiken" right-speaker="None" value="I'm in. I don't know how we are going to do it, but I will fight if it's necessary."></line>
+	<line right-speaker="Rei" right-speaker="None" value="Yes! I think together we can make it!"></line>
+	<line left-speaker="Kenzo" right-speaker="None" value="Let's go then!"></line>
+	<line left-speaker="Maki" right-speaker="None" value="Woof!"></line>
+</dialog>
+
+

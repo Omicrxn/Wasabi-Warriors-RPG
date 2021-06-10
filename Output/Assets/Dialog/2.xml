@@ -1,0 +1,18 @@
+<dialog id="2">
+  <options left-speaker="Kenzo" right-speaker="Pedestrian" value="Hi young man! What brings you to this place?">
+    <option left-speaker="Kenzo" right-speaker="Pedestrian" value="Hi! I am learning to be a cook.">
+      <line left-speaker="Kenzo" right-speaker="Pedestrian" value="Wow! And how is it going?"></line>
+      <options id="cook" left-speaker="Kenzo" right-speaker="Pedestrian" value="It should be a really hard job!">
+        <option left-speaker="Kenzo" right-speaker="Pedestrian" value="Yes, it does! But I am always pushing myself.">
+          <line left-speaker="Kenzo" right-speaker="Pedestrian" value="Impressive! I like your mindset." callback="say_hello"></line>
+        </option>
+        <option left-speaker="Kenzo" right-speaker="Pedestrian" value="Absolutely, I am exhausted!">
+          <line left-speaker="Kenzo" right-speaker="Pedestrian" value="Keep working! I am sure you will succed!"></line>
+        </option>
+      </options>
+    </option>
+    <option left-speaker="Kenzo" right-speaker="Pedestrian" value="Hey! I have to work, sorry I am late!">
+      <line left-speaker="Kenzo" right-speaker="Pedestrian" value="Have a nice day!"></line>
+    </option>
+  </options>
+</dialog>

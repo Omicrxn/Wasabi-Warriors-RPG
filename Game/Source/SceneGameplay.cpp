@@ -360,6 +360,10 @@ bool SceneGameplay::Update(Input* input, float dt)
 		break;
 	case MapType::RESTAURANT:
 		break;
+	case MapType::SECOND_RESTAURANT:
+		break;
+	case MapType::THIRD_RESTAURANT:
+		break;
 	case MapType::TOWN:
 		break;
 	case MapType::DOTONBORI:
@@ -642,6 +646,24 @@ bool SceneGameplay::Update(Input* input, float dt)
 		else if (dialogSystem->GetDialogIndex() == 17)
 		{
 			gameProgress.hasVisitedErikaTombstone = true;
+		}
+		else if (dialogSystem->GetDialogIndex() == 18)
+		{
+			entityManager->DestroyEntity(entityManager->SearchEntity("reiNPC"));
+			// Create party member 3
+			Player* player;
+			player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "Rei", EntitySubtype::PLAYER_REI, currentPlayer->position);
+			player = nullptr;
+			gameProgress.hasSavedFirstApprentice = true;
+		}
+		else if (dialogSystem->GetDialogIndex() == 19)
+		{
+			entityManager->DestroyEntity(entityManager->SearchEntity("eikenNPC"));
+			// Create party member 4
+			Player* player;
+			player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, "Eiken", EntitySubtype::PLAYER_EIKEN, currentPlayer->position);
+			player = nullptr;
+			gameProgress.hasSavedLastApprentice = true;
 		}
 	}
 
@@ -1473,6 +1495,30 @@ void SceneGameplay::SetUpTp()
 			audio->StopMusic();
 		}
 		break;
+	case MapType::SECOND_RESTAURANT:
+		if (map->Load("Restaurant", "restaurant.tmx") == true)
+		{
+			int w, h;
+			uchar* data = NULL;
+
+			//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
+
+			RELEASE_ARRAY(data);
+			audio->StopMusic();
+		}
+		break;
+	case MapType::THIRD_RESTAURANT:
+		if (map->Load("Restaurant", "restaurant.tmx") == true)
+		{
+			int w, h;
+			uchar* data = NULL;
+
+			//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
+
+			RELEASE_ARRAY(data);
+			audio->StopMusic();
+		}
+		break;
 	case MapType::TOWN:
 		if (map->Load("Town", "townMap.tmx") == true)
 		{
@@ -1572,6 +1618,16 @@ void SceneGameplay::SetUpTp()
 
 			hasVisitedLocation = gameProgress.hasVisitedRestaurant;
 			break;
+		case MapType::SECOND_RESTAURANT:
+			mapNode = mapNode.child("second_restaurant");
+
+			hasVisitedLocation = gameProgress.hasVisitedSecondRestaurant;
+			break;
+		case MapType::THIRD_RESTAURANT:
+			mapNode = mapNode.child("third_restaurant");
+
+			hasVisitedLocation = gameProgress.hasVisitedThirdRestaurant;
+			break;
 		case MapType::TOWN:
 			mapNode = mapNode.child("town");
 			hasVisitedLocation = gameProgress.hasVisitedTown;
@@ -1613,6 +1669,12 @@ void SceneGameplay::SetUpTp()
 			break;
 		case MapType::RESTAURANT:
 			previousMapNode = mapNode.child("prevRestaurant");
+			break;
+		case MapType::SECOND_RESTAURANT:
+			previousMapNode = mapNode.child("prevSecondRestaurant");
+			break;
+		case MapType::THIRD_RESTAURANT:
+			previousMapNode = mapNode.child("prevThirdRestaurant");
 			break;
 		case MapType::TOWN:
 			previousMapNode = mapNode.child("prevTown");
@@ -1801,6 +1863,14 @@ void SceneGameplay::SetUpTp()
 
 				gameProgress.hasVisitedRestaurant = true;
 				break;
+			case MapType::SECOND_RESTAURANT:
+
+				gameProgress.hasVisitedSecondRestaurant = true;
+				break;
+			case MapType::THIRD_RESTAURANT:
+
+				gameProgress.hasVisitedThirdRestaurant = true;
+				break;
 			case MapType::TOWN:
 				gameProgress.hasVisitedTown = true;
 				break;
@@ -1865,6 +1935,34 @@ void SceneGameplay::SetUpTp()
 			activator->height = 32;
 		}
 	}
+	else if (currentMap == MapType::SECOND_RESTAURANT)
+	{
+		NPC* npc;
+		npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, "reiNPC", EntitySubtype::UNKNOWN, iPoint((1 * 32), (2 * 32)));
+		npc->name = "reiNPC";
+		npc->width = 32;
+		npc->height = 32;
+		npc->spritePos = 0;
+		npc->dialogIndex = 18;
+		npc->stop = true;
+		npc->SetTexture(npc->spritePos);
+		if (npc->stop) npc->stopForever = true;
+		npc = nullptr;
+	}
+	else if (currentMap == MapType::THIRD_RESTAURANT)
+	{
+		NPC* npc;
+		npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, "eikenNPC", EntitySubtype::UNKNOWN, iPoint((1 * 32), (2 * 32)));
+		npc->name = "eikenNPC";
+		npc->width = 32;
+		npc->height = 32;
+		npc->spritePos = 12;
+		npc->dialogIndex = 19;
+		npc->stop = true;
+		npc->SetTexture(npc->spritePos);
+		if (npc->stop) npc->stopForever = true;
+		npc = nullptr;
+	}
 	PlayMapMusic();
 	screenPause->SetMap(currentMap);
 }
@@ -1903,6 +2001,12 @@ void SceneGameplay::PlayMapMusic()
 		audio->PlayMusic("Audio/Music/city_background.ogg");
 		break;
 	case MapType::RESTAURANT:
+		audio->PlayMusic("Audio/Music/restaurant.ogg");
+		break;
+	case MapType::SECOND_RESTAURANT:
+		audio->PlayMusic("Audio/Music/restaurant.ogg");
+		break;
+	case MapType::THIRD_RESTAURANT:
 		audio->PlayMusic("Audio/Music/restaurant.ogg");
 		break;
 	case MapType::TOWN:

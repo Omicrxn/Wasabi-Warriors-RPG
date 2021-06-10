@@ -66,6 +66,8 @@ struct GameProgress
     bool hasVisitedHouse = false;
     bool hasVisitedMediumCity = false;
     bool hasVisitedRestaurant = false; 
+    bool hasVisitedSecondRestaurant = false; 
+    bool hasVisitedThirdRestaurant = false; 
     bool hasVisitedTown = false;
     bool hasVisitedBigCity = false;
     bool hasVisitedSkyScraper = false;

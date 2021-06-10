@@ -19,7 +19,9 @@ enum class MapType
     DOTONBORI,
     SKYSCRAPER,
     SECRET_ROOM,
-    OSAKA
+    OSAKA,
+    SECOND_RESTAURANT,
+    THIRD_RESTAURANT
 };
 
 class Notifier

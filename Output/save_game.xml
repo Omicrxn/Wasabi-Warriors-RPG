@@ -3,17 +3,17 @@
 	<input />
 	<window />
 	<textures />
-	<audio musicVolume="12" fxVolume="128" />
+	<audio musicVolume="32" fxVolume="128" />
 	<scene />
 	<renderer>
-		<camera x="1871" y="-224" />
+		<camera x="1577" y="847" />
 	</renderer>
-	<collisions collisionsCount="10" />
+	<collisions collisionsCount="5" />
 	<entitymanager />
 	<scenemanager>
 		<scenegameplay lastMap="2">
-			<gameProgress xp="105" gold="25" hasSpoken="false" numKilledOfficers="0" hasKilledOfficers="false" hasActivated="false" hasPickedKey="true" hasFinishedPuzzle1="false" hasCalledCook="true" hasVisitedRestaurantQuest="true" hasSavedFirstApprentice="false" hasSavedLastApprentice="false" hasVisitedErikaTombstone="true" />
-			<map currentMap="2" hasVisitedCemetery="true" hasVisitedHouse="true" hasVisitedMediumCity="true" hasVisitedRestaurant="true" hasVisitedTown="true" hasVisitedBigCity="false" hasVisitedSkyScraper="false" hasVisitedSecretRoom="true" hasVisitedOsaka="true">
+			<gameProgress xp="5" gold="5" hasSpoken="false" numKilledOfficers="0" hasKilledOfficers="false" hasActivated="false" hasPickedKey="true" hasFinishedPuzzle1="false" hasCalledCook="true" hasVisitedRestaurantQuest="false" hasSavedFirstApprentice="false" hasSavedLastApprentice="false" hasVisitedErikaTombstone="false" />
+			<map currentMap="8" hasVisitedCemetery="false" hasVisitedHouse="true" hasVisitedMediumCity="false" hasVisitedRestaurant="false" hasVisitedTown="true" hasVisitedBigCity="true" hasVisitedSkyScraper="false" hasVisitedSecretRoom="false" hasVisitedOsaka="true">
 				<house>
 					<entitiesCount Num="4" />
 					<enemyList enemyCount="0" />
@@ -27,8 +27,8 @@
 					<leverList leverCount="0" />
 				</house>
 				<playerList playerCount="2">
-					<player id="1" spritePos="8" name="Kenzo" posX="832" posY="32" isActive="true" isRenderable="false" entitySubType="0" level="1" damage="25" maxHP="120" currentHP="100" strength="10" defense="15" attackSpeed="5" criticalRate="10" statsName="Kenzo" />
-					<player id="5" spritePos="15" name="Maki" posX="832" posY="32" isActive="false" isRenderable="false" entitySubType="14" level="1" damage="25" maxHP="120" currentHP="100" strength="10" defense="15" attackSpeed="5" criticalRate="10" statsName="Maki" />
+					<player id="1" spritePos="8" name="Kenzo" posX="734" posY="389" isActive="true" isRenderable="false" entitySubType="0" level="1" damage="25" maxHP="120" currentHP="100" strength="10" defense="15" attackSpeed="5" criticalRate="10" statsName="Kenzo" />
+					<player id="5" spritePos="15" name="Maki" posX="734" posY="389" isActive="false" isRenderable="false" entitySubType="14" level="1" damage="25" maxHP="120" currentHP="100" strength="10" defense="15" attackSpeed="5" criticalRate="10" statsName="Maki" />
 				</playerList>
 				<town>
 					<entitiesCount Num="72" />
@@ -60,99 +60,43 @@
 					<secretWallList secretWallCount="0" />
 					<leverList leverCount="0" />
 				</town>
-				<mediumCity>
-					<entitiesCount Num="106" />
-					<enemyList enemyCount="2">
-						<enemy id="75" spritePos="10" name="Bruiser" posX="544" posY="192" isActive="true" isRenderable="false" entitySubType="3" level="1" damage="8" maxHP="150" currentHP="120" strength="5" defense="15" attackSpeed="3" criticalRate="8" statsName="Bruiser" />
-						<enemy id="76" spritePos="5" name="Henchman" posX="256" posY="256" isActive="true" isRenderable="false" entitySubType="2" level="1" damage="10" maxHP="120" currentHP="100" strength="10" defense="10" attackSpeed="5" criticalRate="5" statsName="Henchman" />
-					</enemyList>
-					<npcList npcCount="1">
-						<npc id="77" spritePos="3" stop="false" name="" posX="544" posY="352" isActive="true" isRenderable="false" dialogIndex="-1" />
-					</npcList>
-					<teleportList teleportCount="3">
-						<teleport id="78" spritePos="0" nameTeleport="" name="" destination="4" posX="32" posY="224" width="32" height="64" isActive="true" isRenderable="false" />
-						<teleport id="79" spritePos="0" nameTeleport="" name="" destination="0" posX="832" posY="32" width="64" height="32" isActive="true" isRenderable="false" />
-						<teleport id="80" spritePos="0" nameTeleport="" name="" destination="3" posX="416" posY="416" width="32" height="32" isActive="true" isRenderable="false" />
-					</teleportList>
-					<itemList itemCount="2">
-						<item id="82" spritePos="0" entitySubType="0" name="" posX="0" posY="0" isActive="true" isRenderable="false" />
-						<item id="83" spritePos="0" entitySubType="0" name="" posX="0" posY="0" isActive="true" isRenderable="false" />
-					</itemList>
-					<activatorList activatorCount="1">
-						<activator id="84" spritePos="0" entitySubtype="0" name="key" posX="64" posY="640" isActive="true" isRenderable="false" drawState="1" />
-					</activatorList>
-					<secretWallList secretWallCount="0" />
-					<leverList leverCount="0" />
-				</mediumCity>
-				<restaurant>
-					<entitiesCount Num="44" />
+				<osaka>
+					<entitiesCount Num="86" />
 					<enemyList enemyCount="0" />
 					<npcList npcCount="0" />
-					<teleportList teleportCount="1">
-						<teleport id="177" spritePos="0" nameTeleport="" name="" destination="2" posX="160" posY="416" width="64" height="32" isActive="true" isRenderable="false" />
+					<teleportList teleportCount="3">
+						<teleport id="75" spritePos="0" nameTeleport="" name="" destination="5" posX="480" posY="32" width="64" height="32" isActive="true" isRenderable="false" />
+						<teleport id="76" spritePos="0" nameTeleport="" name="" destination="4" posX="480" posY="768" width="64" height="32" isActive="true" isRenderable="false" />
+						<teleport id="77" spritePos="0" nameTeleport="" name="" destination="9" posX="736" posY="384" width="32" height="32" isActive="true" isRenderable="false" />
+					</teleportList>
+					<itemList itemCount="0" />
+					<activatorList activatorCount="0" />
+					<secretWallList secretWallCount="0" />
+					<leverList leverCount="0" />
+				</osaka>
+				<bigCity>
+					<entitiesCount Num="251" />
+					<enemyList enemyCount="0" />
+					<npcList npcCount="0" />
+					<teleportList teleportCount="2">
+						<teleport id="158" spritePos="0" nameTeleport="" name="" destination="6" posX="768" posY="288" width="64" height="32" isActive="true" isRenderable="false" />
+						<teleport id="159" spritePos="0" nameTeleport="" name="" destination="8" posX="736" posY="1152" width="128" height="32" isActive="true" isRenderable="false" />
 					</teleportList>
 					<itemList itemCount="3">
-						<item id="178" spritePos="0" entitySubType="0" name="" posX="0" posY="0" isActive="true" isRenderable="false" />
-						<item id="179" spritePos="0" entitySubType="0" name="" posX="0" posY="0" isActive="true" isRenderable="false" />
-						<item id="180" spritePos="0" entitySubType="0" name="" posX="0" posY="0" isActive="true" isRenderable="false" />
-					</itemList>
-					<activatorList activatorCount="1">
-						<activator id="181" spritePos="0" entitySubtype="-1" name="secretRoom" posX="224" posY="160" isActive="true" isRenderable="false" drawState="0" />
-					</activatorList>
-					<secretWallList secretWallCount="0" />
-					<leverList leverCount="0" />
-				</restaurant>
-				<secretRoom>
-					<entitiesCount Num="9" />
-					<enemyList enemyCount="0" />
-					<npcList npcCount="0" />
-					<teleportList teleportCount="1">
-						<teleport id="361" spritePos="0" nameTeleport="" name="" destination="3" posX="64" posY="192" width="32" height="32" isActive="true" isRenderable="false" />
-					</teleportList>
-					<itemList itemCount="4">
-						<item id="362" spritePos="0" entitySubType="0" name="" posX="0" posY="0" isActive="true" isRenderable="false" />
-						<item id="363" spritePos="0" entitySubType="0" name="" posX="0" posY="0" isActive="true" isRenderable="false" />
-						<item id="364" spritePos="0" entitySubType="0" name="" posX="0" posY="0" isActive="true" isRenderable="false" />
-						<item id="365" spritePos="0" entitySubType="0" name="" posX="0" posY="0" isActive="true" isRenderable="false" />
+						<item id="160" spritePos="0" entitySubType="0" name="" posX="0" posY="0" isActive="true" isRenderable="false" />
+						<item id="161" spritePos="0" entitySubType="0" name="" posX="0" posY="0" isActive="true" isRenderable="false" />
+						<item id="162" spritePos="0" entitySubType="0" name="" posX="0" posY="0" isActive="true" isRenderable="false" />
 					</itemList>
 					<activatorList activatorCount="0" />
 					<secretWallList secretWallCount="0" />
 					<leverList leverCount="0" />
-				</secretRoom>
-				<cemetery>
-					<entitiesCount Num="36" />
-					<enemyList enemyCount="1">
-						<enemy id="510" spritePos="9" name="Boss" posX="224" posY="192" isActive="true" isRenderable="false" entitySubType="4" level="1" damage="8" maxHP="150" currentHP="120" strength="5" defense="15" attackSpeed="3" criticalRate="8" statsName="Boss" />
-					</enemyList>
-					<npcList npcCount="4">
-						<npc id="511" spritePos="2" stop="false" name="" posX="736" posY="256" isActive="true" isRenderable="false" dialogIndex="-1" />
-						<npc id="512" spritePos="4" stop="false" name="" posX="608" posY="423" isActive="true" isRenderable="false" dialogIndex="-1" />
-						<npc id="513" spritePos="6" stop="false" name="" posX="600" posY="282" isActive="true" isRenderable="false" dialogIndex="-1" />
-						<npc id="541" spritePos="1" stop="false" name="Erika" posX="704" posY="160" isActive="true" isRenderable="false" dialogIndex="17" />
-					</npcList>
-					<teleportList teleportCount="1">
-						<teleport id="514" spritePos="0" nameTeleport="" name="" destination="2" posX="384" posY="480" width="64" height="32" isActive="true" isRenderable="false" />
-					</teleportList>
-					<itemList itemCount="3">
-						<item id="515" spritePos="0" entitySubType="8" name="wasabi" posX="2592" posY="1260" isActive="true" isRenderable="false" />
-						<item id="516" spritePos="0" entitySubType="0" name="" posX="0" posY="0" isActive="true" isRenderable="false" />
-						<item id="517" spritePos="0" entitySubType="0" name="" posX="0" posY="0" isActive="true" isRenderable="false" />
-					</itemList>
-					<activatorList activatorCount="2">
-						<activator id="84" spritePos="0" entitySubtype="0" name="key" posX="64" posY="640" isActive="true" isRenderable="false" drawState="1" />
-						<activator id="540" spritePos="0" entitySubtype="-1" name="erikaTomb" posX="576" posY="128" isActive="true" isRenderable="false" drawState="-1" />
-					</activatorList>
-					<secretWallList secretWallCount="0" />
-					<leverList leverCount="0" />
-				</cemetery>
+				</bigCity>
 			</map>
 		</scenegameplay>
 		<scenelogo />
 	</scenemanager>
 	<screen>
 		<screensettings sliderVolume="512" sliderAudio="512" fullScreen="false" vsync="false" />
-		<screeninventory inventoryCount="1">
-			<invSlot entitySubType="10" count="1" name="fork" description="Give your enemies a good panaso" />
-		</screeninventory>
+		<screeninventory inventoryCount="0" />
 	</screen>
 </game_state>

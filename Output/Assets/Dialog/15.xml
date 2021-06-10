@@ -1,0 +1,15 @@
+<dialog id="15">
+	<line left-speaker="None" right-speaker="Phone" value="Hello Kenzo, I'm second in kitchen at the Kanagawa restaurant. I have very sad news"></line>
+	<line left-speaker="Kenzo" right-speaker="None" value="What happened?"></line>
+	<line left-speaker="None" right-speaker="Phone" value="Erika died yesterday"></line>
+	<line left-speaker="Kenzo" right-speaker="None" value="What? How? It can't be!"></line>
+	<line left-speaker="None" right-speaker="Phone" value="She died at home from food poisoning. Something she ate was expired and at her age..."></line>
+	<line left-speaker="Kenzo" right-speaker="None" value="I can't believe it... She did everything for me..."></line>
+	<line left-speaker="None" right-speaker="Phone" value="I know. But we need you here. You were his best apprentice and she wanted you to inherit her restaurant."></line>
+	<line left-speaker="None" right-speaker="Phone" value="You know what makes her restaurants famous, Kenzo, we need her secret wasabi receipe, the Dragon's Breath, to"></line>
+	<line left-speaker="None" right-speaker="Phone" value="continue her legacy. As her heir, you should be the one to learn it now. She has it in her vault at Kanagawa."></line>
+	<line left-speaker="Kenzo" right-speaker="None" value="Yes. I understand. I'm heading there right now. Thank you"></line>
+	<line left-speaker="None" right-speaker="Phone" value="I'll see you here then. Bye."></line>
+	<line left-speaker="Kenzo" right-speaker="None" value="Let's go Maki!"></line>
+	<line left-speaker="Maki" right-speaker="None" value="Woof woof!"></line>
+</dialog>

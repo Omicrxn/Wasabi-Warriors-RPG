@@ -338,6 +338,10 @@ bool ScreenPause::Draw(Render* render)
 			break;
 		case MapType::RESTAURANT:
 			break;
+		case MapType::SECOND_RESTAURANT:
+			break;
+		case MapType::THIRD_RESTAURANT:
+			break;
 		case MapType::TOWN: // SHINSEKAI
 			render->DrawTexture(atlas[0], mobRelativePos + mapHoverPos[2].x - redDot.w / 2 + 30, position + mapHoverPos[2].y - redDot.h / 2 + 30, &redDot, 0.0f);
 			break;

@@ -1,0 +1,5 @@
+<dialog id="12">
+	<line right-speaker="None" left-speaker="None" value="You found a wasabi diamond!"></line>
+	<line right-speaker="None" left-speaker="None" value="This stone is part of the history in this town, don't tell anyone about it or they'll go after you!"></line>
+	<line right-speaker="None" left-speaker="None" value="You can use it during battle to heal a big amount of your life at once."></line>
+</dialog>
