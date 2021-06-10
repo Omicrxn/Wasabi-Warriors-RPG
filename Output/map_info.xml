@@ -6,7 +6,7 @@
     </prevTown>
     <teleport posX="288" posY="160" width="32" height="64" destination="4"/>
   </house>
-  <town enemyCount ="0" npcCount ="1" teleportCount ="3" itemCount="6" activatorCount="6" secretWallCount="0" leverCount="0">
+  <town enemyCount ="0" npcCount ="1" teleportCount ="3" itemCount="6" activatorCount="3" secretWallCount="0" leverCount="0">
     <prevOsaka>
       <player posX="640" posY="64"/>
     </prevOsaka>
@@ -30,7 +30,7 @@
     <activator name="Rayu" posX="1088" posY="64" width="32" height="32" drawState="0" entitySubtype="11"/>
     
   </town>
-  <osaka enemyCount ="0" npcCount ="0" teleportCount ="3" itemCount="0" activatorCount="0" secretWallCount="0" leverCount="0">
+  <osaka enemyCount ="0" npcCount ="0" teleportCount ="3" itemCount="0" activatorCount="1" secretWallCount="0" leverCount="0">
     <prevBigCity>
       <player posX="480" posY="64"/>
     </prevBigCity>
@@ -58,7 +58,7 @@
     <!--<item posX="416" posY="420" class="item" name="pan" subtype="9"/>-->
     <!--<item posX="864" posY="128" class="item" name="fork" subtype="10"/>-->
   </cemetery>
-  <mediumCity enemyCount ="2" npcCount ="1" teleportCount ="3" itemCount="3" activatorCount="1" secretWallCount="0" leverCount="0">
+  <mediumCity enemyCount ="2" npcCount ="1" teleportCount ="3" itemCount="3" activatorCount="2" secretWallCount="0" leverCount="0">
     <prevTown>
       <player posX="64" posY="224"/>
     </prevTown>
@@ -80,7 +80,6 @@
     <!--<activator name="key" posX="64" posY="640" width="32" height="32" drawState="0"/>-->
     <activator name="Sushi" posX="64" posY="640" width="32" height="32" drawState="0" entitySubtype="12"/>
     <activator name="Oniguiri" posX="928" posY="352" width="32" height="32" drawState="0" entitySubtype="12"/>
-
   </mediumCity>
   <bigCity enemyCount="0" npcCount="0" teleportCount="3" itemCount="3" secretWallCount="0" leverCount="0">
     <prevSkyscraper>
@@ -99,7 +98,7 @@
     <!--<item posX="672" posY="416" class="item" name="bigPotion" subtype="6"/>-->
     <!--<item posX="840" posY="416" class="item" name="megaPotion" subtype="7"/>-->
   </bigCity>
-  <dungeon enemyCount="4" npcCount="1" teleportCount="7" activatorCount="1" secretWallCount="1" leverCount="3">DDD
+  <dungeon enemyCount="4" npcCount="1" teleportCount="7" activatorCount="1" secretWallCount="1" leverCount="3">
     <prevBigCity>
       <player posX="256" posY="1536"/>
     </prevBigCity>
