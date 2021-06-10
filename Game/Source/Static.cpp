@@ -255,42 +255,42 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 	{
 		type = Static::Type::ROOF;
 		SetRect(416, 236, 32, 20);
-		SetPivot(16, 40);
+		SetPivot(64, 80);
 	}
 
 	if (name == "roof_red2")
 	{
 		type = Static::Type::ROOF;
 		SetRect(448, 236, 32, 20);
-		SetPivot(16, 40);
+		SetPivot(64, 80);
 	}
 
 	if (name == "roof_red3")
 	{
 		type = Static::Type::ROOF;
 		SetRect(480, 236, 32, 20);
-		SetPivot(16, 40);
+		SetPivot(64, 80);
 	}
 
 	if (name == "roof_red4")
 	{
 		type = Static::Type::ROOF;
 		SetRect(416, 256, 32, 32);
-		SetPivot(16, 64);
+		SetPivot(64, 64);
 	}
 
 	if (name == "roof_red5")
 	{
 		type = Static::Type::ROOF;
 		SetRect(448, 256, 32, 32);
-		SetPivot(16, 64);
+		SetPivot(64, 64);
 	}
 
 	if (name == "roof_red6")
 	{
 		type = Static::Type::ROOF;
 		SetRect(480, 256, 32, 32);
-		SetPivot(16, 64);
+		SetPivot(64, 64);
 	}
 
 	if (name == "antenna")
@@ -395,70 +395,70 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 	{
 		type = Static::Type::ROOF;
 		SetRect(353, 322, 31, 30);
-		SetPivot(16, 30);
+		SetPivot(16, 60);
 	}
 
 	if (name == "roof_res2")
 	{
 		type = Static::Type::ROOF;
 		SetRect(385, 322, 32, 30);
-		SetPivot(16, 30);
+		SetPivot(16, 60);
 	}
 
 	if (name == "roof_res3")
 	{
 		type = Static::Type::ROOF;
 		SetRect(417, 322, 32, 30);
-		SetPivot(16, 30);
+		SetPivot(16, 60);
 	}
 
 	if (name == "roof_res4")
 	{
 		type = Static::Type::ROOF;
 		SetRect(449, 322, 32, 30);
-		SetPivot(16, 30);
+		SetPivot(16, 60);
 	}
 
 	if (name == "roof_res5")
 	{
 		type = Static::Type::ROOF;
 		SetRect(481, 321, 32, 31);
-		SetPivot(16, 30);
+		SetPivot(16, 60);
 	}
 
 	if (name == "roof_res6")
 	{
 		type = Static::Type::ROOF;
 		SetRect(353, 352, 32, 32);
-		SetPivot(16, 32);
+		SetPivot(16, 60);
 	}
 
 	if (name == "roof_res7")
 	{
 		type = Static::Type::ROOF;
 		SetRect(385, 352, 32, 32);
-		SetPivot(16, 32);
+		SetPivot(16, 60);
 	}
 
 	if (name == "roof_res8")
 	{
 		type = Static::Type::ROOF;
 		SetRect(417, 352, 32, 32);
-		SetPivot(16, 32);
+		SetPivot(16, 60);
 	}
 
 	if (name == "roof_res9")
 	{
 		type = Static::Type::ROOF;
 		SetRect(449, 352, 32, 32);
-		SetPivot(16, 32);
+		SetPivot(16, 60);
 	}
 
 	if (name == "roof_res10")
 	{
 		type = Static::Type::ROOF;
 		SetRect(481, 352, 32, 32);
-		SetPivot(16, 32);
+		SetPivot(16, 60);
 	}
 
 	// Restaurant sorting
