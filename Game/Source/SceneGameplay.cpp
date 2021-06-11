@@ -759,9 +759,14 @@ bool SceneGameplay::Draw(Render* render)
 	{
 		/*questManager->PostUpdate();*/
 
-		if (gameProgress.hasKilledOfficers && !gameProgress.hasActivated)
+		if (currentMap == MapType::SKYSCRAPER && gameProgress.hasKilledOfficers && !gameProgress.hasActivated)
 		{
 			render->DrawTexture(signal, 4160, 120, &signalAnim.GetCurrentFrame());
+		}
+
+		if (currentMap == MapType::CEMETERY && gameProgress.hasVisitedRestaurantQuest && !gameProgress.hasVisitedErikaTombstone)
+		{
+			render->DrawTexture(signal, 1675, 325, &signalAnim.GetCurrentFrame());
 		}
 	}
 

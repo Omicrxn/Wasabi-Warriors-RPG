@@ -6,6 +6,7 @@
     </prevTown>
     <teleport posX="288" posY="160" width="32" height="64" destination="4"/>
   </house>
+  
   <town enemyCount ="0" npcCount ="1" teleportCount ="3" itemCount="6" activatorCount="3" secretWallCount="0" leverCount="0">
     <prevOsaka>
       <player posX="640" posY="64"/>
@@ -28,8 +29,8 @@
     <activator name="Schichimi" posX="288" posY="64" width="32" height="32" drawState="0" entitySubtype="11"/>
     <activator name="Karashi" posX="384" posY="544" width="32" height="32" drawState="0" entitySubtype="11"/>
     <activator name="Rayu" posX="1088" posY="64" width="32" height="32" drawState="0" entitySubtype="11"/>
-    
   </town>
+  
   <osaka enemyCount ="0" npcCount ="0" teleportCount ="3" itemCount="0" activatorCount="1" secretWallCount="0" leverCount="0">
     <prevBigCity>
       <player posX="480" posY="64"/>
@@ -45,6 +46,7 @@
     <teleport posX="736" posY="384" width="32" height="32" destination="9"/>
     <activator name="Sashimi" posX="128" posY="416" width="32" height="32" drawState="0" entitySubtype="12"/>
   </osaka>
+  
   <cemetery enemyCount ="1" npcCount ="3" teleportCount ="1" itemCount="3" secretWallCount="0" leverCount="0">
     <prevMediumCity>
       <player posX="384" posY="416"/>
@@ -58,6 +60,7 @@
     <!--<item posX="416" posY="420" class="item" name="pan" subtype="9"/>-->
     <!--<item posX="864" posY="128" class="item" name="fork" subtype="10"/>-->
   </cemetery>
+  
   <mediumCity enemyCount ="2" npcCount ="1" teleportCount ="3" itemCount="3" activatorCount="2" secretWallCount="0" leverCount="0">
     <prevTown>
       <player posX="64" posY="224"/>
@@ -81,6 +84,7 @@
     <activator name="Sushi" posX="64" posY="640" width="32" height="32" drawState="0" entitySubtype="12"/>
     <activator name="Oniguiri" posX="928" posY="352" width="32" height="32" drawState="0" entitySubtype="12"/>
   </mediumCity>
+  
   <bigCity enemyCount="0" npcCount="0" teleportCount="3" itemCount="3" secretWallCount="0" leverCount="0">
     <prevSkyscraper>
       <player posX="768" posY="320"/>
@@ -98,6 +102,7 @@
     <!--<item posX="672" posY="416" class="item" name="bigPotion" subtype="6"/>-->
     <!--<item posX="840" posY="416" class="item" name="megaPotion" subtype="7"/>-->
   </bigCity>
+  
   <dungeon enemyCount="4" npcCount="1" teleportCount="7" activatorCount="1" secretWallCount="1" leverCount="3">
     <prevBigCity>
       <player posX="256" posY="1536"/>
@@ -120,7 +125,8 @@
     <lever name="secretWallPuzzle1Lever2" posX="384" posY="1502" width="32" height="32" number="2"/>
     <lever name="secretWallPuzzle1Lever3" posX="416" posY="1472" width="32" height="32" number="3"/>
   </dungeon>
-  <restaurant enemyCount="0" npcCount="0" teleportCount="1" activatorCount="1" itemCount="3" secretWallCount="0" leverCount="0">
+  
+  <restaurant enemyCount="0" npcCount="0" teleportCount="1" activatorCount="1" itemCount="0" secretWallCount="0" leverCount="0">
     <prevMediumCity>
       <player posX="160" posY="374"/>
     </prevMediumCity>
@@ -134,7 +140,8 @@
     <!--<item posX="256" posY="320" class="item" name="wasabi" subtype="8"/>-->
     <activator name="secretRoom" posX="224" posY="160" width="32" height="32" drawState="-1" entitySubtype="-1"/>
   </restaurant>
-  <secretRoom enemyCount="0" npcCount="0" teleportCount="1" itemCount="4" activatorCount="0" secretWallCount="0" leverCount="0">
+  
+  <secretRoom enemyCount="0" npcCount="0" teleportCount="1" itemCount="0" activatorCount="0" secretWallCount="0" leverCount="0">
     <prevRestaurant>
       <player posX="64" posY="160"/>
     </prevRestaurant>
@@ -160,6 +167,7 @@
     <!--<item posX="64" posY="320" class="item" name="wasabi" subtype="8"/>-->
     <!--<item posX="256" posY="320" class="item" name="wasabi" subtype="8"/>-->
   </second_restaurant>
+  
   <third_restaurant enemyCount="2" npcCount="0" teleportCount="1" activatorCount="0" itemCount="0" secretWallCount="0" leverCount="0">
     <prevBigCity>
       <player posX="160" posY="374"/>
