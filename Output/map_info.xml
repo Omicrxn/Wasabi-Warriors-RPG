@@ -7,7 +7,7 @@
     <teleport posX="288" posY="160" width="32" height="64" destination="4"/>
   </house>
   
-  <town enemyCount ="0" npcCount ="1" teleportCount ="3" itemCount="6" activatorCount="3" secretWallCount="0" leverCount="0">
+  <town enemyCount ="0" npcCount ="0" teleportCount ="3" itemCount="2" activatorCount="3" secretWallCount="0" leverCount="0">
     <prevOsaka>
       <player posX="640" posY="64"/>
     </prevOsaka>
@@ -20,8 +20,10 @@
     <teleport posX="640" posY="32" width="64" height="32" destination="8"/>
     <teleport posX="1440" posY="288" width="32" height="224" destination="2"/>
     <teleport posX="1216" posY="224" width="32" height="32" destination="1"/>
-    <!--<item posX="300" posY="350" class="item" name="potion" subtype="5"/>
-    <item posX="400" posY="350" class="item" name="bigPotion" subtype="6"/>
+    <item posX="736" posY="416" class="item" name="potion" subtype="5"/>
+    <item posX="320" posY="288" class="item" name="fork" subtype="10"/>
+    <!--<item posX="160" posY="64" class="item" name="potion" subtype="5"/>
+    <item posX="320" posY="288" class="item" name="bigPotion" subtype="6"/>
     <item posX="500" posY="350" class="item" name="megaPotion" subtype="7"/>
     <item posX="600" posY="350" class="item" name="wasabi" subtype="8"/>
     <item posX="700" posY="350" class="item" name="pan" subtype="9"/>
@@ -61,7 +63,7 @@
     <!--<item posX="864" posY="128" class="item" name="fork" subtype="10"/>-->
   </cemetery>
   
-  <mediumCity enemyCount ="2" npcCount ="1" teleportCount ="3" itemCount="3" activatorCount="2" secretWallCount="0" leverCount="0">
+  <mediumCity enemyCount ="2" npcCount ="1" teleportCount ="3" itemCount="2" activatorCount="2" secretWallCount="0" leverCount="0">
     <prevTown>
       <player posX="64" posY="224"/>
     </prevTown>
@@ -77,9 +79,8 @@
     <teleport posX="32" posY="224" width="32" height="64" destination="4"/>
     <teleport posX="832" posY="32" width="64" height="32" destination="0"/>
     <teleport posX="416" posY="416" width="32" height="32" destination="3"/>
-    <!--<item posX="512" posY="256" class="item" name="wasabi" subtype="8"/>-->
-    <!--<item posX="256" posY="256" class="item" name="pan" subtype="9"/>-->
-    <item posX="320" posY="416" class="item" name="fork" subtype="10"/>
+    <item posX="306" posY="144" class="item" name="pan" subtype="9"/>
+    <item posX="544" posY="64" class="item" name="wasabi" subtype="8"/>
     <!--<activator name="key" posX="64" posY="640" width="32" height="32" drawState="0"/>-->
     <activator name="Sushi" posX="64" posY="640" width="32" height="32" drawState="0" entitySubtype="12"/>
     <activator name="Oniguiri" posX="928" posY="352" width="32" height="32" drawState="0" entitySubtype="12"/>
