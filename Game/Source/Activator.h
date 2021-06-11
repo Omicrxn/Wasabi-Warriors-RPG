@@ -7,11 +7,11 @@
 #include "Textures.h"
 #include "EntityManager.h"
 
-enum class DrawState
+enum class ActivatorState
 {
 	NONE = -1,
 	MAP = 0,
-	HUD
+	PICKED
 };
 
 class Activator : public Interactive
@@ -27,8 +27,8 @@ public:
 	void SetUpTexture(SString texPath);
 	void SetName(SString name);
 
-	void SetDrawState(DrawState drawState);
-	DrawState GetDrawState();
+	void SetDrawState(ActivatorState drawState);
+	ActivatorState GetDrawState();
 
 	virtual SDL_Rect GetRect() const { return rect; };
 
@@ -40,7 +40,7 @@ private:
 private:
 
 	SDL_Rect rect;
-	DrawState drawState = DrawState::NONE;
+	ActivatorState drawState = ActivatorState::NONE;
 };
 
 #endif //__ACTIVATOR_H__

@@ -567,7 +567,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 			if (npc->stop) npc->stopForever = true;
 			npc = nullptr;
 		}
-		else if (notifier->GetActivator()->GetDrawState() == DrawState::MAP)
+		else if (notifier->GetActivator()->GetDrawState() == ActivatorState::MAP)
 		{
 			/*if (notifier->GetActivator()->name == "key")
 			{
@@ -599,7 +599,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 			}
 
 			// Right now we don't have any activator that we want to have on the HUD
-			notifier->GetActivator()->SetDrawState(DrawState::NONE);
+			notifier->GetActivator()->SetDrawState(ActivatorState::PICKED);
 		}
 
 		if (notifier->GetActivator()->name != "dialogTrigger")
@@ -1866,7 +1866,7 @@ void SceneGameplay::SetUpTp()
 			{
 				iPoint position = { activatorNode.attribute("posX").as_int(), activatorNode.attribute("posY").as_int() };
 				activator = (Activator*)entityManager->CreateEntity(EntityType::ACTIVATOR, activatorNode.attribute("name").as_string(), (EntitySubtype)activatorNode.attribute("entitySubtype").as_int(), position);
-				DrawState drawState = (DrawState)activatorNode.attribute("drawState").as_int();
+				ActivatorState drawState = (ActivatorState)activatorNode.attribute("drawState").as_int();
 				activator->SetDrawState(drawState);
 				activator = nullptr;
 				activatorNode = activatorNode.next_sibling("activator");

@@ -50,20 +50,20 @@ bool Activator::Draw(Render* render)
     if (active) render->DrawTexture(texture, position.x, position.y, &animRec);
     render->scale = 1;*/
 
-    if (drawState != DrawState::NONE)
+    if (drawState != ActivatorState::NONE)
     {
-        if (drawState == DrawState::MAP)
+        if (drawState == ActivatorState::MAP)
         {
             render->DrawTexture(entityManager->itemsTexture, position.x * 3 + 32, position.y * 3 + 32, &rect);
         }
-        else if (drawState == DrawState::HUD)
+        else if (drawState == ActivatorState::PICKED)
         {
-            iPoint hudPosition;
+            /*iPoint hudPosition;
             if (name == "key")
             {
                 hudPosition = { 20,200 };
             }
-            /*else if (name == "Schichimi")
+            else if (name == "Schichimi")
             {
                 hudPosition = { 1140,50 };
             }
@@ -86,7 +86,7 @@ bool Activator::Draw(Render* render)
             else if (name == "Sashimi")
             {
                 hudPosition = { 1200,150 };
-            }*/
+            }
 
             if (name == "key")
             {
@@ -94,7 +94,7 @@ bool Activator::Draw(Render* render)
                 render->DrawTexture(entityManager->itemsTexture, hudPosition.x, hudPosition.y, &rect, 0);
                 render->scale = 1;
             }
-            /*else
+            else
             {
                 render->DrawTexture(entityManager->itemsTexture, hudPosition.x, hudPosition.y, &rect, 0);
             }*/
@@ -116,10 +116,10 @@ void Activator::SetName(SString name)
     this->name = name;
 }
 
-void Activator::SetDrawState(DrawState drawState)
+void Activator::SetDrawState(ActivatorState drawState)
 {
     this->drawState = drawState;
-    if (drawState == DrawState::HUD)
+    if (drawState == ActivatorState::PICKED)
     {
         if (collider != nullptr) 
             collider->pendingToDelete = true;
@@ -155,7 +155,7 @@ void Activator::SetDrawState(DrawState drawState)
     }
 }
 
-DrawState Activator::GetDrawState()
+ActivatorState Activator::GetDrawState()
 {
     return drawState;
 }
@@ -179,7 +179,7 @@ void Activator::OnCollision(Collider* collider)
         }
     }
 
-    if (drawState == DrawState::MAP && !Notifier::GetInstance()->GetInteractionNotifier())
+    if (drawState == ActivatorState::MAP && !Notifier::GetInstance()->GetInteractionNotifier())
     {
         Notifier::GetInstance()->NotifyInteraction();
         Notifier::GetInstance()->SetInteractingEntity((Entity*)this);

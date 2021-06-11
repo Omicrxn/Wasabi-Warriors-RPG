@@ -332,7 +332,7 @@ bool EntityManager::LoadStateInfo(pugi::xml_node& scenegameplay, MapType current
 		}
 		else if (list1->data->type == EntityType::ACTIVATOR)
 		{
-			if (!(((Activator*)list1->data)->GetDrawState() == DrawState::HUD))
+			if (!(((Activator*)list1->data)->GetDrawState() == ActivatorState::PICKED))
 			{
 				activatorList.Del(activatorList.At(activatorList.Find((Activator*)list1->data)));
 				DestroyEntity(list1->data);
@@ -545,7 +545,7 @@ bool EntityManager::LoadStateInfo(pugi::xml_node& scenegameplay, MapType current
 		activator->spritePos = activatorNode.attribute("spritePos").as_int();
 		activator->renderable = activatorNode.attribute("renderable").as_bool();
 	
-		DrawState drawState = (DrawState)activatorNode.attribute("drawState").as_int();
+		ActivatorState drawState = (ActivatorState)activatorNode.attribute("drawState").as_int();
 		activator->SetDrawState(drawState);		
 	
 		activator = nullptr;
@@ -1389,7 +1389,7 @@ bool EntityManager::UpdateAll(float dt, bool doLogic)
 		{
 			if (*item != nullptr && (*item)->type != EntityType::MAP && (*item)->name.GetString() != "map")
 			{
-				if ((*item)->type == EntityType::ACTIVATOR && ((Activator*)(*item))->GetDrawState() == DrawState::HUD) // We will draw HUD activators at the end
+				if ((*item)->type == EntityType::ACTIVATOR && ((Activator*)(*item))->GetDrawState() == ActivatorState::PICKED) // We will draw HUD activators at the end
 				{
 					continue;
 				}
@@ -1409,7 +1409,7 @@ bool EntityManager::UpdateAll(float dt, bool doLogic)
 		// Draw HUD activators at the end
 		for (std::vector<Entity*>::iterator item = drawEntities.begin(); item != drawEntities.end(); ++item)
 		{
-			if ((*item)->type == EntityType::ACTIVATOR && ((Activator*)(*item))->GetDrawState() == DrawState::HUD)
+			if ((*item)->type == EntityType::ACTIVATOR && ((Activator*)(*item))->GetDrawState() == ActivatorState::PICKED)
 			{
 				(*item)->Draw(render);
 				entitiesDrawn++;
@@ -1494,7 +1494,7 @@ void EntityManager::DeleteAllEntitiesExceptPlayer()
 		}
 		else if (list1->data->type == EntityType::ACTIVATOR)
 		{
-			if (!(((Activator*)list1->data)->GetDrawState() == DrawState::HUD))
+			if (!(((Activator*)list1->data)->GetDrawState() == ActivatorState::PICKED))
 			activatorList.Del(activatorList.At(activatorList.Find((Activator*)list1->data)));
 		}
 		else if (list1->data->type == EntityType::LEVER)
@@ -1511,7 +1511,7 @@ void EntityManager::DeleteAllEntitiesExceptPlayer()
 		{
 			if (list1->data->type == EntityType::ACTIVATOR)
 			{
-				if (!(((Activator*)list1->data)->GetDrawState() == DrawState::HUD))
+				if (!(((Activator*)list1->data)->GetDrawState() == ActivatorState::PICKED))
 					DestroyEntity(list1->data);
 			}
 			else if (list1->data->type != EntityType::ACTIVATOR)
