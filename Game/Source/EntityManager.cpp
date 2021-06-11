@@ -1253,7 +1253,7 @@ bool EntityManager::SaveStateInfo(pugi::xml_node& scenegameplay, MapType current
 
 void EntityManager::DestroyEntity(Entity* entity)
 {
-	if (entity->collider != nullptr)
+ 	if (entity->collider != nullptr)
 	{
 		entity->collider->pendingToDelete = true;
 		entity->collider = nullptr;

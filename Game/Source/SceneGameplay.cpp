@@ -330,10 +330,7 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 		activator = (Activator*)entityManager->CreateEntity(EntityType::ACTIVATOR, "dialogTrigger", EntitySubtype::UNKNOWN, iPoint(8 * 32, 4 * 32));
 		activator->width = 64;
 		activator->height = 128;
-		/*
-		drawstate drawstate = drawstate::none;
-		activator->setdrawstate(drawstate);
-		activator = nullptr;*/
+		activator = nullptr;
 	}
 
 	guiManager->ToggleMouse();
@@ -553,6 +550,30 @@ bool SceneGameplay::Update(Input* input, float dt)
 		{
 			notifier->NotifyDialog(15);
 		}
+		else if (notifier->GetActivator()->name == "secretRoomDialog")
+		{
+			notifier->NotifyDialog(16);
+		}
+		else if (notifier->GetActivator()->name == "dungeon1")
+		{
+			notifier->NotifyDialog(21);
+		}
+		else if (notifier->GetActivator()->name == "dungeon2")
+		{
+			notifier->NotifyDialog(22);
+		}
+		else if (notifier->GetActivator()->name == "dungeon3")
+		{
+			notifier->NotifyDialog(23);
+		}
+		else if (notifier->GetActivator()->name == "dungeon4")
+		{
+			notifier->NotifyDialog(25);
+		}
+		else if (notifier->GetActivator()->name == "dungeon5")
+		{
+			notifier->NotifyDialog(26);
+		}
 		else if (notifier->GetActivator()->name == "erikaTomb")
 		{
 			NPC* npc;
@@ -602,7 +623,8 @@ bool SceneGameplay::Update(Input* input, float dt)
 			notifier->GetActivator()->SetDrawState(ActivatorState::PICKED);
 		}
 
-		if (notifier->GetActivator()->name != "dialogTrigger")
+		if (notifier->GetActivator()->name != "dialogTrigger" && notifier->GetActivator()->name != "secretRoomDialog" && notifier->GetActivator()->name != "dungeon1"
+			&& notifier->GetActivator()->name != "dungeon2" && notifier->GetActivator()->name != "dungeon3" && notifier->GetActivator()->name != "dungeon4" && notifier->GetActivator()->name != "dungeon5")
 			notifier->SetActivator(nullptr);
 	}
 
@@ -619,6 +641,66 @@ bool SceneGameplay::Update(Input* input, float dt)
 	else if (notifier->OnDialog() && notifier->GetActivator() != nullptr)
 	{
 		if (notifier->GetActivator()->name == "dialogTrigger")
+		{
+			for (int i = 0; i < entityManager->playerList.Count(); i++)
+			{
+				entityManager->playerList.At(i)->data->stopPlayer = true;
+			}
+			dialogSystem->NewDialog(notifier->GetDialogIndex());
+			notifier->GetActivator()->destroy = true;
+			notifier->SetActivator(nullptr);
+		}
+		else if (notifier->GetActivator()->name == "secretRoomDialog")
+		{
+			for (int i = 0; i < entityManager->playerList.Count(); i++)
+			{
+				entityManager->playerList.At(i)->data->stopPlayer = true;
+			}
+			dialogSystem->NewDialog(notifier->GetDialogIndex());
+			notifier->GetActivator()->destroy = true;
+			notifier->SetActivator(nullptr);
+		}
+		else if (notifier->GetActivator()->name == "dungeon1")
+		{
+			for (int i = 0; i < entityManager->playerList.Count(); i++)
+			{
+				entityManager->playerList.At(i)->data->stopPlayer = true;
+			}
+			dialogSystem->NewDialog(notifier->GetDialogIndex());
+			notifier->GetActivator()->destroy = true;
+			notifier->SetActivator(nullptr);
+		}
+		else if (notifier->GetActivator()->name == "dungeon2")
+		{
+			for (int i = 0; i < entityManager->playerList.Count(); i++)
+			{
+				entityManager->playerList.At(i)->data->stopPlayer = true;
+			}
+			dialogSystem->NewDialog(notifier->GetDialogIndex());
+			notifier->GetActivator()->destroy = true;
+			notifier->SetActivator(nullptr);
+		}
+		else if (notifier->GetActivator()->name == "dungeon3")
+		{
+			for (int i = 0; i < entityManager->playerList.Count(); i++)
+			{
+				entityManager->playerList.At(i)->data->stopPlayer = true;
+			}
+			dialogSystem->NewDialog(notifier->GetDialogIndex());
+			notifier->GetActivator()->destroy = true;
+			notifier->SetActivator(nullptr);
+		}
+		else if (notifier->GetActivator()->name == "dungeon4")
+		{
+			for (int i = 0; i < entityManager->playerList.Count(); i++)
+			{
+				entityManager->playerList.At(i)->data->stopPlayer = true;
+			}
+			dialogSystem->NewDialog(notifier->GetDialogIndex());
+			notifier->GetActivator()->destroy = true;
+			notifier->SetActivator(nullptr);
+		}
+		else if (notifier->GetActivator()->name == "dungeon5")
 		{
 			for (int i = 0; i < entityManager->playerList.Count(); i++)
 			{
@@ -651,6 +733,10 @@ bool SceneGameplay::Update(Input* input, float dt)
 			player = nullptr;
 			gameProgress.hasCalledCook = true;
 		}
+		else if (dialogSystem->GetDialogIndex() == 16)
+		{
+			gameProgress.hasVisitedRestaurantQuest = true;
+		}
 		else if (dialogSystem->GetDialogIndex() == 17)
 		{
 			gameProgress.hasVisitedErikaTombstone = true;
@@ -674,7 +760,31 @@ bool SceneGameplay::Update(Input* input, float dt)
 			player = nullptr;
 			gameProgress.hasSavedLastApprentice = true;
 		}
+		else if (dialogSystem->GetDialogIndex() == 21)
+		{
+			gameProgress.hasTriggeredDialogDungeon1 = true;
 
+		}
+		else if (dialogSystem->GetDialogIndex() == 22)
+		{
+			gameProgress.hasTriggeredDialogDungeon2 = true;
+
+		}
+		else if (dialogSystem->GetDialogIndex() == 23)
+		{
+			gameProgress.hasTriggeredDialogDungeon3 = true;
+
+		}
+		else if (dialogSystem->GetDialogIndex() == 25)
+		{
+			gameProgress.hasTriggeredDialogDungeon4 = true;
+
+		}
+		else if (dialogSystem->GetDialogIndex() == 26)
+		{
+			gameProgress.hasTriggeredDialogDungeon5 = true;
+
+		}
 		onDialog = false;
 	}
 
@@ -1341,7 +1451,7 @@ void SceneGameplay::SaveGameProgress(pugi::xml_node& data)const
 		data.attribute("hasVisitedBigCity").set_value(this->gameProgress.hasVisitedBigCity);
 	else
 		data.append_attribute("hasVisitedBigCity").set_value(this->gameProgress.hasVisitedBigCity);
-
+	
 	tempName = data.attribute("hasVisitedSkyScraper").name();
 	if (tempName == "hasVisitedSkyScraper")
 		data.attribute("hasVisitedSkyScraper").set_value(this->gameProgress.hasVisitedSkyScraper);
@@ -1359,6 +1469,36 @@ void SceneGameplay::SaveGameProgress(pugi::xml_node& data)const
 		data.attribute("hasVisitedOsaka").set_value(this->gameProgress.hasVisitedOsaka);
 	else
 		data.append_attribute("hasVisitedOsaka").set_value(this->gameProgress.hasVisitedOsaka);
+
+	tempName = data.attribute("hasTriggeredDialogDungeon1").name();
+	if (tempName == "hasTriggeredDialogDungeon1")
+		data.attribute("hasTriggeredDialogDungeon1").set_value(this->gameProgress.hasTriggeredDialogDungeon1);
+	else
+		data.append_attribute("hasTriggeredDialogDungeon1").set_value(this->gameProgress.hasTriggeredDialogDungeon1);
+
+	tempName = data.attribute("hasTriggeredDialogDungeon2").name();
+	if (tempName == "hasTriggeredDialogDungeon2")
+		data.attribute("hasTriggeredDialogDungeon2").set_value(this->gameProgress.hasTriggeredDialogDungeon2);
+	else
+		data.append_attribute("hasTriggeredDialogDungeon2").set_value(this->gameProgress.hasTriggeredDialogDungeon2);
+
+	tempName = data.attribute("hasTriggeredDialogDungeon3").name();
+	if (tempName == "hasTriggeredDialogDungeon3")
+		data.attribute("hasTriggeredDialogDungeon3").set_value(this->gameProgress.hasTriggeredDialogDungeon3);
+	else
+		data.append_attribute("hasTriggeredDialogDungeon3").set_value(this->gameProgress.hasTriggeredDialogDungeon3);
+
+	tempName = data.attribute("hasTriggeredDialogDungeon4").name();
+	if (tempName == "hasTriggeredDialogDungeon4")
+		data.attribute("hasTriggeredDialogDungeon4").set_value(this->gameProgress.hasTriggeredDialogDungeon4);
+	else
+		data.append_attribute("hasTriggeredDialogDungeon4").set_value(this->gameProgress.hasTriggeredDialogDungeon4);
+
+	tempName = data.attribute("hasTriggeredDialogDungeon5").name();
+	if (tempName == "hasTriggeredDialogDungeon5")
+		data.attribute("hasTriggeredDialogDungeon5").set_value(this->gameProgress.hasTriggeredDialogDungeon5);
+	else
+		data.append_attribute("hasTriggeredDialogDungeon5").set_value(this->gameProgress.hasTriggeredDialogDungeon5);
 }
 
 void SceneGameplay::LoadGameProgress(pugi::xml_node& data)
@@ -1387,6 +1527,12 @@ void SceneGameplay::LoadGameProgress(pugi::xml_node& data)
 	this->gameProgress.hasVisitedSkyScraper = data.attribute("hasVisitedSkyScraper").as_bool();
 	this->gameProgress.hasVisitedSecretRoom = data.attribute("hasVisitedSecretRoom").as_bool();
 	this->gameProgress.hasVisitedOsaka = data.attribute("hasVisitedOsaka").as_bool();
+
+	this->gameProgress.hasTriggeredDialogDungeon1 = data.attribute("hasTriggeredDialogDungeon1").as_bool();
+	this->gameProgress.hasTriggeredDialogDungeon2 = data.attribute("hasTriggeredDialogDungeon2").as_bool();
+	this->gameProgress.hasTriggeredDialogDungeon3 = data.attribute("hasTriggeredDialogDungeon3").as_bool();
+	this->gameProgress.hasTriggeredDialogDungeon4 = data.attribute("hasTriggeredDialogDungeon4").as_bool();
+	this->gameProgress.hasTriggeredDialogDungeon5 = data.attribute("hasTriggeredDialogDungeon5").as_bool();
 }
 
 void SceneGameplay::SaveEntities(pugi::xml_node& scenegameplay) const
@@ -1700,7 +1846,6 @@ void SceneGameplay::SetUpTp()
 		case MapType::SECRET_ROOM:
 			mapNode = mapNode.child("secretRoom");
 			hasVisitedLocation = gameProgress.hasVisitedSecretRoom;
-			hasVisitedLocation = gameProgress.hasVisitedRestaurantQuest;
 			break;
 		case MapType::OSAKA:
 			mapNode = mapNode.child("osaka");
@@ -1939,7 +2084,7 @@ void SceneGameplay::SetUpTp()
 				break;
 			case MapType::SECRET_ROOM:
 				gameProgress.hasVisitedSecretRoom = true;
-				gameProgress.hasVisitedRestaurantQuest = true;
+
 				break;
 			case MapType::OSAKA:
 				gameProgress.hasVisitedOsaka = true;
@@ -1994,7 +2139,7 @@ void SceneGameplay::SetUpTp()
 			activator->height = 32;
 		}
 	}
-	else if (currentMap == MapType::SECOND_RESTAURANT && gameProgress.hasSavedFirstApprentice == false)
+	if (currentMap == MapType::SECOND_RESTAURANT && gameProgress.hasSavedFirstApprentice == false)
 	{
 		NPC* npc;
 		npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, "reiNPC", EntitySubtype::UNKNOWN, iPoint((1 * 32), (2 * 32)));
@@ -2008,7 +2153,7 @@ void SceneGameplay::SetUpTp()
 		if (npc->stop) npc->stopForever = true;
 		npc = nullptr;
 	}
-	else if (currentMap == MapType::THIRD_RESTAURANT && gameProgress.hasSavedLastApprentice == false)
+	if (currentMap == MapType::THIRD_RESTAURANT && gameProgress.hasSavedLastApprentice == false)
 	{
 		NPC* npc;
 		npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, "eikenNPC", EntitySubtype::UNKNOWN, iPoint((1 * 32), (2 * 32)));
@@ -2021,6 +2166,54 @@ void SceneGameplay::SetUpTp()
 		npc->SetTexture(npc->spritePos);
 		if (npc->stop) npc->stopForever = true;
 		npc = nullptr;
+	}
+	if (currentMap == MapType::SECRET_ROOM && gameProgress.hasVisitedRestaurantQuest == false)
+	{
+		Activator* activator;
+		activator = (Activator*)entityManager->CreateEntity(EntityType::ACTIVATOR, "secretRoomDialog", EntitySubtype::UNKNOWN, iPoint(1 * 32, 5 * 32));
+		activator->width = 128;
+		activator->height = 32;
+		activator = nullptr;
+	}
+	if (currentMap == MapType::SKYSCRAPER && gameProgress.hasTriggeredDialogDungeon1 == false)
+	{
+		Activator* activator;
+		activator = (Activator*)entityManager->CreateEntity(EntityType::ACTIVATOR, "dungeon1", EntitySubtype::UNKNOWN, iPoint(6 * 32, 46 * 32));
+		activator->width = 160;
+		activator->height = 64;
+		activator = nullptr;
+	}
+	if (currentMap == MapType::SKYSCRAPER && gameProgress.hasTriggeredDialogDungeon2 == false)
+	{
+		Activator* activator;
+		activator = (Activator*)entityManager->CreateEntity(EntityType::ACTIVATOR, "dungeon2", EntitySubtype::UNKNOWN, iPoint(9 * 32, 41 * 32));
+		activator->width = 160;
+		activator->height = 32;
+		activator = nullptr;
+	}
+	if (currentMap == MapType::SKYSCRAPER && gameProgress.hasTriggeredDialogDungeon3 == false)
+	{
+		Activator* activator;
+		activator = (Activator*)entityManager->CreateEntity(EntityType::ACTIVATOR, "dungeon3", EntitySubtype::UNKNOWN, iPoint(3 * 32, 2 * 32));
+		activator->width = 128;
+		activator->height = 32;
+		activator = nullptr;
+	}
+	if (currentMap == MapType::SKYSCRAPER && gameProgress.hasTriggeredDialogDungeon4 == false)
+	{
+		Activator* activator;
+		activator = (Activator*)entityManager->CreateEntity(EntityType::ACTIVATOR, "dungeon4", EntitySubtype::UNKNOWN, iPoint(36 * 32, 2 * 32));
+		activator->width = 128;
+		activator->height = 32;
+		activator = nullptr;
+	}
+	if (currentMap == MapType::SKYSCRAPER && gameProgress.hasTriggeredDialogDungeon5 == false)
+	{
+		Activator* activator;
+		activator = (Activator*)entityManager->CreateEntity(EntityType::ACTIVATOR, "dungeon5", EntitySubtype::UNKNOWN, iPoint(38 * 32, 35 * 32));
+		activator->width = 224;
+		activator->height = 32;
+		activator = nullptr;
 	}
 	PlayMapMusic();
 	screenPause->SetMap(currentMap);

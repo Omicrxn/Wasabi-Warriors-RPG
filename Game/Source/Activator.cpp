@@ -164,7 +164,7 @@ void Activator::OnCollision(Collider* collider)
 {
     if (!hasInteracted)
     {
-        if (collider->type == Collider::Type::PLAYER && name == "dialogTrigger" || name == "erikaTomb")
+        if (collider->type == Collider::Type::PLAYER && (name == "dialogTrigger" || name == "erikaTomb" || name == "secretRoomDialog" || name == "dungeon1" || name == "dungeon2" || name == "dungeon3" || name == "dungeon4" || name == "dungeon5"))
         {
             Interact();
         }

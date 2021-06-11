@@ -73,6 +73,13 @@ struct GameProgress
     bool hasVisitedSkyScraper = false;
     bool hasVisitedSecretRoom = false;
     bool hasVisitedOsaka = false;
+
+    //Dungeon Dialog Bools
+    bool hasTriggeredDialogDungeon1 = false;
+    bool hasTriggeredDialogDungeon2 = false;
+    bool hasTriggeredDialogDungeon3 = false;
+    bool hasTriggeredDialogDungeon4 = false;
+    bool hasTriggeredDialogDungeon5 = false;
 };
 
 class SceneGameplay : public Scene

@@ -36,7 +36,7 @@
       <player posX="480" posY="64"/>
     </prevBigCity>
     <prevTown>
-      <player posX="480" posY="768"/>
+      <player posX="480" posY="736"/>
     </prevTown>
     <prevSecondRestaurant>
       <player posX="736" posY="416"/>
@@ -105,20 +105,20 @@
   
   <dungeon enemyCount="4" npcCount="1" teleportCount="7" activatorCount="1" secretWallCount="1" leverCount="3">
     <prevBigCity>
-      <player posX="256" posY="1536"/>
+      <player posX="256" posY="1526"/>
     </prevBigCity>
     <npc posX="256" posY="1432" spritePos="3" stop="true" dialogIndex="7"/>
     <enemy posX="256" posY="256" class="henchman" name="Ben" spritePos="5" subtype="2"/>
     <enemy posX="96" posY="320" class="bruiser" name="John" spritePos="10" subtype="3"/>
     <enemy posX="256" posY="416" class="bruiser" name="Robert" spritePos="6" subtype="3"/>
-    <enemy posX="1312" posY="1248" class="boss" name="Takuda" spritePos="7" subtype="3"/>
+    <enemy posX="1312" posY="1248" class="boss" name="Takuda" spritePos="8" subtype="3"/>
     <teleport name ="floor1_1" posX="256" posY="1568" width="32" height="32" destination="5"/>
-    <teleport name ="floor1_2" posX="160" posY="1184" width="32" height="32" destination="-1" nextPosX="160" nextPosY="96"/>
-    <teleport name ="floor2_1" posX="160" posY="32" width="32" height="32" destination="-1" nextPosX="160" nextPosY="1248"/>
-    <teleport name ="floor2_2" posX="384" posY="192" width="32" height="32" destination="-1" nextPosX="1216" nextPosY="96"/>
+    <teleport name ="floor1_2" posX="160" posY="1184" width="32" height="32" destination="-1" nextPosX="160" nextPosY="64"/>
+    <teleport name ="floor2_1" posX="160" posY="32" width="32" height="32" destination="-1" nextPosX="160" nextPosY="1216"/>
+    <teleport name ="floor2_2" posX="384" posY="192" width="32" height="32" destination="-1" nextPosX="1216" nextPosY="64"/>
     <teleport name ="floor3_1" posX="1216" posY="32" width="32" height="32" destination="-1" nextPosX="384" nextPosY="256"/>
-    <teleport name ="floor3_2" posX="1440" posY="32" width="32" height="32" destination="-1" nextPosX="1312" nextPosY="1152"/>
-    <teleport name ="floor4" posX="1312" posY="1088" width="32" height="32" destination="-1" nextPosX="1216" nextPosY="96"/>
+    <teleport name ="floor3_2" posX="1440" posY="32" width="32" height="32" destination="-1" nextPosX="1312" nextPosY="1120"/>
+    <teleport name ="floor4" posX="1312" posY="1088" width="32" height="32" destination="-1" nextPosX="1440" nextPosY="64"/>
     <activator name ="pc" posX="1408" posY="64" width="32" height="32" catchable="false" entitySubtype="-1"/>
     <secretwall name="secretWallPuzzle1" posX="384" posY="1344" width="32" height="93"/>
     <lever name="secretWallPuzzle1Lever1" posX="352" posY="1472" width="32" height="32" number="1"/>
@@ -143,7 +143,7 @@
   
   <secretRoom enemyCount="0" npcCount="0" teleportCount="1" itemCount="0" activatorCount="0" secretWallCount="0" leverCount="0">
     <prevRestaurant>
-      <player posX="64" posY="160"/>
+      <player posX="64" posY="150"/>
     </prevRestaurant>
     <teleport posX="64" posY="192" width="32" height="32" destination="3"/>
     <!--<item posX="72" posY="72" class="item" name="megaPotion" subtype="7"/>
