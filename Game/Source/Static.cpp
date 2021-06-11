@@ -1198,6 +1198,30 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 	SetRect(1863, 452, 17, 23);
 	SetPivot(9, 23);
 	}
+	else if (name == "left_fence")
+	{
+	type = Static::Type::FENCE;
+	SetRect(2112, 178, 32, 14);
+	SetPivot(16, 14);
+	}
+	else if (name == "middle_fence")
+	{
+	type = Static::Type::FENCE;
+	SetRect(2144, 178, 32, 14);
+	SetPivot(16, 14);
+	}
+	else if (name == "right_fence")
+	{
+	type = Static::Type::FENCE;
+	SetRect(2176, 178, 32, 14);
+	SetPivot(16, 14);
+	}
+	else if (name == "tv_furniture")
+	{
+	type = Static::Type::FURNITURE;
+	SetRect(1909, 116, 54, 44);
+	SetPivot(27, 44);
+	}
 	else {
 		LOG("There isn't any type assigned to %s name entity", name.data());
 	}

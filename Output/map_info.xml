@@ -112,7 +112,7 @@
     <enemy posX="256" posY="256" class="henchman" name="Ben" spritePos="5" subtype="2"/>
     <enemy posX="96" posY="320" class="bruiser" name="John" spritePos="10" subtype="3"/>
     <enemy posX="256" posY="416" class="bruiser" name="Robert" spritePos="6" subtype="3"/>
-    <enemy posX="1312" posY="1248" class="boss" name="Takuda" spritePos="8" subtype="3"/>
+    <enemy posX="1312" posY="1248" class="boss" name="Takuda" spritePos="7" subtype="4"/>
     <teleport name ="floor1_1" posX="256" posY="1568" width="32" height="32" destination="5"/>
     <teleport name ="floor1_2" posX="160" posY="1184" width="32" height="32" destination="-1" nextPosX="160" nextPosY="64"/>
     <teleport name ="floor2_1" posX="160" posY="32" width="32" height="32" destination="-1" nextPosX="160" nextPosY="1216"/>

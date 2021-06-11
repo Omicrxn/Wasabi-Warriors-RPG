@@ -44,7 +44,7 @@ Enemy::Enemy(SString name, Input* input, Textures* tex, Collisions* collisions, 
     else if (subtype == EntitySubtype::ENEMY_BOSS)
     {
         SetUpClass("boss");
-        SetTexture(11);
+        SetTexture(7);
         SetPivot(8, 30);
     }
 }
