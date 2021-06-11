@@ -536,6 +536,9 @@ bool EntityManager::LoadStateInfo(pugi::xml_node& scenegameplay, MapType current
 	Activator* activator = nullptr;
 	for (int i = 0; i < activatorCount; ++i)
 	{
+		ActivatorState drawState = (ActivatorState)activatorNode.attribute("drawState").as_int();
+		if (drawState == ActivatorState::PICKED) continue;
+
 		LOG("LOADING ITEM NUMBER: %i", i);
 		EntitySubtype subtype = (EntitySubtype)activatorNode.attribute("entitySubtype").as_int();
 		iPoint pos = { activatorNode.attribute("posX").as_int(), activatorNode.attribute("posY").as_int() };
@@ -545,7 +548,6 @@ bool EntityManager::LoadStateInfo(pugi::xml_node& scenegameplay, MapType current
 		activator->spritePos = activatorNode.attribute("spritePos").as_int();
 		activator->renderable = activatorNode.attribute("renderable").as_bool();
 	
-		ActivatorState drawState = (ActivatorState)activatorNode.attribute("drawState").as_int();
 		activator->SetDrawState(drawState);		
 	
 		activator = nullptr;

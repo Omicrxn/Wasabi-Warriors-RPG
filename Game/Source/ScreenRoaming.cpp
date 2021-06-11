@@ -108,13 +108,17 @@ bool ScreenRoaming::Draw(Render* render)
 
 	if (!controller)
 	{
+		render->DrawText(font, "ESC", positionX + 3 + 2, 20 + 2, 30, 3, { 128,128,128,255 });
 		render->DrawText(font, "ESC", positionX + 3, 20, 30, 3, { 255,255,255,255 });
-		render->DrawText(font, "Q", positionX + 120 + 55, 20, 35, 3, { 255,255,255,255 });
+		render->DrawText(font, "Q", positionX + 120 + 55 + 2, 20 + 2, 30, 3, { 128,128,128,255 });
+		render->DrawText(font, "Q", positionX + 120 + 55, 20, 30, 3, { 255,255,255,255 });
 	}
 	else
 	{
-		render->DrawText(font, "START", positionX - 8, 20, 28, 2, { 255,255,255,255 });
-		render->DrawText(font, "X", positionX + 120 + 55, 20, 35, 3, { 0,0,255,255 });
+		render->DrawText(font, "START", positionX - 8 + 2, 20 + 2, 30, 2, { 128,128,128,255 });
+		render->DrawText(font, "START", positionX - 8, 20, 30, 2, { 255,255,255,255 });
+		render->DrawText(font, "X", positionX + 120 + 55 + 2, 20 + 2, 30, 3, { 0,0,128,255 });
+		render->DrawText(font, "X", positionX + 120 + 55, 20, 30, 3, { 0,0,255,255 });
 	}
 
 	if (Notifier::GetInstance()->GetMobileNotification() != nullptr)
@@ -139,9 +143,15 @@ bool ScreenRoaming::Draw(Render* render)
 	render->scale = 1;
 	// LB & RB buttons sprite draw
 	if (controller)
-		render->DrawText(font, "Y", 950 + playersIcons.w, 25, 30, 2, { 255,255,0,255 });
+	{
+		render->DrawText(font, "Y", 993 + playersIcons.w + 2, 15 + 2, 30, 2, { 128,128,0,255 });
+		render->DrawText(font, "Y", 993 + playersIcons.w, 15, 30, 2, { 255,255,0,255 });
+	}
 	else
-		render->DrawText(font, "E", 950 + playersIcons.w, 25, 30, 2, { 255,255,255,255 });
+	{
+		render->DrawText(font, "E", 993 + playersIcons.w + 2, 15 + 2, 30, 2, { 128,128,128,255 });
+		render->DrawText(font, "E", 993 + playersIcons.w, 15, 30, 2, { 255,255,255,255 });
+	}
 
 	// Player Selection
 	if (currentPlayer != nullptr)
