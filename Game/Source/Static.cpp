@@ -133,21 +133,33 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 	else if (name == "bush")
 	{
 		type = Static::Type::BUSH;
-		SetRect(192, 513, 32, 28);
-		SetPivot(16, 28);
+		SetRect(192, 513, 32, 27);
+		SetPivot(16, 27);
 	}
 	else if (name == "bush_2")
 	{
 		type = Static::Type::BUSH;
-		SetRect(224, 515, 32, 28);
-		SetPivot(16, 28);
+		SetRect(224, 515, 32, 27);
+		SetPivot(16, 27);
 	}
 	else if (name == "bush_3")
 	{
 		type = Static::Type::BUSH;
-		SetRect(256, 513, 32, 28);
-		SetPivot(16, 28);
+		SetRect(256, 513, 32, 27);
+		SetPivot(16, 27);
 	}
+	else if (name == "town_bust")
+	 {
+		 type = Static::Type::BUSH;
+		 SetRect(357, 480, 27, 29);
+		 SetPivot(14, 29);
+	 }
+	else if (name == "town_small_bush")
+	 {
+		 type = Static::Type::BUSH;
+		 SetRect(358, 451, 20, 19);
+		 SetPivot(10, 19);
+	 }
 	else if (name == "statue_0")
 	{
 		type = Static::Type::STATUE;
