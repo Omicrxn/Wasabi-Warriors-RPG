@@ -164,7 +164,6 @@ void Activator::OnCollision(Collider* collider)
 {
     if (!hasInteracted)
     {
-
         if (collider->type == Collider::Type::PLAYER && name == "dialogTrigger" || name == "erikaTomb")
         {
             Interact();
@@ -177,11 +176,11 @@ void Activator::OnCollision(Collider* collider)
                 Interact();
             }
         }
-    }
 
-    if (drawState == ActivatorState::MAP && !Notifier::GetInstance()->GetInteractionNotifier())
-    {
-        Notifier::GetInstance()->NotifyInteraction();
-        Notifier::GetInstance()->SetInteractingEntity((Entity*)this);
+        if ((drawState == ActivatorState::MAP || drawState == ActivatorState::NONE) && !Notifier::GetInstance()->GetInteractionNotifier())
+        {
+            Notifier::GetInstance()->NotifyInteraction();
+            Notifier::GetInstance()->SetInteractingEntity((Entity*)this);
+        }
     }
 }

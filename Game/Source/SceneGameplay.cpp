@@ -766,7 +766,7 @@ bool SceneGameplay::Draw(Render* render)
 	}
 
 	// Draw interaction notifier label
-	if (notifier->GetInteractionNotifier())
+	if (notifier->GetInteractionNotifier() && notifier->GetInteractingEntity() != nullptr)
 	{
 		SDL_Rect rect = { 102,27,261,51 };
 		render->DrawTexture(guiAtlasTex2, 640 - rect.w / 2, 500, &rect, 0);
@@ -784,13 +784,6 @@ bool SceneGameplay::Draw(Render* render)
 				render->DrawText(buttonFont, "Press F to talk", 640 - rect.w / 2 + 30, 500 + 7, 35, 1, { 128,128,128,255 });
 			else
 				render->DrawText(buttonFont, "Press A to talk", 640 - rect.w / 2 + 30, 500 + 7, 35, 1, { 128,128,128,255 });
-		}
-		else if (notifier->GetInteractingEntity()->name == "secretRoom")
-		{
-			if (!controller)
-				render->DrawText(buttonFont, "Press F to enter", 640 - rect.w / 2 + 25, 500 + 7, 35, 1, { 128,128,128,255 });
-			else
-				render->DrawText(buttonFont, "Press A to enter", 640 - rect.w / 2 + 25, 500 + 7, 35, 1, { 128,128,128,255 });
 		}
 		else
 		{
