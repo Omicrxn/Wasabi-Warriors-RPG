@@ -418,12 +418,31 @@ bool ScreenBattle::Update(Input* input, float dt, uint& focusedButtonId)
 					if (sceneGameplay->GetGameProgress()->numKilledOfficers == 3) sceneGameplay->GetGameProgress()->hasKilledOfficers = true;
 				}
 			}
-			else if (!sceneGameplay->GetGameProgress()->hasKilledBoss)
+
+			if (!sceneGameplay->GetGameProgress()->hasKilledBoss)
 			{
 				if (battleSystem->GetEnemy()->name == "Takuda")
 				{
 					sceneGameplay->GetGameProgress()->hasKilledBoss = true;
 				}
+			}
+
+			if (!sceneGameplay->GetGameProgress()->hasKilledRestaurant2Enemies)
+			{
+				if (battleSystem->GetEnemy()->name == "Akihiko" ||
+					battleSystem->GetEnemy()->name == "Akihiro")
+					sceneGameplay->GetGameProgress()->numKilledRestaurant2Enemies++;
+				if (sceneGameplay->GetGameProgress()->numKilledRestaurant2Enemies == 2)
+					sceneGameplay->GetGameProgress()->hasKilledRestaurant2Enemies = true;
+			}
+
+			if (!sceneGameplay->GetGameProgress()->hasKilledRestaurant3Enemies)
+			{
+				if (battleSystem->GetEnemy()->name == "Akira" ||
+					battleSystem->GetEnemy()->name == "Inuyasha")
+					sceneGameplay->GetGameProgress()->numKilledRestaurant3Enemies++;
+				if (sceneGameplay->GetGameProgress()->numKilledRestaurant3Enemies == 2)
+					sceneGameplay->GetGameProgress()->hasKilledRestaurant3Enemies = true;
 			}
 		}
 
@@ -740,18 +759,14 @@ bool ScreenBattle::Draw(Render* render)
 		else if (battleSystem->battleState == BattleState::WON)
 		{
 			// Display winner text
-			render->DrawText(menuFont2, "You win!", 50 + 3, 30 + 3, 125, 0, { 105, 105, 105, 255 });
-			render->DrawText(menuFont2, "You win!", 50, 30, 125, 0, { 255, 255, 255, 255 });
+			render->DrawText(menuFont2, "You win!", 75 + 3, 520 + 3, 70, 0, { 105, 105, 105, 255 });
+			render->DrawText(menuFont2, "You win!", 75, 520, 70, 0, { 255, 255, 255, 255 });
 		}
 		else if (battleSystem->battleState == BattleState::LOST)
 		{
-			// Revise
-			SDL_Rect rect = { 0,0,1280,720 };
-			render->DrawRectangle(rect, { 127,127,127,255 }, true, false);
-
 			// Display loser text
-			render->DrawText(menuFont2, "You lose...", 50 + 3, 30 + 3, 700, 0, { 105, 105, 105, 255 });
-			render->DrawText(menuFont2, "You lose...", 50, 30, 700, 0, { 255, 255, 255, 255 });
+			render->DrawText(menuFont2, "You lose...", 75 + 3, 520 + 3, 70, 0, { 105, 105, 105, 255 });
+			render->DrawText(menuFont2, "You lose...", 75, 520, 70, 0, { 255, 255, 255, 255 });
 		}
 
 		// Draw party members textures
@@ -1260,5 +1275,17 @@ void ScreenBattle::SetBackgroundMap(Textures* tex)
 	else if (sceneGameplay->GetCurrentMap() == MapType::TOWN)
 	{
 		backgroundTex = tex->Load("Textures/Scenes/bg_town.jpg");
+	}
+	else if (sceneGameplay->GetCurrentMap() == MapType::RESTAURANT)
+	{
+		backgroundTex = tex->Load("Textures/Scenes/bg_dungeon.jpg");
+	}
+	else if (sceneGameplay->GetCurrentMap() == MapType::SECOND_RESTAURANT)
+	{
+		backgroundTex = tex->Load("Textures/Scenes/bg_dungeon.jpg");
+	}
+	else if (sceneGameplay->GetCurrentMap() == MapType::THIRD_RESTAURANT)
+	{
+		backgroundTex = tex->Load("Textures/Scenes/bg_dungeon.jpg");
 	}
 }

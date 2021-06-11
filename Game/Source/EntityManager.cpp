@@ -301,72 +301,72 @@ bool EntityManager::LoadStateInfo(pugi::xml_node& scenegameplay, MapType current
 		break;
 	}
 
-	LOG("START LOAD ENTITYMANAGER");
-	LOG("DELETE ALL");
-	/* ---------- FIRST DELETE ALL THE ENTITIES ----------*/
-	ListItem<Entity*>* list1;
-	for (list1 = entityList.start; list1 != NULL; list1 = list1->next)
-	{
-		// Also delete them from their own lists
-		if (list1->data->type == EntityType::PLAYER)
-		{
-			if (ignorePlayers)
-				continue;
-			playerList.Del(playerList.At(playerList.Find((Player*)list1->data)));
-		}
-		else if (list1->data->type == EntityType::ENEMY)
-		{
-			enemyList.Del(enemyList.At(enemyList.Find((Enemy*)list1->data)));
-		}
-		else if (list1->data->type == EntityType::NPC)
-		{
-			npcList.Del(npcList.At(npcList.Find((NPC*)list1->data)));
-		}
-		else if (list1->data->type == EntityType::TELEPORT)
-		{
-			teleportList.Del(teleportList.At(teleportList.Find((Teleport*)list1->data)));
-		}
-		else if (list1->data->type == EntityType::ITEM)
-		{
-			itemList.Del(itemList.At(itemList.Find((Item*)list1->data)));
-		}
-		else if (list1->data->type == EntityType::ACTIVATOR)
-		{
-			if (!(((Activator*)list1->data)->GetDrawState() == ActivatorState::PICKED))
-			{
-				activatorList.Del(activatorList.At(activatorList.Find((Activator*)list1->data)));
-				DestroyEntity(list1->data);
-			}
-			continue;
-		}
-		else if (list1->data->type == EntityType::LEVER)
-		{
-			leverList.Del(leverList.At(leverList.Find((Lever*)list1->data)));
-		}
-		else if (list1->data->type == EntityType::SECRET_WALL)
-		{
-			secretWallList.Del(secretWallList.At(secretWallList.Find((SecretWall*)list1->data)));
-		}
-	
-		// Delete all entities except the map
-		if (list1->data->type != EntityType::MAP)
-		{
-			DestroyEntity(list1->data);
-		}
-	}
-	
-	if (ignorePlayers == false)
-		playerList.Clear();
+	//LOG("START LOAD ENTITYMANAGER");
+	//LOG("DELETE ALL");
+	///* ---------- FIRST DELETE ALL THE ENTITIES ----------*/
+	//ListItem<Entity*>* list1;
+	//for (list1 = entityList.start; list1 != NULL; list1 = list1->next)
+	//{
+	//	// Also delete them from their own lists
+	//	if (list1->data->type == EntityType::PLAYER)
+	//	{
+	//		if (ignorePlayers)
+	//			continue;
+	//		playerList.Del(playerList.At(playerList.Find((Player*)list1->data)));
+	//	}
+	//	else if (list1->data->type == EntityType::ENEMY)
+	//	{
+	//		enemyList.Del(enemyList.At(enemyList.Find((Enemy*)list1->data)));
+	//	}
+	//	else if (list1->data->type == EntityType::NPC)
+	//	{
+	//		npcList.Del(npcList.At(npcList.Find((NPC*)list1->data)));
+	//	}
+	//	else if (list1->data->type == EntityType::TELEPORT)
+	//	{
+	//		teleportList.Del(teleportList.At(teleportList.Find((Teleport*)list1->data)));
+	//	}
+	//	else if (list1->data->type == EntityType::ITEM)
+	//	{
+	//		itemList.Del(itemList.At(itemList.Find((Item*)list1->data)));
+	//	}
+	//	else if (list1->data->type == EntityType::ACTIVATOR)
+	//	{
+	//		if (!(((Activator*)list1->data)->GetDrawState() == ActivatorState::PICKED))
+	//		{
+	//			activatorList.Del(activatorList.At(activatorList.Find((Activator*)list1->data)));
+	//			DestroyEntity(list1->data);
+	//		}
+	//		continue;
+	//	}
+	//	else if (list1->data->type == EntityType::LEVER)
+	//	{
+	//		leverList.Del(leverList.At(leverList.Find((Lever*)list1->data)));
+	//	}
+	//	else if (list1->data->type == EntityType::SECRET_WALL)
+	//	{
+	//		secretWallList.Del(secretWallList.At(secretWallList.Find((SecretWall*)list1->data)));
+	//	}
+	//
+	//	// Delete all entities except the map
+	//	if (list1->data->type != EntityType::MAP)
+	//	{
+	//		DestroyEntity(list1->data);
+	//	}
+	//}
+	//
+	//if (ignorePlayers == false)
+	//	playerList.Clear();
 
-	enemyList.Clear();
-	npcList.Clear();
-	teleportList.Clear();
-	itemList.Clear();
-	activatorList.Clear();
-	leverList.Clear();
-	secretWallList.Clear();
-	
-	RELEASE(list1);
+	//enemyList.Clear();
+	//npcList.Clear();
+	//teleportList.Clear();
+	//itemList.Clear();
+	//activatorList.Clear();
+	//leverList.Clear();
+	//secretWallList.Clear();
+	//
+	//RELEASE(list1);
 	
 	LOG("LOAD ALL PLAYERS");
 	/* ---------- SECOND LOAD PLAYERS FROM THE SAVE FILE ----------*/

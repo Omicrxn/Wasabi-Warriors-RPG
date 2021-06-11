@@ -141,48 +141,51 @@
     <!--<item posX="256" posY="320" class="item" name="wasabi" subtype="8"/>-->
     <activator name="secretRoom" posX="224" posY="160" width="32" height="32" drawState="-1" entitySubtype="-1"/>
   </restaurant>
+
+  <second_restaurant enemyCount="2" npcCount="0" teleportCount="1" activatorCount="1" itemCount="0" secretWallCount="0" leverCount="0">
+    <prevOsaka>
+      <player posX="160" posY="374"/>
+    </prevOsaka>
+    <prevSecondSecretRoom>
+      <player posX="224" posY="160"/>
+    </prevSecondSecretRoom>
+    <teleport posX="160" posY="416" width="64" height="32" destination="8"/>
+    <enemy posX="128" posY="352" class="henchman" name="Akihiko" spritePos="5" subtype="2"/>
+    <enemy posX="224" posY="352" class="bruiser" name="Akihiro" spritePos="5" subtype="3"/>
+    <activator name="second_secretRoom" posX="224" posY="160" width="32" height="32" drawState="-1" entitySubtype="-1"/>
+  </second_restaurant>
+
+  <third_restaurant enemyCount="2" npcCount="0" teleportCount="1" activatorCount="1" itemCount="0" secretWallCount="0" leverCount="0">
+    <prevBigCity>
+      <player posX="160" posY="374"/>
+    </prevBigCity>
+    <prevThirdSecretRoom>
+      <player posX="224" posY="160"/>
+    </prevThirdSecretRoom>
+    <teleport posX="160" posY="416" width="64" height="32" destination="5"/>
+    <enemy posX="128" posY="352" class="henchman" name="Akira" spritePos="5" subtype="2"/>
+    <enemy posX="224" posY="352" class="bruiser" name="Inuyasha" spritePos="5" subtype="3"/>
+    <activator name="third_secretRoom" posX="224" posY="160" width="32" height="32" drawState="-1" entitySubtype="-1"/>
+  </third_restaurant>
   
   <secretRoom enemyCount="0" npcCount="0" teleportCount="1" itemCount="0" activatorCount="0" secretWallCount="0" leverCount="0">
     <prevRestaurant>
       <player posX="64" posY="150"/>
     </prevRestaurant>
     <teleport posX="64" posY="192" width="32" height="32" destination="3"/>
-    <!--<item posX="72" posY="72" class="item" name="megaPotion" subtype="7"/>
-    <item posX="72" posY="104" class="item" name="megaPotion" subtype="7"/>
-    <item posX="104" posY="72" class="item" name="megaPotion" subtype="7"/>
-    <item posX="104" posY="104" class="item" name="megaPotion" subtype="7"/>-->
   </secretRoom>
 
-  <second_restaurant enemyCount="2" npcCount="0" teleportCount="1" activatorCount="0" itemCount="0" secretWallCount="0" leverCount="0">
-    <prevOsaka>
-      <player posX="160" posY="374"/>
-    </prevOsaka>
-    <prevSecretRoom>
-      <player posX="224" posY="160"/>
-    </prevSecretRoom>
-    <teleport posX="160" posY="416" width="64" height="32" destination="8"/>
-    <enemy posX="128" posY="352" class="henchman" name="Henchman" spritePos="5" subtype="2"/>
-    <enemy posX="224" posY="352" class="bruiser" name="Bruiser" spritePos="5" subtype="3"/>
-    <!--<teleport posX="224" posY="128" width="32" height="32" destination="7"/>-->
-    <!--<item posX="64" posY="256" class="item" name="wasabi" subtype="8"/>-->
-    <!--<item posX="64" posY="320" class="item" name="wasabi" subtype="8"/>-->
-    <!--<item posX="256" posY="320" class="item" name="wasabi" subtype="8"/>-->
-  </second_restaurant>
-  
-  <third_restaurant enemyCount="2" npcCount="0" teleportCount="1" activatorCount="0" itemCount="0" secretWallCount="0" leverCount="0">
-    <prevBigCity>
-      <player posX="160" posY="374"/>
-    </prevBigCity>
-    <prevSecretRoom>
-      <player posX="224" posY="160"/>
-    </prevSecretRoom>
-    <teleport posX="160" posY="416" width="64" height="32" destination="5"/>
-    <enemy posX="128" posY="352" class="henchman" name="Henchman" spritePos="5" subtype="2"/>
-    <enemy posX="224" posY="352" class="bruiser" name="Bruiser" spritePos="5" subtype="3"/>
+  <second_secretRoom enemyCount="0" npcCount="0" teleportCount="1" itemCount="0" activatorCount="0" secretWallCount="0" leverCount="0">
+    <prevSecondRestaurant>
+      <player posX="64" posY="150"/>
+    </prevSecondRestaurant>
+    <teleport posX="64" posY="192" width="32" height="32" destination="9"/>
+  </second_secretRoom>
 
-    <!--<teleport posX="224" posY="128" width="32" height="32" destination="7"/>-->
-    <!--<item posX="64" posY="256" class="item" name="wasabi" subtype="8"/>-->
-    <!--<item posX="64" posY="320" class="item" name="wasabi" subtype="8"/>-->
-    <!--<item posX="256" posY="320" class="item" name="wasabi" subtype="8"/>-->
-  </third_restaurant>
+  <third_secretRoom enemyCount="0" npcCount="0" teleportCount="1" itemCount="0" activatorCount="0" secretWallCount="0" leverCount="0">
+    <prevThirdRestaurant>
+      <player posX="64" posY="150"/>
+    </prevThirdRestaurant>
+    <teleport posX="64" posY="192" width="32" height="32" destination="10"/>
+  </third_secretRoom>
 </map>

@@ -308,7 +308,7 @@ void BattleSystem::EnemyTurn()
 	if (turnCounter == 0)
 	{
 		int num = rand() % 100;
-		if (num <= 33)
+		if (num <= 40)
 		{
 			// Player attack logic
 			enemyState = EnemyState::ATTACK;
@@ -320,7 +320,7 @@ void BattleSystem::EnemyTurn()
 				if (currentPlayer->stats.currentHP < 0) currentPlayer->stats.currentHP = 0;
 			}
 		}
-		else if (num > 33 && num <= 66)
+		else if (num > 40 && num <= 80)
 		{
 			// Player defense logic
 			enemyState = EnemyState::DEFEND;
@@ -335,7 +335,7 @@ void BattleSystem::EnemyTurn()
 					enemy->stats.currentHP = enemy->stats.maxHP;
 			}
 		}
-		else if (num > 66)
+		else if (num > 80)
 		{
 			// Player item logic
 			enemyState = EnemyState::ITEM;

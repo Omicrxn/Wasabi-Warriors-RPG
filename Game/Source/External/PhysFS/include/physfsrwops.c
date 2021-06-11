@@ -138,6 +138,8 @@ static int physfsrwops_read(SDL_RWops *rw, void *ptr, int size, int maxnum)
     {
         if (!PHYSFS_eof(handle)) /* not EOF? Must be an error. */
         {
+            LOG("PhysicsFS error: %s", PHYSFS_getLastError());
+
             SDL_SetError("PhysicsFS error: %s", PHYSFS_getLastError());
 
             #if TARGET_SDL2

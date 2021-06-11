@@ -529,7 +529,7 @@ bool SceneGameplay::Update(Input* input, float dt)
 
 	if (notifier->OnActivator())
 	{
-		notifier->NotifyActivator();
+		notifier->SetActivatorMode(false);
 
 		if (notifier->GetActivator()->name == "pc")
 		{
@@ -540,11 +540,35 @@ bool SceneGameplay::Update(Input* input, float dt)
 			notifier->GetActivator()->ChangeInteraction();
 			/*if (gameProgress.hasPickedKey)
 			{*/
-				audio->PlayFx(doorOpenFx);
-				notifier->NotifyMapChange(MapType::SECRET_ROOM);
-				/*((Activator*)entityManager->SearchEntity("key"))->SetDrawState(DrawState::NONE);*/
+			audio->PlayFx(doorOpenFx);
+			notifier->NotifyMapChange(MapType::SECRET_ROOM);
+			/*((Activator*)entityManager->SearchEntity("key"))->SetDrawState(DrawState::NONE);*/
 			/*}
 			else notifier->NotifyDialog(8);*/
+		}
+		else if (notifier->GetActivator()->name == "second_secretRoom")
+		{
+			notifier->GetActivator()->ChangeInteraction();
+
+			if (gameProgress.hasKilledRestaurant2Enemies)
+			{
+				audio->PlayFx(doorOpenFx);
+				notifier->NotifyMapChange(MapType::SECOND_SECRET_ROOM);
+			}
+			else
+				notifier->NotifyDialog(8);
+		}
+		else if (notifier->GetActivator()->name == "third_secretRoom")
+		{
+			notifier->GetActivator()->ChangeInteraction();
+
+			if (gameProgress.hasKilledRestaurant3Enemies)
+			{
+				audio->PlayFx(doorOpenFx);
+				notifier->NotifyMapChange(MapType::THIRD_SECRET_ROOM);
+			}
+			else
+				notifier->NotifyDialog(8);
 		}
 		else if (notifier->GetActivator()->name == "dialogTrigger")
 		{
@@ -1769,6 +1793,30 @@ void SceneGameplay::SetUpTp()
 			audio->StopMusic();
 		}
 		break;
+	case MapType::SECOND_SECRET_ROOM:
+		if (map->Load("Restaurant", "secretRoom.tmx") == true)
+		{
+			int w, h;
+			uchar* data = NULL;
+
+			//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
+
+			RELEASE_ARRAY(data);
+			audio->StopMusic();
+		}
+		break;
+	case MapType::THIRD_SECRET_ROOM:
+		if (map->Load("Restaurant", "secretRoom.tmx") == true)
+		{
+			int w, h;
+			uchar* data = NULL;
+
+			//if (map->CreateWalkabilityMap(w, h, &data)) pathFinding->SetMap(w, h, data);
+
+			RELEASE_ARRAY(data);
+			audio->StopMusic();
+		}
+		break;
 	case MapType::OSAKA:
 		if (map->Load("Osaka", "osaka.tmx") == true)
 		{
@@ -1823,12 +1871,10 @@ void SceneGameplay::SetUpTp()
 			break;
 		case MapType::SECOND_RESTAURANT:
 			mapNode = mapNode.child("second_restaurant");
-
 			hasVisitedLocation = gameProgress.hasVisitedSecondRestaurant;
 			break;
 		case MapType::THIRD_RESTAURANT:
 			mapNode = mapNode.child("third_restaurant");
-
 			hasVisitedLocation = gameProgress.hasVisitedThirdRestaurant;
 			break;
 		case MapType::TOWN:
@@ -1846,6 +1892,14 @@ void SceneGameplay::SetUpTp()
 		case MapType::SECRET_ROOM:
 			mapNode = mapNode.child("secretRoom");
 			hasVisitedLocation = gameProgress.hasVisitedSecretRoom;
+			break;
+		case MapType::SECOND_SECRET_ROOM:
+			mapNode = mapNode.child("second_secretRoom");
+			hasVisitedLocation = gameProgress.hasVisitedSecondSecretRoom;
+			break;
+		case MapType::THIRD_SECRET_ROOM:
+			mapNode = mapNode.child("third_secretRoom");
+			hasVisitedLocation = gameProgress.hasVisitedThirdSecretRoom;
 			break;
 		case MapType::OSAKA:
 			mapNode = mapNode.child("osaka");
@@ -1890,6 +1944,12 @@ void SceneGameplay::SetUpTp()
 		case MapType::SECRET_ROOM:
 			previousMapNode = mapNode.child("prevSecretRoom");
 			break;
+		case MapType::SECOND_SECRET_ROOM:
+			previousMapNode = mapNode.child("prevSecondSecretRoom");
+			break;
+		case MapType::THIRD_SECRET_ROOM:
+			previousMapNode = mapNode.child("prevThirdSecretRoom");
+			break;
 		case MapType::OSAKA:
 			previousMapNode = mapNode.child("prevOsaka");
 			break;
@@ -1915,13 +1975,15 @@ void SceneGameplay::SetUpTp()
 			RELEASE(list1);
 		}
 
+		entityManager->DeleteAllEntitiesExceptPlayer();
+
 		// Check if we have visited that location already
 		if (hasVisitedLocation == false)
 		{
 			/*LOAD FROM MAP INFO*/
 
 			// DELETE ALL ENTITIES EXCEPT PLAYER
-			entityManager->DeleteAllEntitiesExceptPlayer();
+			/*entityManager->DeleteAllEntitiesExceptPlayer();*/
 
 			// LOAD ENEMIES
 			int enemyCount = mapNode.attribute("enemyCount").as_int();
@@ -2062,15 +2124,12 @@ void SceneGameplay::SetUpTp()
 				gameProgress.hasVisitedMediumCity = true;
 				break;
 			case MapType::RESTAURANT:
-
 				gameProgress.hasVisitedRestaurant = true;
 				break;
 			case MapType::SECOND_RESTAURANT:
-
 				gameProgress.hasVisitedSecondRestaurant = true;
 				break;
 			case MapType::THIRD_RESTAURANT:
-
 				gameProgress.hasVisitedThirdRestaurant = true;
 				break;
 			case MapType::TOWN:
@@ -2084,7 +2143,12 @@ void SceneGameplay::SetUpTp()
 				break;
 			case MapType::SECRET_ROOM:
 				gameProgress.hasVisitedSecretRoom = true;
-
+				break;
+			case MapType::SECOND_SECRET_ROOM:
+				gameProgress.hasVisitedSecondSecretRoom = true;
+				break;
+			case MapType::THIRD_SECRET_ROOM:
+				gameProgress.hasVisitedThirdSecretRoom = true;
 				break;
 			case MapType::OSAKA:
 				gameProgress.hasVisitedOsaka = true;
@@ -2139,10 +2203,13 @@ void SceneGameplay::SetUpTp()
 			activator->height = 32;
 		}
 	}
-	if (currentMap == MapType::SECOND_RESTAURANT && gameProgress.hasSavedFirstApprentice == false)
+	if (currentMap == MapType::SECOND_SECRET_ROOM && gameProgress.hasSavedFirstApprentice == false)
 	{
+		if (entityManager->SearchEntity("reiNPC") != nullptr)
+			entityManager->DestroyEntity(entityManager->SearchEntity("reiNPC"));
+
 		NPC* npc;
-		npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, "reiNPC", EntitySubtype::UNKNOWN, iPoint((1 * 32), (2 * 32)));
+		npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, "reiNPC", EntitySubtype::UNKNOWN, iPoint((2 * 32), (2 * 32)));
 		npc->name = "reiNPC";
 		npc->width = 32;
 		npc->height = 32;
@@ -2153,10 +2220,13 @@ void SceneGameplay::SetUpTp()
 		if (npc->stop) npc->stopForever = true;
 		npc = nullptr;
 	}
-	if (currentMap == MapType::THIRD_RESTAURANT && gameProgress.hasSavedLastApprentice == false)
+	if (currentMap == MapType::THIRD_SECRET_ROOM && gameProgress.hasSavedLastApprentice == false)
 	{
+		if (entityManager->SearchEntity("eikenNPC") != nullptr)
+			entityManager->DestroyEntity(entityManager->SearchEntity("eikenNPC"));
+
 		NPC* npc;
-		npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, "eikenNPC", EntitySubtype::UNKNOWN, iPoint((1 * 32), (2 * 32)));
+		npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, "eikenNPC", EntitySubtype::UNKNOWN, iPoint((2 * 32), (2 * 32)));
 		npc->name = "eikenNPC";
 		npc->width = 32;
 		npc->height = 32;
@@ -2215,6 +2285,7 @@ void SceneGameplay::SetUpTp()
 		activator->height = 32;
 		activator = nullptr;
 	}
+
 	PlayMapMusic();
 	screenPause->SetMap(currentMap);
 }
@@ -2271,6 +2342,12 @@ void SceneGameplay::PlayMapMusic()
 		audio->PlayMusic("Audio/Music/cemetry.ogg");
 		break;
 	case MapType::SECRET_ROOM:
+		audio->PlayMusic("Audio/Music/restaurant.ogg");
+		break;
+	case MapType::SECOND_SECRET_ROOM:
+		audio->PlayMusic("Audio/Music/restaurant.ogg");
+		break;
+	case MapType::THIRD_SECRET_ROOM:
 		audio->PlayMusic("Audio/Music/restaurant.ogg");
 		break;
 	case MapType::OSAKA:
@@ -2339,4 +2416,3 @@ void SceneGameplay::CreateEntities()
 		}
 	}
 }
-

@@ -28,9 +28,9 @@ Activator::~Activator()
 
 void Activator::Interact()
 {
-    Notifier::GetInstance()->NotifyActivator();
+    Notifier::GetInstance()->SetActivatorMode(true);
     Notifier::GetInstance()->SetActivator(this);
-    if (name != "secretRoom") collider->pendingToDelete = true;
+    if (name != "secretRoom" && name != "second_secretRoom" && name != "third_secretRoom") collider->pendingToDelete = true;
     hasInteracted = true;
 }
 
@@ -176,11 +176,11 @@ void Activator::OnCollision(Collider* collider)
                 Interact();
             }
         }
+    }
 
-        if ((drawState == ActivatorState::MAP || drawState == ActivatorState::NONE) && !Notifier::GetInstance()->GetInteractionNotifier())
-        {
-            Notifier::GetInstance()->NotifyInteraction();
-            Notifier::GetInstance()->SetInteractingEntity((Entity*)this);
-        }
+    if ((drawState == ActivatorState::MAP || drawState == ActivatorState::NONE) && !Notifier::GetInstance()->GetInteractionNotifier())
+    {
+        Notifier::GetInstance()->NotifyInteraction();
+        Notifier::GetInstance()->SetInteractingEntity((Entity*)this);
     }
 }

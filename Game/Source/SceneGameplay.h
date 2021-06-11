@@ -72,14 +72,22 @@ struct GameProgress
     bool hasVisitedBigCity = false;
     bool hasVisitedSkyScraper = false;
     bool hasVisitedSecretRoom = false;
+    bool hasVisitedSecondSecretRoom = false;
+    bool hasVisitedThirdSecretRoom = false;
     bool hasVisitedOsaka = false;
 
-    //Dungeon Dialog Bools
+    //Dungeon dialog bools
     bool hasTriggeredDialogDungeon1 = false;
     bool hasTriggeredDialogDungeon2 = false;
     bool hasTriggeredDialogDungeon3 = false;
     bool hasTriggeredDialogDungeon4 = false;
     bool hasTriggeredDialogDungeon5 = false;
+
+    // Killed enemies bools
+    bool hasKilledRestaurant2Enemies = false;
+    int numKilledRestaurant2Enemies = 0;
+    bool hasKilledRestaurant3Enemies = false;
+    int numKilledRestaurant3Enemies = 0;
 };
 
 class SceneGameplay : public Scene

@@ -21,7 +21,9 @@ enum class MapType
     SECRET_ROOM,
     OSAKA,
     SECOND_RESTAURANT,
-    THIRD_RESTAURANT
+    THIRD_RESTAURANT,
+    SECOND_SECRET_ROOM,
+    THIRD_SECRET_ROOM
 };
 
 class Notifier
@@ -117,9 +119,9 @@ public:
     }
 
     // Activators management
-    void NotifyActivator()
+    void SetActivatorMode(bool mode)
     {
-        requestActivator = !requestActivator;
+        requestActivator = mode;
     }
     void SetActivator(Activator* activator)
     {
