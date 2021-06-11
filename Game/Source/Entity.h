@@ -187,8 +187,7 @@ public:
 
         return ret;
     }
-    bool LoadEntityData(const char* file)
-    {}
+
 public:
 
     EntityType type;
