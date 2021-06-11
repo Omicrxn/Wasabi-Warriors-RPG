@@ -49,7 +49,7 @@
     <activator name="Sashimi" posX="128" posY="416" width="32" height="32" drawState="0" entitySubtype="12"/>
   </osaka>
   
-  <cemetery enemyCount ="1" npcCount ="3" teleportCount ="1" itemCount="3" secretWallCount="0" leverCount="0">
+  <cemetery enemyCount ="1" npcCount ="3" teleportCount ="1" itemCount="1" secretWallCount="0" leverCount="0">
     <prevMediumCity>
       <player posX="384" posY="416"/>
     </prevMediumCity>
@@ -86,7 +86,7 @@
     <activator name="Oniguiri" posX="928" posY="352" width="32" height="32" drawState="0" entitySubtype="12"/>
   </mediumCity>
   
-  <bigCity enemyCount="0" npcCount="0" teleportCount="3" itemCount="3" secretWallCount="0" leverCount="0">
+  <bigCity enemyCount="0" npcCount="0" teleportCount="3" itemCount="0" secretWallCount="0" leverCount="0">
     <prevSkyscraper>
       <player posX="768" posY="320"/>
     </prevSkyscraper>
