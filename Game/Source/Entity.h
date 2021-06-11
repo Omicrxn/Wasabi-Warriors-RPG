@@ -11,7 +11,6 @@
 struct SDL_Texture;
 struct Render;
 struct Input;
-//class Textures;
 class EntityManager;
 class AudioManager;
 
