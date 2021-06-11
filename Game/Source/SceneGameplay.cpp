@@ -1994,7 +1994,7 @@ void SceneGameplay::SetUpTp()
 			activator->height = 32;
 		}
 	}
-	else if (currentMap == MapType::SECOND_RESTAURANT)
+	else if (currentMap == MapType::SECOND_RESTAURANT && gameProgress.hasSavedFirstApprentice == false)
 	{
 		NPC* npc;
 		npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, "reiNPC", EntitySubtype::UNKNOWN, iPoint((1 * 32), (2 * 32)));
@@ -2008,7 +2008,7 @@ void SceneGameplay::SetUpTp()
 		if (npc->stop) npc->stopForever = true;
 		npc = nullptr;
 	}
-	else if (currentMap == MapType::THIRD_RESTAURANT)
+	else if (currentMap == MapType::THIRD_RESTAURANT && gameProgress.hasSavedLastApprentice == false)
 	{
 		NPC* npc;
 		npc = (NPC*)entityManager->CreateEntity(EntityType::NPC, "eikenNPC", EntitySubtype::UNKNOWN, iPoint((1 * 32), (2 * 32)));
