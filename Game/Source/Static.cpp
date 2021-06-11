@@ -79,7 +79,7 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 	else if (name == "roof_8")
 	{
 		type = Static::Type::ROOF;
-		SetRect(160, 416, 32, 32);
+		SetRect(352, 352, 32, 32);
 		SetPivot(16, 64);
 	}
 	else if (name == "signe_0")
