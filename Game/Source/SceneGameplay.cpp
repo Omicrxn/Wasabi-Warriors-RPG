@@ -1147,6 +1147,8 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 				break;
 
 			battleSystem->playerState = PlayerState::ITEM;
+
+			focusedButtonId = 14;
 		}
 		else if (control->id == 13)
 		{
@@ -1167,6 +1169,8 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 				{
 					battleSystem->SetHasClickedConsume(true);
 					screenInventory->ManageItemConsumption();
+
+					focusedButtonId = 12;
 				}
 			}
 
@@ -1177,6 +1181,8 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 
 				screenInventory->Disable();
 				screenBattle->EnableBattleButtons();
+
+				focusedButtonId = 12;
 			}
 		}
 		else if (control->id == 15)
@@ -1188,6 +1194,8 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 
 				screenInventory->Disable();
 				screenBattle->EnableBattleButtons();
+
+				focusedButtonId = 12;
 			}
 			else
 			{
