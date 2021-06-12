@@ -29,7 +29,13 @@ Kenzo will have to go on a journey to protect his mentor's legacy and avenge her
 
 ## Game trailer
 
-[![IMAGE ALT TEXT HERE](https://github.com/Omicrxn/Wasabi-Warriors-RPG/blob/master/docs/PSD/cut8.jpg)](https://youtu.be/7f4P7SI7GmM)
+<object width="425" height="350">
+  <param name="movie" value="https://www.youtube.com/watch?v=7f4P7SI7GmM" />
+  <param name="wmode" value="transparent" />
+  <embed src="https://www.youtube.com/watch?v=7f4P7SI7GmM"
+         type="application/x-shockwave-flash"
+         wmode="transparent" width="425" height="350" />
+</object>
  
 ## Controls
 
