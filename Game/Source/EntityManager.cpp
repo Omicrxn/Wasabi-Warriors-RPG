@@ -423,7 +423,7 @@ bool EntityManager::LoadStateInfo(pugi::xml_node& scenegameplay, MapType current
 		enemy->id = enemyNode.attribute("id").as_uint();
 		enemy->spritePos = enemyNode.attribute("spritePos").as_int();
 		enemy->renderable = enemyNode.attribute("renderable").as_bool();
-	
+		enemy->readyForCombat = enemyNode.attribute("readyForCombat").as_bool();
 		enemy->stats.level = enemyNode.attribute("level").as_int();
 		enemy->stats.damage = enemyNode.attribute("damage").as_int();
 		enemy->stats.maxHP = enemyNode.attribute("maxHP").as_int();
@@ -868,6 +868,7 @@ bool EntityManager::SaveStateInfo(pugi::xml_node& scenegameplay, MapType current
 		newEnemyNode.append_attribute("posY").set_value(list2->data->position.y);
 		newEnemyNode.append_attribute("isActive").set_value(list2->data->IsActive());
 		newEnemyNode.append_attribute("isRenderable").set_value(list2->data->renderable);
+		newEnemyNode.append_attribute("readyForCombat").set_value(list2->data->readyForCombat);
 
 		// Fill in the stats in order to save
 		newEnemyNode.append_attribute("entitySubType").set_value((int)list2->data->subtype);
