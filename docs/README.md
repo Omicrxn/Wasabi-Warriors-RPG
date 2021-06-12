@@ -28,14 +28,15 @@ Kenzo will have to go on a journey to protect his mentor's legacy and avenge her
  - Social Interaction: cooperation between party members and what other non-playable characters (NPC) explain is important to know the plot and identify the path to solve the main conflict of the game.
 
 ## Game trailer
-
-<object width="425" height="350">
-  <param name="movie" value="https://www.youtube.com/watch?v=7f4P7SI7GmM" />
-  <param name="wmode" value="transparent" />
-  <embed src="https://www.youtube.com/watch?v=7f4P7SI7GmM"
-         type="application/x-shockwave-flash"
-         wmode="transparent" width="425" height="350" />
-</object>
+<div class="embed-container">
+  <iframe
+      src="https://www.youtube.com/watch?v=7f4P7SI7GmM"
+      width="700"
+      height="480"
+      frameborder="0"
+      allowfullscreen="1">
+  </iframe>
+</div>
  
 ## Controls
 
