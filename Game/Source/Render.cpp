@@ -167,15 +167,15 @@ void Render::CameraFollow(int objectX, int objectY, EntityManager* entityManager
 	if (camera.x < 0) camera.x = 0;
 	if (camera.y < 0) camera.y = 0;
 
-	if (currentMapType == tempMapType)
-	{
-		if (camera.x + win->GetWidth() > currentMap->data.width * 32 * scale)
+	//if (currentMapType == tempMapType)
+	//{
+		if (camera.x + camera.w > currentMap->data.width * 32 * scale)
 			camera.x = tempCamera.x;
-		if (camera.y + win->GetHeight()/2 > currentMap->data.height * 32 * scale)
+		if (camera.y + camera.h/2 > currentMap->data.height * 32 * scale)
 			camera.y = tempCamera.y;
-	}
+	//}
 
-	tempMapType = Notifier::GetInstance()->GetCurrentMap();
+	//tempMapType = Notifier::GetInstance()->GetCurrentMap();
 }
 
 Window* Render::GetWindowPtr()
