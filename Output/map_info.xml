@@ -53,7 +53,7 @@
     <prevMediumCity>
       <player posX="384" posY="416"/>
     </prevMediumCity>
-    <enemy posX="224" posY="192" class="boss" name="Boss" spritePos="9" subtype="4"/>
+    <enemy posX="224" posY="192" class="bruiser" name="Boss" spritePos="9" subtype="4"/>
     <npc posX="640" posY="352" spritePos="2" stop="false" dialogIndex="3"/>
     <npc posX="640" posY="256" spritePos="4" stop="false" dialogIndex="2"/>
     <npc posX="256" posY="256" spritePos="14" stop="false" dialogIndex="1"/>

@@ -7,6 +7,8 @@
 class Item;
 class Activator;
 class Entity;
+class SceneGameplay;
+class Teleport;
 
 enum class MapType
 {
@@ -123,6 +125,10 @@ public:
     {
         requestActivator = mode;
     }
+    bool OnActivator()
+    {
+        return requestActivator;
+    }
     void SetActivator(Activator* activator)
     {
         this->activator = activator;
@@ -130,10 +136,6 @@ public:
     Activator* GetActivator()
     {
         return activator;
-    }
-    bool OnActivator()
-    {
-        return requestActivator;
     }
 
     // Interaction notifier
@@ -182,6 +184,34 @@ public:
         return this->notificationTimer;
     }
 
+    void SetSceneGameplay(SceneGameplay* sceneGameplay)
+    {
+        this->sceneGameplay = sceneGameplay;
+    }
+
+    SceneGameplay* GetSceneGameplay()
+    {
+        return sceneGameplay;
+    }
+
+    // Teleports management
+    void SetTeleportMode(bool mode)
+    {
+        requestTeleport = mode;
+    }
+    bool OnTeleport()
+    {
+        return requestTeleport;
+    }
+    void SetTeleport(Teleport* activator)
+    {
+        this->teleport = activator;
+    }
+    Teleport* GetTeleport()
+    {
+        return teleport;
+    }
+
 private:
 
     Notifier() : battle(false) {}
@@ -219,4 +249,12 @@ private:
     // Mobile notification
     bool newMobileNotification = false;
     const char* textStr = nullptr;
+
+    // An instance of the gameplay scene
+    // in order to have it available from different places
+    SceneGameplay* sceneGameplay = sceneGameplay;
+
+    // Teleports
+    bool requestTeleport = false;
+    Teleport* teleport = nullptr;
 };

@@ -148,6 +148,7 @@ bool SceneGameplay::Load(Input* input, Render* render, Textures* tex, Window* wi
 	battleSystem = new BattleSystem();
 
 	notifier = Notifier::GetInstance();
+	notifier->SetSceneGameplay(this);
 
 	// Needed modules
 	this->assetsManager = assetsManager;
@@ -650,6 +651,13 @@ bool SceneGameplay::Update(Input* input, float dt)
 		if (notifier->GetActivator()->name != "dialogTrigger" && notifier->GetActivator()->name != "secretRoomDialog" && notifier->GetActivator()->name != "dungeon1"
 			&& notifier->GetActivator()->name != "dungeon2" && notifier->GetActivator()->name != "dungeon3" && notifier->GetActivator()->name != "dungeon4" && notifier->GetActivator()->name != "dungeon5")
 			notifier->SetActivator(nullptr);
+	}
+
+	if (notifier->OnTeleport())
+	{
+		dialogSystem->NewDialog(29);
+		notifier->SetTeleportMode(false);
+		notifier->SetTeleport(nullptr);
 	}
 
 	if (!onDialog && notifier->OnDialog() && (input->GetKey(SDL_SCANCODE_F) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_A) == KeyState::KEY_DOWN))

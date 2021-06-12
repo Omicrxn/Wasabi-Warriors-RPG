@@ -1,4 +1,7 @@
 #include "Teleport.h"
+
+#include "SceneGameplay.h"
+
 Teleport::Teleport(SString name, Collisions* collisions, EntityManager* entityManager, EntityType type, iPoint position)
 {
 	texture = NULL;
@@ -39,15 +42,33 @@ void Teleport::Interact()
 	cooldown.Start();
 	if (simpleTP)
 	{
-		if (!notifier->OnPositionChange())
+		if ((name == "floor2_2" && !notifier->GetSceneGameplay()->GetGameProgress()->hasKilledOfficers) ||
+			(name == "floor3_2" && !notifier->GetSceneGameplay()->GetGameProgress()->hasActivated))
 		{
-			notifier->NotifyPositionChange();
-			notifier->SetNextPosition(this->nextPosition);
+			notifier->SetTeleportMode(true);
+			notifier->SetTeleport(this);
+		}
+		else
+		{
+			if (!notifier->OnPositionChange())
+			{
+				notifier->NotifyPositionChange();
+				notifier->SetNextPosition(this->nextPosition);
+			}
 		}
 	}
 	else
 	{
-		notifier->NotifyMapChange(destination);
+		if ((destination == MapType::SECOND_RESTAURANT && !notifier->GetSceneGameplay()->GetGameProgress()->hasVisitedErikaTombstone) ||
+			(destination == MapType::THIRD_RESTAURANT && !notifier->GetSceneGameplay()->GetGameProgress()->hasSavedFirstApprentice) ||
+			(destination == MapType::SKYSCRAPER && !notifier->GetSceneGameplay()->GetGameProgress()->hasSavedLastApprentice))
+		{
+			notifier->SetTeleportMode(true);
+			notifier->SetTeleport(this);
+		}
+		else
+			notifier->NotifyMapChange(destination);
+
 		hasInteracted = true;
 	}
 }
