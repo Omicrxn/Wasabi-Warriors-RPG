@@ -386,7 +386,7 @@ bool ScreenPause::Draw(Render* render)
 					render->DrawText(font, "A very smart and faithful", 490, position + 105 + offsetA, 20, 3, { 0,0,0,255 });
 					render->DrawText(font, "dog that will follow Kenzo", 490, position + 120 + offsetA, 20, 3, { 0,0,0,255 });
 					render->DrawText(font, "everywhere. He is very well", 490, position + 135 + offsetA, 20, 3, { 0,0,0,255 });
-					render->DrawText(font, "trained and loves Kenzo like crazy.", 490, position + 150 + offsetA, 20, 3, { 0,0,0,255 });
+					render->DrawText(font, "trained and loves Kenzo.", 490, position + 150 + offsetA, 20, 3, { 0,0,0,255 });
 				}
 
 				// Draw Player Stats
