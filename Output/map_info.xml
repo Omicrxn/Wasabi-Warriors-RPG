@@ -33,7 +33,7 @@
     <activator name="Rayu" posX="1088" posY="64" width="32" height="32" drawState="0" entitySubtype="11"/>
   </town>
   
-  <osaka enemyCount ="0" npcCount ="0" teleportCount ="3" itemCount="0" activatorCount="1" secretWallCount="0" leverCount="0">
+  <osaka enemyCount ="0" npcCount ="0" teleportCount ="3" itemCount="1" activatorCount="1" secretWallCount="0" leverCount="0">
     <prevBigCity>
       <player posX="480" posY="64"/>
     </prevBigCity>
@@ -87,7 +87,7 @@
     <activator name="Oniguiri" posX="928" posY="352" width="32" height="32" drawState="0" entitySubtype="12"/>
   </mediumCity>
   
-  <bigCity enemyCount="0" npcCount="0" teleportCount="3" itemCount="0" secretWallCount="0" leverCount="0">
+  <bigCity enemyCount="0" npcCount="0" teleportCount="3" itemCount="2" secretWallCount="0" leverCount="0">
     <prevSkyscraper>
       <player posX="768" posY="320"/>
     </prevSkyscraper>
