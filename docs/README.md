@@ -31,19 +31,30 @@ Kenzo will have to go on a journey to protect his mentor's legacy and avenge her
 <iframe width="560" height="315" src="https://www.youtube.com/embed/7f4P7SI7GmM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 If the video doesn't load, check it [here](https://www.youtube.com/watch?v=7f4P7SI7GmM)
+
 ## Controls
 
 | Action | Key | Button |
 | :---: | :---: | :---: |
-| **Move Up** | ![](Wiki/Controls/key_W.png) | ![](Wiki/Controls/button_up.png) |
-| **Move Down** | ![](Wiki/Controls/key_S.png) | ![](Wiki/Controls/button_down.png) |
-| **Move Left** | ![](Wiki/Controls/key_A.png) | ![](Wiki/Controls/button_left.png) |
-| **Move Right** | ![](Wiki/Controls/key_D.png) | ![](Wiki/Controls/button_right.png) |
-| **Select / Interact** | ![](Wiki/Controls/key_E.png) | ![](Wiki/Controls/button_A.png) |
-| **Open Map** | ![](Wiki/Controls/key_M.png) | ![](Wiki/Controls/button_X.png) |
-| **Return / Cancel** | ![](Wiki/Controls/key_C.png) | ![](Wiki/Controls/button_B.png) |
-| **Change between party members** | ![](Wiki/Controls/key_Z.png) ![](Wiki/Controls/key_X.png) | ![](Wiki/Controls/button_LB.png) ![](Wiki/Controls/button_RB.png) |
-| **Pause Menu** | ![](Wiki/Controls/key_ESC.png) | ![](Wiki/Controls/button_menu.png) |
+| **Move** | WASD | DPAD |
+| **Select / Interact** | F | A |
+| **Change between party members** | E | Y |
+| **Pause Menu** | ESC | START |
+| **Inventory** | Q | X |
+| **Return** | ESC | B |
+
+### Debug Controls
+| Action | Key |
+| :---: | :---: |
+| **GUI Debug** | F1 |
+| **Next Quest** | F2 |
+| **Save** | F5 |
+| **Load** | F6 |
+| **Battle** | F7 |
+| **Loss Screen** | F8 |
+| **Victory Screen** | F9 |
+| **God Mode & Debug Info** | F10 |
+| **Fullscreen** | F11 |
 
 ## Developers
 
