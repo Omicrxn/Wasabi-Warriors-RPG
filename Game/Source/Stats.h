@@ -25,15 +25,15 @@ public:
 	Stats operator +(const Stats &s)const
 	{
 		Stats returnStats;
-		returnStats.level += s.level;
-		returnStats.damage += s.damage;
-		returnStats.maxHP += s.maxHP;
-		returnStats.currentHP += s.currentHP;
+		returnStats.level = level + s.level;
+		returnStats.damage = damage + s.damage;
+		returnStats.maxHP = maxHP + s.maxHP;
+		returnStats.currentHP = currentHP + s.currentHP;
 		if (returnStats.currentHP > returnStats.maxHP) returnStats.currentHP = returnStats.maxHP;
-		returnStats.strength +=  s.strength;
-		returnStats.defense += s.defense;
-		returnStats.attackSpeed += s.attackSpeed;
-		returnStats.criticalRate += s.criticalRate;
+		returnStats.strength = strength + s.strength;
+		returnStats.defense = defense + s.defense;
+		returnStats.attackSpeed = attackSpeed + s.attackSpeed;
+		returnStats.criticalRate = criticalRate + s.criticalRate;
 		return returnStats;
 	}
 
