@@ -43,20 +43,6 @@ If the video doesn't load, check it [here](https://www.youtube.com/watch?v=7f4P7
 | **Inventory** | Q | X |
 | **Return** | ESC | B |
 
-### Debug Controls
-
-| Action | Key |
-| :---: | :---: |
-| **GUI Debug** | F1 |
-| **Next Quest** | F2 |
-| **Save** | F5 |
-| **Load** | F6 |
-| **Battle** | F7 |
-| **Loss Screen** | F8 |
-| **Victory Screen** | F9 |
-| **God Mode & Debug Info** | F10 |
-| **Fullscreen** | F11 |
-
 ## Developers
 
  - [Alejandro Ávila](https://github.com/Omicrxn) - Programmer and Project Manager
