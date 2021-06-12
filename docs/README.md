@@ -44,6 +44,7 @@ If the video doesn't load, check it [here](https://www.youtube.com/watch?v=7f4P7
 | **Return** | ESC | B |
 
 ### Debug Controls
+
 | Action | Key |
 | :---: | :---: |
 | **GUI Debug** | F1 |
