@@ -47,13 +47,14 @@
     <teleport posX="480" posY="768" width="64" height="32" destination="4"/>
     <teleport posX="736" posY="384" width="32" height="32" destination="9"/>
     <activator name="Sashimi" posX="128" posY="416" width="32" height="32" drawState="0" entitySubtype="12"/>
+    <item posX="96" posY="512" class="item" name="bigPotion" subtype="6"/>
   </osaka>
   
   <cemetery enemyCount ="1" npcCount ="3" teleportCount ="1" itemCount="1" secretWallCount="0" leverCount="0">
     <prevMediumCity>
       <player posX="384" posY="416"/>
     </prevMediumCity>
-    <enemy posX="224" posY="192" class="bruiser" name="Boss" spritePos="9" subtype="4"/>
+    <enemy posX="224" posY="192" class="bruiser" name="Bruiser" spritePos="10" subtype="3"/>
     <npc posX="640" posY="352" spritePos="2" stop="false" dialogIndex="3"/>
     <npc posX="640" posY="256" spritePos="4" stop="false" dialogIndex="2"/>
     <npc posX="256" posY="256" spritePos="14" stop="false" dialogIndex="1"/>
@@ -102,6 +103,8 @@
     <!--<item posX="832" posY="360" class="item" name="potion" subtype="5"/>-->
     <!--<item posX="672" posY="416" class="item" name="bigPotion" subtype="6"/>-->
     <!--<item posX="840" posY="416" class="item" name="megaPotion" subtype="7"/>-->
+    <item posX="384" posY="832" class="item" name="megaPotion" subtype="7"/>
+    <item posX="160" posY="352" class="item" name="wasabi" subtype="8"/>
   </bigCity>
   
   <dungeon enemyCount="4" npcCount="1" teleportCount="7" activatorCount="1" secretWallCount="1" leverCount="3">
