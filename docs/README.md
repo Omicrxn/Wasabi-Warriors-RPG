@@ -30,6 +30,7 @@ Kenzo will have to go on a journey to protect his mentor's legacy and avenge her
 ## Game trailer
 <iframe width="560" height="315" src="https://www.youtube.com/embed/7f4P7SI7GmM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
+If the video doesn't load, check it ![here](https://www.youtube.com/watch?v=7f4P7SI7GmM)
 ## Controls
 
 | Action | Key | Button |
