@@ -157,23 +157,25 @@ iPoint Render::ScreenToWorld(int x, int y) const
 }
 void Render::CameraFollow(int objectX, int objectY, EntityManager* entityManager)
 {
-	SDL_Rect tempCamera = camera;
 	Map* currentMap = (Map*)entityManager->SearchEntity("map");
 	MapType currentMapType = Notifier::GetInstance()->GetCurrentMap();
 
-	camera.x = objectX * scale - win->GetWidth()/2;
-	camera.y = objectY * scale - win->GetHeight()/4;
+	camera.x = (objectX * scale)-(win->GetWidth() / 2);
+	camera.y = (objectY * scale)-(win->GetHeight() / 2);
 
-	if (camera.x < 0) camera.x = 0;
-	if (camera.y < 0) camera.y = 0;
-
-	//if (currentMapType == tempMapType)
-	//{
-		if (camera.x + camera.w > currentMap->data.width * 32 * scale)
-			camera.x = tempCamera.x;
-		if (camera.y + camera.h/2 > currentMap->data.height * 32 * scale)
-			camera.y = tempCamera.y;
-	//}
+	if(currentMapType != MapType::HOUSE && currentMapType != MapType::RESTAURANT && currentMapType != MapType::SECRET_ROOM && currentMapType != MapType::SECOND_RESTAURANT && currentMapType != MapType::THIRD_RESTAURANT && currentMapType != MapType::SECOND_SECRET_ROOM && currentMapType != MapType::THIRD_SECRET_ROOM)
+	{ 
+		//left camera limit
+		if (camera.x < 0) camera.x = 0;
+			//upper camera limit
+		if (camera.y < 0) camera.y = 0;
+			//Right camera limit
+		if (camera.x + win->GetWidth() > currentMap->data.width * 32 * scale)
+			camera.x = (currentMap->data.width * 32 * scale) - win->GetWidth();
+		//Bottom camera limit
+		if (camera.y + win->GetHeight()> currentMap->data.height * 32 * scale)
+			camera.y = (currentMap->data.height * 32 * scale)- win->GetHeight();
+	}
 
 	//tempMapType = Notifier::GetInstance()->GetCurrentMap();
 }

@@ -106,7 +106,7 @@ uint Window::GetWidth() const
 
 uint Window::GetHeight() const
 {
-	return this->width;
+	return this->height;
 }
 uint Window::GetScale() const
 {

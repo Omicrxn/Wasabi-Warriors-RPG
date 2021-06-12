@@ -135,7 +135,8 @@ bool Player::Update(Input* input, float dt)
     }
 
     render->scale = 3;
-    render->CameraFollow(position.x + width, position.y, entityManager);
+
+    render->CameraFollow(position.x+16, position.y+16, entityManager);
     render->scale = 1;
 
     return true;
