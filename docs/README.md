@@ -28,8 +28,8 @@ Kenzo will have to go on a journey to protect his mentor's legacy and avenge her
  - Social Interaction: cooperation between party members and what other non-playable characters (NPC) explain is important to know the plot and identify the path to solve the main conflict of the game.
 
 ## Game trailer
-<iframe width="560" height="315" src="https://www.youtube.com/watch?v=7f4P7SI7GmM" title="Wasabi Warriors Trailer" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> 
- 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/7f4P7SI7GmM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ## Controls
 
 | Action | Key | Button |
