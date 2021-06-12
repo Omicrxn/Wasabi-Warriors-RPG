@@ -29,6 +29,7 @@ public:
     bool OnGuiMouseClickEvent(GuiControl* control);
 
 private:
+
     bool isVictory = false;
 
     // Needed modules
@@ -43,6 +44,7 @@ private:
     Font* buttonFont;
 
     SDL_Texture* guiAtlasTex;
+    SDL_Texture* backgroundTex;
 
     // Audio Fx for gui controls
     int hoverFx, clickFx;
@@ -50,6 +52,8 @@ private:
     int positionX;
 
     GuiIcon* iconReturnTitle;
+
+    bool controllerState = false;
 };
 
 #endif // __SCENEENDING_H__

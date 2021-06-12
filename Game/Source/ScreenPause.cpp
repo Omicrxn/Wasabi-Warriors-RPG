@@ -319,19 +319,19 @@ bool ScreenPause::Draw(Render* render)
 				}
 				else if (entityManager->playerList.At(i)->data->name == "Rei")
 				{
-					render->DrawText(font, "Professional and brilliant previous", 490, position + 90 + offsetA, 20, 3, { 0,0,0,255 });
-					render->DrawText(font, "Erika's apprentice and head chef ", 490, position + 105 + offsetA, 20, 3, { 0,0,0,255 });
-					render->DrawText(font, "of the restaurant in Dotonbori.", 490, position + 120 + offsetA, 20, 3, { 0,0,0,255 });
-					render->DrawText(font, "He has the last key of the", 490, position + 135 + offsetA, 20, 3, { 0,0,0,255 });
-					render->DrawText(font, "receipe vault", 490, position + 150 + offsetA, 20, 3, { 0,0,0,255 });
+					render->DrawText(font, "Professional and brilliant.", 490, position + 90 + offsetA, 20, 3, { 0,0,0,255 });
+					render->DrawText(font, "Erika's apprentice and head ", 490, position + 105 + offsetA, 20, 3, { 0,0,0,255 });
+					render->DrawText(font, "chef of the restaurant in", 490, position + 120 + offsetA, 20, 3, { 0,0,0,255 });
+					render->DrawText(font, "Dotonbori. He has the last key", 490, position + 135 + offsetA, 20, 3, { 0,0,0,255 });
+					render->DrawText(font, "of the receipe vault", 490, position + 150 + offsetA, 20, 3, { 0,0,0,255 });
 				}
 				else if (entityManager->playerList.At(i)->data->name == "Maki")
 				{
 					render->DrawText(font, "Kenzo's dog and best friend.", 490, position + 90 + offsetA, 20, 3, { 0,0,0,255 });
-					render->DrawText(font, "A very smart and faithful dog", 490, position + 105 + offsetA, 20, 3, { 0,0,0,255 });
-					render->DrawText(font, "that will follow Kenzo everywhere.", 490, position + 120 + offsetA, 20, 3, { 0,0,0,255 });
-					render->DrawText(font, "He is very well trained and loves", 490, position + 135 + offsetA, 20, 3, { 0,0,0,255 });
-					render->DrawText(font, "Kenzo like crazy.", 490, position + 150 + offsetA, 20, 3, { 0,0,0,255 });
+					render->DrawText(font, "A very smart and faithful", 490, position + 105 + offsetA, 20, 3, { 0,0,0,255 });
+					render->DrawText(font, "dog that will follow Kenzo", 490, position + 120 + offsetA, 20, 3, { 0,0,0,255 });
+					render->DrawText(font, "everywhere. He is very well", 490, position + 135 + offsetA, 20, 3, { 0,0,0,255 });
+					render->DrawText(font, "trained and loves Kenzo like crazy.", 490, position + 150 + offsetA, 20, 3, { 0,0,0,255 });
 				}
 
 				// Draw Player Stats

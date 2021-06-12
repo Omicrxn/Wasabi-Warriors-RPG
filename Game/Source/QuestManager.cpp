@@ -210,7 +210,7 @@ bool QuestManager::DrawActiveQuests()
 
 			render->DrawText(font, "Defeat the common workers.", 485, 240, 23, 3, { 0,0,0,255 });
 			render->DrawText(font, "One of them must have the", 485, 270, 23, 3, { 0,0,0,255 });
-			render->DrawText(font, "key to the higher floors", 485, 270, 23, 3, { 0,0,0,255 });
+			render->DrawText(font, "key to the higher floors", 485, 300, 23, 3, { 0,0,0,255 });
 		}
 
 		if (L->data->id == 8)

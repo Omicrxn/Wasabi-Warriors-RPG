@@ -334,7 +334,7 @@ void DialogSystem::DrawDialog()
 			y++;
 		}
 		// Draw a small white rectangle next to the selected option.
-		SDL_Rect selectedRectangle = SDL_Rect({ 20 + 220, (render->camera.h / 3) * 2 + 30 + (18 * selectedOption) + 50, 6, 6 });
+		SDL_Rect selectedRectangle = SDL_Rect({ 20 + 220, (render->camera.h / 3) * 2 + 38 + (18 * selectedOption) + 50, 10, 10 });
 		render->DrawRectangle(selectedRectangle, {255, 255, 255, 255}, true, false);
 	}
 }
