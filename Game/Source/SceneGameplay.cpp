@@ -1154,6 +1154,7 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 				break;
 
 			battleSystem->playerState = PlayerState::RUN;
+			battleSystem->GetEnemy()->readyForCombat = true;
 			ExitBattle();
 		}
 		else if (control->id == 14)

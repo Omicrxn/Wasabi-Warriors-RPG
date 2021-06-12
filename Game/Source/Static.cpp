@@ -1141,7 +1141,7 @@ Static::Static(std::string name, Textures* tex, EntityManager* entityManager, iP
 	else if (name == "roof_dungeon")
 	{
 		type = Static::Type::ROOF;
-		SetRect(1827, 128, 24, 41);
+		SetRect(2144, 40, 32, 24);
 		SetPivot(16, 24);
 	}
 	else if (name == "office_tree")
