@@ -419,7 +419,6 @@ void ScreenInventory::ManageItemConsumption()
 	}
 
 	hasClickedConsume = false;
-	battleSystem->SetHasClickedConsume(false);
 }
 
 void ScreenInventory::ConsumeItem(Player* currentPlayer, InvItem* inventoryItem)
