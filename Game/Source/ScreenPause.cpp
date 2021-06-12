@@ -198,15 +198,70 @@ bool ScreenPause::Update(Input* input, float dt, uint& focusedButtonId)
 
 		}
 
-		if ((input->GetKey(SDL_SCANCODE_UP) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_UP) == KeyState::KEY_DOWN) && hovering > 0)
+		if (hovering == 0)
 		{
-			--hovering;
-			audio->PlayFx(hoverFx);
+			if (input->GetKey(SDL_SCANCODE_DOWN) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KeyState::KEY_DOWN)
+			{
+				hovering = 1;
+				audio->PlayFx(hoverFx);
+			}
 		}
-		else if ((input->GetKey(SDL_SCANCODE_DOWN) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KeyState::KEY_DOWN) && hovering < 4)
+		else if (hovering == 1)
 		{
-			++hovering;
-			audio->PlayFx(hoverFx);
+			if (input->GetKey(SDL_SCANCODE_DOWN) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KeyState::KEY_DOWN)
+			{
+				hovering = 2;
+				audio->PlayFx(hoverFx);
+			}
+			else if (input->GetKey(SDL_SCANCODE_RIGHT) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_RIGHT) == KeyState::KEY_DOWN)
+			{
+				hovering = 4;
+				audio->PlayFx(hoverFx);
+			}
+			else if (input->GetKey(SDL_SCANCODE_UP) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_UP) == KeyState::KEY_DOWN)
+			{
+				hovering = 0;
+				audio->PlayFx(hoverFx);
+			}
+		}
+		else if (hovering == 2)
+		{
+			if (input->GetKey(SDL_SCANCODE_UP) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_UP) == KeyState::KEY_DOWN)
+			{
+				hovering = 1;
+				audio->PlayFx(hoverFx);
+			}
+			else if (input->GetKey(SDL_SCANCODE_RIGHT) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_RIGHT) == KeyState::KEY_DOWN)
+			{
+				hovering = 3;
+				audio->PlayFx(hoverFx);
+			}
+		}
+		else if (hovering == 3)
+		{
+			if (input->GetKey(SDL_SCANCODE_UP) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_UP) == KeyState::KEY_DOWN)
+			{
+				hovering = 4;
+				audio->PlayFx(hoverFx);
+			}
+			else if (input->GetKey(SDL_SCANCODE_LEFT) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_LEFT) == KeyState::KEY_DOWN)
+			{
+				hovering = 2;
+				audio->PlayFx(hoverFx);
+			}
+		}
+		else if (hovering == 4)
+		{
+			if (input->GetKey(SDL_SCANCODE_DOWN) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_DOWN) == KeyState::KEY_DOWN)
+			{
+				hovering = 3;
+				audio->PlayFx(hoverFx);
+			}
+			else if (input->GetKey(SDL_SCANCODE_LEFT) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_LEFT) == KeyState::KEY_DOWN)
+			{
+				hovering = 1;
+				audio->PlayFx(hoverFx);
+			}
 		}
 	}
 

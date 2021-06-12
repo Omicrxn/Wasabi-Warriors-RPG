@@ -54,6 +54,8 @@ bool ScreenInventory::Load(int minIndex, int maxIndex, Scene* currentScene, Batt
 
 	hasSelectedItem = false;
 
+	emptyInventory = false;
+
 	uint width, height;
 	win->GetWindowSize(width, height);
 
@@ -73,7 +75,9 @@ bool ScreenInventory::Load(int minIndex, int maxIndex, Scene* currentScene, Batt
 
 bool ScreenInventory::Update(Input* input, float dt, uint& focusedButtonId)
 {
-	if (!hasSelectedItem)
+	controller = input->GetControllerState();
+
+	if (!hasSelectedItem && !emptyInventory)
 	{
 		if ((input->GetKey(SDL_SCANCODE_UP) == KeyState::KEY_DOWN || input->GetControllerButton(CONTROLLER_BUTTON_UP) == KeyState::KEY_DOWN) && itemHovering.y > 0)
 			--itemHovering.y;
@@ -123,7 +127,7 @@ bool ScreenInventory::Update(Input* input, float dt, uint& focusedButtonId)
 		slotRect.y = slotRect.y + 30 + slotRect.h;
 	}
 
-	if (input->GetControllerState() && hasSelectedItem && selectionGamepadTimer.ReadSec() > 0.5f)
+	if ((controller && hasSelectedItem && selectionGamepadTimer.ReadSec() > 0.2f) || (controller && emptyInventory))
 	{
 		if (input->GetControllerButton(CONTROLLER_BUTTON_UP) == KeyState::KEY_DOWN && focusedButtonId > minIndex)
 			--focusedButtonId;
@@ -138,8 +142,6 @@ bool ScreenInventory::Update(Input* input, float dt, uint& focusedButtonId)
 	{
 		ManageItemConsumption();
 	}
-
-	controller = input->GetControllerState();
 
 	return true;
 }
@@ -400,8 +402,24 @@ void ScreenInventory::ManageItemConsumption()
 		}
 	}
 
-	/*hasClickedConsume = false;*/
-	/*battleSystem->SetHasClickedConsume(false);*/
+	itemSelected = { -1,-1 };
+	itemHovering = { -1,-1 };
+
+	if (listInvItems.Count() == 0)
+		emptyInventory = true;
+	else
+		emptyInventory = false;
+
+	if (controller && !emptyInventory)
+	{
+		itemHovering = { 0,0 };
+		hasSelectedItem = false;
+		btnConfirm->gamepadFocus = false;
+		btnCancel->gamepadFocus = false;
+	}
+
+	hasClickedConsume = false;
+	battleSystem->SetHasClickedConsume(false);
 }
 
 void ScreenInventory::ConsumeItem(Player* currentPlayer, InvItem* inventoryItem)
@@ -429,7 +447,12 @@ void ScreenInventory::Enable(bool isFromBattle)
 		easing->CreateSpline(&btnCancel->bounds.x, 1040, 2000, SplineType::QUINT);
 	}
 
-	if (controller)
+	if (listInvItems.Count() == 0)
+		emptyInventory = true;
+	else
+		emptyInventory = false;
+
+	if (controller && !emptyInventory)
 		itemHovering = { 0,0 };
 	else
 		itemHovering = { -1,-1 };
